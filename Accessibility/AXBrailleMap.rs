@@ -2,6 +2,7 @@
 //! DO NOT EDIT
 use crate::common::*;
 use crate::Accessibility::*;
+use crate::CoreFoundation::*;
 use crate::Foundation::*;
 
 extern_class!(

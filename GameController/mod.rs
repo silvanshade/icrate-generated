@@ -251,6 +251,7 @@ pub use self::__GCInputNames::GCButtonElementName;
 pub use self::__GCInputNames::GCDirectionPadElementName;
 pub use self::__GCInputNames::GCPhysicalInputElementName;
 pub use self::__GCInputNames::GCSwitchElementName;
+pub use self::__GCKeyCodes::GCKeyCode;
 pub use self::__GCKeyCodes::GCKeyCodeApplication;
 pub use self::__GCKeyCodes::GCKeyCodeBackslash;
 pub use self::__GCKeyCodes::GCKeyCodeCapsLock;

@@ -2,6 +2,7 @@
 //! DO NOT EDIT
 use crate::common::*;
 use crate::CoreAnimation::*;
+use crate::CoreFoundation::*;
 use crate::Foundation::*;
 
 extern_struct!(

@@ -3,4 +3,5 @@
 use crate::common::*;
 use crate::AppKit::*;
 use crate::CoreData::*;
+use crate::CoreFoundation::*;
 use crate::Foundation::*;

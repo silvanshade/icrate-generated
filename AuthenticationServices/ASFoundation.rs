@@ -2,4 +2,5 @@
 //! DO NOT EDIT
 use crate::common::*;
 use crate::AuthenticationServices::*;
+use crate::CoreFoundation::*;
 use crate::Foundation::*;

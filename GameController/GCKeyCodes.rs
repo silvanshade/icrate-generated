@@ -2,8 +2,13 @@
 //! DO NOT EDIT
 use crate::common::*;
 use crate::AppKit::*;
+use crate::CoreFoundation::*;
 use crate::Foundation::*;
 use crate::GameController::*;
+
+typed_enum!(
+    pub type GCKeyCode = CFIndex;
+);
 
 extern_static!(GCKeyCodeKeyA: GCKeyCode);
 

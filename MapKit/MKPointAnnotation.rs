@@ -3,6 +3,7 @@
 use crate::common::*;
 use crate::AppKit::*;
 use crate::Contacts::*;
+use crate::CoreFoundation::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
