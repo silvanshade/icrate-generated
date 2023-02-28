@@ -9,16 +9,16 @@ extern_static!(GCRacingWheelDidConnectNotification: &'static NSString);
 
 extern_static!(GCRacingWheelDidDisconnectNotification: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCRacingWheel")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCRacingWheel")]
-    pub struct GCRacingWheel;
-
-    #[cfg(feature = "GameController_GCRacingWheel")]
-    unsafe impl ClassType for GCRacingWheel {
-        type Super = NSObject;
-    }
-);
+    pub type GCRacingWheel;
+}
 
 #[cfg(feature = "GameController_GCRacingWheel")]
 unsafe impl GCDevice for GCRacingWheel {}
@@ -26,34 +26,37 @@ unsafe impl GCDevice for GCRacingWheel {}
 #[cfg(feature = "GameController_GCRacingWheel")]
 unsafe impl NSObjectProtocol for GCRacingWheel {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCRacingWheel")]
-    unsafe impl GCRacingWheel {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type GCRacingWheel;
 
-        #[cfg(feature = "Foundation_NSSet")]
-        #[method_id(@__retain_semantics Other connectedRacingWheels)]
-        pub unsafe fn connectedRacingWheels() -> Id<NSSet<GCRacingWheel>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(acquireDeviceWithError:_)]
-        pub unsafe fn acquireDeviceWithError(&self) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "Foundation_NSSet")]
+    #[objc2::method(sel = "connectedRacingWheels", managed = "Other")]
+    pub unsafe fn connectedRacingWheels() -> Id<NSSet<GCRacingWheel>>;
 
-        #[method(relinquishDevice)]
-        pub unsafe fn relinquishDevice(&self);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "acquireDeviceWithError:", throws)]
+    pub unsafe fn acquireDeviceWithError(&self) -> Result<(), Id<NSError>>;
 
-        #[method(isAcquired)]
-        pub unsafe fn isAcquired(&self) -> bool;
+    #[objc2::method(sel = "relinquishDevice")]
+    pub unsafe fn relinquishDevice(&self);
 
-        #[cfg(feature = "GameController_GCRacingWheelInput")]
-        #[method_id(@__retain_semantics Other wheelInput)]
-        pub unsafe fn wheelInput(&self) -> Id<GCRacingWheelInput>;
+    #[objc2::method(sel = "isAcquired")]
+    pub unsafe fn isAcquired(&self) -> bool;
 
-        #[method(isSnapshot)]
-        pub unsafe fn isSnapshot(&self) -> bool;
+    #[cfg(feature = "GameController_GCRacingWheelInput")]
+    #[objc2::method(sel = "wheelInput", managed = "Other")]
+    pub unsafe fn wheelInput(&self) -> Id<GCRacingWheelInput>;
 
-        #[method_id(@__retain_semantics Other capture)]
-        pub unsafe fn capture(&self) -> Id<GCRacingWheel>;
-    }
-);
+    #[objc2::method(sel = "isSnapshot")]
+    pub unsafe fn isSnapshot(&self) -> bool;
+
+    #[objc2::method(sel = "capture", managed = "Other")]
+    pub unsafe fn capture(&self) -> Id<GCRacingWheel>;
+}

@@ -6,331 +6,347 @@ use crate::FileProvider::*;
 use crate::Foundation::*;
 use crate::UniformTypeIdentifiers::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSFileProviderDomainRemovalMode {
-        NSFileProviderDomainRemovalModeRemoveAll = 0,
-        NSFileProviderDomainRemovalModePreserveDirtyUserData = 1,
-        NSFileProviderDomainRemovalModePreserveDownloadedUserData = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSFileProviderDomainRemovalMode {
+    NSFileProviderDomainRemovalModeRemoveAll = 0,
+    NSFileProviderDomainRemovalModePreserveDirtyUserData = 1,
+    NSFileProviderDomainRemovalModePreserveDownloadedUserData = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "FileProvider_NSFileProviderManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "FileProvider_NSFileProviderManager")]
-    pub struct NSFileProviderManager;
-
-    #[cfg(feature = "FileProvider_NSFileProviderManager")]
-    unsafe impl ClassType for NSFileProviderManager {
-        type Super = NSObject;
-    }
-);
+    pub type NSFileProviderManager;
+}
 
 #[cfg(feature = "FileProvider_NSFileProviderManager")]
 unsafe impl NSObjectProtocol for NSFileProviderManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderManager")]
-    unsafe impl NSFileProviderManager {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSFileProviderManager;
 
-        #[method_id(@__retain_semantics Other defaultManager)]
-        pub unsafe fn defaultManager() -> Id<NSFileProviderManager>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "FileProvider_NSFileProviderDomain")]
-        #[method_id(@__retain_semantics Other managerForDomain:)]
-        pub unsafe fn managerForDomain(domain: &NSFileProviderDomain) -> Option<Id<Self>>;
+    #[objc2::method(sel = "defaultManager", managed = "Other")]
+    pub unsafe fn defaultManager() -> Id<NSFileProviderManager>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(signalEnumeratorForContainerItemIdentifier:completionHandler:)]
-        pub unsafe fn signalEnumeratorForContainerItemIdentifier_completionHandler(
-            &self,
-            container_item_identifier: &NSFileProviderItemIdentifier,
-            completion: &Block<(*mut NSError,), ()>,
-        );
+    #[cfg(feature = "FileProvider_NSFileProviderDomain")]
+    #[objc2::method(sel = "managerForDomain:", managed = "Other")]
+    pub unsafe fn managerForDomain(domain: &NSFileProviderDomain) -> Option<Id<Self>>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method(getUserVisibleURLForItemIdentifier:completionHandler:)]
-        pub unsafe fn getUserVisibleURLForItemIdentifier_completionHandler(
-            &self,
-            item_identifier: &NSFileProviderItemIdentifier,
-            completion_handler: &Block<(*mut NSURL, *mut NSError), ()>,
-        );
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "signalEnumeratorForContainerItemIdentifier:completionHandler:")]
+    pub unsafe fn signalEnumeratorForContainerItemIdentifier_completionHandler(
+        &self,
+        container_item_identifier: &NSFileProviderItemIdentifier,
+        completion: &Block<(*mut NSError,), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method(getIdentifierForUserVisibleFileAtURL:completionHandler:)]
-        pub unsafe fn getIdentifierForUserVisibleFileAtURL_completionHandler(
-            url: &NSURL,
-            completion_handler: &Block<
-                (
-                    *mut NSFileProviderItemIdentifier,
-                    *mut NSFileProviderDomainIdentifier,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "getUserVisibleURLForItemIdentifier:completionHandler:")]
+    pub unsafe fn getUserVisibleURLForItemIdentifier_completionHandler(
+        &self,
+        item_identifier: &NSFileProviderItemIdentifier,
+        completion_handler: &Block<(*mut NSURL, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURLSessionTask"
-        ))]
-        #[method(registerURLSessionTask:forItemWithIdentifier:completionHandler:)]
-        pub unsafe fn registerURLSessionTask_forItemWithIdentifier_completionHandler(
-            &self,
-            task: &NSURLSessionTask,
-            identifier: &NSFileProviderItemIdentifier,
-            completion: &Block<(*mut NSError,), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "getIdentifierForUserVisibleFileAtURL:completionHandler:")]
+    pub unsafe fn getIdentifierForUserVisibleFileAtURL_completionHandler(
+        url: &NSURL,
+        completion_handler: &Block<
+            (
+                *mut NSFileProviderItemIdentifier,
+                *mut NSFileProviderDomainIdentifier,
+                *mut NSError,
+            ),
+            (),
+        >,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other providerIdentifier)]
-        pub unsafe fn providerIdentifier(&self) -> Id<NSString>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURLSessionTask"
+    ))]
+    #[objc2::method(sel = "registerURLSessionTask:forItemWithIdentifier:completionHandler:")]
+    pub unsafe fn registerURLSessionTask_forItemWithIdentifier_completionHandler(
+        &self,
+        task: &NSURLSessionTask,
+        identifier: &NSFileProviderItemIdentifier,
+        completion: &Block<(*mut NSError,), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other documentStorageURL)]
-        pub unsafe fn documentStorageURL(&self) -> Id<NSURL>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "providerIdentifier", managed = "Other")]
+    pub unsafe fn providerIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other temporaryDirectoryURLWithError:_)]
-        pub unsafe fn temporaryDirectoryURLWithError(&self) -> Result<Id<NSURL>, Id<NSError>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "documentStorageURL", managed = "Other")]
+    pub unsafe fn documentStorageURL(&self) -> Id<NSURL>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method(writePlaceholderAtURL:withMetadata:error:_)]
-        pub unsafe fn writePlaceholderAtURL_withMetadata_error(
-            placeholder_url: &NSURL,
-            metadata: &NSFileProviderItem,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "temporaryDirectoryURLWithError:", managed = "Other", throws)]
+    pub unsafe fn temporaryDirectoryURLWithError(&self) -> Result<Id<NSURL>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other placeholderURLForURL:)]
-        pub unsafe fn placeholderURLForURL(url: &NSURL) -> Id<NSURL>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "writePlaceholderAtURL:withMetadata:error:", throws)]
+    pub unsafe fn writePlaceholderAtURL_withMetadata_error(
+        placeholder_url: &NSURL,
+        metadata: &NSFileProviderItem,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "FileProvider_NSFileProviderDomain",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(addDomain:completionHandler:)]
-        pub unsafe fn addDomain_completionHandler(
-            domain: &NSFileProviderDomain,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "placeholderURLForURL:", managed = "Other")]
+    pub unsafe fn placeholderURLForURL(url: &NSURL) -> Id<NSURL>;
 
-        #[cfg(all(
-            feature = "FileProvider_NSFileProviderDomain",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(removeDomain:completionHandler:)]
-        pub unsafe fn removeDomain_completionHandler(
-            domain: &NSFileProviderDomain,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
+    #[cfg(all(
+        feature = "FileProvider_NSFileProviderDomain",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "addDomain:completionHandler:")]
+    pub unsafe fn addDomain_completionHandler(
+        domain: &NSFileProviderDomain,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
 
-        #[cfg(all(
-            feature = "FileProvider_NSFileProviderDomain",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(removeDomain:mode:completionHandler:)]
-        pub unsafe fn removeDomain_mode_completionHandler(
-            domain: &NSFileProviderDomain,
-            mode: NSFileProviderDomainRemovalMode,
-            completion_handler: &Block<(*mut NSURL, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "FileProvider_NSFileProviderDomain",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "removeDomain:completionHandler:")]
+    pub unsafe fn removeDomain_completionHandler(
+        domain: &NSFileProviderDomain,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
 
-        #[cfg(all(
-            feature = "FileProvider_NSFileProviderDomain",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(getDomainsWithCompletionHandler:)]
-        pub unsafe fn getDomainsWithCompletionHandler(
-            completion_handler: &Block<(NonNull<NSArray<NSFileProviderDomain>>, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "FileProvider_NSFileProviderDomain",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "removeDomain:mode:completionHandler:")]
+    pub unsafe fn removeDomain_mode_completionHandler(
+        domain: &NSFileProviderDomain,
+        mode: NSFileProviderDomainRemovalMode,
+        completion_handler: &Block<(*mut NSURL, *mut NSError), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(removeAllDomainsWithCompletionHandler:)]
-        pub unsafe fn removeAllDomainsWithCompletionHandler(
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
+    #[cfg(all(
+        feature = "FileProvider_NSFileProviderDomain",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "getDomainsWithCompletionHandler:")]
+    pub unsafe fn getDomainsWithCompletionHandler(
+        completion_handler: &Block<(NonNull<NSArray<NSFileProviderDomain>>, *mut NSError), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(signalErrorResolved:completionHandler:)]
-        pub unsafe fn signalErrorResolved_completionHandler(
-            &self,
-            error: &NSError,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "removeAllDomainsWithCompletionHandler:")]
+    pub unsafe fn removeAllDomainsWithCompletionHandler(
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSProgress")]
-        #[method_id(@__retain_semantics Other globalProgressForKind:)]
-        pub unsafe fn globalProgressForKind(
-            &self,
-            kind: &NSProgressFileOperationKind,
-        ) -> Id<NSProgress>;
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "signalErrorResolved:completionHandler:")]
+    pub unsafe fn signalErrorResolved_completionHandler(
+        &self,
+        error: &NSError,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
+
+    #[cfg(feature = "Foundation_NSProgress")]
+    #[objc2::method(sel = "globalProgressForKind:", managed = "Other")]
+    pub unsafe fn globalProgressForKind(
+        &self,
+        kind: &NSProgressFileOperationKind,
+    ) -> Id<NSProgress>;
+}
 
 extern_static!(NSFileProviderMaterializedSetDidChange: &'static NSNotificationName);
 
-extern_methods!(
-    /// MaterializedSet
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderManager")]
-    unsafe impl NSFileProviderManager {
-        #[method_id(@__retain_semantics Other enumeratorForMaterializedItems)]
-        pub unsafe fn enumeratorForMaterializedItems(
-            &self,
-        ) -> Id<ProtocolObject<dyn NSFileProviderEnumerator>>;
-    }
-);
+    pub type NSFileProviderManager;
+
+    #[objc2::method(sel = "enumeratorForMaterializedItems", managed = "Other")]
+    pub unsafe fn enumeratorForMaterializedItems(
+        &self,
+    ) -> Id<ProtocolObject<dyn NSFileProviderEnumerator>>;
+}
 
 extern_static!(NSFileProviderPendingSetDidChange: &'static NSNotificationName);
 
-extern_protocol!(
-    pub unsafe trait NSFileProviderPendingSetEnumerator: NSFileProviderEnumerator {
-        #[cfg(feature = "FileProvider_NSFileProviderDomainVersion")]
-        #[method_id(@__retain_semantics Other domainVersion)]
-        unsafe fn domainVersion(&self) -> Option<Id<NSFileProviderDomainVersion>>;
+#[objc2::protocol]
+pub unsafe trait NSFileProviderPendingSetEnumerator: NSFileProviderEnumerator {
+    #[cfg(feature = "FileProvider_NSFileProviderDomainVersion")]
+    #[objc2::method(sel = "domainVersion", managed = "Other")]
+    unsafe fn domainVersion(&self) -> Option<Id<NSFileProviderDomainVersion>>;
 
-        #[method(refreshInterval)]
-        unsafe fn refreshInterval(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "refreshInterval")]
+    unsafe fn refreshInterval(&self) -> NSTimeInterval;
 
-        #[method(isMaximumSizeReached)]
-        unsafe fn isMaximumSizeReached(&self) -> bool;
-    }
+    #[objc2::method(sel = "isMaximumSizeReached")]
+    unsafe fn isMaximumSizeReached(&self) -> bool;
+}
 
-    unsafe impl ProtocolType for dyn NSFileProviderPendingSetEnumerator {}
-);
-
-extern_methods!(
-    /// PendingSet
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderManager")]
-    unsafe impl NSFileProviderManager {
-        #[method_id(@__retain_semantics Other enumeratorForPendingItems)]
-        pub unsafe fn enumeratorForPendingItems(
-            &self,
-        ) -> Id<ProtocolObject<dyn NSFileProviderPendingSetEnumerator>>;
-    }
-);
+    pub type NSFileProviderManager;
 
-extern_methods!(
-    /// Import
+    #[objc2::method(sel = "enumeratorForPendingItems", managed = "Other")]
+    pub unsafe fn enumeratorForPendingItems(
+        &self,
+    ) -> Id<ProtocolObject<dyn NSFileProviderPendingSetEnumerator>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderManager")]
-    unsafe impl NSFileProviderManager {
-        #[cfg(all(
-            feature = "FileProvider_NSFileProviderDomain",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(importDomain:fromDirectoryAtURL:completionHandler:)]
-        pub unsafe fn importDomain_fromDirectoryAtURL_completionHandler(
-            domain: &NSFileProviderDomain,
-            url: &NSURL,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
+    pub type NSFileProviderManager;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(reimportItemsBelowItemWithIdentifier:completionHandler:)]
-        pub unsafe fn reimportItemsBelowItemWithIdentifier_completionHandler(
-            &self,
-            item_identifier: &NSFileProviderItemIdentifier,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
+    #[cfg(all(
+        feature = "FileProvider_NSFileProviderDomain",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "importDomain:fromDirectoryAtURL:completionHandler:")]
+    pub unsafe fn importDomain_fromDirectoryAtURL_completionHandler(
+        domain: &NSFileProviderDomain,
+        url: &NSURL,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(requestModificationOfFields:forItemWithIdentifier:options:completionHandler:)]
-        pub unsafe fn requestModificationOfFields_forItemWithIdentifier_options_completionHandler(
-            &self,
-            fields: NSFileProviderItemFields,
-            item_identifier: &NSFileProviderItemIdentifier,
-            options: NSFileProviderModifyItemOptions,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "reimportItemsBelowItemWithIdentifier:completionHandler:")]
+    pub unsafe fn reimportItemsBelowItemWithIdentifier_completionHandler(
+        &self,
+        item_identifier: &NSFileProviderItemIdentifier,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
 
-extern_methods!(
-    /// Eviction
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(
+        sel = "requestModificationOfFields:forItemWithIdentifier:options:completionHandler:"
+    )]
+    pub unsafe fn requestModificationOfFields_forItemWithIdentifier_options_completionHandler(
+        &self,
+        fields: NSFileProviderItemFields,
+        item_identifier: &NSFileProviderItemIdentifier,
+        options: NSFileProviderModifyItemOptions,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderManager")]
-    unsafe impl NSFileProviderManager {
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(evictItemWithIdentifier:completionHandler:)]
-        pub unsafe fn evictItemWithIdentifier_completionHandler(
-            &self,
-            item_identifier: &NSFileProviderItemIdentifier,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
-    }
-);
+    pub type NSFileProviderManager;
 
-extern_methods!(
-    /// Barrier
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "evictItemWithIdentifier:completionHandler:")]
+    pub unsafe fn evictItemWithIdentifier_completionHandler(
+        &self,
+        item_identifier: &NSFileProviderItemIdentifier,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderManager")]
-    unsafe impl NSFileProviderManager {
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(waitForChangesOnItemsBelowItemWithIdentifier:completionHandler:)]
-        pub unsafe fn waitForChangesOnItemsBelowItemWithIdentifier_completionHandler(
-            &self,
-            item_identifier: &NSFileProviderItemIdentifier,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
-    }
-);
+    pub type NSFileProviderManager;
 
-extern_methods!(
-    /// Stabilization
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "waitForChangesOnItemsBelowItemWithIdentifier:completionHandler:")]
+    pub unsafe fn waitForChangesOnItemsBelowItemWithIdentifier_completionHandler(
+        &self,
+        item_identifier: &NSFileProviderItemIdentifier,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderManager")]
-    unsafe impl NSFileProviderManager {
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(waitForStabilizationWithCompletionHandler:)]
-        pub unsafe fn waitForStabilizationWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
-    }
-);
+    pub type NSFileProviderManager;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSFileProviderManagerDisconnectionOptions {
-        NSFileProviderManagerDisconnectionOptionsTemporary = 1 << 0,
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "waitForStabilizationWithCompletionHandler:")]
+    pub unsafe fn waitForStabilizationWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
+}
 
-extern_methods!(
-    /// Disconnection
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSFileProviderManagerDisconnectionOptions {
+    NSFileProviderManagerDisconnectionOptionsTemporary = 1 << 0,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderManager")]
-    unsafe impl NSFileProviderManager {
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(disconnectWithReason:options:completionHandler:)]
-        pub unsafe fn disconnectWithReason_options_completionHandler(
-            &self,
-            localized_reason: &NSString,
-            options: NSFileProviderManagerDisconnectionOptions,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
+    pub type NSFileProviderManager;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(reconnectWithCompletionHandler:)]
-        pub unsafe fn reconnectWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
-    }
-);
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "disconnectWithReason:options:completionHandler:")]
+    pub unsafe fn disconnectWithReason_options_completionHandler(
+        &self,
+        localized_reason: &NSString,
+        options: NSFileProviderManagerDisconnectionOptions,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
 
-extern_methods!(
-    /// Materialize
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "reconnectWithCompletionHandler:")]
+    pub unsafe fn reconnectWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderManager")]
-    unsafe impl NSFileProviderManager {
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(requestDownloadForItemWithIdentifier:requestedRange:completionHandler:)]
-        pub unsafe fn requestDownloadForItemWithIdentifier_requestedRange_completionHandler(
-            &self,
-            item_identifier: &NSFileProviderItemIdentifier,
-            range_to_materialize: NSRange,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
-    }
-);
+    pub type NSFileProviderManager;
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "requestDownloadForItemWithIdentifier:requestedRange:completionHandler:")]
+    pub unsafe fn requestDownloadForItemWithIdentifier_requestedRange_completionHandler(
+        &self,
+        item_identifier: &NSFileProviderItemIdentifier,
+        range_to_materialize: NSRange,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
+}

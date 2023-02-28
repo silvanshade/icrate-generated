@@ -5,25 +5,24 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSTableColumnResizingOptions {
-        NSTableColumnNoResizing = 0,
-        NSTableColumnAutoresizingMask = 1 << 0,
-        NSTableColumnUserResizingMask = 1 << 1,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSTableColumnResizingOptions {
+    NSTableColumnNoResizing = 0,
+    NSTableColumnAutoresizingMask = 1 << 0,
+    NSTableColumnUserResizingMask = 1 << 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTableColumn")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTableColumn")]
-    pub struct NSTableColumn;
-
-    #[cfg(feature = "AppKit_NSTableColumn")]
-    unsafe impl ClassType for NSTableColumn {
-        type Super = NSObject;
-    }
-);
+    pub type NSTableColumn;
+}
 
 #[cfg(feature = "AppKit_NSTableColumn")]
 unsafe impl NSCoding for NSTableColumn {}
@@ -34,128 +33,133 @@ unsafe impl NSObjectProtocol for NSTableColumn {}
 #[cfg(feature = "AppKit_NSTableColumn")]
 unsafe impl NSUserInterfaceItemIdentification for NSTableColumn {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTableColumn")]
-    unsafe impl NSTableColumn {
-        #[method_id(@__retain_semantics Init initWithIdentifier:)]
-        pub unsafe fn initWithIdentifier(
-            this: Option<Allocated<Self>>,
-            identifier: &NSUserInterfaceItemIdentifier,
-        ) -> Id<Self>;
+    pub type NSTableColumn;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+    #[objc2::method(sel = "initWithIdentifier:", managed = "Init")]
+    pub unsafe fn initWithIdentifier(
+        this: Option<Allocated<Self>>,
+        identifier: &NSUserInterfaceItemIdentifier,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSUserInterfaceItemIdentifier>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
 
-        #[method(setIdentifier:)]
-        pub unsafe fn setIdentifier(&self, identifier: &NSUserInterfaceItemIdentifier);
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSUserInterfaceItemIdentifier>;
 
-        #[cfg(feature = "AppKit_NSTableView")]
-        #[method_id(@__retain_semantics Other tableView)]
-        pub unsafe fn tableView(&self) -> Option<Id<NSTableView>>;
+    #[objc2::method(sel = "setIdentifier:")]
+    pub unsafe fn setIdentifier(&self, identifier: &NSUserInterfaceItemIdentifier);
 
-        #[cfg(feature = "AppKit_NSTableView")]
-        #[method(setTableView:)]
-        pub unsafe fn setTableView(&self, table_view: Option<&NSTableView>);
+    #[cfg(feature = "AppKit_NSTableView")]
+    #[objc2::method(sel = "tableView", managed = "Other")]
+    pub unsafe fn tableView(&self) -> Option<Id<NSTableView>>;
 
-        #[method(width)]
-        pub unsafe fn width(&self) -> CGFloat;
+    #[cfg(feature = "AppKit_NSTableView")]
+    #[objc2::method(sel = "setTableView:")]
+    pub unsafe fn setTableView(&self, table_view: Option<&NSTableView>);
 
-        #[method(setWidth:)]
-        pub unsafe fn setWidth(&self, width: CGFloat);
+    #[objc2::method(sel = "width")]
+    pub unsafe fn width(&self) -> CGFloat;
 
-        #[method(minWidth)]
-        pub unsafe fn minWidth(&self) -> CGFloat;
+    #[objc2::method(sel = "setWidth:")]
+    pub unsafe fn setWidth(&self, width: CGFloat);
 
-        #[method(setMinWidth:)]
-        pub unsafe fn setMinWidth(&self, min_width: CGFloat);
+    #[objc2::method(sel = "minWidth")]
+    pub unsafe fn minWidth(&self) -> CGFloat;
 
-        #[method(maxWidth)]
-        pub unsafe fn maxWidth(&self) -> CGFloat;
+    #[objc2::method(sel = "setMinWidth:")]
+    pub unsafe fn setMinWidth(&self, min_width: CGFloat);
 
-        #[method(setMaxWidth:)]
-        pub unsafe fn setMaxWidth(&self, max_width: CGFloat);
+    #[objc2::method(sel = "maxWidth")]
+    pub unsafe fn maxWidth(&self) -> CGFloat;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setMaxWidth:")]
+    pub unsafe fn setMaxWidth(&self, max_width: CGFloat);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "AppKit_NSTableHeaderCell")]
-        #[method_id(@__retain_semantics Other headerCell)]
-        pub unsafe fn headerCell(&self) -> Id<NSTableHeaderCell>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
 
-        #[cfg(feature = "AppKit_NSTableHeaderCell")]
-        #[method(setHeaderCell:)]
-        pub unsafe fn setHeaderCell(&self, header_cell: &NSTableHeaderCell);
+    #[cfg(feature = "AppKit_NSTableHeaderCell")]
+    #[objc2::method(sel = "headerCell", managed = "Other")]
+    pub unsafe fn headerCell(&self) -> Id<NSTableHeaderCell>;
 
-        #[method(isEditable)]
-        pub unsafe fn isEditable(&self) -> bool;
+    #[cfg(feature = "AppKit_NSTableHeaderCell")]
+    #[objc2::method(sel = "setHeaderCell:")]
+    pub unsafe fn setHeaderCell(&self, header_cell: &NSTableHeaderCell);
 
-        #[method(setEditable:)]
-        pub unsafe fn setEditable(&self, editable: bool);
+    #[objc2::method(sel = "isEditable")]
+    pub unsafe fn isEditable(&self) -> bool;
 
-        #[method(sizeToFit)]
-        pub unsafe fn sizeToFit(&self);
+    #[objc2::method(sel = "setEditable:")]
+    pub unsafe fn setEditable(&self, editable: bool);
 
-        #[cfg(feature = "Foundation_NSSortDescriptor")]
-        #[method_id(@__retain_semantics Other sortDescriptorPrototype)]
-        pub unsafe fn sortDescriptorPrototype(&self) -> Option<Id<NSSortDescriptor>>;
+    #[objc2::method(sel = "sizeToFit")]
+    pub unsafe fn sizeToFit(&self);
 
-        #[cfg(feature = "Foundation_NSSortDescriptor")]
-        #[method(setSortDescriptorPrototype:)]
-        pub unsafe fn setSortDescriptorPrototype(
-            &self,
-            sort_descriptor_prototype: Option<&NSSortDescriptor>,
-        );
+    #[cfg(feature = "Foundation_NSSortDescriptor")]
+    #[objc2::method(sel = "sortDescriptorPrototype", managed = "Other")]
+    pub unsafe fn sortDescriptorPrototype(&self) -> Option<Id<NSSortDescriptor>>;
 
-        #[method(resizingMask)]
-        pub unsafe fn resizingMask(&self) -> NSTableColumnResizingOptions;
+    #[cfg(feature = "Foundation_NSSortDescriptor")]
+    #[objc2::method(sel = "setSortDescriptorPrototype:")]
+    pub unsafe fn setSortDescriptorPrototype(
+        &self,
+        sort_descriptor_prototype: Option<&NSSortDescriptor>,
+    );
 
-        #[method(setResizingMask:)]
-        pub unsafe fn setResizingMask(&self, resizing_mask: NSTableColumnResizingOptions);
+    #[objc2::method(sel = "resizingMask")]
+    pub unsafe fn resizingMask(&self) -> NSTableColumnResizingOptions;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other headerToolTip)]
-        pub unsafe fn headerToolTip(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setResizingMask:")]
+    pub unsafe fn setResizingMask(&self, resizing_mask: NSTableColumnResizingOptions);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setHeaderToolTip:)]
-        pub unsafe fn setHeaderToolTip(&self, header_tool_tip: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "headerToolTip", managed = "Other")]
+    pub unsafe fn headerToolTip(&self) -> Option<Id<NSString>>;
 
-        #[method(isHidden)]
-        pub unsafe fn isHidden(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setHeaderToolTip:")]
+    pub unsafe fn setHeaderToolTip(&self, header_tool_tip: Option<&NSString>);
 
-        #[method(setHidden:)]
-        pub unsafe fn setHidden(&self, hidden: bool);
-    }
-);
+    #[objc2::method(sel = "isHidden")]
+    pub unsafe fn isHidden(&self) -> bool;
 
-extern_methods!(
-    /// NSDeprecated
+    #[objc2::method(sel = "setHidden:")]
+    pub unsafe fn setHidden(&self, hidden: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTableColumn")]
-    unsafe impl NSTableColumn {
-        #[deprecated]
-        #[method(setResizable:)]
-        pub unsafe fn setResizable(&self, flag: bool);
+    pub type NSTableColumn;
 
-        #[deprecated]
-        #[method(isResizable)]
-        pub unsafe fn isResizable(&self) -> bool;
+    #[deprecated]
+    #[objc2::method(sel = "setResizable:")]
+    pub unsafe fn setResizable(&self, flag: bool);
 
-        #[method_id(@__retain_semantics Other dataCell)]
-        pub unsafe fn dataCell(&self) -> Id<Object>;
+    #[deprecated]
+    #[objc2::method(sel = "isResizable")]
+    pub unsafe fn isResizable(&self) -> bool;
 
-        #[method(setDataCell:)]
-        pub unsafe fn setDataCell(&self, data_cell: &Object);
+    #[objc2::method(sel = "dataCell", managed = "Other")]
+    pub unsafe fn dataCell(&self) -> Id<Object>;
 
-        #[method_id(@__retain_semantics Other dataCellForRow:)]
-        pub unsafe fn dataCellForRow(&self, row: NSInteger) -> Id<Object>;
-    }
-);
+    #[objc2::method(sel = "setDataCell:")]
+    pub unsafe fn setDataCell(&self, data_cell: &Object);
+
+    #[objc2::method(sel = "dataCellForRow:", managed = "Other")]
+    pub unsafe fn dataCellForRow(&self, row: NSInteger) -> Id<Object>;
+}

@@ -4,17 +4,18 @@ use crate::common::*;
 use crate::CallKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CXCallAction,
+    unsafe inherits = [
+        CXAction,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CallKit_CXSetMutedCallAction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CallKit_CXSetMutedCallAction")]
-    pub struct CXSetMutedCallAction;
-
-    #[cfg(feature = "CallKit_CXSetMutedCallAction")]
-    unsafe impl ClassType for CXSetMutedCallAction {
-        #[inherits(CXAction, NSObject)]
-        type Super = CXCallAction;
-    }
-);
+    pub type CXSetMutedCallAction;
+}
 
 #[cfg(feature = "CallKit_CXSetMutedCallAction")]
 unsafe impl NSCoding for CXSetMutedCallAction {}
@@ -25,35 +26,35 @@ unsafe impl NSObjectProtocol for CXSetMutedCallAction {}
 #[cfg(feature = "CallKit_CXSetMutedCallAction")]
 unsafe impl NSSecureCoding for CXSetMutedCallAction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CallKit_CXSetMutedCallAction")]
-    unsafe impl CXSetMutedCallAction {
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Init initWithCallUUID:muted:)]
-        pub unsafe fn initWithCallUUID_muted(
-            this: Option<Allocated<Self>>,
-            call_uuid: &NSUUID,
-            muted: bool,
-        ) -> Id<Self>;
+    pub type CXSetMutedCallAction;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            a_decoder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "initWithCallUUID:muted:", managed = "Init")]
+    pub unsafe fn initWithCallUUID_muted(
+        this: Option<Allocated<Self>>,
+        call_uuid: &NSUUID,
+        muted: bool,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Init initWithCallUUID:)]
-        pub unsafe fn initWithCallUUID(
-            this: Option<Allocated<Self>>,
-            call_uuid: &NSUUID,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(
+        this: Option<Allocated<Self>>,
+        a_decoder: &NSCoder,
+    ) -> Option<Id<Self>>;
 
-        #[method(isMuted)]
-        pub unsafe fn isMuted(&self) -> bool;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "initWithCallUUID:", managed = "Init")]
+    pub unsafe fn initWithCallUUID(this: Option<Allocated<Self>>, call_uuid: &NSUUID) -> Id<Self>;
 
-        #[method(setMuted:)]
-        pub unsafe fn setMuted(&self, muted: bool);
-    }
-);
+    #[objc2::method(sel = "isMuted")]
+    pub unsafe fn isMuted(&self) -> bool;
+
+    #[objc2::method(sel = "setMuted:")]
+    pub unsafe fn setMuted(&self, muted: bool);
+}

@@ -7,25 +7,28 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKLookAroundSnapshot")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKLookAroundSnapshot")]
-    pub struct MKLookAroundSnapshot;
-
-    #[cfg(feature = "MapKit_MKLookAroundSnapshot")]
-    unsafe impl ClassType for MKLookAroundSnapshot {
-        type Super = NSObject;
-    }
-);
+    pub type MKLookAroundSnapshot;
+}
 
 #[cfg(feature = "MapKit_MKLookAroundSnapshot")]
 unsafe impl NSObjectProtocol for MKLookAroundSnapshot {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKLookAroundSnapshot")]
-    unsafe impl MKLookAroundSnapshot {
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Id<NSImage>;
-    }
-);
+    pub type MKLookAroundSnapshot;
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Id<NSImage>;
+}

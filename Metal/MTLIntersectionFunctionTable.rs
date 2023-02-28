@@ -4,111 +4,109 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum MTLIntersectionFunctionSignature {
-        MTLIntersectionFunctionSignatureNone = 0,
-        MTLIntersectionFunctionSignatureInstancing = 1 << 0,
-        MTLIntersectionFunctionSignatureTriangleData = 1 << 1,
-        MTLIntersectionFunctionSignatureWorldSpaceData = 1 << 2,
-        MTLIntersectionFunctionSignatureInstanceMotion = 1 << 3,
-        MTLIntersectionFunctionSignaturePrimitiveMotion = 1 << 4,
-        MTLIntersectionFunctionSignatureExtendedLimits = 1 << 5,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum MTLIntersectionFunctionSignature {
+    MTLIntersectionFunctionSignatureNone = 0,
+    MTLIntersectionFunctionSignatureInstancing = 1 << 0,
+    MTLIntersectionFunctionSignatureTriangleData = 1 << 1,
+    MTLIntersectionFunctionSignatureWorldSpaceData = 1 << 2,
+    MTLIntersectionFunctionSignatureInstanceMotion = 1 << 3,
+    MTLIntersectionFunctionSignaturePrimitiveMotion = 1 << 4,
+    MTLIntersectionFunctionSignatureExtendedLimits = 1 << 5,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLIntersectionFunctionTableDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLIntersectionFunctionTableDescriptor")]
-    pub struct MTLIntersectionFunctionTableDescriptor;
-
-    #[cfg(feature = "Metal_MTLIntersectionFunctionTableDescriptor")]
-    unsafe impl ClassType for MTLIntersectionFunctionTableDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLIntersectionFunctionTableDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLIntersectionFunctionTableDescriptor")]
 unsafe impl NSObjectProtocol for MTLIntersectionFunctionTableDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLIntersectionFunctionTableDescriptor")]
-    unsafe impl MTLIntersectionFunctionTableDescriptor {
-        #[method_id(@__retain_semantics Other intersectionFunctionTableDescriptor)]
-        pub unsafe fn intersectionFunctionTableDescriptor(
-        ) -> Id<MTLIntersectionFunctionTableDescriptor>;
+    pub type MTLIntersectionFunctionTableDescriptor;
 
-        #[method(functionCount)]
-        pub unsafe fn functionCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "intersectionFunctionTableDescriptor", managed = "Other")]
+    pub unsafe fn intersectionFunctionTableDescriptor() -> Id<MTLIntersectionFunctionTableDescriptor>;
 
-        #[method(setFunctionCount:)]
-        pub fn setFunctionCount(&self, function_count: NSUInteger);
-    }
-);
+    #[objc2::method(sel = "functionCount")]
+    pub unsafe fn functionCount(&self) -> NSUInteger;
 
-extern_protocol!(
-    pub unsafe trait MTLIntersectionFunctionTable: MTLResource {
-        #[method(setBuffer:offset:atIndex:)]
-        unsafe fn setBuffer_offset_atIndex(
-            &self,
-            buffer: Option<&ProtocolObject<dyn MTLBuffer>>,
-            offset: NSUInteger,
-            index: NSUInteger,
-        );
+    #[objc2::method(sel = "setFunctionCount:")]
+    pub fn setFunctionCount(&self, function_count: NSUInteger);
+}
 
-        #[method(setBuffers:offsets:withRange:)]
-        unsafe fn setBuffers_offsets_withRange(
-            &self,
-            buffers: NonNull<*const ProtocolObject<dyn MTLBuffer>>,
-            offsets: NonNull<NSUInteger>,
-            range: NSRange,
-        );
+#[objc2::protocol]
+pub unsafe trait MTLIntersectionFunctionTable: MTLResource {
+    #[objc2::method(sel = "setBuffer:offset:atIndex:")]
+    unsafe fn setBuffer_offset_atIndex(
+        &self,
+        buffer: Option<&ProtocolObject<dyn MTLBuffer>>,
+        offset: NSUInteger,
+        index: NSUInteger,
+    );
 
-        #[method(gpuResourceID)]
-        unsafe fn gpuResourceID(&self) -> MTLResourceID;
+    #[objc2::method(sel = "setBuffers:offsets:withRange:")]
+    unsafe fn setBuffers_offsets_withRange(
+        &self,
+        buffers: NonNull<*const ProtocolObject<dyn MTLBuffer>>,
+        offsets: NonNull<NSUInteger>,
+        range: NSRange,
+    );
 
-        #[method(setFunction:atIndex:)]
-        fn setFunction_atIndex(
-            &self,
-            function: Option<&ProtocolObject<dyn MTLFunctionHandle>>,
-            index: NSUInteger,
-        );
+    #[objc2::method(sel = "gpuResourceID")]
+    unsafe fn gpuResourceID(&self) -> MTLResourceID;
 
-        #[method(setFunctions:withRange:)]
-        unsafe fn setFunctions_withRange(
-            &self,
-            functions: NonNull<*const ProtocolObject<dyn MTLFunctionHandle>>,
-            range: NSRange,
-        );
+    #[objc2::method(sel = "setFunction:atIndex:")]
+    fn setFunction_atIndex(
+        &self,
+        function: Option<&ProtocolObject<dyn MTLFunctionHandle>>,
+        index: NSUInteger,
+    );
 
-        #[method(setOpaqueTriangleIntersectionFunctionWithSignature:atIndex:)]
-        unsafe fn setOpaqueTriangleIntersectionFunctionWithSignature_atIndex(
-            &self,
-            signature: MTLIntersectionFunctionSignature,
-            index: NSUInteger,
-        );
+    #[objc2::method(sel = "setFunctions:withRange:")]
+    unsafe fn setFunctions_withRange(
+        &self,
+        functions: NonNull<*const ProtocolObject<dyn MTLFunctionHandle>>,
+        range: NSRange,
+    );
 
-        #[method(setOpaqueTriangleIntersectionFunctionWithSignature:withRange:)]
-        unsafe fn setOpaqueTriangleIntersectionFunctionWithSignature_withRange(
-            &self,
-            signature: MTLIntersectionFunctionSignature,
-            range: NSRange,
-        );
+    #[objc2::method(sel = "setOpaqueTriangleIntersectionFunctionWithSignature:atIndex:")]
+    unsafe fn setOpaqueTriangleIntersectionFunctionWithSignature_atIndex(
+        &self,
+        signature: MTLIntersectionFunctionSignature,
+        index: NSUInteger,
+    );
 
-        #[method(setVisibleFunctionTable:atBufferIndex:)]
-        unsafe fn setVisibleFunctionTable_atBufferIndex(
-            &self,
-            function_table: Option<&ProtocolObject<dyn MTLVisibleFunctionTable>>,
-            buffer_index: NSUInteger,
-        );
+    #[objc2::method(sel = "setOpaqueTriangleIntersectionFunctionWithSignature:withRange:")]
+    unsafe fn setOpaqueTriangleIntersectionFunctionWithSignature_withRange(
+        &self,
+        signature: MTLIntersectionFunctionSignature,
+        range: NSRange,
+    );
 
-        #[method(setVisibleFunctionTables:withBufferRange:)]
-        unsafe fn setVisibleFunctionTables_withBufferRange(
-            &self,
-            function_tables: NonNull<*const ProtocolObject<dyn MTLVisibleFunctionTable>>,
-            buffer_range: NSRange,
-        );
-    }
+    #[objc2::method(sel = "setVisibleFunctionTable:atBufferIndex:")]
+    unsafe fn setVisibleFunctionTable_atBufferIndex(
+        &self,
+        function_table: Option<&ProtocolObject<dyn MTLVisibleFunctionTable>>,
+        buffer_index: NSUInteger,
+    );
 
-    unsafe impl ProtocolType for dyn MTLIntersectionFunctionTable {}
-);
+    #[objc2::method(sel = "setVisibleFunctionTables:withBufferRange:")]
+    unsafe fn setVisibleFunctionTables_withBufferRange(
+        &self,
+        function_tables: NonNull<*const ProtocolObject<dyn MTLVisibleFunctionTable>>,
+        buffer_range: NSRange,
+    );
+}

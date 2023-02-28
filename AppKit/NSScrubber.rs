@@ -5,100 +5,82 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSScrubberDataSource: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSScrubber")]
-        #[method(numberOfItemsForScrubber:)]
-        unsafe fn numberOfItemsForScrubber(&self, scrubber: &NSScrubber) -> NSInteger;
+#[objc2::protocol]
+pub unsafe trait NSScrubberDataSource: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSScrubber")]
+    #[objc2::method(sel = "numberOfItemsForScrubber:")]
+    unsafe fn numberOfItemsForScrubber(&self, scrubber: &NSScrubber) -> NSInteger;
 
-        #[cfg(all(feature = "AppKit_NSScrubber", feature = "AppKit_NSScrubberItemView"))]
-        #[method_id(@__retain_semantics Other scrubber:viewForItemAtIndex:)]
-        unsafe fn scrubber_viewForItemAtIndex(
-            &self,
-            scrubber: &NSScrubber,
-            index: NSInteger,
-        ) -> Id<NSScrubberItemView>;
-    }
+    #[cfg(all(feature = "AppKit_NSScrubber", feature = "AppKit_NSScrubberItemView"))]
+    #[objc2::method(sel = "scrubber:viewForItemAtIndex:", managed = "Other")]
+    unsafe fn scrubber_viewForItemAtIndex(
+        &self,
+        scrubber: &NSScrubber,
+        index: NSInteger,
+    ) -> Id<NSScrubberItemView>;
+}
 
-    unsafe impl ProtocolType for dyn NSScrubberDataSource {}
-);
+#[objc2::protocol]
+pub unsafe trait NSScrubberDelegate: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSScrubber")]
+    #[objc2::method(optional, sel = "scrubber:didSelectItemAtIndex:")]
+    unsafe fn scrubber_didSelectItemAtIndex(
+        &self,
+        scrubber: &NSScrubber,
+        selected_index: NSInteger,
+    );
 
-extern_protocol!(
-    pub unsafe trait NSScrubberDelegate: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSScrubber")]
-        #[optional]
-        #[method(scrubber:didSelectItemAtIndex:)]
-        unsafe fn scrubber_didSelectItemAtIndex(
-            &self,
-            scrubber: &NSScrubber,
-            selected_index: NSInteger,
-        );
+    #[cfg(feature = "AppKit_NSScrubber")]
+    #[objc2::method(optional, sel = "scrubber:didHighlightItemAtIndex:")]
+    unsafe fn scrubber_didHighlightItemAtIndex(
+        &self,
+        scrubber: &NSScrubber,
+        highlighted_index: NSInteger,
+    );
 
-        #[cfg(feature = "AppKit_NSScrubber")]
-        #[optional]
-        #[method(scrubber:didHighlightItemAtIndex:)]
-        unsafe fn scrubber_didHighlightItemAtIndex(
-            &self,
-            scrubber: &NSScrubber,
-            highlighted_index: NSInteger,
-        );
+    #[cfg(feature = "AppKit_NSScrubber")]
+    #[objc2::method(optional, sel = "scrubber:didChangeVisibleRange:")]
+    unsafe fn scrubber_didChangeVisibleRange(&self, scrubber: &NSScrubber, visible_range: NSRange);
 
-        #[cfg(feature = "AppKit_NSScrubber")]
-        #[optional]
-        #[method(scrubber:didChangeVisibleRange:)]
-        unsafe fn scrubber_didChangeVisibleRange(
-            &self,
-            scrubber: &NSScrubber,
-            visible_range: NSRange,
-        );
+    #[cfg(feature = "AppKit_NSScrubber")]
+    #[objc2::method(optional, sel = "didBeginInteractingWithScrubber:")]
+    unsafe fn didBeginInteractingWithScrubber(&self, scrubber: &NSScrubber);
 
-        #[cfg(feature = "AppKit_NSScrubber")]
-        #[optional]
-        #[method(didBeginInteractingWithScrubber:)]
-        unsafe fn didBeginInteractingWithScrubber(&self, scrubber: &NSScrubber);
+    #[cfg(feature = "AppKit_NSScrubber")]
+    #[objc2::method(optional, sel = "didFinishInteractingWithScrubber:")]
+    unsafe fn didFinishInteractingWithScrubber(&self, scrubber: &NSScrubber);
 
-        #[cfg(feature = "AppKit_NSScrubber")]
-        #[optional]
-        #[method(didFinishInteractingWithScrubber:)]
-        unsafe fn didFinishInteractingWithScrubber(&self, scrubber: &NSScrubber);
+    #[cfg(feature = "AppKit_NSScrubber")]
+    #[objc2::method(optional, sel = "didCancelInteractingWithScrubber:")]
+    unsafe fn didCancelInteractingWithScrubber(&self, scrubber: &NSScrubber);
+}
 
-        #[cfg(feature = "AppKit_NSScrubber")]
-        #[optional]
-        #[method(didCancelInteractingWithScrubber:)]
-        unsafe fn didCancelInteractingWithScrubber(&self, scrubber: &NSScrubber);
-    }
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSScrubberMode {
+    NSScrubberModeFixed = 0,
+    NSScrubberModeFree = 1,
+}
 
-    unsafe impl ProtocolType for dyn NSScrubberDelegate {}
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSScrubberAlignment {
+    NSScrubberAlignmentNone = 0,
+    NSScrubberAlignmentLeading = 1,
+    NSScrubberAlignmentTrailing = 2,
+    NSScrubberAlignmentCenter = 3,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSScrubberMode {
-        NSScrubberModeFixed = 0,
-        NSScrubberModeFree = 1,
-    }
-);
-
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSScrubberAlignment {
-        NSScrubberAlignmentNone = 0,
-        NSScrubberAlignmentLeading = 1,
-        NSScrubberAlignmentTrailing = 2,
-        NSScrubberAlignmentCenter = 3,
-    }
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSScrubberSelectionStyle")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSScrubberSelectionStyle")]
-    pub struct NSScrubberSelectionStyle;
-
-    #[cfg(feature = "AppKit_NSScrubberSelectionStyle")]
-    unsafe impl ClassType for NSScrubberSelectionStyle {
-        type Super = NSObject;
-    }
-);
+    pub type NSScrubberSelectionStyle;
+}
 
 #[cfg(feature = "AppKit_NSScrubberSelectionStyle")]
 unsafe impl NSCoding for NSScrubberSelectionStyle {}
@@ -106,39 +88,43 @@ unsafe impl NSCoding for NSScrubberSelectionStyle {}
 #[cfg(feature = "AppKit_NSScrubberSelectionStyle")]
 unsafe impl NSObjectProtocol for NSScrubberSelectionStyle {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSScrubberSelectionStyle")]
-    unsafe impl NSScrubberSelectionStyle {
-        #[method_id(@__retain_semantics Other outlineOverlayStyle)]
-        pub unsafe fn outlineOverlayStyle() -> Id<NSScrubberSelectionStyle>;
+    pub type NSScrubberSelectionStyle;
 
-        #[method_id(@__retain_semantics Other roundedBackgroundStyle)]
-        pub unsafe fn roundedBackgroundStyle() -> Id<NSScrubberSelectionStyle>;
+    #[objc2::method(sel = "outlineOverlayStyle", managed = "Other")]
+    pub unsafe fn outlineOverlayStyle() -> Id<NSScrubberSelectionStyle>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "roundedBackgroundStyle", managed = "Other")]
+    pub unsafe fn roundedBackgroundStyle() -> Id<NSScrubberSelectionStyle>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSScrubberSelectionView")]
-        #[method_id(@__retain_semantics Other makeSelectionView)]
-        pub unsafe fn makeSelectionView(&self) -> Option<Id<NSScrubberSelectionView>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
 
-extern_class!(
+    #[cfg(feature = "AppKit_NSScrubberSelectionView")]
+    #[objc2::method(sel = "makeSelectionView", managed = "Other")]
+    pub unsafe fn makeSelectionView(&self) -> Option<Id<NSScrubberSelectionView>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSScrubber")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSScrubber")]
-    pub struct NSScrubber;
-
-    #[cfg(feature = "AppKit_NSScrubber")]
-    unsafe impl ClassType for NSScrubber {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type NSScrubber;
+}
 
 #[cfg(feature = "AppKit_NSScrubber")]
 unsafe impl NSAccessibility for NSScrubber {}
@@ -164,182 +150,183 @@ unsafe impl NSObjectProtocol for NSScrubber {}
 #[cfg(feature = "AppKit_NSScrubber")]
 unsafe impl NSUserInterfaceItemIdentification for NSScrubber {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSScrubber")]
-    unsafe impl NSScrubber {
-        #[method_id(@__retain_semantics Other dataSource)]
-        pub unsafe fn dataSource(&self) -> Option<Id<ProtocolObject<dyn NSScrubberDataSource>>>;
+    pub type NSScrubber;
 
-        #[method(setDataSource:)]
-        pub unsafe fn setDataSource(
-            &self,
-            data_source: Option<&ProtocolObject<dyn NSScrubberDataSource>>,
-        );
+    #[objc2::method(sel = "dataSource", managed = "Other")]
+    pub unsafe fn dataSource(&self) -> Option<Id<ProtocolObject<dyn NSScrubberDataSource>>>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSScrubberDelegate>>>;
+    #[objc2::method(sel = "setDataSource:")]
+    pub unsafe fn setDataSource(
+        &self,
+        data_source: Option<&ProtocolObject<dyn NSScrubberDataSource>>,
+    );
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSScrubberDelegate>>);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSScrubberDelegate>>>;
 
-        #[cfg(feature = "AppKit_NSScrubberLayout")]
-        #[method_id(@__retain_semantics Other scrubberLayout)]
-        pub unsafe fn scrubberLayout(&self) -> Id<NSScrubberLayout>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSScrubberDelegate>>);
 
-        #[cfg(feature = "AppKit_NSScrubberLayout")]
-        #[method(setScrubberLayout:)]
-        pub unsafe fn setScrubberLayout(&self, scrubber_layout: &NSScrubberLayout);
+    #[cfg(feature = "AppKit_NSScrubberLayout")]
+    #[objc2::method(sel = "scrubberLayout", managed = "Other")]
+    pub unsafe fn scrubberLayout(&self) -> Id<NSScrubberLayout>;
 
-        #[method(numberOfItems)]
-        pub unsafe fn numberOfItems(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSScrubberLayout")]
+    #[objc2::method(sel = "setScrubberLayout:")]
+    pub unsafe fn setScrubberLayout(&self, scrubber_layout: &NSScrubberLayout);
 
-        #[method(highlightedIndex)]
-        pub unsafe fn highlightedIndex(&self) -> NSInteger;
+    #[objc2::method(sel = "numberOfItems")]
+    pub unsafe fn numberOfItems(&self) -> NSInteger;
 
-        #[method(selectedIndex)]
-        pub unsafe fn selectedIndex(&self) -> NSInteger;
+    #[objc2::method(sel = "highlightedIndex")]
+    pub unsafe fn highlightedIndex(&self) -> NSInteger;
 
-        #[method(setSelectedIndex:)]
-        pub unsafe fn setSelectedIndex(&self, selected_index: NSInteger);
+    #[objc2::method(sel = "selectedIndex")]
+    pub unsafe fn selectedIndex(&self) -> NSInteger;
 
-        #[method(mode)]
-        pub unsafe fn mode(&self) -> NSScrubberMode;
+    #[objc2::method(sel = "setSelectedIndex:")]
+    pub unsafe fn setSelectedIndex(&self, selected_index: NSInteger);
 
-        #[method(setMode:)]
-        pub unsafe fn setMode(&self, mode: NSScrubberMode);
+    #[objc2::method(sel = "mode")]
+    pub unsafe fn mode(&self) -> NSScrubberMode;
 
-        #[method(itemAlignment)]
-        pub unsafe fn itemAlignment(&self) -> NSScrubberAlignment;
+    #[objc2::method(sel = "setMode:")]
+    pub unsafe fn setMode(&self, mode: NSScrubberMode);
 
-        #[method(setItemAlignment:)]
-        pub unsafe fn setItemAlignment(&self, item_alignment: NSScrubberAlignment);
+    #[objc2::method(sel = "itemAlignment")]
+    pub unsafe fn itemAlignment(&self) -> NSScrubberAlignment;
 
-        #[method(isContinuous)]
-        pub unsafe fn isContinuous(&self) -> bool;
+    #[objc2::method(sel = "setItemAlignment:")]
+    pub unsafe fn setItemAlignment(&self, item_alignment: NSScrubberAlignment);
 
-        #[method(setContinuous:)]
-        pub unsafe fn setContinuous(&self, continuous: bool);
+    #[objc2::method(sel = "isContinuous")]
+    pub unsafe fn isContinuous(&self) -> bool;
 
-        #[method(floatsSelectionViews)]
-        pub unsafe fn floatsSelectionViews(&self) -> bool;
+    #[objc2::method(sel = "setContinuous:")]
+    pub unsafe fn setContinuous(&self, continuous: bool);
 
-        #[method(setFloatsSelectionViews:)]
-        pub unsafe fn setFloatsSelectionViews(&self, floats_selection_views: bool);
+    #[objc2::method(sel = "floatsSelectionViews")]
+    pub unsafe fn floatsSelectionViews(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSScrubberSelectionStyle")]
-        #[method_id(@__retain_semantics Other selectionBackgroundStyle)]
-        pub unsafe fn selectionBackgroundStyle(&self) -> Option<Id<NSScrubberSelectionStyle>>;
+    #[objc2::method(sel = "setFloatsSelectionViews:")]
+    pub unsafe fn setFloatsSelectionViews(&self, floats_selection_views: bool);
 
-        #[cfg(feature = "AppKit_NSScrubberSelectionStyle")]
-        #[method(setSelectionBackgroundStyle:)]
-        pub unsafe fn setSelectionBackgroundStyle(
-            &self,
-            selection_background_style: Option<&NSScrubberSelectionStyle>,
-        );
+    #[cfg(feature = "AppKit_NSScrubberSelectionStyle")]
+    #[objc2::method(sel = "selectionBackgroundStyle", managed = "Other")]
+    pub unsafe fn selectionBackgroundStyle(&self) -> Option<Id<NSScrubberSelectionStyle>>;
 
-        #[cfg(feature = "AppKit_NSScrubberSelectionStyle")]
-        #[method_id(@__retain_semantics Other selectionOverlayStyle)]
-        pub unsafe fn selectionOverlayStyle(&self) -> Option<Id<NSScrubberSelectionStyle>>;
+    #[cfg(feature = "AppKit_NSScrubberSelectionStyle")]
+    #[objc2::method(sel = "setSelectionBackgroundStyle:")]
+    pub unsafe fn setSelectionBackgroundStyle(
+        &self,
+        selection_background_style: Option<&NSScrubberSelectionStyle>,
+    );
 
-        #[cfg(feature = "AppKit_NSScrubberSelectionStyle")]
-        #[method(setSelectionOverlayStyle:)]
-        pub unsafe fn setSelectionOverlayStyle(
-            &self,
-            selection_overlay_style: Option<&NSScrubberSelectionStyle>,
-        );
+    #[cfg(feature = "AppKit_NSScrubberSelectionStyle")]
+    #[objc2::method(sel = "selectionOverlayStyle", managed = "Other")]
+    pub unsafe fn selectionOverlayStyle(&self) -> Option<Id<NSScrubberSelectionStyle>>;
 
-        #[method(showsArrowButtons)]
-        pub unsafe fn showsArrowButtons(&self) -> bool;
+    #[cfg(feature = "AppKit_NSScrubberSelectionStyle")]
+    #[objc2::method(sel = "setSelectionOverlayStyle:")]
+    pub unsafe fn setSelectionOverlayStyle(
+        &self,
+        selection_overlay_style: Option<&NSScrubberSelectionStyle>,
+    );
 
-        #[method(setShowsArrowButtons:)]
-        pub unsafe fn setShowsArrowButtons(&self, shows_arrow_buttons: bool);
+    #[objc2::method(sel = "showsArrowButtons")]
+    pub unsafe fn showsArrowButtons(&self) -> bool;
 
-        #[method(showsAdditionalContentIndicators)]
-        pub unsafe fn showsAdditionalContentIndicators(&self) -> bool;
+    #[objc2::method(sel = "setShowsArrowButtons:")]
+    pub unsafe fn setShowsArrowButtons(&self, shows_arrow_buttons: bool);
 
-        #[method(setShowsAdditionalContentIndicators:)]
-        pub unsafe fn setShowsAdditionalContentIndicators(
-            &self,
-            shows_additional_content_indicators: bool,
-        );
+    #[objc2::method(sel = "showsAdditionalContentIndicators")]
+    pub unsafe fn showsAdditionalContentIndicators(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other backgroundColor)]
-        pub unsafe fn backgroundColor(&self) -> Option<Id<NSColor>>;
+    #[objc2::method(sel = "setShowsAdditionalContentIndicators:")]
+    pub unsafe fn setShowsAdditionalContentIndicators(
+        &self,
+        shows_additional_content_indicators: bool,
+    );
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setBackgroundColor:)]
-        pub unsafe fn setBackgroundColor(&self, background_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "backgroundColor", managed = "Other")]
+    pub unsafe fn backgroundColor(&self) -> Option<Id<NSColor>>;
 
-        #[method_id(@__retain_semantics Other backgroundView)]
-        pub unsafe fn backgroundView(&self) -> Option<Id<NSView>>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setBackgroundColor:")]
+    pub unsafe fn setBackgroundColor(&self, background_color: Option<&NSColor>);
 
-        #[method(setBackgroundView:)]
-        pub unsafe fn setBackgroundView(&self, background_view: Option<&NSView>);
+    #[objc2::method(sel = "backgroundView", managed = "Other")]
+    pub unsafe fn backgroundView(&self) -> Option<Id<NSView>>;
 
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+    #[objc2::method(sel = "setBackgroundView:")]
+    pub unsafe fn setBackgroundView(&self, background_view: Option<&NSView>);
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
 
-        #[method(reloadData)]
-        pub unsafe fn reloadData(&self);
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
 
-        #[method(performSequentialBatchUpdates:)]
-        pub unsafe fn performSequentialBatchUpdates(&self, update_block: &Block<(), ()>);
+    #[objc2::method(sel = "reloadData")]
+    pub unsafe fn reloadData(&self);
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(insertItemsAtIndexes:)]
-        pub unsafe fn insertItemsAtIndexes(&self, indexes: &NSIndexSet);
+    #[objc2::method(sel = "performSequentialBatchUpdates:")]
+    pub unsafe fn performSequentialBatchUpdates(&self, update_block: &Block<(), ()>);
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(removeItemsAtIndexes:)]
-        pub unsafe fn removeItemsAtIndexes(&self, indexes: &NSIndexSet);
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "insertItemsAtIndexes:")]
+    pub unsafe fn insertItemsAtIndexes(&self, indexes: &NSIndexSet);
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(reloadItemsAtIndexes:)]
-        pub unsafe fn reloadItemsAtIndexes(&self, indexes: &NSIndexSet);
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "removeItemsAtIndexes:")]
+    pub unsafe fn removeItemsAtIndexes(&self, indexes: &NSIndexSet);
 
-        #[method(moveItemAtIndex:toIndex:)]
-        pub unsafe fn moveItemAtIndex_toIndex(&self, old_index: NSInteger, new_index: NSInteger);
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "reloadItemsAtIndexes:")]
+    pub unsafe fn reloadItemsAtIndexes(&self, indexes: &NSIndexSet);
 
-        #[method(scrollItemAtIndex:toAlignment:)]
-        pub unsafe fn scrollItemAtIndex_toAlignment(
-            &self,
-            index: NSInteger,
-            alignment: NSScrubberAlignment,
-        );
+    #[objc2::method(sel = "moveItemAtIndex:toIndex:")]
+    pub unsafe fn moveItemAtIndex_toIndex(&self, old_index: NSInteger, new_index: NSInteger);
 
-        #[cfg(feature = "AppKit_NSScrubberItemView")]
-        #[method_id(@__retain_semantics Other itemViewForItemAtIndex:)]
-        pub unsafe fn itemViewForItemAtIndex(
-            &self,
-            index: NSInteger,
-        ) -> Option<Id<NSScrubberItemView>>;
+    #[objc2::method(sel = "scrollItemAtIndex:toAlignment:")]
+    pub unsafe fn scrollItemAtIndex_toAlignment(
+        &self,
+        index: NSInteger,
+        alignment: NSScrubberAlignment,
+    );
 
-        #[method(registerClass:forItemIdentifier:)]
-        pub unsafe fn registerClass_forItemIdentifier(
-            &self,
-            item_view_class: Option<&Class>,
-            item_identifier: &NSUserInterfaceItemIdentifier,
-        );
+    #[cfg(feature = "AppKit_NSScrubberItemView")]
+    #[objc2::method(sel = "itemViewForItemAtIndex:", managed = "Other")]
+    pub unsafe fn itemViewForItemAtIndex(&self, index: NSInteger)
+        -> Option<Id<NSScrubberItemView>>;
 
-        #[cfg(feature = "AppKit_NSNib")]
-        #[method(registerNib:forItemIdentifier:)]
-        pub unsafe fn registerNib_forItemIdentifier(
-            &self,
-            nib: Option<&NSNib>,
-            item_identifier: &NSUserInterfaceItemIdentifier,
-        );
+    #[objc2::method(sel = "registerClass:forItemIdentifier:")]
+    pub unsafe fn registerClass_forItemIdentifier(
+        &self,
+        item_view_class: Option<&Class>,
+        item_identifier: &NSUserInterfaceItemIdentifier,
+    );
 
-        #[cfg(feature = "AppKit_NSScrubberItemView")]
-        #[method_id(@__retain_semantics Other makeItemWithIdentifier:owner:)]
-        pub unsafe fn makeItemWithIdentifier_owner(
-            &self,
-            item_identifier: &NSUserInterfaceItemIdentifier,
-            owner: Option<&Object>,
-        ) -> Option<Id<NSScrubberItemView>>;
-    }
-);
+    #[cfg(feature = "AppKit_NSNib")]
+    #[objc2::method(sel = "registerNib:forItemIdentifier:")]
+    pub unsafe fn registerNib_forItemIdentifier(
+        &self,
+        nib: Option<&NSNib>,
+        item_identifier: &NSUserInterfaceItemIdentifier,
+    );
+
+    #[cfg(feature = "AppKit_NSScrubberItemView")]
+    #[objc2::method(sel = "makeItemWithIdentifier:owner:", managed = "Other")]
+    pub unsafe fn makeItemWithIdentifier_owner(
+        &self,
+        item_identifier: &NSUserInterfaceItemIdentifier,
+        owner: Option<&Object>,
+    ) -> Option<Id<NSScrubberItemView>>;
+}

@@ -5,77 +5,72 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSTextInputClient {
-        #[method(insertText:replacementRange:)]
-        unsafe fn insertText_replacementRange(&self, string: &Object, replacement_range: NSRange);
+#[objc2::protocol]
+pub unsafe trait NSTextInputClient {
+    #[objc2::method(sel = "insertText:replacementRange:")]
+    unsafe fn insertText_replacementRange(&self, string: &Object, replacement_range: NSRange);
 
-        #[method(doCommandBySelector:)]
-        unsafe fn doCommandBySelector(&self, selector: Sel);
+    #[objc2::method(sel = "doCommandBySelector:")]
+    unsafe fn doCommandBySelector(&self, selector: Sel);
 
-        #[method(setMarkedText:selectedRange:replacementRange:)]
-        unsafe fn setMarkedText_selectedRange_replacementRange(
-            &self,
-            string: &Object,
-            selected_range: NSRange,
-            replacement_range: NSRange,
-        );
+    #[objc2::method(sel = "setMarkedText:selectedRange:replacementRange:")]
+    unsafe fn setMarkedText_selectedRange_replacementRange(
+        &self,
+        string: &Object,
+        selected_range: NSRange,
+        replacement_range: NSRange,
+    );
 
-        #[method(unmarkText)]
-        unsafe fn unmarkText(&self);
+    #[objc2::method(sel = "unmarkText")]
+    unsafe fn unmarkText(&self);
 
-        #[method(selectedRange)]
-        unsafe fn selectedRange(&self) -> NSRange;
+    #[objc2::method(sel = "selectedRange")]
+    unsafe fn selectedRange(&self) -> NSRange;
 
-        #[method(markedRange)]
-        unsafe fn markedRange(&self) -> NSRange;
+    #[objc2::method(sel = "markedRange")]
+    unsafe fn markedRange(&self) -> NSRange;
 
-        #[method(hasMarkedText)]
-        unsafe fn hasMarkedText(&self) -> bool;
+    #[objc2::method(sel = "hasMarkedText")]
+    unsafe fn hasMarkedText(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other attributedSubstringForProposedRange:actualRange:)]
-        unsafe fn attributedSubstringForProposedRange_actualRange(
-            &self,
-            range: NSRange,
-            actual_range: NSRangePointer,
-        ) -> Option<Id<NSAttributedString>>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(
+        sel = "attributedSubstringForProposedRange:actualRange:",
+        managed = "Other"
+    )]
+    unsafe fn attributedSubstringForProposedRange_actualRange(
+        &self,
+        range: NSRange,
+        actual_range: NSRangePointer,
+    ) -> Option<Id<NSAttributedString>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other validAttributesForMarkedText)]
-        unsafe fn validAttributesForMarkedText(&self) -> Id<NSArray<NSAttributedStringKey>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "validAttributesForMarkedText", managed = "Other")]
+    unsafe fn validAttributesForMarkedText(&self) -> Id<NSArray<NSAttributedStringKey>>;
 
-        #[method(firstRectForCharacterRange:actualRange:)]
-        unsafe fn firstRectForCharacterRange_actualRange(
-            &self,
-            range: NSRange,
-            actual_range: NSRangePointer,
-        ) -> NSRect;
+    #[objc2::method(sel = "firstRectForCharacterRange:actualRange:")]
+    unsafe fn firstRectForCharacterRange_actualRange(
+        &self,
+        range: NSRange,
+        actual_range: NSRangePointer,
+    ) -> NSRect;
 
-        #[method(characterIndexForPoint:)]
-        unsafe fn characterIndexForPoint(&self, point: NSPoint) -> NSUInteger;
+    #[objc2::method(sel = "characterIndexForPoint:")]
+    unsafe fn characterIndexForPoint(&self, point: NSPoint) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[optional]
-        #[method_id(@__retain_semantics Other attributedString)]
-        unsafe fn attributedString(&self) -> Id<NSAttributedString>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(optional, sel = "attributedString", managed = "Other")]
+    unsafe fn attributedString(&self) -> Id<NSAttributedString>;
 
-        #[optional]
-        #[method(fractionOfDistanceThroughGlyphForPoint:)]
-        unsafe fn fractionOfDistanceThroughGlyphForPoint(&self, point: NSPoint) -> CGFloat;
+    #[objc2::method(optional, sel = "fractionOfDistanceThroughGlyphForPoint:")]
+    unsafe fn fractionOfDistanceThroughGlyphForPoint(&self, point: NSPoint) -> CGFloat;
 
-        #[optional]
-        #[method(baselineDeltaForCharacterAtIndex:)]
-        unsafe fn baselineDeltaForCharacterAtIndex(&self, an_index: NSUInteger) -> CGFloat;
+    #[objc2::method(optional, sel = "baselineDeltaForCharacterAtIndex:")]
+    unsafe fn baselineDeltaForCharacterAtIndex(&self, an_index: NSUInteger) -> CGFloat;
 
-        #[optional]
-        #[method(windowLevel)]
-        unsafe fn windowLevel(&self) -> NSInteger;
+    #[objc2::method(optional, sel = "windowLevel")]
+    unsafe fn windowLevel(&self) -> NSInteger;
 
-        #[optional]
-        #[method(drawsVerticallyForCharacterAtIndex:)]
-        unsafe fn drawsVerticallyForCharacterAtIndex(&self, char_index: NSUInteger) -> bool;
-    }
-
-    unsafe impl ProtocolType for dyn NSTextInputClient {}
-);
+    #[objc2::method(optional, sel = "drawsVerticallyForCharacterAtIndex:")]
+    unsafe fn drawsVerticallyForCharacterAtIndex(&self, char_index: NSUInteger) -> bool;
+}

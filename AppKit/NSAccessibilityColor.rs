@@ -5,21 +5,20 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSAccessibilityColor {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other accessibilityName)]
-        unsafe fn accessibilityName(&self) -> Id<NSString>;
-    }
+#[objc2::protocol]
+pub unsafe trait NSAccessibilityColor {
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "accessibilityName", managed = "Other")]
+    unsafe fn accessibilityName(&self) -> Id<NSString>;
+}
 
-    unsafe impl ProtocolType for dyn NSAccessibilityColor {}
-);
-
-extern_methods!(
-    /// NSAccessibilityColorConformance
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSColor")]
-    unsafe impl NSColor {}
-);
+    pub type NSColor;
+}
 
 #[cfg(feature = "AppKit_NSColor")]
 unsafe impl NSAccessibilityColor for NSColor {}

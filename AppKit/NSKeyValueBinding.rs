@@ -13,51 +13,57 @@ typed_enum!(
     pub type NSBindingOption = NSString;
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSBindingSelectionMarker")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSBindingSelectionMarker")]
-    pub struct NSBindingSelectionMarker;
-
-    #[cfg(feature = "AppKit_NSBindingSelectionMarker")]
-    unsafe impl ClassType for NSBindingSelectionMarker {
-        type Super = NSObject;
-    }
-);
+    pub type NSBindingSelectionMarker;
+}
 
 #[cfg(feature = "AppKit_NSBindingSelectionMarker")]
 unsafe impl NSObjectProtocol for NSBindingSelectionMarker {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSBindingSelectionMarker")]
-    unsafe impl NSBindingSelectionMarker {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSBindingSelectionMarker;
 
-        #[method_id(@__retain_semantics Other multipleValuesSelectionMarker)]
-        pub unsafe fn multipleValuesSelectionMarker() -> Id<NSBindingSelectionMarker>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other noSelectionMarker)]
-        pub unsafe fn noSelectionMarker() -> Id<NSBindingSelectionMarker>;
+    #[objc2::method(sel = "multipleValuesSelectionMarker", managed = "Other")]
+    pub unsafe fn multipleValuesSelectionMarker() -> Id<NSBindingSelectionMarker>;
 
-        #[method_id(@__retain_semantics Other notApplicableSelectionMarker)]
-        pub unsafe fn notApplicableSelectionMarker() -> Id<NSBindingSelectionMarker>;
+    #[objc2::method(sel = "noSelectionMarker", managed = "Other")]
+    pub unsafe fn noSelectionMarker() -> Id<NSBindingSelectionMarker>;
 
-        #[method(setDefaultPlaceholder:forMarker:onClass:withBinding:)]
-        pub unsafe fn setDefaultPlaceholder_forMarker_onClass_withBinding(
-            placeholder: Option<&Object>,
-            marker: Option<&NSBindingSelectionMarker>,
-            object_class: &Class,
-            binding: &NSBindingName,
-        );
+    #[objc2::method(sel = "notApplicableSelectionMarker", managed = "Other")]
+    pub unsafe fn notApplicableSelectionMarker() -> Id<NSBindingSelectionMarker>;
 
-        #[method_id(@__retain_semantics Other defaultPlaceholderForMarker:onClass:withBinding:)]
-        pub unsafe fn defaultPlaceholderForMarker_onClass_withBinding(
-            marker: Option<&NSBindingSelectionMarker>,
-            object_class: &Class,
-            binding: &NSBindingName,
-        ) -> Option<Id<Object>>;
-    }
-);
+    #[objc2::method(sel = "setDefaultPlaceholder:forMarker:onClass:withBinding:")]
+    pub unsafe fn setDefaultPlaceholder_forMarker_onClass_withBinding(
+        placeholder: Option<&Object>,
+        marker: Option<&NSBindingSelectionMarker>,
+        object_class: &Class,
+        binding: &NSBindingName,
+    );
+
+    #[objc2::method(
+        sel = "defaultPlaceholderForMarker:onClass:withBinding:",
+        managed = "Other"
+    )]
+    pub unsafe fn defaultPlaceholderForMarker_onClass_withBinding(
+        marker: Option<&NSBindingSelectionMarker>,
+        object_class: &Class,
+        binding: &NSBindingName,
+    ) -> Option<Id<Object>>;
+}
 
 extern_static!(NSMultipleValuesMarker: &'static Object);
 
@@ -79,43 +85,35 @@ extern_static!(NSObservedKeyPathKey: &'static NSBindingInfoKey);
 
 extern_static!(NSOptionsKey: &'static NSBindingInfoKey);
 
-extern_protocol!(
-    pub unsafe trait NSEditor: NSObjectProtocol {
-        #[method(discardEditing)]
-        unsafe fn discardEditing(&self);
+#[objc2::protocol]
+pub unsafe trait NSEditor: NSObjectProtocol {
+    #[objc2::method(sel = "discardEditing")]
+    unsafe fn discardEditing(&self);
 
-        #[method(commitEditing)]
-        unsafe fn commitEditing(&self) -> bool;
+    #[objc2::method(sel = "commitEditing")]
+    unsafe fn commitEditing(&self) -> bool;
 
-        #[method(commitEditingWithDelegate:didCommitSelector:contextInfo:)]
-        unsafe fn commitEditingWithDelegate_didCommitSelector_contextInfo(
-            &self,
-            delegate: Option<&Object>,
-            did_commit_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
+    #[objc2::method(sel = "commitEditingWithDelegate:didCommitSelector:contextInfo:")]
+    unsafe fn commitEditingWithDelegate_didCommitSelector_contextInfo(
+        &self,
+        delegate: Option<&Object>,
+        did_commit_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(commitEditingAndReturnError:_)]
-        unsafe fn commitEditingAndReturnError(&self) -> Result<(), Id<NSError>>;
-    }
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "commitEditingAndReturnError:", throws)]
+    unsafe fn commitEditingAndReturnError(&self) -> Result<(), Id<NSError>>;
+}
 
-    unsafe impl ProtocolType for dyn NSEditor {}
-);
+#[objc2::protocol]
+pub unsafe trait NSEditorRegistration: NSObjectProtocol {
+    #[objc2::method(optional, sel = "objectDidBeginEditing:")]
+    unsafe fn objectDidBeginEditing(&self, editor: &ProtocolObject<dyn NSEditor>);
 
-extern_protocol!(
-    pub unsafe trait NSEditorRegistration: NSObjectProtocol {
-        #[optional]
-        #[method(objectDidBeginEditing:)]
-        unsafe fn objectDidBeginEditing(&self, editor: &ProtocolObject<dyn NSEditor>);
-
-        #[optional]
-        #[method(objectDidEndEditing:)]
-        unsafe fn objectDidEndEditing(&self, editor: &ProtocolObject<dyn NSEditor>);
-    }
-
-    unsafe impl ProtocolType for dyn NSEditorRegistration {}
-);
+    #[objc2::method(optional, sel = "objectDidEndEditing:")]
+    unsafe fn objectDidEndEditing(&self, editor: &ProtocolObject<dyn NSEditor>);
+}
 
 extern_static!(NSAlignmentBinding: &'static NSBindingName);
 
@@ -327,11 +325,13 @@ extern_static!(NSValueTransformerNameBindingOption: &'static NSBindingOption);
 
 extern_static!(NSValueTransformerBindingOption: &'static NSBindingOption);
 
-extern_methods!(
-    /// NSEditorAndEditorRegistrationConformance
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSManagedObjectContext")]
-    unsafe impl NSManagedObjectContext {}
-);
+    pub type NSManagedObjectContext;
+}
 
 #[cfg(feature = "CoreData_NSManagedObjectContext")]
 unsafe impl NSEditor for NSManagedObjectContext {}

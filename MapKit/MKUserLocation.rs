@@ -7,16 +7,16 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKUserLocation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKUserLocation")]
-    pub struct MKUserLocation;
-
-    #[cfg(feature = "MapKit_MKUserLocation")]
-    unsafe impl ClassType for MKUserLocation {
-        type Super = NSObject;
-    }
-);
+    pub type MKUserLocation;
+}
 
 #[cfg(feature = "MapKit_MKUserLocation")]
 unsafe impl MKAnnotation for MKUserLocation {}
@@ -24,34 +24,37 @@ unsafe impl MKAnnotation for MKUserLocation {}
 #[cfg(feature = "MapKit_MKUserLocation")]
 unsafe impl NSObjectProtocol for MKUserLocation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKUserLocation")]
-    unsafe impl MKUserLocation {
-        #[method(isUpdating)]
-        pub unsafe fn isUpdating(&self) -> bool;
+    pub type MKUserLocation;
 
-        #[cfg(feature = "CoreLocation_CLLocation")]
-        #[method_id(@__retain_semantics Other location)]
-        pub unsafe fn location(&self) -> Option<Id<CLLocation>>;
+    #[objc2::method(sel = "isUpdating")]
+    pub unsafe fn isUpdating(&self) -> bool;
 
-        #[cfg(feature = "CoreLocation_CLHeading")]
-        #[method_id(@__retain_semantics Other heading)]
-        pub unsafe fn heading(&self) -> Option<Id<CLHeading>>;
+    #[cfg(feature = "CoreLocation_CLLocation")]
+    #[objc2::method(sel = "location", managed = "Other")]
+    pub unsafe fn location(&self) -> Option<Id<CLLocation>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "CoreLocation_CLHeading")]
+    #[objc2::method(sel = "heading", managed = "Other")]
+    pub unsafe fn heading(&self) -> Option<Id<CLHeading>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subtitle)]
-        pub unsafe fn subtitle(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSubtitle:)]
-        pub unsafe fn setSubtitle(&self, subtitle: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subtitle", managed = "Other")]
+    pub unsafe fn subtitle(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSubtitle:")]
+    pub unsafe fn setSubtitle(&self, subtitle: Option<&NSString>);
+}

@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCGearShifterElement")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCGearShifterElement")]
-    pub struct GCGearShifterElement;
-
-    #[cfg(feature = "GameController_GCGearShifterElement")]
-    unsafe impl ClassType for GCGearShifterElement {
-        type Super = NSObject;
-    }
-);
+    pub type GCGearShifterElement;
+}
 
 #[cfg(feature = "GameController_GCGearShifterElement")]
 unsafe impl GCPhysicalInputElement for GCGearShifterElement {}
@@ -22,13 +22,16 @@ unsafe impl GCPhysicalInputElement for GCGearShifterElement {}
 #[cfg(feature = "GameController_GCGearShifterElement")]
 unsafe impl NSObjectProtocol for GCGearShifterElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCGearShifterElement")]
-    unsafe impl GCGearShifterElement {
-        #[method_id(@__retain_semantics Other patternInput)]
-        pub unsafe fn patternInput(&self) -> Option<Id<ProtocolObject<dyn GCSwitchPositionInput>>>;
+    pub type GCGearShifterElement;
 
-        #[method_id(@__retain_semantics Other sequentialInput)]
-        pub unsafe fn sequentialInput(&self) -> Option<Id<ProtocolObject<dyn GCRelativeInput>>>;
-    }
-);
+    #[objc2::method(sel = "patternInput", managed = "Other")]
+    pub unsafe fn patternInput(&self) -> Option<Id<ProtocolObject<dyn GCSwitchPositionInput>>>;
+
+    #[objc2::method(sel = "sequentialInput", managed = "Other")]
+    pub unsafe fn sequentialInput(&self) -> Option<Id<ProtocolObject<dyn GCRelativeInput>>>;
+}

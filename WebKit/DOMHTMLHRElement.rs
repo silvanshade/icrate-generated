@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLHRElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLHRElement;
-
     #[cfg(feature = "WebKit_DOMHTMLHRElement")]
-    unsafe impl ClassType for DOMHTMLHRElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLHRElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLHRElement")]
 unsafe impl DOMEventTarget for DOMHTMLHRElement {}
@@ -24,37 +28,41 @@ unsafe impl DOMEventTarget for DOMHTMLHRElement {}
 #[cfg(feature = "WebKit_DOMHTMLHRElement")]
 unsafe impl NSObjectProtocol for DOMHTMLHRElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLHRElement")]
-    unsafe impl DOMHTMLHRElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other align)]
-        pub unsafe fn align(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMHTMLHRElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAlign:)]
-        pub unsafe fn setAlign(&self, align: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "align", managed = "Other")]
+    pub unsafe fn align(&self) -> Id<NSString>;
 
-        #[method(noShade)]
-        pub unsafe fn noShade(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAlign:")]
+    pub unsafe fn setAlign(&self, align: Option<&NSString>);
 
-        #[method(setNoShade:)]
-        pub unsafe fn setNoShade(&self, no_shade: bool);
+    #[objc2::method(sel = "noShade")]
+    pub unsafe fn noShade(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other size)]
-        pub unsafe fn size(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setNoShade:")]
+    pub unsafe fn setNoShade(&self, no_shade: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSize:)]
-        pub unsafe fn setSize(&self, size: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "size", managed = "Other")]
+    pub unsafe fn size(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other width)]
-        pub unsafe fn width(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSize:")]
+    pub unsafe fn setSize(&self, size: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setWidth:)]
-        pub unsafe fn setWidth(&self, width: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "width", managed = "Other")]
+    pub unsafe fn width(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setWidth:")]
+    pub unsafe fn setWidth(&self, width: Option<&NSString>);
+}

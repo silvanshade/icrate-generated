@@ -3,15 +3,15 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSValue")]
-    pub struct NSValue;
-
-    #[cfg(feature = "Foundation_NSValue")]
-    unsafe impl ClassType for NSValue {
-        type Super = NSObject;
-    }
-);
+    pub type NSValue;
+}
 
 #[cfg(feature = "Foundation_NSValue")]
 unsafe impl NSCoding for NSValue {}
@@ -22,80 +22,85 @@ unsafe impl NSObjectProtocol for NSValue {}
 #[cfg(feature = "Foundation_NSValue")]
 unsafe impl NSSecureCoding for NSValue {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSValue")]
-    unsafe impl NSValue {
-        #[method(getValue:size:)]
-        pub unsafe fn getValue_size(&self, value: NonNull<c_void>, size: NSUInteger);
+    pub type NSValue;
 
-        #[method(objCType)]
-        pub fn objCType(&self) -> NonNull<c_char>;
+    #[objc2::method(sel = "getValue:size:")]
+    pub unsafe fn getValue_size(&self, value: NonNull<c_void>, size: NSUInteger);
 
-        #[method_id(@__retain_semantics Init initWithBytes:objCType:)]
-        pub unsafe fn initWithBytes_objCType(
-            this: Option<Allocated<Self>>,
-            value: NonNull<c_void>,
-            r#type: NonNull<c_char>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "objCType")]
+    pub fn objCType(&self) -> NonNull<c_char>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
-    }
-);
+    #[objc2::method(sel = "initWithBytes:objCType:", managed = "Init")]
+    pub unsafe fn initWithBytes_objCType(
+        this: Option<Allocated<Self>>,
+        value: NonNull<c_void>,
+        r#type: NonNull<c_char>,
+    ) -> Id<Self>;
 
-extern_methods!(
-    /// NSValueCreation
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSValue")]
-    unsafe impl NSValue {
-        #[method_id(@__retain_semantics Other valueWithBytes:objCType:)]
-        pub unsafe fn valueWithBytes_objCType(
-            value: NonNull<c_void>,
-            r#type: NonNull<c_char>,
-        ) -> Id<NSValue>;
+    pub type NSValue;
 
-        #[method_id(@__retain_semantics Other value:withObjCType:)]
-        pub unsafe fn value_withObjCType(
-            value: NonNull<c_void>,
-            r#type: NonNull<c_char>,
-        ) -> Id<NSValue>;
-    }
-);
+    #[objc2::method(sel = "valueWithBytes:objCType:", managed = "Other")]
+    pub unsafe fn valueWithBytes_objCType(
+        value: NonNull<c_void>,
+        r#type: NonNull<c_char>,
+    ) -> Id<NSValue>;
 
-extern_methods!(
-    /// NSValueExtensionMethods
+    #[objc2::method(sel = "value:withObjCType:", managed = "Other")]
+    pub unsafe fn value_withObjCType(
+        value: NonNull<c_void>,
+        r#type: NonNull<c_char>,
+    ) -> Id<NSValue>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSValue")]
-    unsafe impl NSValue {
-        #[method_id(@__retain_semantics Other valueWithNonretainedObject:)]
-        pub unsafe fn valueWithNonretainedObject(an_object: Option<&Object>) -> Id<NSValue>;
+    pub type NSValue;
 
-        #[method_id(@__retain_semantics Other nonretainedObjectValue)]
-        pub unsafe fn nonretainedObjectValue(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "valueWithNonretainedObject:", managed = "Other")]
+    pub unsafe fn valueWithNonretainedObject(an_object: Option<&Object>) -> Id<NSValue>;
 
-        #[method_id(@__retain_semantics Other valueWithPointer:)]
-        pub unsafe fn valueWithPointer(pointer: *mut c_void) -> Id<NSValue>;
+    #[objc2::method(sel = "nonretainedObjectValue", managed = "Other")]
+    pub unsafe fn nonretainedObjectValue(&self) -> Option<Id<Object>>;
 
-        #[method(pointerValue)]
-        pub unsafe fn pointerValue(&self) -> *mut c_void;
+    #[objc2::method(sel = "valueWithPointer:", managed = "Other")]
+    pub unsafe fn valueWithPointer(pointer: *mut c_void) -> Id<NSValue>;
 
-        #[method(isEqualToValue:)]
-        pub fn isEqualToValue(&self, value: &NSValue) -> bool;
-    }
-);
+    #[objc2::method(sel = "pointerValue")]
+    pub unsafe fn pointerValue(&self) -> *mut c_void;
 
-extern_class!(
+    #[objc2::method(sel = "isEqualToValue:")]
+    pub fn isEqualToValue(&self, value: &NSValue) -> bool;
+}
+
+#[objc2::interface(
+    unsafe super = NSValue,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSNumber")]
-    pub struct NSNumber;
-
-    #[cfg(feature = "Foundation_NSNumber")]
-    unsafe impl ClassType for NSNumber {
-        #[inherits(NSObject)]
-        type Super = NSValue;
-    }
-);
+    pub type NSNumber;
+}
 
 #[cfg(feature = "Foundation_NSNumber")]
 unsafe impl NSCoding for NSNumber {}
@@ -106,201 +111,209 @@ unsafe impl NSObjectProtocol for NSNumber {}
 #[cfg(feature = "Foundation_NSNumber")]
 unsafe impl NSSecureCoding for NSNumber {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSNumber")]
-    unsafe impl NSNumber {
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    pub type NSNumber;
 
-        #[method_id(@__retain_semantics Init initWithChar:)]
-        pub fn initWithChar(this: Option<Allocated<Self>>, value: c_char) -> Id<NSNumber>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Init initWithUnsignedChar:)]
-        pub fn initWithUnsignedChar(this: Option<Allocated<Self>>, value: c_uchar) -> Id<NSNumber>;
+    #[objc2::method(sel = "initWithChar:", managed = "Init")]
+    pub fn initWithChar(this: Option<Allocated<Self>>, value: c_char) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Init initWithShort:)]
-        pub fn initWithShort(this: Option<Allocated<Self>>, value: c_short) -> Id<NSNumber>;
+    #[objc2::method(sel = "initWithUnsignedChar:", managed = "Init")]
+    pub fn initWithUnsignedChar(this: Option<Allocated<Self>>, value: c_uchar) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Init initWithUnsignedShort:)]
-        pub fn initWithUnsignedShort(
-            this: Option<Allocated<Self>>,
-            value: c_ushort,
-        ) -> Id<NSNumber>;
+    #[objc2::method(sel = "initWithShort:", managed = "Init")]
+    pub fn initWithShort(this: Option<Allocated<Self>>, value: c_short) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Init initWithInt:)]
-        pub fn initWithInt(this: Option<Allocated<Self>>, value: c_int) -> Id<NSNumber>;
+    #[objc2::method(sel = "initWithUnsignedShort:", managed = "Init")]
+    pub fn initWithUnsignedShort(this: Option<Allocated<Self>>, value: c_ushort) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Init initWithUnsignedInt:)]
-        pub fn initWithUnsignedInt(this: Option<Allocated<Self>>, value: c_uint) -> Id<NSNumber>;
+    #[objc2::method(sel = "initWithInt:", managed = "Init")]
+    pub fn initWithInt(this: Option<Allocated<Self>>, value: c_int) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Init initWithLong:)]
-        pub fn initWithLong(this: Option<Allocated<Self>>, value: c_long) -> Id<NSNumber>;
+    #[objc2::method(sel = "initWithUnsignedInt:", managed = "Init")]
+    pub fn initWithUnsignedInt(this: Option<Allocated<Self>>, value: c_uint) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Init initWithUnsignedLong:)]
-        pub fn initWithUnsignedLong(this: Option<Allocated<Self>>, value: c_ulong) -> Id<NSNumber>;
+    #[objc2::method(sel = "initWithLong:", managed = "Init")]
+    pub fn initWithLong(this: Option<Allocated<Self>>, value: c_long) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Init initWithLongLong:)]
-        pub fn initWithLongLong(this: Option<Allocated<Self>>, value: c_longlong) -> Id<NSNumber>;
+    #[objc2::method(sel = "initWithUnsignedLong:", managed = "Init")]
+    pub fn initWithUnsignedLong(this: Option<Allocated<Self>>, value: c_ulong) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Init initWithUnsignedLongLong:)]
-        pub fn initWithUnsignedLongLong(
-            this: Option<Allocated<Self>>,
-            value: c_ulonglong,
-        ) -> Id<NSNumber>;
+    #[objc2::method(sel = "initWithLongLong:", managed = "Init")]
+    pub fn initWithLongLong(this: Option<Allocated<Self>>, value: c_longlong) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Init initWithFloat:)]
-        pub fn initWithFloat(this: Option<Allocated<Self>>, value: c_float) -> Id<NSNumber>;
+    #[objc2::method(sel = "initWithUnsignedLongLong:", managed = "Init")]
+    pub fn initWithUnsignedLongLong(
+        this: Option<Allocated<Self>>,
+        value: c_ulonglong,
+    ) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Init initWithDouble:)]
-        pub fn initWithDouble(this: Option<Allocated<Self>>, value: c_double) -> Id<NSNumber>;
+    #[objc2::method(sel = "initWithFloat:", managed = "Init")]
+    pub fn initWithFloat(this: Option<Allocated<Self>>, value: c_float) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Init initWithBool:)]
-        pub fn initWithBool(this: Option<Allocated<Self>>, value: bool) -> Id<NSNumber>;
+    #[objc2::method(sel = "initWithDouble:", managed = "Init")]
+    pub fn initWithDouble(this: Option<Allocated<Self>>, value: c_double) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Init initWithInteger:)]
-        pub fn initWithInteger(this: Option<Allocated<Self>>, value: NSInteger) -> Id<NSNumber>;
+    #[objc2::method(sel = "initWithBool:", managed = "Init")]
+    pub fn initWithBool(this: Option<Allocated<Self>>, value: bool) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Init initWithUnsignedInteger:)]
-        pub fn initWithUnsignedInteger(
-            this: Option<Allocated<Self>>,
-            value: NSUInteger,
-        ) -> Id<NSNumber>;
+    #[objc2::method(sel = "initWithInteger:", managed = "Init")]
+    pub fn initWithInteger(this: Option<Allocated<Self>>, value: NSInteger) -> Id<NSNumber>;
 
-        #[method(charValue)]
-        pub fn charValue(&self) -> c_char;
+    #[objc2::method(sel = "initWithUnsignedInteger:", managed = "Init")]
+    pub fn initWithUnsignedInteger(
+        this: Option<Allocated<Self>>,
+        value: NSUInteger,
+    ) -> Id<NSNumber>;
 
-        #[method(unsignedCharValue)]
-        pub fn unsignedCharValue(&self) -> c_uchar;
+    #[objc2::method(sel = "charValue")]
+    pub fn charValue(&self) -> c_char;
 
-        #[method(shortValue)]
-        pub fn shortValue(&self) -> c_short;
+    #[objc2::method(sel = "unsignedCharValue")]
+    pub fn unsignedCharValue(&self) -> c_uchar;
 
-        #[method(unsignedShortValue)]
-        pub fn unsignedShortValue(&self) -> c_ushort;
+    #[objc2::method(sel = "shortValue")]
+    pub fn shortValue(&self) -> c_short;
 
-        #[method(intValue)]
-        pub fn intValue(&self) -> c_int;
+    #[objc2::method(sel = "unsignedShortValue")]
+    pub fn unsignedShortValue(&self) -> c_ushort;
 
-        #[method(unsignedIntValue)]
-        pub fn unsignedIntValue(&self) -> c_uint;
+    #[objc2::method(sel = "intValue")]
+    pub fn intValue(&self) -> c_int;
 
-        #[method(longValue)]
-        pub fn longValue(&self) -> c_long;
+    #[objc2::method(sel = "unsignedIntValue")]
+    pub fn unsignedIntValue(&self) -> c_uint;
 
-        #[method(unsignedLongValue)]
-        pub fn unsignedLongValue(&self) -> c_ulong;
+    #[objc2::method(sel = "longValue")]
+    pub fn longValue(&self) -> c_long;
 
-        #[method(longLongValue)]
-        pub fn longLongValue(&self) -> c_longlong;
+    #[objc2::method(sel = "unsignedLongValue")]
+    pub fn unsignedLongValue(&self) -> c_ulong;
 
-        #[method(unsignedLongLongValue)]
-        pub fn unsignedLongLongValue(&self) -> c_ulonglong;
+    #[objc2::method(sel = "longLongValue")]
+    pub fn longLongValue(&self) -> c_longlong;
 
-        #[method(floatValue)]
-        pub fn floatValue(&self) -> c_float;
+    #[objc2::method(sel = "unsignedLongLongValue")]
+    pub fn unsignedLongLongValue(&self) -> c_ulonglong;
 
-        #[method(doubleValue)]
-        pub fn doubleValue(&self) -> c_double;
+    #[objc2::method(sel = "floatValue")]
+    pub fn floatValue(&self) -> c_float;
 
-        #[method(boolValue)]
-        pub fn boolValue(&self) -> bool;
+    #[objc2::method(sel = "doubleValue")]
+    pub fn doubleValue(&self) -> c_double;
 
-        #[method(integerValue)]
-        pub fn integerValue(&self) -> NSInteger;
+    #[objc2::method(sel = "boolValue")]
+    pub fn boolValue(&self) -> bool;
 
-        #[method(unsignedIntegerValue)]
-        pub fn unsignedIntegerValue(&self) -> NSUInteger;
+    #[objc2::method(sel = "integerValue")]
+    pub fn integerValue(&self) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringValue)]
-        pub fn stringValue(&self) -> Id<NSString>;
+    #[objc2::method(sel = "unsignedIntegerValue")]
+    pub fn unsignedIntegerValue(&self) -> NSUInteger;
 
-        #[method(compare:)]
-        pub fn compare(&self, other_number: &NSNumber) -> NSComparisonResult;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringValue", managed = "Other")]
+    pub fn stringValue(&self) -> Id<NSString>;
 
-        #[method(isEqualToNumber:)]
-        pub fn isEqualToNumber(&self, number: &NSNumber) -> bool;
+    #[objc2::method(sel = "compare:")]
+    pub fn compare(&self, other_number: &NSNumber) -> NSComparisonResult;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other descriptionWithLocale:)]
-        pub unsafe fn descriptionWithLocale(&self, locale: Option<&Object>) -> Id<NSString>;
-    }
-);
+    #[objc2::method(sel = "isEqualToNumber:")]
+    pub fn isEqualToNumber(&self, number: &NSNumber) -> bool;
 
-extern_methods!(
-    /// NSNumberCreation
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "descriptionWithLocale:", managed = "Other")]
+    pub unsafe fn descriptionWithLocale(&self, locale: Option<&Object>) -> Id<NSString>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSNumber")]
-    unsafe impl NSNumber {
-        #[method_id(@__retain_semantics Other numberWithChar:)]
-        pub fn numberWithChar(value: c_char) -> Id<NSNumber>;
+    pub type NSNumber;
 
-        #[method_id(@__retain_semantics Other numberWithUnsignedChar:)]
-        pub fn numberWithUnsignedChar(value: c_uchar) -> Id<NSNumber>;
+    #[objc2::method(sel = "numberWithChar:", managed = "Other")]
+    pub fn numberWithChar(value: c_char) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Other numberWithShort:)]
-        pub fn numberWithShort(value: c_short) -> Id<NSNumber>;
+    #[objc2::method(sel = "numberWithUnsignedChar:", managed = "Other")]
+    pub fn numberWithUnsignedChar(value: c_uchar) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Other numberWithUnsignedShort:)]
-        pub fn numberWithUnsignedShort(value: c_ushort) -> Id<NSNumber>;
+    #[objc2::method(sel = "numberWithShort:", managed = "Other")]
+    pub fn numberWithShort(value: c_short) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Other numberWithInt:)]
-        pub fn numberWithInt(value: c_int) -> Id<NSNumber>;
+    #[objc2::method(sel = "numberWithUnsignedShort:", managed = "Other")]
+    pub fn numberWithUnsignedShort(value: c_ushort) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Other numberWithUnsignedInt:)]
-        pub fn numberWithUnsignedInt(value: c_uint) -> Id<NSNumber>;
+    #[objc2::method(sel = "numberWithInt:", managed = "Other")]
+    pub fn numberWithInt(value: c_int) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Other numberWithLong:)]
-        pub fn numberWithLong(value: c_long) -> Id<NSNumber>;
+    #[objc2::method(sel = "numberWithUnsignedInt:", managed = "Other")]
+    pub fn numberWithUnsignedInt(value: c_uint) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Other numberWithUnsignedLong:)]
-        pub fn numberWithUnsignedLong(value: c_ulong) -> Id<NSNumber>;
+    #[objc2::method(sel = "numberWithLong:", managed = "Other")]
+    pub fn numberWithLong(value: c_long) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Other numberWithLongLong:)]
-        pub fn numberWithLongLong(value: c_longlong) -> Id<NSNumber>;
+    #[objc2::method(sel = "numberWithUnsignedLong:", managed = "Other")]
+    pub fn numberWithUnsignedLong(value: c_ulong) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Other numberWithUnsignedLongLong:)]
-        pub fn numberWithUnsignedLongLong(value: c_ulonglong) -> Id<NSNumber>;
+    #[objc2::method(sel = "numberWithLongLong:", managed = "Other")]
+    pub fn numberWithLongLong(value: c_longlong) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Other numberWithFloat:)]
-        pub fn numberWithFloat(value: c_float) -> Id<NSNumber>;
+    #[objc2::method(sel = "numberWithUnsignedLongLong:", managed = "Other")]
+    pub fn numberWithUnsignedLongLong(value: c_ulonglong) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Other numberWithDouble:)]
-        pub fn numberWithDouble(value: c_double) -> Id<NSNumber>;
+    #[objc2::method(sel = "numberWithFloat:", managed = "Other")]
+    pub fn numberWithFloat(value: c_float) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Other numberWithBool:)]
-        pub fn numberWithBool(value: bool) -> Id<NSNumber>;
+    #[objc2::method(sel = "numberWithDouble:", managed = "Other")]
+    pub fn numberWithDouble(value: c_double) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Other numberWithInteger:)]
-        pub fn numberWithInteger(value: NSInteger) -> Id<NSNumber>;
+    #[objc2::method(sel = "numberWithBool:", managed = "Other")]
+    pub fn numberWithBool(value: bool) -> Id<NSNumber>;
 
-        #[method_id(@__retain_semantics Other numberWithUnsignedInteger:)]
-        pub fn numberWithUnsignedInteger(value: NSUInteger) -> Id<NSNumber>;
-    }
-);
+    #[objc2::method(sel = "numberWithInteger:", managed = "Other")]
+    pub fn numberWithInteger(value: NSInteger) -> Id<NSNumber>;
 
-extern_methods!(
-    /// NSDeprecated
+    #[objc2::method(sel = "numberWithUnsignedInteger:", managed = "Other")]
+    pub fn numberWithUnsignedInteger(value: NSUInteger) -> Id<NSNumber>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSValue")]
-    unsafe impl NSValue {
-        #[deprecated]
-        #[method(getValue:)]
-        pub unsafe fn getValue(&self, value: NonNull<c_void>);
-    }
-);
+    pub type NSValue;
 
-extern_methods!(
-    /// Methods declared on superclass `NSValue`
+    #[deprecated]
+    #[objc2::method(sel = "getValue:")]
+    pub unsafe fn getValue(&self, value: NonNull<c_void>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSValue`
     #[cfg(feature = "Foundation_NSNumber")]
-    unsafe impl NSNumber {
-        #[method_id(@__retain_semantics Init initWithBytes:objCType:)]
-        pub unsafe fn initWithBytes_objCType(
-            this: Option<Allocated<Self>>,
-            value: NonNull<c_void>,
-            r#type: NonNull<c_char>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSNumber")]
+    pub type NSNumber;
+
+    #[objc2::method(sel = "initWithBytes:objCType:", managed = "Init")]
+    pub unsafe fn initWithBytes_objCType(
+        this: Option<Allocated<Self>>,
+        value: NonNull<c_void>,
+        r#type: NonNull<c_char>,
+    ) -> Id<Self>;
+}

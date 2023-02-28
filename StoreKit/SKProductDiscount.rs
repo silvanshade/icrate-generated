@@ -5,63 +5,64 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::StoreKit::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum SKProductDiscountPaymentMode {
-        SKProductDiscountPaymentModePayAsYouGo = 0,
-        SKProductDiscountPaymentModePayUpFront = 1,
-        SKProductDiscountPaymentModeFreeTrial = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum SKProductDiscountPaymentMode {
+    SKProductDiscountPaymentModePayAsYouGo = 0,
+    SKProductDiscountPaymentModePayUpFront = 1,
+    SKProductDiscountPaymentModeFreeTrial = 2,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum SKProductDiscountType {
-        SKProductDiscountTypeIntroductory = 0,
-        SKProductDiscountTypeSubscription = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum SKProductDiscountType {
+    SKProductDiscountTypeIntroductory = 0,
+    SKProductDiscountTypeSubscription = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKProductDiscount")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKProductDiscount")]
-    pub struct SKProductDiscount;
-
-    #[cfg(feature = "StoreKit_SKProductDiscount")]
-    unsafe impl ClassType for SKProductDiscount {
-        type Super = NSObject;
-    }
-);
+    pub type SKProductDiscount;
+}
 
 #[cfg(feature = "StoreKit_SKProductDiscount")]
 unsafe impl NSObjectProtocol for SKProductDiscount {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKProductDiscount")]
-    unsafe impl SKProductDiscount {
-        #[cfg(feature = "Foundation_NSDecimalNumber")]
-        #[method_id(@__retain_semantics Other price)]
-        pub unsafe fn price(&self) -> Id<NSDecimalNumber>;
+    pub type SKProductDiscount;
 
-        #[cfg(feature = "Foundation_NSLocale")]
-        #[method_id(@__retain_semantics Other priceLocale)]
-        pub unsafe fn priceLocale(&self) -> Id<NSLocale>;
+    #[cfg(feature = "Foundation_NSDecimalNumber")]
+    #[objc2::method(sel = "price", managed = "Other")]
+    pub unsafe fn price(&self) -> Id<NSDecimalNumber>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSLocale")]
+    #[objc2::method(sel = "priceLocale", managed = "Other")]
+    pub unsafe fn priceLocale(&self) -> Id<NSLocale>;
 
-        #[cfg(feature = "StoreKit_SKProductSubscriptionPeriod")]
-        #[method_id(@__retain_semantics Other subscriptionPeriod)]
-        pub unsafe fn subscriptionPeriod(&self) -> Id<SKProductSubscriptionPeriod>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Option<Id<NSString>>;
 
-        #[method(numberOfPeriods)]
-        pub unsafe fn numberOfPeriods(&self) -> NSUInteger;
+    #[cfg(feature = "StoreKit_SKProductSubscriptionPeriod")]
+    #[objc2::method(sel = "subscriptionPeriod", managed = "Other")]
+    pub unsafe fn subscriptionPeriod(&self) -> Id<SKProductSubscriptionPeriod>;
 
-        #[method(paymentMode)]
-        pub unsafe fn paymentMode(&self) -> SKProductDiscountPaymentMode;
+    #[objc2::method(sel = "numberOfPeriods")]
+    pub unsafe fn numberOfPeriods(&self) -> NSUInteger;
 
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> SKProductDiscountType;
-    }
-);
+    #[objc2::method(sel = "paymentMode")]
+    pub unsafe fn paymentMode(&self) -> SKProductDiscountPaymentMode;
+
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> SKProductDiscountType;
+}

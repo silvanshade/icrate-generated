@@ -4,21 +4,16 @@ use crate::common::*;
 use crate::Contacts::*;
 use crate::Foundation::*;
 
-__inner_extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Contacts_CNLabeledValue")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Contacts_CNLabeledValue")]
-    pub struct CNLabeledValue<ValueType: Message = Object, ValueTypeOwnership: Ownership = Shared> {
-        _inner0: PhantomData<*mut (ValueType, ValueTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "Contacts_CNLabeledValue")]
-    unsafe impl<ValueType: Message, ValueTypeOwnership: Ownership> ClassType
-        for CNLabeledValue<ValueType, ValueTypeOwnership>
-    {
-        type Super = NSObject;
-    }
-);
+    pub type CNLabeledValue<ValueType: Message = Object, ValueTypeOwnership: Ownership = Shared>;
+}
 
 #[cfg(feature = "Contacts_CNLabeledValue")]
 unsafe impl<ValueType: Message, ValueTypeOwnership: Ownership> NSCoding
@@ -38,57 +33,58 @@ unsafe impl<ValueType: Message, ValueTypeOwnership: Ownership> NSSecureCoding
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Contacts_CNLabeledValue")]
-    unsafe impl<ValueType: Message, ValueTypeOwnership: Ownership>
-        CNLabeledValue<ValueType, ValueTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    pub type CNLabeledValue<ValueType: Message = Object, ValueTypeOwnership: Ownership = Shared>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        pub unsafe fn label(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Other value)]
-        pub unsafe fn value(&self) -> Id<ValueType, ValueTypeOwnership>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    pub unsafe fn label(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other labeledValueWithLabel:value:)]
-        pub unsafe fn labeledValueWithLabel_value(
-            label: Option<&NSString>,
-            value: &ValueType,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "value", managed = "Other")]
+    pub unsafe fn value(&self) -> Id<ValueType, ValueTypeOwnership>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithLabel:value:)]
-        pub unsafe fn initWithLabel_value(
-            this: Option<Allocated<Self>>,
-            label: Option<&NSString>,
-            value: &ValueType,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "labeledValueWithLabel:value:", managed = "Other")]
+    pub unsafe fn labeledValueWithLabel_value(
+        label: Option<&NSString>,
+        value: &ValueType,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other labeledValueBySettingLabel:)]
-        pub unsafe fn labeledValueBySettingLabel(&self, label: Option<&NSString>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithLabel:value:", managed = "Init")]
+    pub unsafe fn initWithLabel_value(
+        this: Option<Allocated<Self>>,
+        label: Option<&NSString>,
+        value: &ValueType,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other labeledValueBySettingValue:)]
-        pub unsafe fn labeledValueBySettingValue(&self, value: &ValueType) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "labeledValueBySettingLabel:", managed = "Other")]
+    pub unsafe fn labeledValueBySettingLabel(&self, label: Option<&NSString>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other labeledValueBySettingLabel:value:)]
-        pub unsafe fn labeledValueBySettingLabel_value(
-            &self,
-            label: Option<&NSString>,
-            value: &ValueType,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "labeledValueBySettingValue:", managed = "Other")]
+    pub unsafe fn labeledValueBySettingValue(&self, value: &ValueType) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedStringForLabel:)]
-        pub unsafe fn localizedStringForLabel(label: &NSString) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "labeledValueBySettingLabel:value:", managed = "Other")]
+    pub unsafe fn labeledValueBySettingLabel_value(
+        &self,
+        label: Option<&NSString>,
+        value: &ValueType,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedStringForLabel:", managed = "Other")]
+    pub unsafe fn localizedStringForLabel(label: &NSString) -> Id<NSString>;
+}
 
 extern_static!(CNLabelHome: &'static NSString);
 

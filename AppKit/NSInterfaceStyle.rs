@@ -5,19 +5,18 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        #[deprecated]
-        NSNoInterfaceStyle = 0,
-        #[deprecated]
-        NSNextStepInterfaceStyle = 1,
-        #[deprecated]
-        NSWindows95InterfaceStyle = 2,
-        #[deprecated]
-        NSMacintoshInterfaceStyle = 3,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    #[deprecated]
+    NSNoInterfaceStyle = 0,
+    #[deprecated]
+    NSNextStepInterfaceStyle = 1,
+    #[deprecated]
+    NSWindows95InterfaceStyle = 2,
+    #[deprecated]
+    NSMacintoshInterfaceStyle = 3,
+}
 
 pub type NSInterfaceStyle = NSUInteger;
 
@@ -30,18 +29,20 @@ extern_fn!(
     ) -> NSInterfaceStyle;
 );
 
-extern_methods!(
-    /// NSInterfaceStyle
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSResponder")]
-    unsafe impl NSResponder {
-        #[deprecated]
-        #[method(interfaceStyle)]
-        pub unsafe fn interfaceStyle(&self) -> NSInterfaceStyle;
+    pub type NSResponder;
 
-        #[deprecated]
-        #[method(setInterfaceStyle:)]
-        pub unsafe fn setInterfaceStyle(&self, interface_style: NSInterfaceStyle);
-    }
-);
+    #[deprecated]
+    #[objc2::method(sel = "interfaceStyle")]
+    pub unsafe fn interfaceStyle(&self) -> NSInterfaceStyle;
+
+    #[deprecated]
+    #[objc2::method(sel = "setInterfaceStyle:")]
+    pub unsafe fn setInterfaceStyle(&self, interface_style: NSInterfaceStyle);
+}
 
 extern_static!(NSInterfaceStyleDefault: Option<&'static NSString>);

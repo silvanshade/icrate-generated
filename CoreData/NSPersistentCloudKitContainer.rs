@@ -4,91 +4,102 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSPersistentCloudKitContainerSchemaInitializationOptions {
-        NSPersistentCloudKitContainerSchemaInitializationOptionsNone = 0,
-        NSPersistentCloudKitContainerSchemaInitializationOptionsDryRun = 1 << 1,
-        NSPersistentCloudKitContainerSchemaInitializationOptionsPrintSchema = 1 << 2,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSPersistentCloudKitContainerSchemaInitializationOptions {
+    NSPersistentCloudKitContainerSchemaInitializationOptionsNone = 0,
+    NSPersistentCloudKitContainerSchemaInitializationOptionsDryRun = 1 << 1,
+    NSPersistentCloudKitContainerSchemaInitializationOptionsPrintSchema = 1 << 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSPersistentContainer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPersistentCloudKitContainer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSPersistentCloudKitContainer")]
-    pub struct NSPersistentCloudKitContainer;
-
-    #[cfg(feature = "CoreData_NSPersistentCloudKitContainer")]
-    unsafe impl ClassType for NSPersistentCloudKitContainer {
-        #[inherits(NSObject)]
-        type Super = NSPersistentContainer;
-    }
-);
+    pub type NSPersistentCloudKitContainer;
+}
 
 #[cfg(feature = "CoreData_NSPersistentCloudKitContainer")]
 unsafe impl NSObjectProtocol for NSPersistentCloudKitContainer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPersistentCloudKitContainer")]
-    unsafe impl NSPersistentCloudKitContainer {
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(initializeCloudKitSchemaWithOptions:error:_)]
-        pub unsafe fn initializeCloudKitSchemaWithOptions_error(
-            &self,
-            options: NSPersistentCloudKitContainerSchemaInitializationOptions,
-        ) -> Result<(), Id<NSError>>;
+    pub type NSPersistentCloudKitContainer;
 
-        #[cfg(feature = "CoreData_NSManagedObjectID")]
-        #[method(canUpdateRecordForManagedObjectWithID:)]
-        pub unsafe fn canUpdateRecordForManagedObjectWithID(
-            &self,
-            object_id: &NSManagedObjectID,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "initializeCloudKitSchemaWithOptions:error:", throws)]
+    pub unsafe fn initializeCloudKitSchemaWithOptions_error(
+        &self,
+        options: NSPersistentCloudKitContainerSchemaInitializationOptions,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "CoreData_NSManagedObjectID")]
-        #[method(canDeleteRecordForManagedObjectWithID:)]
-        pub unsafe fn canDeleteRecordForManagedObjectWithID(
-            &self,
-            object_id: &NSManagedObjectID,
-        ) -> bool;
+    #[cfg(feature = "CoreData_NSManagedObjectID")]
+    #[objc2::method(sel = "canUpdateRecordForManagedObjectWithID:")]
+    pub unsafe fn canUpdateRecordForManagedObjectWithID(
+        &self,
+        object_id: &NSManagedObjectID,
+    ) -> bool;
 
-        #[cfg(feature = "CoreData_NSPersistentStore")]
-        #[method(canModifyManagedObjectsInStore:)]
-        pub unsafe fn canModifyManagedObjectsInStore(&self, store: &NSPersistentStore) -> bool;
-    }
-);
+    #[cfg(feature = "CoreData_NSManagedObjectID")]
+    #[objc2::method(sel = "canDeleteRecordForManagedObjectWithID:")]
+    pub unsafe fn canDeleteRecordForManagedObjectWithID(
+        &self,
+        object_id: &NSManagedObjectID,
+    ) -> bool;
 
-extern_methods!(
-    /// Methods declared on superclass `NSPersistentContainer`
+    #[cfg(feature = "CoreData_NSPersistentStore")]
+    #[objc2::method(sel = "canModifyManagedObjectsInStore:")]
+    pub unsafe fn canModifyManagedObjectsInStore(&self, store: &NSPersistentStore) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSPersistentContainer`
     #[cfg(feature = "CoreData_NSPersistentCloudKitContainer")]
-    unsafe impl NSPersistentCloudKitContainer {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other persistentContainerWithName:)]
-        pub unsafe fn persistentContainerWithName(name: &NSString) -> Id<Self>;
-
-        #[cfg(all(
-            feature = "CoreData_NSManagedObjectModel",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other persistentContainerWithName:managedObjectModel:)]
-        pub unsafe fn persistentContainerWithName_managedObjectModel(
-            name: &NSString,
-            model: &NSManagedObjectModel,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithName:)]
-        pub unsafe fn initWithName(this: Option<Allocated<Self>>, name: &NSString) -> Id<Self>;
-
-        #[cfg(all(
-            feature = "CoreData_NSManagedObjectModel",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Init initWithName:managedObjectModel:)]
-        pub unsafe fn initWithName_managedObjectModel(
-            this: Option<Allocated<Self>>,
-            name: &NSString,
-            model: &NSManagedObjectModel,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPersistentCloudKitContainer")]
+    pub type NSPersistentCloudKitContainer;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "persistentContainerWithName:", managed = "Other")]
+    pub unsafe fn persistentContainerWithName(name: &NSString) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "CoreData_NSManagedObjectModel",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "persistentContainerWithName:managedObjectModel:",
+        managed = "Other"
+    )]
+    pub unsafe fn persistentContainerWithName_managedObjectModel(
+        name: &NSString,
+        model: &NSManagedObjectModel,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithName:", managed = "Init")]
+    pub unsafe fn initWithName(this: Option<Allocated<Self>>, name: &NSString) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "CoreData_NSManagedObjectModel",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "initWithName:managedObjectModel:", managed = "Init")]
+    pub unsafe fn initWithName_managedObjectModel(
+        this: Option<Allocated<Self>>,
+        name: &NSString,
+        model: &NSManagedObjectModel,
+    ) -> Id<Self>;
+}

@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLObjectElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLObjectElement;
-
     #[cfg(feature = "WebKit_DOMHTMLObjectElement")]
-    unsafe impl ClassType for DOMHTMLObjectElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLObjectElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLObjectElement")]
 unsafe impl DOMEventTarget for DOMHTMLObjectElement {}
@@ -24,141 +28,145 @@ unsafe impl DOMEventTarget for DOMHTMLObjectElement {}
 #[cfg(feature = "WebKit_DOMHTMLObjectElement")]
 unsafe impl NSObjectProtocol for DOMHTMLObjectElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLObjectElement")]
-    unsafe impl DOMHTMLObjectElement {
-        #[cfg(feature = "WebKit_DOMHTMLFormElement")]
-        #[method_id(@__retain_semantics Other form)]
-        pub unsafe fn form(&self) -> Option<Id<DOMHTMLFormElement>>;
+    #[deprecated]
+    pub type DOMHTMLObjectElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other code)]
-        pub unsafe fn code(&self) -> Id<NSString>;
+    #[cfg(feature = "WebKit_DOMHTMLFormElement")]
+    #[objc2::method(sel = "form", managed = "Other")]
+    pub unsafe fn form(&self) -> Option<Id<DOMHTMLFormElement>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCode:)]
-        pub unsafe fn setCode(&self, code: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "code", managed = "Other")]
+    pub unsafe fn code(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other align)]
-        pub unsafe fn align(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCode:")]
+    pub unsafe fn setCode(&self, code: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAlign:)]
-        pub unsafe fn setAlign(&self, align: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "align", managed = "Other")]
+    pub unsafe fn align(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other archive)]
-        pub unsafe fn archive(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAlign:")]
+    pub unsafe fn setAlign(&self, align: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setArchive:)]
-        pub unsafe fn setArchive(&self, archive: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "archive", managed = "Other")]
+    pub unsafe fn archive(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other border)]
-        pub unsafe fn border(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setArchive:")]
+    pub unsafe fn setArchive(&self, archive: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorder:)]
-        pub unsafe fn setBorder(&self, border: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "border", managed = "Other")]
+    pub unsafe fn border(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other codeBase)]
-        pub unsafe fn codeBase(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorder:")]
+    pub unsafe fn setBorder(&self, border: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCodeBase:)]
-        pub unsafe fn setCodeBase(&self, code_base: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "codeBase", managed = "Other")]
+    pub unsafe fn codeBase(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other codeType)]
-        pub unsafe fn codeType(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCodeBase:")]
+    pub unsafe fn setCodeBase(&self, code_base: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCodeType:)]
-        pub unsafe fn setCodeType(&self, code_type: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "codeType", managed = "Other")]
+    pub unsafe fn codeType(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other data)]
-        pub unsafe fn data(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCodeType:")]
+    pub unsafe fn setCodeType(&self, code_type: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setData:)]
-        pub unsafe fn setData(&self, data: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "data", managed = "Other")]
+    pub unsafe fn data(&self) -> Id<NSString>;
 
-        #[method(declare)]
-        pub unsafe fn declare(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setData:")]
+    pub unsafe fn setData(&self, data: Option<&NSString>);
 
-        #[method(setDeclare:)]
-        pub unsafe fn setDeclare(&self, declare: bool);
+    #[objc2::method(sel = "declare")]
+    pub unsafe fn declare(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other height)]
-        pub unsafe fn height(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setDeclare:")]
+    pub unsafe fn setDeclare(&self, declare: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setHeight:)]
-        pub unsafe fn setHeight(&self, height: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "height", managed = "Other")]
+    pub unsafe fn height(&self) -> Id<NSString>;
 
-        #[method(hspace)]
-        pub unsafe fn hspace(&self) -> c_int;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setHeight:")]
+    pub unsafe fn setHeight(&self, height: Option<&NSString>);
 
-        #[method(setHspace:)]
-        pub unsafe fn setHspace(&self, hspace: c_int);
+    #[objc2::method(sel = "hspace")]
+    pub unsafe fn hspace(&self) -> c_int;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setHspace:")]
+    pub unsafe fn setHspace(&self, hspace: c_int);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other standby)]
-        pub unsafe fn standby(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setStandby:)]
-        pub unsafe fn setStandby(&self, standby: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "standby", managed = "Other")]
+    pub unsafe fn standby(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other type)]
-        pub unsafe fn r#type(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setStandby:")]
+    pub unsafe fn setStandby(&self, standby: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setType:)]
-        pub unsafe fn setType(&self, r#type: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "type", managed = "Other")]
+    pub unsafe fn r#type(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other useMap)]
-        pub unsafe fn useMap(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setType:")]
+    pub unsafe fn setType(&self, r#type: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setUseMap:)]
-        pub unsafe fn setUseMap(&self, use_map: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "useMap", managed = "Other")]
+    pub unsafe fn useMap(&self) -> Id<NSString>;
 
-        #[method(vspace)]
-        pub unsafe fn vspace(&self) -> c_int;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setUseMap:")]
+    pub unsafe fn setUseMap(&self, use_map: Option<&NSString>);
 
-        #[method(setVspace:)]
-        pub unsafe fn setVspace(&self, vspace: c_int);
+    #[objc2::method(sel = "vspace")]
+    pub unsafe fn vspace(&self) -> c_int;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other width)]
-        pub unsafe fn width(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setVspace:")]
+    pub unsafe fn setVspace(&self, vspace: c_int);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setWidth:)]
-        pub unsafe fn setWidth(&self, width: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "width", managed = "Other")]
+    pub unsafe fn width(&self) -> Id<NSString>;
 
-        #[cfg(feature = "WebKit_DOMDocument")]
-        #[method_id(@__retain_semantics Other contentDocument)]
-        pub unsafe fn contentDocument(&self) -> Option<Id<DOMDocument>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setWidth:")]
+    pub unsafe fn setWidth(&self, width: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other absoluteImageURL)]
-        pub unsafe fn absoluteImageURL(&self) -> Id<NSURL>;
-    }
-);
+    #[cfg(feature = "WebKit_DOMDocument")]
+    #[objc2::method(sel = "contentDocument", managed = "Other")]
+    pub unsafe fn contentDocument(&self) -> Option<Id<DOMDocument>>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "absoluteImageURL", managed = "Other")]
+    pub unsafe fn absoluteImageURL(&self) -> Id<NSURL>;
+}

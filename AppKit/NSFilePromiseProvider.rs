@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSFilePromiseProvider")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSFilePromiseProvider")]
-    pub struct NSFilePromiseProvider;
-
-    #[cfg(feature = "AppKit_NSFilePromiseProvider")]
-    unsafe impl ClassType for NSFilePromiseProvider {
-        type Super = NSObject;
-    }
-);
+    pub type NSFilePromiseProvider;
+}
 
 #[cfg(feature = "AppKit_NSFilePromiseProvider")]
 unsafe impl NSObjectProtocol for NSFilePromiseProvider {}
@@ -22,84 +22,85 @@ unsafe impl NSObjectProtocol for NSFilePromiseProvider {}
 #[cfg(feature = "AppKit_NSFilePromiseProvider")]
 unsafe impl NSPasteboardWriting for NSFilePromiseProvider {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSFilePromiseProvider")]
-    unsafe impl NSFilePromiseProvider {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fileType)]
-        pub unsafe fn fileType(&self) -> Id<NSString>;
+    pub type NSFilePromiseProvider;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setFileType:)]
-        pub unsafe fn setFileType(&self, file_type: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fileType", managed = "Other")]
+    pub unsafe fn fileType(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn NSFilePromiseProviderDelegate>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setFileType:")]
+    pub unsafe fn setFileType(&self, file_type: &NSString);
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSFilePromiseProviderDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSFilePromiseProviderDelegate>>>;
 
-        #[method_id(@__retain_semantics Other userInfo)]
-        pub unsafe fn userInfo(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn NSFilePromiseProviderDelegate>>,
+    );
 
-        #[method(setUserInfo:)]
-        pub unsafe fn setUserInfo(&self, user_info: Option<&Object>);
+    #[objc2::method(sel = "userInfo", managed = "Other")]
+    pub unsafe fn userInfo(&self) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithFileType:delegate:)]
-        pub unsafe fn initWithFileType_delegate(
-            this: Option<Allocated<Self>>,
-            file_type: &NSString,
-            delegate: &ProtocolObject<dyn NSFilePromiseProviderDelegate>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "setUserInfo:")]
+    pub unsafe fn setUserInfo(&self, user_info: Option<&Object>);
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithFileType:delegate:", managed = "Init")]
+    pub unsafe fn initWithFileType_delegate(
+        this: Option<Allocated<Self>>,
+        file_type: &NSString,
+        delegate: &ProtocolObject<dyn NSFilePromiseProviderDelegate>,
+    ) -> Id<Self>;
 
-extern_protocol!(
-    pub unsafe trait NSFilePromiseProviderDelegate: NSObjectProtocol {
-        #[cfg(all(
-            feature = "AppKit_NSFilePromiseProvider",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other filePromiseProvider:fileNameForType:)]
-        unsafe fn filePromiseProvider_fileNameForType(
-            &self,
-            file_promise_provider: &NSFilePromiseProvider,
-            file_type: &NSString,
-        ) -> Id<NSString>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}
 
-        #[cfg(all(
-            feature = "AppKit_NSFilePromiseProvider",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(filePromiseProvider:writePromiseToURL:completionHandler:)]
-        unsafe fn filePromiseProvider_writePromiseToURL_completionHandler(
-            &self,
-            file_promise_provider: &NSFilePromiseProvider,
-            url: &NSURL,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
+#[objc2::protocol]
+pub unsafe trait NSFilePromiseProviderDelegate: NSObjectProtocol {
+    #[cfg(all(
+        feature = "AppKit_NSFilePromiseProvider",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "filePromiseProvider:fileNameForType:", managed = "Other")]
+    unsafe fn filePromiseProvider_fileNameForType(
+        &self,
+        file_promise_provider: &NSFilePromiseProvider,
+        file_type: &NSString,
+    ) -> Id<NSString>;
 
-        #[cfg(all(
-            feature = "AppKit_NSFilePromiseProvider",
-            feature = "Foundation_NSOperationQueue"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other operationQueueForFilePromiseProvider:)]
-        unsafe fn operationQueueForFilePromiseProvider(
-            &self,
-            file_promise_provider: &NSFilePromiseProvider,
-        ) -> Id<NSOperationQueue>;
-    }
+    #[cfg(all(
+        feature = "AppKit_NSFilePromiseProvider",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "filePromiseProvider:writePromiseToURL:completionHandler:")]
+    unsafe fn filePromiseProvider_writePromiseToURL_completionHandler(
+        &self,
+        file_promise_provider: &NSFilePromiseProvider,
+        url: &NSURL,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
 
-    unsafe impl ProtocolType for dyn NSFilePromiseProviderDelegate {}
-);
+    #[cfg(all(
+        feature = "AppKit_NSFilePromiseProvider",
+        feature = "Foundation_NSOperationQueue"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "operationQueueForFilePromiseProvider:",
+        managed = "Other"
+    )]
+    unsafe fn operationQueueForFilePromiseProvider(
+        &self,
+        file_promise_provider: &NSFilePromiseProvider,
+    ) -> Id<NSOperationQueue>;
+}

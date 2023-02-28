@@ -5,57 +5,60 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSWindowTabGroup")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSWindowTabGroup")]
-    pub struct NSWindowTabGroup;
-
-    #[cfg(feature = "AppKit_NSWindowTabGroup")]
-    unsafe impl ClassType for NSWindowTabGroup {
-        type Super = NSObject;
-    }
-);
+    pub type NSWindowTabGroup;
+}
 
 #[cfg(feature = "AppKit_NSWindowTabGroup")]
 unsafe impl NSObjectProtocol for NSWindowTabGroup {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWindowTabGroup")]
-    unsafe impl NSWindowTabGroup {
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSWindowTabbingIdentifier>;
+    pub type NSWindowTabGroup;
 
-        #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other windows)]
-        pub unsafe fn windows(&self) -> Id<NSArray<NSWindow>>;
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSWindowTabbingIdentifier>;
 
-        #[method(isOverviewVisible)]
-        pub unsafe fn isOverviewVisible(&self) -> bool;
+    #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "windows", managed = "Other")]
+    pub unsafe fn windows(&self) -> Id<NSArray<NSWindow>>;
 
-        #[method(setOverviewVisible:)]
-        pub unsafe fn setOverviewVisible(&self, overview_visible: bool);
+    #[objc2::method(sel = "isOverviewVisible")]
+    pub unsafe fn isOverviewVisible(&self) -> bool;
 
-        #[method(isTabBarVisible)]
-        pub unsafe fn isTabBarVisible(&self) -> bool;
+    #[objc2::method(sel = "setOverviewVisible:")]
+    pub unsafe fn setOverviewVisible(&self, overview_visible: bool);
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method_id(@__retain_semantics Other selectedWindow)]
-        pub unsafe fn selectedWindow(&self) -> Option<Id<NSWindow>>;
+    #[objc2::method(sel = "isTabBarVisible")]
+    pub unsafe fn isTabBarVisible(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(setSelectedWindow:)]
-        pub unsafe fn setSelectedWindow(&self, selected_window: Option<&NSWindow>);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "selectedWindow", managed = "Other")]
+    pub unsafe fn selectedWindow(&self) -> Option<Id<NSWindow>>;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(addWindow:)]
-        pub unsafe fn addWindow(&self, window: &NSWindow);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "setSelectedWindow:")]
+    pub unsafe fn setSelectedWindow(&self, selected_window: Option<&NSWindow>);
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(insertWindow:atIndex:)]
-        pub unsafe fn insertWindow_atIndex(&self, window: &NSWindow, index: NSInteger);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "addWindow:")]
+    pub unsafe fn addWindow(&self, window: &NSWindow);
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(removeWindow:)]
-        pub unsafe fn removeWindow(&self, window: &NSWindow);
-    }
-);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "insertWindow:atIndex:")]
+    pub unsafe fn insertWindow_atIndex(&self, window: &NSWindow, index: NSInteger);
+
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "removeWindow:")]
+    pub unsafe fn removeWindow(&self, window: &NSWindow);
+}

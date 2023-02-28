@@ -4,43 +4,46 @@ use crate::common::*;
 use crate::CallKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CallKit_CXCall")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CallKit_CXCall")]
-    pub struct CXCall;
-
-    #[cfg(feature = "CallKit_CXCall")]
-    unsafe impl ClassType for CXCall {
-        type Super = NSObject;
-    }
-);
+    pub type CXCall;
+}
 
 #[cfg(feature = "CallKit_CXCall")]
 unsafe impl NSObjectProtocol for CXCall {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CallKit_CXCall")]
-    unsafe impl CXCall {
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Other UUID)]
-        pub unsafe fn UUID(&self) -> Id<NSUUID>;
+    pub type CXCall;
 
-        #[method(isOutgoing)]
-        pub unsafe fn isOutgoing(&self) -> bool;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "UUID", managed = "Other")]
+    pub unsafe fn UUID(&self) -> Id<NSUUID>;
 
-        #[method(isOnHold)]
-        pub unsafe fn isOnHold(&self) -> bool;
+    #[objc2::method(sel = "isOutgoing")]
+    pub unsafe fn isOutgoing(&self) -> bool;
 
-        #[method(hasConnected)]
-        pub unsafe fn hasConnected(&self) -> bool;
+    #[objc2::method(sel = "isOnHold")]
+    pub unsafe fn isOnHold(&self) -> bool;
 
-        #[method(hasEnded)]
-        pub unsafe fn hasEnded(&self) -> bool;
+    #[objc2::method(sel = "hasConnected")]
+    pub unsafe fn hasConnected(&self) -> bool;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "hasEnded")]
+    pub unsafe fn hasEnded(&self) -> bool;
 
-        #[method(isEqualToCall:)]
-        pub unsafe fn isEqualToCall(&self, call: &CXCall) -> bool;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "isEqualToCall:")]
+    pub unsafe fn isEqualToCall(&self, call: &CXCall) -> bool;
+}

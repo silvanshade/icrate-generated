@@ -6,9 +6,8 @@ use crate::FileProvider::*;
 use crate::Foundation::*;
 use crate::UniformTypeIdentifiers::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSFileProviderModifyItemOptions {
-        NSFileProviderModifyItemMayAlreadyExist = 1 << 0,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSFileProviderModifyItemOptions {
+    NSFileProviderModifyItemMayAlreadyExist = 1 << 0,
+}

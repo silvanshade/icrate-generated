@@ -9,166 +9,152 @@ extern_static!(NSAppKitVersionNumberWithCustomSheetPosition: NSAppKitVersion = 6
 
 extern_static!(NSAppKitVersionNumberWithDeferredWindowDisplaySupport: NSAppKitVersion = 1019.0);
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSWindowStyleMask {
-        NSWindowStyleMaskBorderless = 0,
-        NSWindowStyleMaskTitled = 1 << 0,
-        NSWindowStyleMaskClosable = 1 << 1,
-        NSWindowStyleMaskMiniaturizable = 1 << 2,
-        NSWindowStyleMaskResizable = 1 << 3,
-        #[deprecated = "Textured window style should no longer be used"]
-        NSWindowStyleMaskTexturedBackground = 1 << 8,
-        NSWindowStyleMaskUnifiedTitleAndToolbar = 1 << 12,
-        NSWindowStyleMaskFullScreen = 1 << 14,
-        NSWindowStyleMaskFullSizeContentView = 1 << 15,
-        NSWindowStyleMaskUtilityWindow = 1 << 4,
-        NSWindowStyleMaskDocModalWindow = 1 << 6,
-        NSWindowStyleMaskNonactivatingPanel = 1 << 7,
-        NSWindowStyleMaskHUDWindow = 1 << 13,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSWindowStyleMask {
+    NSWindowStyleMaskBorderless = 0,
+    NSWindowStyleMaskTitled = 1 << 0,
+    NSWindowStyleMaskClosable = 1 << 1,
+    NSWindowStyleMaskMiniaturizable = 1 << 2,
+    NSWindowStyleMaskResizable = 1 << 3,
+    #[deprecated = "Textured window style should no longer be used"]
+    NSWindowStyleMaskTexturedBackground = 1 << 8,
+    NSWindowStyleMaskUnifiedTitleAndToolbar = 1 << 12,
+    NSWindowStyleMaskFullScreen = 1 << 14,
+    NSWindowStyleMaskFullSizeContentView = 1 << 15,
+    NSWindowStyleMaskUtilityWindow = 1 << 4,
+    NSWindowStyleMaskDocModalWindow = 1 << 6,
+    NSWindowStyleMaskNonactivatingPanel = 1 << 7,
+    NSWindowStyleMaskHUDWindow = 1 << 13,
+}
 
 extern_static!(NSModalResponseOK: NSModalResponse = 1);
 
 extern_static!(NSModalResponseCancel: NSModalResponse = 0);
 
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        NSDisplayWindowRunLoopOrdering = 600000,
-        NSResetCursorRectsRunLoopOrdering = 700000,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    NSDisplayWindowRunLoopOrdering = 600000,
+    NSResetCursorRectsRunLoopOrdering = 700000,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSWindowSharingType {
-        NSWindowSharingNone = 0,
-        NSWindowSharingReadOnly = 1,
-        NSWindowSharingReadWrite = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSWindowSharingType {
+    NSWindowSharingNone = 0,
+    NSWindowSharingReadOnly = 1,
+    NSWindowSharingReadWrite = 2,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSWindowCollectionBehavior {
-        NSWindowCollectionBehaviorDefault = 0,
-        NSWindowCollectionBehaviorCanJoinAllSpaces = 1 << 0,
-        NSWindowCollectionBehaviorMoveToActiveSpace = 1 << 1,
-        NSWindowCollectionBehaviorManaged = 1 << 2,
-        NSWindowCollectionBehaviorTransient = 1 << 3,
-        NSWindowCollectionBehaviorStationary = 1 << 4,
-        NSWindowCollectionBehaviorParticipatesInCycle = 1 << 5,
-        NSWindowCollectionBehaviorIgnoresCycle = 1 << 6,
-        NSWindowCollectionBehaviorFullScreenPrimary = 1 << 7,
-        NSWindowCollectionBehaviorFullScreenAuxiliary = 1 << 8,
-        NSWindowCollectionBehaviorFullScreenNone = 1 << 9,
-        NSWindowCollectionBehaviorFullScreenAllowsTiling = 1 << 11,
-        NSWindowCollectionBehaviorFullScreenDisallowsTiling = 1 << 12,
-        NSWindowCollectionBehaviorPrimary = 1 << 16,
-        NSWindowCollectionBehaviorAuxiliary = 1 << 17,
-        NSWindowCollectionBehaviorCanJoinAllApplications = 1 << 18,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSWindowCollectionBehavior {
+    NSWindowCollectionBehaviorDefault = 0,
+    NSWindowCollectionBehaviorCanJoinAllSpaces = 1 << 0,
+    NSWindowCollectionBehaviorMoveToActiveSpace = 1 << 1,
+    NSWindowCollectionBehaviorManaged = 1 << 2,
+    NSWindowCollectionBehaviorTransient = 1 << 3,
+    NSWindowCollectionBehaviorStationary = 1 << 4,
+    NSWindowCollectionBehaviorParticipatesInCycle = 1 << 5,
+    NSWindowCollectionBehaviorIgnoresCycle = 1 << 6,
+    NSWindowCollectionBehaviorFullScreenPrimary = 1 << 7,
+    NSWindowCollectionBehaviorFullScreenAuxiliary = 1 << 8,
+    NSWindowCollectionBehaviorFullScreenNone = 1 << 9,
+    NSWindowCollectionBehaviorFullScreenAllowsTiling = 1 << 11,
+    NSWindowCollectionBehaviorFullScreenDisallowsTiling = 1 << 12,
+    NSWindowCollectionBehaviorPrimary = 1 << 16,
+    NSWindowCollectionBehaviorAuxiliary = 1 << 17,
+    NSWindowCollectionBehaviorCanJoinAllApplications = 1 << 18,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSWindowAnimationBehavior {
-        NSWindowAnimationBehaviorDefault = 0,
-        NSWindowAnimationBehaviorNone = 2,
-        NSWindowAnimationBehaviorDocumentWindow = 3,
-        NSWindowAnimationBehaviorUtilityWindow = 4,
-        NSWindowAnimationBehaviorAlertPanel = 5,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSWindowAnimationBehavior {
+    NSWindowAnimationBehaviorDefault = 0,
+    NSWindowAnimationBehaviorNone = 2,
+    NSWindowAnimationBehaviorDocumentWindow = 3,
+    NSWindowAnimationBehaviorUtilityWindow = 4,
+    NSWindowAnimationBehaviorAlertPanel = 5,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSWindowNumberListOptions {
-        NSWindowNumberListAllApplications = 1 << 0,
-        NSWindowNumberListAllSpaces = 1 << 4,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSWindowNumberListOptions {
+    NSWindowNumberListAllApplications = 1 << 0,
+    NSWindowNumberListAllSpaces = 1 << 4,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSWindowOcclusionState {
-        NSWindowOcclusionStateVisible = 1 << 1,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSWindowOcclusionState {
+    NSWindowOcclusionStateVisible = 1 << 1,
+}
 
 typed_extensible_enum!(
     pub type NSWindowLevel = NSInteger;
 );
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSSelectionDirection {
-        NSDirectSelection = 0,
-        NSSelectingNext = 1,
-        NSSelectingPrevious = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSSelectionDirection {
+    NSDirectSelection = 0,
+    NSSelectingNext = 1,
+    NSSelectingPrevious = 2,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSWindowButton {
-        NSWindowCloseButton = 0,
-        NSWindowMiniaturizeButton = 1,
-        NSWindowZoomButton = 2,
-        NSWindowToolbarButton = 3,
-        NSWindowDocumentIconButton = 4,
-        NSWindowDocumentVersionsButton = 6,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSWindowButton {
+    NSWindowCloseButton = 0,
+    NSWindowMiniaturizeButton = 1,
+    NSWindowZoomButton = 2,
+    NSWindowToolbarButton = 3,
+    NSWindowDocumentIconButton = 4,
+    NSWindowDocumentVersionsButton = 6,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSWindowTitleVisibility {
-        NSWindowTitleVisible = 0,
-        NSWindowTitleHidden = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSWindowTitleVisibility {
+    NSWindowTitleVisible = 0,
+    NSWindowTitleHidden = 1,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSWindowToolbarStyle {
-        NSWindowToolbarStyleAutomatic = 0,
-        NSWindowToolbarStyleExpanded = 1,
-        NSWindowToolbarStylePreference = 2,
-        NSWindowToolbarStyleUnified = 3,
-        NSWindowToolbarStyleUnifiedCompact = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSWindowToolbarStyle {
+    NSWindowToolbarStyleAutomatic = 0,
+    NSWindowToolbarStyleExpanded = 1,
+    NSWindowToolbarStylePreference = 2,
+    NSWindowToolbarStyleUnified = 3,
+    NSWindowToolbarStyleUnifiedCompact = 4,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSWindowUserTabbingPreference {
-        NSWindowUserTabbingPreferenceManual = 0,
-        NSWindowUserTabbingPreferenceAlways = 1,
-        NSWindowUserTabbingPreferenceInFullScreen = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSWindowUserTabbingPreference {
+    NSWindowUserTabbingPreferenceManual = 0,
+    NSWindowUserTabbingPreferenceAlways = 1,
+    NSWindowUserTabbingPreferenceInFullScreen = 2,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSWindowTabbingMode {
-        NSWindowTabbingModeAutomatic = 0,
-        NSWindowTabbingModePreferred = 1,
-        NSWindowTabbingModeDisallowed = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSWindowTabbingMode {
+    NSWindowTabbingModeAutomatic = 0,
+    NSWindowTabbingModePreferred = 1,
+    NSWindowTabbingModeDisallowed = 2,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSTitlebarSeparatorStyle {
-        NSTitlebarSeparatorStyleAutomatic = 0,
-        NSTitlebarSeparatorStyleNone = 1,
-        NSTitlebarSeparatorStyleLine = 2,
-        NSTitlebarSeparatorStyleShadow = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSTitlebarSeparatorStyle {
+    NSTitlebarSeparatorStyleAutomatic = 0,
+    NSTitlebarSeparatorStyleNone = 1,
+    NSTitlebarSeparatorStyleLine = 2,
+    NSTitlebarSeparatorStyleShadow = 3,
+}
 
 pub type NSWindowFrameAutosaveName = NSString;
 
@@ -176,17 +162,17 @@ pub type NSWindowPersistableFrameDescriptor = NSString;
 
 pub type NSWindowTabbingIdentifier = NSString;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSResponder,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSWindow")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSWindow")]
-    pub struct NSWindow;
-
-    #[cfg(feature = "AppKit_NSWindow")]
-    unsafe impl ClassType for NSWindow {
-        #[inherits(NSObject)]
-        type Super = NSResponder;
-    }
-);
+    pub type NSWindow;
+}
 
 #[cfg(feature = "AppKit_NSWindow")]
 unsafe impl NSAccessibility for NSWindow {}
@@ -215,1451 +201,1412 @@ unsafe impl NSUserInterfaceItemIdentification for NSWindow {}
 #[cfg(feature = "AppKit_NSWindow")]
 unsafe impl NSUserInterfaceValidations for NSWindow {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWindow")]
-    unsafe impl NSWindow {
-        #[method(frameRectForContentRect:styleMask:)]
-        pub unsafe fn frameRectForContentRect_styleMask(
-            c_rect: NSRect,
-            style: NSWindowStyleMask,
-        ) -> NSRect;
-
-        #[method(contentRectForFrameRect:styleMask:)]
-        pub unsafe fn contentRectForFrameRect_styleMask(
-            f_rect: NSRect,
-            style: NSWindowStyleMask,
-        ) -> NSRect;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(minFrameWidthWithTitle:styleMask:)]
-        pub unsafe fn minFrameWidthWithTitle_styleMask(
-            title: &NSString,
-            style: NSWindowStyleMask,
-        ) -> CGFloat;
-
-        #[method(defaultDepthLimit)]
-        pub unsafe fn defaultDepthLimit() -> NSWindowDepth;
-
-        #[method(frameRectForContentRect:)]
-        pub unsafe fn frameRectForContentRect(&self, content_rect: NSRect) -> NSRect;
-
-        #[method(contentRectForFrameRect:)]
-        pub unsafe fn contentRectForFrameRect(&self, frame_rect: NSRect) -> NSRect;
-
-        #[method_id(@__retain_semantics Init initWithContentRect:styleMask:backing:defer:)]
-        pub unsafe fn initWithContentRect_styleMask_backing_defer(
-            this: Option<Allocated<Self>>,
-            content_rect: NSRect,
-            style: NSWindowStyleMask,
-            backing_store_type: NSBackingStoreType,
-            flag: bool,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSScreen")]
-        #[method_id(@__retain_semantics Init initWithContentRect:styleMask:backing:defer:screen:)]
-        pub unsafe fn initWithContentRect_styleMask_backing_defer_screen(
-            this: Option<Allocated<Self>>,
-            content_rect: NSRect,
-            style: NSWindowStyleMask,
-            backing_store_type: NSBackingStoreType,
-            flag: bool,
-            screen: Option<&NSScreen>,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subtitle)]
-        pub unsafe fn subtitle(&self) -> Id<NSString>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSubtitle:)]
-        pub unsafe fn setSubtitle(&self, subtitle: &NSString);
-
-        #[method(titleVisibility)]
-        pub unsafe fn titleVisibility(&self) -> NSWindowTitleVisibility;
-
-        #[method(setTitleVisibility:)]
-        pub unsafe fn setTitleVisibility(&self, title_visibility: NSWindowTitleVisibility);
-
-        #[method(titlebarAppearsTransparent)]
-        pub unsafe fn titlebarAppearsTransparent(&self) -> bool;
-
-        #[method(setTitlebarAppearsTransparent:)]
-        pub unsafe fn setTitlebarAppearsTransparent(&self, titlebar_appears_transparent: bool);
-
-        #[method(toolbarStyle)]
-        pub unsafe fn toolbarStyle(&self) -> NSWindowToolbarStyle;
-
-        #[method(setToolbarStyle:)]
-        pub unsafe fn setToolbarStyle(&self, toolbar_style: NSWindowToolbarStyle);
-
-        #[method(contentLayoutRect)]
-        pub unsafe fn contentLayoutRect(&self) -> NSRect;
-
-        #[method_id(@__retain_semantics Other contentLayoutGuide)]
-        pub unsafe fn contentLayoutGuide(&self) -> Option<Id<Object>>;
-
-        #[cfg(all(
-            feature = "AppKit_NSTitlebarAccessoryViewController",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other titlebarAccessoryViewControllers)]
-        pub unsafe fn titlebarAccessoryViewControllers(
-            &self,
-        ) -> Id<NSArray<NSTitlebarAccessoryViewController>>;
-
-        #[cfg(all(
-            feature = "AppKit_NSTitlebarAccessoryViewController",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method(setTitlebarAccessoryViewControllers:)]
-        pub unsafe fn setTitlebarAccessoryViewControllers(
-            &self,
-            titlebar_accessory_view_controllers: &NSArray<NSTitlebarAccessoryViewController>,
-        );
-
-        #[cfg(feature = "AppKit_NSTitlebarAccessoryViewController")]
-        #[method(addTitlebarAccessoryViewController:)]
-        pub unsafe fn addTitlebarAccessoryViewController(
-            &self,
-            child_view_controller: &NSTitlebarAccessoryViewController,
-        );
-
-        #[cfg(feature = "AppKit_NSTitlebarAccessoryViewController")]
-        #[method(insertTitlebarAccessoryViewController:atIndex:)]
-        pub unsafe fn insertTitlebarAccessoryViewController_atIndex(
-            &self,
-            child_view_controller: &NSTitlebarAccessoryViewController,
-            index: NSInteger,
-        );
-
-        #[method(removeTitlebarAccessoryViewControllerAtIndex:)]
-        pub unsafe fn removeTitlebarAccessoryViewControllerAtIndex(&self, index: NSInteger);
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other representedURL)]
-        pub unsafe fn representedURL(&self) -> Option<Id<NSURL>>;
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setRepresentedURL:)]
-        pub unsafe fn setRepresentedURL(&self, represented_url: Option<&NSURL>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other representedFilename)]
-        pub unsafe fn representedFilename(&self) -> Id<NSString>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setRepresentedFilename:)]
-        pub unsafe fn setRepresentedFilename(&self, represented_filename: &NSString);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitleWithRepresentedFilename:)]
-        pub unsafe fn setTitleWithRepresentedFilename(&self, filename: &NSString);
-
-        #[method(isExcludedFromWindowsMenu)]
-        pub unsafe fn isExcludedFromWindowsMenu(&self) -> bool;
+    pub type NSWindow;
+
+    #[objc2::method(sel = "frameRectForContentRect:styleMask:")]
+    pub unsafe fn frameRectForContentRect_styleMask(
+        c_rect: NSRect,
+        style: NSWindowStyleMask,
+    ) -> NSRect;
+
+    #[objc2::method(sel = "contentRectForFrameRect:styleMask:")]
+    pub unsafe fn contentRectForFrameRect_styleMask(
+        f_rect: NSRect,
+        style: NSWindowStyleMask,
+    ) -> NSRect;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "minFrameWidthWithTitle:styleMask:")]
+    pub unsafe fn minFrameWidthWithTitle_styleMask(
+        title: &NSString,
+        style: NSWindowStyleMask,
+    ) -> CGFloat;
+
+    #[objc2::method(sel = "defaultDepthLimit")]
+    pub unsafe fn defaultDepthLimit() -> NSWindowDepth;
+
+    #[objc2::method(sel = "frameRectForContentRect:")]
+    pub unsafe fn frameRectForContentRect(&self, content_rect: NSRect) -> NSRect;
+
+    #[objc2::method(sel = "contentRectForFrameRect:")]
+    pub unsafe fn contentRectForFrameRect(&self, frame_rect: NSRect) -> NSRect;
+
+    #[objc2::method(sel = "initWithContentRect:styleMask:backing:defer:", managed = "Init")]
+    pub unsafe fn initWithContentRect_styleMask_backing_defer(
+        this: Option<Allocated<Self>>,
+        content_rect: NSRect,
+        style: NSWindowStyleMask,
+        backing_store_type: NSBackingStoreType,
+        flag: bool,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSScreen")]
+    #[objc2::method(
+        sel = "initWithContentRect:styleMask:backing:defer:screen:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithContentRect_styleMask_backing_defer_screen(
+        this: Option<Allocated<Self>>,
+        content_rect: NSRect,
+        style: NSWindowStyleMask,
+        backing_store_type: NSBackingStoreType,
+        flag: bool,
+        screen: Option<&NSScreen>,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subtitle", managed = "Other")]
+    pub unsafe fn subtitle(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSubtitle:")]
+    pub unsafe fn setSubtitle(&self, subtitle: &NSString);
+
+    #[objc2::method(sel = "titleVisibility")]
+    pub unsafe fn titleVisibility(&self) -> NSWindowTitleVisibility;
+
+    #[objc2::method(sel = "setTitleVisibility:")]
+    pub unsafe fn setTitleVisibility(&self, title_visibility: NSWindowTitleVisibility);
+
+    #[objc2::method(sel = "titlebarAppearsTransparent")]
+    pub unsafe fn titlebarAppearsTransparent(&self) -> bool;
+
+    #[objc2::method(sel = "setTitlebarAppearsTransparent:")]
+    pub unsafe fn setTitlebarAppearsTransparent(&self, titlebar_appears_transparent: bool);
+
+    #[objc2::method(sel = "toolbarStyle")]
+    pub unsafe fn toolbarStyle(&self) -> NSWindowToolbarStyle;
+
+    #[objc2::method(sel = "setToolbarStyle:")]
+    pub unsafe fn setToolbarStyle(&self, toolbar_style: NSWindowToolbarStyle);
+
+    #[objc2::method(sel = "contentLayoutRect")]
+    pub unsafe fn contentLayoutRect(&self) -> NSRect;
+
+    #[objc2::method(sel = "contentLayoutGuide", managed = "Other")]
+    pub unsafe fn contentLayoutGuide(&self) -> Option<Id<Object>>;
+
+    #[cfg(all(
+        feature = "AppKit_NSTitlebarAccessoryViewController",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "titlebarAccessoryViewControllers", managed = "Other")]
+    pub unsafe fn titlebarAccessoryViewControllers(
+        &self,
+    ) -> Id<NSArray<NSTitlebarAccessoryViewController>>;
+
+    #[cfg(all(
+        feature = "AppKit_NSTitlebarAccessoryViewController",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "setTitlebarAccessoryViewControllers:")]
+    pub unsafe fn setTitlebarAccessoryViewControllers(
+        &self,
+        titlebar_accessory_view_controllers: &NSArray<NSTitlebarAccessoryViewController>,
+    );
+
+    #[cfg(feature = "AppKit_NSTitlebarAccessoryViewController")]
+    #[objc2::method(sel = "addTitlebarAccessoryViewController:")]
+    pub unsafe fn addTitlebarAccessoryViewController(
+        &self,
+        child_view_controller: &NSTitlebarAccessoryViewController,
+    );
+
+    #[cfg(feature = "AppKit_NSTitlebarAccessoryViewController")]
+    #[objc2::method(sel = "insertTitlebarAccessoryViewController:atIndex:")]
+    pub unsafe fn insertTitlebarAccessoryViewController_atIndex(
+        &self,
+        child_view_controller: &NSTitlebarAccessoryViewController,
+        index: NSInteger,
+    );
+
+    #[objc2::method(sel = "removeTitlebarAccessoryViewControllerAtIndex:")]
+    pub unsafe fn removeTitlebarAccessoryViewControllerAtIndex(&self, index: NSInteger);
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "representedURL", managed = "Other")]
+    pub unsafe fn representedURL(&self) -> Option<Id<NSURL>>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setRepresentedURL:")]
+    pub unsafe fn setRepresentedURL(&self, represented_url: Option<&NSURL>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "representedFilename", managed = "Other")]
+    pub unsafe fn representedFilename(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setRepresentedFilename:")]
+    pub unsafe fn setRepresentedFilename(&self, represented_filename: &NSString);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitleWithRepresentedFilename:")]
+    pub unsafe fn setTitleWithRepresentedFilename(&self, filename: &NSString);
+
+    #[objc2::method(sel = "isExcludedFromWindowsMenu")]
+    pub unsafe fn isExcludedFromWindowsMenu(&self) -> bool;
+
+    #[objc2::method(sel = "setExcludedFromWindowsMenu:")]
+    pub unsafe fn setExcludedFromWindowsMenu(&self, excluded_from_windows_menu: bool);
+
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "contentView", managed = "Other")]
+    pub unsafe fn contentView(&self) -> Option<Id<NSView>>;
+
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setContentView:")]
+    pub unsafe fn setContentView(&self, content_view: Option<&NSView>);
 
-        #[method(setExcludedFromWindowsMenu:)]
-        pub unsafe fn setExcludedFromWindowsMenu(&self, excluded_from_windows_menu: bool);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSWindowDelegate>>>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other contentView)]
-        pub unsafe fn contentView(&self) -> Option<Id<NSView>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSWindowDelegate>>);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setContentView:)]
-        pub unsafe fn setContentView(&self, content_view: Option<&NSView>);
+    #[objc2::method(sel = "windowNumber")]
+    pub unsafe fn windowNumber(&self) -> NSInteger;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSWindowDelegate>>>;
+    #[objc2::method(sel = "styleMask")]
+    pub unsafe fn styleMask(&self) -> NSWindowStyleMask;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSWindowDelegate>>);
+    #[objc2::method(sel = "setStyleMask:")]
+    pub unsafe fn setStyleMask(&self, style_mask: NSWindowStyleMask);
 
-        #[method(windowNumber)]
-        pub unsafe fn windowNumber(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSText")]
+    #[objc2::method(sel = "fieldEditor:forObject:", managed = "Other")]
+    pub unsafe fn fieldEditor_forObject(
+        &self,
+        create_flag: bool,
+        object: Option<&Object>,
+    ) -> Option<Id<NSText>>;
 
-        #[method(styleMask)]
-        pub unsafe fn styleMask(&self) -> NSWindowStyleMask;
+    #[objc2::method(sel = "endEditingFor:")]
+    pub unsafe fn endEditingFor(&self, object: Option<&Object>);
 
-        #[method(setStyleMask:)]
-        pub unsafe fn setStyleMask(&self, style_mask: NSWindowStyleMask);
+    #[cfg(feature = "AppKit_NSScreen")]
+    #[objc2::method(sel = "constrainFrameRect:toScreen:")]
+    pub unsafe fn constrainFrameRect_toScreen(
+        &self,
+        frame_rect: NSRect,
+        screen: Option<&NSScreen>,
+    ) -> NSRect;
 
-        #[cfg(feature = "AppKit_NSText")]
-        #[method_id(@__retain_semantics Other fieldEditor:forObject:)]
-        pub unsafe fn fieldEditor_forObject(
-            &self,
-            create_flag: bool,
-            object: Option<&Object>,
-        ) -> Option<Id<NSText>>;
+    #[objc2::method(sel = "setFrame:display:")]
+    pub unsafe fn setFrame_display(&self, frame_rect: NSRect, flag: bool);
 
-        #[method(endEditingFor:)]
-        pub unsafe fn endEditingFor(&self, object: Option<&Object>);
+    #[objc2::method(sel = "setContentSize:")]
+    pub unsafe fn setContentSize(&self, size: NSSize);
 
-        #[cfg(feature = "AppKit_NSScreen")]
-        #[method(constrainFrameRect:toScreen:)]
-        pub unsafe fn constrainFrameRect_toScreen(
-            &self,
-            frame_rect: NSRect,
-            screen: Option<&NSScreen>,
-        ) -> NSRect;
+    #[objc2::method(sel = "setFrameOrigin:")]
+    pub unsafe fn setFrameOrigin(&self, point: NSPoint);
 
-        #[method(setFrame:display:)]
-        pub unsafe fn setFrame_display(&self, frame_rect: NSRect, flag: bool);
+    #[objc2::method(sel = "setFrameTopLeftPoint:")]
+    pub unsafe fn setFrameTopLeftPoint(&self, point: NSPoint);
 
-        #[method(setContentSize:)]
-        pub unsafe fn setContentSize(&self, size: NSSize);
+    #[objc2::method(sel = "cascadeTopLeftFromPoint:")]
+    pub unsafe fn cascadeTopLeftFromPoint(&self, top_left_point: NSPoint) -> NSPoint;
 
-        #[method(setFrameOrigin:)]
-        pub unsafe fn setFrameOrigin(&self, point: NSPoint);
+    #[objc2::method(sel = "frame")]
+    pub unsafe fn frame(&self) -> NSRect;
 
-        #[method(setFrameTopLeftPoint:)]
-        pub unsafe fn setFrameTopLeftPoint(&self, point: NSPoint);
+    #[objc2::method(sel = "animationResizeTime:")]
+    pub unsafe fn animationResizeTime(&self, new_frame: NSRect) -> NSTimeInterval;
 
-        #[method(cascadeTopLeftFromPoint:)]
-        pub unsafe fn cascadeTopLeftFromPoint(&self, top_left_point: NSPoint) -> NSPoint;
+    #[objc2::method(sel = "setFrame:display:animate:")]
+    pub unsafe fn setFrame_display_animate(
+        &self,
+        frame_rect: NSRect,
+        display_flag: bool,
+        animate_flag: bool,
+    );
 
-        #[method(frame)]
-        pub unsafe fn frame(&self) -> NSRect;
+    #[objc2::method(sel = "inLiveResize")]
+    pub unsafe fn inLiveResize(&self) -> bool;
 
-        #[method(animationResizeTime:)]
-        pub unsafe fn animationResizeTime(&self, new_frame: NSRect) -> NSTimeInterval;
+    #[objc2::method(sel = "resizeIncrements")]
+    pub unsafe fn resizeIncrements(&self) -> NSSize;
 
-        #[method(setFrame:display:animate:)]
-        pub unsafe fn setFrame_display_animate(
-            &self,
-            frame_rect: NSRect,
-            display_flag: bool,
-            animate_flag: bool,
-        );
+    #[objc2::method(sel = "setResizeIncrements:")]
+    pub unsafe fn setResizeIncrements(&self, resize_increments: NSSize);
 
-        #[method(inLiveResize)]
-        pub unsafe fn inLiveResize(&self) -> bool;
+    #[objc2::method(sel = "aspectRatio")]
+    pub unsafe fn aspectRatio(&self) -> NSSize;
 
-        #[method(resizeIncrements)]
-        pub unsafe fn resizeIncrements(&self) -> NSSize;
+    #[objc2::method(sel = "setAspectRatio:")]
+    pub unsafe fn setAspectRatio(&self, aspect_ratio: NSSize);
 
-        #[method(setResizeIncrements:)]
-        pub unsafe fn setResizeIncrements(&self, resize_increments: NSSize);
+    #[objc2::method(sel = "contentResizeIncrements")]
+    pub unsafe fn contentResizeIncrements(&self) -> NSSize;
 
-        #[method(aspectRatio)]
-        pub unsafe fn aspectRatio(&self) -> NSSize;
+    #[objc2::method(sel = "setContentResizeIncrements:")]
+    pub unsafe fn setContentResizeIncrements(&self, content_resize_increments: NSSize);
 
-        #[method(setAspectRatio:)]
-        pub unsafe fn setAspectRatio(&self, aspect_ratio: NSSize);
+    #[objc2::method(sel = "contentAspectRatio")]
+    pub unsafe fn contentAspectRatio(&self) -> NSSize;
 
-        #[method(contentResizeIncrements)]
-        pub unsafe fn contentResizeIncrements(&self) -> NSSize;
+    #[objc2::method(sel = "setContentAspectRatio:")]
+    pub unsafe fn setContentAspectRatio(&self, content_aspect_ratio: NSSize);
 
-        #[method(setContentResizeIncrements:)]
-        pub unsafe fn setContentResizeIncrements(&self, content_resize_increments: NSSize);
+    #[objc2::method(sel = "viewsNeedDisplay")]
+    pub unsafe fn viewsNeedDisplay(&self) -> bool;
 
-        #[method(contentAspectRatio)]
-        pub unsafe fn contentAspectRatio(&self) -> NSSize;
+    #[objc2::method(sel = "setViewsNeedDisplay:")]
+    pub unsafe fn setViewsNeedDisplay(&self, views_need_display: bool);
 
-        #[method(setContentAspectRatio:)]
-        pub unsafe fn setContentAspectRatio(&self, content_aspect_ratio: NSSize);
+    #[objc2::method(sel = "displayIfNeeded")]
+    pub unsafe fn displayIfNeeded(&self);
 
-        #[method(viewsNeedDisplay)]
-        pub unsafe fn viewsNeedDisplay(&self) -> bool;
+    #[objc2::method(sel = "display")]
+    pub unsafe fn display(&self);
 
-        #[method(setViewsNeedDisplay:)]
-        pub unsafe fn setViewsNeedDisplay(&self, views_need_display: bool);
+    #[objc2::method(sel = "preservesContentDuringLiveResize")]
+    pub unsafe fn preservesContentDuringLiveResize(&self) -> bool;
 
-        #[method(displayIfNeeded)]
-        pub unsafe fn displayIfNeeded(&self);
+    #[objc2::method(sel = "setPreservesContentDuringLiveResize:")]
+    pub unsafe fn setPreservesContentDuringLiveResize(
+        &self,
+        preserves_content_during_live_resize: bool,
+    );
 
-        #[method(display)]
-        pub unsafe fn display(&self);
+    #[objc2::method(sel = "update")]
+    pub unsafe fn update(&self);
 
-        #[method(preservesContentDuringLiveResize)]
-        pub unsafe fn preservesContentDuringLiveResize(&self) -> bool;
+    #[objc2::method(sel = "makeFirstResponder:")]
+    pub unsafe fn makeFirstResponder(&self, responder: Option<&NSResponder>) -> bool;
 
-        #[method(setPreservesContentDuringLiveResize:)]
-        pub unsafe fn setPreservesContentDuringLiveResize(
-            &self,
-            preserves_content_during_live_resize: bool,
-        );
+    #[objc2::method(sel = "firstResponder", managed = "Other")]
+    pub unsafe fn firstResponder(&self) -> Option<Id<NSResponder>>;
 
-        #[method(update)]
-        pub unsafe fn update(&self);
+    #[objc2::method(sel = "resizeFlags")]
+    pub unsafe fn resizeFlags(&self) -> NSEventModifierFlags;
 
-        #[method(makeFirstResponder:)]
-        pub unsafe fn makeFirstResponder(&self, responder: Option<&NSResponder>) -> bool;
+    #[objc2::method(sel = "close")]
+    pub unsafe fn close(&self);
 
-        #[method_id(@__retain_semantics Other firstResponder)]
-        pub unsafe fn firstResponder(&self) -> Option<Id<NSResponder>>;
+    #[objc2::method(sel = "isReleasedWhenClosed")]
+    pub unsafe fn isReleasedWhenClosed(&self) -> bool;
 
-        #[method(resizeFlags)]
-        pub unsafe fn resizeFlags(&self) -> NSEventModifierFlags;
+    #[objc2::method(sel = "setReleasedWhenClosed:")]
+    pub unsafe fn setReleasedWhenClosed(&self, released_when_closed: bool);
 
-        #[method(close)]
-        pub unsafe fn close(&self);
+    #[objc2::method(sel = "miniaturize:")]
+    pub unsafe fn miniaturize(&self, sender: Option<&Object>);
 
-        #[method(isReleasedWhenClosed)]
-        pub unsafe fn isReleasedWhenClosed(&self) -> bool;
+    #[objc2::method(sel = "deminiaturize:")]
+    pub unsafe fn deminiaturize(&self, sender: Option<&Object>);
 
-        #[method(setReleasedWhenClosed:)]
-        pub unsafe fn setReleasedWhenClosed(&self, released_when_closed: bool);
+    #[objc2::method(sel = "isZoomed")]
+    pub unsafe fn isZoomed(&self) -> bool;
 
-        #[method(miniaturize:)]
-        pub unsafe fn miniaturize(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "zoom:")]
+    pub unsafe fn zoom(&self, sender: Option<&Object>);
 
-        #[method(deminiaturize:)]
-        pub unsafe fn deminiaturize(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "isMiniaturized")]
+    pub unsafe fn isMiniaturized(&self) -> bool;
 
-        #[method(isZoomed)]
-        pub unsafe fn isZoomed(&self) -> bool;
+    #[objc2::method(sel = "tryToPerform:with:")]
+    pub unsafe fn tryToPerform_with(&self, action: Sel, object: Option<&Object>) -> bool;
 
-        #[method(zoom:)]
-        pub unsafe fn zoom(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "validRequestorForSendType:returnType:", managed = "Other")]
+    pub unsafe fn validRequestorForSendType_returnType(
+        &self,
+        send_type: Option<&NSPasteboardType>,
+        return_type: Option<&NSPasteboardType>,
+    ) -> Option<Id<Object>>;
 
-        #[method(isMiniaturized)]
-        pub unsafe fn isMiniaturized(&self) -> bool;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "backgroundColor", managed = "Other")]
+    pub unsafe fn backgroundColor(&self) -> Id<NSColor>;
 
-        #[method(tryToPerform:with:)]
-        pub unsafe fn tryToPerform_with(&self, action: Sel, object: Option<&Object>) -> bool;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setBackgroundColor:")]
+    pub unsafe fn setBackgroundColor(&self, background_color: Option<&NSColor>);
 
-        #[method_id(@__retain_semantics Other validRequestorForSendType:returnType:)]
-        pub unsafe fn validRequestorForSendType_returnType(
-            &self,
-            send_type: Option<&NSPasteboardType>,
-            return_type: Option<&NSPasteboardType>,
-        ) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setContentBorderThickness:forEdge:")]
+    pub unsafe fn setContentBorderThickness_forEdge(&self, thickness: CGFloat, edge: NSRectEdge);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other backgroundColor)]
-        pub unsafe fn backgroundColor(&self) -> Id<NSColor>;
+    #[objc2::method(sel = "contentBorderThicknessForEdge:")]
+    pub unsafe fn contentBorderThicknessForEdge(&self, edge: NSRectEdge) -> CGFloat;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setBackgroundColor:)]
-        pub unsafe fn setBackgroundColor(&self, background_color: Option<&NSColor>);
+    #[objc2::method(sel = "setAutorecalculatesContentBorderThickness:forEdge:")]
+    pub unsafe fn setAutorecalculatesContentBorderThickness_forEdge(
+        &self,
+        flag: bool,
+        edge: NSRectEdge,
+    );
 
-        #[method(setContentBorderThickness:forEdge:)]
-        pub unsafe fn setContentBorderThickness_forEdge(
-            &self,
-            thickness: CGFloat,
-            edge: NSRectEdge,
-        );
+    #[objc2::method(sel = "autorecalculatesContentBorderThicknessForEdge:")]
+    pub unsafe fn autorecalculatesContentBorderThicknessForEdge(&self, edge: NSRectEdge) -> bool;
 
-        #[method(contentBorderThicknessForEdge:)]
-        pub unsafe fn contentBorderThicknessForEdge(&self, edge: NSRectEdge) -> CGFloat;
+    #[objc2::method(sel = "isMovable")]
+    pub unsafe fn isMovable(&self) -> bool;
 
-        #[method(setAutorecalculatesContentBorderThickness:forEdge:)]
-        pub unsafe fn setAutorecalculatesContentBorderThickness_forEdge(
-            &self,
-            flag: bool,
-            edge: NSRectEdge,
-        );
+    #[objc2::method(sel = "setMovable:")]
+    pub unsafe fn setMovable(&self, movable: bool);
 
-        #[method(autorecalculatesContentBorderThicknessForEdge:)]
-        pub unsafe fn autorecalculatesContentBorderThicknessForEdge(
-            &self,
-            edge: NSRectEdge,
-        ) -> bool;
+    #[objc2::method(sel = "isMovableByWindowBackground")]
+    pub unsafe fn isMovableByWindowBackground(&self) -> bool;
 
-        #[method(isMovable)]
-        pub unsafe fn isMovable(&self) -> bool;
+    #[objc2::method(sel = "setMovableByWindowBackground:")]
+    pub unsafe fn setMovableByWindowBackground(&self, movable_by_window_background: bool);
 
-        #[method(setMovable:)]
-        pub unsafe fn setMovable(&self, movable: bool);
+    #[objc2::method(sel = "hidesOnDeactivate")]
+    pub unsafe fn hidesOnDeactivate(&self) -> bool;
 
-        #[method(isMovableByWindowBackground)]
-        pub unsafe fn isMovableByWindowBackground(&self) -> bool;
+    #[objc2::method(sel = "setHidesOnDeactivate:")]
+    pub unsafe fn setHidesOnDeactivate(&self, hides_on_deactivate: bool);
 
-        #[method(setMovableByWindowBackground:)]
-        pub unsafe fn setMovableByWindowBackground(&self, movable_by_window_background: bool);
+    #[objc2::method(sel = "canHide")]
+    pub unsafe fn canHide(&self) -> bool;
 
-        #[method(hidesOnDeactivate)]
-        pub unsafe fn hidesOnDeactivate(&self) -> bool;
+    #[objc2::method(sel = "setCanHide:")]
+    pub unsafe fn setCanHide(&self, can_hide: bool);
 
-        #[method(setHidesOnDeactivate:)]
-        pub unsafe fn setHidesOnDeactivate(&self, hides_on_deactivate: bool);
+    #[objc2::method(sel = "center")]
+    pub unsafe fn center(&self);
 
-        #[method(canHide)]
-        pub unsafe fn canHide(&self) -> bool;
+    #[objc2::method(sel = "makeKeyAndOrderFront:")]
+    pub unsafe fn makeKeyAndOrderFront(&self, sender: Option<&Object>);
 
-        #[method(setCanHide:)]
-        pub unsafe fn setCanHide(&self, can_hide: bool);
+    #[objc2::method(sel = "orderFront:")]
+    pub unsafe fn orderFront(&self, sender: Option<&Object>);
 
-        #[method(center)]
-        pub unsafe fn center(&self);
+    #[objc2::method(sel = "orderBack:")]
+    pub unsafe fn orderBack(&self, sender: Option<&Object>);
 
-        #[method(makeKeyAndOrderFront:)]
-        pub unsafe fn makeKeyAndOrderFront(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "orderOut:")]
+    pub unsafe fn orderOut(&self, sender: Option<&Object>);
 
-        #[method(orderFront:)]
-        pub unsafe fn orderFront(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "orderWindow:relativeTo:")]
+    pub unsafe fn orderWindow_relativeTo(&self, place: NSWindowOrderingMode, other_win: NSInteger);
 
-        #[method(orderBack:)]
-        pub unsafe fn orderBack(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "orderFrontRegardless")]
+    pub unsafe fn orderFrontRegardless(&self);
 
-        #[method(orderOut:)]
-        pub unsafe fn orderOut(&self, sender: Option<&Object>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "miniwindowImage", managed = "Other")]
+    pub unsafe fn miniwindowImage(&self) -> Option<Id<NSImage>>;
 
-        #[method(orderWindow:relativeTo:)]
-        pub unsafe fn orderWindow_relativeTo(
-            &self,
-            place: NSWindowOrderingMode,
-            other_win: NSInteger,
-        );
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setMiniwindowImage:")]
+    pub unsafe fn setMiniwindowImage(&self, miniwindow_image: Option<&NSImage>);
 
-        #[method(orderFrontRegardless)]
-        pub unsafe fn orderFrontRegardless(&self);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "miniwindowTitle", managed = "Other")]
+    pub unsafe fn miniwindowTitle(&self) -> Id<NSString>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other miniwindowImage)]
-        pub unsafe fn miniwindowImage(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMiniwindowTitle:")]
+    pub unsafe fn setMiniwindowTitle(&self, miniwindow_title: Option<&NSString>);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setMiniwindowImage:)]
-        pub unsafe fn setMiniwindowImage(&self, miniwindow_image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSDockTile")]
+    #[objc2::method(sel = "dockTile", managed = "Other")]
+    pub unsafe fn dockTile(&self) -> Id<NSDockTile>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other miniwindowTitle)]
-        pub unsafe fn miniwindowTitle(&self) -> Id<NSString>;
+    #[objc2::method(sel = "isDocumentEdited")]
+    pub unsafe fn isDocumentEdited(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMiniwindowTitle:)]
-        pub unsafe fn setMiniwindowTitle(&self, miniwindow_title: Option<&NSString>);
+    #[objc2::method(sel = "setDocumentEdited:")]
+    pub unsafe fn setDocumentEdited(&self, document_edited: bool);
 
-        #[cfg(feature = "AppKit_NSDockTile")]
-        #[method_id(@__retain_semantics Other dockTile)]
-        pub unsafe fn dockTile(&self) -> Id<NSDockTile>;
+    #[objc2::method(sel = "isVisible")]
+    pub unsafe fn isVisible(&self) -> bool;
 
-        #[method(isDocumentEdited)]
-        pub unsafe fn isDocumentEdited(&self) -> bool;
+    #[objc2::method(sel = "isKeyWindow")]
+    pub unsafe fn isKeyWindow(&self) -> bool;
 
-        #[method(setDocumentEdited:)]
-        pub unsafe fn setDocumentEdited(&self, document_edited: bool);
+    #[objc2::method(sel = "isMainWindow")]
+    pub unsafe fn isMainWindow(&self) -> bool;
 
-        #[method(isVisible)]
-        pub unsafe fn isVisible(&self) -> bool;
+    #[objc2::method(sel = "canBecomeKeyWindow")]
+    pub unsafe fn canBecomeKeyWindow(&self) -> bool;
 
-        #[method(isKeyWindow)]
-        pub unsafe fn isKeyWindow(&self) -> bool;
+    #[objc2::method(sel = "canBecomeMainWindow")]
+    pub unsafe fn canBecomeMainWindow(&self) -> bool;
 
-        #[method(isMainWindow)]
-        pub unsafe fn isMainWindow(&self) -> bool;
+    #[objc2::method(sel = "makeKeyWindow")]
+    pub unsafe fn makeKeyWindow(&self);
 
-        #[method(canBecomeKeyWindow)]
-        pub unsafe fn canBecomeKeyWindow(&self) -> bool;
+    #[objc2::method(sel = "makeMainWindow")]
+    pub unsafe fn makeMainWindow(&self);
 
-        #[method(canBecomeMainWindow)]
-        pub unsafe fn canBecomeMainWindow(&self) -> bool;
+    #[objc2::method(sel = "becomeKeyWindow")]
+    pub unsafe fn becomeKeyWindow(&self);
 
-        #[method(makeKeyWindow)]
-        pub unsafe fn makeKeyWindow(&self);
+    #[objc2::method(sel = "resignKeyWindow")]
+    pub unsafe fn resignKeyWindow(&self);
 
-        #[method(makeMainWindow)]
-        pub unsafe fn makeMainWindow(&self);
+    #[objc2::method(sel = "becomeMainWindow")]
+    pub unsafe fn becomeMainWindow(&self);
 
-        #[method(becomeKeyWindow)]
-        pub unsafe fn becomeKeyWindow(&self);
+    #[objc2::method(sel = "resignMainWindow")]
+    pub unsafe fn resignMainWindow(&self);
 
-        #[method(resignKeyWindow)]
-        pub unsafe fn resignKeyWindow(&self);
+    #[objc2::method(sel = "worksWhenModal")]
+    pub unsafe fn worksWhenModal(&self) -> bool;
 
-        #[method(becomeMainWindow)]
-        pub unsafe fn becomeMainWindow(&self);
+    #[objc2::method(sel = "preventsApplicationTerminationWhenModal")]
+    pub unsafe fn preventsApplicationTerminationWhenModal(&self) -> bool;
 
-        #[method(resignMainWindow)]
-        pub unsafe fn resignMainWindow(&self);
+    #[objc2::method(sel = "setPreventsApplicationTerminationWhenModal:")]
+    pub unsafe fn setPreventsApplicationTerminationWhenModal(
+        &self,
+        prevents_application_termination_when_modal: bool,
+    );
 
-        #[method(worksWhenModal)]
-        pub unsafe fn worksWhenModal(&self) -> bool;
+    #[objc2::method(sel = "convertRectToScreen:")]
+    pub unsafe fn convertRectToScreen(&self, rect: NSRect) -> NSRect;
 
-        #[method(preventsApplicationTerminationWhenModal)]
-        pub unsafe fn preventsApplicationTerminationWhenModal(&self) -> bool;
+    #[objc2::method(sel = "convertRectFromScreen:")]
+    pub unsafe fn convertRectFromScreen(&self, rect: NSRect) -> NSRect;
 
-        #[method(setPreventsApplicationTerminationWhenModal:)]
-        pub unsafe fn setPreventsApplicationTerminationWhenModal(
-            &self,
-            prevents_application_termination_when_modal: bool,
-        );
+    #[objc2::method(sel = "convertPointToScreen:")]
+    pub unsafe fn convertPointToScreen(&self, point: NSPoint) -> NSPoint;
 
-        #[method(convertRectToScreen:)]
-        pub unsafe fn convertRectToScreen(&self, rect: NSRect) -> NSRect;
+    #[objc2::method(sel = "convertPointFromScreen:")]
+    pub unsafe fn convertPointFromScreen(&self, point: NSPoint) -> NSPoint;
 
-        #[method(convertRectFromScreen:)]
-        pub unsafe fn convertRectFromScreen(&self, rect: NSRect) -> NSRect;
+    #[objc2::method(sel = "convertRectToBacking:")]
+    pub unsafe fn convertRectToBacking(&self, rect: NSRect) -> NSRect;
 
-        #[method(convertPointToScreen:)]
-        pub unsafe fn convertPointToScreen(&self, point: NSPoint) -> NSPoint;
+    #[objc2::method(sel = "convertRectFromBacking:")]
+    pub unsafe fn convertRectFromBacking(&self, rect: NSRect) -> NSRect;
 
-        #[method(convertPointFromScreen:)]
-        pub unsafe fn convertPointFromScreen(&self, point: NSPoint) -> NSPoint;
+    #[objc2::method(sel = "convertPointToBacking:")]
+    pub unsafe fn convertPointToBacking(&self, point: NSPoint) -> NSPoint;
 
-        #[method(convertRectToBacking:)]
-        pub unsafe fn convertRectToBacking(&self, rect: NSRect) -> NSRect;
+    #[objc2::method(sel = "convertPointFromBacking:")]
+    pub unsafe fn convertPointFromBacking(&self, point: NSPoint) -> NSPoint;
 
-        #[method(convertRectFromBacking:)]
-        pub unsafe fn convertRectFromBacking(&self, rect: NSRect) -> NSRect;
+    #[objc2::method(sel = "backingAlignedRect:options:")]
+    pub unsafe fn backingAlignedRect_options(
+        &self,
+        rect: NSRect,
+        options: NSAlignmentOptions,
+    ) -> NSRect;
 
-        #[method(convertPointToBacking:)]
-        pub unsafe fn convertPointToBacking(&self, point: NSPoint) -> NSPoint;
+    #[objc2::method(sel = "backingScaleFactor")]
+    pub unsafe fn backingScaleFactor(&self) -> CGFloat;
 
-        #[method(convertPointFromBacking:)]
-        pub unsafe fn convertPointFromBacking(&self, point: NSPoint) -> NSPoint;
+    #[objc2::method(sel = "performClose:")]
+    pub unsafe fn performClose(&self, sender: Option<&Object>);
 
-        #[method(backingAlignedRect:options:)]
-        pub unsafe fn backingAlignedRect_options(
-            &self,
-            rect: NSRect,
-            options: NSAlignmentOptions,
-        ) -> NSRect;
+    #[objc2::method(sel = "performMiniaturize:")]
+    pub unsafe fn performMiniaturize(&self, sender: Option<&Object>);
 
-        #[method(backingScaleFactor)]
-        pub unsafe fn backingScaleFactor(&self) -> CGFloat;
+    #[objc2::method(sel = "performZoom:")]
+    pub unsafe fn performZoom(&self, sender: Option<&Object>);
 
-        #[method(performClose:)]
-        pub unsafe fn performClose(&self, sender: Option<&Object>);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "dataWithEPSInsideRect:", managed = "Other")]
+    pub unsafe fn dataWithEPSInsideRect(&self, rect: NSRect) -> Id<NSData>;
 
-        #[method(performMiniaturize:)]
-        pub unsafe fn performMiniaturize(&self, sender: Option<&Object>);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "dataWithPDFInsideRect:", managed = "Other")]
+    pub unsafe fn dataWithPDFInsideRect(&self, rect: NSRect) -> Id<NSData>;
 
-        #[method(performZoom:)]
-        pub unsafe fn performZoom(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "print:")]
+    pub unsafe fn print(&self, sender: Option<&Object>);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other dataWithEPSInsideRect:)]
-        pub unsafe fn dataWithEPSInsideRect(&self, rect: NSRect) -> Id<NSData>;
+    #[objc2::method(sel = "allowsToolTipsWhenApplicationIsInactive")]
+    pub unsafe fn allowsToolTipsWhenApplicationIsInactive(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other dataWithPDFInsideRect:)]
-        pub unsafe fn dataWithPDFInsideRect(&self, rect: NSRect) -> Id<NSData>;
+    #[objc2::method(sel = "setAllowsToolTipsWhenApplicationIsInactive:")]
+    pub unsafe fn setAllowsToolTipsWhenApplicationIsInactive(
+        &self,
+        allows_tool_tips_when_application_is_inactive: bool,
+    );
 
-        #[method(print:)]
-        pub unsafe fn print(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "backingType")]
+    pub unsafe fn backingType(&self) -> NSBackingStoreType;
 
-        #[method(allowsToolTipsWhenApplicationIsInactive)]
-        pub unsafe fn allowsToolTipsWhenApplicationIsInactive(&self) -> bool;
+    #[objc2::method(sel = "setBackingType:")]
+    pub unsafe fn setBackingType(&self, backing_type: NSBackingStoreType);
 
-        #[method(setAllowsToolTipsWhenApplicationIsInactive:)]
-        pub unsafe fn setAllowsToolTipsWhenApplicationIsInactive(
-            &self,
-            allows_tool_tips_when_application_is_inactive: bool,
-        );
+    #[objc2::method(sel = "level")]
+    pub unsafe fn level(&self) -> NSWindowLevel;
 
-        #[method(backingType)]
-        pub unsafe fn backingType(&self) -> NSBackingStoreType;
+    #[objc2::method(sel = "setLevel:")]
+    pub unsafe fn setLevel(&self, level: NSWindowLevel);
 
-        #[method(setBackingType:)]
-        pub unsafe fn setBackingType(&self, backing_type: NSBackingStoreType);
+    #[objc2::method(sel = "depthLimit")]
+    pub unsafe fn depthLimit(&self) -> NSWindowDepth;
 
-        #[method(level)]
-        pub unsafe fn level(&self) -> NSWindowLevel;
+    #[objc2::method(sel = "setDepthLimit:")]
+    pub unsafe fn setDepthLimit(&self, depth_limit: NSWindowDepth);
 
-        #[method(setLevel:)]
-        pub unsafe fn setLevel(&self, level: NSWindowLevel);
+    #[objc2::method(sel = "setDynamicDepthLimit:")]
+    pub unsafe fn setDynamicDepthLimit(&self, flag: bool);
 
-        #[method(depthLimit)]
-        pub unsafe fn depthLimit(&self) -> NSWindowDepth;
+    #[objc2::method(sel = "hasDynamicDepthLimit")]
+    pub unsafe fn hasDynamicDepthLimit(&self) -> bool;
 
-        #[method(setDepthLimit:)]
-        pub unsafe fn setDepthLimit(&self, depth_limit: NSWindowDepth);
+    #[cfg(feature = "AppKit_NSScreen")]
+    #[objc2::method(sel = "screen", managed = "Other")]
+    pub unsafe fn screen(&self) -> Option<Id<NSScreen>>;
 
-        #[method(setDynamicDepthLimit:)]
-        pub unsafe fn setDynamicDepthLimit(&self, flag: bool);
+    #[cfg(feature = "AppKit_NSScreen")]
+    #[objc2::method(sel = "deepestScreen", managed = "Other")]
+    pub unsafe fn deepestScreen(&self) -> Option<Id<NSScreen>>;
 
-        #[method(hasDynamicDepthLimit)]
-        pub unsafe fn hasDynamicDepthLimit(&self) -> bool;
+    #[objc2::method(sel = "hasShadow")]
+    pub unsafe fn hasShadow(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSScreen")]
-        #[method_id(@__retain_semantics Other screen)]
-        pub unsafe fn screen(&self) -> Option<Id<NSScreen>>;
+    #[objc2::method(sel = "setHasShadow:")]
+    pub unsafe fn setHasShadow(&self, has_shadow: bool);
 
-        #[cfg(feature = "AppKit_NSScreen")]
-        #[method_id(@__retain_semantics Other deepestScreen)]
-        pub unsafe fn deepestScreen(&self) -> Option<Id<NSScreen>>;
+    #[objc2::method(sel = "invalidateShadow")]
+    pub unsafe fn invalidateShadow(&self);
 
-        #[method(hasShadow)]
-        pub unsafe fn hasShadow(&self) -> bool;
+    #[objc2::method(sel = "alphaValue")]
+    pub unsafe fn alphaValue(&self) -> CGFloat;
 
-        #[method(setHasShadow:)]
-        pub unsafe fn setHasShadow(&self, has_shadow: bool);
+    #[objc2::method(sel = "setAlphaValue:")]
+    pub unsafe fn setAlphaValue(&self, alpha_value: CGFloat);
 
-        #[method(invalidateShadow)]
-        pub unsafe fn invalidateShadow(&self);
+    #[objc2::method(sel = "isOpaque")]
+    pub unsafe fn isOpaque(&self) -> bool;
 
-        #[method(alphaValue)]
-        pub unsafe fn alphaValue(&self) -> CGFloat;
+    #[objc2::method(sel = "setOpaque:")]
+    pub unsafe fn setOpaque(&self, opaque: bool);
 
-        #[method(setAlphaValue:)]
-        pub unsafe fn setAlphaValue(&self, alpha_value: CGFloat);
+    #[objc2::method(sel = "sharingType")]
+    pub unsafe fn sharingType(&self) -> NSWindowSharingType;
 
-        #[method(isOpaque)]
-        pub unsafe fn isOpaque(&self) -> bool;
+    #[objc2::method(sel = "setSharingType:")]
+    pub unsafe fn setSharingType(&self, sharing_type: NSWindowSharingType);
 
-        #[method(setOpaque:)]
-        pub unsafe fn setOpaque(&self, opaque: bool);
+    #[objc2::method(sel = "allowsConcurrentViewDrawing")]
+    pub unsafe fn allowsConcurrentViewDrawing(&self) -> bool;
 
-        #[method(sharingType)]
-        pub unsafe fn sharingType(&self) -> NSWindowSharingType;
+    #[objc2::method(sel = "setAllowsConcurrentViewDrawing:")]
+    pub unsafe fn setAllowsConcurrentViewDrawing(&self, allows_concurrent_view_drawing: bool);
 
-        #[method(setSharingType:)]
-        pub unsafe fn setSharingType(&self, sharing_type: NSWindowSharingType);
+    #[objc2::method(sel = "displaysWhenScreenProfileChanges")]
+    pub unsafe fn displaysWhenScreenProfileChanges(&self) -> bool;
 
-        #[method(allowsConcurrentViewDrawing)]
-        pub unsafe fn allowsConcurrentViewDrawing(&self) -> bool;
+    #[objc2::method(sel = "setDisplaysWhenScreenProfileChanges:")]
+    pub unsafe fn setDisplaysWhenScreenProfileChanges(
+        &self,
+        displays_when_screen_profile_changes: bool,
+    );
 
-        #[method(setAllowsConcurrentViewDrawing:)]
-        pub unsafe fn setAllowsConcurrentViewDrawing(&self, allows_concurrent_view_drawing: bool);
+    #[objc2::method(sel = "disableScreenUpdatesUntilFlush")]
+    pub unsafe fn disableScreenUpdatesUntilFlush(&self);
 
-        #[method(displaysWhenScreenProfileChanges)]
-        pub unsafe fn displaysWhenScreenProfileChanges(&self) -> bool;
+    #[objc2::method(sel = "canBecomeVisibleWithoutLogin")]
+    pub unsafe fn canBecomeVisibleWithoutLogin(&self) -> bool;
 
-        #[method(setDisplaysWhenScreenProfileChanges:)]
-        pub unsafe fn setDisplaysWhenScreenProfileChanges(
-            &self,
-            displays_when_screen_profile_changes: bool,
-        );
+    #[objc2::method(sel = "setCanBecomeVisibleWithoutLogin:")]
+    pub unsafe fn setCanBecomeVisibleWithoutLogin(&self, can_become_visible_without_login: bool);
 
-        #[method(disableScreenUpdatesUntilFlush)]
-        pub unsafe fn disableScreenUpdatesUntilFlush(&self);
+    #[objc2::method(sel = "collectionBehavior")]
+    pub unsafe fn collectionBehavior(&self) -> NSWindowCollectionBehavior;
 
-        #[method(canBecomeVisibleWithoutLogin)]
-        pub unsafe fn canBecomeVisibleWithoutLogin(&self) -> bool;
+    #[objc2::method(sel = "setCollectionBehavior:")]
+    pub unsafe fn setCollectionBehavior(&self, collection_behavior: NSWindowCollectionBehavior);
 
-        #[method(setCanBecomeVisibleWithoutLogin:)]
-        pub unsafe fn setCanBecomeVisibleWithoutLogin(
-            &self,
-            can_become_visible_without_login: bool,
-        );
+    #[objc2::method(sel = "animationBehavior")]
+    pub unsafe fn animationBehavior(&self) -> NSWindowAnimationBehavior;
 
-        #[method(collectionBehavior)]
-        pub unsafe fn collectionBehavior(&self) -> NSWindowCollectionBehavior;
+    #[objc2::method(sel = "setAnimationBehavior:")]
+    pub unsafe fn setAnimationBehavior(&self, animation_behavior: NSWindowAnimationBehavior);
 
-        #[method(setCollectionBehavior:)]
-        pub unsafe fn setCollectionBehavior(&self, collection_behavior: NSWindowCollectionBehavior);
+    #[objc2::method(sel = "isOnActiveSpace")]
+    pub unsafe fn isOnActiveSpace(&self) -> bool;
 
-        #[method(animationBehavior)]
-        pub unsafe fn animationBehavior(&self) -> NSWindowAnimationBehavior;
+    #[objc2::method(sel = "toggleFullScreen:")]
+    pub unsafe fn toggleFullScreen(&self, sender: Option<&Object>);
 
-        #[method(setAnimationBehavior:)]
-        pub unsafe fn setAnimationBehavior(&self, animation_behavior: NSWindowAnimationBehavior);
+    #[objc2::method(sel = "stringWithSavedFrame", managed = "Other")]
+    pub unsafe fn stringWithSavedFrame(&self) -> Id<NSWindowPersistableFrameDescriptor>;
 
-        #[method(isOnActiveSpace)]
-        pub unsafe fn isOnActiveSpace(&self) -> bool;
+    #[objc2::method(sel = "setFrameFromString:")]
+    pub unsafe fn setFrameFromString(&self, string: &NSWindowPersistableFrameDescriptor);
 
-        #[method(toggleFullScreen:)]
-        pub unsafe fn toggleFullScreen(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "saveFrameUsingName:")]
+    pub unsafe fn saveFrameUsingName(&self, name: &NSWindowFrameAutosaveName);
 
-        #[method_id(@__retain_semantics Other stringWithSavedFrame)]
-        pub unsafe fn stringWithSavedFrame(&self) -> Id<NSWindowPersistableFrameDescriptor>;
+    #[objc2::method(sel = "setFrameUsingName:force:")]
+    pub unsafe fn setFrameUsingName_force(
+        &self,
+        name: &NSWindowFrameAutosaveName,
+        force: bool,
+    ) -> bool;
 
-        #[method(setFrameFromString:)]
-        pub unsafe fn setFrameFromString(&self, string: &NSWindowPersistableFrameDescriptor);
+    #[objc2::method(sel = "setFrameUsingName:")]
+    pub unsafe fn setFrameUsingName(&self, name: &NSWindowFrameAutosaveName) -> bool;
 
-        #[method(saveFrameUsingName:)]
-        pub unsafe fn saveFrameUsingName(&self, name: &NSWindowFrameAutosaveName);
+    #[objc2::method(sel = "setFrameAutosaveName:")]
+    pub unsafe fn setFrameAutosaveName(&self, name: &NSWindowFrameAutosaveName) -> bool;
 
-        #[method(setFrameUsingName:force:)]
-        pub unsafe fn setFrameUsingName_force(
-            &self,
-            name: &NSWindowFrameAutosaveName,
-            force: bool,
-        ) -> bool;
+    #[objc2::method(sel = "frameAutosaveName", managed = "Other")]
+    pub unsafe fn frameAutosaveName(&self) -> Id<NSWindowFrameAutosaveName>;
 
-        #[method(setFrameUsingName:)]
-        pub unsafe fn setFrameUsingName(&self, name: &NSWindowFrameAutosaveName) -> bool;
+    #[objc2::method(sel = "removeFrameUsingName:")]
+    pub unsafe fn removeFrameUsingName(name: &NSWindowFrameAutosaveName);
 
-        #[method(setFrameAutosaveName:)]
-        pub unsafe fn setFrameAutosaveName(&self, name: &NSWindowFrameAutosaveName) -> bool;
+    #[objc2::method(sel = "minSize")]
+    pub unsafe fn minSize(&self) -> NSSize;
 
-        #[method_id(@__retain_semantics Other frameAutosaveName)]
-        pub unsafe fn frameAutosaveName(&self) -> Id<NSWindowFrameAutosaveName>;
+    #[objc2::method(sel = "setMinSize:")]
+    pub unsafe fn setMinSize(&self, min_size: NSSize);
 
-        #[method(removeFrameUsingName:)]
-        pub unsafe fn removeFrameUsingName(name: &NSWindowFrameAutosaveName);
+    #[objc2::method(sel = "maxSize")]
+    pub unsafe fn maxSize(&self) -> NSSize;
 
-        #[method(minSize)]
-        pub unsafe fn minSize(&self) -> NSSize;
+    #[objc2::method(sel = "setMaxSize:")]
+    pub unsafe fn setMaxSize(&self, max_size: NSSize);
 
-        #[method(setMinSize:)]
-        pub unsafe fn setMinSize(&self, min_size: NSSize);
+    #[objc2::method(sel = "contentMinSize")]
+    pub unsafe fn contentMinSize(&self) -> NSSize;
 
-        #[method(maxSize)]
-        pub unsafe fn maxSize(&self) -> NSSize;
+    #[objc2::method(sel = "setContentMinSize:")]
+    pub unsafe fn setContentMinSize(&self, content_min_size: NSSize);
 
-        #[method(setMaxSize:)]
-        pub unsafe fn setMaxSize(&self, max_size: NSSize);
+    #[objc2::method(sel = "contentMaxSize")]
+    pub unsafe fn contentMaxSize(&self) -> NSSize;
 
-        #[method(contentMinSize)]
-        pub unsafe fn contentMinSize(&self) -> NSSize;
+    #[objc2::method(sel = "setContentMaxSize:")]
+    pub unsafe fn setContentMaxSize(&self, content_max_size: NSSize);
 
-        #[method(setContentMinSize:)]
-        pub unsafe fn setContentMinSize(&self, content_min_size: NSSize);
+    #[objc2::method(sel = "minFullScreenContentSize")]
+    pub unsafe fn minFullScreenContentSize(&self) -> NSSize;
 
-        #[method(contentMaxSize)]
-        pub unsafe fn contentMaxSize(&self) -> NSSize;
+    #[objc2::method(sel = "setMinFullScreenContentSize:")]
+    pub unsafe fn setMinFullScreenContentSize(&self, min_full_screen_content_size: NSSize);
 
-        #[method(setContentMaxSize:)]
-        pub unsafe fn setContentMaxSize(&self, content_max_size: NSSize);
+    #[objc2::method(sel = "maxFullScreenContentSize")]
+    pub unsafe fn maxFullScreenContentSize(&self) -> NSSize;
 
-        #[method(minFullScreenContentSize)]
-        pub unsafe fn minFullScreenContentSize(&self) -> NSSize;
+    #[objc2::method(sel = "setMaxFullScreenContentSize:")]
+    pub unsafe fn setMaxFullScreenContentSize(&self, max_full_screen_content_size: NSSize);
 
-        #[method(setMinFullScreenContentSize:)]
-        pub unsafe fn setMinFullScreenContentSize(&self, min_full_screen_content_size: NSSize);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "deviceDescription", managed = "Other")]
+    pub unsafe fn deviceDescription(&self) -> Id<NSDictionary<NSDeviceDescriptionKey, Object>>;
 
-        #[method(maxFullScreenContentSize)]
-        pub unsafe fn maxFullScreenContentSize(&self) -> NSSize;
+    #[cfg(feature = "AppKit_NSWindowController")]
+    #[objc2::method(sel = "windowController", managed = "Other")]
+    pub unsafe fn windowController(&self) -> Option<Id<NSWindowController>>;
 
-        #[method(setMaxFullScreenContentSize:)]
-        pub unsafe fn setMaxFullScreenContentSize(&self, max_full_screen_content_size: NSSize);
+    #[cfg(feature = "AppKit_NSWindowController")]
+    #[objc2::method(sel = "setWindowController:")]
+    pub unsafe fn setWindowController(&self, window_controller: Option<&NSWindowController>);
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other deviceDescription)]
-        pub unsafe fn deviceDescription(&self) -> Id<NSDictionary<NSDeviceDescriptionKey, Object>>;
+    #[objc2::method(sel = "beginSheet:completionHandler:")]
+    pub unsafe fn beginSheet_completionHandler(
+        &self,
+        sheet_window: &NSWindow,
+        handler: Option<&Block<(NSModalResponse,), ()>>,
+    );
 
-        #[cfg(feature = "AppKit_NSWindowController")]
-        #[method_id(@__retain_semantics Other windowController)]
-        pub unsafe fn windowController(&self) -> Option<Id<NSWindowController>>;
+    #[objc2::method(sel = "beginCriticalSheet:completionHandler:")]
+    pub unsafe fn beginCriticalSheet_completionHandler(
+        &self,
+        sheet_window: &NSWindow,
+        handler: Option<&Block<(NSModalResponse,), ()>>,
+    );
 
-        #[cfg(feature = "AppKit_NSWindowController")]
-        #[method(setWindowController:)]
-        pub unsafe fn setWindowController(&self, window_controller: Option<&NSWindowController>);
+    #[objc2::method(sel = "endSheet:")]
+    pub unsafe fn endSheet(&self, sheet_window: &NSWindow);
 
-        #[method(beginSheet:completionHandler:)]
-        pub unsafe fn beginSheet_completionHandler(
-            &self,
-            sheet_window: &NSWindow,
-            handler: Option<&Block<(NSModalResponse,), ()>>,
-        );
+    #[objc2::method(sel = "endSheet:returnCode:")]
+    pub unsafe fn endSheet_returnCode(&self, sheet_window: &NSWindow, return_code: NSModalResponse);
 
-        #[method(beginCriticalSheet:completionHandler:)]
-        pub unsafe fn beginCriticalSheet_completionHandler(
-            &self,
-            sheet_window: &NSWindow,
-            handler: Option<&Block<(NSModalResponse,), ()>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "sheets", managed = "Other")]
+    pub unsafe fn sheets(&self) -> Id<NSArray<NSWindow>>;
 
-        #[method(endSheet:)]
-        pub unsafe fn endSheet(&self, sheet_window: &NSWindow);
+    #[objc2::method(sel = "attachedSheet", managed = "Other")]
+    pub unsafe fn attachedSheet(&self) -> Option<Id<NSWindow>>;
 
-        #[method(endSheet:returnCode:)]
-        pub unsafe fn endSheet_returnCode(
-            &self,
-            sheet_window: &NSWindow,
-            return_code: NSModalResponse,
-        );
+    #[objc2::method(sel = "isSheet")]
+    pub unsafe fn isSheet(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other sheets)]
-        pub unsafe fn sheets(&self) -> Id<NSArray<NSWindow>>;
+    #[objc2::method(sel = "sheetParent", managed = "Other")]
+    pub unsafe fn sheetParent(&self) -> Option<Id<NSWindow>>;
 
-        #[method_id(@__retain_semantics Other attachedSheet)]
-        pub unsafe fn attachedSheet(&self) -> Option<Id<NSWindow>>;
+    #[cfg(feature = "AppKit_NSButton")]
+    #[objc2::method(sel = "standardWindowButton:forStyleMask:", managed = "Other")]
+    pub unsafe fn standardWindowButton_forStyleMask(
+        b: NSWindowButton,
+        style_mask: NSWindowStyleMask,
+    ) -> Option<Id<NSButton>>;
 
-        #[method(isSheet)]
-        pub unsafe fn isSheet(&self) -> bool;
+    #[cfg(feature = "AppKit_NSButton")]
+    #[objc2::method(sel = "standardWindowButton:", managed = "Other")]
+    pub unsafe fn standardWindowButton(&self, b: NSWindowButton) -> Option<Id<NSButton>>;
 
-        #[method_id(@__retain_semantics Other sheetParent)]
-        pub unsafe fn sheetParent(&self) -> Option<Id<NSWindow>>;
+    #[objc2::method(sel = "addChildWindow:ordered:")]
+    pub unsafe fn addChildWindow_ordered(&self, child_win: &NSWindow, place: NSWindowOrderingMode);
 
-        #[cfg(feature = "AppKit_NSButton")]
-        #[method_id(@__retain_semantics Other standardWindowButton:forStyleMask:)]
-        pub unsafe fn standardWindowButton_forStyleMask(
-            b: NSWindowButton,
-            style_mask: NSWindowStyleMask,
-        ) -> Option<Id<NSButton>>;
+    #[objc2::method(sel = "removeChildWindow:")]
+    pub unsafe fn removeChildWindow(&self, child_win: &NSWindow);
 
-        #[cfg(feature = "AppKit_NSButton")]
-        #[method_id(@__retain_semantics Other standardWindowButton:)]
-        pub unsafe fn standardWindowButton(&self, b: NSWindowButton) -> Option<Id<NSButton>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "childWindows", managed = "Other")]
+    pub unsafe fn childWindows(&self) -> Option<Id<NSArray<NSWindow>>>;
 
-        #[method(addChildWindow:ordered:)]
-        pub unsafe fn addChildWindow_ordered(
-            &self,
-            child_win: &NSWindow,
-            place: NSWindowOrderingMode,
-        );
+    #[objc2::method(sel = "parentWindow", managed = "Other")]
+    pub unsafe fn parentWindow(&self) -> Option<Id<NSWindow>>;
 
-        #[method(removeChildWindow:)]
-        pub unsafe fn removeChildWindow(&self, child_win: &NSWindow);
+    #[objc2::method(sel = "setParentWindow:")]
+    pub unsafe fn setParentWindow(&self, parent_window: Option<&NSWindow>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other childWindows)]
-        pub unsafe fn childWindows(&self) -> Option<Id<NSArray<NSWindow>>>;
+    #[objc2::method(sel = "appearanceSource", managed = "Other")]
+    pub unsafe fn appearanceSource(&self) -> Option<Id<NSObject>>;
 
-        #[method_id(@__retain_semantics Other parentWindow)]
-        pub unsafe fn parentWindow(&self) -> Option<Id<NSWindow>>;
+    #[objc2::method(sel = "setAppearanceSource:")]
+    pub unsafe fn setAppearanceSource(&self, appearance_source: Option<&NSObject>);
 
-        #[method(setParentWindow:)]
-        pub unsafe fn setParentWindow(&self, parent_window: Option<&NSWindow>);
+    #[cfg(feature = "AppKit_NSColorSpace")]
+    #[objc2::method(sel = "colorSpace", managed = "Other")]
+    pub unsafe fn colorSpace(&self) -> Option<Id<NSColorSpace>>;
 
-        #[method_id(@__retain_semantics Other appearanceSource)]
-        pub unsafe fn appearanceSource(&self) -> Option<Id<NSObject>>;
+    #[cfg(feature = "AppKit_NSColorSpace")]
+    #[objc2::method(sel = "setColorSpace:")]
+    pub unsafe fn setColorSpace(&self, color_space: Option<&NSColorSpace>);
 
-        #[method(setAppearanceSource:)]
-        pub unsafe fn setAppearanceSource(&self, appearance_source: Option<&NSObject>);
+    #[objc2::method(sel = "canRepresentDisplayGamut:")]
+    pub unsafe fn canRepresentDisplayGamut(&self, display_gamut: NSDisplayGamut) -> bool;
 
-        #[cfg(feature = "AppKit_NSColorSpace")]
-        #[method_id(@__retain_semantics Other colorSpace)]
-        pub unsafe fn colorSpace(&self) -> Option<Id<NSColorSpace>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "windowNumbersWithOptions:", managed = "Other")]
+    pub unsafe fn windowNumbersWithOptions(
+        options: NSWindowNumberListOptions,
+    ) -> Option<Id<NSArray<NSNumber>>>;
 
-        #[cfg(feature = "AppKit_NSColorSpace")]
-        #[method(setColorSpace:)]
-        pub unsafe fn setColorSpace(&self, color_space: Option<&NSColorSpace>);
+    #[objc2::method(sel = "windowNumberAtPoint:belowWindowWithWindowNumber:")]
+    pub unsafe fn windowNumberAtPoint_belowWindowWithWindowNumber(
+        point: NSPoint,
+        window_number: NSInteger,
+    ) -> NSInteger;
 
-        #[method(canRepresentDisplayGamut:)]
-        pub unsafe fn canRepresentDisplayGamut(&self, display_gamut: NSDisplayGamut) -> bool;
+    #[objc2::method(sel = "occlusionState")]
+    pub unsafe fn occlusionState(&self) -> NSWindowOcclusionState;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other windowNumbersWithOptions:)]
-        pub unsafe fn windowNumbersWithOptions(
-            options: NSWindowNumberListOptions,
-        ) -> Option<Id<NSArray<NSNumber>>>;
+    #[objc2::method(sel = "titlebarSeparatorStyle")]
+    pub unsafe fn titlebarSeparatorStyle(&self) -> NSTitlebarSeparatorStyle;
 
-        #[method(windowNumberAtPoint:belowWindowWithWindowNumber:)]
-        pub unsafe fn windowNumberAtPoint_belowWindowWithWindowNumber(
-            point: NSPoint,
-            window_number: NSInteger,
-        ) -> NSInteger;
+    #[objc2::method(sel = "setTitlebarSeparatorStyle:")]
+    pub unsafe fn setTitlebarSeparatorStyle(
+        &self,
+        titlebar_separator_style: NSTitlebarSeparatorStyle,
+    );
 
-        #[method(occlusionState)]
-        pub unsafe fn occlusionState(&self) -> NSWindowOcclusionState;
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "contentViewController", managed = "Other")]
+    pub unsafe fn contentViewController(&self) -> Option<Id<NSViewController>>;
 
-        #[method(titlebarSeparatorStyle)]
-        pub unsafe fn titlebarSeparatorStyle(&self) -> NSTitlebarSeparatorStyle;
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "setContentViewController:")]
+    pub unsafe fn setContentViewController(
+        &self,
+        content_view_controller: Option<&NSViewController>,
+    );
 
-        #[method(setTitlebarSeparatorStyle:)]
-        pub unsafe fn setTitlebarSeparatorStyle(
-            &self,
-            titlebar_separator_style: NSTitlebarSeparatorStyle,
-        );
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "windowWithContentViewController:", managed = "Other")]
+    pub unsafe fn windowWithContentViewController(
+        content_view_controller: &NSViewController,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other contentViewController)]
-        pub unsafe fn contentViewController(&self) -> Option<Id<NSViewController>>;
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "performWindowDragWithEvent:")]
+    pub unsafe fn performWindowDragWithEvent(&self, event: &NSEvent);
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method(setContentViewController:)]
-        pub unsafe fn setContentViewController(
-            &self,
-            content_view_controller: Option<&NSViewController>,
-        );
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "initialFirstResponder", managed = "Other")]
+    pub unsafe fn initialFirstResponder(&self) -> Option<Id<NSView>>;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other windowWithContentViewController:)]
-        pub unsafe fn windowWithContentViewController(
-            content_view_controller: &NSViewController,
-        ) -> Id<Self>;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setInitialFirstResponder:")]
+    pub unsafe fn setInitialFirstResponder(&self, initial_first_responder: Option<&NSView>);
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(performWindowDragWithEvent:)]
-        pub unsafe fn performWindowDragWithEvent(&self, event: &NSEvent);
+    #[objc2::method(sel = "selectNextKeyView:")]
+    pub unsafe fn selectNextKeyView(&self, sender: Option<&Object>);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other initialFirstResponder)]
-        pub unsafe fn initialFirstResponder(&self) -> Option<Id<NSView>>;
+    #[objc2::method(sel = "selectPreviousKeyView:")]
+    pub unsafe fn selectPreviousKeyView(&self, sender: Option<&Object>);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setInitialFirstResponder:)]
-        pub unsafe fn setInitialFirstResponder(&self, initial_first_responder: Option<&NSView>);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "selectKeyViewFollowingView:")]
+    pub unsafe fn selectKeyViewFollowingView(&self, view: &NSView);
 
-        #[method(selectNextKeyView:)]
-        pub unsafe fn selectNextKeyView(&self, sender: Option<&Object>);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "selectKeyViewPrecedingView:")]
+    pub unsafe fn selectKeyViewPrecedingView(&self, view: &NSView);
 
-        #[method(selectPreviousKeyView:)]
-        pub unsafe fn selectPreviousKeyView(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "keyViewSelectionDirection")]
+    pub unsafe fn keyViewSelectionDirection(&self) -> NSSelectionDirection;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(selectKeyViewFollowingView:)]
-        pub unsafe fn selectKeyViewFollowingView(&self, view: &NSView);
+    #[cfg(feature = "AppKit_NSButtonCell")]
+    #[objc2::method(sel = "defaultButtonCell", managed = "Other")]
+    pub unsafe fn defaultButtonCell(&self) -> Option<Id<NSButtonCell>>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(selectKeyViewPrecedingView:)]
-        pub unsafe fn selectKeyViewPrecedingView(&self, view: &NSView);
+    #[cfg(feature = "AppKit_NSButtonCell")]
+    #[objc2::method(sel = "setDefaultButtonCell:")]
+    pub unsafe fn setDefaultButtonCell(&self, default_button_cell: Option<&NSButtonCell>);
 
-        #[method(keyViewSelectionDirection)]
-        pub unsafe fn keyViewSelectionDirection(&self) -> NSSelectionDirection;
+    #[objc2::method(sel = "disableKeyEquivalentForDefaultButtonCell")]
+    pub unsafe fn disableKeyEquivalentForDefaultButtonCell(&self);
 
-        #[cfg(feature = "AppKit_NSButtonCell")]
-        #[method_id(@__retain_semantics Other defaultButtonCell)]
-        pub unsafe fn defaultButtonCell(&self) -> Option<Id<NSButtonCell>>;
+    #[objc2::method(sel = "enableKeyEquivalentForDefaultButtonCell")]
+    pub unsafe fn enableKeyEquivalentForDefaultButtonCell(&self);
 
-        #[cfg(feature = "AppKit_NSButtonCell")]
-        #[method(setDefaultButtonCell:)]
-        pub unsafe fn setDefaultButtonCell(&self, default_button_cell: Option<&NSButtonCell>);
+    #[objc2::method(sel = "autorecalculatesKeyViewLoop")]
+    pub unsafe fn autorecalculatesKeyViewLoop(&self) -> bool;
 
-        #[method(disableKeyEquivalentForDefaultButtonCell)]
-        pub unsafe fn disableKeyEquivalentForDefaultButtonCell(&self);
+    #[objc2::method(sel = "setAutorecalculatesKeyViewLoop:")]
+    pub unsafe fn setAutorecalculatesKeyViewLoop(&self, autorecalculates_key_view_loop: bool);
 
-        #[method(enableKeyEquivalentForDefaultButtonCell)]
-        pub unsafe fn enableKeyEquivalentForDefaultButtonCell(&self);
+    #[objc2::method(sel = "recalculateKeyViewLoop")]
+    pub unsafe fn recalculateKeyViewLoop(&self);
 
-        #[method(autorecalculatesKeyViewLoop)]
-        pub unsafe fn autorecalculatesKeyViewLoop(&self) -> bool;
+    #[cfg(feature = "AppKit_NSToolbar")]
+    #[objc2::method(sel = "toolbar", managed = "Other")]
+    pub unsafe fn toolbar(&self) -> Option<Id<NSToolbar>>;
 
-        #[method(setAutorecalculatesKeyViewLoop:)]
-        pub unsafe fn setAutorecalculatesKeyViewLoop(&self, autorecalculates_key_view_loop: bool);
+    #[cfg(feature = "AppKit_NSToolbar")]
+    #[objc2::method(sel = "setToolbar:")]
+    pub unsafe fn setToolbar(&self, toolbar: Option<&NSToolbar>);
 
-        #[method(recalculateKeyViewLoop)]
-        pub unsafe fn recalculateKeyViewLoop(&self);
+    #[objc2::method(sel = "toggleToolbarShown:")]
+    pub unsafe fn toggleToolbarShown(&self, sender: Option<&Object>);
 
-        #[cfg(feature = "AppKit_NSToolbar")]
-        #[method_id(@__retain_semantics Other toolbar)]
-        pub unsafe fn toolbar(&self) -> Option<Id<NSToolbar>>;
+    #[objc2::method(sel = "runToolbarCustomizationPalette:")]
+    pub unsafe fn runToolbarCustomizationPalette(&self, sender: Option<&Object>);
 
-        #[cfg(feature = "AppKit_NSToolbar")]
-        #[method(setToolbar:)]
-        pub unsafe fn setToolbar(&self, toolbar: Option<&NSToolbar>);
+    #[deprecated = "This property has no effect"]
+    #[objc2::method(sel = "showsToolbarButton")]
+    pub unsafe fn showsToolbarButton(&self) -> bool;
 
-        #[method(toggleToolbarShown:)]
-        pub unsafe fn toggleToolbarShown(&self, sender: Option<&Object>);
+    #[deprecated = "This property has no effect"]
+    #[objc2::method(sel = "setShowsToolbarButton:")]
+    pub unsafe fn setShowsToolbarButton(&self, shows_toolbar_button: bool);
 
-        #[method(runToolbarCustomizationPalette:)]
-        pub unsafe fn runToolbarCustomizationPalette(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "allowsAutomaticWindowTabbing")]
+    pub unsafe fn allowsAutomaticWindowTabbing() -> bool;
 
-        #[deprecated = "This property has no effect"]
-        #[method(showsToolbarButton)]
-        pub unsafe fn showsToolbarButton(&self) -> bool;
+    #[objc2::method(sel = "setAllowsAutomaticWindowTabbing:")]
+    pub unsafe fn setAllowsAutomaticWindowTabbing(allows_automatic_window_tabbing: bool);
 
-        #[deprecated = "This property has no effect"]
-        #[method(setShowsToolbarButton:)]
-        pub unsafe fn setShowsToolbarButton(&self, shows_toolbar_button: bool);
+    #[objc2::method(sel = "userTabbingPreference")]
+    pub unsafe fn userTabbingPreference() -> NSWindowUserTabbingPreference;
 
-        #[method(allowsAutomaticWindowTabbing)]
-        pub unsafe fn allowsAutomaticWindowTabbing() -> bool;
+    #[objc2::method(sel = "tabbingMode")]
+    pub unsafe fn tabbingMode(&self) -> NSWindowTabbingMode;
 
-        #[method(setAllowsAutomaticWindowTabbing:)]
-        pub unsafe fn setAllowsAutomaticWindowTabbing(allows_automatic_window_tabbing: bool);
+    #[objc2::method(sel = "setTabbingMode:")]
+    pub unsafe fn setTabbingMode(&self, tabbing_mode: NSWindowTabbingMode);
 
-        #[method(userTabbingPreference)]
-        pub unsafe fn userTabbingPreference() -> NSWindowUserTabbingPreference;
+    #[objc2::method(sel = "tabbingIdentifier", managed = "Other")]
+    pub unsafe fn tabbingIdentifier(&self) -> Id<NSWindowTabbingIdentifier>;
 
-        #[method(tabbingMode)]
-        pub unsafe fn tabbingMode(&self) -> NSWindowTabbingMode;
+    #[objc2::method(sel = "setTabbingIdentifier:")]
+    pub unsafe fn setTabbingIdentifier(&self, tabbing_identifier: &NSWindowTabbingIdentifier);
 
-        #[method(setTabbingMode:)]
-        pub unsafe fn setTabbingMode(&self, tabbing_mode: NSWindowTabbingMode);
+    #[objc2::method(sel = "selectNextTab:")]
+    pub unsafe fn selectNextTab(&self, sender: Option<&Object>);
 
-        #[method_id(@__retain_semantics Other tabbingIdentifier)]
-        pub unsafe fn tabbingIdentifier(&self) -> Id<NSWindowTabbingIdentifier>;
+    #[objc2::method(sel = "selectPreviousTab:")]
+    pub unsafe fn selectPreviousTab(&self, sender: Option<&Object>);
 
-        #[method(setTabbingIdentifier:)]
-        pub unsafe fn setTabbingIdentifier(&self, tabbing_identifier: &NSWindowTabbingIdentifier);
+    #[objc2::method(sel = "moveTabToNewWindow:")]
+    pub unsafe fn moveTabToNewWindow(&self, sender: Option<&Object>);
 
-        #[method(selectNextTab:)]
-        pub unsafe fn selectNextTab(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "mergeAllWindows:")]
+    pub unsafe fn mergeAllWindows(&self, sender: Option<&Object>);
 
-        #[method(selectPreviousTab:)]
-        pub unsafe fn selectPreviousTab(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "toggleTabBar:")]
+    pub unsafe fn toggleTabBar(&self, sender: Option<&Object>);
 
-        #[method(moveTabToNewWindow:)]
-        pub unsafe fn moveTabToNewWindow(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "toggleTabOverview:")]
+    pub unsafe fn toggleTabOverview(&self, sender: Option<&Object>);
 
-        #[method(mergeAllWindows:)]
-        pub unsafe fn mergeAllWindows(&self, sender: Option<&Object>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "tabbedWindows", managed = "Other")]
+    pub unsafe fn tabbedWindows(&self) -> Option<Id<NSArray<NSWindow>>>;
 
-        #[method(toggleTabBar:)]
-        pub unsafe fn toggleTabBar(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "addTabbedWindow:ordered:")]
+    pub unsafe fn addTabbedWindow_ordered(&self, window: &NSWindow, ordered: NSWindowOrderingMode);
 
-        #[method(toggleTabOverview:)]
-        pub unsafe fn toggleTabOverview(&self, sender: Option<&Object>);
+    #[cfg(feature = "AppKit_NSWindowTab")]
+    #[objc2::method(sel = "tab", managed = "Other")]
+    pub unsafe fn tab(&self) -> Id<NSWindowTab>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other tabbedWindows)]
-        pub unsafe fn tabbedWindows(&self) -> Option<Id<NSArray<NSWindow>>>;
+    #[cfg(feature = "AppKit_NSWindowTabGroup")]
+    #[objc2::method(sel = "tabGroup", managed = "Other")]
+    pub unsafe fn tabGroup(&self) -> Option<Id<NSWindowTabGroup>>;
 
-        #[method(addTabbedWindow:ordered:)]
-        pub unsafe fn addTabbedWindow_ordered(
-            &self,
-            window: &NSWindow,
-            ordered: NSWindowOrderingMode,
-        );
+    #[objc2::method(sel = "windowTitlebarLayoutDirection")]
+    pub unsafe fn windowTitlebarLayoutDirection(&self) -> NSUserInterfaceLayoutDirection;
+}
 
-        #[cfg(feature = "AppKit_NSWindowTab")]
-        #[method_id(@__retain_semantics Other tab)]
-        pub unsafe fn tab(&self) -> Id<NSWindowTab>;
-
-        #[cfg(feature = "AppKit_NSWindowTabGroup")]
-        #[method_id(@__retain_semantics Other tabGroup)]
-        pub unsafe fn tabGroup(&self) -> Option<Id<NSWindowTabGroup>>;
-
-        #[method(windowTitlebarLayoutDirection)]
-        pub unsafe fn windowTitlebarLayoutDirection(&self) -> NSUserInterfaceLayoutDirection;
-    }
-);
-
-extern_methods!(
-    /// NSEvent
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWindow")]
-    unsafe impl NSWindow {
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(trackEventsMatchingMask:timeout:mode:handler:)]
-        pub unsafe fn trackEventsMatchingMask_timeout_mode_handler(
-            &self,
-            mask: NSEventMask,
-            timeout: NSTimeInterval,
-            mode: &NSRunLoopMode,
-            tracking_handler: &Block<(*mut NSEvent, NonNull<Bool>), ()>,
-        );
+    pub type NSWindow;
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method_id(@__retain_semantics Other nextEventMatchingMask:)]
-        pub unsafe fn nextEventMatchingMask(&self, mask: NSEventMask) -> Option<Id<NSEvent>>;
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "trackEventsMatchingMask:timeout:mode:handler:")]
+    pub unsafe fn trackEventsMatchingMask_timeout_mode_handler(
+        &self,
+        mask: NSEventMask,
+        timeout: NSTimeInterval,
+        mode: &NSRunLoopMode,
+        tracking_handler: &Block<(*mut NSEvent, NonNull<Bool>), ()>,
+    );
 
-        #[cfg(all(feature = "AppKit_NSEvent", feature = "Foundation_NSDate"))]
-        #[method_id(@__retain_semantics Other nextEventMatchingMask:untilDate:inMode:dequeue:)]
-        pub unsafe fn nextEventMatchingMask_untilDate_inMode_dequeue(
-            &self,
-            mask: NSEventMask,
-            expiration: Option<&NSDate>,
-            mode: &NSRunLoopMode,
-            deq_flag: bool,
-        ) -> Option<Id<NSEvent>>;
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "nextEventMatchingMask:", managed = "Other")]
+    pub unsafe fn nextEventMatchingMask(&self, mask: NSEventMask) -> Option<Id<NSEvent>>;
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(discardEventsMatchingMask:beforeEvent:)]
-        pub unsafe fn discardEventsMatchingMask_beforeEvent(
-            &self,
-            mask: NSEventMask,
-            last_event: Option<&NSEvent>,
-        );
+    #[cfg(all(feature = "AppKit_NSEvent", feature = "Foundation_NSDate"))]
+    #[objc2::method(
+        sel = "nextEventMatchingMask:untilDate:inMode:dequeue:",
+        managed = "Other"
+    )]
+    pub unsafe fn nextEventMatchingMask_untilDate_inMode_dequeue(
+        &self,
+        mask: NSEventMask,
+        expiration: Option<&NSDate>,
+        mode: &NSRunLoopMode,
+        deq_flag: bool,
+    ) -> Option<Id<NSEvent>>;
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(postEvent:atStart:)]
-        pub unsafe fn postEvent_atStart(&self, event: &NSEvent, flag: bool);
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "discardEventsMatchingMask:beforeEvent:")]
+    pub unsafe fn discardEventsMatchingMask_beforeEvent(
+        &self,
+        mask: NSEventMask,
+        last_event: Option<&NSEvent>,
+    );
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(sendEvent:)]
-        pub unsafe fn sendEvent(&self, event: &NSEvent);
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "postEvent:atStart:")]
+    pub unsafe fn postEvent_atStart(&self, event: &NSEvent, flag: bool);
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method_id(@__retain_semantics Other currentEvent)]
-        pub unsafe fn currentEvent(&self) -> Option<Id<NSEvent>>;
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "sendEvent:")]
+    pub unsafe fn sendEvent(&self, event: &NSEvent);
 
-        #[method(acceptsMouseMovedEvents)]
-        pub unsafe fn acceptsMouseMovedEvents(&self) -> bool;
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "currentEvent", managed = "Other")]
+    pub unsafe fn currentEvent(&self) -> Option<Id<NSEvent>>;
 
-        #[method(setAcceptsMouseMovedEvents:)]
-        pub unsafe fn setAcceptsMouseMovedEvents(&self, accepts_mouse_moved_events: bool);
+    #[objc2::method(sel = "acceptsMouseMovedEvents")]
+    pub unsafe fn acceptsMouseMovedEvents(&self) -> bool;
 
-        #[method(ignoresMouseEvents)]
-        pub unsafe fn ignoresMouseEvents(&self) -> bool;
+    #[objc2::method(sel = "setAcceptsMouseMovedEvents:")]
+    pub unsafe fn setAcceptsMouseMovedEvents(&self, accepts_mouse_moved_events: bool);
 
-        #[method(setIgnoresMouseEvents:)]
-        pub unsafe fn setIgnoresMouseEvents(&self, ignores_mouse_events: bool);
+    #[objc2::method(sel = "ignoresMouseEvents")]
+    pub unsafe fn ignoresMouseEvents(&self) -> bool;
 
-        #[method(mouseLocationOutsideOfEventStream)]
-        pub unsafe fn mouseLocationOutsideOfEventStream(&self) -> NSPoint;
-    }
-);
+    #[objc2::method(sel = "setIgnoresMouseEvents:")]
+    pub unsafe fn setIgnoresMouseEvents(&self, ignores_mouse_events: bool);
 
-extern_methods!(
-    /// NSCursorRect
+    #[objc2::method(sel = "mouseLocationOutsideOfEventStream")]
+    pub unsafe fn mouseLocationOutsideOfEventStream(&self) -> NSPoint;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWindow")]
-    unsafe impl NSWindow {
-        #[method(disableCursorRects)]
-        pub unsafe fn disableCursorRects(&self);
+    pub type NSWindow;
 
-        #[method(enableCursorRects)]
-        pub unsafe fn enableCursorRects(&self);
+    #[objc2::method(sel = "disableCursorRects")]
+    pub unsafe fn disableCursorRects(&self);
 
-        #[method(discardCursorRects)]
-        pub unsafe fn discardCursorRects(&self);
+    #[objc2::method(sel = "enableCursorRects")]
+    pub unsafe fn enableCursorRects(&self);
 
-        #[method(areCursorRectsEnabled)]
-        pub unsafe fn areCursorRectsEnabled(&self) -> bool;
+    #[objc2::method(sel = "discardCursorRects")]
+    pub unsafe fn discardCursorRects(&self);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(invalidateCursorRectsForView:)]
-        pub unsafe fn invalidateCursorRectsForView(&self, view: &NSView);
+    #[objc2::method(sel = "areCursorRectsEnabled")]
+    pub unsafe fn areCursorRectsEnabled(&self) -> bool;
 
-        #[method(resetCursorRects)]
-        pub unsafe fn resetCursorRects(&self);
-    }
-);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "invalidateCursorRectsForView:")]
+    pub unsafe fn invalidateCursorRectsForView(&self, view: &NSView);
 
-extern_methods!(
-    /// NSDrag
+    #[objc2::method(sel = "resetCursorRects")]
+    pub unsafe fn resetCursorRects(&self);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWindow")]
-    unsafe impl NSWindow {
-        #[cfg(all(
-            feature = "AppKit_NSEvent",
-            feature = "AppKit_NSImage",
-            feature = "AppKit_NSPasteboard"
-        ))]
-        #[method(dragImage:at:offset:event:pasteboard:source:slideBack:)]
-        pub unsafe fn dragImage_at_offset_event_pasteboard_source_slideBack(
-            &self,
-            image: &NSImage,
-            base_location: NSPoint,
-            initial_offset: NSSize,
-            event: &NSEvent,
-            pboard: &NSPasteboard,
-            source_obj: &Object,
-            slide_flag: bool,
-        );
+    pub type NSWindow;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(registerForDraggedTypes:)]
-        pub unsafe fn registerForDraggedTypes(&self, new_types: &NSArray<NSPasteboardType>);
+    #[cfg(all(
+        feature = "AppKit_NSEvent",
+        feature = "AppKit_NSImage",
+        feature = "AppKit_NSPasteboard"
+    ))]
+    #[objc2::method(sel = "dragImage:at:offset:event:pasteboard:source:slideBack:")]
+    pub unsafe fn dragImage_at_offset_event_pasteboard_source_slideBack(
+        &self,
+        image: &NSImage,
+        base_location: NSPoint,
+        initial_offset: NSSize,
+        event: &NSEvent,
+        pboard: &NSPasteboard,
+        source_obj: &Object,
+        slide_flag: bool,
+    );
 
-        #[method(unregisterDraggedTypes)]
-        pub unsafe fn unregisterDraggedTypes(&self);
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "registerForDraggedTypes:")]
+    pub unsafe fn registerForDraggedTypes(&self, new_types: &NSArray<NSPasteboardType>);
 
-extern_methods!(
-    /// NSCarbonExtensions
+    #[objc2::method(sel = "unregisterDraggedTypes")]
+    pub unsafe fn unregisterDraggedTypes(&self);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWindow")]
-    unsafe impl NSWindow {
-        #[method_id(@__retain_semantics Init initWithWindowRef:)]
-        pub unsafe fn initWithWindowRef(
-            this: Option<Allocated<Self>>,
-            window_ref: NonNull<c_void>,
-        ) -> Option<Id<NSWindow>>;
+    pub type NSWindow;
 
-        #[method(windowRef)]
-        pub unsafe fn windowRef(&self) -> NonNull<c_void>;
-    }
-);
+    #[objc2::method(sel = "initWithWindowRef:", managed = "Init")]
+    pub unsafe fn initWithWindowRef(
+        this: Option<Allocated<Self>>,
+        window_ref: NonNull<c_void>,
+    ) -> Option<Id<NSWindow>>;
 
-extern_protocol!(
-    pub unsafe trait NSWindowDelegate: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[optional]
-        #[method(windowShouldClose:)]
-        unsafe fn windowShouldClose(&self, sender: &NSWindow) -> bool;
+    #[objc2::method(sel = "windowRef")]
+    pub unsafe fn windowRef(&self) -> NonNull<c_void>;
+}
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[optional]
-        #[method_id(@__retain_semantics Other windowWillReturnFieldEditor:toObject:)]
-        unsafe fn windowWillReturnFieldEditor_toObject(
-            &self,
-            sender: &NSWindow,
-            client: Option<&Object>,
-        ) -> Option<Id<Object>>;
+#[objc2::protocol]
+pub unsafe trait NSWindowDelegate: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(optional, sel = "windowShouldClose:")]
+    unsafe fn windowShouldClose(&self, sender: &NSWindow) -> bool;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[optional]
-        #[method(windowWillResize:toSize:)]
-        unsafe fn windowWillResize_toSize(&self, sender: &NSWindow, frame_size: NSSize) -> NSSize;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(
+        optional,
+        sel = "windowWillReturnFieldEditor:toObject:",
+        managed = "Other"
+    )]
+    unsafe fn windowWillReturnFieldEditor_toObject(
+        &self,
+        sender: &NSWindow,
+        client: Option<&Object>,
+    ) -> Option<Id<Object>>;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[optional]
-        #[method(windowWillUseStandardFrame:defaultFrame:)]
-        unsafe fn windowWillUseStandardFrame_defaultFrame(
-            &self,
-            window: &NSWindow,
-            new_frame: NSRect,
-        ) -> NSRect;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(optional, sel = "windowWillResize:toSize:")]
+    unsafe fn windowWillResize_toSize(&self, sender: &NSWindow, frame_size: NSSize) -> NSSize;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[optional]
-        #[method(windowShouldZoom:toFrame:)]
-        unsafe fn windowShouldZoom_toFrame(&self, window: &NSWindow, new_frame: NSRect) -> bool;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(optional, sel = "windowWillUseStandardFrame:defaultFrame:")]
+    unsafe fn windowWillUseStandardFrame_defaultFrame(
+        &self,
+        window: &NSWindow,
+        new_frame: NSRect,
+    ) -> NSRect;
 
-        #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSUndoManager"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other windowWillReturnUndoManager:)]
-        unsafe fn windowWillReturnUndoManager(
-            &self,
-            window: &NSWindow,
-        ) -> Option<Id<NSUndoManager>>;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(optional, sel = "windowShouldZoom:toFrame:")]
+    unsafe fn windowShouldZoom_toFrame(&self, window: &NSWindow, new_frame: NSRect) -> bool;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[optional]
-        #[method(window:willPositionSheet:usingRect:)]
-        unsafe fn window_willPositionSheet_usingRect(
-            &self,
-            window: &NSWindow,
-            sheet: &NSWindow,
-            rect: NSRect,
-        ) -> NSRect;
+    #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSUndoManager"))]
+    #[objc2::method(optional, sel = "windowWillReturnUndoManager:", managed = "Other")]
+    unsafe fn windowWillReturnUndoManager(&self, window: &NSWindow) -> Option<Id<NSUndoManager>>;
 
-        #[cfg(all(feature = "AppKit_NSMenu", feature = "AppKit_NSWindow"))]
-        #[optional]
-        #[method(window:shouldPopUpDocumentPathMenu:)]
-        unsafe fn window_shouldPopUpDocumentPathMenu(
-            &self,
-            window: &NSWindow,
-            menu: &NSMenu,
-        ) -> bool;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(optional, sel = "window:willPositionSheet:usingRect:")]
+    unsafe fn window_willPositionSheet_usingRect(
+        &self,
+        window: &NSWindow,
+        sheet: &NSWindow,
+        rect: NSRect,
+    ) -> NSRect;
 
-        #[cfg(all(
-            feature = "AppKit_NSEvent",
-            feature = "AppKit_NSPasteboard",
-            feature = "AppKit_NSWindow"
-        ))]
-        #[optional]
-        #[method(window:shouldDragDocumentWithEvent:from:withPasteboard:)]
-        unsafe fn window_shouldDragDocumentWithEvent_from_withPasteboard(
-            &self,
-            window: &NSWindow,
-            event: &NSEvent,
-            drag_image_location: NSPoint,
-            pasteboard: &NSPasteboard,
-        ) -> bool;
+    #[cfg(all(feature = "AppKit_NSMenu", feature = "AppKit_NSWindow"))]
+    #[objc2::method(optional, sel = "window:shouldPopUpDocumentPathMenu:")]
+    unsafe fn window_shouldPopUpDocumentPathMenu(&self, window: &NSWindow, menu: &NSMenu) -> bool;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[optional]
-        #[method(window:willUseFullScreenContentSize:)]
-        unsafe fn window_willUseFullScreenContentSize(
-            &self,
-            window: &NSWindow,
-            proposed_size: NSSize,
-        ) -> NSSize;
+    #[cfg(all(
+        feature = "AppKit_NSEvent",
+        feature = "AppKit_NSPasteboard",
+        feature = "AppKit_NSWindow"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "window:shouldDragDocumentWithEvent:from:withPasteboard:"
+    )]
+    unsafe fn window_shouldDragDocumentWithEvent_from_withPasteboard(
+        &self,
+        window: &NSWindow,
+        event: &NSEvent,
+        drag_image_location: NSPoint,
+        pasteboard: &NSPasteboard,
+    ) -> bool;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[optional]
-        #[method(window:willUseFullScreenPresentationOptions:)]
-        unsafe fn window_willUseFullScreenPresentationOptions(
-            &self,
-            window: &NSWindow,
-            proposed_options: NSApplicationPresentationOptions,
-        ) -> NSApplicationPresentationOptions;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(optional, sel = "window:willUseFullScreenContentSize:")]
+    unsafe fn window_willUseFullScreenContentSize(
+        &self,
+        window: &NSWindow,
+        proposed_size: NSSize,
+    ) -> NSSize;
 
-        #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSArray"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other customWindowsToEnterFullScreenForWindow:)]
-        unsafe fn customWindowsToEnterFullScreenForWindow(
-            &self,
-            window: &NSWindow,
-        ) -> Option<Id<NSArray<NSWindow>>>;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(optional, sel = "window:willUseFullScreenPresentationOptions:")]
+    unsafe fn window_willUseFullScreenPresentationOptions(
+        &self,
+        window: &NSWindow,
+        proposed_options: NSApplicationPresentationOptions,
+    ) -> NSApplicationPresentationOptions;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[optional]
-        #[method(window:startCustomAnimationToEnterFullScreenWithDuration:)]
-        unsafe fn window_startCustomAnimationToEnterFullScreenWithDuration(
-            &self,
-            window: &NSWindow,
-            duration: NSTimeInterval,
-        );
+    #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSArray"))]
+    #[objc2::method(
+        optional,
+        sel = "customWindowsToEnterFullScreenForWindow:",
+        managed = "Other"
+    )]
+    unsafe fn customWindowsToEnterFullScreenForWindow(
+        &self,
+        window: &NSWindow,
+    ) -> Option<Id<NSArray<NSWindow>>>;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[optional]
-        #[method(windowDidFailToEnterFullScreen:)]
-        unsafe fn windowDidFailToEnterFullScreen(&self, window: &NSWindow);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(
+        optional,
+        sel = "window:startCustomAnimationToEnterFullScreenWithDuration:"
+    )]
+    unsafe fn window_startCustomAnimationToEnterFullScreenWithDuration(
+        &self,
+        window: &NSWindow,
+        duration: NSTimeInterval,
+    );
 
-        #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSArray"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other customWindowsToExitFullScreenForWindow:)]
-        unsafe fn customWindowsToExitFullScreenForWindow(
-            &self,
-            window: &NSWindow,
-        ) -> Option<Id<NSArray<NSWindow>>>;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(optional, sel = "windowDidFailToEnterFullScreen:")]
+    unsafe fn windowDidFailToEnterFullScreen(&self, window: &NSWindow);
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[optional]
-        #[method(window:startCustomAnimationToExitFullScreenWithDuration:)]
-        unsafe fn window_startCustomAnimationToExitFullScreenWithDuration(
-            &self,
-            window: &NSWindow,
-            duration: NSTimeInterval,
-        );
+    #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSArray"))]
+    #[objc2::method(
+        optional,
+        sel = "customWindowsToExitFullScreenForWindow:",
+        managed = "Other"
+    )]
+    unsafe fn customWindowsToExitFullScreenForWindow(
+        &self,
+        window: &NSWindow,
+    ) -> Option<Id<NSArray<NSWindow>>>;
 
-        #[cfg(all(
-            feature = "AppKit_NSScreen",
-            feature = "AppKit_NSWindow",
-            feature = "Foundation_NSArray"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other customWindowsToEnterFullScreenForWindow:onScreen:)]
-        unsafe fn customWindowsToEnterFullScreenForWindow_onScreen(
-            &self,
-            window: &NSWindow,
-            screen: &NSScreen,
-        ) -> Option<Id<NSArray<NSWindow>>>;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(
+        optional,
+        sel = "window:startCustomAnimationToExitFullScreenWithDuration:"
+    )]
+    unsafe fn window_startCustomAnimationToExitFullScreenWithDuration(
+        &self,
+        window: &NSWindow,
+        duration: NSTimeInterval,
+    );
 
-        #[cfg(all(feature = "AppKit_NSScreen", feature = "AppKit_NSWindow"))]
-        #[optional]
-        #[method(window:startCustomAnimationToEnterFullScreenOnScreen:withDuration:)]
-        unsafe fn window_startCustomAnimationToEnterFullScreenOnScreen_withDuration(
-            &self,
-            window: &NSWindow,
-            screen: &NSScreen,
-            duration: NSTimeInterval,
-        );
+    #[cfg(all(
+        feature = "AppKit_NSScreen",
+        feature = "AppKit_NSWindow",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "customWindowsToEnterFullScreenForWindow:onScreen:",
+        managed = "Other"
+    )]
+    unsafe fn customWindowsToEnterFullScreenForWindow_onScreen(
+        &self,
+        window: &NSWindow,
+        screen: &NSScreen,
+    ) -> Option<Id<NSArray<NSWindow>>>;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[optional]
-        #[method(windowDidFailToExitFullScreen:)]
-        unsafe fn windowDidFailToExitFullScreen(&self, window: &NSWindow);
+    #[cfg(all(feature = "AppKit_NSScreen", feature = "AppKit_NSWindow"))]
+    #[objc2::method(
+        optional,
+        sel = "window:startCustomAnimationToEnterFullScreenOnScreen:withDuration:"
+    )]
+    unsafe fn window_startCustomAnimationToEnterFullScreenOnScreen_withDuration(
+        &self,
+        window: &NSWindow,
+        screen: &NSScreen,
+        duration: NSTimeInterval,
+    );
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[optional]
-        #[method(window:willResizeForVersionBrowserWithMaxPreferredSize:maxAllowedSize:)]
-        unsafe fn window_willResizeForVersionBrowserWithMaxPreferredSize_maxAllowedSize(
-            &self,
-            window: &NSWindow,
-            max_preferred_frame_size: NSSize,
-            max_allowed_frame_size: NSSize,
-        ) -> NSSize;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(optional, sel = "windowDidFailToExitFullScreen:")]
+    unsafe fn windowDidFailToExitFullScreen(&self, window: &NSWindow);
 
-        #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSCoder"))]
-        #[optional]
-        #[method(window:willEncodeRestorableState:)]
-        unsafe fn window_willEncodeRestorableState(&self, window: &NSWindow, state: &NSCoder);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(
+        optional,
+        sel = "window:willResizeForVersionBrowserWithMaxPreferredSize:maxAllowedSize:"
+    )]
+    unsafe fn window_willResizeForVersionBrowserWithMaxPreferredSize_maxAllowedSize(
+        &self,
+        window: &NSWindow,
+        max_preferred_frame_size: NSSize,
+        max_allowed_frame_size: NSSize,
+    ) -> NSSize;
 
-        #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSCoder"))]
-        #[optional]
-        #[method(window:didDecodeRestorableState:)]
-        unsafe fn window_didDecodeRestorableState(&self, window: &NSWindow, state: &NSCoder);
+    #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSCoder"))]
+    #[objc2::method(optional, sel = "window:willEncodeRestorableState:")]
+    unsafe fn window_willEncodeRestorableState(&self, window: &NSWindow, state: &NSCoder);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidResize:)]
-        unsafe fn windowDidResize(&self, notification: &NSNotification);
+    #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSCoder"))]
+    #[objc2::method(optional, sel = "window:didDecodeRestorableState:")]
+    unsafe fn window_didDecodeRestorableState(&self, window: &NSWindow, state: &NSCoder);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidExpose:)]
-        unsafe fn windowDidExpose(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidResize:")]
+    unsafe fn windowDidResize(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowWillMove:)]
-        unsafe fn windowWillMove(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidExpose:")]
+    unsafe fn windowDidExpose(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidMove:)]
-        unsafe fn windowDidMove(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowWillMove:")]
+    unsafe fn windowWillMove(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidBecomeKey:)]
-        unsafe fn windowDidBecomeKey(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidMove:")]
+    unsafe fn windowDidMove(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidResignKey:)]
-        unsafe fn windowDidResignKey(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidBecomeKey:")]
+    unsafe fn windowDidBecomeKey(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidBecomeMain:)]
-        unsafe fn windowDidBecomeMain(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidResignKey:")]
+    unsafe fn windowDidResignKey(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidResignMain:)]
-        unsafe fn windowDidResignMain(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidBecomeMain:")]
+    unsafe fn windowDidBecomeMain(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowWillClose:)]
-        unsafe fn windowWillClose(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidResignMain:")]
+    unsafe fn windowDidResignMain(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowWillMiniaturize:)]
-        unsafe fn windowWillMiniaturize(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowWillClose:")]
+    unsafe fn windowWillClose(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidMiniaturize:)]
-        unsafe fn windowDidMiniaturize(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowWillMiniaturize:")]
+    unsafe fn windowWillMiniaturize(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidDeminiaturize:)]
-        unsafe fn windowDidDeminiaturize(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidMiniaturize:")]
+    unsafe fn windowDidMiniaturize(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidUpdate:)]
-        unsafe fn windowDidUpdate(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidDeminiaturize:")]
+    unsafe fn windowDidDeminiaturize(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidChangeScreen:)]
-        unsafe fn windowDidChangeScreen(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidUpdate:")]
+    unsafe fn windowDidUpdate(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidChangeScreenProfile:)]
-        unsafe fn windowDidChangeScreenProfile(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidChangeScreen:")]
+    unsafe fn windowDidChangeScreen(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidChangeBackingProperties:)]
-        unsafe fn windowDidChangeBackingProperties(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidChangeScreenProfile:")]
+    unsafe fn windowDidChangeScreenProfile(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowWillBeginSheet:)]
-        unsafe fn windowWillBeginSheet(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidChangeBackingProperties:")]
+    unsafe fn windowDidChangeBackingProperties(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidEndSheet:)]
-        unsafe fn windowDidEndSheet(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowWillBeginSheet:")]
+    unsafe fn windowWillBeginSheet(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowWillStartLiveResize:)]
-        unsafe fn windowWillStartLiveResize(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidEndSheet:")]
+    unsafe fn windowDidEndSheet(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidEndLiveResize:)]
-        unsafe fn windowDidEndLiveResize(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowWillStartLiveResize:")]
+    unsafe fn windowWillStartLiveResize(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowWillEnterFullScreen:)]
-        unsafe fn windowWillEnterFullScreen(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidEndLiveResize:")]
+    unsafe fn windowDidEndLiveResize(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidEnterFullScreen:)]
-        unsafe fn windowDidEnterFullScreen(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowWillEnterFullScreen:")]
+    unsafe fn windowWillEnterFullScreen(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowWillExitFullScreen:)]
-        unsafe fn windowWillExitFullScreen(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidEnterFullScreen:")]
+    unsafe fn windowDidEnterFullScreen(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidExitFullScreen:)]
-        unsafe fn windowDidExitFullScreen(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowWillExitFullScreen:")]
+    unsafe fn windowWillExitFullScreen(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowWillEnterVersionBrowser:)]
-        unsafe fn windowWillEnterVersionBrowser(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidExitFullScreen:")]
+    unsafe fn windowDidExitFullScreen(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidEnterVersionBrowser:)]
-        unsafe fn windowDidEnterVersionBrowser(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowWillEnterVersionBrowser:")]
+    unsafe fn windowWillEnterVersionBrowser(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowWillExitVersionBrowser:)]
-        unsafe fn windowWillExitVersionBrowser(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidEnterVersionBrowser:")]
+    unsafe fn windowDidEnterVersionBrowser(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidExitVersionBrowser:)]
-        unsafe fn windowDidExitVersionBrowser(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowWillExitVersionBrowser:")]
+    unsafe fn windowWillExitVersionBrowser(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(windowDidChangeOcclusionState:)]
-        unsafe fn windowDidChangeOcclusionState(&self, notification: &NSNotification);
-    }
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidExitVersionBrowser:")]
+    unsafe fn windowDidExitVersionBrowser(&self, notification: &NSNotification);
 
-    unsafe impl ProtocolType for dyn NSWindowDelegate {}
-);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "windowDidChangeOcclusionState:")]
+    unsafe fn windowDidChangeOcclusionState(&self, notification: &NSNotification);
+}
 
 extern_static!(NSWindowDidBecomeKeyNotification: &'static NSNotificationName);
 
@@ -1723,124 +1670,125 @@ extern_static!(NSWindowDidExitVersionBrowserNotification: &'static NSNotificatio
 
 extern_static!(NSWindowDidChangeOcclusionStateNotification: &'static NSNotificationName);
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    #[deprecated]
-    pub enum NSWindowBackingLocation {
-        NSWindowBackingLocationDefault = 0,
-        NSWindowBackingLocationVideoMemory = 1,
-        NSWindowBackingLocationMainMemory = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+#[deprecated]
+pub enum NSWindowBackingLocation {
+    NSWindowBackingLocationDefault = 0,
+    NSWindowBackingLocationVideoMemory = 1,
+    NSWindowBackingLocationMainMemory = 2,
+}
 
-extern_methods!(
-    /// NSDeprecated
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWindow")]
-    unsafe impl NSWindow {
-        #[deprecated = "This method shouldn’t be used as it doesn’t work in all drawing situations; instead, a subview should be used that implements the desired drawing behavior"]
-        #[method(cacheImageInRect:)]
-        pub unsafe fn cacheImageInRect(&self, rect: NSRect);
+    pub type NSWindow;
 
-        #[deprecated = "This method shouldn’t be used as it doesn’t work in all drawing situations; instead, a subview should be used that implements the desired drawing behavior"]
-        #[method(restoreCachedImage)]
-        pub unsafe fn restoreCachedImage(&self);
+    #[deprecated = "This method shouldn’t be used as it doesn’t work in all drawing situations; instead, a subview should be used that implements the desired drawing behavior"]
+    #[objc2::method(sel = "cacheImageInRect:")]
+    pub unsafe fn cacheImageInRect(&self, rect: NSRect);
 
-        #[deprecated = "This method shouldn’t be used as it doesn’t work in all drawing situations; instead, a subview should be used that implements the desired drawing behavior"]
-        #[method(discardCachedImage)]
-        pub unsafe fn discardCachedImage(&self);
+    #[deprecated = "This method shouldn’t be used as it doesn’t work in all drawing situations; instead, a subview should be used that implements the desired drawing behavior"]
+    #[objc2::method(sel = "restoreCachedImage")]
+    pub unsafe fn restoreCachedImage(&self);
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[deprecated = "This method does not do anything and should not be called."]
-        #[method(menuChanged:)]
-        pub unsafe fn menuChanged(menu: &NSMenu);
+    #[deprecated = "This method shouldn’t be used as it doesn’t work in all drawing situations; instead, a subview should be used that implements the desired drawing behavior"]
+    #[objc2::method(sel = "discardCachedImage")]
+    pub unsafe fn discardCachedImage(&self);
 
-        #[deprecated = "This method is unused and should not be called."]
-        #[method(gState)]
-        pub unsafe fn gState(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[deprecated = "This method does not do anything and should not be called."]
+    #[objc2::method(sel = "menuChanged:")]
+    pub unsafe fn menuChanged(menu: &NSMenu);
 
-        #[deprecated = "Use -convertRectToScreen: or -convertPointToScreen: instead"]
-        #[method(convertBaseToScreen:)]
-        pub unsafe fn convertBaseToScreen(&self, point: NSPoint) -> NSPoint;
+    #[deprecated = "This method is unused and should not be called."]
+    #[objc2::method(sel = "gState")]
+    pub unsafe fn gState(&self) -> NSInteger;
 
-        #[deprecated = "Use -convertRectFromScreen or -convertPointFromScreen: instead"]
-        #[method(convertScreenToBase:)]
-        pub unsafe fn convertScreenToBase(&self, point: NSPoint) -> NSPoint;
+    #[deprecated = "Use -convertRectToScreen: or -convertPointToScreen: instead"]
+    #[objc2::method(sel = "convertBaseToScreen:")]
+    pub unsafe fn convertBaseToScreen(&self, point: NSPoint) -> NSPoint;
 
-        #[deprecated = "Use -convertRectToBacking: and -backingScaleFactor instead"]
-        #[method(userSpaceScaleFactor)]
-        pub unsafe fn userSpaceScaleFactor(&self) -> CGFloat;
+    #[deprecated = "Use -convertRectFromScreen or -convertPointFromScreen: instead"]
+    #[objc2::method(sel = "convertScreenToBase:")]
+    pub unsafe fn convertScreenToBase(&self, point: NSPoint) -> NSPoint;
 
-        #[deprecated = "This method does not do anything and should not be called."]
-        #[method(useOptimizedDrawing:)]
-        pub unsafe fn useOptimizedDrawing(&self, flag: bool);
+    #[deprecated = "Use -convertRectToBacking: and -backingScaleFactor instead"]
+    #[objc2::method(sel = "userSpaceScaleFactor")]
+    pub unsafe fn userSpaceScaleFactor(&self) -> CGFloat;
 
-        #[deprecated = "This method does not do anything and should not be called."]
-        #[method(canStoreColor)]
-        pub unsafe fn canStoreColor(&self) -> bool;
+    #[deprecated = "This method does not do anything and should not be called."]
+    #[objc2::method(sel = "useOptimizedDrawing:")]
+    pub unsafe fn useOptimizedDrawing(&self, flag: bool);
 
-        #[deprecated = "Use +[NSAnimationContext runAnimationGroup:completionHandler:] to perform atomic updates across runloop invocations."]
-        #[method(disableFlushWindow)]
-        pub unsafe fn disableFlushWindow(&self);
+    #[deprecated = "This method does not do anything and should not be called."]
+    #[objc2::method(sel = "canStoreColor")]
+    pub unsafe fn canStoreColor(&self) -> bool;
 
-        #[deprecated = "Use +[NSAnimationContext runAnimationGroup:completionHandler:] to perform atomic updates across runloop invocations."]
-        #[method(enableFlushWindow)]
-        pub unsafe fn enableFlushWindow(&self);
+    #[deprecated = "Use +[NSAnimationContext runAnimationGroup:completionHandler:] to perform atomic updates across runloop invocations."]
+    #[objc2::method(sel = "disableFlushWindow")]
+    pub unsafe fn disableFlushWindow(&self);
 
-        #[deprecated = "Use +[NSAnimationContext runAnimationGroup:completionHandler:] to perform atomic updates across runloop invocations."]
-        #[method(isFlushWindowDisabled)]
-        pub unsafe fn isFlushWindowDisabled(&self) -> bool;
+    #[deprecated = "Use +[NSAnimationContext runAnimationGroup:completionHandler:] to perform atomic updates across runloop invocations."]
+    #[objc2::method(sel = "enableFlushWindow")]
+    pub unsafe fn enableFlushWindow(&self);
 
-        #[deprecated = "Allow AppKit's automatic deferred display mechanism to take care of flushing any graphics contexts as needed."]
-        #[method(flushWindow)]
-        pub unsafe fn flushWindow(&self);
+    #[deprecated = "Use +[NSAnimationContext runAnimationGroup:completionHandler:] to perform atomic updates across runloop invocations."]
+    #[objc2::method(sel = "isFlushWindowDisabled")]
+    pub unsafe fn isFlushWindowDisabled(&self) -> bool;
 
-        #[deprecated = "Allow AppKit's automatic deferred display mechanism to take care of flushing any graphics contexts as needed."]
-        #[method(flushWindowIfNeeded)]
-        pub unsafe fn flushWindowIfNeeded(&self);
+    #[deprecated = "Allow AppKit's automatic deferred display mechanism to take care of flushing any graphics contexts as needed."]
+    #[objc2::method(sel = "flushWindow")]
+    pub unsafe fn flushWindow(&self);
 
-        #[deprecated = "Use +[NSAnimationContext runAnimationGroup:completionHandler:] to temporarily prevent AppKit's automatic deferred display mechanism from drawing."]
-        #[method(isAutodisplay)]
-        pub unsafe fn isAutodisplay(&self) -> bool;
+    #[deprecated = "Allow AppKit's automatic deferred display mechanism to take care of flushing any graphics contexts as needed."]
+    #[objc2::method(sel = "flushWindowIfNeeded")]
+    pub unsafe fn flushWindowIfNeeded(&self);
 
-        #[deprecated = "Use +[NSAnimationContext runAnimationGroup:completionHandler:] to temporarily prevent AppKit's automatic deferred display mechanism from drawing."]
-        #[method(setAutodisplay:)]
-        pub unsafe fn setAutodisplay(&self, autodisplay: bool);
+    #[deprecated = "Use +[NSAnimationContext runAnimationGroup:completionHandler:] to temporarily prevent AppKit's automatic deferred display mechanism from drawing."]
+    #[objc2::method(sel = "isAutodisplay")]
+    pub unsafe fn isAutodisplay(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSGraphicsContext")]
-        #[deprecated = "Add instances of NSView to display content in a window."]
-        #[method_id(@__retain_semantics Other graphicsContext)]
-        pub unsafe fn graphicsContext(&self) -> Option<Id<NSGraphicsContext>>;
+    #[deprecated = "Use +[NSAnimationContext runAnimationGroup:completionHandler:] to temporarily prevent AppKit's automatic deferred display mechanism from drawing."]
+    #[objc2::method(sel = "setAutodisplay:")]
+    pub unsafe fn setAutodisplay(&self, autodisplay: bool);
 
-        #[deprecated = "This property does not do anything and should not be used"]
-        #[method(isOneShot)]
-        pub unsafe fn isOneShot(&self) -> bool;
+    #[cfg(feature = "AppKit_NSGraphicsContext")]
+    #[deprecated = "Add instances of NSView to display content in a window."]
+    #[objc2::method(sel = "graphicsContext", managed = "Other")]
+    pub unsafe fn graphicsContext(&self) -> Option<Id<NSGraphicsContext>>;
 
-        #[deprecated = "This property does not do anything and should not be used"]
-        #[method(setOneShot:)]
-        pub unsafe fn setOneShot(&self, one_shot: bool);
+    #[deprecated = "This property does not do anything and should not be used"]
+    #[objc2::method(sel = "isOneShot")]
+    pub unsafe fn isOneShot(&self) -> bool;
 
-        #[deprecated = "This property does not do anything and should not be used"]
-        #[method(preferredBackingLocation)]
-        pub unsafe fn preferredBackingLocation(&self) -> NSWindowBackingLocation;
+    #[deprecated = "This property does not do anything and should not be used"]
+    #[objc2::method(sel = "setOneShot:")]
+    pub unsafe fn setOneShot(&self, one_shot: bool);
 
-        #[deprecated = "This property does not do anything and should not be used"]
-        #[method(setPreferredBackingLocation:)]
-        pub unsafe fn setPreferredBackingLocation(
-            &self,
-            preferred_backing_location: NSWindowBackingLocation,
-        );
+    #[deprecated = "This property does not do anything and should not be used"]
+    #[objc2::method(sel = "preferredBackingLocation")]
+    pub unsafe fn preferredBackingLocation(&self) -> NSWindowBackingLocation;
 
-        #[deprecated = "This property does not do anything and should not be used"]
-        #[method(backingLocation)]
-        pub unsafe fn backingLocation(&self) -> NSWindowBackingLocation;
+    #[deprecated = "This property does not do anything and should not be used"]
+    #[objc2::method(sel = "setPreferredBackingLocation:")]
+    pub unsafe fn setPreferredBackingLocation(
+        &self,
+        preferred_backing_location: NSWindowBackingLocation,
+    );
 
-        #[method(showsResizeIndicator)]
-        pub unsafe fn showsResizeIndicator(&self) -> bool;
+    #[deprecated = "This property does not do anything and should not be used"]
+    #[objc2::method(sel = "backingLocation")]
+    pub unsafe fn backingLocation(&self) -> NSWindowBackingLocation;
 
-        #[method(setShowsResizeIndicator:)]
-        pub unsafe fn setShowsResizeIndicator(&self, shows_resize_indicator: bool);
-    }
-);
+    #[objc2::method(sel = "showsResizeIndicator")]
+    pub unsafe fn showsResizeIndicator(&self) -> bool;
+
+    #[objc2::method(sel = "setShowsResizeIndicator:")]
+    pub unsafe fn setShowsResizeIndicator(&self, shows_resize_indicator: bool);
+}
 
 extern_static!(NSBorderlessWindowMask: NSWindowStyleMask = NSWindowStyleMaskBorderless);
 

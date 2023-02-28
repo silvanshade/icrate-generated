@@ -31,85 +31,85 @@ extern_static!(NSUnionOfObjectsKeyValueOperator: &'static NSKeyValueOperator);
 
 extern_static!(NSUnionOfSetsKeyValueOperator: &'static NSKeyValueOperator);
 
-extern_methods!(
-    /// NSKeyValueCoding
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSArray")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSArray<ObjectType, ObjectTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other valueForKey:)]
-        pub unsafe fn valueForKey(&self, key: &NSString) -> Id<Object>;
+    pub type NSArray<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setValue:forKey:)]
-        pub unsafe fn setValue_forKey(&self, value: Option<&Object>, key: &NSString);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "valueForKey:", managed = "Other")]
+    pub unsafe fn valueForKey(&self, key: &NSString) -> Id<Object>;
 
-extern_methods!(
-    /// NSKeyValueCoding
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setValue:forKey:")]
+    pub unsafe fn setValue_forKey(&self, value: Option<&Object>, key: &NSString);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSDictionary")]
-    unsafe impl<
-            KeyType: Message,
-            ObjectType: Message,
-            KeyTypeOwnership: Ownership,
-            ObjectTypeOwnership: Ownership,
-        > NSDictionary<KeyType, ObjectType, KeyTypeOwnership, ObjectTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other valueForKey:)]
-        pub unsafe fn valueForKey(
-            &self,
-            key: &NSString,
-        ) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
-    }
-);
+    pub type NSDictionary<
+        KeyType: Message = Object,
+        ObjectType: Message = Object,
+        KeyTypeOwnership: Ownership = Shared,
+        ObjectTypeOwnership: Ownership = Shared,
+    >;
 
-extern_methods!(
-    /// NSKeyValueCoding
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "valueForKey:", managed = "Other")]
+    pub unsafe fn valueForKey(&self, key: &NSString)
+        -> Option<Id<ObjectType, ObjectTypeOwnership>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableDictionary")]
-    unsafe impl<
-            KeyType: Message,
-            ObjectType: Message,
-            KeyTypeOwnership: Ownership,
-            ObjectTypeOwnership: Ownership,
-        > NSMutableDictionary<KeyType, ObjectType, KeyTypeOwnership, ObjectTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setValue:forKey:)]
-        pub unsafe fn setValue_forKey(&self, value: Option<&ObjectType>, key: &NSString);
-    }
-);
+    pub type NSMutableDictionary<
+        KeyType: Message = Object,
+        ObjectType: Message = Object,
+        KeyTypeOwnership: Ownership = Shared,
+        ObjectTypeOwnership: Ownership = Shared,
+    >;
 
-extern_methods!(
-    /// NSKeyValueCoding
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setValue:forKey:")]
+    pub unsafe fn setValue_forKey(&self, value: Option<&ObjectType>, key: &NSString);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSOrderedSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSOrderedSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other valueForKey:)]
-        pub unsafe fn valueForKey(&self, key: &NSString) -> Id<Object>;
+    pub type NSOrderedSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setValue:forKey:)]
-        pub unsafe fn setValue_forKey(&self, value: Option<&Object>, key: &NSString);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "valueForKey:", managed = "Other")]
+    pub unsafe fn valueForKey(&self, key: &NSString) -> Id<Object>;
 
-extern_methods!(
-    /// NSKeyValueCoding
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setValue:forKey:")]
+    pub unsafe fn setValue_forKey(&self, value: Option<&Object>, key: &NSString);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other valueForKey:)]
-        pub unsafe fn valueForKey(&self, key: &NSString) -> Id<Object>;
+    pub type NSSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setValue:forKey:)]
-        pub unsafe fn setValue_forKey(&self, value: Option<&Object>, key: &NSString);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "valueForKey:", managed = "Other")]
+    pub unsafe fn valueForKey(&self, key: &NSString) -> Id<Object>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setValue:forKey:")]
+    pub unsafe fn setValue_forKey(&self, value: Option<&Object>, key: &NSString);
+}

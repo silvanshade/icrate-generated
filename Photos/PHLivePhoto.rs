@@ -16,16 +16,16 @@ extern_static!(PHLivePhotoInfoIsDegradedKey: &'static NSString);
 
 extern_static!(PHLivePhotoInfoCancelledKey: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHLivePhoto")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHLivePhoto")]
-    pub struct PHLivePhoto;
-
-    #[cfg(feature = "PhotoKit_PHLivePhoto")]
-    unsafe impl ClassType for PHLivePhoto {
-        type Super = NSObject;
-    }
-);
+    pub type PHLivePhoto;
+}
 
 #[cfg(feature = "PhotoKit_PHLivePhoto")]
 unsafe impl NSCoding for PHLivePhoto {}
@@ -36,40 +36,47 @@ unsafe impl NSObjectProtocol for PHLivePhoto {}
 #[cfg(feature = "PhotoKit_PHLivePhoto")]
 unsafe impl NSSecureCoding for PHLivePhoto {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHLivePhoto")]
-    unsafe impl PHLivePhoto {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type PHLivePhoto;
 
-        #[method(size)]
-        pub unsafe fn size(&self) -> CGSize;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "AppKit_NSImage",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(requestLivePhotoWithResourceFileURLs:placeholderImage:targetSize:contentMode:resultHandler:)]
-        pub unsafe fn requestLivePhotoWithResourceFileURLs_placeholderImage_targetSize_contentMode_resultHandler(
-            file_ur_ls: &NSArray<NSURL>,
-            image: Option<&NSImage>,
-            target_size: CGSize,
-            content_mode: PHImageContentMode,
-            result_handler: &Block<(*mut PHLivePhoto, NonNull<NSDictionary>), ()>,
-        ) -> PHLivePhotoRequestID;
+    #[objc2::method(sel = "size")]
+    pub unsafe fn size(&self) -> CGSize;
 
-        #[method(cancelLivePhotoRequestWithRequestID:)]
-        pub unsafe fn cancelLivePhotoRequestWithRequestID(request_id: PHLivePhotoRequestID);
-    }
-);
+    #[cfg(all(
+        feature = "AppKit_NSImage",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "requestLivePhotoWithResourceFileURLs:placeholderImage:targetSize:contentMode:resultHandler:"
+    )]
+    pub unsafe fn requestLivePhotoWithResourceFileURLs_placeholderImage_targetSize_contentMode_resultHandler(
+        file_ur_ls: &NSArray<NSURL>,
+        image: Option<&NSImage>,
+        target_size: CGSize,
+        content_mode: PHImageContentMode,
+        result_handler: &Block<(*mut PHLivePhoto, NonNull<NSDictionary>), ()>,
+    ) -> PHLivePhotoRequestID;
 
-extern_methods!(
-    /// NSItemProvider
+    #[objc2::method(sel = "cancelLivePhotoRequestWithRequestID:")]
+    pub unsafe fn cancelLivePhotoRequestWithRequestID(request_id: PHLivePhotoRequestID);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHLivePhoto")]
-    unsafe impl PHLivePhoto {}
-);
+    pub type PHLivePhoto;
+}
 
 #[cfg(feature = "PhotoKit_PHLivePhoto")]
 unsafe impl NSItemProviderReading for PHLivePhoto {}

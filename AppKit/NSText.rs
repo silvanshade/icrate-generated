@@ -5,26 +5,26 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSWritingDirection {
-        NSWritingDirectionNatural = -1,
-        NSWritingDirectionLeftToRight = 0,
-        NSWritingDirectionRightToLeft = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSWritingDirection {
+    NSWritingDirectionNatural = -1,
+    NSWritingDirectionLeftToRight = 0,
+    NSWritingDirectionRightToLeft = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSText")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSText")]
-    pub struct NSText;
-
-    #[cfg(feature = "AppKit_NSText")]
-    unsafe impl ClassType for NSText {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type NSText;
+}
 
 #[cfg(feature = "AppKit_NSText")]
 unsafe impl NSAccessibility for NSText {}
@@ -56,278 +56,277 @@ unsafe impl NSObjectProtocol for NSText {}
 #[cfg(feature = "AppKit_NSText")]
 unsafe impl NSUserInterfaceItemIdentification for NSText {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSText")]
-    unsafe impl NSText {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+    pub type NSText;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other string)]
-        pub unsafe fn string(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setString:)]
-        pub unsafe fn setString(&self, string: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "string", managed = "Other")]
+    pub unsafe fn string(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(replaceCharactersInRange:withString:)]
-        pub unsafe fn replaceCharactersInRange_withString(&self, range: NSRange, string: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setString:")]
+    pub unsafe fn setString(&self, string: &NSString);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(replaceCharactersInRange:withRTF:)]
-        pub unsafe fn replaceCharactersInRange_withRTF(&self, range: NSRange, rtf_data: &NSData);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "replaceCharactersInRange:withString:")]
+    pub unsafe fn replaceCharactersInRange_withString(&self, range: NSRange, string: &NSString);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(replaceCharactersInRange:withRTFD:)]
-        pub unsafe fn replaceCharactersInRange_withRTFD(&self, range: NSRange, rtfd_data: &NSData);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "replaceCharactersInRange:withRTF:")]
+    pub unsafe fn replaceCharactersInRange_withRTF(&self, range: NSRange, rtf_data: &NSData);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other RTFFromRange:)]
-        pub unsafe fn RTFFromRange(&self, range: NSRange) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "replaceCharactersInRange:withRTFD:")]
+    pub unsafe fn replaceCharactersInRange_withRTFD(&self, range: NSRange, rtfd_data: &NSData);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other RTFDFromRange:)]
-        pub unsafe fn RTFDFromRange(&self, range: NSRange) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "RTFFromRange:", managed = "Other")]
+    pub unsafe fn RTFFromRange(&self, range: NSRange) -> Option<Id<NSData>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(writeRTFDToFile:atomically:)]
-        pub unsafe fn writeRTFDToFile_atomically(&self, path: &NSString, flag: bool) -> bool;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "RTFDFromRange:", managed = "Other")]
+    pub unsafe fn RTFDFromRange(&self, range: NSRange) -> Option<Id<NSData>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(readRTFDFromFile:)]
-        pub unsafe fn readRTFDFromFile(&self, path: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "writeRTFDToFile:atomically:")]
+    pub unsafe fn writeRTFDToFile_atomically(&self, path: &NSString, flag: bool) -> bool;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSTextDelegate>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "readRTFDFromFile:")]
+    pub unsafe fn readRTFDFromFile(&self, path: &NSString) -> bool;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSTextDelegate>>);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSTextDelegate>>>;
 
-        #[method(isEditable)]
-        pub unsafe fn isEditable(&self) -> bool;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSTextDelegate>>);
 
-        #[method(setEditable:)]
-        pub unsafe fn setEditable(&self, editable: bool);
+    #[objc2::method(sel = "isEditable")]
+    pub unsafe fn isEditable(&self) -> bool;
 
-        #[method(isSelectable)]
-        pub unsafe fn isSelectable(&self) -> bool;
+    #[objc2::method(sel = "setEditable:")]
+    pub unsafe fn setEditable(&self, editable: bool);
 
-        #[method(setSelectable:)]
-        pub unsafe fn setSelectable(&self, selectable: bool);
+    #[objc2::method(sel = "isSelectable")]
+    pub unsafe fn isSelectable(&self) -> bool;
 
-        #[method(isRichText)]
-        pub unsafe fn isRichText(&self) -> bool;
+    #[objc2::method(sel = "setSelectable:")]
+    pub unsafe fn setSelectable(&self, selectable: bool);
 
-        #[method(setRichText:)]
-        pub unsafe fn setRichText(&self, rich_text: bool);
+    #[objc2::method(sel = "isRichText")]
+    pub unsafe fn isRichText(&self) -> bool;
 
-        #[method(importsGraphics)]
-        pub unsafe fn importsGraphics(&self) -> bool;
+    #[objc2::method(sel = "setRichText:")]
+    pub unsafe fn setRichText(&self, rich_text: bool);
 
-        #[method(setImportsGraphics:)]
-        pub unsafe fn setImportsGraphics(&self, imports_graphics: bool);
+    #[objc2::method(sel = "importsGraphics")]
+    pub unsafe fn importsGraphics(&self) -> bool;
 
-        #[method(isFieldEditor)]
-        pub unsafe fn isFieldEditor(&self) -> bool;
+    #[objc2::method(sel = "setImportsGraphics:")]
+    pub unsafe fn setImportsGraphics(&self, imports_graphics: bool);
 
-        #[method(setFieldEditor:)]
-        pub unsafe fn setFieldEditor(&self, field_editor: bool);
+    #[objc2::method(sel = "isFieldEditor")]
+    pub unsafe fn isFieldEditor(&self) -> bool;
 
-        #[method(usesFontPanel)]
-        pub unsafe fn usesFontPanel(&self) -> bool;
+    #[objc2::method(sel = "setFieldEditor:")]
+    pub unsafe fn setFieldEditor(&self, field_editor: bool);
 
-        #[method(setUsesFontPanel:)]
-        pub unsafe fn setUsesFontPanel(&self, uses_font_panel: bool);
+    #[objc2::method(sel = "usesFontPanel")]
+    pub unsafe fn usesFontPanel(&self) -> bool;
 
-        #[method(drawsBackground)]
-        pub unsafe fn drawsBackground(&self) -> bool;
+    #[objc2::method(sel = "setUsesFontPanel:")]
+    pub unsafe fn setUsesFontPanel(&self, uses_font_panel: bool);
 
-        #[method(setDrawsBackground:)]
-        pub unsafe fn setDrawsBackground(&self, draws_background: bool);
+    #[objc2::method(sel = "drawsBackground")]
+    pub unsafe fn drawsBackground(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other backgroundColor)]
-        pub unsafe fn backgroundColor(&self) -> Option<Id<NSColor>>;
+    #[objc2::method(sel = "setDrawsBackground:")]
+    pub unsafe fn setDrawsBackground(&self, draws_background: bool);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setBackgroundColor:)]
-        pub unsafe fn setBackgroundColor(&self, background_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "backgroundColor", managed = "Other")]
+    pub unsafe fn backgroundColor(&self) -> Option<Id<NSColor>>;
 
-        #[method(isRulerVisible)]
-        pub unsafe fn isRulerVisible(&self) -> bool;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setBackgroundColor:")]
+    pub unsafe fn setBackgroundColor(&self, background_color: Option<&NSColor>);
 
-        #[method(selectedRange)]
-        pub unsafe fn selectedRange(&self) -> NSRange;
+    #[objc2::method(sel = "isRulerVisible")]
+    pub unsafe fn isRulerVisible(&self) -> bool;
 
-        #[method(setSelectedRange:)]
-        pub unsafe fn setSelectedRange(&self, selected_range: NSRange);
+    #[objc2::method(sel = "selectedRange")]
+    pub unsafe fn selectedRange(&self) -> NSRange;
 
-        #[method(scrollRangeToVisible:)]
-        pub unsafe fn scrollRangeToVisible(&self, range: NSRange);
+    #[objc2::method(sel = "setSelectedRange:")]
+    pub unsafe fn setSelectedRange(&self, selected_range: NSRange);
 
-        #[cfg(feature = "AppKit_NSFont")]
-        #[method_id(@__retain_semantics Other font)]
-        pub unsafe fn font(&self) -> Option<Id<NSFont>>;
+    #[objc2::method(sel = "scrollRangeToVisible:")]
+    pub unsafe fn scrollRangeToVisible(&self, range: NSRange);
 
-        #[cfg(feature = "AppKit_NSFont")]
-        #[method(setFont:)]
-        pub unsafe fn setFont(&self, font: Option<&NSFont>);
+    #[cfg(feature = "AppKit_NSFont")]
+    #[objc2::method(sel = "font", managed = "Other")]
+    pub unsafe fn font(&self) -> Option<Id<NSFont>>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other textColor)]
-        pub unsafe fn textColor(&self) -> Option<Id<NSColor>>;
+    #[cfg(feature = "AppKit_NSFont")]
+    #[objc2::method(sel = "setFont:")]
+    pub unsafe fn setFont(&self, font: Option<&NSFont>);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setTextColor:)]
-        pub unsafe fn setTextColor(&self, text_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "textColor", managed = "Other")]
+    pub unsafe fn textColor(&self) -> Option<Id<NSColor>>;
 
-        #[method(alignment)]
-        pub unsafe fn alignment(&self) -> NSTextAlignment;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setTextColor:")]
+    pub unsafe fn setTextColor(&self, text_color: Option<&NSColor>);
 
-        #[method(setAlignment:)]
-        pub unsafe fn setAlignment(&self, alignment: NSTextAlignment);
+    #[objc2::method(sel = "alignment")]
+    pub unsafe fn alignment(&self) -> NSTextAlignment;
 
-        #[method(baseWritingDirection)]
-        pub unsafe fn baseWritingDirection(&self) -> NSWritingDirection;
+    #[objc2::method(sel = "setAlignment:")]
+    pub unsafe fn setAlignment(&self, alignment: NSTextAlignment);
 
-        #[method(setBaseWritingDirection:)]
-        pub unsafe fn setBaseWritingDirection(&self, base_writing_direction: NSWritingDirection);
+    #[objc2::method(sel = "baseWritingDirection")]
+    pub unsafe fn baseWritingDirection(&self) -> NSWritingDirection;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setTextColor:range:)]
-        pub unsafe fn setTextColor_range(&self, color: Option<&NSColor>, range: NSRange);
+    #[objc2::method(sel = "setBaseWritingDirection:")]
+    pub unsafe fn setBaseWritingDirection(&self, base_writing_direction: NSWritingDirection);
 
-        #[cfg(feature = "AppKit_NSFont")]
-        #[method(setFont:range:)]
-        pub unsafe fn setFont_range(&self, font: &NSFont, range: NSRange);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setTextColor:range:")]
+    pub unsafe fn setTextColor_range(&self, color: Option<&NSColor>, range: NSRange);
 
-        #[method(maxSize)]
-        pub unsafe fn maxSize(&self) -> NSSize;
+    #[cfg(feature = "AppKit_NSFont")]
+    #[objc2::method(sel = "setFont:range:")]
+    pub unsafe fn setFont_range(&self, font: &NSFont, range: NSRange);
 
-        #[method(setMaxSize:)]
-        pub unsafe fn setMaxSize(&self, max_size: NSSize);
+    #[objc2::method(sel = "maxSize")]
+    pub unsafe fn maxSize(&self) -> NSSize;
 
-        #[method(minSize)]
-        pub unsafe fn minSize(&self) -> NSSize;
+    #[objc2::method(sel = "setMaxSize:")]
+    pub unsafe fn setMaxSize(&self, max_size: NSSize);
 
-        #[method(setMinSize:)]
-        pub unsafe fn setMinSize(&self, min_size: NSSize);
+    #[objc2::method(sel = "minSize")]
+    pub unsafe fn minSize(&self) -> NSSize;
 
-        #[method(isHorizontallyResizable)]
-        pub unsafe fn isHorizontallyResizable(&self) -> bool;
+    #[objc2::method(sel = "setMinSize:")]
+    pub unsafe fn setMinSize(&self, min_size: NSSize);
 
-        #[method(setHorizontallyResizable:)]
-        pub unsafe fn setHorizontallyResizable(&self, horizontally_resizable: bool);
+    #[objc2::method(sel = "isHorizontallyResizable")]
+    pub unsafe fn isHorizontallyResizable(&self) -> bool;
 
-        #[method(isVerticallyResizable)]
-        pub unsafe fn isVerticallyResizable(&self) -> bool;
+    #[objc2::method(sel = "setHorizontallyResizable:")]
+    pub unsafe fn setHorizontallyResizable(&self, horizontally_resizable: bool);
 
-        #[method(setVerticallyResizable:)]
-        pub unsafe fn setVerticallyResizable(&self, vertically_resizable: bool);
+    #[objc2::method(sel = "isVerticallyResizable")]
+    pub unsafe fn isVerticallyResizable(&self) -> bool;
 
-        #[method(sizeToFit)]
-        pub unsafe fn sizeToFit(&self);
+    #[objc2::method(sel = "setVerticallyResizable:")]
+    pub unsafe fn setVerticallyResizable(&self, vertically_resizable: bool);
 
-        #[method(copy:)]
-        pub unsafe fn copy(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "sizeToFit")]
+    pub unsafe fn sizeToFit(&self);
 
-        #[method(copyFont:)]
-        pub unsafe fn copyFont(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "copy:")]
+    pub unsafe fn copy(&self, sender: Option<&Object>);
 
-        #[method(copyRuler:)]
-        pub unsafe fn copyRuler(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "copyFont:")]
+    pub unsafe fn copyFont(&self, sender: Option<&Object>);
 
-        #[method(cut:)]
-        pub unsafe fn cut(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "copyRuler:")]
+    pub unsafe fn copyRuler(&self, sender: Option<&Object>);
 
-        #[method(delete:)]
-        pub unsafe fn delete(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "cut:")]
+    pub unsafe fn cut(&self, sender: Option<&Object>);
 
-        #[method(paste:)]
-        pub unsafe fn paste(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "delete:")]
+    pub unsafe fn delete(&self, sender: Option<&Object>);
 
-        #[method(pasteFont:)]
-        pub unsafe fn pasteFont(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "paste:")]
+    pub unsafe fn paste(&self, sender: Option<&Object>);
 
-        #[method(pasteRuler:)]
-        pub unsafe fn pasteRuler(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "pasteFont:")]
+    pub unsafe fn pasteFont(&self, sender: Option<&Object>);
 
-        #[method(selectAll:)]
-        pub unsafe fn selectAll(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "pasteRuler:")]
+    pub unsafe fn pasteRuler(&self, sender: Option<&Object>);
 
-        #[method(changeFont:)]
-        pub unsafe fn changeFont(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "selectAll:")]
+    pub unsafe fn selectAll(&self, sender: Option<&Object>);
 
-        #[method(alignLeft:)]
-        pub unsafe fn alignLeft(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "changeFont:")]
+    pub unsafe fn changeFont(&self, sender: Option<&Object>);
 
-        #[method(alignRight:)]
-        pub unsafe fn alignRight(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "alignLeft:")]
+    pub unsafe fn alignLeft(&self, sender: Option<&Object>);
 
-        #[method(alignCenter:)]
-        pub unsafe fn alignCenter(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "alignRight:")]
+    pub unsafe fn alignRight(&self, sender: Option<&Object>);
 
-        #[method(subscript:)]
-        pub unsafe fn subscript(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "alignCenter:")]
+    pub unsafe fn alignCenter(&self, sender: Option<&Object>);
 
-        #[method(superscript:)]
-        pub unsafe fn superscript(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "subscript:")]
+    pub unsafe fn subscript(&self, sender: Option<&Object>);
 
-        #[method(underline:)]
-        pub unsafe fn underline(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "superscript:")]
+    pub unsafe fn superscript(&self, sender: Option<&Object>);
 
-        #[method(unscript:)]
-        pub unsafe fn unscript(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "underline:")]
+    pub unsafe fn underline(&self, sender: Option<&Object>);
 
-        #[method(showGuessPanel:)]
-        pub unsafe fn showGuessPanel(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "unscript:")]
+    pub unsafe fn unscript(&self, sender: Option<&Object>);
 
-        #[method(checkSpelling:)]
-        pub unsafe fn checkSpelling(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "showGuessPanel:")]
+    pub unsafe fn showGuessPanel(&self, sender: Option<&Object>);
 
-        #[method(toggleRuler:)]
-        pub unsafe fn toggleRuler(&self, sender: Option<&Object>);
-    }
-);
+    #[objc2::method(sel = "checkSpelling:")]
+    pub unsafe fn checkSpelling(&self, sender: Option<&Object>);
 
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        NSEnterCharacter = 0x0003,
-        NSBackspaceCharacter = 0x0008,
-        NSTabCharacter = 0x0009,
-        NSNewlineCharacter = 0x000a,
-        NSFormFeedCharacter = 0x000c,
-        NSCarriageReturnCharacter = 0x000d,
-        NSBackTabCharacter = 0x0019,
-        NSDeleteCharacter = 0x007f,
-        NSLineSeparatorCharacter = 0x2028,
-        NSParagraphSeparatorCharacter = 0x2029,
-    }
-);
+    #[objc2::method(sel = "toggleRuler:")]
+    pub unsafe fn toggleRuler(&self, sender: Option<&Object>);
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSTextMovement {
-        NSTextMovementReturn = 0x10,
-        NSTextMovementTab = 0x11,
-        NSTextMovementBacktab = 0x12,
-        NSTextMovementLeft = 0x13,
-        NSTextMovementRight = 0x14,
-        NSTextMovementUp = 0x15,
-        NSTextMovementDown = 0x16,
-        NSTextMovementCancel = 0x17,
-        NSTextMovementOther = 0,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    NSEnterCharacter = 0x0003,
+    NSBackspaceCharacter = 0x0008,
+    NSTabCharacter = 0x0009,
+    NSNewlineCharacter = 0x000a,
+    NSFormFeedCharacter = 0x000c,
+    NSCarriageReturnCharacter = 0x000d,
+    NSBackTabCharacter = 0x0019,
+    NSDeleteCharacter = 0x007f,
+    NSLineSeparatorCharacter = 0x2028,
+    NSParagraphSeparatorCharacter = 0x2029,
+}
+
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSTextMovement {
+    NSTextMovementReturn = 0x10,
+    NSTextMovementTab = 0x11,
+    NSTextMovementBacktab = 0x12,
+    NSTextMovementLeft = 0x13,
+    NSTextMovementRight = 0x14,
+    NSTextMovementUp = 0x15,
+    NSTextMovementDown = 0x16,
+    NSTextMovementCancel = 0x17,
+    NSTextMovementOther = 0,
+}
 
 extern_static!(NSTextDidBeginEditingNotification: &'static NSNotificationName);
 
@@ -337,62 +336,52 @@ extern_static!(NSTextDidChangeNotification: &'static NSNotificationName);
 
 extern_static!(NSTextMovementUserInfoKey: &'static NSString);
 
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        NSIllegalTextMovement = 0,
-        NSReturnTextMovement = 0x10,
-        NSTabTextMovement = 0x11,
-        NSBacktabTextMovement = 0x12,
-        NSLeftTextMovement = 0x13,
-        NSRightTextMovement = 0x14,
-        NSUpTextMovement = 0x15,
-        NSDownTextMovement = 0x16,
-        NSCancelTextMovement = 0x17,
-        NSOtherTextMovement = 0,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    NSIllegalTextMovement = 0,
+    NSReturnTextMovement = 0x10,
+    NSTabTextMovement = 0x11,
+    NSBacktabTextMovement = 0x12,
+    NSLeftTextMovement = 0x13,
+    NSRightTextMovement = 0x14,
+    NSUpTextMovement = 0x15,
+    NSDownTextMovement = 0x16,
+    NSCancelTextMovement = 0x17,
+    NSOtherTextMovement = 0,
+}
 
-extern_protocol!(
-    pub unsafe trait NSTextDelegate: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSText")]
-        #[optional]
-        #[method(textShouldBeginEditing:)]
-        unsafe fn textShouldBeginEditing(&self, text_object: &NSText) -> bool;
+#[objc2::protocol]
+pub unsafe trait NSTextDelegate: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSText")]
+    #[objc2::method(optional, sel = "textShouldBeginEditing:")]
+    unsafe fn textShouldBeginEditing(&self, text_object: &NSText) -> bool;
 
-        #[cfg(feature = "AppKit_NSText")]
-        #[optional]
-        #[method(textShouldEndEditing:)]
-        unsafe fn textShouldEndEditing(&self, text_object: &NSText) -> bool;
+    #[cfg(feature = "AppKit_NSText")]
+    #[objc2::method(optional, sel = "textShouldEndEditing:")]
+    unsafe fn textShouldEndEditing(&self, text_object: &NSText) -> bool;
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(textDidBeginEditing:)]
-        unsafe fn textDidBeginEditing(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "textDidBeginEditing:")]
+    unsafe fn textDidBeginEditing(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(textDidEndEditing:)]
-        unsafe fn textDidEndEditing(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "textDidEndEditing:")]
+    unsafe fn textDidEndEditing(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(textDidChange:)]
-        unsafe fn textDidChange(&self, notification: &NSNotification);
-    }
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "textDidChange:")]
+    unsafe fn textDidChange(&self, notification: &NSNotification);
+}
 
-    unsafe impl ProtocolType for dyn NSTextDelegate {}
-);
-
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        #[deprecated = "Use NSWritingDirectionEmbedding instead"]
-        NSTextWritingDirectionEmbedding = 0 << 1,
-        #[deprecated = "Use NSWritingDirectionOverride instead"]
-        NSTextWritingDirectionOverride = 1 << 1,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    #[deprecated = "Use NSWritingDirectionEmbedding instead"]
+    NSTextWritingDirectionEmbedding = 0 << 1,
+    #[deprecated = "Use NSWritingDirectionOverride instead"]
+    NSTextWritingDirectionOverride = 1 << 1,
+}
 
 extern_static!(NSLeftTextAlignment: NSTextAlignment = NSTextAlignmentLeft);
 

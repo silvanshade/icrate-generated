@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSGestureRecognizer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSClickGestureRecognizer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSClickGestureRecognizer")]
-    pub struct NSClickGestureRecognizer;
-
-    #[cfg(feature = "AppKit_NSClickGestureRecognizer")]
-    unsafe impl ClassType for NSClickGestureRecognizer {
-        #[inherits(NSObject)]
-        type Super = NSGestureRecognizer;
-    }
-);
+    pub type NSClickGestureRecognizer;
+}
 
 #[cfg(feature = "AppKit_NSClickGestureRecognizer")]
 unsafe impl NSCoding for NSClickGestureRecognizer {}
@@ -23,38 +23,47 @@ unsafe impl NSCoding for NSClickGestureRecognizer {}
 #[cfg(feature = "AppKit_NSClickGestureRecognizer")]
 unsafe impl NSObjectProtocol for NSClickGestureRecognizer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSClickGestureRecognizer")]
-    unsafe impl NSClickGestureRecognizer {
-        #[method(buttonMask)]
-        pub unsafe fn buttonMask(&self) -> NSUInteger;
+    pub type NSClickGestureRecognizer;
 
-        #[method(setButtonMask:)]
-        pub unsafe fn setButtonMask(&self, button_mask: NSUInteger);
+    #[objc2::method(sel = "buttonMask")]
+    pub unsafe fn buttonMask(&self) -> NSUInteger;
 
-        #[method(numberOfClicksRequired)]
-        pub unsafe fn numberOfClicksRequired(&self) -> NSInteger;
+    #[objc2::method(sel = "setButtonMask:")]
+    pub unsafe fn setButtonMask(&self, button_mask: NSUInteger);
 
-        #[method(setNumberOfClicksRequired:)]
-        pub unsafe fn setNumberOfClicksRequired(&self, number_of_clicks_required: NSInteger);
+    #[objc2::method(sel = "numberOfClicksRequired")]
+    pub unsafe fn numberOfClicksRequired(&self) -> NSInteger;
 
-        #[method(numberOfTouchesRequired)]
-        pub unsafe fn numberOfTouchesRequired(&self) -> NSInteger;
+    #[objc2::method(sel = "setNumberOfClicksRequired:")]
+    pub unsafe fn setNumberOfClicksRequired(&self, number_of_clicks_required: NSInteger);
 
-        #[method(setNumberOfTouchesRequired:)]
-        pub unsafe fn setNumberOfTouchesRequired(&self, number_of_touches_required: NSInteger);
-    }
-);
+    #[objc2::method(sel = "numberOfTouchesRequired")]
+    pub unsafe fn numberOfTouchesRequired(&self) -> NSInteger;
 
-extern_methods!(
-    /// Methods declared on superclass `NSGestureRecognizer`
+    #[objc2::method(sel = "setNumberOfTouchesRequired:")]
+    pub unsafe fn setNumberOfTouchesRequired(&self, number_of_touches_required: NSInteger);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSGestureRecognizer`
     #[cfg(feature = "AppKit_NSClickGestureRecognizer")]
-    unsafe impl NSClickGestureRecognizer {
-        #[method_id(@__retain_semantics Init initWithTarget:action:)]
-        pub unsafe fn initWithTarget_action(
-            this: Option<Allocated<Self>>,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSClickGestureRecognizer")]
+    pub type NSClickGestureRecognizer;
+
+    #[objc2::method(sel = "initWithTarget:action:", managed = "Init")]
+    pub unsafe fn initWithTarget_action(
+        this: Option<Allocated<Self>>,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
+}

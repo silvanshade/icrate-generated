@@ -8,58 +8,61 @@ use crate::GameController::*;
 pub type GCControllerDirectionPadValueChangedHandler =
     *mut Block<(NonNull<GCControllerDirectionPad>, c_float, c_float), ()>;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = GCControllerElement,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCControllerDirectionPad")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCControllerDirectionPad")]
-    pub struct GCControllerDirectionPad;
-
-    #[cfg(feature = "GameController_GCControllerDirectionPad")]
-    unsafe impl ClassType for GCControllerDirectionPad {
-        #[inherits(NSObject)]
-        type Super = GCControllerElement;
-    }
-);
+    pub type GCControllerDirectionPad;
+}
 
 #[cfg(feature = "GameController_GCControllerDirectionPad")]
 unsafe impl NSObjectProtocol for GCControllerDirectionPad {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCControllerDirectionPad")]
-    unsafe impl GCControllerDirectionPad {
-        #[method(valueChangedHandler)]
-        pub unsafe fn valueChangedHandler(&self) -> GCControllerDirectionPadValueChangedHandler;
+    pub type GCControllerDirectionPad;
 
-        #[method(setValueChangedHandler:)]
-        pub unsafe fn setValueChangedHandler(
-            &self,
-            value_changed_handler: GCControllerDirectionPadValueChangedHandler,
-        );
+    #[objc2::method(sel = "valueChangedHandler")]
+    pub unsafe fn valueChangedHandler(&self) -> GCControllerDirectionPadValueChangedHandler;
 
-        #[cfg(feature = "GameController_GCControllerAxisInput")]
-        #[method_id(@__retain_semantics Other xAxis)]
-        pub unsafe fn xAxis(&self) -> Id<GCControllerAxisInput>;
+    #[objc2::method(sel = "setValueChangedHandler:")]
+    pub unsafe fn setValueChangedHandler(
+        &self,
+        value_changed_handler: GCControllerDirectionPadValueChangedHandler,
+    );
 
-        #[cfg(feature = "GameController_GCControllerAxisInput")]
-        #[method_id(@__retain_semantics Other yAxis)]
-        pub unsafe fn yAxis(&self) -> Id<GCControllerAxisInput>;
+    #[cfg(feature = "GameController_GCControllerAxisInput")]
+    #[objc2::method(sel = "xAxis", managed = "Other")]
+    pub unsafe fn xAxis(&self) -> Id<GCControllerAxisInput>;
 
-        #[cfg(feature = "GameController_GCControllerButtonInput")]
-        #[method_id(@__retain_semantics Other up)]
-        pub unsafe fn up(&self) -> Id<GCControllerButtonInput>;
+    #[cfg(feature = "GameController_GCControllerAxisInput")]
+    #[objc2::method(sel = "yAxis", managed = "Other")]
+    pub unsafe fn yAxis(&self) -> Id<GCControllerAxisInput>;
 
-        #[cfg(feature = "GameController_GCControllerButtonInput")]
-        #[method_id(@__retain_semantics Other down)]
-        pub unsafe fn down(&self) -> Id<GCControllerButtonInput>;
+    #[cfg(feature = "GameController_GCControllerButtonInput")]
+    #[objc2::method(sel = "up", managed = "Other")]
+    pub unsafe fn up(&self) -> Id<GCControllerButtonInput>;
 
-        #[cfg(feature = "GameController_GCControllerButtonInput")]
-        #[method_id(@__retain_semantics Other left)]
-        pub unsafe fn left(&self) -> Id<GCControllerButtonInput>;
+    #[cfg(feature = "GameController_GCControllerButtonInput")]
+    #[objc2::method(sel = "down", managed = "Other")]
+    pub unsafe fn down(&self) -> Id<GCControllerButtonInput>;
 
-        #[cfg(feature = "GameController_GCControllerButtonInput")]
-        #[method_id(@__retain_semantics Other right)]
-        pub unsafe fn right(&self) -> Id<GCControllerButtonInput>;
+    #[cfg(feature = "GameController_GCControllerButtonInput")]
+    #[objc2::method(sel = "left", managed = "Other")]
+    pub unsafe fn left(&self) -> Id<GCControllerButtonInput>;
 
-        #[method(setValueForXAxis:yAxis:)]
-        pub unsafe fn setValueForXAxis_yAxis(&self, x_axis: c_float, y_axis: c_float);
-    }
-);
+    #[cfg(feature = "GameController_GCControllerButtonInput")]
+    #[objc2::method(sel = "right", managed = "Other")]
+    pub unsafe fn right(&self) -> Id<GCControllerButtonInput>;
+
+    #[objc2::method(sel = "setValueForXAxis:yAxis:")]
+    pub unsafe fn setValueForXAxis_yAxis(&self, x_axis: c_float, y_axis: c_float);
+}

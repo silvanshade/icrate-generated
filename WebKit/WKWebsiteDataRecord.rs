@@ -27,29 +27,32 @@ extern_static!(WKWebsiteDataTypeServiceWorkerRegistrations: &'static NSString);
 
 extern_static!(WKWebsiteDataTypeFileSystem: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKWebsiteDataRecord")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKWebsiteDataRecord")]
-    pub struct WKWebsiteDataRecord;
-
-    #[cfg(feature = "WebKit_WKWebsiteDataRecord")]
-    unsafe impl ClassType for WKWebsiteDataRecord {
-        type Super = NSObject;
-    }
-);
+    pub type WKWebsiteDataRecord;
+}
 
 #[cfg(feature = "WebKit_WKWebsiteDataRecord")]
 unsafe impl NSObjectProtocol for WKWebsiteDataRecord {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKWebsiteDataRecord")]
-    unsafe impl WKWebsiteDataRecord {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other displayName)]
-        pub unsafe fn displayName(&self) -> Id<NSString>;
+    pub type WKWebsiteDataRecord;
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other dataTypes)]
-        pub unsafe fn dataTypes(&self) -> Id<NSSet<NSString>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "displayName", managed = "Other")]
+    pub unsafe fn displayName(&self) -> Id<NSString>;
+
+    #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "dataTypes", managed = "Other")]
+    pub unsafe fn dataTypes(&self) -> Id<NSSet<NSString>>;
+}

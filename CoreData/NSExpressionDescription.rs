@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSPropertyDescription,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSExpressionDescription")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSExpressionDescription")]
-    pub struct NSExpressionDescription;
-
-    #[cfg(feature = "CoreData_NSExpressionDescription")]
-    unsafe impl ClassType for NSExpressionDescription {
-        #[inherits(NSObject)]
-        type Super = NSPropertyDescription;
-    }
-);
+    pub type NSExpressionDescription;
+}
 
 #[cfg(feature = "CoreData_NSExpressionDescription")]
 unsafe impl NSCoding for NSExpressionDescription {}
@@ -22,21 +22,24 @@ unsafe impl NSCoding for NSExpressionDescription {}
 #[cfg(feature = "CoreData_NSExpressionDescription")]
 unsafe impl NSObjectProtocol for NSExpressionDescription {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSExpressionDescription")]
-    unsafe impl NSExpressionDescription {
-        #[cfg(feature = "Foundation_NSExpression")]
-        #[method_id(@__retain_semantics Other expression)]
-        pub unsafe fn expression(&self) -> Option<Id<NSExpression>>;
+    pub type NSExpressionDescription;
 
-        #[cfg(feature = "Foundation_NSExpression")]
-        #[method(setExpression:)]
-        pub unsafe fn setExpression(&self, expression: Option<&NSExpression>);
+    #[cfg(feature = "Foundation_NSExpression")]
+    #[objc2::method(sel = "expression", managed = "Other")]
+    pub unsafe fn expression(&self) -> Option<Id<NSExpression>>;
 
-        #[method(expressionResultType)]
-        pub unsafe fn expressionResultType(&self) -> NSAttributeType;
+    #[cfg(feature = "Foundation_NSExpression")]
+    #[objc2::method(sel = "setExpression:")]
+    pub unsafe fn setExpression(&self, expression: Option<&NSExpression>);
 
-        #[method(setExpressionResultType:)]
-        pub unsafe fn setExpressionResultType(&self, expression_result_type: NSAttributeType);
-    }
-);
+    #[objc2::method(sel = "expressionResultType")]
+    pub unsafe fn expressionResultType(&self) -> NSAttributeType;
+
+    #[objc2::method(sel = "setExpressionResultType:")]
+    pub unsafe fn setExpressionResultType(&self, expression_result_type: NSAttributeType);
+}

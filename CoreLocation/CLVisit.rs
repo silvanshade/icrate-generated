@@ -5,16 +5,16 @@ use crate::Contacts::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreLocation_CLVisit")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreLocation_CLVisit")]
-    pub struct CLVisit;
-
-    #[cfg(feature = "CoreLocation_CLVisit")]
-    unsafe impl ClassType for CLVisit {
-        type Super = NSObject;
-    }
-);
+    pub type CLVisit;
+}
 
 #[cfg(feature = "CoreLocation_CLVisit")]
 unsafe impl NSCoding for CLVisit {}
@@ -25,21 +25,24 @@ unsafe impl NSObjectProtocol for CLVisit {}
 #[cfg(feature = "CoreLocation_CLVisit")]
 unsafe impl NSSecureCoding for CLVisit {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreLocation_CLVisit")]
-    unsafe impl CLVisit {
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other arrivalDate)]
-        pub unsafe fn arrivalDate(&self) -> Id<NSDate>;
+    pub type CLVisit;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other departureDate)]
-        pub unsafe fn departureDate(&self) -> Id<NSDate>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "arrivalDate", managed = "Other")]
+    pub unsafe fn arrivalDate(&self) -> Id<NSDate>;
 
-        #[method(coordinate)]
-        pub unsafe fn coordinate(&self) -> CLLocationCoordinate2D;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "departureDate", managed = "Other")]
+    pub unsafe fn departureDate(&self) -> Id<NSDate>;
 
-        #[method(horizontalAccuracy)]
-        pub unsafe fn horizontalAccuracy(&self) -> CLLocationAccuracy;
-    }
-);
+    #[objc2::method(sel = "coordinate")]
+    pub unsafe fn coordinate(&self) -> CLLocationCoordinate2D;
+
+    #[objc2::method(sel = "horizontalAccuracy")]
+    pub unsafe fn horizontalAccuracy(&self) -> CLLocationAccuracy;
+}

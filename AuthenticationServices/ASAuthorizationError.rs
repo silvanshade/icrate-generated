@@ -6,14 +6,13 @@ use crate::Foundation::*;
 
 extern_static!(ASAuthorizationErrorDomain: &'static NSErrorDomain);
 
-ns_error_enum!(
-    #[underlying(NSInteger)]
-    pub enum ASAuthorizationError {
-        ASAuthorizationErrorUnknown = 1000,
-        ASAuthorizationErrorCanceled = 1001,
-        ASAuthorizationErrorInvalidResponse = 1002,
-        ASAuthorizationErrorNotHandled = 1003,
-        ASAuthorizationErrorFailed = 1004,
-        ASAuthorizationErrorNotInteractive = 1005,
-    }
-);
+#[ns_error_enum]
+#[underlying(NSInteger)]
+pub enum ASAuthorizationError {
+    ASAuthorizationErrorUnknown = 1000,
+    ASAuthorizationErrorCanceled = 1001,
+    ASAuthorizationErrorInvalidResponse = 1002,
+    ASAuthorizationErrorNotHandled = 1003,
+    ASAuthorizationErrorFailed = 1004,
+    ASAuthorizationErrorNotInteractive = 1005,
+}

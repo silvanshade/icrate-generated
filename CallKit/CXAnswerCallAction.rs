@@ -4,17 +4,18 @@ use crate::common::*;
 use crate::CallKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CXCallAction,
+    unsafe inherits = [
+        CXAction,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CallKit_CXAnswerCallAction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CallKit_CXAnswerCallAction")]
-    pub struct CXAnswerCallAction;
-
-    #[cfg(feature = "CallKit_CXAnswerCallAction")]
-    unsafe impl ClassType for CXAnswerCallAction {
-        #[inherits(CXAction, NSObject)]
-        type Super = CXCallAction;
-    }
-);
+    pub type CXAnswerCallAction;
+}
 
 #[cfg(feature = "CallKit_CXAnswerCallAction")]
 unsafe impl NSCoding for CXAnswerCallAction {}
@@ -25,24 +26,30 @@ unsafe impl NSObjectProtocol for CXAnswerCallAction {}
 #[cfg(feature = "CallKit_CXAnswerCallAction")]
 unsafe impl NSSecureCoding for CXAnswerCallAction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CallKit_CXAnswerCallAction")]
-    unsafe impl CXAnswerCallAction {
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(fulfillWithDateConnected:)]
-        pub unsafe fn fulfillWithDateConnected(&self, date_connected: &NSDate);
-    }
-);
+    pub type CXAnswerCallAction;
 
-extern_methods!(
-    /// Methods declared on superclass `CXCallAction`
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "fulfillWithDateConnected:")]
+    pub unsafe fn fulfillWithDateConnected(&self, date_connected: &NSDate);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CXCallAction`
     #[cfg(feature = "CallKit_CXAnswerCallAction")]
-    unsafe impl CXAnswerCallAction {
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Init initWithCallUUID:)]
-        pub unsafe fn initWithCallUUID(
-            this: Option<Allocated<Self>>,
-            call_uuid: &NSUUID,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CallKit_CXAnswerCallAction")]
+    pub type CXAnswerCallAction;
+
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "initWithCallUUID:", managed = "Init")]
+    pub unsafe fn initWithCallUUID(this: Option<Allocated<Self>>, call_uuid: &NSUUID) -> Id<Self>;
+}

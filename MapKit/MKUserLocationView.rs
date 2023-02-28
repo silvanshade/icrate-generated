@@ -7,17 +7,19 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKAnnotationView,
+    unsafe inherits = [
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKUserLocationView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKUserLocationView")]
-    pub struct MKUserLocationView;
-
-    #[cfg(feature = "MapKit_MKUserLocationView")]
-    unsafe impl ClassType for MKUserLocationView {
-        #[inherits(NSView, NSResponder, NSObject)]
-        type Super = MKAnnotationView;
-    }
-);
+    pub type MKUserLocationView;
+}
 
 #[cfg(feature = "MapKit_MKUserLocationView")]
 unsafe impl NSAccessibility for MKUserLocationView {}
@@ -43,30 +45,45 @@ unsafe impl NSObjectProtocol for MKUserLocationView {}
 #[cfg(feature = "MapKit_MKUserLocationView")]
 unsafe impl NSUserInterfaceItemIdentification for MKUserLocationView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKUserLocationView")]
-    unsafe impl MKUserLocationView {}
-);
+    pub type MKUserLocationView;
+}
 
-extern_methods!(
-    /// Methods declared on superclass `MKAnnotationView`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `MKAnnotationView`
     #[cfg(feature = "MapKit_MKUserLocationView")]
-    unsafe impl MKUserLocationView {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithAnnotation:reuseIdentifier:)]
-        pub unsafe fn initWithAnnotation_reuseIdentifier(
-            this: Option<Allocated<Self>>,
-            annotation: Option<&ProtocolObject<dyn MKAnnotation>>,
-            reuse_identifier: Option<&NSString>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKUserLocationView")]
+    pub type MKUserLocationView;
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithAnnotation:reuseIdentifier:", managed = "Init")]
+    pub unsafe fn initWithAnnotation_reuseIdentifier(
+        this: Option<Allocated<Self>>,
+        annotation: Option<&ProtocolObject<dyn MKAnnotation>>,
+        reuse_identifier: Option<&NSString>,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "MapKit_MKUserLocationView")]
-    unsafe impl MKUserLocationView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKUserLocationView")]
+    pub type MKUserLocationView;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

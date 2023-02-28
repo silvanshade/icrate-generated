@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLTableCaptionElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLTableCaptionElement;
-
     #[cfg(feature = "WebKit_DOMHTMLTableCaptionElement")]
-    unsafe impl ClassType for DOMHTMLTableCaptionElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLTableCaptionElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLTableCaptionElement")]
 unsafe impl DOMEventTarget for DOMHTMLTableCaptionElement {}
@@ -24,15 +28,19 @@ unsafe impl DOMEventTarget for DOMHTMLTableCaptionElement {}
 #[cfg(feature = "WebKit_DOMHTMLTableCaptionElement")]
 unsafe impl NSObjectProtocol for DOMHTMLTableCaptionElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLTableCaptionElement")]
-    unsafe impl DOMHTMLTableCaptionElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other align)]
-        pub unsafe fn align(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMHTMLTableCaptionElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAlign:)]
-        pub unsafe fn setAlign(&self, align: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "align", managed = "Other")]
+    pub unsafe fn align(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAlign:")]
+    pub unsafe fn setAlign(&self, align: Option<&NSString>);
+}

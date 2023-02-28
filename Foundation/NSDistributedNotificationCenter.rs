@@ -9,23 +9,21 @@ typed_extensible_enum!(
 
 extern_static!(NSLocalNotificationCenterType: &'static NSDistributedNotificationCenterType);
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSNotificationSuspensionBehavior {
-        NSNotificationSuspensionBehaviorDrop = 1,
-        NSNotificationSuspensionBehaviorCoalesce = 2,
-        NSNotificationSuspensionBehaviorHold = 3,
-        NSNotificationSuspensionBehaviorDeliverImmediately = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSNotificationSuspensionBehavior {
+    NSNotificationSuspensionBehaviorDrop = 1,
+    NSNotificationSuspensionBehaviorCoalesce = 2,
+    NSNotificationSuspensionBehaviorHold = 3,
+    NSNotificationSuspensionBehaviorDeliverImmediately = 4,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSDistributedNotificationOptions {
-        NSDistributedNotificationDeliverImmediately = 1 << 0,
-        NSDistributedNotificationPostToAllSessions = 1 << 1,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSDistributedNotificationOptions {
+    NSDistributedNotificationDeliverImmediately = 1 << 0,
+    NSDistributedNotificationPostToAllSessions = 1 << 1,
+}
 
 extern_static!(
     NSNotificationDeliverImmediately: NSDistributedNotificationOptions =
@@ -37,103 +35,106 @@ extern_static!(
         NSDistributedNotificationPostToAllSessions
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSNotificationCenter,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSDistributedNotificationCenter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSDistributedNotificationCenter")]
-    pub struct NSDistributedNotificationCenter;
-
-    #[cfg(feature = "Foundation_NSDistributedNotificationCenter")]
-    unsafe impl ClassType for NSDistributedNotificationCenter {
-        #[inherits(NSObject)]
-        type Super = NSNotificationCenter;
-    }
-);
+    pub type NSDistributedNotificationCenter;
+}
 
 #[cfg(feature = "Foundation_NSDistributedNotificationCenter")]
 unsafe impl NSObjectProtocol for NSDistributedNotificationCenter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSDistributedNotificationCenter")]
-    unsafe impl NSDistributedNotificationCenter {
-        #[method_id(@__retain_semantics Other notificationCenterForType:)]
-        pub unsafe fn notificationCenterForType(
-            notification_center_type: &NSDistributedNotificationCenterType,
-        ) -> Id<NSDistributedNotificationCenter>;
+    pub type NSDistributedNotificationCenter;
 
-        #[method_id(@__retain_semantics Other defaultCenter)]
-        pub unsafe fn defaultCenter() -> Id<NSDistributedNotificationCenter>;
+    #[objc2::method(sel = "notificationCenterForType:", managed = "Other")]
+    pub unsafe fn notificationCenterForType(
+        notification_center_type: &NSDistributedNotificationCenterType,
+    ) -> Id<NSDistributedNotificationCenter>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(addObserver:selector:name:object:suspensionBehavior:)]
-        pub unsafe fn addObserver_selector_name_object_suspensionBehavior(
-            &self,
-            observer: &Object,
-            selector: Sel,
-            name: Option<&NSNotificationName>,
-            object: Option<&NSString>,
-            suspension_behavior: NSNotificationSuspensionBehavior,
-        );
+    #[objc2::method(sel = "defaultCenter", managed = "Other")]
+    pub unsafe fn defaultCenter() -> Id<NSDistributedNotificationCenter>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(postNotificationName:object:userInfo:deliverImmediately:)]
-        pub unsafe fn postNotificationName_object_userInfo_deliverImmediately(
-            &self,
-            name: &NSNotificationName,
-            object: Option<&NSString>,
-            user_info: Option<&NSDictionary>,
-            deliver_immediately: bool,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "addObserver:selector:name:object:suspensionBehavior:")]
+    pub unsafe fn addObserver_selector_name_object_suspensionBehavior(
+        &self,
+        observer: &Object,
+        selector: Sel,
+        name: Option<&NSNotificationName>,
+        object: Option<&NSString>,
+        suspension_behavior: NSNotificationSuspensionBehavior,
+    );
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(postNotificationName:object:userInfo:options:)]
-        pub unsafe fn postNotificationName_object_userInfo_options(
-            &self,
-            name: &NSNotificationName,
-            object: Option<&NSString>,
-            user_info: Option<&NSDictionary>,
-            options: NSDistributedNotificationOptions,
-        );
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "postNotificationName:object:userInfo:deliverImmediately:")]
+    pub unsafe fn postNotificationName_object_userInfo_deliverImmediately(
+        &self,
+        name: &NSNotificationName,
+        object: Option<&NSString>,
+        user_info: Option<&NSDictionary>,
+        deliver_immediately: bool,
+    );
 
-        #[method(suspended)]
-        pub unsafe fn suspended(&self) -> bool;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "postNotificationName:object:userInfo:options:")]
+    pub unsafe fn postNotificationName_object_userInfo_options(
+        &self,
+        name: &NSNotificationName,
+        object: Option<&NSString>,
+        user_info: Option<&NSDictionary>,
+        options: NSDistributedNotificationOptions,
+    );
 
-        #[method(setSuspended:)]
-        pub unsafe fn setSuspended(&self, suspended: bool);
+    #[objc2::method(sel = "suspended")]
+    pub unsafe fn suspended(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(addObserver:selector:name:object:)]
-        pub unsafe fn addObserver_selector_name_object(
-            &self,
-            observer: &Object,
-            a_selector: Sel,
-            a_name: Option<&NSNotificationName>,
-            an_object: Option<&NSString>,
-        );
+    #[objc2::method(sel = "setSuspended:")]
+    pub unsafe fn setSuspended(&self, suspended: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(postNotificationName:object:)]
-        pub unsafe fn postNotificationName_object(
-            &self,
-            a_name: &NSNotificationName,
-            an_object: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "addObserver:selector:name:object:")]
+    pub unsafe fn addObserver_selector_name_object(
+        &self,
+        observer: &Object,
+        a_selector: Sel,
+        a_name: Option<&NSNotificationName>,
+        an_object: Option<&NSString>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(postNotificationName:object:userInfo:)]
-        pub unsafe fn postNotificationName_object_userInfo(
-            &self,
-            a_name: &NSNotificationName,
-            an_object: Option<&NSString>,
-            a_user_info: Option<&NSDictionary>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "postNotificationName:object:")]
+    pub unsafe fn postNotificationName_object(
+        &self,
+        a_name: &NSNotificationName,
+        an_object: Option<&NSString>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(removeObserver:name:object:)]
-        pub unsafe fn removeObserver_name_object(
-            &self,
-            observer: &Object,
-            a_name: Option<&NSNotificationName>,
-            an_object: Option<&NSString>,
-        );
-    }
-);
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "postNotificationName:object:userInfo:")]
+    pub unsafe fn postNotificationName_object_userInfo(
+        &self,
+        a_name: &NSNotificationName,
+        an_object: Option<&NSString>,
+        a_user_info: Option<&NSDictionary>,
+    );
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "removeObserver:name:object:")]
+    pub unsafe fn removeObserver_name_object(
+        &self,
+        observer: &Object,
+        a_name: Option<&NSNotificationName>,
+        an_object: Option<&NSString>,
+    );
+}

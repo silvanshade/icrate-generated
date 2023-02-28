@@ -3,76 +3,71 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSInvocation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSInvocation")]
-    pub struct NSInvocation;
-
-    #[cfg(feature = "Foundation_NSInvocation")]
-    unsafe impl ClassType for NSInvocation {
-        type Super = NSObject;
-    }
-);
+    pub type NSInvocation;
+}
 
 #[cfg(feature = "Foundation_NSInvocation")]
 unsafe impl NSObjectProtocol for NSInvocation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSInvocation")]
-    unsafe impl NSInvocation {
-        #[cfg(feature = "Foundation_NSMethodSignature")]
-        #[method_id(@__retain_semantics Other invocationWithMethodSignature:)]
-        pub unsafe fn invocationWithMethodSignature(sig: &NSMethodSignature) -> Id<NSInvocation>;
+    pub type NSInvocation;
 
-        #[cfg(feature = "Foundation_NSMethodSignature")]
-        #[method_id(@__retain_semantics Other methodSignature)]
-        pub unsafe fn methodSignature(&self) -> Id<NSMethodSignature>;
+    #[cfg(feature = "Foundation_NSMethodSignature")]
+    #[objc2::method(sel = "invocationWithMethodSignature:", managed = "Other")]
+    pub unsafe fn invocationWithMethodSignature(sig: &NSMethodSignature) -> Id<NSInvocation>;
 
-        #[method(retainArguments)]
-        pub unsafe fn retainArguments(&self);
+    #[cfg(feature = "Foundation_NSMethodSignature")]
+    #[objc2::method(sel = "methodSignature", managed = "Other")]
+    pub unsafe fn methodSignature(&self) -> Id<NSMethodSignature>;
 
-        #[method(argumentsRetained)]
-        pub unsafe fn argumentsRetained(&self) -> bool;
+    #[objc2::method(sel = "retainArguments")]
+    pub unsafe fn retainArguments(&self);
 
-        #[method_id(@__retain_semantics Other target)]
-        pub unsafe fn target(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "argumentsRetained")]
+    pub unsafe fn argumentsRetained(&self) -> bool;
 
-        #[method(setTarget:)]
-        pub unsafe fn setTarget(&self, target: Option<&Object>);
+    #[objc2::method(sel = "target", managed = "Other")]
+    pub unsafe fn target(&self) -> Option<Id<Object>>;
 
-        #[method(selector)]
-        pub unsafe fn selector(&self) -> Sel;
+    #[objc2::method(sel = "setTarget:")]
+    pub unsafe fn setTarget(&self, target: Option<&Object>);
 
-        #[method(setSelector:)]
-        pub unsafe fn setSelector(&self, selector: Sel);
+    #[objc2::method(sel = "selector")]
+    pub unsafe fn selector(&self) -> Sel;
 
-        #[method(getReturnValue:)]
-        pub unsafe fn getReturnValue(&self, ret_loc: NonNull<c_void>);
+    #[objc2::method(sel = "setSelector:")]
+    pub unsafe fn setSelector(&self, selector: Sel);
 
-        #[method(setReturnValue:)]
-        pub unsafe fn setReturnValue(&self, ret_loc: NonNull<c_void>);
+    #[objc2::method(sel = "getReturnValue:")]
+    pub unsafe fn getReturnValue(&self, ret_loc: NonNull<c_void>);
 
-        #[method(getArgument:atIndex:)]
-        pub unsafe fn getArgument_atIndex(
-            &self,
-            argument_location: NonNull<c_void>,
-            idx: NSInteger,
-        );
+    #[objc2::method(sel = "setReturnValue:")]
+    pub unsafe fn setReturnValue(&self, ret_loc: NonNull<c_void>);
 
-        #[method(setArgument:atIndex:)]
-        pub unsafe fn setArgument_atIndex(
-            &self,
-            argument_location: NonNull<c_void>,
-            idx: NSInteger,
-        );
+    #[objc2::method(sel = "getArgument:atIndex:")]
+    pub unsafe fn getArgument_atIndex(&self, argument_location: NonNull<c_void>, idx: NSInteger);
 
-        #[method(invoke)]
-        pub unsafe fn invoke(&self);
+    #[objc2::method(sel = "setArgument:atIndex:")]
+    pub unsafe fn setArgument_atIndex(&self, argument_location: NonNull<c_void>, idx: NSInteger);
 
-        #[method(invokeWithTarget:)]
-        pub unsafe fn invokeWithTarget(&self, target: &Object);
+    #[objc2::method(sel = "invoke")]
+    pub unsafe fn invoke(&self);
 
-        #[method(invokeUsingIMP:)]
-        pub unsafe fn invokeUsingIMP(&self, imp: IMP);
-    }
-);
+    #[objc2::method(sel = "invokeWithTarget:")]
+    pub unsafe fn invokeWithTarget(&self, target: &Object);
+
+    #[objc2::method(sel = "invokeUsingIMP:")]
+    pub unsafe fn invokeUsingIMP(&self, imp: IMP);
+}

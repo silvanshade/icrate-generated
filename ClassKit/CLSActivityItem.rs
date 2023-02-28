@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::ClassKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CLSObject,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "ClassKit_CLSActivityItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "ClassKit_CLSActivityItem")]
-    pub struct CLSActivityItem;
-
-    #[cfg(feature = "ClassKit_CLSActivityItem")]
-    unsafe impl ClassType for CLSActivityItem {
-        #[inherits(NSObject)]
-        type Super = CLSObject;
-    }
-);
+    pub type CLSActivityItem;
+}
 
 #[cfg(feature = "ClassKit_CLSActivityItem")]
 unsafe impl NSCoding for CLSActivityItem {}
@@ -25,25 +25,28 @@ unsafe impl NSObjectProtocol for CLSActivityItem {}
 #[cfg(feature = "ClassKit_CLSActivityItem")]
 unsafe impl NSSecureCoding for CLSActivityItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ClassKit_CLSActivityItem")]
-    unsafe impl CLSActivityItem {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    pub type CLSActivityItem;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

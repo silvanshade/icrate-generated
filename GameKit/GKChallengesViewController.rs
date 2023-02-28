@@ -5,18 +5,19 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKChallengesViewController")]
+#[objc2::interface(
+    unsafe super = NSViewController,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct GKChallengesViewController;
-
     #[cfg(feature = "GameKit_GKChallengesViewController")]
-    unsafe impl ClassType for GKChallengesViewController {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSViewController;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type GKChallengesViewController;
+}
 
 #[cfg(feature = "GameKit_GKChallengesViewController")]
 unsafe impl GKViewController for GKChallengesViewController {}
@@ -36,45 +37,52 @@ unsafe impl NSSeguePerforming for GKChallengesViewController {}
 #[cfg(feature = "GameKit_GKChallengesViewController")]
 unsafe impl NSUserInterfaceItemIdentification for GKChallengesViewController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKChallengesViewController")]
-    unsafe impl GKChallengesViewController {
-        #[method_id(@__retain_semantics Other challengeDelegate)]
-        pub unsafe fn challengeDelegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn GKChallengesViewControllerDelegate>>>;
+    #[deprecated]
+    pub type GKChallengesViewController;
 
-        #[method(setChallengeDelegate:)]
-        pub unsafe fn setChallengeDelegate(
-            &self,
-            challenge_delegate: Option<&ProtocolObject<dyn GKChallengesViewControllerDelegate>>,
-        );
-    }
-);
+    #[objc2::method(sel = "challengeDelegate", managed = "Other")]
+    pub unsafe fn challengeDelegate(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn GKChallengesViewControllerDelegate>>>;
 
-extern_protocol!(
-    pub unsafe trait GKChallengesViewControllerDelegate {
-        #[cfg(feature = "GameKit_GKChallengesViewController")]
-        #[method(challengesViewControllerDidFinish:)]
-        unsafe fn challengesViewControllerDidFinish(
-            &self,
-            view_controller: Option<&GKChallengesViewController>,
-        );
-    }
+    #[objc2::method(sel = "setChallengeDelegate:")]
+    pub unsafe fn setChallengeDelegate(
+        &self,
+        challenge_delegate: Option<&ProtocolObject<dyn GKChallengesViewControllerDelegate>>,
+    );
+}
 
-    unsafe impl ProtocolType for dyn GKChallengesViewControllerDelegate {}
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSViewController`
+#[objc2::protocol]
+pub unsafe trait GKChallengesViewControllerDelegate {
     #[cfg(feature = "GameKit_GKChallengesViewController")]
-    unsafe impl GKChallengesViewController {
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Init initWithNibName:bundle:)]
-        pub unsafe fn initWithNibName_bundle(
-            this: Option<Allocated<Self>>,
-            nib_name_or_nil: Option<&NSNibName>,
-            nib_bundle_or_nil: Option<&NSBundle>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "challengesViewControllerDidFinish:")]
+    unsafe fn challengesViewControllerDidFinish(
+        &self,
+        view_controller: Option<&GKChallengesViewController>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSViewController`
+    #[cfg(feature = "GameKit_GKChallengesViewController")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameKit_GKChallengesViewController")]
+    pub type GKChallengesViewController;
+
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "initWithNibName:bundle:", managed = "Init")]
+    pub unsafe fn initWithNibName_bundle(
+        this: Option<Allocated<Self>>,
+        nib_name_or_nil: Option<&NSNibName>,
+        nib_bundle_or_nil: Option<&NSBundle>,
+    ) -> Id<Self>;
+}

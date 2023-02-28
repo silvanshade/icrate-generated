@@ -7,45 +7,55 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKOverlayPathRenderer,
+    unsafe inherits = [
+        MKOverlayRenderer,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKMultiPolygonRenderer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKMultiPolygonRenderer")]
-    pub struct MKMultiPolygonRenderer;
-
-    #[cfg(feature = "MapKit_MKMultiPolygonRenderer")]
-    unsafe impl ClassType for MKMultiPolygonRenderer {
-        #[inherits(MKOverlayRenderer, NSObject)]
-        type Super = MKOverlayPathRenderer;
-    }
-);
+    pub type MKMultiPolygonRenderer;
+}
 
 #[cfg(feature = "MapKit_MKMultiPolygonRenderer")]
 unsafe impl NSObjectProtocol for MKMultiPolygonRenderer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMultiPolygonRenderer")]
-    unsafe impl MKMultiPolygonRenderer {
-        #[cfg(feature = "MapKit_MKMultiPolygon")]
-        #[method_id(@__retain_semantics Init initWithMultiPolygon:)]
-        pub unsafe fn initWithMultiPolygon(
-            this: Option<Allocated<Self>>,
-            multi_polygon: &MKMultiPolygon,
-        ) -> Id<Self>;
+    pub type MKMultiPolygonRenderer;
 
-        #[cfg(feature = "MapKit_MKMultiPolygon")]
-        #[method_id(@__retain_semantics Other multiPolygon)]
-        pub unsafe fn multiPolygon(&self) -> Id<MKMultiPolygon>;
-    }
-);
+    #[cfg(feature = "MapKit_MKMultiPolygon")]
+    #[objc2::method(sel = "initWithMultiPolygon:", managed = "Init")]
+    pub unsafe fn initWithMultiPolygon(
+        this: Option<Allocated<Self>>,
+        multi_polygon: &MKMultiPolygon,
+    ) -> Id<Self>;
 
-extern_methods!(
-    /// Methods declared on superclass `MKOverlayRenderer`
+    #[cfg(feature = "MapKit_MKMultiPolygon")]
+    #[objc2::method(sel = "multiPolygon", managed = "Other")]
+    pub unsafe fn multiPolygon(&self) -> Id<MKMultiPolygon>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `MKOverlayRenderer`
     #[cfg(feature = "MapKit_MKMultiPolygonRenderer")]
-    unsafe impl MKMultiPolygonRenderer {
-        #[method_id(@__retain_semantics Init initWithOverlay:)]
-        pub unsafe fn initWithOverlay(
-            this: Option<Allocated<Self>>,
-            overlay: &ProtocolObject<dyn MKOverlay>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKMultiPolygonRenderer")]
+    pub type MKMultiPolygonRenderer;
+
+    #[objc2::method(sel = "initWithOverlay:", managed = "Init")]
+    pub unsafe fn initWithOverlay(
+        this: Option<Allocated<Self>>,
+        overlay: &ProtocolObject<dyn MKOverlay>,
+    ) -> Id<Self>;
+}

@@ -5,17 +5,19 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSTextFieldCell,
+    unsafe inherits = [
+        NSActionCell,
+        NSCell,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPathComponentCell")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPathComponentCell")]
-    pub struct NSPathComponentCell;
-
-    #[cfg(feature = "AppKit_NSPathComponentCell")]
-    unsafe impl ClassType for NSPathComponentCell {
-        #[inherits(NSActionCell, NSCell, NSObject)]
-        type Super = NSTextFieldCell;
-    }
-);
+    pub type NSPathComponentCell;
+}
 
 #[cfg(feature = "AppKit_NSPathComponentCell")]
 unsafe impl NSAccessibility for NSPathComponentCell {}
@@ -32,40 +34,47 @@ unsafe impl NSObjectProtocol for NSPathComponentCell {}
 #[cfg(feature = "AppKit_NSPathComponentCell")]
 unsafe impl NSUserInterfaceItemIdentification for NSPathComponentCell {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPathComponentCell")]
-    unsafe impl NSPathComponentCell {
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Option<Id<NSImage>>;
+    pub type NSPathComponentCell;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setImage:)]
-        pub unsafe fn setImage(&self, image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Option<Id<NSImage>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setImage:")]
+    pub unsafe fn setImage(&self, image: Option<&NSImage>);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setURL:)]
-        pub unsafe fn setURL(&self, url: Option<&NSURL>);
-    }
-);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSTextFieldCell`
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setURL:")]
+    pub unsafe fn setURL(&self, url: Option<&NSURL>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSTextFieldCell`
     #[cfg(feature = "AppKit_NSPathComponentCell")]
-    unsafe impl NSPathComponentCell {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initTextCell:)]
-        pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Init initImageCell:)]
-        pub unsafe fn initImageCell(
-            this: Option<Allocated<Self>>,
-            image: Option<&NSImage>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPathComponentCell")]
+    pub type NSPathComponentCell;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initTextCell:", managed = "Init")]
+    pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "initImageCell:", managed = "Init")]
+    pub unsafe fn initImageCell(this: Option<Allocated<Self>>, image: Option<&NSImage>)
+        -> Id<Self>;
+}

@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Speech::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Speech_SFTranscription")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Speech_SFTranscription")]
-    pub struct SFTranscription;
-
-    #[cfg(feature = "Speech_SFTranscription")]
-    unsafe impl ClassType for SFTranscription {
-        type Super = NSObject;
-    }
-);
+    pub type SFTranscription;
+}
 
 #[cfg(feature = "Speech_SFTranscription")]
 unsafe impl NSCoding for SFTranscription {}
@@ -24,26 +24,29 @@ unsafe impl NSObjectProtocol for SFTranscription {}
 #[cfg(feature = "Speech_SFTranscription")]
 unsafe impl NSSecureCoding for SFTranscription {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Speech_SFTranscription")]
-    unsafe impl SFTranscription {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other formattedString)]
-        pub unsafe fn formattedString(&self) -> Id<NSString>;
+    pub type SFTranscription;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Speech_SFTranscriptionSegment"
-        ))]
-        #[method_id(@__retain_semantics Other segments)]
-        pub unsafe fn segments(&self) -> Id<NSArray<SFTranscriptionSegment>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "formattedString", managed = "Other")]
+    pub unsafe fn formattedString(&self) -> Id<NSString>;
 
-        #[deprecated = "speakingRate is moved to SFSpeechRecognitionMetadata"]
-        #[method(speakingRate)]
-        pub unsafe fn speakingRate(&self) -> c_double;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Speech_SFTranscriptionSegment"
+    ))]
+    #[objc2::method(sel = "segments", managed = "Other")]
+    pub unsafe fn segments(&self) -> Id<NSArray<SFTranscriptionSegment>>;
 
-        #[deprecated = "averagePauseDuration is moved to SFSpeechRecognitionMetadata"]
-        #[method(averagePauseDuration)]
-        pub unsafe fn averagePauseDuration(&self) -> NSTimeInterval;
-    }
-);
+    #[deprecated = "speakingRate is moved to SFSpeechRecognitionMetadata"]
+    #[objc2::method(sel = "speakingRate")]
+    pub unsafe fn speakingRate(&self) -> c_double;
+
+    #[deprecated = "averagePauseDuration is moved to SFSpeechRecognitionMetadata"]
+    #[objc2::method(sel = "averagePauseDuration")]
+    pub unsafe fn averagePauseDuration(&self) -> NSTimeInterval;
+}

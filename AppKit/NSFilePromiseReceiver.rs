@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSFilePromiseReceiver")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSFilePromiseReceiver")]
-    pub struct NSFilePromiseReceiver;
-
-    #[cfg(feature = "AppKit_NSFilePromiseReceiver")]
-    unsafe impl ClassType for NSFilePromiseReceiver {
-        type Super = NSObject;
-    }
-);
+    pub type NSFilePromiseReceiver;
+}
 
 #[cfg(feature = "AppKit_NSFilePromiseReceiver")]
 unsafe impl NSObjectProtocol for NSFilePromiseReceiver {}
@@ -22,34 +22,37 @@ unsafe impl NSObjectProtocol for NSFilePromiseReceiver {}
 #[cfg(feature = "AppKit_NSFilePromiseReceiver")]
 unsafe impl NSPasteboardReading for NSFilePromiseReceiver {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSFilePromiseReceiver")]
-    unsafe impl NSFilePromiseReceiver {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other readableDraggedTypes)]
-        pub unsafe fn readableDraggedTypes() -> Id<NSArray<NSString>>;
+    pub type NSFilePromiseReceiver;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other fileTypes)]
-        pub unsafe fn fileTypes(&self) -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "readableDraggedTypes", managed = "Other")]
+    pub unsafe fn readableDraggedTypes() -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other fileNames)]
-        pub unsafe fn fileNames(&self) -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "fileTypes", managed = "Other")]
+    pub unsafe fn fileTypes(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSOperationQueue",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(receivePromisedFilesAtDestination:options:operationQueue:reader:)]
-        pub unsafe fn receivePromisedFilesAtDestination_options_operationQueue_reader(
-            &self,
-            destination_dir: &NSURL,
-            options: &NSDictionary,
-            operation_queue: &NSOperationQueue,
-            reader: &Block<(NonNull<NSURL>, *mut NSError), ()>,
-        );
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "fileNames", managed = "Other")]
+    pub unsafe fn fileNames(&self) -> Id<NSArray<NSString>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSOperationQueue",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "receivePromisedFilesAtDestination:options:operationQueue:reader:")]
+    pub unsafe fn receivePromisedFilesAtDestination_options_operationQueue_reader(
+        &self,
+        destination_dir: &NSURL,
+        options: &NSDictionary,
+        operation_queue: &NSOperationQueue,
+        reader: &Block<(NonNull<NSURL>, *mut NSError), ()>,
+    );
+}

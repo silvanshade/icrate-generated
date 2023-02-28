@@ -5,131 +5,121 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSInputServiceProvider {
-        #[deprecated]
-        #[method(insertText:client:)]
-        unsafe fn insertText_client(&self, string: Option<&Object>, sender: Option<&Object>);
-
-        #[deprecated]
-        #[method(doCommandBySelector:client:)]
-        unsafe fn doCommandBySelector_client(&self, selector: Option<Sel>, sender: Option<&Object>);
-
-        #[deprecated]
-        #[method(markedTextAbandoned:)]
-        unsafe fn markedTextAbandoned(&self, sender: Option<&Object>);
-
-        #[deprecated]
-        #[method(markedTextSelectionChanged:client:)]
-        unsafe fn markedTextSelectionChanged_client(
-            &self,
-            new_sel: NSRange,
-            sender: Option<&Object>,
-        );
-
-        #[deprecated]
-        #[method(terminate:)]
-        unsafe fn terminate(&self, sender: Option<&Object>);
-
-        #[deprecated]
-        #[method(canBeDisabled)]
-        unsafe fn canBeDisabled(&self) -> bool;
-
-        #[deprecated]
-        #[method(wantsToInterpretAllKeystrokes)]
-        unsafe fn wantsToInterpretAllKeystrokes(&self) -> bool;
-
-        #[deprecated]
-        #[method(wantsToHandleMouseEvents)]
-        unsafe fn wantsToHandleMouseEvents(&self) -> bool;
-
-        #[deprecated]
-        #[method(wantsToDelayTextChangeNotifications)]
-        unsafe fn wantsToDelayTextChangeNotifications(&self) -> bool;
-
-        #[deprecated]
-        #[method(inputClientBecomeActive:)]
-        unsafe fn inputClientBecomeActive(&self, sender: Option<&Object>);
-
-        #[deprecated]
-        #[method(inputClientResignActive:)]
-        unsafe fn inputClientResignActive(&self, sender: Option<&Object>);
-
-        #[deprecated]
-        #[method(inputClientEnabled:)]
-        unsafe fn inputClientEnabled(&self, sender: Option<&Object>);
-
-        #[deprecated]
-        #[method(inputClientDisabled:)]
-        unsafe fn inputClientDisabled(&self, sender: Option<&Object>);
-
-        #[deprecated]
-        #[method(activeConversationWillChange:fromOldConversation:)]
-        unsafe fn activeConversationWillChange_fromOldConversation(
-            &self,
-            sender: Option<&Object>,
-            old_conversation: NSInteger,
-        );
-
-        #[deprecated]
-        #[method(activeConversationChanged:toNewConversation:)]
-        unsafe fn activeConversationChanged_toNewConversation(
-            &self,
-            sender: Option<&Object>,
-            new_conversation: NSInteger,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn NSInputServiceProvider {}
-);
-
-extern_protocol!(
-    pub unsafe trait NSInputServerMouseTracker {
-        #[deprecated]
-        #[method(mouseDownOnCharacterIndex:atCoordinate:withModifier:client:)]
-        unsafe fn mouseDownOnCharacterIndex_atCoordinate_withModifier_client(
-            &self,
-            index: NSUInteger,
-            point: NSPoint,
-            flags: NSUInteger,
-            sender: Option<&Object>,
-        ) -> bool;
-
-        #[deprecated]
-        #[method(mouseDraggedOnCharacterIndex:atCoordinate:withModifier:client:)]
-        unsafe fn mouseDraggedOnCharacterIndex_atCoordinate_withModifier_client(
-            &self,
-            index: NSUInteger,
-            point: NSPoint,
-            flags: NSUInteger,
-            sender: Option<&Object>,
-        ) -> bool;
-
-        #[deprecated]
-        #[method(mouseUpOnCharacterIndex:atCoordinate:withModifier:client:)]
-        unsafe fn mouseUpOnCharacterIndex_atCoordinate_withModifier_client(
-            &self,
-            index: NSUInteger,
-            point: NSPoint,
-            flags: NSUInteger,
-            sender: Option<&Object>,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn NSInputServerMouseTracker {}
-);
-
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSInputServer")]
+#[objc2::protocol]
+pub unsafe trait NSInputServiceProvider {
     #[deprecated]
-    pub struct NSInputServer;
+    #[objc2::method(sel = "insertText:client:")]
+    unsafe fn insertText_client(&self, string: Option<&Object>, sender: Option<&Object>);
 
+    #[deprecated]
+    #[objc2::method(sel = "doCommandBySelector:client:")]
+    unsafe fn doCommandBySelector_client(&self, selector: Option<Sel>, sender: Option<&Object>);
+
+    #[deprecated]
+    #[objc2::method(sel = "markedTextAbandoned:")]
+    unsafe fn markedTextAbandoned(&self, sender: Option<&Object>);
+
+    #[deprecated]
+    #[objc2::method(sel = "markedTextSelectionChanged:client:")]
+    unsafe fn markedTextSelectionChanged_client(&self, new_sel: NSRange, sender: Option<&Object>);
+
+    #[deprecated]
+    #[objc2::method(sel = "terminate:")]
+    unsafe fn terminate(&self, sender: Option<&Object>);
+
+    #[deprecated]
+    #[objc2::method(sel = "canBeDisabled")]
+    unsafe fn canBeDisabled(&self) -> bool;
+
+    #[deprecated]
+    #[objc2::method(sel = "wantsToInterpretAllKeystrokes")]
+    unsafe fn wantsToInterpretAllKeystrokes(&self) -> bool;
+
+    #[deprecated]
+    #[objc2::method(sel = "wantsToHandleMouseEvents")]
+    unsafe fn wantsToHandleMouseEvents(&self) -> bool;
+
+    #[deprecated]
+    #[objc2::method(sel = "wantsToDelayTextChangeNotifications")]
+    unsafe fn wantsToDelayTextChangeNotifications(&self) -> bool;
+
+    #[deprecated]
+    #[objc2::method(sel = "inputClientBecomeActive:")]
+    unsafe fn inputClientBecomeActive(&self, sender: Option<&Object>);
+
+    #[deprecated]
+    #[objc2::method(sel = "inputClientResignActive:")]
+    unsafe fn inputClientResignActive(&self, sender: Option<&Object>);
+
+    #[deprecated]
+    #[objc2::method(sel = "inputClientEnabled:")]
+    unsafe fn inputClientEnabled(&self, sender: Option<&Object>);
+
+    #[deprecated]
+    #[objc2::method(sel = "inputClientDisabled:")]
+    unsafe fn inputClientDisabled(&self, sender: Option<&Object>);
+
+    #[deprecated]
+    #[objc2::method(sel = "activeConversationWillChange:fromOldConversation:")]
+    unsafe fn activeConversationWillChange_fromOldConversation(
+        &self,
+        sender: Option<&Object>,
+        old_conversation: NSInteger,
+    );
+
+    #[deprecated]
+    #[objc2::method(sel = "activeConversationChanged:toNewConversation:")]
+    unsafe fn activeConversationChanged_toNewConversation(
+        &self,
+        sender: Option<&Object>,
+        new_conversation: NSInteger,
+    );
+}
+
+#[objc2::protocol]
+pub unsafe trait NSInputServerMouseTracker {
+    #[deprecated]
+    #[objc2::method(sel = "mouseDownOnCharacterIndex:atCoordinate:withModifier:client:")]
+    unsafe fn mouseDownOnCharacterIndex_atCoordinate_withModifier_client(
+        &self,
+        index: NSUInteger,
+        point: NSPoint,
+        flags: NSUInteger,
+        sender: Option<&Object>,
+    ) -> bool;
+
+    #[deprecated]
+    #[objc2::method(sel = "mouseDraggedOnCharacterIndex:atCoordinate:withModifier:client:")]
+    unsafe fn mouseDraggedOnCharacterIndex_atCoordinate_withModifier_client(
+        &self,
+        index: NSUInteger,
+        point: NSPoint,
+        flags: NSUInteger,
+        sender: Option<&Object>,
+    ) -> bool;
+
+    #[deprecated]
+    #[objc2::method(sel = "mouseUpOnCharacterIndex:atCoordinate:withModifier:client:")]
+    unsafe fn mouseUpOnCharacterIndex_atCoordinate_withModifier_client(
+        &self,
+        index: NSUInteger,
+        point: NSPoint,
+        flags: NSUInteger,
+        sender: Option<&Object>,
+    );
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[deprecated]
     #[cfg(feature = "AppKit_NSInputServer")]
-    unsafe impl ClassType for NSInputServer {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type NSInputServer;
+}
 
 #[cfg(feature = "AppKit_NSInputServer")]
 unsafe impl NSInputServerMouseTracker for NSInputServer {}
@@ -140,16 +130,20 @@ unsafe impl NSInputServiceProvider for NSInputServer {}
 #[cfg(feature = "AppKit_NSInputServer")]
 unsafe impl NSObjectProtocol for NSInputServer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSInputServer")]
-    unsafe impl NSInputServer {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithDelegate:name:)]
-        pub unsafe fn initWithDelegate_name(
-            this: Option<Allocated<Self>>,
-            delegate: Option<&Object>,
-            name: Option<&NSString>,
-        ) -> Id<Self>;
-    }
-);
+    #[deprecated]
+    pub type NSInputServer;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "initWithDelegate:name:", managed = "Init")]
+    pub unsafe fn initWithDelegate_name(
+        this: Option<Allocated<Self>>,
+        delegate: Option<&Object>,
+        name: Option<&NSString>,
+    ) -> Id<Self>;
+}

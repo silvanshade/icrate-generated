@@ -81,102 +81,95 @@ extern_struct!(
     }
 );
 
-extern_protocol!(
-    pub unsafe trait MTLCounter: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        unsafe fn name(&self) -> Id<NSString>;
-    }
+#[objc2::protocol]
+pub unsafe trait MTLCounter: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    unsafe fn name(&self) -> Id<NSString>;
+}
 
-    unsafe impl ProtocolType for dyn MTLCounter {}
-);
+#[objc2::protocol]
+pub unsafe trait MTLCounterSet: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    unsafe fn name(&self) -> Id<NSString>;
 
-extern_protocol!(
-    pub unsafe trait MTLCounterSet: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "counters", managed = "Other")]
+    unsafe fn counters(&self) -> Id<NSArray<ProtocolObject<dyn MTLCounter>>>;
+}
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other counters)]
-        unsafe fn counters(&self) -> Id<NSArray<ProtocolObject<dyn MTLCounter>>>;
-    }
-
-    unsafe impl ProtocolType for dyn MTLCounterSet {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLCounterSampleBufferDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLCounterSampleBufferDescriptor")]
-    pub struct MTLCounterSampleBufferDescriptor;
-
-    #[cfg(feature = "Metal_MTLCounterSampleBufferDescriptor")]
-    unsafe impl ClassType for MTLCounterSampleBufferDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLCounterSampleBufferDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLCounterSampleBufferDescriptor")]
 unsafe impl NSObjectProtocol for MTLCounterSampleBufferDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLCounterSampleBufferDescriptor")]
-    unsafe impl MTLCounterSampleBufferDescriptor {
-        #[method_id(@__retain_semantics Other counterSet)]
-        pub unsafe fn counterSet(&self) -> Option<Id<ProtocolObject<dyn MTLCounterSet>>>;
+    pub type MTLCounterSampleBufferDescriptor;
 
-        #[method(setCounterSet:)]
-        pub unsafe fn setCounterSet(&self, counter_set: Option<&ProtocolObject<dyn MTLCounterSet>>);
+    #[objc2::method(sel = "counterSet", managed = "Other")]
+    pub unsafe fn counterSet(&self) -> Option<Id<ProtocolObject<dyn MTLCounterSet>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        pub unsafe fn label(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setCounterSet:")]
+    pub unsafe fn setCounterSet(&self, counter_set: Option<&ProtocolObject<dyn MTLCounterSet>>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        pub unsafe fn setLabel(&self, label: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    pub unsafe fn label(&self) -> Id<NSString>;
 
-        #[method(storageMode)]
-        pub unsafe fn storageMode(&self) -> MTLStorageMode;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    pub unsafe fn setLabel(&self, label: &NSString);
 
-        #[method(setStorageMode:)]
-        pub unsafe fn setStorageMode(&self, storage_mode: MTLStorageMode);
+    #[objc2::method(sel = "storageMode")]
+    pub unsafe fn storageMode(&self) -> MTLStorageMode;
 
-        #[method(sampleCount)]
-        pub unsafe fn sampleCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "setStorageMode:")]
+    pub unsafe fn setStorageMode(&self, storage_mode: MTLStorageMode);
 
-        #[method(setSampleCount:)]
-        pub unsafe fn setSampleCount(&self, sample_count: NSUInteger);
-    }
-);
+    #[objc2::method(sel = "sampleCount")]
+    pub unsafe fn sampleCount(&self) -> NSUInteger;
 
-extern_protocol!(
-    pub unsafe trait MTLCounterSampleBuffer: NSObjectProtocol {
-        #[method_id(@__retain_semantics Other device)]
-        unsafe fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
+    #[objc2::method(sel = "setSampleCount:")]
+    pub unsafe fn setSampleCount(&self, sample_count: NSUInteger);
+}
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        unsafe fn label(&self) -> Id<NSString>;
+#[objc2::protocol]
+pub unsafe trait MTLCounterSampleBuffer: NSObjectProtocol {
+    #[objc2::method(sel = "device", managed = "Other")]
+    unsafe fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
 
-        #[method(sampleCount)]
-        unsafe fn sampleCount(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    unsafe fn label(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other resolveCounterRange:)]
-        unsafe fn resolveCounterRange(&self, range: NSRange) -> Option<Id<NSData>>;
-    }
+    #[objc2::method(sel = "sampleCount")]
+    unsafe fn sampleCount(&self) -> NSUInteger;
 
-    unsafe impl ProtocolType for dyn MTLCounterSampleBuffer {}
-);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "resolveCounterRange:", managed = "Other")]
+    unsafe fn resolveCounterRange(&self, range: NSRange) -> Option<Id<NSData>>;
+}
 
 extern_static!(MTLCounterErrorDomain: &'static NSErrorDomain);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MTLCounterSampleBufferError {
-        MTLCounterSampleBufferErrorOutOfMemory = 0,
-        MTLCounterSampleBufferErrorInvalid = 1,
-        MTLCounterSampleBufferErrorInternal = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MTLCounterSampleBufferError {
+    MTLCounterSampleBufferErrorOutOfMemory = 0,
+    MTLCounterSampleBufferErrorInvalid = 1,
+    MTLCounterSampleBufferErrorInternal = 2,
+}

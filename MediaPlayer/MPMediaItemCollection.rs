@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MPMediaEntity,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPMediaItemCollection")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPMediaItemCollection")]
-    pub struct MPMediaItemCollection;
-
-    #[cfg(feature = "MediaPlayer_MPMediaItemCollection")]
-    unsafe impl ClassType for MPMediaItemCollection {
-        #[inherits(NSObject)]
-        type Super = MPMediaEntity;
-    }
-);
+    pub type MPMediaItemCollection;
+}
 
 #[cfg(feature = "MediaPlayer_MPMediaItemCollection")]
 unsafe impl NSCoding for MPMediaItemCollection {}
@@ -26,34 +26,35 @@ unsafe impl NSObjectProtocol for MPMediaItemCollection {}
 #[cfg(feature = "MediaPlayer_MPMediaItemCollection")]
 unsafe impl NSSecureCoding for MPMediaItemCollection {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPMediaItemCollection")]
-    unsafe impl MPMediaItemCollection {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MediaPlayer_MPMediaItem"))]
-        #[method_id(@__retain_semantics Other collectionWithItems:)]
-        pub unsafe fn collectionWithItems(
-            items: &NSArray<MPMediaItem>,
-        ) -> Id<MPMediaItemCollection>;
+    pub type MPMediaItemCollection;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MediaPlayer_MPMediaItem"))]
-        #[method_id(@__retain_semantics Init initWithItems:)]
-        pub unsafe fn initWithItems(
-            this: Option<Allocated<Self>>,
-            items: &NSArray<MPMediaItem>,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MediaPlayer_MPMediaItem"))]
+    #[objc2::method(sel = "collectionWithItems:", managed = "Other")]
+    pub unsafe fn collectionWithItems(items: &NSArray<MPMediaItem>) -> Id<MPMediaItemCollection>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MediaPlayer_MPMediaItem"))]
-        #[method_id(@__retain_semantics Other items)]
-        pub unsafe fn items(&self) -> Id<NSArray<MPMediaItem>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MediaPlayer_MPMediaItem"))]
+    #[objc2::method(sel = "initWithItems:", managed = "Init")]
+    pub unsafe fn initWithItems(
+        this: Option<Allocated<Self>>,
+        items: &NSArray<MPMediaItem>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "MediaPlayer_MPMediaItem")]
-        #[method_id(@__retain_semantics Other representativeItem)]
-        pub unsafe fn representativeItem(&self) -> Option<Id<MPMediaItem>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MediaPlayer_MPMediaItem"))]
+    #[objc2::method(sel = "items", managed = "Other")]
+    pub unsafe fn items(&self) -> Id<NSArray<MPMediaItem>>;
 
-        #[method(count)]
-        pub unsafe fn count(&self) -> NSUInteger;
+    #[cfg(feature = "MediaPlayer_MPMediaItem")]
+    #[objc2::method(sel = "representativeItem", managed = "Other")]
+    pub unsafe fn representativeItem(&self) -> Option<Id<MPMediaItem>>;
 
-        #[method(mediaTypes)]
-        pub unsafe fn mediaTypes(&self) -> MPMediaType;
-    }
-);
+    #[objc2::method(sel = "count")]
+    pub unsafe fn count(&self) -> NSUInteger;
+
+    #[objc2::method(sel = "mediaTypes")]
+    pub unsafe fn mediaTypes(&self) -> MPMediaType;
+}

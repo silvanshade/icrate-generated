@@ -4,33 +4,38 @@ use crate::common::*;
 use crate::CoreAnimation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CARemoteLayerServer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CARemoteLayerServer")]
-    pub struct CARemoteLayerServer;
-
-    #[cfg(feature = "CoreAnimation_CARemoteLayerServer")]
-    unsafe impl ClassType for CARemoteLayerServer {
-        type Super = NSObject;
-    }
-);
+    pub type CARemoteLayerServer;
+}
 
 #[cfg(feature = "CoreAnimation_CARemoteLayerServer")]
 unsafe impl NSObjectProtocol for CARemoteLayerServer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CARemoteLayerServer")]
-    unsafe impl CARemoteLayerServer {
-        #[method_id(@__retain_semantics Other sharedServer)]
-        pub unsafe fn sharedServer() -> Id<CARemoteLayerServer>;
-    }
-);
+    pub type CARemoteLayerServer;
 
-extern_methods!(
-    /// CARemoteLayerServer
+    #[objc2::method(sel = "sharedServer", managed = "Other")]
+    pub unsafe fn sharedServer() -> Id<CARemoteLayerServer>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CALayer")]
-    unsafe impl CALayer {
-        #[method_id(@__retain_semantics Other layerWithRemoteClientId:)]
-        pub unsafe fn layerWithRemoteClientId(client_id: u32) -> Id<CALayer>;
-    }
-);
+    pub type CALayer;
+
+    #[objc2::method(sel = "layerWithRemoteClientId:", managed = "Other")]
+    pub unsafe fn layerWithRemoteClientId(client_id: u32) -> Id<CALayer>;
+}

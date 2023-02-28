@@ -6,17 +6,18 @@ use crate::Foundation::*;
 use crate::LocalAuthentication::*;
 use crate::LocalAuthenticationEmbeddedUI::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "LocalAuthenticationEmbeddedUI_LAAuthenticationView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "LocalAuthenticationEmbeddedUI_LAAuthenticationView")]
-    pub struct LAAuthenticationView;
-
-    #[cfg(feature = "LocalAuthenticationEmbeddedUI_LAAuthenticationView")]
-    unsafe impl ClassType for LAAuthenticationView {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type LAAuthenticationView;
+}
 
 #[cfg(feature = "LocalAuthenticationEmbeddedUI_LAAuthenticationView")]
 unsafe impl NSAccessibility for LAAuthenticationView {}
@@ -42,36 +43,36 @@ unsafe impl NSObjectProtocol for LAAuthenticationView {}
 #[cfg(feature = "LocalAuthenticationEmbeddedUI_LAAuthenticationView")]
 unsafe impl NSUserInterfaceItemIdentification for LAAuthenticationView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "LocalAuthenticationEmbeddedUI_LAAuthenticationView")]
-    unsafe impl LAAuthenticationView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+    pub type LAAuthenticationView;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
 
-        #[cfg(feature = "LocalAuthentication_LAContext")]
-        #[method_id(@__retain_semantics Init initWithContext:)]
-        pub unsafe fn initWithContext(
-            this: Option<Allocated<Self>>,
-            context: &LAContext,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
 
-        #[cfg(feature = "LocalAuthentication_LAContext")]
-        #[method_id(@__retain_semantics Init initWithContext:controlSize:)]
-        pub unsafe fn initWithContext_controlSize(
-            this: Option<Allocated<Self>>,
-            context: &LAContext,
-            control_size: NSControlSize,
-        ) -> Id<Self>;
+    #[cfg(feature = "LocalAuthentication_LAContext")]
+    #[objc2::method(sel = "initWithContext:", managed = "Init")]
+    pub unsafe fn initWithContext(this: Option<Allocated<Self>>, context: &LAContext) -> Id<Self>;
 
-        #[cfg(feature = "LocalAuthentication_LAContext")]
-        #[method_id(@__retain_semantics Other context)]
-        pub unsafe fn context(&self) -> Id<LAContext>;
+    #[cfg(feature = "LocalAuthentication_LAContext")]
+    #[objc2::method(sel = "initWithContext:controlSize:", managed = "Init")]
+    pub unsafe fn initWithContext_controlSize(
+        this: Option<Allocated<Self>>,
+        context: &LAContext,
+        control_size: NSControlSize,
+    ) -> Id<Self>;
 
-        #[method(controlSize)]
-        pub unsafe fn controlSize(&self) -> NSControlSize;
-    }
-);
+    #[cfg(feature = "LocalAuthentication_LAContext")]
+    #[objc2::method(sel = "context", managed = "Other")]
+    pub unsafe fn context(&self) -> Id<LAContext>;
+
+    #[objc2::method(sel = "controlSize")]
+    pub unsafe fn controlSize(&self) -> NSControlSize;
+}

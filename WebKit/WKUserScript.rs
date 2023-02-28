@@ -5,58 +5,66 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum WKUserScriptInjectionTime {
-        WKUserScriptInjectionTimeAtDocumentStart = 0,
-        WKUserScriptInjectionTimeAtDocumentEnd = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum WKUserScriptInjectionTime {
+    WKUserScriptInjectionTimeAtDocumentStart = 0,
+    WKUserScriptInjectionTimeAtDocumentEnd = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKUserScript")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKUserScript")]
-    pub struct WKUserScript;
-
-    #[cfg(feature = "WebKit_WKUserScript")]
-    unsafe impl ClassType for WKUserScript {
-        type Super = NSObject;
-    }
-);
+    pub type WKUserScript;
+}
 
 #[cfg(feature = "WebKit_WKUserScript")]
 unsafe impl NSObjectProtocol for WKUserScript {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKUserScript")]
-    unsafe impl WKUserScript {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other source)]
-        pub unsafe fn source(&self) -> Id<NSString>;
+    pub type WKUserScript;
 
-        #[method(injectionTime)]
-        pub unsafe fn injectionTime(&self) -> WKUserScriptInjectionTime;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "source", managed = "Other")]
+    pub unsafe fn source(&self) -> Id<NSString>;
 
-        #[method(isForMainFrameOnly)]
-        pub unsafe fn isForMainFrameOnly(&self) -> bool;
+    #[objc2::method(sel = "injectionTime")]
+    pub unsafe fn injectionTime(&self) -> WKUserScriptInjectionTime;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSource:injectionTime:forMainFrameOnly:)]
-        pub unsafe fn initWithSource_injectionTime_forMainFrameOnly(
-            this: Option<Allocated<Self>>,
-            source: &NSString,
-            injection_time: WKUserScriptInjectionTime,
-            for_main_frame_only: bool,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "isForMainFrameOnly")]
+    pub unsafe fn isForMainFrameOnly(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_WKContentWorld"))]
-        #[method_id(@__retain_semantics Init initWithSource:injectionTime:forMainFrameOnly:inContentWorld:)]
-        pub unsafe fn initWithSource_injectionTime_forMainFrameOnly_inContentWorld(
-            this: Option<Allocated<Self>>,
-            source: &NSString,
-            injection_time: WKUserScriptInjectionTime,
-            for_main_frame_only: bool,
-            content_world: &WKContentWorld,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "initWithSource:injectionTime:forMainFrameOnly:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithSource_injectionTime_forMainFrameOnly(
+        this: Option<Allocated<Self>>,
+        source: &NSString,
+        injection_time: WKUserScriptInjectionTime,
+        for_main_frame_only: bool,
+    ) -> Id<Self>;
+
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_WKContentWorld"))]
+    #[objc2::method(
+        sel = "initWithSource:injectionTime:forMainFrameOnly:inContentWorld:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithSource_injectionTime_forMainFrameOnly_inContentWorld(
+        this: Option<Allocated<Self>>,
+        source: &NSString,
+        injection_time: WKUserScriptInjectionTime,
+        for_main_frame_only: bool,
+        content_world: &WKContentWorld,
+    ) -> Id<Self>;
+}

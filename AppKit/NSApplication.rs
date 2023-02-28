@@ -163,79 +163,73 @@ extern_static!(NSModalResponseAbort: NSModalResponse = -1001);
 
 extern_static!(NSModalResponseContinue: NSModalResponse = -1002);
 
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        NSUpdateWindowsRunLoopOrdering = 500000,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    NSUpdateWindowsRunLoopOrdering = 500000,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSApplicationPresentationOptions {
-        NSApplicationPresentationDefault = 0,
-        NSApplicationPresentationAutoHideDock = 1 << 0,
-        NSApplicationPresentationHideDock = 1 << 1,
-        NSApplicationPresentationAutoHideMenuBar = 1 << 2,
-        NSApplicationPresentationHideMenuBar = 1 << 3,
-        NSApplicationPresentationDisableAppleMenu = 1 << 4,
-        NSApplicationPresentationDisableProcessSwitching = 1 << 5,
-        NSApplicationPresentationDisableForceQuit = 1 << 6,
-        NSApplicationPresentationDisableSessionTermination = 1 << 7,
-        NSApplicationPresentationDisableHideApplication = 1 << 8,
-        NSApplicationPresentationDisableMenuBarTransparency = 1 << 9,
-        NSApplicationPresentationFullScreen = 1 << 10,
-        NSApplicationPresentationAutoHideToolbar = 1 << 11,
-        NSApplicationPresentationDisableCursorLocationAssistance = 1 << 12,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSApplicationPresentationOptions {
+    NSApplicationPresentationDefault = 0,
+    NSApplicationPresentationAutoHideDock = 1 << 0,
+    NSApplicationPresentationHideDock = 1 << 1,
+    NSApplicationPresentationAutoHideMenuBar = 1 << 2,
+    NSApplicationPresentationHideMenuBar = 1 << 3,
+    NSApplicationPresentationDisableAppleMenu = 1 << 4,
+    NSApplicationPresentationDisableProcessSwitching = 1 << 5,
+    NSApplicationPresentationDisableForceQuit = 1 << 6,
+    NSApplicationPresentationDisableSessionTermination = 1 << 7,
+    NSApplicationPresentationDisableHideApplication = 1 << 8,
+    NSApplicationPresentationDisableMenuBarTransparency = 1 << 9,
+    NSApplicationPresentationFullScreen = 1 << 10,
+    NSApplicationPresentationAutoHideToolbar = 1 << 11,
+    NSApplicationPresentationDisableCursorLocationAssistance = 1 << 12,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSApplicationOcclusionState {
-        NSApplicationOcclusionStateVisible = 1 << 1,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSApplicationOcclusionState {
+    NSApplicationOcclusionStateVisible = 1 << 1,
+}
 
-ns_options!(
-    #[underlying(NSInteger)]
-    pub enum NSWindowListOptions {
-        NSWindowListOrderedFrontToBack = 1 << 0,
-    }
-);
+#[ns_options]
+#[underlying(NSInteger)]
+pub enum NSWindowListOptions {
+    NSWindowListOrderedFrontToBack = 1 << 0,
+}
 
 pub type NSModalSession = *mut c_void;
 
 extern_static!(NSApp: Option<&'static NSApplication>);
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSRequestUserAttentionType {
-        NSCriticalRequest = 0,
-        NSInformationalRequest = 10,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSRequestUserAttentionType {
+    NSCriticalRequest = 0,
+    NSInformationalRequest = 10,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSApplicationDelegateReply {
-        NSApplicationDelegateReplySuccess = 0,
-        NSApplicationDelegateReplyCancel = 1,
-        NSApplicationDelegateReplyFailure = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSApplicationDelegateReply {
+    NSApplicationDelegateReplySuccess = 0,
+    NSApplicationDelegateReplyCancel = 1,
+    NSApplicationDelegateReplyFailure = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSResponder,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSApplication")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSApplication")]
-    pub struct NSApplication;
-
-    #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl ClassType for NSApplication {
-        #[inherits(NSObject)]
-        type Super = NSResponder;
-    }
-);
+    pub type NSApplication;
+}
 
 #[cfg(feature = "AppKit_NSApplication")]
 unsafe impl NSAccessibility for NSApplication {}
@@ -255,757 +249,710 @@ unsafe impl NSObjectProtocol for NSApplication {}
 #[cfg(feature = "AppKit_NSApplication")]
 unsafe impl NSUserInterfaceValidations for NSApplication {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[method_id(@__retain_semantics Other sharedApplication)]
-        pub unsafe fn sharedApplication() -> Id<NSApplication>;
+    pub type NSApplication;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSApplicationDelegate>>>;
+    #[objc2::method(sel = "sharedApplication", managed = "Other")]
+    pub unsafe fn sharedApplication() -> Id<NSApplication>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSApplicationDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSApplicationDelegate>>>;
 
-        #[method(hide:)]
-        pub unsafe fn hide(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSApplicationDelegate>>);
 
-        #[method(unhide:)]
-        pub unsafe fn unhide(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "hide:")]
+    pub unsafe fn hide(&self, sender: Option<&Object>);
 
-        #[method(unhideWithoutActivation)]
-        pub unsafe fn unhideWithoutActivation(&self);
+    #[objc2::method(sel = "unhide:")]
+    pub unsafe fn unhide(&self, sender: Option<&Object>);
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method_id(@__retain_semantics Other windowWithWindowNumber:)]
-        pub unsafe fn windowWithWindowNumber(&self, window_num: NSInteger) -> Option<Id<NSWindow>>;
+    #[objc2::method(sel = "unhideWithoutActivation")]
+    pub unsafe fn unhideWithoutActivation(&self);
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method_id(@__retain_semantics Other mainWindow)]
-        pub unsafe fn mainWindow(&self) -> Option<Id<NSWindow>>;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "windowWithWindowNumber:", managed = "Other")]
+    pub unsafe fn windowWithWindowNumber(&self, window_num: NSInteger) -> Option<Id<NSWindow>>;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method_id(@__retain_semantics Other keyWindow)]
-        pub unsafe fn keyWindow(&self) -> Option<Id<NSWindow>>;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "mainWindow", managed = "Other")]
+    pub unsafe fn mainWindow(&self) -> Option<Id<NSWindow>>;
 
-        #[method(isActive)]
-        pub unsafe fn isActive(&self) -> bool;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "keyWindow", managed = "Other")]
+    pub unsafe fn keyWindow(&self) -> Option<Id<NSWindow>>;
 
-        #[method(isHidden)]
-        pub unsafe fn isHidden(&self) -> bool;
+    #[objc2::method(sel = "isActive")]
+    pub unsafe fn isActive(&self) -> bool;
 
-        #[method(isRunning)]
-        pub unsafe fn isRunning(&self) -> bool;
+    #[objc2::method(sel = "isHidden")]
+    pub unsafe fn isHidden(&self) -> bool;
 
-        #[method(deactivate)]
-        pub unsafe fn deactivate(&self);
+    #[objc2::method(sel = "isRunning")]
+    pub unsafe fn isRunning(&self) -> bool;
 
-        #[method(activateIgnoringOtherApps:)]
-        pub unsafe fn activateIgnoringOtherApps(&self, flag: bool);
+    #[objc2::method(sel = "deactivate")]
+    pub unsafe fn deactivate(&self);
 
-        #[method(hideOtherApplications:)]
-        pub unsafe fn hideOtherApplications(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "activateIgnoringOtherApps:")]
+    pub unsafe fn activateIgnoringOtherApps(&self, flag: bool);
 
-        #[method(unhideAllApplications:)]
-        pub unsafe fn unhideAllApplications(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "hideOtherApplications:")]
+    pub unsafe fn hideOtherApplications(&self, sender: Option<&Object>);
 
-        #[method(finishLaunching)]
-        pub unsafe fn finishLaunching(&self);
+    #[objc2::method(sel = "unhideAllApplications:")]
+    pub unsafe fn unhideAllApplications(&self, sender: Option<&Object>);
 
-        #[method(run)]
-        pub unsafe fn run(&self);
+    #[objc2::method(sel = "finishLaunching")]
+    pub unsafe fn finishLaunching(&self);
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(runModalForWindow:)]
-        pub unsafe fn runModalForWindow(&self, window: &NSWindow) -> NSModalResponse;
+    #[objc2::method(sel = "run")]
+    pub unsafe fn run(&self);
 
-        #[method(stop:)]
-        pub unsafe fn stop(&self, sender: Option<&Object>);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "runModalForWindow:")]
+    pub unsafe fn runModalForWindow(&self, window: &NSWindow) -> NSModalResponse;
 
-        #[method(stopModal)]
-        pub unsafe fn stopModal(&self);
+    #[objc2::method(sel = "stop:")]
+    pub unsafe fn stop(&self, sender: Option<&Object>);
 
-        #[method(stopModalWithCode:)]
-        pub unsafe fn stopModalWithCode(&self, return_code: NSModalResponse);
+    #[objc2::method(sel = "stopModal")]
+    pub unsafe fn stopModal(&self);
 
-        #[method(abortModal)]
-        pub unsafe fn abortModal(&self);
+    #[objc2::method(sel = "stopModalWithCode:")]
+    pub unsafe fn stopModalWithCode(&self, return_code: NSModalResponse);
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method_id(@__retain_semantics Other modalWindow)]
-        pub unsafe fn modalWindow(&self) -> Option<Id<NSWindow>>;
+    #[objc2::method(sel = "abortModal")]
+    pub unsafe fn abortModal(&self);
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(beginModalSessionForWindow:)]
-        pub unsafe fn beginModalSessionForWindow(&self, window: &NSWindow) -> NSModalSession;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "modalWindow", managed = "Other")]
+    pub unsafe fn modalWindow(&self) -> Option<Id<NSWindow>>;
 
-        #[method(runModalSession:)]
-        pub unsafe fn runModalSession(&self, session: NSModalSession) -> NSModalResponse;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "beginModalSessionForWindow:")]
+    pub unsafe fn beginModalSessionForWindow(&self, window: &NSWindow) -> NSModalSession;
 
-        #[method(endModalSession:)]
-        pub unsafe fn endModalSession(&self, session: NSModalSession);
+    #[objc2::method(sel = "runModalSession:")]
+    pub unsafe fn runModalSession(&self, session: NSModalSession) -> NSModalResponse;
 
-        #[method(terminate:)]
-        pub unsafe fn terminate(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "endModalSession:")]
+    pub unsafe fn endModalSession(&self, session: NSModalSession);
 
-        #[method(requestUserAttention:)]
-        pub unsafe fn requestUserAttention(
-            &self,
-            request_type: NSRequestUserAttentionType,
-        ) -> NSInteger;
+    #[objc2::method(sel = "terminate:")]
+    pub unsafe fn terminate(&self, sender: Option<&Object>);
 
-        #[method(cancelUserAttentionRequest:)]
-        pub unsafe fn cancelUserAttentionRequest(&self, request: NSInteger);
+    #[objc2::method(sel = "requestUserAttention:")]
+    pub unsafe fn requestUserAttention(
+        &self,
+        request_type: NSRequestUserAttentionType,
+    ) -> NSInteger;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(enumerateWindowsWithOptions:usingBlock:)]
-        pub unsafe fn enumerateWindowsWithOptions_usingBlock(
-            &self,
-            options: NSWindowListOptions,
-            block: &Block<(NonNull<NSWindow>, NonNull<Bool>), ()>,
-        );
+    #[objc2::method(sel = "cancelUserAttentionRequest:")]
+    pub unsafe fn cancelUserAttentionRequest(&self, request: NSInteger);
 
-        #[method(preventWindowOrdering)]
-        pub unsafe fn preventWindowOrdering(&self);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "enumerateWindowsWithOptions:usingBlock:")]
+    pub unsafe fn enumerateWindowsWithOptions_usingBlock(
+        &self,
+        options: NSWindowListOptions,
+        block: &Block<(NonNull<NSWindow>, NonNull<Bool>), ()>,
+    );
 
-        #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other windows)]
-        pub unsafe fn windows(&self) -> Id<NSArray<NSWindow>>;
+    #[objc2::method(sel = "preventWindowOrdering")]
+    pub unsafe fn preventWindowOrdering(&self);
 
-        #[method(setWindowsNeedUpdate:)]
-        pub unsafe fn setWindowsNeedUpdate(&self, need_update: bool);
+    #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "windows", managed = "Other")]
+    pub unsafe fn windows(&self) -> Id<NSArray<NSWindow>>;
 
-        #[method(updateWindows)]
-        pub unsafe fn updateWindows(&self);
+    #[objc2::method(sel = "setWindowsNeedUpdate:")]
+    pub unsafe fn setWindowsNeedUpdate(&self, need_update: bool);
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method_id(@__retain_semantics Other mainMenu)]
-        pub unsafe fn mainMenu(&self) -> Option<Id<NSMenu>>;
+    #[objc2::method(sel = "updateWindows")]
+    pub unsafe fn updateWindows(&self);
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method(setMainMenu:)]
-        pub unsafe fn setMainMenu(&self, main_menu: Option<&NSMenu>);
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "mainMenu", managed = "Other")]
+    pub unsafe fn mainMenu(&self) -> Option<Id<NSMenu>>;
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method_id(@__retain_semantics Other helpMenu)]
-        pub unsafe fn helpMenu(&self) -> Option<Id<NSMenu>>;
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "setMainMenu:")]
+    pub unsafe fn setMainMenu(&self, main_menu: Option<&NSMenu>);
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method(setHelpMenu:)]
-        pub unsafe fn setHelpMenu(&self, help_menu: Option<&NSMenu>);
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "helpMenu", managed = "Other")]
+    pub unsafe fn helpMenu(&self) -> Option<Id<NSMenu>>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other applicationIconImage)]
-        pub unsafe fn applicationIconImage(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "setHelpMenu:")]
+    pub unsafe fn setHelpMenu(&self, help_menu: Option<&NSMenu>);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setApplicationIconImage:)]
-        pub unsafe fn setApplicationIconImage(&self, application_icon_image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "applicationIconImage", managed = "Other")]
+    pub unsafe fn applicationIconImage(&self) -> Option<Id<NSImage>>;
 
-        #[method(activationPolicy)]
-        pub unsafe fn activationPolicy(&self) -> NSApplicationActivationPolicy;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setApplicationIconImage:")]
+    pub unsafe fn setApplicationIconImage(&self, application_icon_image: Option<&NSImage>);
 
-        #[method(setActivationPolicy:)]
-        pub unsafe fn setActivationPolicy(
-            &self,
-            activation_policy: NSApplicationActivationPolicy,
-        ) -> bool;
+    #[objc2::method(sel = "activationPolicy")]
+    pub unsafe fn activationPolicy(&self) -> NSApplicationActivationPolicy;
 
-        #[cfg(feature = "AppKit_NSDockTile")]
-        #[method_id(@__retain_semantics Other dockTile)]
-        pub unsafe fn dockTile(&self) -> Id<NSDockTile>;
+    #[objc2::method(sel = "setActivationPolicy:")]
+    pub unsafe fn setActivationPolicy(
+        &self,
+        activation_policy: NSApplicationActivationPolicy,
+    ) -> bool;
 
-        #[cfg(feature = "Foundation_NSException")]
-        #[method(reportException:)]
-        pub unsafe fn reportException(&self, exception: &NSException);
+    #[cfg(feature = "AppKit_NSDockTile")]
+    #[objc2::method(sel = "dockTile", managed = "Other")]
+    pub unsafe fn dockTile(&self) -> Id<NSDockTile>;
 
-        #[method(detachDrawingThread:toTarget:withObject:)]
-        pub unsafe fn detachDrawingThread_toTarget_withObject(
-            selector: Sel,
-            target: &Object,
-            argument: Option<&Object>,
-        );
+    #[cfg(feature = "Foundation_NSException")]
+    #[objc2::method(sel = "reportException:")]
+    pub unsafe fn reportException(&self, exception: &NSException);
 
-        #[method(replyToApplicationShouldTerminate:)]
-        pub unsafe fn replyToApplicationShouldTerminate(&self, should_terminate: bool);
+    #[objc2::method(sel = "detachDrawingThread:toTarget:withObject:")]
+    pub unsafe fn detachDrawingThread_toTarget_withObject(
+        selector: Sel,
+        target: &Object,
+        argument: Option<&Object>,
+    );
 
-        #[method(replyToOpenOrPrint:)]
-        pub unsafe fn replyToOpenOrPrint(&self, reply: NSApplicationDelegateReply);
+    #[objc2::method(sel = "replyToApplicationShouldTerminate:")]
+    pub unsafe fn replyToApplicationShouldTerminate(&self, should_terminate: bool);
 
-        #[method(orderFrontCharacterPalette:)]
-        pub unsafe fn orderFrontCharacterPalette(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "replyToOpenOrPrint:")]
+    pub unsafe fn replyToOpenOrPrint(&self, reply: NSApplicationDelegateReply);
 
-        #[method(presentationOptions)]
-        pub unsafe fn presentationOptions(&self) -> NSApplicationPresentationOptions;
+    #[objc2::method(sel = "orderFrontCharacterPalette:")]
+    pub unsafe fn orderFrontCharacterPalette(&self, sender: Option<&Object>);
 
-        #[method(setPresentationOptions:)]
-        pub unsafe fn setPresentationOptions(
-            &self,
-            presentation_options: NSApplicationPresentationOptions,
-        );
+    #[objc2::method(sel = "presentationOptions")]
+    pub unsafe fn presentationOptions(&self) -> NSApplicationPresentationOptions;
 
-        #[method(currentSystemPresentationOptions)]
-        pub unsafe fn currentSystemPresentationOptions(&self) -> NSApplicationPresentationOptions;
+    #[objc2::method(sel = "setPresentationOptions:")]
+    pub unsafe fn setPresentationOptions(
+        &self,
+        presentation_options: NSApplicationPresentationOptions,
+    );
 
-        #[method(occlusionState)]
-        pub unsafe fn occlusionState(&self) -> NSApplicationOcclusionState;
+    #[objc2::method(sel = "currentSystemPresentationOptions")]
+    pub unsafe fn currentSystemPresentationOptions(&self) -> NSApplicationPresentationOptions;
 
-        #[method(isProtectedDataAvailable)]
-        pub unsafe fn isProtectedDataAvailable(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "occlusionState")]
+    pub unsafe fn occlusionState(&self) -> NSApplicationOcclusionState;
 
-extern_methods!(
-    /// NSAppearanceCustomization
+    #[objc2::method(sel = "isProtectedDataAvailable")]
+    pub unsafe fn isProtectedDataAvailable(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[cfg(feature = "AppKit_NSAppearance")]
-        #[method_id(@__retain_semantics Other appearance)]
-        pub unsafe fn appearance(&self) -> Option<Id<NSAppearance>>;
+    pub type NSApplication;
 
-        #[cfg(feature = "AppKit_NSAppearance")]
-        #[method(setAppearance:)]
-        pub unsafe fn setAppearance(&self, appearance: Option<&NSAppearance>);
+    #[cfg(feature = "AppKit_NSAppearance")]
+    #[objc2::method(sel = "appearance", managed = "Other")]
+    pub unsafe fn appearance(&self) -> Option<Id<NSAppearance>>;
 
-        #[cfg(feature = "AppKit_NSAppearance")]
-        #[method_id(@__retain_semantics Other effectiveAppearance)]
-        pub unsafe fn effectiveAppearance(&self) -> Id<NSAppearance>;
-    }
-);
+    #[cfg(feature = "AppKit_NSAppearance")]
+    #[objc2::method(sel = "setAppearance:")]
+    pub unsafe fn setAppearance(&self, appearance: Option<&NSAppearance>);
+
+    #[cfg(feature = "AppKit_NSAppearance")]
+    #[objc2::method(sel = "effectiveAppearance", managed = "Other")]
+    pub unsafe fn effectiveAppearance(&self) -> Id<NSAppearance>;
+}
 
 #[cfg(feature = "AppKit_NSApplication")]
 unsafe impl NSAppearanceCustomization for NSApplication {}
 
-extern_methods!(
-    /// NSEvent
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(sendEvent:)]
-        pub unsafe fn sendEvent(&self, event: &NSEvent);
+    pub type NSApplication;
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(postEvent:atStart:)]
-        pub unsafe fn postEvent_atStart(&self, event: &NSEvent, flag: bool);
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "sendEvent:")]
+    pub unsafe fn sendEvent(&self, event: &NSEvent);
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method_id(@__retain_semantics Other currentEvent)]
-        pub unsafe fn currentEvent(&self) -> Option<Id<NSEvent>>;
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "postEvent:atStart:")]
+    pub unsafe fn postEvent_atStart(&self, event: &NSEvent, flag: bool);
 
-        #[cfg(all(feature = "AppKit_NSEvent", feature = "Foundation_NSDate"))]
-        #[method_id(@__retain_semantics Other nextEventMatchingMask:untilDate:inMode:dequeue:)]
-        pub unsafe fn nextEventMatchingMask_untilDate_inMode_dequeue(
-            &self,
-            mask: NSEventMask,
-            expiration: Option<&NSDate>,
-            mode: &NSRunLoopMode,
-            deq_flag: bool,
-        ) -> Option<Id<NSEvent>>;
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "currentEvent", managed = "Other")]
+    pub unsafe fn currentEvent(&self) -> Option<Id<NSEvent>>;
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(discardEventsMatchingMask:beforeEvent:)]
-        pub unsafe fn discardEventsMatchingMask_beforeEvent(
-            &self,
-            mask: NSEventMask,
-            last_event: Option<&NSEvent>,
-        );
-    }
-);
+    #[cfg(all(feature = "AppKit_NSEvent", feature = "Foundation_NSDate"))]
+    #[objc2::method(
+        sel = "nextEventMatchingMask:untilDate:inMode:dequeue:",
+        managed = "Other"
+    )]
+    pub unsafe fn nextEventMatchingMask_untilDate_inMode_dequeue(
+        &self,
+        mask: NSEventMask,
+        expiration: Option<&NSDate>,
+        mode: &NSRunLoopMode,
+        deq_flag: bool,
+    ) -> Option<Id<NSEvent>>;
 
-extern_methods!(
-    /// NSResponder
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "discardEventsMatchingMask:beforeEvent:")]
+    pub unsafe fn discardEventsMatchingMask_beforeEvent(
+        &self,
+        mask: NSEventMask,
+        last_event: Option<&NSEvent>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[method(sendAction:to:from:)]
-        pub unsafe fn sendAction_to_from(
-            &self,
-            action: Sel,
-            target: Option<&Object>,
-            sender: Option<&Object>,
-        ) -> bool;
+    pub type NSApplication;
 
-        #[method_id(@__retain_semantics Other targetForAction:)]
-        pub unsafe fn targetForAction(&self, action: Sel) -> Option<Id<Object>>;
+    #[objc2::method(sel = "sendAction:to:from:")]
+    pub unsafe fn sendAction_to_from(
+        &self,
+        action: Sel,
+        target: Option<&Object>,
+        sender: Option<&Object>,
+    ) -> bool;
 
-        #[method_id(@__retain_semantics Other targetForAction:to:from:)]
-        pub unsafe fn targetForAction_to_from(
-            &self,
-            action: Sel,
-            target: Option<&Object>,
-            sender: Option<&Object>,
-        ) -> Option<Id<Object>>;
+    #[objc2::method(sel = "targetForAction:", managed = "Other")]
+    pub unsafe fn targetForAction(&self, action: Sel) -> Option<Id<Object>>;
 
-        #[method(tryToPerform:with:)]
-        pub unsafe fn tryToPerform_with(&self, action: Sel, object: Option<&Object>) -> bool;
+    #[objc2::method(sel = "targetForAction:to:from:", managed = "Other")]
+    pub unsafe fn targetForAction_to_from(
+        &self,
+        action: Sel,
+        target: Option<&Object>,
+        sender: Option<&Object>,
+    ) -> Option<Id<Object>>;
 
-        #[method_id(@__retain_semantics Other validRequestorForSendType:returnType:)]
-        pub unsafe fn validRequestorForSendType_returnType(
-            &self,
-            send_type: Option<&NSPasteboardType>,
-            return_type: Option<&NSPasteboardType>,
-        ) -> Option<Id<Object>>;
-    }
-);
+    #[objc2::method(sel = "tryToPerform:with:")]
+    pub unsafe fn tryToPerform_with(&self, action: Sel, object: Option<&Object>) -> bool;
 
-extern_methods!(
-    /// NSWindowsMenu
+    #[objc2::method(sel = "validRequestorForSendType:returnType:", managed = "Other")]
+    pub unsafe fn validRequestorForSendType_returnType(
+        &self,
+        send_type: Option<&NSPasteboardType>,
+        return_type: Option<&NSPasteboardType>,
+    ) -> Option<Id<Object>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method_id(@__retain_semantics Other windowsMenu)]
-        pub unsafe fn windowsMenu(&self) -> Option<Id<NSMenu>>;
+    pub type NSApplication;
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method(setWindowsMenu:)]
-        pub unsafe fn setWindowsMenu(&self, windows_menu: Option<&NSMenu>);
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "windowsMenu", managed = "Other")]
+    pub unsafe fn windowsMenu(&self) -> Option<Id<NSMenu>>;
 
-        #[method(arrangeInFront:)]
-        pub unsafe fn arrangeInFront(&self, sender: Option<&Object>);
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "setWindowsMenu:")]
+    pub unsafe fn setWindowsMenu(&self, windows_menu: Option<&NSMenu>);
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(removeWindowsItem:)]
-        pub unsafe fn removeWindowsItem(&self, win: &NSWindow);
+    #[objc2::method(sel = "arrangeInFront:")]
+    pub unsafe fn arrangeInFront(&self, sender: Option<&Object>);
 
-        #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSString"))]
-        #[method(addWindowsItem:title:filename:)]
-        pub unsafe fn addWindowsItem_title_filename(
-            &self,
-            win: &NSWindow,
-            string: &NSString,
-            is_filename: bool,
-        );
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "removeWindowsItem:")]
+    pub unsafe fn removeWindowsItem(&self, win: &NSWindow);
 
-        #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSString"))]
-        #[method(changeWindowsItem:title:filename:)]
-        pub unsafe fn changeWindowsItem_title_filename(
-            &self,
-            win: &NSWindow,
-            string: &NSString,
-            is_filename: bool,
-        );
+    #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "addWindowsItem:title:filename:")]
+    pub unsafe fn addWindowsItem_title_filename(
+        &self,
+        win: &NSWindow,
+        string: &NSString,
+        is_filename: bool,
+    );
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(updateWindowsItem:)]
-        pub unsafe fn updateWindowsItem(&self, win: &NSWindow);
+    #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "changeWindowsItem:title:filename:")]
+    pub unsafe fn changeWindowsItem_title_filename(
+        &self,
+        win: &NSWindow,
+        string: &NSString,
+        is_filename: bool,
+    );
 
-        #[method(miniaturizeAll:)]
-        pub unsafe fn miniaturizeAll(&self, sender: Option<&Object>);
-    }
-);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "updateWindowsItem:")]
+    pub unsafe fn updateWindowsItem(&self, win: &NSWindow);
 
-extern_methods!(
-    /// NSFullKeyboardAccess
+    #[objc2::method(sel = "miniaturizeAll:")]
+    pub unsafe fn miniaturizeAll(&self, sender: Option<&Object>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[method(isFullKeyboardAccessEnabled)]
-        pub unsafe fn isFullKeyboardAccessEnabled(&self) -> bool;
-    }
-);
+    pub type NSApplication;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSApplicationTerminateReply {
-        NSTerminateCancel = 0,
-        NSTerminateNow = 1,
-        NSTerminateLater = 2,
-    }
-);
+    #[objc2::method(sel = "isFullKeyboardAccessEnabled")]
+    pub unsafe fn isFullKeyboardAccessEnabled(&self) -> bool;
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSApplicationPrintReply {
-        NSPrintingCancelled = 0,
-        NSPrintingSuccess = 1,
-        NSPrintingFailure = 3,
-        NSPrintingReplyLater = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSApplicationTerminateReply {
+    NSTerminateCancel = 0,
+    NSTerminateNow = 1,
+    NSTerminateLater = 2,
+}
 
-extern_protocol!(
-    pub unsafe trait NSApplicationDelegate: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSApplication")]
-        #[optional]
-        #[method(applicationShouldTerminate:)]
-        unsafe fn applicationShouldTerminate(
-            &self,
-            sender: &NSApplication,
-        ) -> NSApplicationTerminateReply;
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSApplicationPrintReply {
+    NSPrintingCancelled = 0,
+    NSPrintingSuccess = 1,
+    NSPrintingFailure = 3,
+    NSPrintingReplyLater = 2,
+}
 
-        #[cfg(all(
-            feature = "AppKit_NSApplication",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSURL"
-        ))]
-        #[optional]
-        #[method(application:openURLs:)]
-        unsafe fn application_openURLs(&self, application: &NSApplication, urls: &NSArray<NSURL>);
-
-        #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSString"))]
-        #[optional]
-        #[method(application:openFile:)]
-        unsafe fn application_openFile(&self, sender: &NSApplication, filename: &NSString) -> bool;
-
-        #[cfg(all(
-            feature = "AppKit_NSApplication",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString"
-        ))]
-        #[optional]
-        #[method(application:openFiles:)]
-        unsafe fn application_openFiles(
-            &self,
-            sender: &NSApplication,
-            filenames: &NSArray<NSString>,
-        );
-
-        #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSString"))]
-        #[optional]
-        #[method(application:openTempFile:)]
-        unsafe fn application_openTempFile(
-            &self,
-            sender: &NSApplication,
-            filename: &NSString,
-        ) -> bool;
-
-        #[cfg(feature = "AppKit_NSApplication")]
-        #[optional]
-        #[method(applicationShouldOpenUntitledFile:)]
-        unsafe fn applicationShouldOpenUntitledFile(&self, sender: &NSApplication) -> bool;
-
-        #[cfg(feature = "AppKit_NSApplication")]
-        #[optional]
-        #[method(applicationOpenUntitledFile:)]
-        unsafe fn applicationOpenUntitledFile(&self, sender: &NSApplication) -> bool;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[optional]
-        #[method(application:openFileWithoutUI:)]
-        unsafe fn application_openFileWithoutUI(
-            &self,
-            sender: &Object,
-            filename: &NSString,
-        ) -> bool;
-
-        #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSString"))]
-        #[optional]
-        #[method(application:printFile:)]
-        unsafe fn application_printFile(&self, sender: &NSApplication, filename: &NSString)
-            -> bool;
-
-        #[cfg(all(
-            feature = "AppKit_NSApplication",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[optional]
-        #[method(application:printFiles:withSettings:showPrintPanels:)]
-        unsafe fn application_printFiles_withSettings_showPrintPanels(
-            &self,
-            application: &NSApplication,
-            file_names: &NSArray<NSString>,
-            print_settings: &NSDictionary<NSPrintInfoAttributeKey, Object>,
-            show_print_panels: bool,
-        ) -> NSApplicationPrintReply;
-
-        #[cfg(feature = "AppKit_NSApplication")]
-        #[optional]
-        #[method(applicationShouldTerminateAfterLastWindowClosed:)]
-        unsafe fn applicationShouldTerminateAfterLastWindowClosed(
-            &self,
-            sender: &NSApplication,
-        ) -> bool;
-
-        #[cfg(feature = "AppKit_NSApplication")]
-        #[optional]
-        #[method(applicationShouldHandleReopen:hasVisibleWindows:)]
-        unsafe fn applicationShouldHandleReopen_hasVisibleWindows(
-            &self,
-            sender: &NSApplication,
-            flag: bool,
-        ) -> bool;
-
-        #[cfg(all(feature = "AppKit_NSApplication", feature = "AppKit_NSMenu"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other applicationDockMenu:)]
-        unsafe fn applicationDockMenu(&self, sender: &NSApplication) -> Option<Id<NSMenu>>;
-
-        #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSError"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other application:willPresentError:)]
-        unsafe fn application_willPresentError(
-            &self,
-            application: &NSApplication,
-            error: &NSError,
-        ) -> Id<NSError>;
-
-        #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSData"))]
-        #[optional]
-        #[method(application:didRegisterForRemoteNotificationsWithDeviceToken:)]
-        unsafe fn application_didRegisterForRemoteNotificationsWithDeviceToken(
-            &self,
-            application: &NSApplication,
-            device_token: &NSData,
-        );
-
-        #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSError"))]
-        #[optional]
-        #[method(application:didFailToRegisterForRemoteNotificationsWithError:)]
-        unsafe fn application_didFailToRegisterForRemoteNotificationsWithError(
-            &self,
-            application: &NSApplication,
-            error: &NSError,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSApplication",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[optional]
-        #[method(application:didReceiveRemoteNotification:)]
-        unsafe fn application_didReceiveRemoteNotification(
-            &self,
-            application: &NSApplication,
-            user_info: &NSDictionary<NSString, Object>,
-        );
-
-        #[cfg(feature = "AppKit_NSApplication")]
-        #[optional]
-        #[method(applicationSupportsSecureRestorableState:)]
-        unsafe fn applicationSupportsSecureRestorableState(&self, app: &NSApplication) -> bool;
-
-        #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSCoder"))]
-        #[optional]
-        #[method(application:willEncodeRestorableState:)]
-        unsafe fn application_willEncodeRestorableState(
-            &self,
-            app: &NSApplication,
-            coder: &NSCoder,
-        );
-
-        #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSCoder"))]
-        #[optional]
-        #[method(application:didDecodeRestorableState:)]
-        unsafe fn application_didDecodeRestorableState(&self, app: &NSApplication, coder: &NSCoder);
-
-        #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSString"))]
-        #[optional]
-        #[method(application:willContinueUserActivityWithType:)]
-        unsafe fn application_willContinueUserActivityWithType(
-            &self,
-            application: &NSApplication,
-            user_activity_type: &NSString,
-        ) -> bool;
-
-        #[cfg(all(
-            feature = "AppKit_NSApplication",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSUserActivity"
-        ))]
-        #[optional]
-        #[method(application:continueUserActivity:restorationHandler:)]
-        unsafe fn application_continueUserActivity_restorationHandler(
-            &self,
-            application: &NSApplication,
-            user_activity: &NSUserActivity,
-            restoration_handler: &Block<
-                (NonNull<NSArray<ProtocolObject<dyn NSUserActivityRestoring>>>,),
-                (),
-            >,
-        ) -> bool;
-
-        #[cfg(all(
-            feature = "AppKit_NSApplication",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[optional]
-        #[method(application:didFailToContinueUserActivityWithType:error:)]
-        unsafe fn application_didFailToContinueUserActivityWithType_error(
-            &self,
-            application: &NSApplication,
-            user_activity_type: &NSString,
-            error: &NSError,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSApplication",
-            feature = "Foundation_NSUserActivity"
-        ))]
-        #[optional]
-        #[method(application:didUpdateUserActivity:)]
-        unsafe fn application_didUpdateUserActivity(
-            &self,
-            application: &NSApplication,
-            user_activity: &NSUserActivity,
-        );
-
-        #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSString"))]
-        #[optional]
-        #[method(application:delegateHandlesKey:)]
-        unsafe fn application_delegateHandlesKey(
-            &self,
-            sender: &NSApplication,
-            key: &NSString,
-        ) -> bool;
-
-        #[cfg(feature = "AppKit_NSApplication")]
-        #[optional]
-        #[method(applicationShouldAutomaticallyLocalizeKeyEquivalents:)]
-        unsafe fn applicationShouldAutomaticallyLocalizeKeyEquivalents(
-            &self,
-            application: &NSApplication,
-        ) -> bool;
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(applicationWillFinishLaunching:)]
-        unsafe fn applicationWillFinishLaunching(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(applicationDidFinishLaunching:)]
-        unsafe fn applicationDidFinishLaunching(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(applicationWillHide:)]
-        unsafe fn applicationWillHide(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(applicationDidHide:)]
-        unsafe fn applicationDidHide(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(applicationWillUnhide:)]
-        unsafe fn applicationWillUnhide(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(applicationDidUnhide:)]
-        unsafe fn applicationDidUnhide(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(applicationWillBecomeActive:)]
-        unsafe fn applicationWillBecomeActive(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(applicationDidBecomeActive:)]
-        unsafe fn applicationDidBecomeActive(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(applicationWillResignActive:)]
-        unsafe fn applicationWillResignActive(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(applicationDidResignActive:)]
-        unsafe fn applicationDidResignActive(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(applicationWillUpdate:)]
-        unsafe fn applicationWillUpdate(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(applicationDidUpdate:)]
-        unsafe fn applicationDidUpdate(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(applicationWillTerminate:)]
-        unsafe fn applicationWillTerminate(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(applicationDidChangeScreenParameters:)]
-        unsafe fn applicationDidChangeScreenParameters(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(applicationDidChangeOcclusionState:)]
-        unsafe fn applicationDidChangeOcclusionState(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(applicationProtectedDataWillBecomeUnavailable:)]
-        unsafe fn applicationProtectedDataWillBecomeUnavailable(
-            &self,
-            notification: &NSNotification,
-        );
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(applicationProtectedDataDidBecomeAvailable:)]
-        unsafe fn applicationProtectedDataDidBecomeAvailable(&self, notification: &NSNotification);
-    }
-
-    unsafe impl ProtocolType for dyn NSApplicationDelegate {}
-);
-
-extern_methods!(
-    /// NSServicesMenu
+#[objc2::protocol]
+pub unsafe trait NSApplicationDelegate: NSObjectProtocol {
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method_id(@__retain_semantics Other servicesMenu)]
-        pub unsafe fn servicesMenu(&self) -> Option<Id<NSMenu>>;
+    #[objc2::method(optional, sel = "applicationShouldTerminate:")]
+    unsafe fn applicationShouldTerminate(
+        &self,
+        sender: &NSApplication,
+    ) -> NSApplicationTerminateReply;
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method(setServicesMenu:)]
-        pub unsafe fn setServicesMenu(&self, services_menu: Option<&NSMenu>);
+    #[cfg(all(
+        feature = "AppKit_NSApplication",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(optional, sel = "application:openURLs:")]
+    unsafe fn application_openURLs(&self, application: &NSApplication, urls: &NSArray<NSURL>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(registerServicesMenuSendTypes:returnTypes:)]
-        pub unsafe fn registerServicesMenuSendTypes_returnTypes(
-            &self,
-            send_types: &NSArray<NSPasteboardType>,
-            return_types: &NSArray<NSPasteboardType>,
-        );
-    }
-);
+    #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSString"))]
+    #[objc2::method(optional, sel = "application:openFile:")]
+    unsafe fn application_openFile(&self, sender: &NSApplication, filename: &NSString) -> bool;
 
-extern_protocol!(
-    pub unsafe trait NSServicesMenuRequestor: NSObjectProtocol {
-        #[cfg(all(feature = "AppKit_NSPasteboard", feature = "Foundation_NSArray"))]
-        #[optional]
-        #[method(writeSelectionToPasteboard:types:)]
-        unsafe fn writeSelectionToPasteboard_types(
-            &self,
-            pboard: &NSPasteboard,
-            types: &NSArray<NSPasteboardType>,
-        ) -> bool;
+    #[cfg(all(
+        feature = "AppKit_NSApplication",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(optional, sel = "application:openFiles:")]
+    unsafe fn application_openFiles(&self, sender: &NSApplication, filenames: &NSArray<NSString>);
 
-        #[cfg(feature = "AppKit_NSPasteboard")]
-        #[optional]
-        #[method(readSelectionFromPasteboard:)]
-        unsafe fn readSelectionFromPasteboard(&self, pboard: &NSPasteboard) -> bool;
-    }
+    #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSString"))]
+    #[objc2::method(optional, sel = "application:openTempFile:")]
+    unsafe fn application_openTempFile(&self, sender: &NSApplication, filename: &NSString) -> bool;
 
-    unsafe impl ProtocolType for dyn NSServicesMenuRequestor {}
-);
-
-extern_methods!(
-    /// NSServicesHandling
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[method_id(@__retain_semantics Other servicesProvider)]
-        pub unsafe fn servicesProvider(&self) -> Option<Id<Object>>;
+    #[objc2::method(optional, sel = "applicationShouldOpenUntitledFile:")]
+    unsafe fn applicationShouldOpenUntitledFile(&self, sender: &NSApplication) -> bool;
 
-        #[method(setServicesProvider:)]
-        pub unsafe fn setServicesProvider(&self, services_provider: Option<&Object>);
-    }
-);
+    #[cfg(feature = "AppKit_NSApplication")]
+    #[objc2::method(optional, sel = "applicationOpenUntitledFile:")]
+    unsafe fn applicationOpenUntitledFile(&self, sender: &NSApplication) -> bool;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(optional, sel = "application:openFileWithoutUI:")]
+    unsafe fn application_openFileWithoutUI(&self, sender: &Object, filename: &NSString) -> bool;
+
+    #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSString"))]
+    #[objc2::method(optional, sel = "application:printFile:")]
+    unsafe fn application_printFile(&self, sender: &NSApplication, filename: &NSString) -> bool;
+
+    #[cfg(all(
+        feature = "AppKit_NSApplication",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(optional, sel = "application:printFiles:withSettings:showPrintPanels:")]
+    unsafe fn application_printFiles_withSettings_showPrintPanels(
+        &self,
+        application: &NSApplication,
+        file_names: &NSArray<NSString>,
+        print_settings: &NSDictionary<NSPrintInfoAttributeKey, Object>,
+        show_print_panels: bool,
+    ) -> NSApplicationPrintReply;
+
+    #[cfg(feature = "AppKit_NSApplication")]
+    #[objc2::method(optional, sel = "applicationShouldTerminateAfterLastWindowClosed:")]
+    unsafe fn applicationShouldTerminateAfterLastWindowClosed(
+        &self,
+        sender: &NSApplication,
+    ) -> bool;
+
+    #[cfg(feature = "AppKit_NSApplication")]
+    #[objc2::method(optional, sel = "applicationShouldHandleReopen:hasVisibleWindows:")]
+    unsafe fn applicationShouldHandleReopen_hasVisibleWindows(
+        &self,
+        sender: &NSApplication,
+        flag: bool,
+    ) -> bool;
+
+    #[cfg(all(feature = "AppKit_NSApplication", feature = "AppKit_NSMenu"))]
+    #[objc2::method(optional, sel = "applicationDockMenu:", managed = "Other")]
+    unsafe fn applicationDockMenu(&self, sender: &NSApplication) -> Option<Id<NSMenu>>;
+
+    #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSError"))]
+    #[objc2::method(optional, sel = "application:willPresentError:", managed = "Other")]
+    unsafe fn application_willPresentError(
+        &self,
+        application: &NSApplication,
+        error: &NSError,
+    ) -> Id<NSError>;
+
+    #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSData"))]
+    #[objc2::method(
+        optional,
+        sel = "application:didRegisterForRemoteNotificationsWithDeviceToken:"
+    )]
+    unsafe fn application_didRegisterForRemoteNotificationsWithDeviceToken(
+        &self,
+        application: &NSApplication,
+        device_token: &NSData,
+    );
+
+    #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSError"))]
+    #[objc2::method(
+        optional,
+        sel = "application:didFailToRegisterForRemoteNotificationsWithError:"
+    )]
+    unsafe fn application_didFailToRegisterForRemoteNotificationsWithError(
+        &self,
+        application: &NSApplication,
+        error: &NSError,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSApplication",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(optional, sel = "application:didReceiveRemoteNotification:")]
+    unsafe fn application_didReceiveRemoteNotification(
+        &self,
+        application: &NSApplication,
+        user_info: &NSDictionary<NSString, Object>,
+    );
+
+    #[cfg(feature = "AppKit_NSApplication")]
+    #[objc2::method(optional, sel = "applicationSupportsSecureRestorableState:")]
+    unsafe fn applicationSupportsSecureRestorableState(&self, app: &NSApplication) -> bool;
+
+    #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSCoder"))]
+    #[objc2::method(optional, sel = "application:willEncodeRestorableState:")]
+    unsafe fn application_willEncodeRestorableState(&self, app: &NSApplication, coder: &NSCoder);
+
+    #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSCoder"))]
+    #[objc2::method(optional, sel = "application:didDecodeRestorableState:")]
+    unsafe fn application_didDecodeRestorableState(&self, app: &NSApplication, coder: &NSCoder);
+
+    #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSString"))]
+    #[objc2::method(optional, sel = "application:willContinueUserActivityWithType:")]
+    unsafe fn application_willContinueUserActivityWithType(
+        &self,
+        application: &NSApplication,
+        user_activity_type: &NSString,
+    ) -> bool;
+
+    #[cfg(all(
+        feature = "AppKit_NSApplication",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSUserActivity"
+    ))]
+    #[objc2::method(optional, sel = "application:continueUserActivity:restorationHandler:")]
+    unsafe fn application_continueUserActivity_restorationHandler(
+        &self,
+        application: &NSApplication,
+        user_activity: &NSUserActivity,
+        restoration_handler: &Block<
+            (NonNull<NSArray<ProtocolObject<dyn NSUserActivityRestoring>>>,),
+            (),
+        >,
+    ) -> bool;
+
+    #[cfg(all(
+        feature = "AppKit_NSApplication",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "application:didFailToContinueUserActivityWithType:error:"
+    )]
+    unsafe fn application_didFailToContinueUserActivityWithType_error(
+        &self,
+        application: &NSApplication,
+        user_activity_type: &NSString,
+        error: &NSError,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSApplication",
+        feature = "Foundation_NSUserActivity"
+    ))]
+    #[objc2::method(optional, sel = "application:didUpdateUserActivity:")]
+    unsafe fn application_didUpdateUserActivity(
+        &self,
+        application: &NSApplication,
+        user_activity: &NSUserActivity,
+    );
+
+    #[cfg(all(feature = "AppKit_NSApplication", feature = "Foundation_NSString"))]
+    #[objc2::method(optional, sel = "application:delegateHandlesKey:")]
+    unsafe fn application_delegateHandlesKey(&self, sender: &NSApplication, key: &NSString)
+        -> bool;
+
+    #[cfg(feature = "AppKit_NSApplication")]
+    #[objc2::method(
+        optional,
+        sel = "applicationShouldAutomaticallyLocalizeKeyEquivalents:"
+    )]
+    unsafe fn applicationShouldAutomaticallyLocalizeKeyEquivalents(
+        &self,
+        application: &NSApplication,
+    ) -> bool;
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "applicationWillFinishLaunching:")]
+    unsafe fn applicationWillFinishLaunching(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "applicationDidFinishLaunching:")]
+    unsafe fn applicationDidFinishLaunching(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "applicationWillHide:")]
+    unsafe fn applicationWillHide(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "applicationDidHide:")]
+    unsafe fn applicationDidHide(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "applicationWillUnhide:")]
+    unsafe fn applicationWillUnhide(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "applicationDidUnhide:")]
+    unsafe fn applicationDidUnhide(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "applicationWillBecomeActive:")]
+    unsafe fn applicationWillBecomeActive(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "applicationDidBecomeActive:")]
+    unsafe fn applicationDidBecomeActive(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "applicationWillResignActive:")]
+    unsafe fn applicationWillResignActive(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "applicationDidResignActive:")]
+    unsafe fn applicationDidResignActive(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "applicationWillUpdate:")]
+    unsafe fn applicationWillUpdate(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "applicationDidUpdate:")]
+    unsafe fn applicationDidUpdate(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "applicationWillTerminate:")]
+    unsafe fn applicationWillTerminate(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "applicationDidChangeScreenParameters:")]
+    unsafe fn applicationDidChangeScreenParameters(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "applicationDidChangeOcclusionState:")]
+    unsafe fn applicationDidChangeOcclusionState(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "applicationProtectedDataWillBecomeUnavailable:")]
+    unsafe fn applicationProtectedDataWillBecomeUnavailable(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "applicationProtectedDataDidBecomeAvailable:")]
+    unsafe fn applicationProtectedDataDidBecomeAvailable(&self, notification: &NSNotification);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSApplication")]
+    pub type NSApplication;
+
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "servicesMenu", managed = "Other")]
+    pub unsafe fn servicesMenu(&self) -> Option<Id<NSMenu>>;
+
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "setServicesMenu:")]
+    pub unsafe fn setServicesMenu(&self, services_menu: Option<&NSMenu>);
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "registerServicesMenuSendTypes:returnTypes:")]
+    pub unsafe fn registerServicesMenuSendTypes_returnTypes(
+        &self,
+        send_types: &NSArray<NSPasteboardType>,
+        return_types: &NSArray<NSPasteboardType>,
+    );
+}
+
+#[objc2::protocol]
+pub unsafe trait NSServicesMenuRequestor: NSObjectProtocol {
+    #[cfg(all(feature = "AppKit_NSPasteboard", feature = "Foundation_NSArray"))]
+    #[objc2::method(optional, sel = "writeSelectionToPasteboard:types:")]
+    unsafe fn writeSelectionToPasteboard_types(
+        &self,
+        pboard: &NSPasteboard,
+        types: &NSArray<NSPasteboardType>,
+    ) -> bool;
+
+    #[cfg(feature = "AppKit_NSPasteboard")]
+    #[objc2::method(optional, sel = "readSelectionFromPasteboard:")]
+    unsafe fn readSelectionFromPasteboard(&self, pboard: &NSPasteboard) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSApplication")]
+    pub type NSApplication;
+
+    #[objc2::method(sel = "servicesProvider", managed = "Other")]
+    pub unsafe fn servicesProvider(&self) -> Option<Id<Object>>;
+
+    #[objc2::method(sel = "setServicesProvider:")]
+    pub unsafe fn setServicesProvider(&self, services_provider: Option<&Object>);
+}
 
 typed_enum!(
     pub type NSAboutPanelOptionKey = NSString;
@@ -1021,73 +968,80 @@ extern_static!(NSAboutPanelOptionVersion: &'static NSAboutPanelOptionKey);
 
 extern_static!(NSAboutPanelOptionApplicationVersion: &'static NSAboutPanelOptionKey);
 
-extern_methods!(
-    /// NSStandardAboutPanel
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[method(orderFrontStandardAboutPanel:)]
-        pub unsafe fn orderFrontStandardAboutPanel(&self, sender: Option<&Object>);
+    pub type NSApplication;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(orderFrontStandardAboutPanelWithOptions:)]
-        pub unsafe fn orderFrontStandardAboutPanelWithOptions(
-            &self,
-            options_dictionary: &NSDictionary<NSAboutPanelOptionKey, Object>,
-        );
-    }
-);
+    #[objc2::method(sel = "orderFrontStandardAboutPanel:")]
+    pub unsafe fn orderFrontStandardAboutPanel(&self, sender: Option<&Object>);
 
-extern_methods!(
-    /// NSApplicationLayoutDirection
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "orderFrontStandardAboutPanelWithOptions:")]
+    pub unsafe fn orderFrontStandardAboutPanelWithOptions(
+        &self,
+        options_dictionary: &NSDictionary<NSAboutPanelOptionKey, Object>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[method(userInterfaceLayoutDirection)]
-        pub unsafe fn userInterfaceLayoutDirection(&self) -> NSUserInterfaceLayoutDirection;
-    }
-);
+    pub type NSApplication;
 
-extern_methods!(
-    /// NSRestorableUserInterface
+    #[objc2::method(sel = "userInterfaceLayoutDirection")]
+    pub unsafe fn userInterfaceLayoutDirection(&self) -> NSUserInterfaceLayoutDirection;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[method(disableRelaunchOnLogin)]
-        pub unsafe fn disableRelaunchOnLogin(&self);
+    pub type NSApplication;
 
-        #[method(enableRelaunchOnLogin)]
-        pub unsafe fn enableRelaunchOnLogin(&self);
-    }
-);
+    #[objc2::method(sel = "disableRelaunchOnLogin")]
+    pub unsafe fn disableRelaunchOnLogin(&self);
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSRemoteNotificationType {
-        NSRemoteNotificationTypeNone = 0,
-        NSRemoteNotificationTypeBadge = 1 << 0,
-        NSRemoteNotificationTypeSound = 1 << 1,
-        NSRemoteNotificationTypeAlert = 1 << 2,
-    }
-);
+    #[objc2::method(sel = "enableRelaunchOnLogin")]
+    pub unsafe fn enableRelaunchOnLogin(&self);
+}
 
-extern_methods!(
-    /// NSRemoteNotifications
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSRemoteNotificationType {
+    NSRemoteNotificationTypeNone = 0,
+    NSRemoteNotificationTypeBadge = 1 << 0,
+    NSRemoteNotificationTypeSound = 1 << 1,
+    NSRemoteNotificationTypeAlert = 1 << 2,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[method(registerForRemoteNotifications)]
-        pub unsafe fn registerForRemoteNotifications(&self);
+    pub type NSApplication;
 
-        #[method(unregisterForRemoteNotifications)]
-        pub unsafe fn unregisterForRemoteNotifications(&self);
+    #[objc2::method(sel = "registerForRemoteNotifications")]
+    pub unsafe fn registerForRemoteNotifications(&self);
 
-        #[method(isRegisteredForRemoteNotifications)]
-        pub unsafe fn isRegisteredForRemoteNotifications(&self) -> bool;
+    #[objc2::method(sel = "unregisterForRemoteNotifications")]
+    pub unsafe fn unregisterForRemoteNotifications(&self);
 
-        #[method(registerForRemoteNotificationTypes:)]
-        pub unsafe fn registerForRemoteNotificationTypes(&self, types: NSRemoteNotificationType);
+    #[objc2::method(sel = "isRegisteredForRemoteNotifications")]
+    pub unsafe fn isRegisteredForRemoteNotifications(&self) -> bool;
 
-        #[method(enabledRemoteNotificationTypes)]
-        pub unsafe fn enabledRemoteNotificationTypes(&self) -> NSRemoteNotificationType;
-    }
-);
+    #[objc2::method(sel = "registerForRemoteNotificationTypes:")]
+    pub unsafe fn registerForRemoteNotificationTypes(&self, types: NSRemoteNotificationType);
+
+    #[objc2::method(sel = "enabledRemoteNotificationTypes")]
+    pub unsafe fn enabledRemoteNotificationTypes(&self) -> NSRemoteNotificationType;
+}
 
 extern_fn!(
     pub unsafe fn NSApplicationMain(argc: c_int, argv: NonNull<NonNull<c_char>>) -> c_int;
@@ -1173,83 +1127,84 @@ extern_static!(NSApplicationLaunchRemoteNotificationKey: &'static NSString);
 
 extern_static!(NSApplicationDidChangeOcclusionStateNotification: &'static NSNotificationName);
 
-extern_enum!(
-    #[underlying(c_int)]
-    pub enum __anonymous__ {
-        #[deprecated = "Use NSModalResponseStop instead"]
-        NSRunStoppedResponse = -1000,
-        #[deprecated = "Use NSModalResponseAbort instead"]
-        NSRunAbortedResponse = -1001,
-        #[deprecated = "Use NSModalResponseContinue instead"]
-        NSRunContinuesResponse = -1002,
-    }
-);
+#[extern_enum]
+#[underlying(c_int)]
+pub enum __anonymous__ {
+    #[deprecated = "Use NSModalResponseStop instead"]
+    NSRunStoppedResponse = -1000,
+    #[deprecated = "Use NSModalResponseAbort instead"]
+    NSRunAbortedResponse = -1001,
+    #[deprecated = "Use NSModalResponseContinue instead"]
+    NSRunContinuesResponse = -1002,
+}
 
-extern_methods!(
-    /// NSDeprecated
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[deprecated = "Use -[NSWindow beginSheet:completionHandler:] instead"]
-        #[method(runModalForWindow:relativeToWindow:)]
-        pub unsafe fn runModalForWindow_relativeToWindow(
-            &self,
-            window: Option<&NSWindow>,
-            doc_window: Option<&NSWindow>,
-        ) -> NSInteger;
+    pub type NSApplication;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[deprecated = "Use -[NSWindow beginSheet:completionHandler:] instead"]
-        #[method(beginModalSessionForWindow:relativeToWindow:)]
-        pub unsafe fn beginModalSessionForWindow_relativeToWindow(
-            &self,
-            window: Option<&NSWindow>,
-            doc_window: Option<&NSWindow>,
-        ) -> NSModalSession;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[deprecated = "Use -[NSWindow beginSheet:completionHandler:] instead"]
+    #[objc2::method(sel = "runModalForWindow:relativeToWindow:")]
+    pub unsafe fn runModalForWindow_relativeToWindow(
+        &self,
+        window: Option<&NSWindow>,
+        doc_window: Option<&NSWindow>,
+    ) -> NSInteger;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[deprecated]
-        #[method(application:printFiles:)]
-        pub unsafe fn application_printFiles(
-            &self,
-            sender: Option<&NSApplication>,
-            filenames: Option<&NSArray<NSString>>,
-        );
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[deprecated = "Use -[NSWindow beginSheet:completionHandler:] instead"]
+    #[objc2::method(sel = "beginModalSessionForWindow:relativeToWindow:")]
+    pub unsafe fn beginModalSessionForWindow_relativeToWindow(
+        &self,
+        window: Option<&NSWindow>,
+        doc_window: Option<&NSWindow>,
+    ) -> NSModalSession;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[deprecated = "Use -[NSWindow beginSheet:completionHandler:] instead"]
-        #[method(beginSheet:modalForWindow:modalDelegate:didEndSelector:contextInfo:)]
-        pub unsafe fn beginSheet_modalForWindow_modalDelegate_didEndSelector_contextInfo(
-            &self,
-            sheet: &NSWindow,
-            doc_window: &NSWindow,
-            modal_delegate: Option<&Object>,
-            did_end_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[deprecated]
+    #[objc2::method(sel = "application:printFiles:")]
+    pub unsafe fn application_printFiles(
+        &self,
+        sender: Option<&NSApplication>,
+        filenames: Option<&NSArray<NSString>>,
+    );
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[deprecated = "Use -[NSWindow endSheet:] instead"]
-        #[method(endSheet:)]
-        pub unsafe fn endSheet(&self, sheet: &NSWindow);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[deprecated = "Use -[NSWindow beginSheet:completionHandler:] instead"]
+    #[objc2::method(sel = "beginSheet:modalForWindow:modalDelegate:didEndSelector:contextInfo:")]
+    pub unsafe fn beginSheet_modalForWindow_modalDelegate_didEndSelector_contextInfo(
+        &self,
+        sheet: &NSWindow,
+        doc_window: &NSWindow,
+        modal_delegate: Option<&Object>,
+        did_end_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[deprecated = "Use -[NSWindow endSheet:returnCode:] instead"]
-        #[method(endSheet:returnCode:)]
-        pub unsafe fn endSheet_returnCode(&self, sheet: &NSWindow, return_code: NSInteger);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[deprecated = "Use -[NSWindow endSheet:] instead"]
+    #[objc2::method(sel = "endSheet:")]
+    pub unsafe fn endSheet(&self, sheet: &NSWindow);
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[deprecated = "Use -enumerateWindowsWithOptions:usingBlock: instead"]
-        #[method_id(@__retain_semantics Other makeWindowsPerform:inOrder:)]
-        pub unsafe fn makeWindowsPerform_inOrder(
-            &self,
-            selector: Sel,
-            flag: bool,
-        ) -> Option<Id<NSWindow>>;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[deprecated = "Use -[NSWindow endSheet:returnCode:] instead"]
+    #[objc2::method(sel = "endSheet:returnCode:")]
+    pub unsafe fn endSheet_returnCode(&self, sheet: &NSWindow, return_code: NSInteger);
 
-        #[cfg(feature = "AppKit_NSGraphicsContext")]
-        #[deprecated = "This method always returns nil. If you need access to the current drawing context, use [NSGraphicsContext currentContext] inside of a draw operation."]
-        #[method_id(@__retain_semantics Other context)]
-        pub unsafe fn context(&self) -> Option<Id<NSGraphicsContext>>;
-    }
-);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[deprecated = "Use -enumerateWindowsWithOptions:usingBlock: instead"]
+    #[objc2::method(sel = "makeWindowsPerform:inOrder:", managed = "Other")]
+    pub unsafe fn makeWindowsPerform_inOrder(
+        &self,
+        selector: Sel,
+        flag: bool,
+    ) -> Option<Id<NSWindow>>;
+
+    #[cfg(feature = "AppKit_NSGraphicsContext")]
+    #[deprecated = "This method always returns nil. If you need access to the current drawing context, use [NSGraphicsContext currentContext] inside of a draw operation."]
+    #[objc2::method(sel = "context", managed = "Other")]
+    pub unsafe fn context(&self) -> Option<Id<NSGraphicsContext>>;
+}

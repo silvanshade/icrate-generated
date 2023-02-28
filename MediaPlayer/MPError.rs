@@ -7,16 +7,15 @@ use crate::MediaPlayer::*;
 
 extern_static!(MPErrorDomain: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MPErrorCode {
-        MPErrorUnknown = 0,
-        MPErrorPermissionDenied = 1,
-        MPErrorCloudServiceCapabilityMissing = 2,
-        MPErrorNetworkConnectionFailed = 3,
-        MPErrorNotFound = 4,
-        MPErrorNotSupported = 5,
-        MPErrorCancelled = 6,
-        MPErrorRequestTimedOut = 7,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MPErrorCode {
+    MPErrorUnknown = 0,
+    MPErrorPermissionDenied = 1,
+    MPErrorCloudServiceCapabilityMissing = 2,
+    MPErrorNetworkConnectionFailed = 3,
+    MPErrorNotFound = 4,
+    MPErrorNotSupported = 5,
+    MPErrorCancelled = 6,
+    MPErrorRequestTimedOut = 7,
+}

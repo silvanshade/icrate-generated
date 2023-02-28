@@ -13,22 +13,26 @@ extern_static!(GCInputDirectionalCardinalDpad: &'static NSString);
 
 extern_static!(GCInputDirectionalCenterButton: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = GCMicroGamepad,
+    unsafe inherits = [
+        GCPhysicalInputProfile,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCDirectionalGamepad")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCDirectionalGamepad")]
-    pub struct GCDirectionalGamepad;
-
-    #[cfg(feature = "GameController_GCDirectionalGamepad")]
-    unsafe impl ClassType for GCDirectionalGamepad {
-        #[inherits(GCPhysicalInputProfile, NSObject)]
-        type Super = GCMicroGamepad;
-    }
-);
+    pub type GCDirectionalGamepad;
+}
 
 #[cfg(feature = "GameController_GCDirectionalGamepad")]
 unsafe impl NSObjectProtocol for GCDirectionalGamepad {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCDirectionalGamepad")]
-    unsafe impl GCDirectionalGamepad {}
-);
+    pub type GCDirectionalGamepad;
+}

@@ -4,225 +4,225 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLComputePipelineReflection")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLComputePipelineReflection")]
-    pub struct MTLComputePipelineReflection;
-
-    #[cfg(feature = "Metal_MTLComputePipelineReflection")]
-    unsafe impl ClassType for MTLComputePipelineReflection {
-        type Super = NSObject;
-    }
-);
+    pub type MTLComputePipelineReflection;
+}
 
 #[cfg(feature = "Metal_MTLComputePipelineReflection")]
 unsafe impl NSObjectProtocol for MTLComputePipelineReflection {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLComputePipelineReflection")]
-    unsafe impl MTLComputePipelineReflection {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other bindings)]
-        pub unsafe fn bindings(&self) -> Id<NSArray<ProtocolObject<dyn MTLBinding>>>;
+    pub type MTLComputePipelineReflection;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Metal_MTLArgument"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other arguments)]
-        pub fn arguments(&self) -> Id<NSArray<MTLArgument>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "bindings", managed = "Other")]
+    pub unsafe fn bindings(&self) -> Id<NSArray<ProtocolObject<dyn MTLBinding>>>;
 
-extern_class!(
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Metal_MTLArgument"))]
+    #[deprecated]
+    #[objc2::method(sel = "arguments", managed = "Other")]
+    pub fn arguments(&self) -> Id<NSArray<MTLArgument>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLComputePipelineDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLComputePipelineDescriptor")]
-    pub struct MTLComputePipelineDescriptor;
-
-    #[cfg(feature = "Metal_MTLComputePipelineDescriptor")]
-    unsafe impl ClassType for MTLComputePipelineDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLComputePipelineDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLComputePipelineDescriptor")]
 unsafe impl NSObjectProtocol for MTLComputePipelineDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLComputePipelineDescriptor")]
-    unsafe impl MTLComputePipelineDescriptor {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        pub fn label(&self) -> Option<Id<NSString>>;
+    pub type MTLComputePipelineDescriptor;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        pub fn setLabel(&self, label: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    pub fn label(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other computeFunction)]
-        pub fn computeFunction(&self) -> Option<Id<ProtocolObject<dyn MTLFunction>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    pub fn setLabel(&self, label: Option<&NSString>);
 
-        #[method(setComputeFunction:)]
-        pub fn setComputeFunction(
-            &self,
-            compute_function: Option<&ProtocolObject<dyn MTLFunction>>,
-        );
+    #[objc2::method(sel = "computeFunction", managed = "Other")]
+    pub fn computeFunction(&self) -> Option<Id<ProtocolObject<dyn MTLFunction>>>;
 
-        #[method(threadGroupSizeIsMultipleOfThreadExecutionWidth)]
-        pub fn threadGroupSizeIsMultipleOfThreadExecutionWidth(&self) -> bool;
+    #[objc2::method(sel = "setComputeFunction:")]
+    pub fn setComputeFunction(&self, compute_function: Option<&ProtocolObject<dyn MTLFunction>>);
 
-        #[method(setThreadGroupSizeIsMultipleOfThreadExecutionWidth:)]
-        pub unsafe fn setThreadGroupSizeIsMultipleOfThreadExecutionWidth(
-            &self,
-            thread_group_size_is_multiple_of_thread_execution_width: bool,
-        );
+    #[objc2::method(sel = "threadGroupSizeIsMultipleOfThreadExecutionWidth")]
+    pub fn threadGroupSizeIsMultipleOfThreadExecutionWidth(&self) -> bool;
 
-        #[method(maxTotalThreadsPerThreadgroup)]
-        pub fn maxTotalThreadsPerThreadgroup(&self) -> NSUInteger;
+    #[objc2::method(sel = "setThreadGroupSizeIsMultipleOfThreadExecutionWidth:")]
+    pub unsafe fn setThreadGroupSizeIsMultipleOfThreadExecutionWidth(
+        &self,
+        thread_group_size_is_multiple_of_thread_execution_width: bool,
+    );
 
-        #[method(setMaxTotalThreadsPerThreadgroup:)]
-        pub fn setMaxTotalThreadsPerThreadgroup(
-            &self,
-            max_total_threads_per_threadgroup: NSUInteger,
-        );
+    #[objc2::method(sel = "maxTotalThreadsPerThreadgroup")]
+    pub fn maxTotalThreadsPerThreadgroup(&self) -> NSUInteger;
 
-        #[cfg(feature = "Metal_MTLStageInputOutputDescriptor")]
-        #[method_id(@__retain_semantics Other stageInputDescriptor)]
-        pub fn stageInputDescriptor(&self) -> Option<Id<MTLStageInputOutputDescriptor>>;
+    #[objc2::method(sel = "setMaxTotalThreadsPerThreadgroup:")]
+    pub fn setMaxTotalThreadsPerThreadgroup(&self, max_total_threads_per_threadgroup: NSUInteger);
 
-        #[cfg(feature = "Metal_MTLStageInputOutputDescriptor")]
-        #[method(setStageInputDescriptor:)]
-        pub fn setStageInputDescriptor(
-            &self,
-            stage_input_descriptor: Option<&MTLStageInputOutputDescriptor>,
-        );
+    #[cfg(feature = "Metal_MTLStageInputOutputDescriptor")]
+    #[objc2::method(sel = "stageInputDescriptor", managed = "Other")]
+    pub fn stageInputDescriptor(&self) -> Option<Id<MTLStageInputOutputDescriptor>>;
 
-        #[cfg(feature = "Metal_MTLPipelineBufferDescriptorArray")]
-        #[method_id(@__retain_semantics Other buffers)]
-        pub fn buffers(&self) -> Id<MTLPipelineBufferDescriptorArray>;
+    #[cfg(feature = "Metal_MTLStageInputOutputDescriptor")]
+    #[objc2::method(sel = "setStageInputDescriptor:")]
+    pub fn setStageInputDescriptor(
+        &self,
+        stage_input_descriptor: Option<&MTLStageInputOutputDescriptor>,
+    );
 
-        #[method(supportIndirectCommandBuffers)]
-        pub fn supportIndirectCommandBuffers(&self) -> bool;
+    #[cfg(feature = "Metal_MTLPipelineBufferDescriptorArray")]
+    #[objc2::method(sel = "buffers", managed = "Other")]
+    pub fn buffers(&self) -> Id<MTLPipelineBufferDescriptorArray>;
 
-        #[method(setSupportIndirectCommandBuffers:)]
-        pub fn setSupportIndirectCommandBuffers(&self, support_indirect_command_buffers: bool);
+    #[objc2::method(sel = "supportIndirectCommandBuffers")]
+    pub fn supportIndirectCommandBuffers(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other insertLibraries)]
-        pub fn insertLibraries(&self)
-            -> Option<Id<NSArray<ProtocolObject<dyn MTLDynamicLibrary>>>>;
+    #[objc2::method(sel = "setSupportIndirectCommandBuffers:")]
+    pub fn setSupportIndirectCommandBuffers(&self, support_indirect_command_buffers: bool);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[deprecated]
-        #[method(setInsertLibraries:)]
-        pub fn setInsertLibraries(
-            &self,
-            insert_libraries: Option<&NSArray<ProtocolObject<dyn MTLDynamicLibrary>>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[deprecated]
+    #[objc2::method(sel = "insertLibraries", managed = "Other")]
+    pub fn insertLibraries(&self) -> Option<Id<NSArray<ProtocolObject<dyn MTLDynamicLibrary>>>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other preloadedLibraries)]
-        pub fn preloadedLibraries(&self) -> Id<NSArray<ProtocolObject<dyn MTLDynamicLibrary>>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[deprecated]
+    #[objc2::method(sel = "setInsertLibraries:")]
+    pub fn setInsertLibraries(
+        &self,
+        insert_libraries: Option<&NSArray<ProtocolObject<dyn MTLDynamicLibrary>>>,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setPreloadedLibraries:)]
-        pub fn setPreloadedLibraries(
-            &self,
-            preloaded_libraries: &NSArray<ProtocolObject<dyn MTLDynamicLibrary>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "preloadedLibraries", managed = "Other")]
+    pub fn preloadedLibraries(&self) -> Id<NSArray<ProtocolObject<dyn MTLDynamicLibrary>>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other binaryArchives)]
-        pub fn binaryArchives(&self) -> Option<Id<NSArray<ProtocolObject<dyn MTLBinaryArchive>>>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setPreloadedLibraries:")]
+    pub fn setPreloadedLibraries(
+        &self,
+        preloaded_libraries: &NSArray<ProtocolObject<dyn MTLDynamicLibrary>>,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setBinaryArchives:)]
-        pub fn setBinaryArchives(
-            &self,
-            binary_archives: Option<&NSArray<ProtocolObject<dyn MTLBinaryArchive>>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "binaryArchives", managed = "Other")]
+    pub fn binaryArchives(&self) -> Option<Id<NSArray<ProtocolObject<dyn MTLBinaryArchive>>>>;
 
-        #[method(reset)]
-        pub fn reset(&self);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setBinaryArchives:")]
+    pub fn setBinaryArchives(
+        &self,
+        binary_archives: Option<&NSArray<ProtocolObject<dyn MTLBinaryArchive>>>,
+    );
 
-        #[cfg(feature = "Metal_MTLLinkedFunctions")]
-        #[method_id(@__retain_semantics Other linkedFunctions)]
-        pub fn linkedFunctions(&self) -> Option<Id<MTLLinkedFunctions>>;
+    #[objc2::method(sel = "reset")]
+    pub fn reset(&self);
 
-        #[cfg(feature = "Metal_MTLLinkedFunctions")]
-        #[method(setLinkedFunctions:)]
-        pub fn setLinkedFunctions(&self, linked_functions: Option<&MTLLinkedFunctions>);
+    #[cfg(feature = "Metal_MTLLinkedFunctions")]
+    #[objc2::method(sel = "linkedFunctions", managed = "Other")]
+    pub fn linkedFunctions(&self) -> Option<Id<MTLLinkedFunctions>>;
 
-        #[method(supportAddingBinaryFunctions)]
-        pub fn supportAddingBinaryFunctions(&self) -> bool;
+    #[cfg(feature = "Metal_MTLLinkedFunctions")]
+    #[objc2::method(sel = "setLinkedFunctions:")]
+    pub fn setLinkedFunctions(&self, linked_functions: Option<&MTLLinkedFunctions>);
 
-        #[method(setSupportAddingBinaryFunctions:)]
-        pub fn setSupportAddingBinaryFunctions(&self, support_adding_binary_functions: bool);
+    #[objc2::method(sel = "supportAddingBinaryFunctions")]
+    pub fn supportAddingBinaryFunctions(&self) -> bool;
 
-        #[method(maxCallStackDepth)]
-        pub fn maxCallStackDepth(&self) -> NSUInteger;
+    #[objc2::method(sel = "setSupportAddingBinaryFunctions:")]
+    pub fn setSupportAddingBinaryFunctions(&self, support_adding_binary_functions: bool);
 
-        #[method(setMaxCallStackDepth:)]
-        pub fn setMaxCallStackDepth(&self, max_call_stack_depth: NSUInteger);
-    }
-);
+    #[objc2::method(sel = "maxCallStackDepth")]
+    pub fn maxCallStackDepth(&self) -> NSUInteger;
 
-extern_protocol!(
-    pub unsafe trait MTLComputePipelineState: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        fn label(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setMaxCallStackDepth:")]
+    pub fn setMaxCallStackDepth(&self, max_call_stack_depth: NSUInteger);
+}
 
-        #[method_id(@__retain_semantics Other device)]
-        fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
+#[objc2::protocol]
+pub unsafe trait MTLComputePipelineState: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    fn label(&self) -> Option<Id<NSString>>;
 
-        #[method(maxTotalThreadsPerThreadgroup)]
-        fn maxTotalThreadsPerThreadgroup(&self) -> NSUInteger;
+    #[objc2::method(sel = "device", managed = "Other")]
+    fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
 
-        #[method(threadExecutionWidth)]
-        fn threadExecutionWidth(&self) -> NSUInteger;
+    #[objc2::method(sel = "maxTotalThreadsPerThreadgroup")]
+    fn maxTotalThreadsPerThreadgroup(&self) -> NSUInteger;
 
-        #[method(staticThreadgroupMemoryLength)]
-        fn staticThreadgroupMemoryLength(&self) -> NSUInteger;
+    #[objc2::method(sel = "threadExecutionWidth")]
+    fn threadExecutionWidth(&self) -> NSUInteger;
 
-        #[method(imageblockMemoryLengthForDimensions:)]
-        unsafe fn imageblockMemoryLengthForDimensions(
-            &self,
-            imageblock_dimensions: MTLSize,
-        ) -> NSUInteger;
+    #[objc2::method(sel = "staticThreadgroupMemoryLength")]
+    fn staticThreadgroupMemoryLength(&self) -> NSUInteger;
 
-        #[method(supportIndirectCommandBuffers)]
-        fn supportIndirectCommandBuffers(&self) -> bool;
+    #[objc2::method(sel = "imageblockMemoryLengthForDimensions:")]
+    unsafe fn imageblockMemoryLengthForDimensions(
+        &self,
+        imageblock_dimensions: MTLSize,
+    ) -> NSUInteger;
 
-        #[method(gpuResourceID)]
-        unsafe fn gpuResourceID(&self) -> MTLResourceID;
+    #[objc2::method(sel = "supportIndirectCommandBuffers")]
+    fn supportIndirectCommandBuffers(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other functionHandleWithFunction:)]
-        fn functionHandleWithFunction(
-            &self,
-            function: &ProtocolObject<dyn MTLFunction>,
-        ) -> Option<Id<ProtocolObject<dyn MTLFunctionHandle>>>;
+    #[objc2::method(sel = "gpuResourceID")]
+    unsafe fn gpuResourceID(&self) -> MTLResourceID;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
-        #[method_id(@__retain_semantics New newComputePipelineStateWithAdditionalBinaryFunctions:error:_)]
-        fn newComputePipelineStateWithAdditionalBinaryFunctions_error(
-            &self,
-            functions: &NSArray<ProtocolObject<dyn MTLFunction>>,
-        ) -> Result<Id<ProtocolObject<dyn MTLComputePipelineState>>, Id<NSError>>;
+    #[objc2::method(sel = "functionHandleWithFunction:", managed = "Other")]
+    fn functionHandleWithFunction(
+        &self,
+        function: &ProtocolObject<dyn MTLFunction>,
+    ) -> Option<Id<ProtocolObject<dyn MTLFunctionHandle>>>;
 
-        #[cfg(feature = "Metal_MTLVisibleFunctionTableDescriptor")]
-        #[method_id(@__retain_semantics New newVisibleFunctionTableWithDescriptor:)]
-        fn newVisibleFunctionTableWithDescriptor(
-            &self,
-            descriptor: &MTLVisibleFunctionTableDescriptor,
-        ) -> Option<Id<ProtocolObject<dyn MTLVisibleFunctionTable>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
+    #[objc2::method(
+        sel = "newComputePipelineStateWithAdditionalBinaryFunctions:error:",
+        managed = "New",
+        throws
+    )]
+    fn newComputePipelineStateWithAdditionalBinaryFunctions_error(
+        &self,
+        functions: &NSArray<ProtocolObject<dyn MTLFunction>>,
+    ) -> Result<Id<ProtocolObject<dyn MTLComputePipelineState>>, Id<NSError>>;
 
-        #[cfg(feature = "Metal_MTLIntersectionFunctionTableDescriptor")]
-        #[method_id(@__retain_semantics New newIntersectionFunctionTableWithDescriptor:)]
-        fn newIntersectionFunctionTableWithDescriptor(
-            &self,
-            descriptor: &MTLIntersectionFunctionTableDescriptor,
-        ) -> Option<Id<ProtocolObject<dyn MTLIntersectionFunctionTable>>>;
-    }
+    #[cfg(feature = "Metal_MTLVisibleFunctionTableDescriptor")]
+    #[objc2::method(sel = "newVisibleFunctionTableWithDescriptor:", managed = "New")]
+    fn newVisibleFunctionTableWithDescriptor(
+        &self,
+        descriptor: &MTLVisibleFunctionTableDescriptor,
+    ) -> Option<Id<ProtocolObject<dyn MTLVisibleFunctionTable>>>;
 
-    unsafe impl ProtocolType for dyn MTLComputePipelineState {}
-);
+    #[cfg(feature = "Metal_MTLIntersectionFunctionTableDescriptor")]
+    #[objc2::method(sel = "newIntersectionFunctionTableWithDescriptor:", managed = "New")]
+    fn newIntersectionFunctionTableWithDescriptor(
+        &self,
+        descriptor: &MTLIntersectionFunctionTableDescriptor,
+    ) -> Option<Id<ProtocolObject<dyn MTLIntersectionFunctionTable>>>;
+}

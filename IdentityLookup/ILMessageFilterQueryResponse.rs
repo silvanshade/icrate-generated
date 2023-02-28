@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::IdentityLookup::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "IdentityLookup_ILMessageFilterQueryResponse")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "IdentityLookup_ILMessageFilterQueryResponse")]
-    pub struct ILMessageFilterQueryResponse;
-
-    #[cfg(feature = "IdentityLookup_ILMessageFilterQueryResponse")]
-    unsafe impl ClassType for ILMessageFilterQueryResponse {
-        type Super = NSObject;
-    }
-);
+    pub type ILMessageFilterQueryResponse;
+}
 
 #[cfg(feature = "IdentityLookup_ILMessageFilterQueryResponse")]
 unsafe impl NSCoding for ILMessageFilterQueryResponse {}
@@ -24,19 +24,22 @@ unsafe impl NSObjectProtocol for ILMessageFilterQueryResponse {}
 #[cfg(feature = "IdentityLookup_ILMessageFilterQueryResponse")]
 unsafe impl NSSecureCoding for ILMessageFilterQueryResponse {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "IdentityLookup_ILMessageFilterQueryResponse")]
-    unsafe impl ILMessageFilterQueryResponse {
-        #[method(action)]
-        pub unsafe fn action(&self) -> ILMessageFilterAction;
+    pub type ILMessageFilterQueryResponse;
 
-        #[method(setAction:)]
-        pub unsafe fn setAction(&self, action: ILMessageFilterAction);
+    #[objc2::method(sel = "action")]
+    pub unsafe fn action(&self) -> ILMessageFilterAction;
 
-        #[method(subAction)]
-        pub unsafe fn subAction(&self) -> ILMessageFilterSubAction;
+    #[objc2::method(sel = "setAction:")]
+    pub unsafe fn setAction(&self, action: ILMessageFilterAction);
 
-        #[method(setSubAction:)]
-        pub unsafe fn setSubAction(&self, sub_action: ILMessageFilterSubAction);
-    }
-);
+    #[objc2::method(sel = "subAction")]
+    pub unsafe fn subAction(&self) -> ILMessageFilterSubAction;
+
+    #[objc2::method(sel = "setSubAction:")]
+    pub unsafe fn setSubAction(&self, sub_action: ILMessageFilterSubAction);
+}

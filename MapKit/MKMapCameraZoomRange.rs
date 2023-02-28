@@ -9,16 +9,16 @@ use crate::MapKit::*;
 
 extern_static!(MKMapCameraZoomDefault: CLLocationDistance);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKMapCameraZoomRange")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKMapCameraZoomRange")]
-    pub struct MKMapCameraZoomRange;
-
-    #[cfg(feature = "MapKit_MKMapCameraZoomRange")]
-    unsafe impl ClassType for MKMapCameraZoomRange {
-        type Super = NSObject;
-    }
-);
+    pub type MKMapCameraZoomRange;
+}
 
 #[cfg(feature = "MapKit_MKMapCameraZoomRange")]
 unsafe impl NSCoding for MKMapCameraZoomRange {}
@@ -29,32 +29,38 @@ unsafe impl NSObjectProtocol for MKMapCameraZoomRange {}
 #[cfg(feature = "MapKit_MKMapCameraZoomRange")]
 unsafe impl NSSecureCoding for MKMapCameraZoomRange {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMapCameraZoomRange")]
-    unsafe impl MKMapCameraZoomRange {
-        #[method_id(@__retain_semantics Init initWithMinCenterCoordinateDistance:maxCenterCoordinateDistance:)]
-        pub unsafe fn initWithMinCenterCoordinateDistance_maxCenterCoordinateDistance(
-            this: Option<Allocated<Self>>,
-            min_distance: CLLocationDistance,
-            max_distance: CLLocationDistance,
-        ) -> Option<Id<Self>>;
+    pub type MKMapCameraZoomRange;
 
-        #[method_id(@__retain_semantics Init initWithMinCenterCoordinateDistance:)]
-        pub unsafe fn initWithMinCenterCoordinateDistance(
-            this: Option<Allocated<Self>>,
-            min_distance: CLLocationDistance,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(
+        sel = "initWithMinCenterCoordinateDistance:maxCenterCoordinateDistance:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithMinCenterCoordinateDistance_maxCenterCoordinateDistance(
+        this: Option<Allocated<Self>>,
+        min_distance: CLLocationDistance,
+        max_distance: CLLocationDistance,
+    ) -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Init initWithMaxCenterCoordinateDistance:)]
-        pub unsafe fn initWithMaxCenterCoordinateDistance(
-            this: Option<Allocated<Self>>,
-            max_distance: CLLocationDistance,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "initWithMinCenterCoordinateDistance:", managed = "Init")]
+    pub unsafe fn initWithMinCenterCoordinateDistance(
+        this: Option<Allocated<Self>>,
+        min_distance: CLLocationDistance,
+    ) -> Option<Id<Self>>;
 
-        #[method(minCenterCoordinateDistance)]
-        pub unsafe fn minCenterCoordinateDistance(&self) -> CLLocationDistance;
+    #[objc2::method(sel = "initWithMaxCenterCoordinateDistance:", managed = "Init")]
+    pub unsafe fn initWithMaxCenterCoordinateDistance(
+        this: Option<Allocated<Self>>,
+        max_distance: CLLocationDistance,
+    ) -> Option<Id<Self>>;
 
-        #[method(maxCenterCoordinateDistance)]
-        pub unsafe fn maxCenterCoordinateDistance(&self) -> CLLocationDistance;
-    }
-);
+    #[objc2::method(sel = "minCenterCoordinateDistance")]
+    pub unsafe fn minCenterCoordinateDistance(&self) -> CLLocationDistance;
+
+    #[objc2::method(sel = "maxCenterCoordinateDistance")]
+    pub unsafe fn maxCenterCoordinateDistance(&self) -> CLLocationDistance;
+}

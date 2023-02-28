@@ -4,27 +4,30 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASCredentialIdentityStoreState")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASCredentialIdentityStoreState")]
-    pub struct ASCredentialIdentityStoreState;
-
-    #[cfg(feature = "AuthenticationServices_ASCredentialIdentityStoreState")]
-    unsafe impl ClassType for ASCredentialIdentityStoreState {
-        type Super = NSObject;
-    }
-);
+    pub type ASCredentialIdentityStoreState;
+}
 
 #[cfg(feature = "AuthenticationServices_ASCredentialIdentityStoreState")]
 unsafe impl NSObjectProtocol for ASCredentialIdentityStoreState {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASCredentialIdentityStoreState")]
-    unsafe impl ASCredentialIdentityStoreState {
-        #[method(isEnabled)]
-        pub unsafe fn isEnabled(&self) -> bool;
+    pub type ASCredentialIdentityStoreState;
 
-        #[method(supportsIncrementalUpdates)]
-        pub unsafe fn supportsIncrementalUpdates(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "isEnabled")]
+    pub unsafe fn isEnabled(&self) -> bool;
+
+    #[objc2::method(sel = "supportsIncrementalUpdates")]
+    pub unsafe fn supportsIncrementalUpdates(&self) -> bool;
+}

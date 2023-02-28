@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSGestureRecognizer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPanGestureRecognizer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPanGestureRecognizer")]
-    pub struct NSPanGestureRecognizer;
-
-    #[cfg(feature = "AppKit_NSPanGestureRecognizer")]
-    unsafe impl ClassType for NSPanGestureRecognizer {
-        #[inherits(NSObject)]
-        type Super = NSGestureRecognizer;
-    }
-);
+    pub type NSPanGestureRecognizer;
+}
 
 #[cfg(feature = "AppKit_NSPanGestureRecognizer")]
 unsafe impl NSCoding for NSPanGestureRecognizer {}
@@ -23,44 +23,53 @@ unsafe impl NSCoding for NSPanGestureRecognizer {}
 #[cfg(feature = "AppKit_NSPanGestureRecognizer")]
 unsafe impl NSObjectProtocol for NSPanGestureRecognizer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPanGestureRecognizer")]
-    unsafe impl NSPanGestureRecognizer {
-        #[method(buttonMask)]
-        pub unsafe fn buttonMask(&self) -> NSUInteger;
+    pub type NSPanGestureRecognizer;
 
-        #[method(setButtonMask:)]
-        pub unsafe fn setButtonMask(&self, button_mask: NSUInteger);
+    #[objc2::method(sel = "buttonMask")]
+    pub unsafe fn buttonMask(&self) -> NSUInteger;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(translationInView:)]
-        pub unsafe fn translationInView(&self, view: Option<&NSView>) -> NSPoint;
+    #[objc2::method(sel = "setButtonMask:")]
+    pub unsafe fn setButtonMask(&self, button_mask: NSUInteger);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setTranslation:inView:)]
-        pub unsafe fn setTranslation_inView(&self, translation: NSPoint, view: Option<&NSView>);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "translationInView:")]
+    pub unsafe fn translationInView(&self, view: Option<&NSView>) -> NSPoint;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(velocityInView:)]
-        pub unsafe fn velocityInView(&self, view: Option<&NSView>) -> NSPoint;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setTranslation:inView:")]
+    pub unsafe fn setTranslation_inView(&self, translation: NSPoint, view: Option<&NSView>);
 
-        #[method(numberOfTouchesRequired)]
-        pub unsafe fn numberOfTouchesRequired(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "velocityInView:")]
+    pub unsafe fn velocityInView(&self, view: Option<&NSView>) -> NSPoint;
 
-        #[method(setNumberOfTouchesRequired:)]
-        pub unsafe fn setNumberOfTouchesRequired(&self, number_of_touches_required: NSInteger);
-    }
-);
+    #[objc2::method(sel = "numberOfTouchesRequired")]
+    pub unsafe fn numberOfTouchesRequired(&self) -> NSInteger;
 
-extern_methods!(
-    /// Methods declared on superclass `NSGestureRecognizer`
+    #[objc2::method(sel = "setNumberOfTouchesRequired:")]
+    pub unsafe fn setNumberOfTouchesRequired(&self, number_of_touches_required: NSInteger);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSGestureRecognizer`
     #[cfg(feature = "AppKit_NSPanGestureRecognizer")]
-    unsafe impl NSPanGestureRecognizer {
-        #[method_id(@__retain_semantics Init initWithTarget:action:)]
-        pub unsafe fn initWithTarget_action(
-            this: Option<Allocated<Self>>,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPanGestureRecognizer")]
+    pub type NSPanGestureRecognizer;
+
+    #[objc2::method(sel = "initWithTarget:action:", managed = "Init")]
+    pub unsafe fn initWithTarget_action(
+        this: Option<Allocated<Self>>,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
+}

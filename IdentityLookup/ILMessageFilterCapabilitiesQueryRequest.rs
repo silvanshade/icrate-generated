@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::IdentityLookup::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "IdentityLookup_ILMessageFilterCapabilitiesQueryRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "IdentityLookup_ILMessageFilterCapabilitiesQueryRequest")]
-    pub struct ILMessageFilterCapabilitiesQueryRequest;
-
-    #[cfg(feature = "IdentityLookup_ILMessageFilterCapabilitiesQueryRequest")]
-    unsafe impl ClassType for ILMessageFilterCapabilitiesQueryRequest {
-        type Super = NSObject;
-    }
-);
+    pub type ILMessageFilterCapabilitiesQueryRequest;
+}
 
 #[cfg(feature = "IdentityLookup_ILMessageFilterCapabilitiesQueryRequest")]
 unsafe impl NSCoding for ILMessageFilterCapabilitiesQueryRequest {}
@@ -24,10 +24,13 @@ unsafe impl NSObjectProtocol for ILMessageFilterCapabilitiesQueryRequest {}
 #[cfg(feature = "IdentityLookup_ILMessageFilterCapabilitiesQueryRequest")]
 unsafe impl NSSecureCoding for ILMessageFilterCapabilitiesQueryRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "IdentityLookup_ILMessageFilterCapabilitiesQueryRequest")]
-    unsafe impl ILMessageFilterCapabilitiesQueryRequest {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    pub type ILMessageFilterCapabilitiesQueryRequest;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

@@ -7,17 +7,18 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKCompassButton")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKCompassButton")]
-    pub struct MKCompassButton;
-
-    #[cfg(feature = "MapKit_MKCompassButton")]
-    unsafe impl ClassType for MKCompassButton {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type MKCompassButton;
+}
 
 #[cfg(feature = "MapKit_MKCompassButton")]
 unsafe impl NSAccessibility for MKCompassButton {}
@@ -43,34 +44,43 @@ unsafe impl NSObjectProtocol for MKCompassButton {}
 #[cfg(feature = "MapKit_MKCompassButton")]
 unsafe impl NSUserInterfaceItemIdentification for MKCompassButton {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKCompassButton")]
-    unsafe impl MKCompassButton {
-        #[cfg(feature = "MapKit_MKMapView")]
-        #[method_id(@__retain_semantics Other compassButtonWithMapView:)]
-        pub unsafe fn compassButtonWithMapView(map_view: Option<&MKMapView>) -> Id<Self>;
+    pub type MKCompassButton;
 
-        #[cfg(feature = "MapKit_MKMapView")]
-        #[method_id(@__retain_semantics Other mapView)]
-        pub unsafe fn mapView(&self) -> Option<Id<MKMapView>>;
+    #[cfg(feature = "MapKit_MKMapView")]
+    #[objc2::method(sel = "compassButtonWithMapView:", managed = "Other")]
+    pub unsafe fn compassButtonWithMapView(map_view: Option<&MKMapView>) -> Id<Self>;
 
-        #[cfg(feature = "MapKit_MKMapView")]
-        #[method(setMapView:)]
-        pub unsafe fn setMapView(&self, map_view: Option<&MKMapView>);
+    #[cfg(feature = "MapKit_MKMapView")]
+    #[objc2::method(sel = "mapView", managed = "Other")]
+    pub unsafe fn mapView(&self) -> Option<Id<MKMapView>>;
 
-        #[method(compassVisibility)]
-        pub unsafe fn compassVisibility(&self) -> MKFeatureVisibility;
+    #[cfg(feature = "MapKit_MKMapView")]
+    #[objc2::method(sel = "setMapView:")]
+    pub unsafe fn setMapView(&self, map_view: Option<&MKMapView>);
 
-        #[method(setCompassVisibility:)]
-        pub unsafe fn setCompassVisibility(&self, compass_visibility: MKFeatureVisibility);
-    }
-);
+    #[objc2::method(sel = "compassVisibility")]
+    pub unsafe fn compassVisibility(&self) -> MKFeatureVisibility;
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[objc2::method(sel = "setCompassVisibility:")]
+    pub unsafe fn setCompassVisibility(&self, compass_visibility: MKFeatureVisibility);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "MapKit_MKCompassButton")]
-    unsafe impl MKCompassButton {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKCompassButton")]
+    pub type MKCompassButton;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

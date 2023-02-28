@@ -5,126 +5,138 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::StoreKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKPayment")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKPayment")]
-    pub struct SKPayment;
-
-    #[cfg(feature = "StoreKit_SKPayment")]
-    unsafe impl ClassType for SKPayment {
-        type Super = NSObject;
-    }
-);
+    pub type SKPayment;
+}
 
 #[cfg(feature = "StoreKit_SKPayment")]
 unsafe impl NSObjectProtocol for SKPayment {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKPayment")]
-    unsafe impl SKPayment {
-        #[cfg(feature = "StoreKit_SKProduct")]
-        #[method_id(@__retain_semantics Other paymentWithProduct:)]
-        pub unsafe fn paymentWithProduct(product: &SKProduct) -> Id<Self>;
+    pub type SKPayment;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other paymentWithProductIdentifier:)]
-        pub unsafe fn paymentWithProductIdentifier(identifier: &NSString) -> Id<Object>;
+    #[cfg(feature = "StoreKit_SKProduct")]
+    #[objc2::method(sel = "paymentWithProduct:", managed = "Other")]
+    pub unsafe fn paymentWithProduct(product: &SKProduct) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other productIdentifier)]
-        pub unsafe fn productIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "paymentWithProductIdentifier:", managed = "Other")]
+    pub unsafe fn paymentWithProductIdentifier(identifier: &NSString) -> Id<Object>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other requestData)]
-        pub unsafe fn requestData(&self) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "productIdentifier", managed = "Other")]
+    pub unsafe fn productIdentifier(&self) -> Id<NSString>;
 
-        #[method(quantity)]
-        pub unsafe fn quantity(&self) -> NSInteger;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "requestData", managed = "Other")]
+    pub unsafe fn requestData(&self) -> Option<Id<NSData>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other applicationUsername)]
-        pub unsafe fn applicationUsername(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "quantity")]
+    pub unsafe fn quantity(&self) -> NSInteger;
 
-        #[method(simulatesAskToBuyInSandbox)]
-        pub unsafe fn simulatesAskToBuyInSandbox(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "applicationUsername", managed = "Other")]
+    pub unsafe fn applicationUsername(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "StoreKit_SKPaymentDiscount")]
-        #[method_id(@__retain_semantics Other paymentDiscount)]
-        pub unsafe fn paymentDiscount(&self) -> Option<Id<SKPaymentDiscount>>;
-    }
-);
+    #[objc2::method(sel = "simulatesAskToBuyInSandbox")]
+    pub unsafe fn simulatesAskToBuyInSandbox(&self) -> bool;
 
-extern_class!(
+    #[cfg(feature = "StoreKit_SKPaymentDiscount")]
+    #[objc2::method(sel = "paymentDiscount", managed = "Other")]
+    pub unsafe fn paymentDiscount(&self) -> Option<Id<SKPaymentDiscount>>;
+}
+
+#[objc2::interface(
+    unsafe super = SKPayment,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKMutablePayment")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKMutablePayment")]
-    pub struct SKMutablePayment;
-
-    #[cfg(feature = "StoreKit_SKMutablePayment")]
-    unsafe impl ClassType for SKMutablePayment {
-        #[inherits(NSObject)]
-        type Super = SKPayment;
-    }
-);
+    pub type SKMutablePayment;
+}
 
 #[cfg(feature = "StoreKit_SKMutablePayment")]
 unsafe impl NSObjectProtocol for SKMutablePayment {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKMutablePayment")]
-    unsafe impl SKMutablePayment {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other applicationUsername)]
-        pub unsafe fn applicationUsername(&self) -> Option<Id<NSString>>;
+    pub type SKMutablePayment;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setApplicationUsername:)]
-        pub unsafe fn setApplicationUsername(&self, application_username: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "applicationUsername", managed = "Other")]
+    pub unsafe fn applicationUsername(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "StoreKit_SKPaymentDiscount")]
-        #[method_id(@__retain_semantics Other paymentDiscount)]
-        pub unsafe fn paymentDiscount(&self) -> Option<Id<SKPaymentDiscount>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setApplicationUsername:")]
+    pub unsafe fn setApplicationUsername(&self, application_username: Option<&NSString>);
 
-        #[cfg(feature = "StoreKit_SKPaymentDiscount")]
-        #[method(setPaymentDiscount:)]
-        pub unsafe fn setPaymentDiscount(&self, payment_discount: Option<&SKPaymentDiscount>);
+    #[cfg(feature = "StoreKit_SKPaymentDiscount")]
+    #[objc2::method(sel = "paymentDiscount", managed = "Other")]
+    pub unsafe fn paymentDiscount(&self) -> Option<Id<SKPaymentDiscount>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other productIdentifier)]
-        pub unsafe fn productIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "StoreKit_SKPaymentDiscount")]
+    #[objc2::method(sel = "setPaymentDiscount:")]
+    pub unsafe fn setPaymentDiscount(&self, payment_discount: Option<&SKPaymentDiscount>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setProductIdentifier:)]
-        pub unsafe fn setProductIdentifier(&self, product_identifier: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "productIdentifier", managed = "Other")]
+    pub unsafe fn productIdentifier(&self) -> Id<NSString>;
 
-        #[method(quantity)]
-        pub unsafe fn quantity(&self) -> NSInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setProductIdentifier:")]
+    pub unsafe fn setProductIdentifier(&self, product_identifier: &NSString);
 
-        #[method(setQuantity:)]
-        pub unsafe fn setQuantity(&self, quantity: NSInteger);
+    #[objc2::method(sel = "quantity")]
+    pub unsafe fn quantity(&self) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other requestData)]
-        pub unsafe fn requestData(&self) -> Option<Id<NSData>>;
+    #[objc2::method(sel = "setQuantity:")]
+    pub unsafe fn setQuantity(&self, quantity: NSInteger);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(setRequestData:)]
-        pub unsafe fn setRequestData(&self, request_data: Option<&NSData>);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "requestData", managed = "Other")]
+    pub unsafe fn requestData(&self) -> Option<Id<NSData>>;
 
-        #[method(simulatesAskToBuyInSandbox)]
-        pub unsafe fn simulatesAskToBuyInSandbox(&self) -> bool;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "setRequestData:")]
+    pub unsafe fn setRequestData(&self, request_data: Option<&NSData>);
 
-        #[method(setSimulatesAskToBuyInSandbox:)]
-        pub unsafe fn setSimulatesAskToBuyInSandbox(&self, simulates_ask_to_buy_in_sandbox: bool);
-    }
-);
+    #[objc2::method(sel = "simulatesAskToBuyInSandbox")]
+    pub unsafe fn simulatesAskToBuyInSandbox(&self) -> bool;
 
-extern_methods!(
-    /// Methods declared on superclass `SKPayment`
+    #[objc2::method(sel = "setSimulatesAskToBuyInSandbox:")]
+    pub unsafe fn setSimulatesAskToBuyInSandbox(&self, simulates_ask_to_buy_in_sandbox: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `SKPayment`
     #[cfg(feature = "StoreKit_SKMutablePayment")]
-    unsafe impl SKMutablePayment {
-        #[cfg(feature = "StoreKit_SKProduct")]
-        #[method_id(@__retain_semantics Other paymentWithProduct:)]
-        pub unsafe fn paymentWithProduct(product: &SKProduct) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKMutablePayment")]
+    pub type SKMutablePayment;
+
+    #[cfg(feature = "StoreKit_SKProduct")]
+    #[objc2::method(sel = "paymentWithProduct:", managed = "Other")]
+    pub unsafe fn paymentWithProduct(product: &SKProduct) -> Id<Self>;
+}

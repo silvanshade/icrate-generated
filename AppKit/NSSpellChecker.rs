@@ -29,411 +29,430 @@ extern_static!(NSTextCheckingRegularExpressionsKey: &'static NSTextCheckingOptio
 
 extern_static!(NSTextCheckingSelectedRangeKey: &'static NSTextCheckingOptionKey);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSCorrectionResponse {
-        NSCorrectionResponseNone = 0,
-        NSCorrectionResponseAccepted = 1,
-        NSCorrectionResponseRejected = 2,
-        NSCorrectionResponseIgnored = 3,
-        NSCorrectionResponseEdited = 4,
-        NSCorrectionResponseReverted = 5,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSCorrectionResponse {
+    NSCorrectionResponseNone = 0,
+    NSCorrectionResponseAccepted = 1,
+    NSCorrectionResponseRejected = 2,
+    NSCorrectionResponseIgnored = 3,
+    NSCorrectionResponseEdited = 4,
+    NSCorrectionResponseReverted = 5,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSCorrectionIndicatorType {
-        NSCorrectionIndicatorTypeDefault = 0,
-        NSCorrectionIndicatorTypeReversion = 1,
-        NSCorrectionIndicatorTypeGuesses = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSCorrectionIndicatorType {
+    NSCorrectionIndicatorTypeDefault = 0,
+    NSCorrectionIndicatorTypeReversion = 1,
+    NSCorrectionIndicatorTypeGuesses = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSpellChecker")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSSpellChecker")]
-    pub struct NSSpellChecker;
-
-    #[cfg(feature = "AppKit_NSSpellChecker")]
-    unsafe impl ClassType for NSSpellChecker {
-        type Super = NSObject;
-    }
-);
+    pub type NSSpellChecker;
+}
 
 #[cfg(feature = "AppKit_NSSpellChecker")]
 unsafe impl NSObjectProtocol for NSSpellChecker {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSpellChecker")]
-    unsafe impl NSSpellChecker {
-        #[method_id(@__retain_semantics Other sharedSpellChecker)]
-        pub unsafe fn sharedSpellChecker() -> Id<NSSpellChecker>;
+    pub type NSSpellChecker;
 
-        #[method(sharedSpellCheckerExists)]
-        pub unsafe fn sharedSpellCheckerExists() -> bool;
+    #[objc2::method(sel = "sharedSpellChecker", managed = "Other")]
+    pub unsafe fn sharedSpellChecker() -> Id<NSSpellChecker>;
 
-        #[method(uniqueSpellDocumentTag)]
-        pub unsafe fn uniqueSpellDocumentTag() -> NSInteger;
+    #[objc2::method(sel = "sharedSpellCheckerExists")]
+    pub unsafe fn sharedSpellCheckerExists() -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(checkSpellingOfString:startingAt:language:wrap:inSpellDocumentWithTag:wordCount:)]
-        pub unsafe fn checkSpellingOfString_startingAt_language_wrap_inSpellDocumentWithTag_wordCount(
-            &self,
-            string_to_check: &NSString,
-            starting_offset: NSInteger,
-            language: Option<&NSString>,
-            wrap_flag: bool,
-            tag: NSInteger,
-            word_count: *mut NSInteger,
-        ) -> NSRange;
+    #[objc2::method(sel = "uniqueSpellDocumentTag")]
+    pub unsafe fn uniqueSpellDocumentTag() -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(checkSpellingOfString:startingAt:)]
-        pub unsafe fn checkSpellingOfString_startingAt(
-            &self,
-            string_to_check: &NSString,
-            starting_offset: NSInteger,
-        ) -> NSRange;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "checkSpellingOfString:startingAt:language:wrap:inSpellDocumentWithTag:wordCount:"
+    )]
+    pub unsafe fn checkSpellingOfString_startingAt_language_wrap_inSpellDocumentWithTag_wordCount(
+        &self,
+        string_to_check: &NSString,
+        starting_offset: NSInteger,
+        language: Option<&NSString>,
+        wrap_flag: bool,
+        tag: NSInteger,
+        word_count: *mut NSInteger,
+    ) -> NSRange;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(countWordsInString:language:)]
-        pub unsafe fn countWordsInString_language(
-            &self,
-            string_to_count: &NSString,
-            language: Option<&NSString>,
-        ) -> NSInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "checkSpellingOfString:startingAt:")]
+    pub unsafe fn checkSpellingOfString_startingAt(
+        &self,
+        string_to_check: &NSString,
+        starting_offset: NSInteger,
+    ) -> NSRange;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(checkGrammarOfString:startingAt:language:wrap:inSpellDocumentWithTag:details:)]
-        pub unsafe fn checkGrammarOfString_startingAt_language_wrap_inSpellDocumentWithTag_details(
-            &self,
-            string_to_check: &NSString,
-            starting_offset: NSInteger,
-            language: Option<&NSString>,
-            wrap_flag: bool,
-            tag: NSInteger,
-            details: Option<&mut Option<Id<NSArray<NSDictionary<NSString, Object>>>>>,
-        ) -> NSRange;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "countWordsInString:language:")]
+    pub unsafe fn countWordsInString_language(
+        &self,
+        string_to_count: &NSString,
+        language: Option<&NSString>,
+    ) -> NSInteger;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSOrthography",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSTextCheckingResult"
-        ))]
-        #[method_id(@__retain_semantics Other checkString:range:types:options:inSpellDocumentWithTag:orthography:wordCount:)]
-        pub unsafe fn checkString_range_types_options_inSpellDocumentWithTag_orthography_wordCount(
-            &self,
-            string_to_check: &NSString,
-            range: NSRange,
-            checking_types: NSTextCheckingTypes,
-            options: Option<&NSDictionary<NSTextCheckingOptionKey, Object>>,
-            tag: NSInteger,
-            orthography: Option<&mut Option<Id<NSOrthography>>>,
-            word_count: *mut NSInteger,
-        ) -> Id<NSArray<NSTextCheckingResult>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "checkGrammarOfString:startingAt:language:wrap:inSpellDocumentWithTag:details:"
+    )]
+    pub unsafe fn checkGrammarOfString_startingAt_language_wrap_inSpellDocumentWithTag_details(
+        &self,
+        string_to_check: &NSString,
+        starting_offset: NSInteger,
+        language: Option<&NSString>,
+        wrap_flag: bool,
+        tag: NSInteger,
+        details: Option<&mut Option<Id<NSArray<NSDictionary<NSString, Object>>>>>,
+    ) -> NSRange;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSOrthography",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSTextCheckingResult"
-        ))]
-        #[method(requestCheckingOfString:range:types:options:inSpellDocumentWithTag:completionHandler:)]
-        pub unsafe fn requestCheckingOfString_range_types_options_inSpellDocumentWithTag_completionHandler(
-            &self,
-            string_to_check: &NSString,
-            range: NSRange,
-            checking_types: NSTextCheckingTypes,
-            options: Option<&NSDictionary<NSTextCheckingOptionKey, Object>>,
-            tag: NSInteger,
-            completion_handler: Option<
-                &Block<
-                    (
-                        NSInteger,
-                        NonNull<NSArray<NSTextCheckingResult>>,
-                        NonNull<NSOrthography>,
-                        NSInteger,
-                    ),
-                    (),
-                >,
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSOrthography",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSTextCheckingResult"
+    ))]
+    #[objc2::method(
+        sel = "checkString:range:types:options:inSpellDocumentWithTag:orthography:wordCount:",
+        managed = "Other"
+    )]
+    pub unsafe fn checkString_range_types_options_inSpellDocumentWithTag_orthography_wordCount(
+        &self,
+        string_to_check: &NSString,
+        range: NSRange,
+        checking_types: NSTextCheckingTypes,
+        options: Option<&NSDictionary<NSTextCheckingOptionKey, Object>>,
+        tag: NSInteger,
+        orthography: Option<&mut Option<Id<NSOrthography>>>,
+        word_count: *mut NSInteger,
+    ) -> Id<NSArray<NSTextCheckingResult>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSOrthography",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSTextCheckingResult"
+    ))]
+    #[objc2::method(
+        sel = "requestCheckingOfString:range:types:options:inSpellDocumentWithTag:completionHandler:"
+    )]
+    pub unsafe fn requestCheckingOfString_range_types_options_inSpellDocumentWithTag_completionHandler(
+        &self,
+        string_to_check: &NSString,
+        range: NSRange,
+        checking_types: NSTextCheckingTypes,
+        options: Option<&NSDictionary<NSTextCheckingOptionKey, Object>>,
+        tag: NSInteger,
+        completion_handler: Option<
+            &Block<
+                (
+                    NSInteger,
+                    NonNull<NSArray<NSTextCheckingResult>>,
+                    NonNull<NSOrthography>,
+                    NSInteger,
+                ),
+                (),
             >,
-        ) -> NSInteger;
+        >,
+    ) -> NSInteger;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSTextCheckingResult"
-        ))]
-        #[method(requestCandidatesForSelectedRange:inString:types:options:inSpellDocumentWithTag:completionHandler:)]
-        pub unsafe fn requestCandidatesForSelectedRange_inString_types_options_inSpellDocumentWithTag_completionHandler(
-            &self,
-            selected_range: NSRange,
-            string_to_check: &NSString,
-            checking_types: NSTextCheckingTypes,
-            options: Option<&NSDictionary<NSTextCheckingOptionKey, Object>>,
-            tag: NSInteger,
-            completion_handler: Option<
-                &Block<(NSInteger, NonNull<NSArray<NSTextCheckingResult>>), ()>,
-            >,
-        ) -> NSInteger;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSTextCheckingResult"
+    ))]
+    #[objc2::method(
+        sel = "requestCandidatesForSelectedRange:inString:types:options:inSpellDocumentWithTag:completionHandler:"
+    )]
+    pub unsafe fn requestCandidatesForSelectedRange_inString_types_options_inSpellDocumentWithTag_completionHandler(
+        &self,
+        selected_range: NSRange,
+        string_to_check: &NSString,
+        checking_types: NSTextCheckingTypes,
+        options: Option<&NSDictionary<NSTextCheckingOptionKey, Object>>,
+        tag: NSInteger,
+        completion_handler: Option<&Block<(NSInteger, NonNull<NSArray<NSTextCheckingResult>>), ()>>,
+    ) -> NSInteger;
 
-        #[cfg(all(
-            feature = "AppKit_NSMenu",
-            feature = "AppKit_NSView",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSTextCheckingResult"
-        ))]
-        #[method_id(@__retain_semantics Other menuForResult:string:options:atLocation:inView:)]
-        pub unsafe fn menuForResult_string_options_atLocation_inView(
-            &self,
-            result: &NSTextCheckingResult,
-            checked_string: &NSString,
-            options: Option<&NSDictionary<NSTextCheckingOptionKey, Object>>,
-            location: NSPoint,
-            view: &NSView,
-        ) -> Option<Id<NSMenu>>;
+    #[cfg(all(
+        feature = "AppKit_NSMenu",
+        feature = "AppKit_NSView",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSTextCheckingResult"
+    ))]
+    #[objc2::method(
+        sel = "menuForResult:string:options:atLocation:inView:",
+        managed = "Other"
+    )]
+    pub unsafe fn menuForResult_string_options_atLocation_inView(
+        &self,
+        result: &NSTextCheckingResult,
+        checked_string: &NSString,
+        options: Option<&NSDictionary<NSTextCheckingOptionKey, Object>>,
+        location: NSPoint,
+        view: &NSView,
+    ) -> Option<Id<NSMenu>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other userQuotesArrayForLanguage:)]
-        pub unsafe fn userQuotesArrayForLanguage(
-            &self,
-            language: &NSString,
-        ) -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "userQuotesArrayForLanguage:", managed = "Other")]
+    pub unsafe fn userQuotesArrayForLanguage(&self, language: &NSString) -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other userReplacementsDictionary)]
-        pub unsafe fn userReplacementsDictionary(&self) -> Id<NSDictionary<NSString, NSString>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "userReplacementsDictionary", managed = "Other")]
+    pub unsafe fn userReplacementsDictionary(&self) -> Id<NSDictionary<NSString, NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(updateSpellingPanelWithMisspelledWord:)]
-        pub unsafe fn updateSpellingPanelWithMisspelledWord(&self, word: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "updateSpellingPanelWithMisspelledWord:")]
+    pub unsafe fn updateSpellingPanelWithMisspelledWord(&self, word: &NSString);
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(updateSpellingPanelWithGrammarString:detail:)]
-        pub unsafe fn updateSpellingPanelWithGrammarString_detail(
-            &self,
-            string: &NSString,
-            detail: &NSDictionary<NSString, Object>,
-        );
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "updateSpellingPanelWithGrammarString:detail:")]
+    pub unsafe fn updateSpellingPanelWithGrammarString_detail(
+        &self,
+        string: &NSString,
+        detail: &NSDictionary<NSString, Object>,
+    );
 
-        #[cfg(feature = "AppKit_NSPanel")]
-        #[method_id(@__retain_semantics Other spellingPanel)]
-        pub unsafe fn spellingPanel(&self) -> Id<NSPanel>;
+    #[cfg(feature = "AppKit_NSPanel")]
+    #[objc2::method(sel = "spellingPanel", managed = "Other")]
+    pub unsafe fn spellingPanel(&self) -> Id<NSPanel>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other accessoryView)]
-        pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "accessoryView", managed = "Other")]
+    pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setAccessoryView:)]
-        pub unsafe fn setAccessoryView(&self, accessory_view: Option<&NSView>);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setAccessoryView:")]
+    pub unsafe fn setAccessoryView(&self, accessory_view: Option<&NSView>);
 
-        #[cfg(feature = "AppKit_NSPanel")]
-        #[method_id(@__retain_semantics Other substitutionsPanel)]
-        pub unsafe fn substitutionsPanel(&self) -> Id<NSPanel>;
+    #[cfg(feature = "AppKit_NSPanel")]
+    #[objc2::method(sel = "substitutionsPanel", managed = "Other")]
+    pub unsafe fn substitutionsPanel(&self) -> Id<NSPanel>;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other substitutionsPanelAccessoryViewController)]
-        pub unsafe fn substitutionsPanelAccessoryViewController(
-            &self,
-        ) -> Option<Id<NSViewController>>;
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "substitutionsPanelAccessoryViewController", managed = "Other")]
+    pub unsafe fn substitutionsPanelAccessoryViewController(&self) -> Option<Id<NSViewController>>;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method(setSubstitutionsPanelAccessoryViewController:)]
-        pub unsafe fn setSubstitutionsPanelAccessoryViewController(
-            &self,
-            substitutions_panel_accessory_view_controller: Option<&NSViewController>,
-        );
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "setSubstitutionsPanelAccessoryViewController:")]
+    pub unsafe fn setSubstitutionsPanelAccessoryViewController(
+        &self,
+        substitutions_panel_accessory_view_controller: Option<&NSViewController>,
+    );
 
-        #[method(updatePanels)]
-        pub unsafe fn updatePanels(&self);
+    #[objc2::method(sel = "updatePanels")]
+    pub unsafe fn updatePanels(&self);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(ignoreWord:inSpellDocumentWithTag:)]
-        pub unsafe fn ignoreWord_inSpellDocumentWithTag(
-            &self,
-            word_to_ignore: &NSString,
-            tag: NSInteger,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "ignoreWord:inSpellDocumentWithTag:")]
+    pub unsafe fn ignoreWord_inSpellDocumentWithTag(
+        &self,
+        word_to_ignore: &NSString,
+        tag: NSInteger,
+    );
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other ignoredWordsInSpellDocumentWithTag:)]
-        pub unsafe fn ignoredWordsInSpellDocumentWithTag(
-            &self,
-            tag: NSInteger,
-        ) -> Option<Id<NSArray<NSString>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "ignoredWordsInSpellDocumentWithTag:", managed = "Other")]
+    pub unsafe fn ignoredWordsInSpellDocumentWithTag(
+        &self,
+        tag: NSInteger,
+    ) -> Option<Id<NSArray<NSString>>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method(setIgnoredWords:inSpellDocumentWithTag:)]
-        pub unsafe fn setIgnoredWords_inSpellDocumentWithTag(
-            &self,
-            words: &NSArray<NSString>,
-            tag: NSInteger,
-        );
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setIgnoredWords:inSpellDocumentWithTag:")]
+    pub unsafe fn setIgnoredWords_inSpellDocumentWithTag(
+        &self,
+        words: &NSArray<NSString>,
+        tag: NSInteger,
+    );
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other guessesForWordRange:inString:language:inSpellDocumentWithTag:)]
-        pub unsafe fn guessesForWordRange_inString_language_inSpellDocumentWithTag(
-            &self,
-            range: NSRange,
-            string: &NSString,
-            language: Option<&NSString>,
-            tag: NSInteger,
-        ) -> Option<Id<NSArray<NSString>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "guessesForWordRange:inString:language:inSpellDocumentWithTag:",
+        managed = "Other"
+    )]
+    pub unsafe fn guessesForWordRange_inString_language_inSpellDocumentWithTag(
+        &self,
+        range: NSRange,
+        string: &NSString,
+        language: Option<&NSString>,
+        tag: NSInteger,
+    ) -> Option<Id<NSArray<NSString>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other correctionForWordRange:inString:language:inSpellDocumentWithTag:)]
-        pub unsafe fn correctionForWordRange_inString_language_inSpellDocumentWithTag(
-            &self,
-            range: NSRange,
-            string: &NSString,
-            language: &NSString,
-            tag: NSInteger,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "correctionForWordRange:inString:language:inSpellDocumentWithTag:",
+        managed = "Other"
+    )]
+    pub unsafe fn correctionForWordRange_inString_language_inSpellDocumentWithTag(
+        &self,
+        range: NSRange,
+        string: &NSString,
+        language: &NSString,
+        tag: NSInteger,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other completionsForPartialWordRange:inString:language:inSpellDocumentWithTag:)]
-        pub unsafe fn completionsForPartialWordRange_inString_language_inSpellDocumentWithTag(
-            &self,
-            range: NSRange,
-            string: &NSString,
-            language: Option<&NSString>,
-            tag: NSInteger,
-        ) -> Option<Id<NSArray<NSString>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "completionsForPartialWordRange:inString:language:inSpellDocumentWithTag:",
+        managed = "Other"
+    )]
+    pub unsafe fn completionsForPartialWordRange_inString_language_inSpellDocumentWithTag(
+        &self,
+        range: NSRange,
+        string: &NSString,
+        language: Option<&NSString>,
+        tag: NSInteger,
+    ) -> Option<Id<NSArray<NSString>>>;
 
-        #[cfg(all(feature = "Foundation_NSOrthography", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other languageForWordRange:inString:orthography:)]
-        pub unsafe fn languageForWordRange_inString_orthography(
-            &self,
-            range: NSRange,
-            string: &NSString,
-            orthography: Option<&NSOrthography>,
-        ) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSOrthography", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "languageForWordRange:inString:orthography:", managed = "Other")]
+    pub unsafe fn languageForWordRange_inString_orthography(
+        &self,
+        range: NSRange,
+        string: &NSString,
+        orthography: Option<&NSOrthography>,
+    ) -> Option<Id<NSString>>;
 
-        #[method(closeSpellDocumentWithTag:)]
-        pub unsafe fn closeSpellDocumentWithTag(&self, tag: NSInteger);
+    #[objc2::method(sel = "closeSpellDocumentWithTag:")]
+    pub unsafe fn closeSpellDocumentWithTag(&self, tag: NSInteger);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(recordResponse:toCorrection:forWord:language:inSpellDocumentWithTag:)]
-        pub unsafe fn recordResponse_toCorrection_forWord_language_inSpellDocumentWithTag(
-            &self,
-            response: NSCorrectionResponse,
-            correction: &NSString,
-            word: &NSString,
-            language: Option<&NSString>,
-            tag: NSInteger,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "recordResponse:toCorrection:forWord:language:inSpellDocumentWithTag:")]
+    pub unsafe fn recordResponse_toCorrection_forWord_language_inSpellDocumentWithTag(
+        &self,
+        response: NSCorrectionResponse,
+        correction: &NSString,
+        word: &NSString,
+        language: Option<&NSString>,
+        tag: NSInteger,
+    );
 
-        #[cfg(all(
-            feature = "AppKit_NSView",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(showCorrectionIndicatorOfType:primaryString:alternativeStrings:forStringInRect:view:completionHandler:)]
-        pub unsafe fn showCorrectionIndicatorOfType_primaryString_alternativeStrings_forStringInRect_view_completionHandler(
-            &self,
-            r#type: NSCorrectionIndicatorType,
-            primary_string: &NSString,
-            alternative_strings: &NSArray<NSString>,
-            rect_of_typed_string: NSRect,
-            view: &NSView,
-            completion_block: Option<&Block<(*mut NSString,), ()>>,
-        );
+    #[cfg(all(
+        feature = "AppKit_NSView",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "showCorrectionIndicatorOfType:primaryString:alternativeStrings:forStringInRect:view:completionHandler:"
+    )]
+    pub unsafe fn showCorrectionIndicatorOfType_primaryString_alternativeStrings_forStringInRect_view_completionHandler(
+        &self,
+        r#type: NSCorrectionIndicatorType,
+        primary_string: &NSString,
+        alternative_strings: &NSArray<NSString>,
+        rect_of_typed_string: NSRect,
+        view: &NSView,
+        completion_block: Option<&Block<(*mut NSString,), ()>>,
+    );
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(dismissCorrectionIndicatorForView:)]
-        pub unsafe fn dismissCorrectionIndicatorForView(&self, view: &NSView);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "dismissCorrectionIndicatorForView:")]
+    pub unsafe fn dismissCorrectionIndicatorForView(&self, view: &NSView);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(preventsAutocorrectionBeforeString:language:)]
-        pub unsafe fn preventsAutocorrectionBeforeString_language(
-            &self,
-            string: &NSString,
-            language: Option<&NSString>,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "preventsAutocorrectionBeforeString:language:")]
+    pub unsafe fn preventsAutocorrectionBeforeString_language(
+        &self,
+        string: &NSString,
+        language: Option<&NSString>,
+    ) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(deletesAutospaceBetweenString:andString:language:)]
-        pub unsafe fn deletesAutospaceBetweenString_andString_language(
-            &self,
-            preceding_string: &NSString,
-            following_string: &NSString,
-            language: Option<&NSString>,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "deletesAutospaceBetweenString:andString:language:")]
+    pub unsafe fn deletesAutospaceBetweenString_andString_language(
+        &self,
+        preceding_string: &NSString,
+        following_string: &NSString,
+        language: Option<&NSString>,
+    ) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other availableLanguages)]
-        pub unsafe fn availableLanguages(&self) -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "availableLanguages", managed = "Other")]
+    pub unsafe fn availableLanguages(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other userPreferredLanguages)]
-        pub unsafe fn userPreferredLanguages(&self) -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "userPreferredLanguages", managed = "Other")]
+    pub unsafe fn userPreferredLanguages(&self) -> Id<NSArray<NSString>>;
 
-        #[method(automaticallyIdentifiesLanguages)]
-        pub unsafe fn automaticallyIdentifiesLanguages(&self) -> bool;
+    #[objc2::method(sel = "automaticallyIdentifiesLanguages")]
+    pub unsafe fn automaticallyIdentifiesLanguages(&self) -> bool;
 
-        #[method(setAutomaticallyIdentifiesLanguages:)]
-        pub unsafe fn setAutomaticallyIdentifiesLanguages(
-            &self,
-            automatically_identifies_languages: bool,
-        );
+    #[objc2::method(sel = "setAutomaticallyIdentifiesLanguages:")]
+    pub unsafe fn setAutomaticallyIdentifiesLanguages(
+        &self,
+        automatically_identifies_languages: bool,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setWordFieldStringValue:)]
-        pub unsafe fn setWordFieldStringValue(&self, string: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setWordFieldStringValue:")]
+    pub unsafe fn setWordFieldStringValue(&self, string: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(learnWord:)]
-        pub unsafe fn learnWord(&self, word: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "learnWord:")]
+    pub unsafe fn learnWord(&self, word: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(hasLearnedWord:)]
-        pub unsafe fn hasLearnedWord(&self, word: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "hasLearnedWord:")]
+    pub unsafe fn hasLearnedWord(&self, word: &NSString) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(unlearnWord:)]
-        pub unsafe fn unlearnWord(&self, word: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "unlearnWord:")]
+    pub unsafe fn unlearnWord(&self, word: &NSString);
 
-        #[method(isAutomaticTextReplacementEnabled)]
-        pub unsafe fn isAutomaticTextReplacementEnabled() -> bool;
+    #[objc2::method(sel = "isAutomaticTextReplacementEnabled")]
+    pub unsafe fn isAutomaticTextReplacementEnabled() -> bool;
 
-        #[method(isAutomaticSpellingCorrectionEnabled)]
-        pub unsafe fn isAutomaticSpellingCorrectionEnabled() -> bool;
+    #[objc2::method(sel = "isAutomaticSpellingCorrectionEnabled")]
+    pub unsafe fn isAutomaticSpellingCorrectionEnabled() -> bool;
 
-        #[method(isAutomaticQuoteSubstitutionEnabled)]
-        pub unsafe fn isAutomaticQuoteSubstitutionEnabled() -> bool;
+    #[objc2::method(sel = "isAutomaticQuoteSubstitutionEnabled")]
+    pub unsafe fn isAutomaticQuoteSubstitutionEnabled() -> bool;
 
-        #[method(isAutomaticDashSubstitutionEnabled)]
-        pub unsafe fn isAutomaticDashSubstitutionEnabled() -> bool;
+    #[objc2::method(sel = "isAutomaticDashSubstitutionEnabled")]
+    pub unsafe fn isAutomaticDashSubstitutionEnabled() -> bool;
 
-        #[method(isAutomaticCapitalizationEnabled)]
-        pub unsafe fn isAutomaticCapitalizationEnabled() -> bool;
+    #[objc2::method(sel = "isAutomaticCapitalizationEnabled")]
+    pub unsafe fn isAutomaticCapitalizationEnabled() -> bool;
 
-        #[method(isAutomaticPeriodSubstitutionEnabled)]
-        pub unsafe fn isAutomaticPeriodSubstitutionEnabled() -> bool;
+    #[objc2::method(sel = "isAutomaticPeriodSubstitutionEnabled")]
+    pub unsafe fn isAutomaticPeriodSubstitutionEnabled() -> bool;
 
-        #[method(isAutomaticTextCompletionEnabled)]
-        pub unsafe fn isAutomaticTextCompletionEnabled() -> bool;
+    #[objc2::method(sel = "isAutomaticTextCompletionEnabled")]
+    pub unsafe fn isAutomaticTextCompletionEnabled() -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other language)]
-        pub unsafe fn language(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "language", managed = "Other")]
+    pub unsafe fn language(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLanguage:)]
-        pub unsafe fn setLanguage(&self, language: &NSString) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLanguage:")]
+    pub unsafe fn setLanguage(&self, language: &NSString) -> bool;
+}
 
 extern_static!(
     NSSpellCheckerDidChangeAutomaticSpellingCorrectionNotification: &'static NSNotificationName
@@ -463,18 +482,20 @@ extern_static!(
     NSSpellCheckerDidChangeAutomaticTextCompletionNotification: &'static NSNotificationName
 );
 
-extern_methods!(
-    /// NSDeprecated
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSpellChecker")]
-    unsafe impl NSSpellChecker {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[deprecated = "Use -guessesForWordRange:inString:language:inSpellDocumentWithTag instead"]
-        #[method_id(@__retain_semantics Other guessesForWord:)]
-        pub unsafe fn guessesForWord(&self, word: Option<&NSString>) -> Option<Id<NSArray>>;
+    pub type NSSpellChecker;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(forgetWord:)]
-        pub unsafe fn forgetWord(&self, word: Option<&NSString>);
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[deprecated = "Use -guessesForWordRange:inString:language:inSpellDocumentWithTag instead"]
+    #[objc2::method(sel = "guessesForWord:", managed = "Other")]
+    pub unsafe fn guessesForWord(&self, word: Option<&NSString>) -> Option<Id<NSArray>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "forgetWord:")]
+    pub unsafe fn forgetWord(&self, word: Option<&NSString>);
+}

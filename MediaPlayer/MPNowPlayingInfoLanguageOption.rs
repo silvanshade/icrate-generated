@@ -25,110 +25,121 @@ extern_static!(MPLanguageOptionCharacteristicDubbedTranslation: &'static NSStrin
 
 extern_static!(MPLanguageOptionCharacteristicVoiceOverTranslation: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MPNowPlayingInfoLanguageOptionType {
-        MPNowPlayingInfoLanguageOptionTypeAudible = 0,
-        MPNowPlayingInfoLanguageOptionTypeLegible = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MPNowPlayingInfoLanguageOptionType {
+    MPNowPlayingInfoLanguageOptionTypeAudible = 0,
+    MPNowPlayingInfoLanguageOptionTypeLegible = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOption")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOption")]
-    pub struct MPNowPlayingInfoLanguageOption;
-
-    #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOption")]
-    unsafe impl ClassType for MPNowPlayingInfoLanguageOption {
-        type Super = NSObject;
-    }
-);
+    pub type MPNowPlayingInfoLanguageOption;
+}
 
 #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOption")]
 unsafe impl NSObjectProtocol for MPNowPlayingInfoLanguageOption {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOption")]
-    unsafe impl MPNowPlayingInfoLanguageOption {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithType:languageTag:characteristics:displayName:identifier:)]
-        pub unsafe fn initWithType_languageTag_characteristics_displayName_identifier(
-            this: Option<Allocated<Self>>,
-            language_option_type: MPNowPlayingInfoLanguageOptionType,
-            language_tag: &NSString,
-            language_option_characteristics: Option<&NSArray<NSString>>,
-            display_name: &NSString,
-            identifier: &NSString,
-        ) -> Id<Self>;
+    pub type MPNowPlayingInfoLanguageOption;
 
-        #[method(isAutomaticLegibleLanguageOption)]
-        pub unsafe fn isAutomaticLegibleLanguageOption(&self) -> bool;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "initWithType:languageTag:characteristics:displayName:identifier:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithType_languageTag_characteristics_displayName_identifier(
+        this: Option<Allocated<Self>>,
+        language_option_type: MPNowPlayingInfoLanguageOptionType,
+        language_tag: &NSString,
+        language_option_characteristics: Option<&NSArray<NSString>>,
+        display_name: &NSString,
+        identifier: &NSString,
+    ) -> Id<Self>;
 
-        #[method(isAutomaticAudibleLanguageOption)]
-        pub unsafe fn isAutomaticAudibleLanguageOption(&self) -> bool;
+    #[objc2::method(sel = "isAutomaticLegibleLanguageOption")]
+    pub unsafe fn isAutomaticLegibleLanguageOption(&self) -> bool;
 
-        #[method(languageOptionType)]
-        pub unsafe fn languageOptionType(&self) -> MPNowPlayingInfoLanguageOptionType;
+    #[objc2::method(sel = "isAutomaticAudibleLanguageOption")]
+    pub unsafe fn isAutomaticAudibleLanguageOption(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other languageTag)]
-        pub unsafe fn languageTag(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "languageOptionType")]
+    pub unsafe fn languageOptionType(&self) -> MPNowPlayingInfoLanguageOptionType;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other languageOptionCharacteristics)]
-        pub unsafe fn languageOptionCharacteristics(&self) -> Option<Id<NSArray<NSString>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "languageTag", managed = "Other")]
+    pub unsafe fn languageTag(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other displayName)]
-        pub unsafe fn displayName(&self) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "languageOptionCharacteristics", managed = "Other")]
+    pub unsafe fn languageOptionCharacteristics(&self) -> Option<Id<NSArray<NSString>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Option<Id<NSString>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "displayName", managed = "Other")]
+    pub unsafe fn displayName(&self) -> Option<Id<NSString>>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Option<Id<NSString>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOptionGroup")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOptionGroup")]
-    pub struct MPNowPlayingInfoLanguageOptionGroup;
-
-    #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOptionGroup")]
-    unsafe impl ClassType for MPNowPlayingInfoLanguageOptionGroup {
-        type Super = NSObject;
-    }
-);
+    pub type MPNowPlayingInfoLanguageOptionGroup;
+}
 
 #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOptionGroup")]
 unsafe impl NSObjectProtocol for MPNowPlayingInfoLanguageOptionGroup {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOptionGroup")]
-    unsafe impl MPNowPlayingInfoLanguageOptionGroup {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "MediaPlayer_MPNowPlayingInfoLanguageOption"
-        ))]
-        #[method_id(@__retain_semantics Init initWithLanguageOptions:defaultLanguageOption:allowEmptySelection:)]
-        pub unsafe fn initWithLanguageOptions_defaultLanguageOption_allowEmptySelection(
-            this: Option<Allocated<Self>>,
-            language_options: &NSArray<MPNowPlayingInfoLanguageOption>,
-            default_language_option: Option<&MPNowPlayingInfoLanguageOption>,
-            allow_empty_selection: bool,
-        ) -> Id<Self>;
+    pub type MPNowPlayingInfoLanguageOptionGroup;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "MediaPlayer_MPNowPlayingInfoLanguageOption"
-        ))]
-        #[method_id(@__retain_semantics Other languageOptions)]
-        pub unsafe fn languageOptions(&self) -> Id<NSArray<MPNowPlayingInfoLanguageOption>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "MediaPlayer_MPNowPlayingInfoLanguageOption"
+    ))]
+    #[objc2::method(
+        sel = "initWithLanguageOptions:defaultLanguageOption:allowEmptySelection:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithLanguageOptions_defaultLanguageOption_allowEmptySelection(
+        this: Option<Allocated<Self>>,
+        language_options: &NSArray<MPNowPlayingInfoLanguageOption>,
+        default_language_option: Option<&MPNowPlayingInfoLanguageOption>,
+        allow_empty_selection: bool,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOption")]
-        #[method_id(@__retain_semantics Other defaultLanguageOption)]
-        pub unsafe fn defaultLanguageOption(&self) -> Option<Id<MPNowPlayingInfoLanguageOption>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "MediaPlayer_MPNowPlayingInfoLanguageOption"
+    ))]
+    #[objc2::method(sel = "languageOptions", managed = "Other")]
+    pub unsafe fn languageOptions(&self) -> Id<NSArray<MPNowPlayingInfoLanguageOption>>;
 
-        #[method(allowEmptySelection)]
-        pub unsafe fn allowEmptySelection(&self) -> bool;
-    }
-);
+    #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOption")]
+    #[objc2::method(sel = "defaultLanguageOption", managed = "Other")]
+    pub unsafe fn defaultLanguageOption(&self) -> Option<Id<MPNowPlayingInfoLanguageOption>>;
+
+    #[objc2::method(sel = "allowEmptySelection")]
+    pub unsafe fn allowEmptySelection(&self) -> bool;
+}

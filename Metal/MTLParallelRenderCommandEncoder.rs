@@ -4,37 +4,34 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-extern_protocol!(
-    pub unsafe trait MTLParallelRenderCommandEncoder: MTLCommandEncoder {
-        #[method_id(@__retain_semantics Other renderCommandEncoder)]
-        fn renderCommandEncoder(&self) -> Option<Id<ProtocolObject<dyn MTLRenderCommandEncoder>>>;
+#[objc2::protocol]
+pub unsafe trait MTLParallelRenderCommandEncoder: MTLCommandEncoder {
+    #[objc2::method(sel = "renderCommandEncoder", managed = "Other")]
+    fn renderCommandEncoder(&self) -> Option<Id<ProtocolObject<dyn MTLRenderCommandEncoder>>>;
 
-        #[method(setColorStoreAction:atIndex:)]
-        unsafe fn setColorStoreAction_atIndex(
-            &self,
-            store_action: MTLStoreAction,
-            color_attachment_index: NSUInteger,
-        );
+    #[objc2::method(sel = "setColorStoreAction:atIndex:")]
+    unsafe fn setColorStoreAction_atIndex(
+        &self,
+        store_action: MTLStoreAction,
+        color_attachment_index: NSUInteger,
+    );
 
-        #[method(setDepthStoreAction:)]
-        unsafe fn setDepthStoreAction(&self, store_action: MTLStoreAction);
+    #[objc2::method(sel = "setDepthStoreAction:")]
+    unsafe fn setDepthStoreAction(&self, store_action: MTLStoreAction);
 
-        #[method(setStencilStoreAction:)]
-        unsafe fn setStencilStoreAction(&self, store_action: MTLStoreAction);
+    #[objc2::method(sel = "setStencilStoreAction:")]
+    unsafe fn setStencilStoreAction(&self, store_action: MTLStoreAction);
 
-        #[method(setColorStoreActionOptions:atIndex:)]
-        unsafe fn setColorStoreActionOptions_atIndex(
-            &self,
-            store_action_options: MTLStoreActionOptions,
-            color_attachment_index: NSUInteger,
-        );
+    #[objc2::method(sel = "setColorStoreActionOptions:atIndex:")]
+    unsafe fn setColorStoreActionOptions_atIndex(
+        &self,
+        store_action_options: MTLStoreActionOptions,
+        color_attachment_index: NSUInteger,
+    );
 
-        #[method(setDepthStoreActionOptions:)]
-        unsafe fn setDepthStoreActionOptions(&self, store_action_options: MTLStoreActionOptions);
+    #[objc2::method(sel = "setDepthStoreActionOptions:")]
+    unsafe fn setDepthStoreActionOptions(&self, store_action_options: MTLStoreActionOptions);
 
-        #[method(setStencilStoreActionOptions:)]
-        unsafe fn setStencilStoreActionOptions(&self, store_action_options: MTLStoreActionOptions);
-    }
-
-    unsafe impl ProtocolType for dyn MTLParallelRenderCommandEncoder {}
-);
+    #[objc2::method(sel = "setStencilStoreActionOptions:")]
+    unsafe fn setStencilStoreActionOptions(&self, store_action_options: MTLStoreActionOptions);
+}

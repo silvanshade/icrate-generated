@@ -5,67 +5,60 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSTextLayoutOrientation {
-        NSTextLayoutOrientationHorizontal = 0,
-        NSTextLayoutOrientationVertical = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSTextLayoutOrientation {
+    NSTextLayoutOrientationHorizontal = 0,
+    NSTextLayoutOrientationVertical = 1,
+}
 
-ns_options!(
-    #[underlying(NSInteger)]
-    pub enum NSGlyphProperty {
-        NSGlyphPropertyNull = 1 << 0,
-        NSGlyphPropertyControlCharacter = 1 << 1,
-        NSGlyphPropertyElastic = 1 << 2,
-        NSGlyphPropertyNonBaseCharacter = 1 << 3,
-    }
-);
+#[ns_options]
+#[underlying(NSInteger)]
+pub enum NSGlyphProperty {
+    NSGlyphPropertyNull = 1 << 0,
+    NSGlyphPropertyControlCharacter = 1 << 1,
+    NSGlyphPropertyElastic = 1 << 2,
+    NSGlyphPropertyNonBaseCharacter = 1 << 3,
+}
 
-ns_options!(
-    #[underlying(NSInteger)]
-    pub enum NSControlCharacterAction {
-        NSControlCharacterActionZeroAdvancement = 1 << 0,
-        NSControlCharacterActionWhitespace = 1 << 1,
-        NSControlCharacterActionHorizontalTab = 1 << 2,
-        NSControlCharacterActionLineBreak = 1 << 3,
-        NSControlCharacterActionParagraphBreak = 1 << 4,
-        NSControlCharacterActionContainerBreak = 1 << 5,
-    }
-);
+#[ns_options]
+#[underlying(NSInteger)]
+pub enum NSControlCharacterAction {
+    NSControlCharacterActionZeroAdvancement = 1 << 0,
+    NSControlCharacterActionWhitespace = 1 << 1,
+    NSControlCharacterActionHorizontalTab = 1 << 2,
+    NSControlCharacterActionLineBreak = 1 << 3,
+    NSControlCharacterActionParagraphBreak = 1 << 4,
+    NSControlCharacterActionContainerBreak = 1 << 5,
+}
 
-extern_protocol!(
-    pub unsafe trait NSTextLayoutOrientationProvider {
-        #[method(layoutOrientation)]
-        unsafe fn layoutOrientation(&self) -> NSTextLayoutOrientation;
-    }
+#[objc2::protocol]
+pub unsafe trait NSTextLayoutOrientationProvider {
+    #[objc2::method(sel = "layoutOrientation")]
+    unsafe fn layoutOrientation(&self) -> NSTextLayoutOrientation;
+}
 
-    unsafe impl ProtocolType for dyn NSTextLayoutOrientationProvider {}
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSTypesetterBehavior {
+    NSTypesetterLatestBehavior = -1,
+    NSTypesetterOriginalBehavior = 0,
+    NSTypesetterBehavior_10_2_WithCompatibility = 1,
+    NSTypesetterBehavior_10_2 = 2,
+    NSTypesetterBehavior_10_3 = 3,
+    NSTypesetterBehavior_10_4 = 4,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSTypesetterBehavior {
-        NSTypesetterLatestBehavior = -1,
-        NSTypesetterOriginalBehavior = 0,
-        NSTypesetterBehavior_10_2_WithCompatibility = 1,
-        NSTypesetterBehavior_10_2 = 2,
-        NSTypesetterBehavior_10_3 = 3,
-        NSTypesetterBehavior_10_4 = 4,
-    }
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSLayoutManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSLayoutManager")]
-    pub struct NSLayoutManager;
-
-    #[cfg(feature = "AppKit_NSLayoutManager")]
-    unsafe impl ClassType for NSLayoutManager {
-        type Super = NSObject;
-    }
-);
+    pub type NSLayoutManager;
+}
 
 #[cfg(feature = "AppKit_NSLayoutManager")]
 unsafe impl NSCoding for NSLayoutManager {}
@@ -76,1088 +69,1141 @@ unsafe impl NSObjectProtocol for NSLayoutManager {}
 #[cfg(feature = "AppKit_NSLayoutManager")]
 unsafe impl NSSecureCoding for NSLayoutManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSLayoutManager")]
-    unsafe impl NSLayoutManager {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSLayoutManager;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSTextStorage")]
-        #[method_id(@__retain_semantics Other textStorage)]
-        pub unsafe fn textStorage(&self) -> Option<Id<NSTextStorage>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[cfg(feature = "AppKit_NSTextStorage")]
-        #[method(setTextStorage:)]
-        pub unsafe fn setTextStorage(&self, text_storage: Option<&NSTextStorage>);
+    #[cfg(feature = "AppKit_NSTextStorage")]
+    #[objc2::method(sel = "textStorage", managed = "Other")]
+    pub unsafe fn textStorage(&self) -> Option<Id<NSTextStorage>>;
 
-        #[cfg(feature = "AppKit_NSTextStorage")]
-        #[method(replaceTextStorage:)]
-        pub unsafe fn replaceTextStorage(&self, new_text_storage: &NSTextStorage);
+    #[cfg(feature = "AppKit_NSTextStorage")]
+    #[objc2::method(sel = "setTextStorage:")]
+    pub unsafe fn setTextStorage(&self, text_storage: Option<&NSTextStorage>);
 
-        #[cfg(all(feature = "AppKit_NSTextContainer", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other textContainers)]
-        pub unsafe fn textContainers(&self) -> Id<NSArray<NSTextContainer>>;
+    #[cfg(feature = "AppKit_NSTextStorage")]
+    #[objc2::method(sel = "replaceTextStorage:")]
+    pub unsafe fn replaceTextStorage(&self, new_text_storage: &NSTextStorage);
 
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(addTextContainer:)]
-        pub unsafe fn addTextContainer(&self, container: &NSTextContainer);
+    #[cfg(all(feature = "AppKit_NSTextContainer", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "textContainers", managed = "Other")]
+    pub unsafe fn textContainers(&self) -> Id<NSArray<NSTextContainer>>;
 
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(insertTextContainer:atIndex:)]
-        pub unsafe fn insertTextContainer_atIndex(
-            &self,
-            container: &NSTextContainer,
-            index: NSUInteger,
-        );
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "addTextContainer:")]
+    pub unsafe fn addTextContainer(&self, container: &NSTextContainer);
 
-        #[method(removeTextContainerAtIndex:)]
-        pub unsafe fn removeTextContainerAtIndex(&self, index: NSUInteger);
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(textContainerChangedGeometry:)]
-        pub unsafe fn textContainerChangedGeometry(&self, container: &NSTextContainer);
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(textContainerChangedTextView:)]
-        pub unsafe fn textContainerChangedTextView(&self, container: &NSTextContainer);
-
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSLayoutManagerDelegate>>>;
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "insertTextContainer:atIndex:")]
+    pub unsafe fn insertTextContainer_atIndex(
+        &self,
+        container: &NSTextContainer,
+        index: NSUInteger,
+    );
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSLayoutManagerDelegate>>,
-        );
-
-        #[method(showsInvisibleCharacters)]
-        pub unsafe fn showsInvisibleCharacters(&self) -> bool;
-
-        #[method(setShowsInvisibleCharacters:)]
-        pub unsafe fn setShowsInvisibleCharacters(&self, shows_invisible_characters: bool);
-
-        #[method(showsControlCharacters)]
-        pub unsafe fn showsControlCharacters(&self) -> bool;
-
-        #[method(setShowsControlCharacters:)]
-        pub unsafe fn setShowsControlCharacters(&self, shows_control_characters: bool);
-
-        #[method(usesDefaultHyphenation)]
-        pub unsafe fn usesDefaultHyphenation(&self) -> bool;
-
-        #[method(setUsesDefaultHyphenation:)]
-        pub unsafe fn setUsesDefaultHyphenation(&self, uses_default_hyphenation: bool);
-
-        #[method(usesFontLeading)]
-        pub unsafe fn usesFontLeading(&self) -> bool;
-
-        #[method(setUsesFontLeading:)]
-        pub unsafe fn setUsesFontLeading(&self, uses_font_leading: bool);
-
-        #[method(allowsNonContiguousLayout)]
-        pub unsafe fn allowsNonContiguousLayout(&self) -> bool;
-
-        #[method(setAllowsNonContiguousLayout:)]
-        pub unsafe fn setAllowsNonContiguousLayout(&self, allows_non_contiguous_layout: bool);
-
-        #[method(hasNonContiguousLayout)]
-        pub unsafe fn hasNonContiguousLayout(&self) -> bool;
-
-        #[method(limitsLayoutForSuspiciousContents)]
-        pub unsafe fn limitsLayoutForSuspiciousContents(&self) -> bool;
-
-        #[method(setLimitsLayoutForSuspiciousContents:)]
-        pub unsafe fn setLimitsLayoutForSuspiciousContents(
-            &self,
-            limits_layout_for_suspicious_contents: bool,
-        );
-
-        #[method(backgroundLayoutEnabled)]
-        pub unsafe fn backgroundLayoutEnabled(&self) -> bool;
-
-        #[method(setBackgroundLayoutEnabled:)]
-        pub unsafe fn setBackgroundLayoutEnabled(&self, background_layout_enabled: bool);
-
-        #[method(defaultAttachmentScaling)]
-        pub unsafe fn defaultAttachmentScaling(&self) -> NSImageScaling;
-
-        #[method(setDefaultAttachmentScaling:)]
-        pub unsafe fn setDefaultAttachmentScaling(
-            &self,
-            default_attachment_scaling: NSImageScaling,
-        );
-
-        #[cfg(feature = "AppKit_NSTypesetter")]
-        #[method_id(@__retain_semantics Other typesetter)]
-        pub unsafe fn typesetter(&self) -> Id<NSTypesetter>;
-
-        #[cfg(feature = "AppKit_NSTypesetter")]
-        #[method(setTypesetter:)]
-        pub unsafe fn setTypesetter(&self, typesetter: &NSTypesetter);
-
-        #[method(typesetterBehavior)]
-        pub unsafe fn typesetterBehavior(&self) -> NSTypesetterBehavior;
-
-        #[method(setTypesetterBehavior:)]
-        pub unsafe fn setTypesetterBehavior(&self, typesetter_behavior: NSTypesetterBehavior);
-
-        #[method(invalidateGlyphsForCharacterRange:changeInLength:actualCharacterRange:)]
-        pub unsafe fn invalidateGlyphsForCharacterRange_changeInLength_actualCharacterRange(
-            &self,
-            char_range: NSRange,
-            delta: NSInteger,
-            actual_char_range: NSRangePointer,
-        );
-
-        #[method(invalidateLayoutForCharacterRange:actualCharacterRange:)]
-        pub unsafe fn invalidateLayoutForCharacterRange_actualCharacterRange(
-            &self,
-            char_range: NSRange,
-            actual_char_range: NSRangePointer,
-        );
-
-        #[method(invalidateDisplayForCharacterRange:)]
-        pub unsafe fn invalidateDisplayForCharacterRange(&self, char_range: NSRange);
-
-        #[method(invalidateDisplayForGlyphRange:)]
-        pub unsafe fn invalidateDisplayForGlyphRange(&self, glyph_range: NSRange);
-
-        #[cfg(feature = "AppKit_NSTextStorage")]
-        #[method(processEditingForTextStorage:edited:range:changeInLength:invalidatedRange:)]
-        pub unsafe fn processEditingForTextStorage_edited_range_changeInLength_invalidatedRange(
-            &self,
-            text_storage: &NSTextStorage,
-            edit_mask: NSTextStorageEditActions,
-            new_char_range: NSRange,
-            delta: NSInteger,
-            invalidated_char_range: NSRange,
-        );
-
-        #[method(ensureGlyphsForCharacterRange:)]
-        pub unsafe fn ensureGlyphsForCharacterRange(&self, char_range: NSRange);
-
-        #[method(ensureGlyphsForGlyphRange:)]
-        pub unsafe fn ensureGlyphsForGlyphRange(&self, glyph_range: NSRange);
-
-        #[method(ensureLayoutForCharacterRange:)]
-        pub unsafe fn ensureLayoutForCharacterRange(&self, char_range: NSRange);
-
-        #[method(ensureLayoutForGlyphRange:)]
-        pub unsafe fn ensureLayoutForGlyphRange(&self, glyph_range: NSRange);
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(ensureLayoutForTextContainer:)]
-        pub unsafe fn ensureLayoutForTextContainer(&self, container: &NSTextContainer);
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(ensureLayoutForBoundingRect:inTextContainer:)]
-        pub unsafe fn ensureLayoutForBoundingRect_inTextContainer(
-            &self,
-            bounds: NSRect,
-            container: &NSTextContainer,
-        );
-
-        #[method(numberOfGlyphs)]
-        pub unsafe fn numberOfGlyphs(&self) -> NSUInteger;
-
-        #[method(isValidGlyphIndex:)]
-        pub unsafe fn isValidGlyphIndex(&self, glyph_index: NSUInteger) -> bool;
-
-        #[method(propertyForGlyphAtIndex:)]
-        pub unsafe fn propertyForGlyphAtIndex(&self, glyph_index: NSUInteger) -> NSGlyphProperty;
-
-        #[method(characterIndexForGlyphAtIndex:)]
-        pub unsafe fn characterIndexForGlyphAtIndex(&self, glyph_index: NSUInteger) -> NSUInteger;
-
-        #[method(glyphIndexForCharacterAtIndex:)]
-        pub unsafe fn glyphIndexForCharacterAtIndex(&self, char_index: NSUInteger) -> NSUInteger;
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(setTextContainer:forGlyphRange:)]
-        pub unsafe fn setTextContainer_forGlyphRange(
-            &self,
-            container: &NSTextContainer,
-            glyph_range: NSRange,
-        );
-
-        #[method(setLineFragmentRect:forGlyphRange:usedRect:)]
-        pub unsafe fn setLineFragmentRect_forGlyphRange_usedRect(
-            &self,
-            fragment_rect: NSRect,
-            glyph_range: NSRange,
-            used_rect: NSRect,
-        );
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(setExtraLineFragmentRect:usedRect:textContainer:)]
-        pub unsafe fn setExtraLineFragmentRect_usedRect_textContainer(
-            &self,
-            fragment_rect: NSRect,
-            used_rect: NSRect,
-            container: &NSTextContainer,
-        );
-
-        #[method(setLocation:forStartOfGlyphRange:)]
-        pub unsafe fn setLocation_forStartOfGlyphRange(
-            &self,
-            location: NSPoint,
-            glyph_range: NSRange,
-        );
-
-        #[method(setNotShownAttribute:forGlyphAtIndex:)]
-        pub unsafe fn setNotShownAttribute_forGlyphAtIndex(
-            &self,
-            flag: bool,
-            glyph_index: NSUInteger,
-        );
-
-        #[method(setDrawsOutsideLineFragment:forGlyphAtIndex:)]
-        pub unsafe fn setDrawsOutsideLineFragment_forGlyphAtIndex(
-            &self,
-            flag: bool,
-            glyph_index: NSUInteger,
-        );
-
-        #[method(setAttachmentSize:forGlyphRange:)]
-        pub unsafe fn setAttachmentSize_forGlyphRange(
-            &self,
-            attachment_size: NSSize,
-            glyph_range: NSRange,
-        );
-
-        #[method(getFirstUnlaidCharacterIndex:glyphIndex:)]
-        pub unsafe fn getFirstUnlaidCharacterIndex_glyphIndex(
-            &self,
-            char_index: *mut NSUInteger,
-            glyph_index: *mut NSUInteger,
-        );
-
-        #[method(firstUnlaidCharacterIndex)]
-        pub unsafe fn firstUnlaidCharacterIndex(&self) -> NSUInteger;
-
-        #[method(firstUnlaidGlyphIndex)]
-        pub unsafe fn firstUnlaidGlyphIndex(&self) -> NSUInteger;
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method_id(@__retain_semantics Other textContainerForGlyphAtIndex:effectiveRange:)]
-        pub unsafe fn textContainerForGlyphAtIndex_effectiveRange(
-            &self,
-            glyph_index: NSUInteger,
-            effective_glyph_range: NSRangePointer,
-        ) -> Option<Id<NSTextContainer>>;
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method_id(@__retain_semantics Other textContainerForGlyphAtIndex:effectiveRange:withoutAdditionalLayout:)]
-        pub unsafe fn textContainerForGlyphAtIndex_effectiveRange_withoutAdditionalLayout(
-            &self,
-            glyph_index: NSUInteger,
-            effective_glyph_range: NSRangePointer,
-            flag: bool,
-        ) -> Option<Id<NSTextContainer>>;
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(usedRectForTextContainer:)]
-        pub unsafe fn usedRectForTextContainer(&self, container: &NSTextContainer) -> NSRect;
-
-        #[method(lineFragmentRectForGlyphAtIndex:effectiveRange:)]
-        pub unsafe fn lineFragmentRectForGlyphAtIndex_effectiveRange(
-            &self,
-            glyph_index: NSUInteger,
-            effective_glyph_range: NSRangePointer,
-        ) -> NSRect;
-
-        #[method(lineFragmentRectForGlyphAtIndex:effectiveRange:withoutAdditionalLayout:)]
-        pub unsafe fn lineFragmentRectForGlyphAtIndex_effectiveRange_withoutAdditionalLayout(
-            &self,
-            glyph_index: NSUInteger,
-            effective_glyph_range: NSRangePointer,
-            flag: bool,
-        ) -> NSRect;
-
-        #[method(lineFragmentUsedRectForGlyphAtIndex:effectiveRange:)]
-        pub unsafe fn lineFragmentUsedRectForGlyphAtIndex_effectiveRange(
-            &self,
-            glyph_index: NSUInteger,
-            effective_glyph_range: NSRangePointer,
-        ) -> NSRect;
-
-        #[method(lineFragmentUsedRectForGlyphAtIndex:effectiveRange:withoutAdditionalLayout:)]
-        pub unsafe fn lineFragmentUsedRectForGlyphAtIndex_effectiveRange_withoutAdditionalLayout(
-            &self,
-            glyph_index: NSUInteger,
-            effective_glyph_range: NSRangePointer,
-            flag: bool,
-        ) -> NSRect;
-
-        #[method(extraLineFragmentRect)]
-        pub unsafe fn extraLineFragmentRect(&self) -> NSRect;
-
-        #[method(extraLineFragmentUsedRect)]
-        pub unsafe fn extraLineFragmentUsedRect(&self) -> NSRect;
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method_id(@__retain_semantics Other extraLineFragmentTextContainer)]
-        pub unsafe fn extraLineFragmentTextContainer(&self) -> Option<Id<NSTextContainer>>;
-
-        #[method(locationForGlyphAtIndex:)]
-        pub unsafe fn locationForGlyphAtIndex(&self, glyph_index: NSUInteger) -> NSPoint;
-
-        #[method(notShownAttributeForGlyphAtIndex:)]
-        pub unsafe fn notShownAttributeForGlyphAtIndex(&self, glyph_index: NSUInteger) -> bool;
-
-        #[method(drawsOutsideLineFragmentForGlyphAtIndex:)]
-        pub unsafe fn drawsOutsideLineFragmentForGlyphAtIndex(
-            &self,
-            glyph_index: NSUInteger,
-        ) -> bool;
-
-        #[method(attachmentSizeForGlyphAtIndex:)]
-        pub unsafe fn attachmentSizeForGlyphAtIndex(&self, glyph_index: NSUInteger) -> NSSize;
-
-        #[method(truncatedGlyphRangeInLineFragmentForGlyphAtIndex:)]
-        pub unsafe fn truncatedGlyphRangeInLineFragmentForGlyphAtIndex(
-            &self,
-            glyph_index: NSUInteger,
-        ) -> NSRange;
-
-        #[method(glyphRangeForCharacterRange:actualCharacterRange:)]
-        pub unsafe fn glyphRangeForCharacterRange_actualCharacterRange(
-            &self,
-            char_range: NSRange,
-            actual_char_range: NSRangePointer,
-        ) -> NSRange;
-
-        #[method(characterRangeForGlyphRange:actualGlyphRange:)]
-        pub unsafe fn characterRangeForGlyphRange_actualGlyphRange(
-            &self,
-            glyph_range: NSRange,
-            actual_glyph_range: NSRangePointer,
-        ) -> NSRange;
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(glyphRangeForTextContainer:)]
-        pub unsafe fn glyphRangeForTextContainer(&self, container: &NSTextContainer) -> NSRange;
-
-        #[method(rangeOfNominallySpacedGlyphsContainingIndex:)]
-        pub unsafe fn rangeOfNominallySpacedGlyphsContainingIndex(
-            &self,
-            glyph_index: NSUInteger,
-        ) -> NSRange;
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(boundingRectForGlyphRange:inTextContainer:)]
-        pub unsafe fn boundingRectForGlyphRange_inTextContainer(
-            &self,
-            glyph_range: NSRange,
-            container: &NSTextContainer,
-        ) -> NSRect;
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(glyphRangeForBoundingRect:inTextContainer:)]
-        pub unsafe fn glyphRangeForBoundingRect_inTextContainer(
-            &self,
-            bounds: NSRect,
-            container: &NSTextContainer,
-        ) -> NSRange;
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(glyphRangeForBoundingRectWithoutAdditionalLayout:inTextContainer:)]
-        pub unsafe fn glyphRangeForBoundingRectWithoutAdditionalLayout_inTextContainer(
-            &self,
-            bounds: NSRect,
-            container: &NSTextContainer,
-        ) -> NSRange;
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(glyphIndexForPoint:inTextContainer:)]
-        pub unsafe fn glyphIndexForPoint_inTextContainer(
-            &self,
-            point: NSPoint,
-            container: &NSTextContainer,
-        ) -> NSUInteger;
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(fractionOfDistanceThroughGlyphForPoint:inTextContainer:)]
-        pub unsafe fn fractionOfDistanceThroughGlyphForPoint_inTextContainer(
-            &self,
-            point: NSPoint,
-            container: &NSTextContainer,
-        ) -> CGFloat;
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(characterIndexForPoint:inTextContainer:fractionOfDistanceBetweenInsertionPoints:)]
-        pub unsafe fn characterIndexForPoint_inTextContainer_fractionOfDistanceBetweenInsertionPoints(
-            &self,
-            point: NSPoint,
-            container: &NSTextContainer,
-            partial_fraction: *mut CGFloat,
-        ) -> NSUInteger;
-
-        #[method(getLineFragmentInsertionPointsForCharacterAtIndex:alternatePositions:inDisplayOrder:positions:characterIndexes:)]
-        pub unsafe fn getLineFragmentInsertionPointsForCharacterAtIndex_alternatePositions_inDisplayOrder_positions_characterIndexes(
-            &self,
-            char_index: NSUInteger,
-            a_flag: bool,
-            d_flag: bool,
-            positions: *mut CGFloat,
-            char_indexes: *mut NSUInteger,
-        ) -> NSUInteger;
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(enumerateLineFragmentsForGlyphRange:usingBlock:)]
-        pub unsafe fn enumerateLineFragmentsForGlyphRange_usingBlock(
-            &self,
-            glyph_range: NSRange,
-            block: &Block<
-                (
-                    NSRect,
-                    NSRect,
-                    NonNull<NSTextContainer>,
-                    NSRange,
-                    NonNull<Bool>,
-                ),
-                (),
-            >,
-        );
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(enumerateEnclosingRectsForGlyphRange:withinSelectedGlyphRange:inTextContainer:usingBlock:)]
-        pub unsafe fn enumerateEnclosingRectsForGlyphRange_withinSelectedGlyphRange_inTextContainer_usingBlock(
-            &self,
-            glyph_range: NSRange,
-            selected_range: NSRange,
-            text_container: &NSTextContainer,
-            block: &Block<(NSRect, NonNull<Bool>), ()>,
-        );
-
-        #[method(drawBackgroundForGlyphRange:atPoint:)]
-        pub unsafe fn drawBackgroundForGlyphRange_atPoint(
-            &self,
-            glyphs_to_show: NSRange,
-            origin: NSPoint,
-        );
-
-        #[method(drawGlyphsForGlyphRange:atPoint:)]
-        pub unsafe fn drawGlyphsForGlyphRange_atPoint(
-            &self,
-            glyphs_to_show: NSRange,
-            origin: NSPoint,
-        );
-
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(fillBackgroundRectArray:count:forCharacterRange:color:)]
-        pub unsafe fn fillBackgroundRectArray_count_forCharacterRange_color(
-            &self,
-            rect_array: NonNull<NSRect>,
-            rect_count: NSUInteger,
-            char_range: NSRange,
-            color: &NSColor,
-        );
-
-        #[method(drawUnderlineForGlyphRange:underlineType:baselineOffset:lineFragmentRect:lineFragmentGlyphRange:containerOrigin:)]
-        pub unsafe fn drawUnderlineForGlyphRange_underlineType_baselineOffset_lineFragmentRect_lineFragmentGlyphRange_containerOrigin(
-            &self,
-            glyph_range: NSRange,
-            underline_val: NSUnderlineStyle,
-            baseline_offset: CGFloat,
-            line_rect: NSRect,
-            line_glyph_range: NSRange,
-            container_origin: NSPoint,
-        );
-
-        #[method(underlineGlyphRange:underlineType:lineFragmentRect:lineFragmentGlyphRange:containerOrigin:)]
-        pub unsafe fn underlineGlyphRange_underlineType_lineFragmentRect_lineFragmentGlyphRange_containerOrigin(
-            &self,
-            glyph_range: NSRange,
-            underline_val: NSUnderlineStyle,
-            line_rect: NSRect,
-            line_glyph_range: NSRange,
-            container_origin: NSPoint,
-        );
-
-        #[method(drawStrikethroughForGlyphRange:strikethroughType:baselineOffset:lineFragmentRect:lineFragmentGlyphRange:containerOrigin:)]
-        pub unsafe fn drawStrikethroughForGlyphRange_strikethroughType_baselineOffset_lineFragmentRect_lineFragmentGlyphRange_containerOrigin(
-            &self,
-            glyph_range: NSRange,
-            strikethrough_val: NSUnderlineStyle,
-            baseline_offset: CGFloat,
-            line_rect: NSRect,
-            line_glyph_range: NSRange,
-            container_origin: NSPoint,
-        );
-
-        #[method(strikethroughGlyphRange:strikethroughType:lineFragmentRect:lineFragmentGlyphRange:containerOrigin:)]
-        pub unsafe fn strikethroughGlyphRange_strikethroughType_lineFragmentRect_lineFragmentGlyphRange_containerOrigin(
-            &self,
-            glyph_range: NSRange,
-            strikethrough_val: NSUnderlineStyle,
-            line_rect: NSRect,
-            line_glyph_range: NSRange,
-            container_origin: NSPoint,
-        );
-
-        #[cfg(feature = "AppKit_NSCell")]
-        #[method(showAttachmentCell:inRect:characterIndex:)]
-        pub unsafe fn showAttachmentCell_inRect_characterIndex(
-            &self,
-            cell: &NSCell,
-            rect: NSRect,
-            attachment_index: NSUInteger,
-        );
-
-        #[cfg(feature = "AppKit_NSTextBlock")]
-        #[method(setLayoutRect:forTextBlock:glyphRange:)]
-        pub unsafe fn setLayoutRect_forTextBlock_glyphRange(
-            &self,
-            rect: NSRect,
-            block: &NSTextBlock,
-            glyph_range: NSRange,
-        );
-
-        #[cfg(feature = "AppKit_NSTextBlock")]
-        #[method(setBoundsRect:forTextBlock:glyphRange:)]
-        pub unsafe fn setBoundsRect_forTextBlock_glyphRange(
-            &self,
-            rect: NSRect,
-            block: &NSTextBlock,
-            glyph_range: NSRange,
-        );
-
-        #[cfg(feature = "AppKit_NSTextBlock")]
-        #[method(layoutRectForTextBlock:glyphRange:)]
-        pub unsafe fn layoutRectForTextBlock_glyphRange(
-            &self,
-            block: &NSTextBlock,
-            glyph_range: NSRange,
-        ) -> NSRect;
-
-        #[cfg(feature = "AppKit_NSTextBlock")]
-        #[method(boundsRectForTextBlock:glyphRange:)]
-        pub unsafe fn boundsRectForTextBlock_glyphRange(
-            &self,
-            block: &NSTextBlock,
-            glyph_range: NSRange,
-        ) -> NSRect;
-
-        #[cfg(feature = "AppKit_NSTextBlock")]
-        #[method(layoutRectForTextBlock:atIndex:effectiveRange:)]
-        pub unsafe fn layoutRectForTextBlock_atIndex_effectiveRange(
-            &self,
-            block: &NSTextBlock,
-            glyph_index: NSUInteger,
-            effective_glyph_range: NSRangePointer,
-        ) -> NSRect;
-
-        #[cfg(feature = "AppKit_NSTextBlock")]
-        #[method(boundsRectForTextBlock:atIndex:effectiveRange:)]
-        pub unsafe fn boundsRectForTextBlock_atIndex_effectiveRange(
-            &self,
-            block: &NSTextBlock,
-            glyph_index: NSUInteger,
-            effective_glyph_range: NSRangePointer,
-        ) -> NSRect;
-
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other temporaryAttributesAtCharacterIndex:effectiveRange:)]
-        pub unsafe fn temporaryAttributesAtCharacterIndex_effectiveRange(
-            &self,
-            char_index: NSUInteger,
-            effective_char_range: NSRangePointer,
-        ) -> Id<NSDictionary<NSAttributedStringKey, Object>>;
-
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(setTemporaryAttributes:forCharacterRange:)]
-        pub unsafe fn setTemporaryAttributes_forCharacterRange(
-            &self,
-            attrs: &NSDictionary<NSAttributedStringKey, Object>,
-            char_range: NSRange,
-        );
-
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(addTemporaryAttributes:forCharacterRange:)]
-        pub unsafe fn addTemporaryAttributes_forCharacterRange(
-            &self,
-            attrs: &NSDictionary<NSAttributedStringKey, Object>,
-            char_range: NSRange,
-        );
-
-        #[method(removeTemporaryAttribute:forCharacterRange:)]
-        pub unsafe fn removeTemporaryAttribute_forCharacterRange(
-            &self,
-            attr_name: &NSAttributedStringKey,
-            char_range: NSRange,
-        );
-
-        #[method_id(@__retain_semantics Other temporaryAttribute:atCharacterIndex:effectiveRange:)]
-        pub unsafe fn temporaryAttribute_atCharacterIndex_effectiveRange(
-            &self,
-            attr_name: &NSAttributedStringKey,
-            location: NSUInteger,
-            range: NSRangePointer,
-        ) -> Option<Id<Object>>;
-
-        #[method_id(@__retain_semantics Other temporaryAttribute:atCharacterIndex:longestEffectiveRange:inRange:)]
-        pub unsafe fn temporaryAttribute_atCharacterIndex_longestEffectiveRange_inRange(
-            &self,
-            attr_name: &NSAttributedStringKey,
-            location: NSUInteger,
-            range: NSRangePointer,
-            range_limit: NSRange,
-        ) -> Option<Id<Object>>;
-
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other temporaryAttributesAtCharacterIndex:longestEffectiveRange:inRange:)]
-        pub unsafe fn temporaryAttributesAtCharacterIndex_longestEffectiveRange_inRange(
-            &self,
-            location: NSUInteger,
-            range: NSRangePointer,
-            range_limit: NSRange,
-        ) -> Id<NSDictionary<NSAttributedStringKey, Object>>;
-
-        #[method(addTemporaryAttribute:value:forCharacterRange:)]
-        pub unsafe fn addTemporaryAttribute_value_forCharacterRange(
-            &self,
-            attr_name: &NSAttributedStringKey,
-            value: &Object,
-            char_range: NSRange,
-        );
-
-        #[cfg(feature = "AppKit_NSFont")]
-        #[method(defaultLineHeightForFont:)]
-        pub unsafe fn defaultLineHeightForFont(&self, the_font: &NSFont) -> CGFloat;
-
-        #[cfg(feature = "AppKit_NSFont")]
-        #[method(defaultBaselineOffsetForFont:)]
-        pub unsafe fn defaultBaselineOffsetForFont(&self, the_font: &NSFont) -> CGFloat;
-    }
-);
-
-extern_methods!(
-    /// NSTextViewSupport
+    #[objc2::method(sel = "removeTextContainerAtIndex:")]
+    pub unsafe fn removeTextContainerAtIndex(&self, index: NSUInteger);
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "textContainerChangedGeometry:")]
+    pub unsafe fn textContainerChangedGeometry(&self, container: &NSTextContainer);
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "textContainerChangedTextView:")]
+    pub unsafe fn textContainerChangedTextView(&self, container: &NSTextContainer);
+
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSLayoutManagerDelegate>>>;
+
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn NSLayoutManagerDelegate>>,
+    );
+
+    #[objc2::method(sel = "showsInvisibleCharacters")]
+    pub unsafe fn showsInvisibleCharacters(&self) -> bool;
+
+    #[objc2::method(sel = "setShowsInvisibleCharacters:")]
+    pub unsafe fn setShowsInvisibleCharacters(&self, shows_invisible_characters: bool);
+
+    #[objc2::method(sel = "showsControlCharacters")]
+    pub unsafe fn showsControlCharacters(&self) -> bool;
+
+    #[objc2::method(sel = "setShowsControlCharacters:")]
+    pub unsafe fn setShowsControlCharacters(&self, shows_control_characters: bool);
+
+    #[objc2::method(sel = "usesDefaultHyphenation")]
+    pub unsafe fn usesDefaultHyphenation(&self) -> bool;
+
+    #[objc2::method(sel = "setUsesDefaultHyphenation:")]
+    pub unsafe fn setUsesDefaultHyphenation(&self, uses_default_hyphenation: bool);
+
+    #[objc2::method(sel = "usesFontLeading")]
+    pub unsafe fn usesFontLeading(&self) -> bool;
+
+    #[objc2::method(sel = "setUsesFontLeading:")]
+    pub unsafe fn setUsesFontLeading(&self, uses_font_leading: bool);
+
+    #[objc2::method(sel = "allowsNonContiguousLayout")]
+    pub unsafe fn allowsNonContiguousLayout(&self) -> bool;
+
+    #[objc2::method(sel = "setAllowsNonContiguousLayout:")]
+    pub unsafe fn setAllowsNonContiguousLayout(&self, allows_non_contiguous_layout: bool);
+
+    #[objc2::method(sel = "hasNonContiguousLayout")]
+    pub unsafe fn hasNonContiguousLayout(&self) -> bool;
+
+    #[objc2::method(sel = "limitsLayoutForSuspiciousContents")]
+    pub unsafe fn limitsLayoutForSuspiciousContents(&self) -> bool;
+
+    #[objc2::method(sel = "setLimitsLayoutForSuspiciousContents:")]
+    pub unsafe fn setLimitsLayoutForSuspiciousContents(
+        &self,
+        limits_layout_for_suspicious_contents: bool,
+    );
+
+    #[objc2::method(sel = "backgroundLayoutEnabled")]
+    pub unsafe fn backgroundLayoutEnabled(&self) -> bool;
+
+    #[objc2::method(sel = "setBackgroundLayoutEnabled:")]
+    pub unsafe fn setBackgroundLayoutEnabled(&self, background_layout_enabled: bool);
+
+    #[objc2::method(sel = "defaultAttachmentScaling")]
+    pub unsafe fn defaultAttachmentScaling(&self) -> NSImageScaling;
+
+    #[objc2::method(sel = "setDefaultAttachmentScaling:")]
+    pub unsafe fn setDefaultAttachmentScaling(&self, default_attachment_scaling: NSImageScaling);
+
+    #[cfg(feature = "AppKit_NSTypesetter")]
+    #[objc2::method(sel = "typesetter", managed = "Other")]
+    pub unsafe fn typesetter(&self) -> Id<NSTypesetter>;
+
+    #[cfg(feature = "AppKit_NSTypesetter")]
+    #[objc2::method(sel = "setTypesetter:")]
+    pub unsafe fn setTypesetter(&self, typesetter: &NSTypesetter);
+
+    #[objc2::method(sel = "typesetterBehavior")]
+    pub unsafe fn typesetterBehavior(&self) -> NSTypesetterBehavior;
+
+    #[objc2::method(sel = "setTypesetterBehavior:")]
+    pub unsafe fn setTypesetterBehavior(&self, typesetter_behavior: NSTypesetterBehavior);
+
+    #[objc2::method(sel = "invalidateGlyphsForCharacterRange:changeInLength:actualCharacterRange:")]
+    pub unsafe fn invalidateGlyphsForCharacterRange_changeInLength_actualCharacterRange(
+        &self,
+        char_range: NSRange,
+        delta: NSInteger,
+        actual_char_range: NSRangePointer,
+    );
+
+    #[objc2::method(sel = "invalidateLayoutForCharacterRange:actualCharacterRange:")]
+    pub unsafe fn invalidateLayoutForCharacterRange_actualCharacterRange(
+        &self,
+        char_range: NSRange,
+        actual_char_range: NSRangePointer,
+    );
+
+    #[objc2::method(sel = "invalidateDisplayForCharacterRange:")]
+    pub unsafe fn invalidateDisplayForCharacterRange(&self, char_range: NSRange);
+
+    #[objc2::method(sel = "invalidateDisplayForGlyphRange:")]
+    pub unsafe fn invalidateDisplayForGlyphRange(&self, glyph_range: NSRange);
+
+    #[cfg(feature = "AppKit_NSTextStorage")]
+    #[objc2::method(
+        sel = "processEditingForTextStorage:edited:range:changeInLength:invalidatedRange:"
+    )]
+    pub unsafe fn processEditingForTextStorage_edited_range_changeInLength_invalidatedRange(
+        &self,
+        text_storage: &NSTextStorage,
+        edit_mask: NSTextStorageEditActions,
+        new_char_range: NSRange,
+        delta: NSInteger,
+        invalidated_char_range: NSRange,
+    );
+
+    #[objc2::method(sel = "ensureGlyphsForCharacterRange:")]
+    pub unsafe fn ensureGlyphsForCharacterRange(&self, char_range: NSRange);
+
+    #[objc2::method(sel = "ensureGlyphsForGlyphRange:")]
+    pub unsafe fn ensureGlyphsForGlyphRange(&self, glyph_range: NSRange);
+
+    #[objc2::method(sel = "ensureLayoutForCharacterRange:")]
+    pub unsafe fn ensureLayoutForCharacterRange(&self, char_range: NSRange);
+
+    #[objc2::method(sel = "ensureLayoutForGlyphRange:")]
+    pub unsafe fn ensureLayoutForGlyphRange(&self, glyph_range: NSRange);
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "ensureLayoutForTextContainer:")]
+    pub unsafe fn ensureLayoutForTextContainer(&self, container: &NSTextContainer);
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "ensureLayoutForBoundingRect:inTextContainer:")]
+    pub unsafe fn ensureLayoutForBoundingRect_inTextContainer(
+        &self,
+        bounds: NSRect,
+        container: &NSTextContainer,
+    );
+
+    #[objc2::method(sel = "numberOfGlyphs")]
+    pub unsafe fn numberOfGlyphs(&self) -> NSUInteger;
+
+    #[objc2::method(sel = "isValidGlyphIndex:")]
+    pub unsafe fn isValidGlyphIndex(&self, glyph_index: NSUInteger) -> bool;
+
+    #[objc2::method(sel = "propertyForGlyphAtIndex:")]
+    pub unsafe fn propertyForGlyphAtIndex(&self, glyph_index: NSUInteger) -> NSGlyphProperty;
+
+    #[objc2::method(sel = "characterIndexForGlyphAtIndex:")]
+    pub unsafe fn characterIndexForGlyphAtIndex(&self, glyph_index: NSUInteger) -> NSUInteger;
+
+    #[objc2::method(sel = "glyphIndexForCharacterAtIndex:")]
+    pub unsafe fn glyphIndexForCharacterAtIndex(&self, char_index: NSUInteger) -> NSUInteger;
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "setTextContainer:forGlyphRange:")]
+    pub unsafe fn setTextContainer_forGlyphRange(
+        &self,
+        container: &NSTextContainer,
+        glyph_range: NSRange,
+    );
+
+    #[objc2::method(sel = "setLineFragmentRect:forGlyphRange:usedRect:")]
+    pub unsafe fn setLineFragmentRect_forGlyphRange_usedRect(
+        &self,
+        fragment_rect: NSRect,
+        glyph_range: NSRange,
+        used_rect: NSRect,
+    );
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "setExtraLineFragmentRect:usedRect:textContainer:")]
+    pub unsafe fn setExtraLineFragmentRect_usedRect_textContainer(
+        &self,
+        fragment_rect: NSRect,
+        used_rect: NSRect,
+        container: &NSTextContainer,
+    );
+
+    #[objc2::method(sel = "setLocation:forStartOfGlyphRange:")]
+    pub unsafe fn setLocation_forStartOfGlyphRange(&self, location: NSPoint, glyph_range: NSRange);
+
+    #[objc2::method(sel = "setNotShownAttribute:forGlyphAtIndex:")]
+    pub unsafe fn setNotShownAttribute_forGlyphAtIndex(&self, flag: bool, glyph_index: NSUInteger);
+
+    #[objc2::method(sel = "setDrawsOutsideLineFragment:forGlyphAtIndex:")]
+    pub unsafe fn setDrawsOutsideLineFragment_forGlyphAtIndex(
+        &self,
+        flag: bool,
+        glyph_index: NSUInteger,
+    );
+
+    #[objc2::method(sel = "setAttachmentSize:forGlyphRange:")]
+    pub unsafe fn setAttachmentSize_forGlyphRange(
+        &self,
+        attachment_size: NSSize,
+        glyph_range: NSRange,
+    );
+
+    #[objc2::method(sel = "getFirstUnlaidCharacterIndex:glyphIndex:")]
+    pub unsafe fn getFirstUnlaidCharacterIndex_glyphIndex(
+        &self,
+        char_index: *mut NSUInteger,
+        glyph_index: *mut NSUInteger,
+    );
+
+    #[objc2::method(sel = "firstUnlaidCharacterIndex")]
+    pub unsafe fn firstUnlaidCharacterIndex(&self) -> NSUInteger;
+
+    #[objc2::method(sel = "firstUnlaidGlyphIndex")]
+    pub unsafe fn firstUnlaidGlyphIndex(&self) -> NSUInteger;
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(
+        sel = "textContainerForGlyphAtIndex:effectiveRange:",
+        managed = "Other"
+    )]
+    pub unsafe fn textContainerForGlyphAtIndex_effectiveRange(
+        &self,
+        glyph_index: NSUInteger,
+        effective_glyph_range: NSRangePointer,
+    ) -> Option<Id<NSTextContainer>>;
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(
+        sel = "textContainerForGlyphAtIndex:effectiveRange:withoutAdditionalLayout:",
+        managed = "Other"
+    )]
+    pub unsafe fn textContainerForGlyphAtIndex_effectiveRange_withoutAdditionalLayout(
+        &self,
+        glyph_index: NSUInteger,
+        effective_glyph_range: NSRangePointer,
+        flag: bool,
+    ) -> Option<Id<NSTextContainer>>;
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "usedRectForTextContainer:")]
+    pub unsafe fn usedRectForTextContainer(&self, container: &NSTextContainer) -> NSRect;
+
+    #[objc2::method(sel = "lineFragmentRectForGlyphAtIndex:effectiveRange:")]
+    pub unsafe fn lineFragmentRectForGlyphAtIndex_effectiveRange(
+        &self,
+        glyph_index: NSUInteger,
+        effective_glyph_range: NSRangePointer,
+    ) -> NSRect;
+
+    #[objc2::method(
+        sel = "lineFragmentRectForGlyphAtIndex:effectiveRange:withoutAdditionalLayout:"
+    )]
+    pub unsafe fn lineFragmentRectForGlyphAtIndex_effectiveRange_withoutAdditionalLayout(
+        &self,
+        glyph_index: NSUInteger,
+        effective_glyph_range: NSRangePointer,
+        flag: bool,
+    ) -> NSRect;
+
+    #[objc2::method(sel = "lineFragmentUsedRectForGlyphAtIndex:effectiveRange:")]
+    pub unsafe fn lineFragmentUsedRectForGlyphAtIndex_effectiveRange(
+        &self,
+        glyph_index: NSUInteger,
+        effective_glyph_range: NSRangePointer,
+    ) -> NSRect;
+
+    #[objc2::method(
+        sel = "lineFragmentUsedRectForGlyphAtIndex:effectiveRange:withoutAdditionalLayout:"
+    )]
+    pub unsafe fn lineFragmentUsedRectForGlyphAtIndex_effectiveRange_withoutAdditionalLayout(
+        &self,
+        glyph_index: NSUInteger,
+        effective_glyph_range: NSRangePointer,
+        flag: bool,
+    ) -> NSRect;
+
+    #[objc2::method(sel = "extraLineFragmentRect")]
+    pub unsafe fn extraLineFragmentRect(&self) -> NSRect;
+
+    #[objc2::method(sel = "extraLineFragmentUsedRect")]
+    pub unsafe fn extraLineFragmentUsedRect(&self) -> NSRect;
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "extraLineFragmentTextContainer", managed = "Other")]
+    pub unsafe fn extraLineFragmentTextContainer(&self) -> Option<Id<NSTextContainer>>;
+
+    #[objc2::method(sel = "locationForGlyphAtIndex:")]
+    pub unsafe fn locationForGlyphAtIndex(&self, glyph_index: NSUInteger) -> NSPoint;
+
+    #[objc2::method(sel = "notShownAttributeForGlyphAtIndex:")]
+    pub unsafe fn notShownAttributeForGlyphAtIndex(&self, glyph_index: NSUInteger) -> bool;
+
+    #[objc2::method(sel = "drawsOutsideLineFragmentForGlyphAtIndex:")]
+    pub unsafe fn drawsOutsideLineFragmentForGlyphAtIndex(&self, glyph_index: NSUInteger) -> bool;
+
+    #[objc2::method(sel = "attachmentSizeForGlyphAtIndex:")]
+    pub unsafe fn attachmentSizeForGlyphAtIndex(&self, glyph_index: NSUInteger) -> NSSize;
+
+    #[objc2::method(sel = "truncatedGlyphRangeInLineFragmentForGlyphAtIndex:")]
+    pub unsafe fn truncatedGlyphRangeInLineFragmentForGlyphAtIndex(
+        &self,
+        glyph_index: NSUInteger,
+    ) -> NSRange;
+
+    #[objc2::method(sel = "glyphRangeForCharacterRange:actualCharacterRange:")]
+    pub unsafe fn glyphRangeForCharacterRange_actualCharacterRange(
+        &self,
+        char_range: NSRange,
+        actual_char_range: NSRangePointer,
+    ) -> NSRange;
+
+    #[objc2::method(sel = "characterRangeForGlyphRange:actualGlyphRange:")]
+    pub unsafe fn characterRangeForGlyphRange_actualGlyphRange(
+        &self,
+        glyph_range: NSRange,
+        actual_glyph_range: NSRangePointer,
+    ) -> NSRange;
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "glyphRangeForTextContainer:")]
+    pub unsafe fn glyphRangeForTextContainer(&self, container: &NSTextContainer) -> NSRange;
+
+    #[objc2::method(sel = "rangeOfNominallySpacedGlyphsContainingIndex:")]
+    pub unsafe fn rangeOfNominallySpacedGlyphsContainingIndex(
+        &self,
+        glyph_index: NSUInteger,
+    ) -> NSRange;
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "boundingRectForGlyphRange:inTextContainer:")]
+    pub unsafe fn boundingRectForGlyphRange_inTextContainer(
+        &self,
+        glyph_range: NSRange,
+        container: &NSTextContainer,
+    ) -> NSRect;
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "glyphRangeForBoundingRect:inTextContainer:")]
+    pub unsafe fn glyphRangeForBoundingRect_inTextContainer(
+        &self,
+        bounds: NSRect,
+        container: &NSTextContainer,
+    ) -> NSRange;
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "glyphRangeForBoundingRectWithoutAdditionalLayout:inTextContainer:")]
+    pub unsafe fn glyphRangeForBoundingRectWithoutAdditionalLayout_inTextContainer(
+        &self,
+        bounds: NSRect,
+        container: &NSTextContainer,
+    ) -> NSRange;
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "glyphIndexForPoint:inTextContainer:")]
+    pub unsafe fn glyphIndexForPoint_inTextContainer(
+        &self,
+        point: NSPoint,
+        container: &NSTextContainer,
+    ) -> NSUInteger;
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "fractionOfDistanceThroughGlyphForPoint:inTextContainer:")]
+    pub unsafe fn fractionOfDistanceThroughGlyphForPoint_inTextContainer(
+        &self,
+        point: NSPoint,
+        container: &NSTextContainer,
+    ) -> CGFloat;
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(
+        sel = "characterIndexForPoint:inTextContainer:fractionOfDistanceBetweenInsertionPoints:"
+    )]
+    pub unsafe fn characterIndexForPoint_inTextContainer_fractionOfDistanceBetweenInsertionPoints(
+        &self,
+        point: NSPoint,
+        container: &NSTextContainer,
+        partial_fraction: *mut CGFloat,
+    ) -> NSUInteger;
+
+    #[objc2::method(
+        sel = "getLineFragmentInsertionPointsForCharacterAtIndex:alternatePositions:inDisplayOrder:positions:characterIndexes:"
+    )]
+    pub unsafe fn getLineFragmentInsertionPointsForCharacterAtIndex_alternatePositions_inDisplayOrder_positions_characterIndexes(
+        &self,
+        char_index: NSUInteger,
+        a_flag: bool,
+        d_flag: bool,
+        positions: *mut CGFloat,
+        char_indexes: *mut NSUInteger,
+    ) -> NSUInteger;
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "enumerateLineFragmentsForGlyphRange:usingBlock:")]
+    pub unsafe fn enumerateLineFragmentsForGlyphRange_usingBlock(
+        &self,
+        glyph_range: NSRange,
+        block: &Block<
+            (
+                NSRect,
+                NSRect,
+                NonNull<NSTextContainer>,
+                NSRange,
+                NonNull<Bool>,
+            ),
+            (),
+        >,
+    );
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(
+        sel = "enumerateEnclosingRectsForGlyphRange:withinSelectedGlyphRange:inTextContainer:usingBlock:"
+    )]
+    pub unsafe fn enumerateEnclosingRectsForGlyphRange_withinSelectedGlyphRange_inTextContainer_usingBlock(
+        &self,
+        glyph_range: NSRange,
+        selected_range: NSRange,
+        text_container: &NSTextContainer,
+        block: &Block<(NSRect, NonNull<Bool>), ()>,
+    );
+
+    #[objc2::method(sel = "drawBackgroundForGlyphRange:atPoint:")]
+    pub unsafe fn drawBackgroundForGlyphRange_atPoint(
+        &self,
+        glyphs_to_show: NSRange,
+        origin: NSPoint,
+    );
+
+    #[objc2::method(sel = "drawGlyphsForGlyphRange:atPoint:")]
+    pub unsafe fn drawGlyphsForGlyphRange_atPoint(&self, glyphs_to_show: NSRange, origin: NSPoint);
+
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "fillBackgroundRectArray:count:forCharacterRange:color:")]
+    pub unsafe fn fillBackgroundRectArray_count_forCharacterRange_color(
+        &self,
+        rect_array: NonNull<NSRect>,
+        rect_count: NSUInteger,
+        char_range: NSRange,
+        color: &NSColor,
+    );
+
+    #[objc2::method(
+        sel = "drawUnderlineForGlyphRange:underlineType:baselineOffset:lineFragmentRect:lineFragmentGlyphRange:containerOrigin:"
+    )]
+    pub unsafe fn drawUnderlineForGlyphRange_underlineType_baselineOffset_lineFragmentRect_lineFragmentGlyphRange_containerOrigin(
+        &self,
+        glyph_range: NSRange,
+        underline_val: NSUnderlineStyle,
+        baseline_offset: CGFloat,
+        line_rect: NSRect,
+        line_glyph_range: NSRange,
+        container_origin: NSPoint,
+    );
+
+    #[objc2::method(
+        sel = "underlineGlyphRange:underlineType:lineFragmentRect:lineFragmentGlyphRange:containerOrigin:"
+    )]
+    pub unsafe fn underlineGlyphRange_underlineType_lineFragmentRect_lineFragmentGlyphRange_containerOrigin(
+        &self,
+        glyph_range: NSRange,
+        underline_val: NSUnderlineStyle,
+        line_rect: NSRect,
+        line_glyph_range: NSRange,
+        container_origin: NSPoint,
+    );
+
+    #[objc2::method(
+        sel = "drawStrikethroughForGlyphRange:strikethroughType:baselineOffset:lineFragmentRect:lineFragmentGlyphRange:containerOrigin:"
+    )]
+    pub unsafe fn drawStrikethroughForGlyphRange_strikethroughType_baselineOffset_lineFragmentRect_lineFragmentGlyphRange_containerOrigin(
+        &self,
+        glyph_range: NSRange,
+        strikethrough_val: NSUnderlineStyle,
+        baseline_offset: CGFloat,
+        line_rect: NSRect,
+        line_glyph_range: NSRange,
+        container_origin: NSPoint,
+    );
+
+    #[objc2::method(
+        sel = "strikethroughGlyphRange:strikethroughType:lineFragmentRect:lineFragmentGlyphRange:containerOrigin:"
+    )]
+    pub unsafe fn strikethroughGlyphRange_strikethroughType_lineFragmentRect_lineFragmentGlyphRange_containerOrigin(
+        &self,
+        glyph_range: NSRange,
+        strikethrough_val: NSUnderlineStyle,
+        line_rect: NSRect,
+        line_glyph_range: NSRange,
+        container_origin: NSPoint,
+    );
+
+    #[cfg(feature = "AppKit_NSCell")]
+    #[objc2::method(sel = "showAttachmentCell:inRect:characterIndex:")]
+    pub unsafe fn showAttachmentCell_inRect_characterIndex(
+        &self,
+        cell: &NSCell,
+        rect: NSRect,
+        attachment_index: NSUInteger,
+    );
+
+    #[cfg(feature = "AppKit_NSTextBlock")]
+    #[objc2::method(sel = "setLayoutRect:forTextBlock:glyphRange:")]
+    pub unsafe fn setLayoutRect_forTextBlock_glyphRange(
+        &self,
+        rect: NSRect,
+        block: &NSTextBlock,
+        glyph_range: NSRange,
+    );
+
+    #[cfg(feature = "AppKit_NSTextBlock")]
+    #[objc2::method(sel = "setBoundsRect:forTextBlock:glyphRange:")]
+    pub unsafe fn setBoundsRect_forTextBlock_glyphRange(
+        &self,
+        rect: NSRect,
+        block: &NSTextBlock,
+        glyph_range: NSRange,
+    );
+
+    #[cfg(feature = "AppKit_NSTextBlock")]
+    #[objc2::method(sel = "layoutRectForTextBlock:glyphRange:")]
+    pub unsafe fn layoutRectForTextBlock_glyphRange(
+        &self,
+        block: &NSTextBlock,
+        glyph_range: NSRange,
+    ) -> NSRect;
+
+    #[cfg(feature = "AppKit_NSTextBlock")]
+    #[objc2::method(sel = "boundsRectForTextBlock:glyphRange:")]
+    pub unsafe fn boundsRectForTextBlock_glyphRange(
+        &self,
+        block: &NSTextBlock,
+        glyph_range: NSRange,
+    ) -> NSRect;
+
+    #[cfg(feature = "AppKit_NSTextBlock")]
+    #[objc2::method(sel = "layoutRectForTextBlock:atIndex:effectiveRange:")]
+    pub unsafe fn layoutRectForTextBlock_atIndex_effectiveRange(
+        &self,
+        block: &NSTextBlock,
+        glyph_index: NSUInteger,
+        effective_glyph_range: NSRangePointer,
+    ) -> NSRect;
+
+    #[cfg(feature = "AppKit_NSTextBlock")]
+    #[objc2::method(sel = "boundsRectForTextBlock:atIndex:effectiveRange:")]
+    pub unsafe fn boundsRectForTextBlock_atIndex_effectiveRange(
+        &self,
+        block: &NSTextBlock,
+        glyph_index: NSUInteger,
+        effective_glyph_range: NSRangePointer,
+    ) -> NSRect;
+
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(
+        sel = "temporaryAttributesAtCharacterIndex:effectiveRange:",
+        managed = "Other"
+    )]
+    pub unsafe fn temporaryAttributesAtCharacterIndex_effectiveRange(
+        &self,
+        char_index: NSUInteger,
+        effective_char_range: NSRangePointer,
+    ) -> Id<NSDictionary<NSAttributedStringKey, Object>>;
+
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "setTemporaryAttributes:forCharacterRange:")]
+    pub unsafe fn setTemporaryAttributes_forCharacterRange(
+        &self,
+        attrs: &NSDictionary<NSAttributedStringKey, Object>,
+        char_range: NSRange,
+    );
+
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "addTemporaryAttributes:forCharacterRange:")]
+    pub unsafe fn addTemporaryAttributes_forCharacterRange(
+        &self,
+        attrs: &NSDictionary<NSAttributedStringKey, Object>,
+        char_range: NSRange,
+    );
+
+    #[objc2::method(sel = "removeTemporaryAttribute:forCharacterRange:")]
+    pub unsafe fn removeTemporaryAttribute_forCharacterRange(
+        &self,
+        attr_name: &NSAttributedStringKey,
+        char_range: NSRange,
+    );
+
+    #[objc2::method(
+        sel = "temporaryAttribute:atCharacterIndex:effectiveRange:",
+        managed = "Other"
+    )]
+    pub unsafe fn temporaryAttribute_atCharacterIndex_effectiveRange(
+        &self,
+        attr_name: &NSAttributedStringKey,
+        location: NSUInteger,
+        range: NSRangePointer,
+    ) -> Option<Id<Object>>;
+
+    #[objc2::method(
+        sel = "temporaryAttribute:atCharacterIndex:longestEffectiveRange:inRange:",
+        managed = "Other"
+    )]
+    pub unsafe fn temporaryAttribute_atCharacterIndex_longestEffectiveRange_inRange(
+        &self,
+        attr_name: &NSAttributedStringKey,
+        location: NSUInteger,
+        range: NSRangePointer,
+        range_limit: NSRange,
+    ) -> Option<Id<Object>>;
+
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(
+        sel = "temporaryAttributesAtCharacterIndex:longestEffectiveRange:inRange:",
+        managed = "Other"
+    )]
+    pub unsafe fn temporaryAttributesAtCharacterIndex_longestEffectiveRange_inRange(
+        &self,
+        location: NSUInteger,
+        range: NSRangePointer,
+        range_limit: NSRange,
+    ) -> Id<NSDictionary<NSAttributedStringKey, Object>>;
+
+    #[objc2::method(sel = "addTemporaryAttribute:value:forCharacterRange:")]
+    pub unsafe fn addTemporaryAttribute_value_forCharacterRange(
+        &self,
+        attr_name: &NSAttributedStringKey,
+        value: &Object,
+        char_range: NSRange,
+    );
+
+    #[cfg(feature = "AppKit_NSFont")]
+    #[objc2::method(sel = "defaultLineHeightForFont:")]
+    pub unsafe fn defaultLineHeightForFont(&self, the_font: &NSFont) -> CGFloat;
+
+    #[cfg(feature = "AppKit_NSFont")]
+    #[objc2::method(sel = "defaultBaselineOffsetForFont:")]
+    pub unsafe fn defaultBaselineOffsetForFont(&self, the_font: &NSFont) -> CGFloat;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSLayoutManager")]
-    unsafe impl NSLayoutManager {
-        #[cfg(all(
-            feature = "AppKit_NSParagraphStyle",
-            feature = "AppKit_NSRulerMarker",
-            feature = "AppKit_NSRulerView",
-            feature = "AppKit_NSTextView",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other rulerMarkersForTextView:paragraphStyle:ruler:)]
-        pub unsafe fn rulerMarkersForTextView_paragraphStyle_ruler(
-            &self,
-            view: &NSTextView,
-            style: &NSParagraphStyle,
-            ruler: &NSRulerView,
-        ) -> Id<NSArray<NSRulerMarker>>;
+    pub type NSLayoutManager;
 
-        #[cfg(all(
-            feature = "AppKit_NSParagraphStyle",
-            feature = "AppKit_NSRulerView",
-            feature = "AppKit_NSTextView",
-            feature = "AppKit_NSView"
-        ))]
-        #[method_id(@__retain_semantics Other rulerAccessoryViewForTextView:paragraphStyle:ruler:enabled:)]
-        pub unsafe fn rulerAccessoryViewForTextView_paragraphStyle_ruler_enabled(
-            &self,
-            view: &NSTextView,
-            style: &NSParagraphStyle,
-            ruler: &NSRulerView,
-            is_enabled: bool,
-        ) -> Option<Id<NSView>>;
+    #[cfg(all(
+        feature = "AppKit_NSParagraphStyle",
+        feature = "AppKit_NSRulerMarker",
+        feature = "AppKit_NSRulerView",
+        feature = "AppKit_NSTextView",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(
+        sel = "rulerMarkersForTextView:paragraphStyle:ruler:",
+        managed = "Other"
+    )]
+    pub unsafe fn rulerMarkersForTextView_paragraphStyle_ruler(
+        &self,
+        view: &NSTextView,
+        style: &NSParagraphStyle,
+        ruler: &NSRulerView,
+    ) -> Id<NSArray<NSRulerMarker>>;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(layoutManagerOwnsFirstResponderInWindow:)]
-        pub unsafe fn layoutManagerOwnsFirstResponderInWindow(&self, window: &NSWindow) -> bool;
+    #[cfg(all(
+        feature = "AppKit_NSParagraphStyle",
+        feature = "AppKit_NSRulerView",
+        feature = "AppKit_NSTextView",
+        feature = "AppKit_NSView"
+    ))]
+    #[objc2::method(
+        sel = "rulerAccessoryViewForTextView:paragraphStyle:ruler:enabled:",
+        managed = "Other"
+    )]
+    pub unsafe fn rulerAccessoryViewForTextView_paragraphStyle_ruler_enabled(
+        &self,
+        view: &NSTextView,
+        style: &NSParagraphStyle,
+        ruler: &NSRulerView,
+        is_enabled: bool,
+    ) -> Option<Id<NSView>>;
 
-        #[cfg(feature = "AppKit_NSTextView")]
-        #[method_id(@__retain_semantics Other firstTextView)]
-        pub unsafe fn firstTextView(&self) -> Option<Id<NSTextView>>;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "layoutManagerOwnsFirstResponderInWindow:")]
+    pub unsafe fn layoutManagerOwnsFirstResponderInWindow(&self, window: &NSWindow) -> bool;
 
-        #[cfg(feature = "AppKit_NSTextView")]
-        #[method_id(@__retain_semantics Other textViewForBeginningOfSelection)]
-        pub unsafe fn textViewForBeginningOfSelection(&self) -> Option<Id<NSTextView>>;
-    }
-);
+    #[cfg(feature = "AppKit_NSTextView")]
+    #[objc2::method(sel = "firstTextView", managed = "Other")]
+    pub unsafe fn firstTextView(&self) -> Option<Id<NSTextView>>;
 
-extern_protocol!(
-    pub unsafe trait NSLayoutManagerDelegate: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSLayoutManager")]
-        #[optional]
-        #[method(layoutManager:lineSpacingAfterGlyphAtIndex:withProposedLineFragmentRect:)]
-        unsafe fn layoutManager_lineSpacingAfterGlyphAtIndex_withProposedLineFragmentRect(
-            &self,
-            layout_manager: &NSLayoutManager,
-            glyph_index: NSUInteger,
-            rect: NSRect,
-        ) -> CGFloat;
+    #[cfg(feature = "AppKit_NSTextView")]
+    #[objc2::method(sel = "textViewForBeginningOfSelection", managed = "Other")]
+    pub unsafe fn textViewForBeginningOfSelection(&self) -> Option<Id<NSTextView>>;
+}
 
-        #[cfg(feature = "AppKit_NSLayoutManager")]
-        #[optional]
-        #[method(layoutManager:paragraphSpacingBeforeGlyphAtIndex:withProposedLineFragmentRect:)]
-        unsafe fn layoutManager_paragraphSpacingBeforeGlyphAtIndex_withProposedLineFragmentRect(
-            &self,
-            layout_manager: &NSLayoutManager,
-            glyph_index: NSUInteger,
-            rect: NSRect,
-        ) -> CGFloat;
-
-        #[cfg(feature = "AppKit_NSLayoutManager")]
-        #[optional]
-        #[method(layoutManager:paragraphSpacingAfterGlyphAtIndex:withProposedLineFragmentRect:)]
-        unsafe fn layoutManager_paragraphSpacingAfterGlyphAtIndex_withProposedLineFragmentRect(
-            &self,
-            layout_manager: &NSLayoutManager,
-            glyph_index: NSUInteger,
-            rect: NSRect,
-        ) -> CGFloat;
-
-        #[cfg(feature = "AppKit_NSLayoutManager")]
-        #[optional]
-        #[method(layoutManager:shouldUseAction:forControlCharacterAtIndex:)]
-        unsafe fn layoutManager_shouldUseAction_forControlCharacterAtIndex(
-            &self,
-            layout_manager: &NSLayoutManager,
-            action: NSControlCharacterAction,
-            char_index: NSUInteger,
-        ) -> NSControlCharacterAction;
-
-        #[cfg(feature = "AppKit_NSLayoutManager")]
-        #[optional]
-        #[method(layoutManager:shouldBreakLineByWordBeforeCharacterAtIndex:)]
-        unsafe fn layoutManager_shouldBreakLineByWordBeforeCharacterAtIndex(
-            &self,
-            layout_manager: &NSLayoutManager,
-            char_index: NSUInteger,
-        ) -> bool;
-
-        #[cfg(feature = "AppKit_NSLayoutManager")]
-        #[optional]
-        #[method(layoutManager:shouldBreakLineByHyphenatingBeforeCharacterAtIndex:)]
-        unsafe fn layoutManager_shouldBreakLineByHyphenatingBeforeCharacterAtIndex(
-            &self,
-            layout_manager: &NSLayoutManager,
-            char_index: NSUInteger,
-        ) -> bool;
-
-        #[cfg(all(feature = "AppKit_NSLayoutManager", feature = "AppKit_NSTextContainer"))]
-        #[optional]
-        #[method(layoutManager:boundingBoxForControlGlyphAtIndex:forTextContainer:proposedLineFragment:glyphPosition:characterIndex:)]
-        unsafe fn layoutManager_boundingBoxForControlGlyphAtIndex_forTextContainer_proposedLineFragment_glyphPosition_characterIndex(
-            &self,
-            layout_manager: &NSLayoutManager,
-            glyph_index: NSUInteger,
-            text_container: &NSTextContainer,
-            proposed_rect: NSRect,
-            glyph_position: NSPoint,
-            char_index: NSUInteger,
-        ) -> NSRect;
-
-        #[cfg(all(feature = "AppKit_NSLayoutManager", feature = "AppKit_NSTextContainer"))]
-        #[optional]
-        #[method(layoutManager:shouldSetLineFragmentRect:lineFragmentUsedRect:baselineOffset:inTextContainer:forGlyphRange:)]
-        unsafe fn layoutManager_shouldSetLineFragmentRect_lineFragmentUsedRect_baselineOffset_inTextContainer_forGlyphRange(
-            &self,
-            layout_manager: &NSLayoutManager,
-            line_fragment_rect: NonNull<NSRect>,
-            line_fragment_used_rect: NonNull<NSRect>,
-            baseline_offset: NonNull<CGFloat>,
-            text_container: &NSTextContainer,
-            glyph_range: NSRange,
-        ) -> bool;
-
-        #[cfg(feature = "AppKit_NSLayoutManager")]
-        #[optional]
-        #[method(layoutManagerDidInvalidateLayout:)]
-        unsafe fn layoutManagerDidInvalidateLayout(&self, sender: &NSLayoutManager);
-
-        #[cfg(all(feature = "AppKit_NSLayoutManager", feature = "AppKit_NSTextContainer"))]
-        #[optional]
-        #[method(layoutManager:didCompleteLayoutForTextContainer:atEnd:)]
-        unsafe fn layoutManager_didCompleteLayoutForTextContainer_atEnd(
-            &self,
-            layout_manager: &NSLayoutManager,
-            text_container: Option<&NSTextContainer>,
-            layout_finished_flag: bool,
-        );
-
-        #[cfg(all(feature = "AppKit_NSLayoutManager", feature = "AppKit_NSTextContainer"))]
-        #[optional]
-        #[method(layoutManager:textContainer:didChangeGeometryFromSize:)]
-        unsafe fn layoutManager_textContainer_didChangeGeometryFromSize(
-            &self,
-            layout_manager: &NSLayoutManager,
-            text_container: &NSTextContainer,
-            old_size: NSSize,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSLayoutManager",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other layoutManager:shouldUseTemporaryAttributes:forDrawingToScreen:atCharacterIndex:effectiveRange:)]
-        unsafe fn layoutManager_shouldUseTemporaryAttributes_forDrawingToScreen_atCharacterIndex_effectiveRange(
-            &self,
-            layout_manager: &NSLayoutManager,
-            attrs: &NSDictionary<NSAttributedStringKey, Object>,
-            to_screen: bool,
-            char_index: NSUInteger,
-            effective_char_range: NSRangePointer,
-        ) -> Option<Id<NSDictionary<NSAttributedStringKey, Object>>>;
-    }
-
-    unsafe impl ProtocolType for dyn NSLayoutManagerDelegate {}
-);
-
-extern_enum!(
-    #[underlying(c_uint)]
-    #[deprecated = "Use NSGlyphProperty instead"]
-    pub enum __anonymous__ {
-        #[deprecated]
-        NSGlyphAttributeSoft = 0,
-        #[deprecated]
-        NSGlyphAttributeElastic = 1,
-        #[deprecated]
-        NSGlyphAttributeBidiLevel = 2,
-        #[deprecated]
-        NSGlyphAttributeInscribe = 5,
-    }
-);
-
-ns_enum!(
-    #[underlying(NSUInteger)]
-    #[deprecated = "Use NSGlyphProperty instead"]
-    pub enum NSGlyphInscription {
-        #[deprecated]
-        NSGlyphInscribeBase = 0,
-        #[deprecated]
-        NSGlyphInscribeBelow = 1,
-        #[deprecated]
-        NSGlyphInscribeAbove = 2,
-        #[deprecated]
-        NSGlyphInscribeOverstrike = 3,
-        #[deprecated]
-        NSGlyphInscribeOverBelow = 4,
-    }
-);
-
-extern_methods!(
-    /// NSLayoutManagerDeprecated
+#[objc2::protocol]
+pub unsafe trait NSLayoutManagerDelegate: NSObjectProtocol {
     #[cfg(feature = "AppKit_NSLayoutManager")]
-    unsafe impl NSLayoutManager {
-        #[method(glyphAtIndex:isValidIndex:)]
-        pub unsafe fn glyphAtIndex_isValidIndex(
-            &self,
-            glyph_index: NSUInteger,
-            is_valid_index: *mut Bool,
-        ) -> NSGlyph;
+    #[objc2::method(
+        optional,
+        sel = "layoutManager:lineSpacingAfterGlyphAtIndex:withProposedLineFragmentRect:"
+    )]
+    unsafe fn layoutManager_lineSpacingAfterGlyphAtIndex_withProposedLineFragmentRect(
+        &self,
+        layout_manager: &NSLayoutManager,
+        glyph_index: NSUInteger,
+        rect: NSRect,
+    ) -> CGFloat;
 
-        #[method(glyphAtIndex:)]
-        pub unsafe fn glyphAtIndex(&self, glyph_index: NSUInteger) -> NSGlyph;
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(rectArrayForCharacterRange:withinSelectedCharacterRange:inTextContainer:rectCount:)]
-        pub unsafe fn rectArrayForCharacterRange_withinSelectedCharacterRange_inTextContainer_rectCount(
-            &self,
-            char_range: NSRange,
-            sel_char_range: NSRange,
-            container: &NSTextContainer,
-            rect_count: NonNull<NSUInteger>,
-        ) -> NSRectArray;
-
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(rectArrayForGlyphRange:withinSelectedGlyphRange:inTextContainer:rectCount:)]
-        pub unsafe fn rectArrayForGlyphRange_withinSelectedGlyphRange_inTextContainer_rectCount(
-            &self,
-            glyph_range: NSRange,
-            sel_glyph_range: NSRange,
-            container: &NSTextContainer,
-            rect_count: NonNull<NSUInteger>,
-        ) -> NSRectArray;
-
-        #[deprecated]
-        #[method(usesScreenFonts)]
-        pub unsafe fn usesScreenFonts(&self) -> bool;
-
-        #[deprecated]
-        #[method(setUsesScreenFonts:)]
-        pub unsafe fn setUsesScreenFonts(&self, uses_screen_fonts: bool);
-
-        #[cfg(feature = "AppKit_NSFont")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other substituteFontForFont:)]
-        pub unsafe fn substituteFontForFont(&self, original_font: &NSFont) -> Id<NSFont>;
-
-        #[deprecated = "Use -setGlyphs:properties:characterIndexes:font:forGlyphRange instead"]
-        #[method(insertGlyphs:length:forStartingGlyphAtIndex:characterIndex:)]
-        pub unsafe fn insertGlyphs_length_forStartingGlyphAtIndex_characterIndex(
-            &self,
-            glyphs: NonNull<NSGlyph>,
-            length: NSUInteger,
-            glyph_index: NSUInteger,
-            char_index: NSUInteger,
-        );
-
-        #[deprecated = "Use -setGlyphs:properties:characterIndexes:font:forGlyphRange instead"]
-        #[method(insertGlyph:atGlyphIndex:characterIndex:)]
-        pub unsafe fn insertGlyph_atGlyphIndex_characterIndex(
-            &self,
-            glyph: NSGlyph,
-            glyph_index: NSUInteger,
-            char_index: NSUInteger,
-        );
-
-        #[deprecated = "Use -setGlyphs:properties:characterIndexes:font:forGlyphRange instead"]
-        #[method(replaceGlyphAtIndex:withGlyph:)]
-        pub unsafe fn replaceGlyphAtIndex_withGlyph(
-            &self,
-            glyph_index: NSUInteger,
-            new_glyph: NSGlyph,
-        );
-
-        #[deprecated = "Use -setGlyphs:properties:characterIndexes:font:forGlyphRange instead"]
-        #[method(deleteGlyphsInRange:)]
-        pub unsafe fn deleteGlyphsInRange(&self, glyph_range: NSRange);
-
-        #[deprecated = "Use -setGlyphs:properties:characterIndexes:font:forGlyphRange instead"]
-        #[method(setCharacterIndex:forGlyphAtIndex:)]
-        pub unsafe fn setCharacterIndex_forGlyphAtIndex(
-            &self,
-            char_index: NSUInteger,
-            glyph_index: NSUInteger,
-        );
-
-        #[deprecated = "Use -setGlyphs:properties:characterIndexes:font:forGlyphRange instead"]
-        #[method(setIntAttribute:value:forGlyphAtIndex:)]
-        pub unsafe fn setIntAttribute_value_forGlyphAtIndex(
-            &self,
-            attribute_tag: NSInteger,
-            val: NSInteger,
-            glyph_index: NSUInteger,
-        );
-
-        #[deprecated = "Use -setGlyphs:properties:characterIndexes:font:forGlyphRange instead"]
-        #[method(invalidateGlyphsOnLayoutInvalidationForGlyphRange:)]
-        pub unsafe fn invalidateGlyphsOnLayoutInvalidationForGlyphRange(
-            &self,
-            glyph_range: NSRange,
-        );
-
-        #[deprecated = "Use -getGlyphsInRange:glyphs:properties:characterIndexes:bidiLevels: instead"]
-        #[method(intAttribute:forGlyphAtIndex:)]
-        pub unsafe fn intAttribute_forGlyphAtIndex(
-            &self,
-            attribute_tag: NSInteger,
-            glyph_index: NSUInteger,
-        ) -> NSInteger;
-
-        #[deprecated = "Use -getGlyphsInRange:glyphs:properties:characterIndexes:bidiLevels: instead"]
-        #[method(getGlyphsInRange:glyphs:characterIndexes:glyphInscriptions:elasticBits:)]
-        pub unsafe fn getGlyphsInRange_glyphs_characterIndexes_glyphInscriptions_elasticBits(
-            &self,
-            glyph_range: NSRange,
-            glyph_buffer: *mut NSGlyph,
-            char_index_buffer: *mut NSUInteger,
-            inscribe_buffer: *mut NSGlyphInscription,
-            elastic_buffer: *mut Bool,
-        ) -> NSUInteger;
-
-        #[deprecated = "Use -getGlyphsInRange:glyphs:properties:characterIndexes:bidiLevels: instead"]
-        #[method(getGlyphsInRange:glyphs:characterIndexes:glyphInscriptions:elasticBits:bidiLevels:)]
-        pub unsafe fn getGlyphsInRange_glyphs_characterIndexes_glyphInscriptions_elasticBits_bidiLevels(
-            &self,
-            glyph_range: NSRange,
-            glyph_buffer: *mut NSGlyph,
-            char_index_buffer: *mut NSUInteger,
-            inscribe_buffer: *mut NSGlyphInscription,
-            elastic_buffer: *mut Bool,
-            bidi_level_buffer: *mut c_uchar,
-        ) -> NSUInteger;
-
-        #[deprecated = "Use -getGlyphsInRange:glyphs:properties:characterIndexes:bidiLevels: instead"]
-        #[method(getGlyphs:range:)]
-        pub unsafe fn getGlyphs_range(
-            &self,
-            glyph_array: *mut NSGlyph,
-            glyph_range: NSRange,
-        ) -> NSUInteger;
-
-        #[deprecated = "Use -invalidateLayoutForCharacterRange:actualCharacterRange: instead"]
-        #[method(invalidateLayoutForCharacterRange:isSoft:actualCharacterRange:)]
-        pub unsafe fn invalidateLayoutForCharacterRange_isSoft_actualCharacterRange(
-            &self,
-            char_range: NSRange,
-            flag: bool,
-            actual_char_range: NSRangePointer,
-        );
-
-        #[cfg(feature = "AppKit_NSTextStorage")]
-        #[deprecated = "Use -processEditingForTextStorage:edited:range:changeInLength:invalidatedRange: instead"]
-        #[method(textStorage:edited:range:changeInLength:invalidatedRange:)]
-        pub unsafe fn textStorage_edited_range_changeInLength_invalidatedRange(
-            &self,
-            str: &NSTextStorage,
-            edited_mask: NSTextStorageEditedOptions,
-            new_char_range: NSRange,
-            delta: NSInteger,
-            invalidated_char_range: NSRange,
-        );
-
-        #[deprecated = "Use -setLocation:forStartOfGlyphRange: instead"]
-        #[method(setLocations:startingGlyphIndexes:count:forGlyphRange:)]
-        pub unsafe fn setLocations_startingGlyphIndexes_count_forGlyphRange(
-            &self,
-            locations: NSPointArray,
-            glyph_indexes: NonNull<NSUInteger>,
-            count: NSUInteger,
-            glyph_range: NSRange,
-        );
-
-        #[cfg(all(feature = "AppKit_NSColor", feature = "AppKit_NSFont"))]
-        #[deprecated = "Use -showCGGlyphs:positions:count:font:matrix:attributes:inContext: instead"]
-        #[method(showPackedGlyphs:length:glyphRange:atPoint:font:color:printingAdjustment:)]
-        pub unsafe fn showPackedGlyphs_length_glyphRange_atPoint_font_color_printingAdjustment(
-            &self,
-            glyphs: NonNull<c_char>,
-            glyph_len: NSUInteger,
-            glyph_range: NSRange,
-            point: NSPoint,
-            font: &NSFont,
-            color: &NSColor,
-            printing_adjustment: NSSize,
-        );
-
-        #[deprecated = "Please use usesDefaultHyphenation or -[NSParagraphStyle hyphenationFactor] instead."]
-        #[method(hyphenationFactor)]
-        pub unsafe fn hyphenationFactor(&self) -> c_float;
-
-        #[deprecated = "Please use usesDefaultHyphenation or -[NSParagraphStyle hyphenationFactor] instead."]
-        #[method(setHyphenationFactor:)]
-        pub unsafe fn setHyphenationFactor(&self, hyphenation_factor: c_float);
-    }
-);
-
-extern_methods!(
-    /// NSGlyphGeneration
     #[cfg(feature = "AppKit_NSLayoutManager")]
-    unsafe impl NSLayoutManager {
-        #[cfg(feature = "AppKit_NSGlyphGenerator")]
-        #[method_id(@__retain_semantics Other glyphGenerator)]
-        pub unsafe fn glyphGenerator(&self) -> Id<NSGlyphGenerator>;
+    #[objc2::method(
+        optional,
+        sel = "layoutManager:paragraphSpacingBeforeGlyphAtIndex:withProposedLineFragmentRect:"
+    )]
+    unsafe fn layoutManager_paragraphSpacingBeforeGlyphAtIndex_withProposedLineFragmentRect(
+        &self,
+        layout_manager: &NSLayoutManager,
+        glyph_index: NSUInteger,
+        rect: NSRect,
+    ) -> CGFloat;
 
-        #[cfg(feature = "AppKit_NSGlyphGenerator")]
-        #[method(setGlyphGenerator:)]
-        pub unsafe fn setGlyphGenerator(&self, glyph_generator: &NSGlyphGenerator);
-    }
-);
+    #[cfg(feature = "AppKit_NSLayoutManager")]
+    #[objc2::method(
+        optional,
+        sel = "layoutManager:paragraphSpacingAfterGlyphAtIndex:withProposedLineFragmentRect:"
+    )]
+    unsafe fn layoutManager_paragraphSpacingAfterGlyphAtIndex_withProposedLineFragmentRect(
+        &self,
+        layout_manager: &NSLayoutManager,
+        glyph_index: NSUInteger,
+        rect: NSRect,
+    ) -> CGFloat;
+
+    #[cfg(feature = "AppKit_NSLayoutManager")]
+    #[objc2::method(
+        optional,
+        sel = "layoutManager:shouldUseAction:forControlCharacterAtIndex:"
+    )]
+    unsafe fn layoutManager_shouldUseAction_forControlCharacterAtIndex(
+        &self,
+        layout_manager: &NSLayoutManager,
+        action: NSControlCharacterAction,
+        char_index: NSUInteger,
+    ) -> NSControlCharacterAction;
+
+    #[cfg(feature = "AppKit_NSLayoutManager")]
+    #[objc2::method(
+        optional,
+        sel = "layoutManager:shouldBreakLineByWordBeforeCharacterAtIndex:"
+    )]
+    unsafe fn layoutManager_shouldBreakLineByWordBeforeCharacterAtIndex(
+        &self,
+        layout_manager: &NSLayoutManager,
+        char_index: NSUInteger,
+    ) -> bool;
+
+    #[cfg(feature = "AppKit_NSLayoutManager")]
+    #[objc2::method(
+        optional,
+        sel = "layoutManager:shouldBreakLineByHyphenatingBeforeCharacterAtIndex:"
+    )]
+    unsafe fn layoutManager_shouldBreakLineByHyphenatingBeforeCharacterAtIndex(
+        &self,
+        layout_manager: &NSLayoutManager,
+        char_index: NSUInteger,
+    ) -> bool;
+
+    #[cfg(all(feature = "AppKit_NSLayoutManager", feature = "AppKit_NSTextContainer"))]
+    #[objc2::method(
+        optional,
+        sel = "layoutManager:boundingBoxForControlGlyphAtIndex:forTextContainer:proposedLineFragment:glyphPosition:characterIndex:"
+    )]
+    unsafe fn layoutManager_boundingBoxForControlGlyphAtIndex_forTextContainer_proposedLineFragment_glyphPosition_characterIndex(
+        &self,
+        layout_manager: &NSLayoutManager,
+        glyph_index: NSUInteger,
+        text_container: &NSTextContainer,
+        proposed_rect: NSRect,
+        glyph_position: NSPoint,
+        char_index: NSUInteger,
+    ) -> NSRect;
+
+    #[cfg(all(feature = "AppKit_NSLayoutManager", feature = "AppKit_NSTextContainer"))]
+    #[objc2::method(
+        optional,
+        sel = "layoutManager:shouldSetLineFragmentRect:lineFragmentUsedRect:baselineOffset:inTextContainer:forGlyphRange:"
+    )]
+    unsafe fn layoutManager_shouldSetLineFragmentRect_lineFragmentUsedRect_baselineOffset_inTextContainer_forGlyphRange(
+        &self,
+        layout_manager: &NSLayoutManager,
+        line_fragment_rect: NonNull<NSRect>,
+        line_fragment_used_rect: NonNull<NSRect>,
+        baseline_offset: NonNull<CGFloat>,
+        text_container: &NSTextContainer,
+        glyph_range: NSRange,
+    ) -> bool;
+
+    #[cfg(feature = "AppKit_NSLayoutManager")]
+    #[objc2::method(optional, sel = "layoutManagerDidInvalidateLayout:")]
+    unsafe fn layoutManagerDidInvalidateLayout(&self, sender: &NSLayoutManager);
+
+    #[cfg(all(feature = "AppKit_NSLayoutManager", feature = "AppKit_NSTextContainer"))]
+    #[objc2::method(
+        optional,
+        sel = "layoutManager:didCompleteLayoutForTextContainer:atEnd:"
+    )]
+    unsafe fn layoutManager_didCompleteLayoutForTextContainer_atEnd(
+        &self,
+        layout_manager: &NSLayoutManager,
+        text_container: Option<&NSTextContainer>,
+        layout_finished_flag: bool,
+    );
+
+    #[cfg(all(feature = "AppKit_NSLayoutManager", feature = "AppKit_NSTextContainer"))]
+    #[objc2::method(
+        optional,
+        sel = "layoutManager:textContainer:didChangeGeometryFromSize:"
+    )]
+    unsafe fn layoutManager_textContainer_didChangeGeometryFromSize(
+        &self,
+        layout_manager: &NSLayoutManager,
+        text_container: &NSTextContainer,
+        old_size: NSSize,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSLayoutManager",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "layoutManager:shouldUseTemporaryAttributes:forDrawingToScreen:atCharacterIndex:effectiveRange:",
+        managed = "Other"
+    )]
+    unsafe fn layoutManager_shouldUseTemporaryAttributes_forDrawingToScreen_atCharacterIndex_effectiveRange(
+        &self,
+        layout_manager: &NSLayoutManager,
+        attrs: &NSDictionary<NSAttributedStringKey, Object>,
+        to_screen: bool,
+        char_index: NSUInteger,
+        effective_char_range: NSRangePointer,
+    ) -> Option<Id<NSDictionary<NSAttributedStringKey, Object>>>;
+}
+
+#[extern_enum]
+#[underlying(c_uint)]
+#[deprecated = "Use NSGlyphProperty instead"]
+pub enum __anonymous__ {
+    #[deprecated]
+    NSGlyphAttributeSoft = 0,
+    #[deprecated]
+    NSGlyphAttributeElastic = 1,
+    #[deprecated]
+    NSGlyphAttributeBidiLevel = 2,
+    #[deprecated]
+    NSGlyphAttributeInscribe = 5,
+}
+
+#[ns_enum]
+#[underlying(NSUInteger)]
+#[deprecated = "Use NSGlyphProperty instead"]
+pub enum NSGlyphInscription {
+    #[deprecated]
+    NSGlyphInscribeBase = 0,
+    #[deprecated]
+    NSGlyphInscribeBelow = 1,
+    #[deprecated]
+    NSGlyphInscribeAbove = 2,
+    #[deprecated]
+    NSGlyphInscribeOverstrike = 3,
+    #[deprecated]
+    NSGlyphInscribeOverBelow = 4,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSLayoutManager")]
+    pub type NSLayoutManager;
+
+    #[objc2::method(sel = "glyphAtIndex:isValidIndex:")]
+    pub unsafe fn glyphAtIndex_isValidIndex(
+        &self,
+        glyph_index: NSUInteger,
+        is_valid_index: *mut Bool,
+    ) -> NSGlyph;
+
+    #[objc2::method(sel = "glyphAtIndex:")]
+    pub unsafe fn glyphAtIndex(&self, glyph_index: NSUInteger) -> NSGlyph;
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(
+        sel = "rectArrayForCharacterRange:withinSelectedCharacterRange:inTextContainer:rectCount:"
+    )]
+    pub unsafe fn rectArrayForCharacterRange_withinSelectedCharacterRange_inTextContainer_rectCount(
+        &self,
+        char_range: NSRange,
+        sel_char_range: NSRange,
+        container: &NSTextContainer,
+        rect_count: NonNull<NSUInteger>,
+    ) -> NSRectArray;
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(
+        sel = "rectArrayForGlyphRange:withinSelectedGlyphRange:inTextContainer:rectCount:"
+    )]
+    pub unsafe fn rectArrayForGlyphRange_withinSelectedGlyphRange_inTextContainer_rectCount(
+        &self,
+        glyph_range: NSRange,
+        sel_glyph_range: NSRange,
+        container: &NSTextContainer,
+        rect_count: NonNull<NSUInteger>,
+    ) -> NSRectArray;
+
+    #[deprecated]
+    #[objc2::method(sel = "usesScreenFonts")]
+    pub unsafe fn usesScreenFonts(&self) -> bool;
+
+    #[deprecated]
+    #[objc2::method(sel = "setUsesScreenFonts:")]
+    pub unsafe fn setUsesScreenFonts(&self, uses_screen_fonts: bool);
+
+    #[cfg(feature = "AppKit_NSFont")]
+    #[deprecated]
+    #[objc2::method(sel = "substituteFontForFont:", managed = "Other")]
+    pub unsafe fn substituteFontForFont(&self, original_font: &NSFont) -> Id<NSFont>;
+
+    #[deprecated = "Use -setGlyphs:properties:characterIndexes:font:forGlyphRange instead"]
+    #[objc2::method(sel = "insertGlyphs:length:forStartingGlyphAtIndex:characterIndex:")]
+    pub unsafe fn insertGlyphs_length_forStartingGlyphAtIndex_characterIndex(
+        &self,
+        glyphs: NonNull<NSGlyph>,
+        length: NSUInteger,
+        glyph_index: NSUInteger,
+        char_index: NSUInteger,
+    );
+
+    #[deprecated = "Use -setGlyphs:properties:characterIndexes:font:forGlyphRange instead"]
+    #[objc2::method(sel = "insertGlyph:atGlyphIndex:characterIndex:")]
+    pub unsafe fn insertGlyph_atGlyphIndex_characterIndex(
+        &self,
+        glyph: NSGlyph,
+        glyph_index: NSUInteger,
+        char_index: NSUInteger,
+    );
+
+    #[deprecated = "Use -setGlyphs:properties:characterIndexes:font:forGlyphRange instead"]
+    #[objc2::method(sel = "replaceGlyphAtIndex:withGlyph:")]
+    pub unsafe fn replaceGlyphAtIndex_withGlyph(&self, glyph_index: NSUInteger, new_glyph: NSGlyph);
+
+    #[deprecated = "Use -setGlyphs:properties:characterIndexes:font:forGlyphRange instead"]
+    #[objc2::method(sel = "deleteGlyphsInRange:")]
+    pub unsafe fn deleteGlyphsInRange(&self, glyph_range: NSRange);
+
+    #[deprecated = "Use -setGlyphs:properties:characterIndexes:font:forGlyphRange instead"]
+    #[objc2::method(sel = "setCharacterIndex:forGlyphAtIndex:")]
+    pub unsafe fn setCharacterIndex_forGlyphAtIndex(
+        &self,
+        char_index: NSUInteger,
+        glyph_index: NSUInteger,
+    );
+
+    #[deprecated = "Use -setGlyphs:properties:characterIndexes:font:forGlyphRange instead"]
+    #[objc2::method(sel = "setIntAttribute:value:forGlyphAtIndex:")]
+    pub unsafe fn setIntAttribute_value_forGlyphAtIndex(
+        &self,
+        attribute_tag: NSInteger,
+        val: NSInteger,
+        glyph_index: NSUInteger,
+    );
+
+    #[deprecated = "Use -setGlyphs:properties:characterIndexes:font:forGlyphRange instead"]
+    #[objc2::method(sel = "invalidateGlyphsOnLayoutInvalidationForGlyphRange:")]
+    pub unsafe fn invalidateGlyphsOnLayoutInvalidationForGlyphRange(&self, glyph_range: NSRange);
+
+    #[deprecated = "Use -getGlyphsInRange:glyphs:properties:characterIndexes:bidiLevels: instead"]
+    #[objc2::method(sel = "intAttribute:forGlyphAtIndex:")]
+    pub unsafe fn intAttribute_forGlyphAtIndex(
+        &self,
+        attribute_tag: NSInteger,
+        glyph_index: NSUInteger,
+    ) -> NSInteger;
+
+    #[deprecated = "Use -getGlyphsInRange:glyphs:properties:characterIndexes:bidiLevels: instead"]
+    #[objc2::method(
+        sel = "getGlyphsInRange:glyphs:characterIndexes:glyphInscriptions:elasticBits:"
+    )]
+    pub unsafe fn getGlyphsInRange_glyphs_characterIndexes_glyphInscriptions_elasticBits(
+        &self,
+        glyph_range: NSRange,
+        glyph_buffer: *mut NSGlyph,
+        char_index_buffer: *mut NSUInteger,
+        inscribe_buffer: *mut NSGlyphInscription,
+        elastic_buffer: *mut Bool,
+    ) -> NSUInteger;
+
+    #[deprecated = "Use -getGlyphsInRange:glyphs:properties:characterIndexes:bidiLevels: instead"]
+    #[objc2::method(
+        sel = "getGlyphsInRange:glyphs:characterIndexes:glyphInscriptions:elasticBits:bidiLevels:"
+    )]
+    pub unsafe fn getGlyphsInRange_glyphs_characterIndexes_glyphInscriptions_elasticBits_bidiLevels(
+        &self,
+        glyph_range: NSRange,
+        glyph_buffer: *mut NSGlyph,
+        char_index_buffer: *mut NSUInteger,
+        inscribe_buffer: *mut NSGlyphInscription,
+        elastic_buffer: *mut Bool,
+        bidi_level_buffer: *mut c_uchar,
+    ) -> NSUInteger;
+
+    #[deprecated = "Use -getGlyphsInRange:glyphs:properties:characterIndexes:bidiLevels: instead"]
+    #[objc2::method(sel = "getGlyphs:range:")]
+    pub unsafe fn getGlyphs_range(
+        &self,
+        glyph_array: *mut NSGlyph,
+        glyph_range: NSRange,
+    ) -> NSUInteger;
+
+    #[deprecated = "Use -invalidateLayoutForCharacterRange:actualCharacterRange: instead"]
+    #[objc2::method(sel = "invalidateLayoutForCharacterRange:isSoft:actualCharacterRange:")]
+    pub unsafe fn invalidateLayoutForCharacterRange_isSoft_actualCharacterRange(
+        &self,
+        char_range: NSRange,
+        flag: bool,
+        actual_char_range: NSRangePointer,
+    );
+
+    #[cfg(feature = "AppKit_NSTextStorage")]
+    #[deprecated = "Use -processEditingForTextStorage:edited:range:changeInLength:invalidatedRange: instead"]
+    #[objc2::method(sel = "textStorage:edited:range:changeInLength:invalidatedRange:")]
+    pub unsafe fn textStorage_edited_range_changeInLength_invalidatedRange(
+        &self,
+        str: &NSTextStorage,
+        edited_mask: NSTextStorageEditedOptions,
+        new_char_range: NSRange,
+        delta: NSInteger,
+        invalidated_char_range: NSRange,
+    );
+
+    #[deprecated = "Use -setLocation:forStartOfGlyphRange: instead"]
+    #[objc2::method(sel = "setLocations:startingGlyphIndexes:count:forGlyphRange:")]
+    pub unsafe fn setLocations_startingGlyphIndexes_count_forGlyphRange(
+        &self,
+        locations: NSPointArray,
+        glyph_indexes: NonNull<NSUInteger>,
+        count: NSUInteger,
+        glyph_range: NSRange,
+    );
+
+    #[cfg(all(feature = "AppKit_NSColor", feature = "AppKit_NSFont"))]
+    #[deprecated = "Use -showCGGlyphs:positions:count:font:matrix:attributes:inContext: instead"]
+    #[objc2::method(
+        sel = "showPackedGlyphs:length:glyphRange:atPoint:font:color:printingAdjustment:"
+    )]
+    pub unsafe fn showPackedGlyphs_length_glyphRange_atPoint_font_color_printingAdjustment(
+        &self,
+        glyphs: NonNull<c_char>,
+        glyph_len: NSUInteger,
+        glyph_range: NSRange,
+        point: NSPoint,
+        font: &NSFont,
+        color: &NSColor,
+        printing_adjustment: NSSize,
+    );
+
+    #[deprecated = "Please use usesDefaultHyphenation or -[NSParagraphStyle hyphenationFactor] instead."]
+    #[objc2::method(sel = "hyphenationFactor")]
+    pub unsafe fn hyphenationFactor(&self) -> c_float;
+
+    #[deprecated = "Please use usesDefaultHyphenation or -[NSParagraphStyle hyphenationFactor] instead."]
+    #[objc2::method(sel = "setHyphenationFactor:")]
+    pub unsafe fn setHyphenationFactor(&self, hyphenation_factor: c_float);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSLayoutManager")]
+    pub type NSLayoutManager;
+
+    #[cfg(feature = "AppKit_NSGlyphGenerator")]
+    #[objc2::method(sel = "glyphGenerator", managed = "Other")]
+    pub unsafe fn glyphGenerator(&self) -> Id<NSGlyphGenerator>;
+
+    #[cfg(feature = "AppKit_NSGlyphGenerator")]
+    #[objc2::method(sel = "setGlyphGenerator:")]
+    pub unsafe fn setGlyphGenerator(&self, glyph_generator: &NSGlyphGenerator);
+}
 
 #[cfg(feature = "AppKit_NSLayoutManager")]
 unsafe impl NSGlyphStorage for NSLayoutManager {}

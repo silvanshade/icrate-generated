@@ -6,82 +6,76 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHFetchOptions")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHFetchOptions")]
-    pub struct PHFetchOptions;
-
-    #[cfg(feature = "PhotoKit_PHFetchOptions")]
-    unsafe impl ClassType for PHFetchOptions {
-        type Super = NSObject;
-    }
-);
+    pub type PHFetchOptions;
+}
 
 #[cfg(feature = "PhotoKit_PHFetchOptions")]
 unsafe impl NSObjectProtocol for PHFetchOptions {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHFetchOptions")]
-    unsafe impl PHFetchOptions {
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicate)]
-        pub unsafe fn predicate(&self) -> Option<Id<NSPredicate>>;
+    pub type PHFetchOptions;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method(setPredicate:)]
-        pub unsafe fn setPredicate(&self, predicate: Option<&NSPredicate>);
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "predicate", managed = "Other")]
+    pub unsafe fn predicate(&self) -> Option<Id<NSPredicate>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSSortDescriptor"
-        ))]
-        #[method_id(@__retain_semantics Other sortDescriptors)]
-        pub unsafe fn sortDescriptors(&self) -> Option<Id<NSArray<NSSortDescriptor>>>;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "setPredicate:")]
+    pub unsafe fn setPredicate(&self, predicate: Option<&NSPredicate>);
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSSortDescriptor"
-        ))]
-        #[method(setSortDescriptors:)]
-        pub unsafe fn setSortDescriptors(
-            &self,
-            sort_descriptors: Option<&NSArray<NSSortDescriptor>>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSSortDescriptor"
+    ))]
+    #[objc2::method(sel = "sortDescriptors", managed = "Other")]
+    pub unsafe fn sortDescriptors(&self) -> Option<Id<NSArray<NSSortDescriptor>>>;
 
-        #[method(includeHiddenAssets)]
-        pub unsafe fn includeHiddenAssets(&self) -> bool;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSSortDescriptor"
+    ))]
+    #[objc2::method(sel = "setSortDescriptors:")]
+    pub unsafe fn setSortDescriptors(&self, sort_descriptors: Option<&NSArray<NSSortDescriptor>>);
 
-        #[method(setIncludeHiddenAssets:)]
-        pub unsafe fn setIncludeHiddenAssets(&self, include_hidden_assets: bool);
+    #[objc2::method(sel = "includeHiddenAssets")]
+    pub unsafe fn includeHiddenAssets(&self) -> bool;
 
-        #[method(includeAllBurstAssets)]
-        pub unsafe fn includeAllBurstAssets(&self) -> bool;
+    #[objc2::method(sel = "setIncludeHiddenAssets:")]
+    pub unsafe fn setIncludeHiddenAssets(&self, include_hidden_assets: bool);
 
-        #[method(setIncludeAllBurstAssets:)]
-        pub unsafe fn setIncludeAllBurstAssets(&self, include_all_burst_assets: bool);
+    #[objc2::method(sel = "includeAllBurstAssets")]
+    pub unsafe fn includeAllBurstAssets(&self) -> bool;
 
-        #[method(includeAssetSourceTypes)]
-        pub unsafe fn includeAssetSourceTypes(&self) -> PHAssetSourceType;
+    #[objc2::method(sel = "setIncludeAllBurstAssets:")]
+    pub unsafe fn setIncludeAllBurstAssets(&self, include_all_burst_assets: bool);
 
-        #[method(setIncludeAssetSourceTypes:)]
-        pub unsafe fn setIncludeAssetSourceTypes(
-            &self,
-            include_asset_source_types: PHAssetSourceType,
-        );
+    #[objc2::method(sel = "includeAssetSourceTypes")]
+    pub unsafe fn includeAssetSourceTypes(&self) -> PHAssetSourceType;
 
-        #[method(fetchLimit)]
-        pub unsafe fn fetchLimit(&self) -> NSUInteger;
+    #[objc2::method(sel = "setIncludeAssetSourceTypes:")]
+    pub unsafe fn setIncludeAssetSourceTypes(&self, include_asset_source_types: PHAssetSourceType);
 
-        #[method(setFetchLimit:)]
-        pub unsafe fn setFetchLimit(&self, fetch_limit: NSUInteger);
+    #[objc2::method(sel = "fetchLimit")]
+    pub unsafe fn fetchLimit(&self) -> NSUInteger;
 
-        #[method(wantsIncrementalChangeDetails)]
-        pub unsafe fn wantsIncrementalChangeDetails(&self) -> bool;
+    #[objc2::method(sel = "setFetchLimit:")]
+    pub unsafe fn setFetchLimit(&self, fetch_limit: NSUInteger);
 
-        #[method(setWantsIncrementalChangeDetails:)]
-        pub unsafe fn setWantsIncrementalChangeDetails(
-            &self,
-            wants_incremental_change_details: bool,
-        );
-    }
-);
+    #[objc2::method(sel = "wantsIncrementalChangeDetails")]
+    pub unsafe fn wantsIncrementalChangeDetails(&self) -> bool;
+
+    #[objc2::method(sel = "setWantsIncrementalChangeDetails:")]
+    pub unsafe fn setWantsIncrementalChangeDetails(&self, wants_incremental_change_details: bool);
+}

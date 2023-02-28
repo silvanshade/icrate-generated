@@ -6,54 +6,57 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKLiveWorkoutDataSource")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKLiveWorkoutDataSource")]
-    pub struct HKLiveWorkoutDataSource;
-
-    #[cfg(feature = "HealthKit_HKLiveWorkoutDataSource")]
-    unsafe impl ClassType for HKLiveWorkoutDataSource {
-        type Super = NSObject;
-    }
-);
+    pub type HKLiveWorkoutDataSource;
+}
 
 #[cfg(feature = "HealthKit_HKLiveWorkoutDataSource")]
 unsafe impl NSObjectProtocol for HKLiveWorkoutDataSource {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKLiveWorkoutDataSource")]
-    unsafe impl HKLiveWorkoutDataSource {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type HKLiveWorkoutDataSource;
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "HealthKit_HKQuantityType"))]
-        #[method_id(@__retain_semantics Other typesToCollect)]
-        pub unsafe fn typesToCollect(&self) -> Id<NSSet<HKQuantityType>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "HealthKit_HKHealthStore",
-            feature = "HealthKit_HKWorkoutConfiguration"
-        ))]
-        #[method_id(@__retain_semantics Init initWithHealthStore:workoutConfiguration:)]
-        pub unsafe fn initWithHealthStore_workoutConfiguration(
-            this: Option<Allocated<Self>>,
-            health_store: &HKHealthStore,
-            configuration: Option<&HKWorkoutConfiguration>,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSSet", feature = "HealthKit_HKQuantityType"))]
+    #[objc2::method(sel = "typesToCollect", managed = "Other")]
+    pub unsafe fn typesToCollect(&self) -> Id<NSSet<HKQuantityType>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKQuantityType"
-        ))]
-        #[method(enableCollectionForType:predicate:)]
-        pub unsafe fn enableCollectionForType_predicate(
-            &self,
-            quantity_type: &HKQuantityType,
-            predicate: Option<&NSPredicate>,
-        );
+    #[cfg(all(
+        feature = "HealthKit_HKHealthStore",
+        feature = "HealthKit_HKWorkoutConfiguration"
+    ))]
+    #[objc2::method(sel = "initWithHealthStore:workoutConfiguration:", managed = "Init")]
+    pub unsafe fn initWithHealthStore_workoutConfiguration(
+        this: Option<Allocated<Self>>,
+        health_store: &HKHealthStore,
+        configuration: Option<&HKWorkoutConfiguration>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "HealthKit_HKQuantityType")]
-        #[method(disableCollectionForType:)]
-        pub unsafe fn disableCollectionForType(&self, quantity_type: &HKQuantityType);
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKQuantityType"
+    ))]
+    #[objc2::method(sel = "enableCollectionForType:predicate:")]
+    pub unsafe fn enableCollectionForType_predicate(
+        &self,
+        quantity_type: &HKQuantityType,
+        predicate: Option<&NSPredicate>,
+    );
+
+    #[cfg(feature = "HealthKit_HKQuantityType")]
+    #[objc2::method(sel = "disableCollectionForType:")]
+    pub unsafe fn disableCollectionForType(&self, quantity_type: &HKQuantityType);
+}

@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MXMetric,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXMemoryMetric")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXMemoryMetric")]
-    pub struct MXMemoryMetric;
-
-    #[cfg(feature = "MetricKit_MXMemoryMetric")]
-    unsafe impl ClassType for MXMemoryMetric {
-        #[inherits(NSObject)]
-        type Super = MXMetric;
-    }
-);
+    pub type MXMemoryMetric;
+}
 
 #[cfg(feature = "MetricKit_MXMemoryMetric")]
 unsafe impl NSCoding for MXMemoryMetric {}
@@ -25,21 +25,24 @@ unsafe impl NSObjectProtocol for MXMemoryMetric {}
 #[cfg(feature = "MetricKit_MXMemoryMetric")]
 unsafe impl NSSecureCoding for MXMemoryMetric {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXMemoryMetric")]
-    unsafe impl MXMemoryMetric {
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitInformationStorage"
-        ))]
-        #[method_id(@__retain_semantics Other peakMemoryUsage)]
-        pub unsafe fn peakMemoryUsage(&self) -> Id<NSMeasurement<NSUnitInformationStorage>>;
+    pub type MXMemoryMetric;
 
-        #[cfg(all(
-            feature = "Foundation_NSUnitInformationStorage",
-            feature = "MetricKit_MXAverage"
-        ))]
-        #[method_id(@__retain_semantics Other averageSuspendedMemory)]
-        pub unsafe fn averageSuspendedMemory(&self) -> Id<MXAverage<NSUnitInformationStorage>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitInformationStorage"
+    ))]
+    #[objc2::method(sel = "peakMemoryUsage", managed = "Other")]
+    pub unsafe fn peakMemoryUsage(&self) -> Id<NSMeasurement<NSUnitInformationStorage>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSUnitInformationStorage",
+        feature = "MetricKit_MXAverage"
+    ))]
+    #[objc2::method(sel = "averageSuspendedMemory", managed = "Other")]
+    pub unsafe fn averageSuspendedMemory(&self) -> Id<MXAverage<NSUnitInformationStorage>>;
+}

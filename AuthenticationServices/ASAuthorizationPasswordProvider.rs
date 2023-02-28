@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationPasswordProvider")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationPasswordProvider")]
-    pub struct ASAuthorizationPasswordProvider;
-
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationPasswordProvider")]
-    unsafe impl ClassType for ASAuthorizationPasswordProvider {
-        type Super = NSObject;
-    }
-);
+    pub type ASAuthorizationPasswordProvider;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationPasswordProvider")]
 unsafe impl ASAuthorizationProvider for ASAuthorizationPasswordProvider {}
@@ -21,11 +21,14 @@ unsafe impl ASAuthorizationProvider for ASAuthorizationPasswordProvider {}
 #[cfg(feature = "AuthenticationServices_ASAuthorizationPasswordProvider")]
 unsafe impl NSObjectProtocol for ASAuthorizationPasswordProvider {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAuthorizationPasswordProvider")]
-    unsafe impl ASAuthorizationPasswordProvider {
-        #[cfg(feature = "AuthenticationServices_ASAuthorizationPasswordRequest")]
-        #[method_id(@__retain_semantics Other createRequest)]
-        pub unsafe fn createRequest(&self) -> Id<ASAuthorizationPasswordRequest>;
-    }
-);
+    pub type ASAuthorizationPasswordProvider;
+
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationPasswordRequest")]
+    #[objc2::method(sel = "createRequest", managed = "Other")]
+    pub unsafe fn createRequest(&self) -> Id<ASAuthorizationPasswordRequest>;
+}

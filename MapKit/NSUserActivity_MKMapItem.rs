@@ -7,16 +7,18 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_methods!(
-    /// MKMapItem
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUserActivity")]
-    unsafe impl NSUserActivity {
-        #[cfg(feature = "MapKit_MKMapItem")]
-        #[method_id(@__retain_semantics Other mapItem)]
-        pub unsafe fn mapItem(&self) -> Option<Id<MKMapItem>>;
+    pub type NSUserActivity;
 
-        #[cfg(feature = "MapKit_MKMapItem")]
-        #[method(setMapItem:)]
-        pub unsafe fn setMapItem(&self, map_item: Option<&MKMapItem>);
-    }
-);
+    #[cfg(feature = "MapKit_MKMapItem")]
+    #[objc2::method(sel = "mapItem", managed = "Other")]
+    pub unsafe fn mapItem(&self) -> Option<Id<MKMapItem>>;
+
+    #[cfg(feature = "MapKit_MKMapItem")]
+    #[objc2::method(sel = "setMapItem:")]
+    pub unsafe fn setMapItem(&self, map_item: Option<&MKMapItem>);
+}

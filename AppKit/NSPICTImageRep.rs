@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSImageRep,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPICTImageRep")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPICTImageRep")]
-    pub struct NSPICTImageRep;
-
-    #[cfg(feature = "AppKit_NSPICTImageRep")]
-    unsafe impl ClassType for NSPICTImageRep {
-        #[inherits(NSObject)]
-        type Super = NSImageRep;
-    }
-);
+    pub type NSPICTImageRep;
+}
 
 #[cfg(feature = "AppKit_NSPICTImageRep")]
 unsafe impl NSCoding for NSPICTImageRep {}
@@ -23,25 +23,28 @@ unsafe impl NSCoding for NSPICTImageRep {}
 #[cfg(feature = "AppKit_NSPICTImageRep")]
 unsafe impl NSObjectProtocol for NSPICTImageRep {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPICTImageRep")]
-    unsafe impl NSPICTImageRep {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other imageRepWithData:)]
-        pub unsafe fn imageRepWithData(pict_data: &NSData) -> Option<Id<Self>>;
+    pub type NSPICTImageRep;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Init initWithData:)]
-        pub unsafe fn initWithData(
-            this: Option<Allocated<Self>>,
-            pict_data: &NSData,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "imageRepWithData:", managed = "Other")]
+    pub unsafe fn imageRepWithData(pict_data: &NSData) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other PICTRepresentation)]
-        pub unsafe fn PICTRepresentation(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "initWithData:", managed = "Init")]
+    pub unsafe fn initWithData(
+        this: Option<Allocated<Self>>,
+        pict_data: &NSData,
+    ) -> Option<Id<Self>>;
 
-        #[method(boundingBox)]
-        pub unsafe fn boundingBox(&self) -> NSRect;
-    }
-);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "PICTRepresentation", managed = "Other")]
+    pub unsafe fn PICTRepresentation(&self) -> Id<NSData>;
+
+    #[objc2::method(sel = "boundingBox")]
+    pub unsafe fn boundingBox(&self) -> NSRect;
+}

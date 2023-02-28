@@ -15,17 +15,17 @@ extern_static!(CKShareThumbnailImageDataKey: &'static CKRecordFieldKey);
 
 extern_static!(CKShareTypeKey: &'static CKRecordFieldKey);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CKRecord,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKShare")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKShare")]
-    pub struct CKShare;
-
-    #[cfg(feature = "CloudKit_CKShare")]
-    unsafe impl ClassType for CKShare {
-        #[inherits(NSObject)]
-        type Super = CKRecord;
-    }
-);
+    pub type CKShare;
+}
 
 #[cfg(feature = "CloudKit_CKShare")]
 unsafe impl NSCoding for CKShare {}
@@ -36,94 +36,96 @@ unsafe impl NSObjectProtocol for CKShare {}
 #[cfg(feature = "CloudKit_CKShare")]
 unsafe impl NSSecureCoding for CKShare {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKShare")]
-    unsafe impl CKShare {
-        #[method_id(@__retain_semantics Init initWithRootRecord:)]
-        pub unsafe fn initWithRootRecord(
-            this: Option<Allocated<Self>>,
-            root_record: &CKRecord,
-        ) -> Id<Self>;
+    pub type CKShare;
 
-        #[cfg(feature = "CloudKit_CKRecordID")]
-        #[method_id(@__retain_semantics Init initWithRootRecord:shareID:)]
-        pub unsafe fn initWithRootRecord_shareID(
-            this: Option<Allocated<Self>>,
-            root_record: &CKRecord,
-            share_id: &CKRecordID,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithRootRecord:", managed = "Init")]
+    pub unsafe fn initWithRootRecord(
+        this: Option<Allocated<Self>>,
+        root_record: &CKRecord,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKRecordZoneID")]
-        #[method_id(@__retain_semantics Init initWithRecordZoneID:)]
-        pub unsafe fn initWithRecordZoneID(
-            this: Option<Allocated<Self>>,
-            record_zone_id: &CKRecordZoneID,
-        ) -> Id<Self>;
+    #[cfg(feature = "CloudKit_CKRecordID")]
+    #[objc2::method(sel = "initWithRootRecord:shareID:", managed = "Init")]
+    pub unsafe fn initWithRootRecord_shareID(
+        this: Option<Allocated<Self>>,
+        root_record: &CKRecord,
+        share_id: &CKRecordID,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, a_decoder: &NSCoder)
-            -> Id<Self>;
+    #[cfg(feature = "CloudKit_CKRecordZoneID")]
+    #[objc2::method(sel = "initWithRecordZoneID:", managed = "Init")]
+    pub unsafe fn initWithRecordZoneID(
+        this: Option<Allocated<Self>>,
+        record_zone_id: &CKRecordZoneID,
+    ) -> Id<Self>;
 
-        #[method(publicPermission)]
-        pub unsafe fn publicPermission(&self) -> CKShareParticipantPermission;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, a_decoder: &NSCoder) -> Id<Self>;
 
-        #[method(setPublicPermission:)]
-        pub unsafe fn setPublicPermission(&self, public_permission: CKShareParticipantPermission);
+    #[objc2::method(sel = "publicPermission")]
+    pub unsafe fn publicPermission(&self) -> CKShareParticipantPermission;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
+    #[objc2::method(sel = "setPublicPermission:")]
+    pub unsafe fn setPublicPermission(&self, public_permission: CKShareParticipantPermission);
 
-        #[cfg(all(
-            feature = "CloudKit_CKShareParticipant",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other participants)]
-        pub unsafe fn participants(&self) -> Id<NSArray<CKShareParticipant>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "CloudKit_CKShareParticipant")]
-        #[method_id(@__retain_semantics Other owner)]
-        pub unsafe fn owner(&self) -> Id<CKShareParticipant>;
+    #[cfg(all(
+        feature = "CloudKit_CKShareParticipant",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "participants", managed = "Other")]
+    pub unsafe fn participants(&self) -> Id<NSArray<CKShareParticipant>>;
 
-        #[cfg(feature = "CloudKit_CKShareParticipant")]
-        #[method_id(@__retain_semantics Other currentUserParticipant)]
-        pub unsafe fn currentUserParticipant(&self) -> Option<Id<CKShareParticipant>>;
+    #[cfg(feature = "CloudKit_CKShareParticipant")]
+    #[objc2::method(sel = "owner", managed = "Other")]
+    pub unsafe fn owner(&self) -> Id<CKShareParticipant>;
 
-        #[cfg(feature = "CloudKit_CKShareParticipant")]
-        #[method(addParticipant:)]
-        pub unsafe fn addParticipant(&self, participant: &CKShareParticipant);
+    #[cfg(feature = "CloudKit_CKShareParticipant")]
+    #[objc2::method(sel = "currentUserParticipant", managed = "Other")]
+    pub unsafe fn currentUserParticipant(&self) -> Option<Id<CKShareParticipant>>;
 
-        #[cfg(feature = "CloudKit_CKShareParticipant")]
-        #[method(removeParticipant:)]
-        pub unsafe fn removeParticipant(&self, participant: &CKShareParticipant);
+    #[cfg(feature = "CloudKit_CKShareParticipant")]
+    #[objc2::method(sel = "addParticipant:")]
+    pub unsafe fn addParticipant(&self, participant: &CKShareParticipant);
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "CloudKit_CKShareParticipant")]
+    #[objc2::method(sel = "removeParticipant:")]
+    pub unsafe fn removeParticipant(&self, participant: &CKShareParticipant);
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithRecordType:)]
-        pub unsafe fn initWithRecordType(
-            this: Option<Allocated<Self>>,
-            record_type: &CKRecordType,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKRecordID")]
-        #[method_id(@__retain_semantics Init initWithRecordType:recordID:)]
-        pub unsafe fn initWithRecordType_recordID(
-            this: Option<Allocated<Self>>,
-            record_type: &CKRecordType,
-            record_id: &CKRecordID,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithRecordType:", managed = "Init")]
+    pub unsafe fn initWithRecordType(
+        this: Option<Allocated<Self>>,
+        record_type: &CKRecordType,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKRecordZoneID")]
-        #[method_id(@__retain_semantics Init initWithRecordType:zoneID:)]
-        pub unsafe fn initWithRecordType_zoneID(
-            this: Option<Allocated<Self>>,
-            record_type: &CKRecordType,
-            zone_id: &CKRecordZoneID,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "CloudKit_CKRecordID")]
+    #[objc2::method(sel = "initWithRecordType:recordID:", managed = "Init")]
+    pub unsafe fn initWithRecordType_recordID(
+        this: Option<Allocated<Self>>,
+        record_type: &CKRecordType,
+        record_id: &CKRecordID,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "CloudKit_CKRecordZoneID")]
+    #[objc2::method(sel = "initWithRecordType:zoneID:", managed = "Init")]
+    pub unsafe fn initWithRecordType_zoneID(
+        this: Option<Allocated<Self>>,
+        record_type: &CKRecordType,
+        zone_id: &CKRecordZoneID,
+    ) -> Id<Self>;
+}

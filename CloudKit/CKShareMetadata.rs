@@ -5,16 +5,16 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKShareMetadata")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKShareMetadata")]
-    pub struct CKShareMetadata;
-
-    #[cfg(feature = "CloudKit_CKShareMetadata")]
-    unsafe impl ClassType for CKShareMetadata {
-        type Super = NSObject;
-    }
-);
+    pub type CKShareMetadata;
+}
 
 #[cfg(feature = "CloudKit_CKShareMetadata")]
 unsafe impl NSCoding for CKShareMetadata {}
@@ -25,45 +25,48 @@ unsafe impl NSObjectProtocol for CKShareMetadata {}
 #[cfg(feature = "CloudKit_CKShareMetadata")]
 unsafe impl NSSecureCoding for CKShareMetadata {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKShareMetadata")]
-    unsafe impl CKShareMetadata {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other containerIdentifier)]
-        pub unsafe fn containerIdentifier(&self) -> Id<NSString>;
+    pub type CKShareMetadata;
 
-        #[cfg(feature = "CloudKit_CKShare")]
-        #[method_id(@__retain_semantics Other share)]
-        pub unsafe fn share(&self) -> Id<CKShare>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "containerIdentifier", managed = "Other")]
+    pub unsafe fn containerIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "CloudKit_CKRecordID")]
-        #[method_id(@__retain_semantics Other hierarchicalRootRecordID)]
-        pub unsafe fn hierarchicalRootRecordID(&self) -> Option<Id<CKRecordID>>;
+    #[cfg(feature = "CloudKit_CKShare")]
+    #[objc2::method(sel = "share", managed = "Other")]
+    pub unsafe fn share(&self) -> Id<CKShare>;
 
-        #[method(participantRole)]
-        pub unsafe fn participantRole(&self) -> CKShareParticipantRole;
+    #[cfg(feature = "CloudKit_CKRecordID")]
+    #[objc2::method(sel = "hierarchicalRootRecordID", managed = "Other")]
+    pub unsafe fn hierarchicalRootRecordID(&self) -> Option<Id<CKRecordID>>;
 
-        #[method(participantStatus)]
-        pub unsafe fn participantStatus(&self) -> CKShareParticipantAcceptanceStatus;
+    #[objc2::method(sel = "participantRole")]
+    pub unsafe fn participantRole(&self) -> CKShareParticipantRole;
 
-        #[method(participantPermission)]
-        pub unsafe fn participantPermission(&self) -> CKShareParticipantPermission;
+    #[objc2::method(sel = "participantStatus")]
+    pub unsafe fn participantStatus(&self) -> CKShareParticipantAcceptanceStatus;
 
-        #[cfg(feature = "CloudKit_CKUserIdentity")]
-        #[method_id(@__retain_semantics Other ownerIdentity)]
-        pub unsafe fn ownerIdentity(&self) -> Id<CKUserIdentity>;
+    #[objc2::method(sel = "participantPermission")]
+    pub unsafe fn participantPermission(&self) -> CKShareParticipantPermission;
 
-        #[cfg(feature = "CloudKit_CKRecord")]
-        #[method_id(@__retain_semantics Other rootRecord)]
-        pub unsafe fn rootRecord(&self) -> Option<Id<CKRecord>>;
+    #[cfg(feature = "CloudKit_CKUserIdentity")]
+    #[objc2::method(sel = "ownerIdentity", managed = "Other")]
+    pub unsafe fn ownerIdentity(&self) -> Id<CKUserIdentity>;
 
-        #[deprecated]
-        #[method(participantType)]
-        pub unsafe fn participantType(&self) -> CKShareParticipantType;
+    #[cfg(feature = "CloudKit_CKRecord")]
+    #[objc2::method(sel = "rootRecord", managed = "Other")]
+    pub unsafe fn rootRecord(&self) -> Option<Id<CKRecord>>;
 
-        #[cfg(feature = "CloudKit_CKRecordID")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other rootRecordID)]
-        pub unsafe fn rootRecordID(&self) -> Id<CKRecordID>;
-    }
-);
+    #[deprecated]
+    #[objc2::method(sel = "participantType")]
+    pub unsafe fn participantType(&self) -> CKShareParticipantType;
+
+    #[cfg(feature = "CloudKit_CKRecordID")]
+    #[deprecated]
+    #[objc2::method(sel = "rootRecordID", managed = "Other")]
+    pub unsafe fn rootRecordID(&self) -> Id<CKRecordID>;
+}

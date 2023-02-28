@@ -5,50 +5,55 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLOptionsCollection")]
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLOptionsCollection;
-
     #[cfg(feature = "WebKit_DOMHTMLOptionsCollection")]
-    unsafe impl ClassType for DOMHTMLOptionsCollection {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLOptionsCollection;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLOptionsCollection")]
 unsafe impl NSObjectProtocol for DOMHTMLOptionsCollection {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLOptionsCollection")]
-    unsafe impl DOMHTMLOptionsCollection {
-        #[method(selectedIndex)]
-        pub unsafe fn selectedIndex(&self) -> c_int;
+    #[deprecated]
+    pub type DOMHTMLOptionsCollection;
 
-        #[method(setSelectedIndex:)]
-        pub unsafe fn setSelectedIndex(&self, selected_index: c_int);
+    #[objc2::method(sel = "selectedIndex")]
+    pub unsafe fn selectedIndex(&self) -> c_int;
 
-        #[method(length)]
-        pub unsafe fn length(&self) -> c_uint;
+    #[objc2::method(sel = "setSelectedIndex:")]
+    pub unsafe fn setSelectedIndex(&self, selected_index: c_int);
 
-        #[method(setLength:)]
-        pub unsafe fn setLength(&self, length: c_uint);
+    #[objc2::method(sel = "length")]
+    pub unsafe fn length(&self) -> c_uint;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNode"))]
-        #[method_id(@__retain_semantics Other namedItem:)]
-        pub unsafe fn namedItem(&self, name: Option<&NSString>) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "setLength:")]
+    pub unsafe fn setLength(&self, length: c_uint);
 
-        #[cfg(feature = "WebKit_DOMHTMLOptionElement")]
-        #[method(add:index:)]
-        pub unsafe fn add_index(&self, option: Option<&DOMHTMLOptionElement>, index: c_uint);
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNode"))]
+    #[objc2::method(sel = "namedItem:", managed = "Other")]
+    pub unsafe fn namedItem(&self, name: Option<&NSString>) -> Option<Id<DOMNode>>;
 
-        #[method(remove:)]
-        pub unsafe fn remove(&self, index: c_uint);
+    #[cfg(feature = "WebKit_DOMHTMLOptionElement")]
+    #[objc2::method(sel = "add:index:")]
+    pub unsafe fn add_index(&self, option: Option<&DOMHTMLOptionElement>, index: c_uint);
 
-        #[cfg(feature = "WebKit_DOMNode")]
-        #[method_id(@__retain_semantics Other item:)]
-        pub unsafe fn item(&self, index: c_uint) -> Option<Id<DOMNode>>;
-    }
-);
+    #[objc2::method(sel = "remove:")]
+    pub unsafe fn remove(&self, index: c_uint);
+
+    #[cfg(feature = "WebKit_DOMNode")]
+    #[objc2::method(sel = "item:", managed = "Other")]
+    pub unsafe fn item(&self, index: c_uint) -> Option<Id<DOMNode>>;
+}

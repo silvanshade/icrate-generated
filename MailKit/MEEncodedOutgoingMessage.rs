@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MailKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MailKit_MEEncodedOutgoingMessage")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MailKit_MEEncodedOutgoingMessage")]
-    pub struct MEEncodedOutgoingMessage;
-
-    #[cfg(feature = "MailKit_MEEncodedOutgoingMessage")]
-    unsafe impl ClassType for MEEncodedOutgoingMessage {
-        type Super = NSObject;
-    }
-);
+    pub type MEEncodedOutgoingMessage;
+}
 
 #[cfg(feature = "MailKit_MEEncodedOutgoingMessage")]
 unsafe impl NSCoding for MEEncodedOutgoingMessage {}
@@ -25,26 +25,29 @@ unsafe impl NSObjectProtocol for MEEncodedOutgoingMessage {}
 #[cfg(feature = "MailKit_MEEncodedOutgoingMessage")]
 unsafe impl NSSecureCoding for MEEncodedOutgoingMessage {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MailKit_MEEncodedOutgoingMessage")]
-    unsafe impl MEEncodedOutgoingMessage {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Init initWithRawData:isSigned:isEncrypted:)]
-        pub unsafe fn initWithRawData_isSigned_isEncrypted(
-            this: Option<Allocated<Self>>,
-            raw_data: &NSData,
-            is_signed: bool,
-            is_encrypted: bool,
-        ) -> Id<Self>;
+    pub type MEEncodedOutgoingMessage;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other rawData)]
-        pub unsafe fn rawData(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "initWithRawData:isSigned:isEncrypted:", managed = "Init")]
+    pub unsafe fn initWithRawData_isSigned_isEncrypted(
+        this: Option<Allocated<Self>>,
+        raw_data: &NSData,
+        is_signed: bool,
+        is_encrypted: bool,
+    ) -> Id<Self>;
 
-        #[method(isSigned)]
-        pub unsafe fn isSigned(&self) -> bool;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "rawData", managed = "Other")]
+    pub unsafe fn rawData(&self) -> Id<NSData>;
 
-        #[method(isEncrypted)]
-        pub unsafe fn isEncrypted(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "isSigned")]
+    pub unsafe fn isSigned(&self) -> bool;
+
+    #[objc2::method(sel = "isEncrypted")]
+    pub unsafe fn isEncrypted(&self) -> bool;
+}

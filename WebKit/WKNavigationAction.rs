@@ -5,53 +5,55 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum WKNavigationType {
-        WKNavigationTypeLinkActivated = 0,
-        WKNavigationTypeFormSubmitted = 1,
-        WKNavigationTypeBackForward = 2,
-        WKNavigationTypeReload = 3,
-        WKNavigationTypeFormResubmitted = 4,
-        WKNavigationTypeOther = -1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum WKNavigationType {
+    WKNavigationTypeLinkActivated = 0,
+    WKNavigationTypeFormSubmitted = 1,
+    WKNavigationTypeBackForward = 2,
+    WKNavigationTypeReload = 3,
+    WKNavigationTypeFormResubmitted = 4,
+    WKNavigationTypeOther = -1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKNavigationAction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKNavigationAction")]
-    pub struct WKNavigationAction;
-
-    #[cfg(feature = "WebKit_WKNavigationAction")]
-    unsafe impl ClassType for WKNavigationAction {
-        type Super = NSObject;
-    }
-);
+    pub type WKNavigationAction;
+}
 
 #[cfg(feature = "WebKit_WKNavigationAction")]
 unsafe impl NSObjectProtocol for WKNavigationAction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKNavigationAction")]
-    unsafe impl WKNavigationAction {
-        #[cfg(feature = "WebKit_WKFrameInfo")]
-        #[method_id(@__retain_semantics Other targetFrame)]
-        pub unsafe fn targetFrame(&self) -> Option<Id<WKFrameInfo>>;
+    pub type WKNavigationAction;
 
-        #[method(navigationType)]
-        pub unsafe fn navigationType(&self) -> WKNavigationType;
+    #[cfg(feature = "WebKit_WKFrameInfo")]
+    #[objc2::method(sel = "targetFrame", managed = "Other")]
+    pub unsafe fn targetFrame(&self) -> Option<Id<WKFrameInfo>>;
 
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[method_id(@__retain_semantics Other request)]
-        pub unsafe fn request(&self) -> Id<NSURLRequest>;
+    #[objc2::method(sel = "navigationType")]
+    pub unsafe fn navigationType(&self) -> WKNavigationType;
 
-        #[method(shouldPerformDownload)]
-        pub unsafe fn shouldPerformDownload(&self) -> bool;
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[objc2::method(sel = "request", managed = "Other")]
+    pub unsafe fn request(&self) -> Id<NSURLRequest>;
 
-        #[method(modifierFlags)]
-        pub unsafe fn modifierFlags(&self) -> NSEventModifierFlags;
+    #[objc2::method(sel = "shouldPerformDownload")]
+    pub unsafe fn shouldPerformDownload(&self) -> bool;
 
-        #[method(buttonNumber)]
-        pub unsafe fn buttonNumber(&self) -> NSInteger;
-    }
-);
+    #[objc2::method(sel = "modifierFlags")]
+    pub unsafe fn modifierFlags(&self) -> NSEventModifierFlags;
+
+    #[objc2::method(sel = "buttonNumber")]
+    pub unsafe fn buttonNumber(&self) -> NSInteger;
+}

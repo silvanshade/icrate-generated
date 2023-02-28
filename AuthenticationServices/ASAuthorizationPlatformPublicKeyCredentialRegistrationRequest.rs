@@ -4,21 +4,19 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = ASAuthorizationRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(
+        feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest"
+    )]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(
-        feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest"
-    )]
-    pub struct ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest;
-
-    #[cfg(
-        feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest"
-    )]
-    unsafe impl ClassType for ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest {
-        #[inherits(NSObject)]
-        type Super = ASAuthorizationRequest;
-    }
-);
+    pub type ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest;
+}
 
 #[cfg(
     feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest"
@@ -43,15 +41,18 @@ unsafe impl NSObjectProtocol for ASAuthorizationPlatformPublicKeyCredentialRegis
 )]
 unsafe impl NSSecureCoding for ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(
         feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest"
     )]
-    unsafe impl ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest {
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    pub type ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

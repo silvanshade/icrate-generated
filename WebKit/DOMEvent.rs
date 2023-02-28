@@ -5,106 +5,112 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_enum!(
-    #[underlying(c_uint)]
+#[extern_enum]
+#[underlying(c_uint)]
+#[deprecated]
+pub enum __anonymous__ {
     #[deprecated]
-    pub enum __anonymous__ {
-        #[deprecated]
-        DOM_NONE = 0,
-        #[deprecated]
-        DOM_CAPTURING_PHASE = 1,
-        #[deprecated]
-        DOM_AT_TARGET = 2,
-        #[deprecated]
-        DOM_BUBBLING_PHASE = 3,
-    }
-);
+    DOM_NONE = 0,
+    #[deprecated]
+    DOM_CAPTURING_PHASE = 1,
+    #[deprecated]
+    DOM_AT_TARGET = 2,
+    #[deprecated]
+    DOM_BUBBLING_PHASE = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[deprecated]
+    #[cfg(feature = "WebKit_DOMEvent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMEvent")]
-    #[deprecated]
-    pub struct DOMEvent;
-
-    #[cfg(feature = "WebKit_DOMEvent")]
-    unsafe impl ClassType for DOMEvent {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    pub type DOMEvent;
+}
 
 #[cfg(feature = "WebKit_DOMEvent")]
 unsafe impl NSObjectProtocol for DOMEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMEvent")]
-    unsafe impl DOMEvent {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other type)]
-        pub unsafe fn r#type(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMEvent;
 
-        #[method_id(@__retain_semantics Other target)]
-        pub unsafe fn target(&self) -> Option<Id<ProtocolObject<dyn DOMEventTarget>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "type", managed = "Other")]
+    pub unsafe fn r#type(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Other currentTarget)]
-        pub unsafe fn currentTarget(&self) -> Option<Id<ProtocolObject<dyn DOMEventTarget>>>;
+    #[objc2::method(sel = "target", managed = "Other")]
+    pub unsafe fn target(&self) -> Option<Id<ProtocolObject<dyn DOMEventTarget>>>;
 
-        #[method(eventPhase)]
-        pub unsafe fn eventPhase(&self) -> c_ushort;
+    #[objc2::method(sel = "currentTarget", managed = "Other")]
+    pub unsafe fn currentTarget(&self) -> Option<Id<ProtocolObject<dyn DOMEventTarget>>>;
 
-        #[method(bubbles)]
-        pub unsafe fn bubbles(&self) -> bool;
+    #[objc2::method(sel = "eventPhase")]
+    pub unsafe fn eventPhase(&self) -> c_ushort;
 
-        #[method(cancelable)]
-        pub unsafe fn cancelable(&self) -> bool;
+    #[objc2::method(sel = "bubbles")]
+    pub unsafe fn bubbles(&self) -> bool;
 
-        #[method(timeStamp)]
-        pub unsafe fn timeStamp(&self) -> DOMTimeStamp;
+    #[objc2::method(sel = "cancelable")]
+    pub unsafe fn cancelable(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other srcElement)]
-        pub unsafe fn srcElement(&self) -> Option<Id<ProtocolObject<dyn DOMEventTarget>>>;
+    #[objc2::method(sel = "timeStamp")]
+    pub unsafe fn timeStamp(&self) -> DOMTimeStamp;
 
-        #[method(returnValue)]
-        pub unsafe fn returnValue(&self) -> bool;
+    #[objc2::method(sel = "srcElement", managed = "Other")]
+    pub unsafe fn srcElement(&self) -> Option<Id<ProtocolObject<dyn DOMEventTarget>>>;
 
-        #[method(setReturnValue:)]
-        pub unsafe fn setReturnValue(&self, return_value: bool);
+    #[objc2::method(sel = "returnValue")]
+    pub unsafe fn returnValue(&self) -> bool;
 
-        #[method(cancelBubble)]
-        pub unsafe fn cancelBubble(&self) -> bool;
+    #[objc2::method(sel = "setReturnValue:")]
+    pub unsafe fn setReturnValue(&self, return_value: bool);
 
-        #[method(setCancelBubble:)]
-        pub unsafe fn setCancelBubble(&self, cancel_bubble: bool);
+    #[objc2::method(sel = "cancelBubble")]
+    pub unsafe fn cancelBubble(&self) -> bool;
 
-        #[method(stopPropagation)]
-        pub unsafe fn stopPropagation(&self);
+    #[objc2::method(sel = "setCancelBubble:")]
+    pub unsafe fn setCancelBubble(&self, cancel_bubble: bool);
 
-        #[method(preventDefault)]
-        pub unsafe fn preventDefault(&self);
+    #[objc2::method(sel = "stopPropagation")]
+    pub unsafe fn stopPropagation(&self);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(initEvent:canBubbleArg:cancelableArg:)]
-        pub unsafe fn initEvent_canBubbleArg_cancelableArg(
-            &self,
-            event_type_arg: Option<&NSString>,
-            can_bubble_arg: bool,
-            cancelable_arg: bool,
-        );
-    }
-);
+    #[objc2::method(sel = "preventDefault")]
+    pub unsafe fn preventDefault(&self);
 
-extern_methods!(
-    /// DOMEventDeprecated
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initEvent:canBubbleArg:cancelableArg:")]
+    pub unsafe fn initEvent_canBubbleArg_cancelableArg(
+        &self,
+        event_type_arg: Option<&NSString>,
+        can_bubble_arg: bool,
+        cancelable_arg: bool,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMEvent")]
-    unsafe impl DOMEvent {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(initEvent:::)]
-        pub unsafe fn initEvent(
-            &self,
-            event_type_arg: Option<&NSString>,
-            can_bubble_arg: bool,
-            cancelable_arg: bool,
-        );
-    }
-);
+    pub type DOMEvent;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "initEvent:::")]
+    pub unsafe fn initEvent(
+        &self,
+        event_type_arg: Option<&NSString>,
+        can_bubble_arg: bool,
+        cancelable_arg: bool,
+    );
+}

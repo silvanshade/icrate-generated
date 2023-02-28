@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSMovie")]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct NSMovie;
-
     #[cfg(feature = "AppKit_NSMovie")]
-    unsafe impl ClassType for NSMovie {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type NSMovie;
+}
 
 #[cfg(feature = "AppKit_NSMovie")]
 unsafe impl NSCoding for NSMovie {}
@@ -23,18 +23,20 @@ unsafe impl NSCoding for NSMovie {}
 #[cfg(feature = "AppKit_NSMovie")]
 unsafe impl NSObjectProtocol for NSMovie {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSMovie")]
-    unsafe impl NSMovie {
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[deprecated]
+    pub type NSMovie;
 
-        #[deprecated = "As of macOS 10.15 this method always returns nil."]
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Option<Id<Self>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
+
+    #[deprecated = "As of macOS 10.15 this method always returns nil."]
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Option<Id<Self>>;
+}

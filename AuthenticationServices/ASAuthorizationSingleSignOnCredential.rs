@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnCredential")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnCredential")]
-    pub struct ASAuthorizationSingleSignOnCredential;
-
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnCredential")]
-    unsafe impl ClassType for ASAuthorizationSingleSignOnCredential {
-        type Super = NSObject;
-    }
-);
+    pub type ASAuthorizationSingleSignOnCredential;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnCredential")]
 unsafe impl ASAuthorizationCredential for ASAuthorizationSingleSignOnCredential {}
@@ -27,37 +27,40 @@ unsafe impl NSObjectProtocol for ASAuthorizationSingleSignOnCredential {}
 #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnCredential")]
 unsafe impl NSSecureCoding for ASAuthorizationSingleSignOnCredential {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnCredential")]
-    unsafe impl ASAuthorizationSingleSignOnCredential {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other state)]
-        pub unsafe fn state(&self) -> Option<Id<NSString>>;
+    pub type ASAuthorizationSingleSignOnCredential;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other accessToken)]
-        pub unsafe fn accessToken(&self) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "state", managed = "Other")]
+    pub unsafe fn state(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other identityToken)]
-        pub unsafe fn identityToken(&self) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "accessToken", managed = "Other")]
+    pub unsafe fn accessToken(&self) -> Option<Id<NSData>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other authorizedScopes)]
-        pub unsafe fn authorizedScopes(&self) -> Id<NSArray<ASAuthorizationScope>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "identityToken", managed = "Other")]
+    pub unsafe fn identityToken(&self) -> Option<Id<NSData>>;
 
-        #[cfg(feature = "Foundation_NSHTTPURLResponse")]
-        #[method_id(@__retain_semantics Other authenticatedResponse)]
-        pub unsafe fn authenticatedResponse(&self) -> Option<Id<NSHTTPURLResponse>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "authorizedScopes", managed = "Other")]
+    pub unsafe fn authorizedScopes(&self) -> Id<NSArray<ASAuthorizationScope>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other privateKeys)]
-        pub unsafe fn privateKeys(&self) -> Id<NSArray>;
+    #[cfg(feature = "Foundation_NSHTTPURLResponse")]
+    #[objc2::method(sel = "authenticatedResponse", managed = "Other")]
+    pub unsafe fn authenticatedResponse(&self) -> Option<Id<NSHTTPURLResponse>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "privateKeys", managed = "Other")]
+    pub unsafe fn privateKeys(&self) -> Id<NSArray>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

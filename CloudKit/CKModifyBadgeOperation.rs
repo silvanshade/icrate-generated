@@ -5,49 +5,54 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKModifyBadgeOperation")]
+#[objc2::interface(
+    unsafe super = CKOperation,
+    unsafe inherits = [
+        NSOperation,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated = "No longer supported, will cease working at some point in the future"]
-    pub struct CKModifyBadgeOperation;
-
     #[cfg(feature = "CloudKit_CKModifyBadgeOperation")]
-    unsafe impl ClassType for CKModifyBadgeOperation {
-        #[inherits(NSOperation, NSObject)]
-        type Super = CKOperation;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type CKModifyBadgeOperation;
+}
 
 #[cfg(feature = "CloudKit_CKModifyBadgeOperation")]
 unsafe impl NSObjectProtocol for CKModifyBadgeOperation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKModifyBadgeOperation")]
-    unsafe impl CKModifyBadgeOperation {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[deprecated = "No longer supported, will cease working at some point in the future"]
+    pub type CKModifyBadgeOperation;
 
-        #[method_id(@__retain_semantics Init initWithBadgeValue:)]
-        pub unsafe fn initWithBadgeValue(
-            this: Option<Allocated<Self>>,
-            badge_value: NSUInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(badgeValue)]
-        pub unsafe fn badgeValue(&self) -> NSUInteger;
+    #[objc2::method(sel = "initWithBadgeValue:", managed = "Init")]
+    pub unsafe fn initWithBadgeValue(
+        this: Option<Allocated<Self>>,
+        badge_value: NSUInteger,
+    ) -> Id<Self>;
 
-        #[method(setBadgeValue:)]
-        pub unsafe fn setBadgeValue(&self, badge_value: NSUInteger);
+    #[objc2::method(sel = "badgeValue")]
+    pub unsafe fn badgeValue(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(modifyBadgeCompletionBlock)]
-        pub unsafe fn modifyBadgeCompletionBlock(&self) -> *mut Block<(*mut NSError,), ()>;
+    #[objc2::method(sel = "setBadgeValue:")]
+    pub unsafe fn setBadgeValue(&self, badge_value: NSUInteger);
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(setModifyBadgeCompletionBlock:)]
-        pub unsafe fn setModifyBadgeCompletionBlock(
-            &self,
-            modify_badge_completion_block: Option<&Block<(*mut NSError,), ()>>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "modifyBadgeCompletionBlock")]
+    pub unsafe fn modifyBadgeCompletionBlock(&self) -> *mut Block<(*mut NSError,), ()>;
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "setModifyBadgeCompletionBlock:")]
+    pub unsafe fn setModifyBadgeCompletionBlock(
+        &self,
+        modify_badge_completion_block: Option<&Block<(*mut NSError,), ()>>,
+    );
+}

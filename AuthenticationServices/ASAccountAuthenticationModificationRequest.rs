@@ -4,21 +4,24 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationRequest")]
-    pub struct ASAccountAuthenticationModificationRequest;
-
-    #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationRequest")]
-    unsafe impl ClassType for ASAccountAuthenticationModificationRequest {
-        type Super = NSObject;
-    }
-);
+    pub type ASAccountAuthenticationModificationRequest;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationRequest")]
 unsafe impl NSObjectProtocol for ASAccountAuthenticationModificationRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationRequest")]
-    unsafe impl ASAccountAuthenticationModificationRequest {}
-);
+    pub type ASAccountAuthenticationModificationRequest;
+}

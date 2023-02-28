@@ -4,25 +4,24 @@ use crate::common::*;
 use crate::CallKit::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CXHandleType {
-        CXHandleTypeGeneric = 1,
-        CXHandleTypePhoneNumber = 2,
-        CXHandleTypeEmailAddress = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CXHandleType {
+    CXHandleTypeGeneric = 1,
+    CXHandleTypePhoneNumber = 2,
+    CXHandleTypeEmailAddress = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CallKit_CXHandle")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CallKit_CXHandle")]
-    pub struct CXHandle;
-
-    #[cfg(feature = "CallKit_CXHandle")]
-    unsafe impl ClassType for CXHandle {
-        type Super = NSObject;
-    }
-);
+    pub type CXHandle;
+}
 
 #[cfg(feature = "CallKit_CXHandle")]
 unsafe impl NSCoding for CXHandle {}
@@ -33,28 +32,31 @@ unsafe impl NSObjectProtocol for CXHandle {}
 #[cfg(feature = "CallKit_CXHandle")]
 unsafe impl NSSecureCoding for CXHandle {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CallKit_CXHandle")]
-    unsafe impl CXHandle {
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> CXHandleType;
+    pub type CXHandle;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other value)]
-        pub unsafe fn value(&self) -> Id<NSString>;
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> CXHandleType;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithType:value:)]
-        pub unsafe fn initWithType_value(
-            this: Option<Allocated<Self>>,
-            r#type: CXHandleType,
-            value: &NSString,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "value", managed = "Other")]
+    pub unsafe fn value(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithType:value:", managed = "Init")]
+    pub unsafe fn initWithType_value(
+        this: Option<Allocated<Self>>,
+        r#type: CXHandleType,
+        value: &NSString,
+    ) -> Id<Self>;
 
-        #[method(isEqualToHandle:)]
-        pub unsafe fn isEqualToHandle(&self, handle: &CXHandle) -> bool;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "isEqualToHandle:")]
+    pub unsafe fn isEqualToHandle(&self, handle: &CXHandle) -> bool;
+}

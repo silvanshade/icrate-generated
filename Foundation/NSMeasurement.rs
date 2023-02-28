@@ -3,21 +3,16 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-__inner_extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMeasurement")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSMeasurement")]
-    pub struct NSMeasurement<UnitType: Message = Object, UnitTypeOwnership: Ownership = Shared> {
-        _inner0: PhantomData<*mut (UnitType, UnitTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "Foundation_NSMeasurement")]
-    unsafe impl<UnitType: Message, UnitTypeOwnership: Ownership> ClassType
-        for NSMeasurement<UnitType, UnitTypeOwnership>
-    {
-        type Super = NSObject;
-    }
-);
+    pub type NSMeasurement<UnitType: Message = Object, UnitTypeOwnership: Ownership = Shared>;
+}
 
 #[cfg(feature = "Foundation_NSMeasurement")]
 unsafe impl<UnitType: Message, UnitTypeOwnership: Ownership> NSCoding
@@ -37,45 +32,46 @@ unsafe impl<UnitType: Message, UnitTypeOwnership: Ownership> NSSecureCoding
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMeasurement")]
-    unsafe impl<UnitType: Message, UnitTypeOwnership: Ownership>
-        NSMeasurement<UnitType, UnitTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Other unit)]
-        pub unsafe fn unit(&self) -> Id<UnitType, UnitTypeOwnership>;
+    pub type NSMeasurement<UnitType: Message = Object, UnitTypeOwnership: Ownership = Shared>;
 
-        #[method(doubleValue)]
-        pub unsafe fn doubleValue(&self) -> c_double;
+    #[objc2::method(sel = "unit", managed = "Other")]
+    pub unsafe fn unit(&self) -> Id<UnitType, UnitTypeOwnership>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "doubleValue")]
+    pub unsafe fn doubleValue(&self) -> c_double;
 
-        #[method_id(@__retain_semantics Init initWithDoubleValue:unit:)]
-        pub unsafe fn initWithDoubleValue_unit(
-            this: Option<Allocated<Self>>,
-            double_value: c_double,
-            unit: &UnitType,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSUnit")]
-        #[method(canBeConvertedToUnit:)]
-        pub unsafe fn canBeConvertedToUnit(&self, unit: &NSUnit) -> bool;
+    #[objc2::method(sel = "initWithDoubleValue:unit:", managed = "Init")]
+    pub unsafe fn initWithDoubleValue_unit(
+        this: Option<Allocated<Self>>,
+        double_value: c_double,
+        unit: &UnitType,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSUnit")]
-        #[method_id(@__retain_semantics Other measurementByConvertingToUnit:)]
-        pub unsafe fn measurementByConvertingToUnit(&self, unit: &NSUnit) -> Id<NSMeasurement>;
+    #[cfg(feature = "Foundation_NSUnit")]
+    #[objc2::method(sel = "canBeConvertedToUnit:")]
+    pub unsafe fn canBeConvertedToUnit(&self, unit: &NSUnit) -> bool;
 
-        #[method_id(@__retain_semantics Other measurementByAddingMeasurement:)]
-        pub unsafe fn measurementByAddingMeasurement(
-            &self,
-            measurement: &NSMeasurement<UnitType>,
-        ) -> Id<NSMeasurement<UnitType>>;
+    #[cfg(feature = "Foundation_NSUnit")]
+    #[objc2::method(sel = "measurementByConvertingToUnit:", managed = "Other")]
+    pub unsafe fn measurementByConvertingToUnit(&self, unit: &NSUnit) -> Id<NSMeasurement>;
 
-        #[method_id(@__retain_semantics Other measurementBySubtractingMeasurement:)]
-        pub unsafe fn measurementBySubtractingMeasurement(
-            &self,
-            measurement: &NSMeasurement<UnitType>,
-        ) -> Id<NSMeasurement<UnitType>>;
-    }
-);
+    #[objc2::method(sel = "measurementByAddingMeasurement:", managed = "Other")]
+    pub unsafe fn measurementByAddingMeasurement(
+        &self,
+        measurement: &NSMeasurement<UnitType>,
+    ) -> Id<NSMeasurement<UnitType>>;
+
+    #[objc2::method(sel = "measurementBySubtractingMeasurement:", managed = "Other")]
+    pub unsafe fn measurementBySubtractingMeasurement(
+        &self,
+        measurement: &NSMeasurement<UnitType>,
+    ) -> Id<NSMeasurement<UnitType>>;
+}

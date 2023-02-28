@@ -6,17 +6,17 @@ use crate::Automator::*;
 use crate::Foundation::*;
 use crate::OSAKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = AMAction,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Automator_AMBundleAction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Automator_AMBundleAction")]
-    pub struct AMBundleAction;
-
-    #[cfg(feature = "Automator_AMBundleAction")]
-    unsafe impl ClassType for AMBundleAction {
-        #[inherits(NSObject)]
-        type Super = AMAction;
-    }
-);
+    pub type AMBundleAction;
+}
 
 #[cfg(feature = "Automator_AMBundleAction")]
 unsafe impl NSCoding for AMBundleAction {}
@@ -27,60 +27,65 @@ unsafe impl NSObjectProtocol for AMBundleAction {}
 #[cfg(feature = "Automator_AMBundleAction")]
 unsafe impl NSSecureCoding for AMBundleAction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Automator_AMBundleAction")]
-    unsafe impl AMBundleAction {
-        #[method(awakeFromBundle)]
-        pub unsafe fn awakeFromBundle(&self);
+    pub type AMBundleAction;
 
-        #[method(hasView)]
-        pub unsafe fn hasView(&self) -> bool;
+    #[objc2::method(sel = "awakeFromBundle")]
+    pub unsafe fn awakeFromBundle(&self);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other view)]
-        pub unsafe fn view(&self) -> Option<Id<NSView>>;
+    #[objc2::method(sel = "hasView")]
+    pub unsafe fn hasView(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Other bundle)]
-        pub unsafe fn bundle(&self) -> Id<NSBundle>;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "view", managed = "Other")]
+    pub unsafe fn view(&self) -> Option<Id<NSView>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMutableDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other parameters)]
-        pub unsafe fn parameters(&self)
-            -> Option<Id<NSMutableDictionary<NSString, Object>, Owned>>;
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "bundle", managed = "Other")]
+    pub unsafe fn bundle(&self) -> Id<NSBundle>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMutableDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(setParameters:)]
-        pub unsafe fn setParameters(
-            &self,
-            parameters: Option<&NSMutableDictionary<NSString, Object>>,
-        );
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSMutableDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "parameters", managed = "Other")]
+    pub unsafe fn parameters(&self) -> Option<Id<NSMutableDictionary<NSString, Object>, Owned>>;
 
-extern_methods!(
-    /// Methods declared on superclass `AMAction`
+    #[cfg(all(
+        feature = "Foundation_NSMutableDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "setParameters:")]
+    pub unsafe fn setParameters(&self, parameters: Option<&NSMutableDictionary<NSString, Object>>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `AMAction`
     #[cfg(feature = "Automator_AMBundleAction")]
-    unsafe impl AMBundleAction {
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithDefinition:fromArchive:)]
-        pub unsafe fn initWithDefinition_fromArchive(
-            this: Option<Allocated<Self>>,
-            dict: Option<&NSDictionary<NSString, Object>>,
-            archived: bool,
-        ) -> Option<Id<Self>>;
-
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:error:_)]
-        pub unsafe fn initWithContentsOfURL_error(
-            this: Option<Allocated<Self>>,
-            file_url: &NSURL,
-        ) -> Result<Id<Self>, Id<NSError>>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Automator_AMBundleAction")]
+    pub type AMBundleAction;
+
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithDefinition:fromArchive:", managed = "Init")]
+    pub unsafe fn initWithDefinition_fromArchive(
+        this: Option<Allocated<Self>>,
+        dict: Option<&NSDictionary<NSString, Object>>,
+        archived: bool,
+    ) -> Option<Id<Self>>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "initWithContentsOfURL:error:", managed = "Init", throws)]
+    pub unsafe fn initWithContentsOfURL_error(
+        this: Option<Allocated<Self>>,
+        file_url: &NSURL,
+    ) -> Result<Id<Self>, Id<NSError>>;
+}

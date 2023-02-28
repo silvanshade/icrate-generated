@@ -5,17 +5,20 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSTextField,
+    unsafe inherits = [
+        NSControl,
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSecureTextField")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSSecureTextField")]
-    pub struct NSSecureTextField;
-
-    #[cfg(feature = "AppKit_NSSecureTextField")]
-    unsafe impl ClassType for NSSecureTextField {
-        #[inherits(NSControl, NSView, NSResponder, NSObject)]
-        type Super = NSTextField;
-    }
-);
+    pub type NSSecureTextField;
+}
 
 #[cfg(feature = "AppKit_NSSecureTextField")]
 unsafe impl NSAccessibility for NSSecureTextField {}
@@ -53,22 +56,27 @@ unsafe impl NSUserInterfaceItemIdentification for NSSecureTextField {}
 #[cfg(feature = "AppKit_NSSecureTextField")]
 unsafe impl NSUserInterfaceValidations for NSSecureTextField {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSecureTextField")]
-    unsafe impl NSSecureTextField {}
-);
+    pub type NSSecureTextField;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSTextFieldCell,
+    unsafe inherits = [
+        NSActionCell,
+        NSCell,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSecureTextFieldCell")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSSecureTextFieldCell")]
-    pub struct NSSecureTextFieldCell;
-
-    #[cfg(feature = "AppKit_NSSecureTextFieldCell")]
-    unsafe impl ClassType for NSSecureTextFieldCell {
-        #[inherits(NSActionCell, NSCell, NSObject)]
-        type Super = NSTextFieldCell;
-    }
-);
+    pub type NSSecureTextFieldCell;
+}
 
 #[cfg(feature = "AppKit_NSSecureTextFieldCell")]
 unsafe impl NSAccessibility for NSSecureTextFieldCell {}
@@ -85,65 +93,84 @@ unsafe impl NSObjectProtocol for NSSecureTextFieldCell {}
 #[cfg(feature = "AppKit_NSSecureTextFieldCell")]
 unsafe impl NSUserInterfaceItemIdentification for NSSecureTextFieldCell {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSecureTextFieldCell")]
-    unsafe impl NSSecureTextFieldCell {
-        #[method(echosBullets)]
-        pub unsafe fn echosBullets(&self) -> bool;
+    pub type NSSecureTextFieldCell;
 
-        #[method(setEchosBullets:)]
-        pub unsafe fn setEchosBullets(&self, echos_bullets: bool);
-    }
-);
+    #[objc2::method(sel = "echosBullets")]
+    pub unsafe fn echosBullets(&self) -> bool;
 
-extern_methods!(
-    /// Methods declared on superclass `NSTextField`
-    ///
-    /// NSTextFieldConvenience
+    #[objc2::method(sel = "setEchosBullets:")]
+    pub unsafe fn setEchosBullets(&self, echos_bullets: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSTextField`
+        ///
+        /// NSTextFieldConvenience
     #[cfg(feature = "AppKit_NSSecureTextField")]
-    unsafe impl NSSecureTextField {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other labelWithString:)]
-        pub unsafe fn labelWithString(string_value: &NSString) -> Id<Self>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other wrappingLabelWithString:)]
-        pub unsafe fn wrappingLabelWithString(string_value: &NSString) -> Id<Self>;
-
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other labelWithAttributedString:)]
-        pub unsafe fn labelWithAttributedString(
-            attributed_string_value: &NSAttributedString,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other textFieldWithString:)]
-        pub unsafe fn textFieldWithString(string_value: &NSString) -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSControl`
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSecureTextField")]
-    unsafe impl NSSecureTextField {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
-    }
-);
+    pub type NSSecureTextField;
 
-extern_methods!(
-    /// Methods declared on superclass `NSTextFieldCell`
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "labelWithString:", managed = "Other")]
+    pub unsafe fn labelWithString(string_value: &NSString) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "wrappingLabelWithString:", managed = "Other")]
+    pub unsafe fn wrappingLabelWithString(string_value: &NSString) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "labelWithAttributedString:", managed = "Other")]
+    pub unsafe fn labelWithAttributedString(
+        attributed_string_value: &NSAttributedString,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "textFieldWithString:", managed = "Other")]
+    pub unsafe fn textFieldWithString(string_value: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSControl`
+    #[cfg(feature = "AppKit_NSSecureTextField")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSecureTextField")]
+    pub type NSSecureTextField;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSTextFieldCell`
     #[cfg(feature = "AppKit_NSSecureTextFieldCell")]
-    unsafe impl NSSecureTextFieldCell {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initTextCell:)]
-        pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Init initImageCell:)]
-        pub unsafe fn initImageCell(
-            this: Option<Allocated<Self>>,
-            image: Option<&NSImage>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSecureTextFieldCell")]
+    pub type NSSecureTextFieldCell;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initTextCell:", managed = "Init")]
+    pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "initImageCell:", managed = "Init")]
+    pub unsafe fn initImageCell(this: Option<Allocated<Self>>, image: Option<&NSImage>)
+        -> Id<Self>;
+}

@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::BackgroundAssets::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = BADownload,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "BackgroundAssets_BAURLDownload")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "BackgroundAssets_BAURLDownload")]
-    pub struct BAURLDownload;
-
-    #[cfg(feature = "BackgroundAssets_BAURLDownload")]
-    unsafe impl ClassType for BAURLDownload {
-        #[inherits(NSObject)]
-        type Super = BADownload;
-    }
-);
+    pub type BAURLDownload;
+}
 
 #[cfg(feature = "BackgroundAssets_BAURLDownload")]
 unsafe impl NSCoding for BAURLDownload {}
@@ -25,32 +25,41 @@ unsafe impl NSObjectProtocol for BAURLDownload {}
 #[cfg(feature = "BackgroundAssets_BAURLDownload")]
 unsafe impl NSSecureCoding for BAURLDownload {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "BackgroundAssets_BAURLDownload")]
-    unsafe impl BAURLDownload {
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    pub type BAURLDownload;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURLRequest"))]
-        #[method_id(@__retain_semantics Init initWithIdentifier:request:applicationGroupIdentifier:)]
-        pub unsafe fn initWithIdentifier_request_applicationGroupIdentifier(
-            this: Option<Allocated<Self>>,
-            identifier: &NSString,
-            request: &NSURLRequest,
-            application_group_identifier: &NSString,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURLRequest"))]
-        #[method_id(@__retain_semantics Init initWithIdentifier:request:applicationGroupIdentifier:priority:)]
-        pub unsafe fn initWithIdentifier_request_applicationGroupIdentifier_priority(
-            this: Option<Allocated<Self>>,
-            identifier: &NSString,
-            request: &NSURLRequest,
-            application_group_identifier: &NSString,
-            priority: BADownloaderPriority,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURLRequest"))]
+    #[objc2::method(
+        sel = "initWithIdentifier:request:applicationGroupIdentifier:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithIdentifier_request_applicationGroupIdentifier(
+        this: Option<Allocated<Self>>,
+        identifier: &NSString,
+        request: &NSURLRequest,
+        application_group_identifier: &NSString,
+    ) -> Id<Self>;
+
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURLRequest"))]
+    #[objc2::method(
+        sel = "initWithIdentifier:request:applicationGroupIdentifier:priority:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithIdentifier_request_applicationGroupIdentifier_priority(
+        this: Option<Allocated<Self>>,
+        identifier: &NSString,
+        request: &NSURLRequest,
+        application_group_identifier: &NSString,
+        priority: BADownloaderPriority,
+    ) -> Id<Self>;
+}

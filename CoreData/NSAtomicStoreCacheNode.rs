@@ -4,59 +4,60 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSAtomicStoreCacheNode")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSAtomicStoreCacheNode")]
-    pub struct NSAtomicStoreCacheNode;
-
-    #[cfg(feature = "CoreData_NSAtomicStoreCacheNode")]
-    unsafe impl ClassType for NSAtomicStoreCacheNode {
-        type Super = NSObject;
-    }
-);
+    pub type NSAtomicStoreCacheNode;
+}
 
 #[cfg(feature = "CoreData_NSAtomicStoreCacheNode")]
 unsafe impl NSObjectProtocol for NSAtomicStoreCacheNode {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSAtomicStoreCacheNode")]
-    unsafe impl NSAtomicStoreCacheNode {
-        #[cfg(feature = "CoreData_NSManagedObjectID")]
-        #[method_id(@__retain_semantics Init initWithObjectID:)]
-        pub unsafe fn initWithObjectID(
-            this: Option<Allocated<Self>>,
-            moid: &NSManagedObjectID,
-        ) -> Id<Self>;
+    pub type NSAtomicStoreCacheNode;
 
-        #[cfg(feature = "CoreData_NSManagedObjectID")]
-        #[method_id(@__retain_semantics Other objectID)]
-        pub unsafe fn objectID(&self) -> Id<NSManagedObjectID>;
+    #[cfg(feature = "CoreData_NSManagedObjectID")]
+    #[objc2::method(sel = "initWithObjectID:", managed = "Init")]
+    pub unsafe fn initWithObjectID(
+        this: Option<Allocated<Self>>,
+        moid: &NSManagedObjectID,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMutableDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other propertyCache)]
-        pub unsafe fn propertyCache(
-            &self,
-        ) -> Option<Id<NSMutableDictionary<NSString, Object>, Owned>>;
+    #[cfg(feature = "CoreData_NSManagedObjectID")]
+    #[objc2::method(sel = "objectID", managed = "Other")]
+    pub unsafe fn objectID(&self) -> Id<NSManagedObjectID>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMutableDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(setPropertyCache:)]
-        pub unsafe fn setPropertyCache(
-            &self,
-            property_cache: Option<&NSMutableDictionary<NSString, Object>>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSMutableDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "propertyCache", managed = "Other")]
+    pub unsafe fn propertyCache(&self) -> Option<Id<NSMutableDictionary<NSString, Object>, Owned>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other valueForKey:)]
-        pub unsafe fn valueForKey(&self, key: &NSString) -> Option<Id<Object>>;
+    #[cfg(all(
+        feature = "Foundation_NSMutableDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "setPropertyCache:")]
+    pub unsafe fn setPropertyCache(
+        &self,
+        property_cache: Option<&NSMutableDictionary<NSString, Object>>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setValue:forKey:)]
-        pub unsafe fn setValue_forKey(&self, value: Option<&Object>, key: &NSString);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "valueForKey:", managed = "Other")]
+    pub unsafe fn valueForKey(&self, key: &NSString) -> Option<Id<Object>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setValue:forKey:")]
+    pub unsafe fn setValue_forKey(&self, value: Option<&Object>, key: &NSString);
+}

@@ -4,29 +4,28 @@ use crate::common::*;
 use crate::ClassKit::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CLSContextType {
-        CLSContextTypeNone = 0,
-        CLSContextTypeApp = 1,
-        CLSContextTypeChapter = 2,
-        CLSContextTypeSection = 3,
-        CLSContextTypeLevel = 4,
-        CLSContextTypePage = 5,
-        CLSContextTypeTask = 6,
-        CLSContextTypeChallenge = 7,
-        CLSContextTypeQuiz = 8,
-        CLSContextTypeExercise = 9,
-        CLSContextTypeLesson = 10,
-        CLSContextTypeBook = 11,
-        CLSContextTypeGame = 12,
-        CLSContextTypeDocument = 13,
-        CLSContextTypeAudio = 14,
-        CLSContextTypeVideo = 15,
-        CLSContextTypeCourse = 16,
-        CLSContextTypeCustom = 17,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CLSContextType {
+    CLSContextTypeNone = 0,
+    CLSContextTypeApp = 1,
+    CLSContextTypeChapter = 2,
+    CLSContextTypeSection = 3,
+    CLSContextTypeLevel = 4,
+    CLSContextTypePage = 5,
+    CLSContextTypeTask = 6,
+    CLSContextTypeChallenge = 7,
+    CLSContextTypeQuiz = 8,
+    CLSContextTypeExercise = 9,
+    CLSContextTypeLesson = 10,
+    CLSContextTypeBook = 11,
+    CLSContextTypeGame = 12,
+    CLSContextTypeDocument = 13,
+    CLSContextTypeAudio = 14,
+    CLSContextTypeVideo = 15,
+    CLSContextTypeCourse = 16,
+    CLSContextTypeCustom = 17,
+}
 
 typed_enum!(
     pub type CLSContextTopic = NSString;
@@ -48,17 +47,17 @@ extern_static!(CLSContextTopicArtsAndMusic: &'static CLSContextTopic);
 
 extern_static!(CLSContextTopicHealthAndFitness: &'static CLSContextTopic);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CLSObject,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "ClassKit_CLSContext")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "ClassKit_CLSContext")]
-    pub struct CLSContext;
-
-    #[cfg(feature = "ClassKit_CLSContext")]
-    unsafe impl ClassType for CLSContext {
-        #[inherits(NSObject)]
-        type Super = CLSObject;
-    }
-);
+    pub type CLSContext;
+}
 
 #[cfg(feature = "ClassKit_CLSContext")]
 unsafe impl NSCoding for CLSContext {}
@@ -69,166 +68,170 @@ unsafe impl NSObjectProtocol for CLSContext {}
 #[cfg(feature = "ClassKit_CLSContext")]
 unsafe impl NSSecureCoding for CLSContext {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ClassKit_CLSContext")]
-    unsafe impl CLSContext {
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    pub type CLSContext;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other identifierPath)]
-        pub unsafe fn identifierPath(&self) -> Id<NSArray<NSString>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "identifierPath", managed = "Other")]
+    pub unsafe fn identifierPath(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other universalLinkURL)]
-        pub unsafe fn universalLinkURL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setUniversalLinkURL:)]
-        pub unsafe fn setUniversalLinkURL(&self, universal_link_url: Option<&NSURL>);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "universalLinkURL", managed = "Other")]
+    pub unsafe fn universalLinkURL(&self) -> Option<Id<NSURL>>;
 
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> CLSContextType;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setUniversalLinkURL:")]
+    pub unsafe fn setUniversalLinkURL(&self, universal_link_url: Option<&NSURL>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other customTypeName)]
-        pub unsafe fn customTypeName(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> CLSContextType;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCustomTypeName:)]
-        pub unsafe fn setCustomTypeName(&self, custom_type_name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "customTypeName", managed = "Other")]
+    pub unsafe fn customTypeName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCustomTypeName:")]
+    pub unsafe fn setCustomTypeName(&self, custom_type_name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[method(displayOrder)]
-        pub unsafe fn displayOrder(&self) -> NSInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
 
-        #[method(setDisplayOrder:)]
-        pub unsafe fn setDisplayOrder(&self, display_order: NSInteger);
+    #[objc2::method(sel = "displayOrder")]
+    pub unsafe fn displayOrder(&self) -> NSInteger;
 
-        #[method_id(@__retain_semantics Other topic)]
-        pub unsafe fn topic(&self) -> Option<Id<CLSContextTopic>>;
+    #[objc2::method(sel = "setDisplayOrder:")]
+    pub unsafe fn setDisplayOrder(&self, display_order: NSInteger);
 
-        #[method(setTopic:)]
-        pub unsafe fn setTopic(&self, topic: Option<&CLSContextTopic>);
+    #[objc2::method(sel = "topic", managed = "Other")]
+    pub unsafe fn topic(&self) -> Option<Id<CLSContextTopic>>;
 
-        #[method(isAssignable)]
-        pub unsafe fn isAssignable(&self) -> bool;
+    #[objc2::method(sel = "setTopic:")]
+    pub unsafe fn setTopic(&self, topic: Option<&CLSContextTopic>);
 
-        #[method(setAssignable:)]
-        pub unsafe fn setAssignable(&self, assignable: bool);
+    #[objc2::method(sel = "isAssignable")]
+    pub unsafe fn isAssignable(&self) -> bool;
 
-        #[method(suggestedAge)]
-        pub unsafe fn suggestedAge(&self) -> NSRange;
+    #[objc2::method(sel = "setAssignable:")]
+    pub unsafe fn setAssignable(&self, assignable: bool);
 
-        #[method(setSuggestedAge:)]
-        pub unsafe fn setSuggestedAge(&self, suggested_age: NSRange);
+    #[objc2::method(sel = "suggestedAge")]
+    pub unsafe fn suggestedAge(&self) -> NSRange;
 
-        #[method(suggestedCompletionTime)]
-        pub unsafe fn suggestedCompletionTime(&self) -> NSRange;
+    #[objc2::method(sel = "setSuggestedAge:")]
+    pub unsafe fn setSuggestedAge(&self, suggested_age: NSRange);
 
-        #[method(setSuggestedCompletionTime:)]
-        pub unsafe fn setSuggestedCompletionTime(&self, suggested_completion_time: NSRange);
+    #[objc2::method(sel = "suggestedCompletionTime")]
+    pub unsafe fn suggestedCompletionTime(&self) -> NSRange;
 
-        #[cfg(all(
-            feature = "ClassKit_CLSProgressReportingCapability",
-            feature = "Foundation_NSSet"
-        ))]
-        #[method_id(@__retain_semantics Other progressReportingCapabilities)]
-        pub unsafe fn progressReportingCapabilities(
-            &self,
-        ) -> Id<NSSet<CLSProgressReportingCapability>>;
+    #[objc2::method(sel = "setSuggestedCompletionTime:")]
+    pub unsafe fn setSuggestedCompletionTime(&self, suggested_completion_time: NSRange);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other summary)]
-        pub unsafe fn summary(&self) -> Option<Id<NSString>>;
+    #[cfg(all(
+        feature = "ClassKit_CLSProgressReportingCapability",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(sel = "progressReportingCapabilities", managed = "Other")]
+    pub unsafe fn progressReportingCapabilities(&self)
+        -> Id<NSSet<CLSProgressReportingCapability>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSummary:)]
-        pub unsafe fn setSummary(&self, summary: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "summary", managed = "Other")]
+    pub unsafe fn summary(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithType:identifier:title:)]
-        pub unsafe fn initWithType_identifier_title(
-            this: Option<Allocated<Self>>,
-            r#type: CLSContextType,
-            identifier: &NSString,
-            title: &NSString,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSummary:")]
+    pub unsafe fn setSummary(&self, summary: Option<&NSString>);
 
-        #[method(isActive)]
-        pub unsafe fn isActive(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithType:identifier:title:", managed = "Init")]
+    pub unsafe fn initWithType_identifier_title(
+        this: Option<Allocated<Self>>,
+        r#type: CLSContextType,
+        identifier: &NSString,
+        title: &NSString,
+    ) -> Id<Self>;
 
-        #[method(becomeActive)]
-        pub unsafe fn becomeActive(&self);
+    #[objc2::method(sel = "isActive")]
+    pub unsafe fn isActive(&self) -> bool;
 
-        #[method(resignActive)]
-        pub unsafe fn resignActive(&self);
+    #[objc2::method(sel = "becomeActive")]
+    pub unsafe fn becomeActive(&self);
 
-        #[method(setType:)]
-        pub unsafe fn setType(&self, r#type: CLSContextType);
+    #[objc2::method(sel = "resignActive")]
+    pub unsafe fn resignActive(&self);
 
-        #[cfg(all(
-            feature = "ClassKit_CLSProgressReportingCapability",
-            feature = "Foundation_NSSet"
-        ))]
-        #[method(addProgressReportingCapabilities:)]
-        pub unsafe fn addProgressReportingCapabilities(
-            &self,
-            capabilities: &NSSet<CLSProgressReportingCapability>,
-        );
+    #[objc2::method(sel = "setType:")]
+    pub unsafe fn setType(&self, r#type: CLSContextType);
 
-        #[method(resetProgressReportingCapabilities)]
-        pub unsafe fn resetProgressReportingCapabilities(&self);
-    }
-);
+    #[cfg(all(
+        feature = "ClassKit_CLSProgressReportingCapability",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(sel = "addProgressReportingCapabilities:")]
+    pub unsafe fn addProgressReportingCapabilities(
+        &self,
+        capabilities: &NSSet<CLSProgressReportingCapability>,
+    );
 
-extern_methods!(
-    /// Hierarchy
+    #[objc2::method(sel = "resetProgressReportingCapabilities")]
+    pub unsafe fn resetProgressReportingCapabilities(&self);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ClassKit_CLSContext")]
-    unsafe impl CLSContext {
-        #[method_id(@__retain_semantics Other parent)]
-        pub unsafe fn parent(&self) -> Option<Id<CLSContext>>;
+    pub type CLSContext;
 
-        #[method(removeFromParent)]
-        pub unsafe fn removeFromParent(&self);
+    #[objc2::method(sel = "parent", managed = "Other")]
+    pub unsafe fn parent(&self) -> Option<Id<CLSContext>>;
 
-        #[method(addChildContext:)]
-        pub unsafe fn addChildContext(&self, child: &CLSContext);
+    #[objc2::method(sel = "removeFromParent")]
+    pub unsafe fn removeFromParent(&self);
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(descendantMatchingIdentifierPath:completion:)]
-        pub unsafe fn descendantMatchingIdentifierPath_completion(
-            &self,
-            identifier_path: &NSArray<NSString>,
-            completion: &Block<(*mut CLSContext, *mut NSError), ()>,
-        );
+    #[objc2::method(sel = "addChildContext:")]
+    pub unsafe fn addChildContext(&self, child: &CLSContext);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other navigationChildContexts)]
-        pub unsafe fn navigationChildContexts(&self) -> Id<NSArray<CLSContext>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "descendantMatchingIdentifierPath:completion:")]
+    pub unsafe fn descendantMatchingIdentifierPath_completion(
+        &self,
+        identifier_path: &NSArray<NSString>,
+        completion: &Block<(*mut CLSContext, *mut NSError), ()>,
+    );
 
-        #[method(addNavigationChildContext:)]
-        pub unsafe fn addNavigationChildContext(&self, child: &CLSContext);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "navigationChildContexts", managed = "Other")]
+    pub unsafe fn navigationChildContexts(&self) -> Id<NSArray<CLSContext>>;
 
-        #[method(removeNavigationChildContext:)]
-        pub unsafe fn removeNavigationChildContext(&self, child: &CLSContext);
-    }
-);
+    #[objc2::method(sel = "addNavigationChildContext:")]
+    pub unsafe fn addNavigationChildContext(&self, child: &CLSContext);
+
+    #[objc2::method(sel = "removeNavigationChildContext:")]
+    pub unsafe fn removeNavigationChildContext(&self, child: &CLSContext);
+}

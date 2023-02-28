@@ -15,13 +15,10 @@ extern_static!(WebPlugInContainingElementKey: Option<&'static NSString>);
 
 extern_static!(WebPlugInShouldLoadMainResourceKey: Option<&'static NSString>);
 
-extern_protocol!(
-    #[deprecated]
-    pub unsafe trait WebPlugInViewFactory: NSObjectProtocol {
-        #[cfg(all(feature = "AppKit_NSView", feature = "Foundation_NSDictionary"))]
-        #[method_id(@__retain_semantics Other plugInViewWithArguments:)]
-        unsafe fn plugInViewWithArguments(arguments: Option<&NSDictionary>) -> Option<Id<NSView>>;
-    }
-
-    unsafe impl ProtocolType for dyn WebPlugInViewFactory {}
-);
+#[objc2::protocol]
+#[deprecated]
+pub unsafe trait WebPlugInViewFactory: NSObjectProtocol {
+    #[cfg(all(feature = "AppKit_NSView", feature = "Foundation_NSDictionary"))]
+    #[objc2::method(sel = "plugInViewWithArguments:", managed = "Other")]
+    unsafe fn plugInViewWithArguments(arguments: Option<&NSDictionary>) -> Option<Id<NSView>>;
+}

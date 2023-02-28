@@ -3,16 +3,16 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSDateInterval")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSDateInterval")]
-    pub struct NSDateInterval;
-
-    #[cfg(feature = "Foundation_NSDateInterval")]
-    unsafe impl ClassType for NSDateInterval {
-        type Super = NSObject;
-    }
-);
+    pub type NSDateInterval;
+}
 
 #[cfg(feature = "Foundation_NSDateInterval")]
 unsafe impl NSCoding for NSDateInterval {}
@@ -23,60 +23,63 @@ unsafe impl NSObjectProtocol for NSDateInterval {}
 #[cfg(feature = "Foundation_NSDateInterval")]
 unsafe impl NSSecureCoding for NSDateInterval {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSDateInterval")]
-    unsafe impl NSDateInterval {
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other startDate)]
-        pub unsafe fn startDate(&self) -> Id<NSDate>;
+    pub type NSDateInterval;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other endDate)]
-        pub unsafe fn endDate(&self) -> Id<NSDate>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "startDate", managed = "Other")]
+    pub unsafe fn startDate(&self) -> Id<NSDate>;
 
-        #[method(duration)]
-        pub unsafe fn duration(&self) -> NSTimeInterval;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "endDate", managed = "Other")]
+    pub unsafe fn endDate(&self) -> Id<NSDate>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "duration")]
+    pub unsafe fn duration(&self) -> NSTimeInterval;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Init initWithStartDate:duration:)]
-        pub unsafe fn initWithStartDate_duration(
-            this: Option<Allocated<Self>>,
-            start_date: &NSDate,
-            duration: NSTimeInterval,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Init initWithStartDate:endDate:)]
-        pub unsafe fn initWithStartDate_endDate(
-            this: Option<Allocated<Self>>,
-            start_date: &NSDate,
-            end_date: &NSDate,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "initWithStartDate:duration:", managed = "Init")]
+    pub unsafe fn initWithStartDate_duration(
+        this: Option<Allocated<Self>>,
+        start_date: &NSDate,
+        duration: NSTimeInterval,
+    ) -> Id<Self>;
 
-        #[method(compare:)]
-        pub unsafe fn compare(&self, date_interval: &NSDateInterval) -> NSComparisonResult;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "initWithStartDate:endDate:", managed = "Init")]
+    pub unsafe fn initWithStartDate_endDate(
+        this: Option<Allocated<Self>>,
+        start_date: &NSDate,
+        end_date: &NSDate,
+    ) -> Id<Self>;
 
-        #[method(isEqualToDateInterval:)]
-        pub unsafe fn isEqualToDateInterval(&self, date_interval: &NSDateInterval) -> bool;
+    #[objc2::method(sel = "compare:")]
+    pub unsafe fn compare(&self, date_interval: &NSDateInterval) -> NSComparisonResult;
 
-        #[method(intersectsDateInterval:)]
-        pub unsafe fn intersectsDateInterval(&self, date_interval: &NSDateInterval) -> bool;
+    #[objc2::method(sel = "isEqualToDateInterval:")]
+    pub unsafe fn isEqualToDateInterval(&self, date_interval: &NSDateInterval) -> bool;
 
-        #[method_id(@__retain_semantics Other intersectionWithDateInterval:)]
-        pub unsafe fn intersectionWithDateInterval(
-            &self,
-            date_interval: &NSDateInterval,
-        ) -> Option<Id<NSDateInterval>>;
+    #[objc2::method(sel = "intersectsDateInterval:")]
+    pub unsafe fn intersectsDateInterval(&self, date_interval: &NSDateInterval) -> bool;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(containsDate:)]
-        pub unsafe fn containsDate(&self, date: &NSDate) -> bool;
-    }
-);
+    #[objc2::method(sel = "intersectionWithDateInterval:", managed = "Other")]
+    pub unsafe fn intersectionWithDateInterval(
+        &self,
+        date_interval: &NSDateInterval,
+    ) -> Option<Id<NSDateInterval>>;
+
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "containsDate:")]
+    pub unsafe fn containsDate(&self, date: &NSDate) -> bool;
+}

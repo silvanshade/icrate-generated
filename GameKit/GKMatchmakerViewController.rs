@@ -5,27 +5,27 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum GKMatchmakingMode {
-        GKMatchmakingModeDefault = 0,
-        GKMatchmakingModeNearbyOnly = 1,
-        GKMatchmakingModeAutomatchOnly = 2,
-        GKMatchmakingModeInviteOnly = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum GKMatchmakingMode {
+    GKMatchmakingModeDefault = 0,
+    GKMatchmakingModeNearbyOnly = 1,
+    GKMatchmakingModeAutomatchOnly = 2,
+    GKMatchmakingModeInviteOnly = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSViewController,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameKit_GKMatchmakerViewController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKMatchmakerViewController")]
-    pub struct GKMatchmakerViewController;
-
-    #[cfg(feature = "GameKit_GKMatchmakerViewController")]
-    unsafe impl ClassType for GKMatchmakerViewController {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSViewController;
-    }
-);
+    pub type GKMatchmakerViewController;
+}
 
 #[cfg(feature = "GameKit_GKMatchmakerViewController")]
 unsafe impl GKViewController for GKMatchmakerViewController {}
@@ -45,188 +45,191 @@ unsafe impl NSSeguePerforming for GKMatchmakerViewController {}
 #[cfg(feature = "GameKit_GKMatchmakerViewController")]
 unsafe impl NSUserInterfaceItemIdentification for GKMatchmakerViewController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKMatchmakerViewController")]
-    unsafe impl GKMatchmakerViewController {
-        #[method_id(@__retain_semantics Other matchmakerDelegate)]
-        pub unsafe fn matchmakerDelegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn GKMatchmakerViewControllerDelegate>>>;
+    pub type GKMatchmakerViewController;
 
-        #[method(setMatchmakerDelegate:)]
-        pub unsafe fn setMatchmakerDelegate(
-            &self,
-            matchmaker_delegate: Option<&ProtocolObject<dyn GKMatchmakerViewControllerDelegate>>,
-        );
+    #[objc2::method(sel = "matchmakerDelegate", managed = "Other")]
+    pub unsafe fn matchmakerDelegate(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn GKMatchmakerViewControllerDelegate>>>;
 
-        #[cfg(feature = "GameKit_GKMatchRequest")]
-        #[method_id(@__retain_semantics Other matchRequest)]
-        pub unsafe fn matchRequest(&self) -> Id<GKMatchRequest>;
+    #[objc2::method(sel = "setMatchmakerDelegate:")]
+    pub unsafe fn setMatchmakerDelegate(
+        &self,
+        matchmaker_delegate: Option<&ProtocolObject<dyn GKMatchmakerViewControllerDelegate>>,
+    );
 
-        #[method(isHosted)]
-        pub unsafe fn isHosted(&self) -> bool;
+    #[cfg(feature = "GameKit_GKMatchRequest")]
+    #[objc2::method(sel = "matchRequest", managed = "Other")]
+    pub unsafe fn matchRequest(&self) -> Id<GKMatchRequest>;
 
-        #[method(setHosted:)]
-        pub unsafe fn setHosted(&self, hosted: bool);
+    #[objc2::method(sel = "isHosted")]
+    pub unsafe fn isHosted(&self) -> bool;
 
-        #[method(matchmakingMode)]
-        pub unsafe fn matchmakingMode(&self) -> GKMatchmakingMode;
+    #[objc2::method(sel = "setHosted:")]
+    pub unsafe fn setHosted(&self, hosted: bool);
 
-        #[method(setMatchmakingMode:)]
-        pub unsafe fn setMatchmakingMode(&self, matchmaking_mode: GKMatchmakingMode);
+    #[objc2::method(sel = "matchmakingMode")]
+    pub unsafe fn matchmakingMode(&self) -> GKMatchmakingMode;
 
-        #[method(canStartWithMinimumPlayers)]
-        pub unsafe fn canStartWithMinimumPlayers(&self) -> bool;
+    #[objc2::method(sel = "setMatchmakingMode:")]
+    pub unsafe fn setMatchmakingMode(&self, matchmaking_mode: GKMatchmakingMode);
 
-        #[method(setCanStartWithMinimumPlayers:)]
-        pub unsafe fn setCanStartWithMinimumPlayers(&self, can_start_with_minimum_players: bool);
+    #[objc2::method(sel = "canStartWithMinimumPlayers")]
+    pub unsafe fn canStartWithMinimumPlayers(&self) -> bool;
 
-        #[cfg(feature = "GameKit_GKMatchRequest")]
-        #[method_id(@__retain_semantics Init initWithMatchRequest:)]
-        pub unsafe fn initWithMatchRequest(
-            this: Option<Allocated<Self>>,
-            request: &GKMatchRequest,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "setCanStartWithMinimumPlayers:")]
+    pub unsafe fn setCanStartWithMinimumPlayers(&self, can_start_with_minimum_players: bool);
 
-        #[cfg(feature = "GameKit_GKInvite")]
-        #[method_id(@__retain_semantics Init initWithInvite:)]
-        pub unsafe fn initWithInvite(
-            this: Option<Allocated<Self>>,
-            invite: &GKInvite,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "GameKit_GKMatchRequest")]
+    #[objc2::method(sel = "initWithMatchRequest:", managed = "Init")]
+    pub unsafe fn initWithMatchRequest(
+        this: Option<Allocated<Self>>,
+        request: &GKMatchRequest,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "GameKit_GKMatch")]
-        #[method(addPlayersToMatch:)]
-        pub unsafe fn addPlayersToMatch(&self, r#match: &GKMatch);
+    #[cfg(feature = "GameKit_GKInvite")]
+    #[objc2::method(sel = "initWithInvite:", managed = "Init")]
+    pub unsafe fn initWithInvite(
+        this: Option<Allocated<Self>>,
+        invite: &GKInvite,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "GameKit_GKPlayer")]
-        #[method(setHostedPlayer:didConnect:)]
-        pub unsafe fn setHostedPlayer_didConnect(&self, player: &GKPlayer, connected: bool);
+    #[cfg(feature = "GameKit_GKMatch")]
+    #[objc2::method(sel = "addPlayersToMatch:")]
+    pub unsafe fn addPlayersToMatch(&self, r#match: &GKMatch);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other defaultInvitationMessage)]
-        pub unsafe fn defaultInvitationMessage(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "GameKit_GKPlayer")]
+    #[objc2::method(sel = "setHostedPlayer:didConnect:")]
+    pub unsafe fn setHostedPlayer_didConnect(&self, player: &GKPlayer, connected: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(setDefaultInvitationMessage:)]
-        pub unsafe fn setDefaultInvitationMessage(
-            &self,
-            default_invitation_message: Option<&NSString>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "defaultInvitationMessage", managed = "Other")]
+    pub unsafe fn defaultInvitationMessage(&self) -> Option<Id<NSString>>;
 
-extern_methods!(
-    /// Obsoleted
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "setDefaultInvitationMessage:")]
+    pub unsafe fn setDefaultInvitationMessage(&self, default_invitation_message: Option<&NSString>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKMatchmakerViewController")]
-    unsafe impl GKMatchmakerViewController {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "This is never invoked and its implementation does nothing, use setHostedPlayer:didConnect:"]
-        #[method(setHostedPlayer:connected:)]
-        pub unsafe fn setHostedPlayer_connected(&self, player_id: &NSString, connected: bool);
-    }
-);
+    pub type GKMatchmakerViewController;
 
-extern_protocol!(
-    pub unsafe trait GKMatchmakerViewControllerDelegate: NSObjectProtocol {
-        #[cfg(feature = "GameKit_GKMatchmakerViewController")]
-        #[method(matchmakerViewControllerWasCancelled:)]
-        unsafe fn matchmakerViewControllerWasCancelled(
-            &self,
-            view_controller: &GKMatchmakerViewController,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "This is never invoked and its implementation does nothing, use setHostedPlayer:didConnect:"]
+    #[objc2::method(sel = "setHostedPlayer:connected:")]
+    pub unsafe fn setHostedPlayer_connected(&self, player_id: &NSString, connected: bool);
+}
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "GameKit_GKMatchmakerViewController"
-        ))]
-        #[method(matchmakerViewController:didFailWithError:)]
-        unsafe fn matchmakerViewController_didFailWithError(
-            &self,
-            view_controller: &GKMatchmakerViewController,
-            error: &NSError,
-        );
-
-        #[cfg(all(
-            feature = "GameKit_GKMatch",
-            feature = "GameKit_GKMatchmakerViewController"
-        ))]
-        #[optional]
-        #[method(matchmakerViewController:didFindMatch:)]
-        unsafe fn matchmakerViewController_didFindMatch(
-            &self,
-            view_controller: &GKMatchmakerViewController,
-            r#match: &GKMatch,
-        );
-
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "GameKit_GKMatchmakerViewController",
-            feature = "GameKit_GKPlayer"
-        ))]
-        #[optional]
-        #[method(matchmakerViewController:didFindHostedPlayers:)]
-        unsafe fn matchmakerViewController_didFindHostedPlayers(
-            &self,
-            view_controller: &GKMatchmakerViewController,
-            players: &NSArray<GKPlayer>,
-        );
-
-        #[cfg(all(
-            feature = "GameKit_GKMatchmakerViewController",
-            feature = "GameKit_GKPlayer"
-        ))]
-        #[optional]
-        #[method(matchmakerViewController:hostedPlayerDidAccept:)]
-        unsafe fn matchmakerViewController_hostedPlayerDidAccept(
-            &self,
-            view_controller: &GKMatchmakerViewController,
-            player: &GKPlayer,
-        );
-
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString",
-            feature = "GameKit_GKMatchmakerViewController"
-        ))]
-        #[deprecated = "This is never invoked and its implementation does nothing, use matchmakerViewController:didFindHostedPlayers:"]
-        #[optional]
-        #[method(matchmakerViewController:didFindPlayers:)]
-        unsafe fn matchmakerViewController_didFindPlayers(
-            &self,
-            view_controller: &GKMatchmakerViewController,
-            player_i_ds: &NSArray<NSString>,
-        );
-
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "GameKit_GKMatchmakerViewController"
-        ))]
-        #[deprecated = "This is never invoked and its implementation does nothing, use matchmakerViewController:hostedPlayerDidAccept:"]
-        #[optional]
-        #[method(matchmakerViewController:didReceiveAcceptFromHostedPlayer:)]
-        unsafe fn matchmakerViewController_didReceiveAcceptFromHostedPlayer(
-            &self,
-            view_controller: &GKMatchmakerViewController,
-            player_id: &NSString,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn GKMatchmakerViewControllerDelegate {}
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSViewController`
+#[objc2::protocol]
+pub unsafe trait GKMatchmakerViewControllerDelegate: NSObjectProtocol {
     #[cfg(feature = "GameKit_GKMatchmakerViewController")]
-    unsafe impl GKMatchmakerViewController {
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Init initWithNibName:bundle:)]
-        pub unsafe fn initWithNibName_bundle(
-            this: Option<Allocated<Self>>,
-            nib_name_or_nil: Option<&NSNibName>,
-            nib_bundle_or_nil: Option<&NSBundle>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "matchmakerViewControllerWasCancelled:")]
+    unsafe fn matchmakerViewControllerWasCancelled(
+        &self,
+        view_controller: &GKMatchmakerViewController,
+    );
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "GameKit_GKMatchmakerViewController"
+    ))]
+    #[objc2::method(sel = "matchmakerViewController:didFailWithError:")]
+    unsafe fn matchmakerViewController_didFailWithError(
+        &self,
+        view_controller: &GKMatchmakerViewController,
+        error: &NSError,
+    );
+
+    #[cfg(all(
+        feature = "GameKit_GKMatch",
+        feature = "GameKit_GKMatchmakerViewController"
+    ))]
+    #[objc2::method(optional, sel = "matchmakerViewController:didFindMatch:")]
+    unsafe fn matchmakerViewController_didFindMatch(
+        &self,
+        view_controller: &GKMatchmakerViewController,
+        r#match: &GKMatch,
+    );
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "GameKit_GKMatchmakerViewController",
+        feature = "GameKit_GKPlayer"
+    ))]
+    #[objc2::method(optional, sel = "matchmakerViewController:didFindHostedPlayers:")]
+    unsafe fn matchmakerViewController_didFindHostedPlayers(
+        &self,
+        view_controller: &GKMatchmakerViewController,
+        players: &NSArray<GKPlayer>,
+    );
+
+    #[cfg(all(
+        feature = "GameKit_GKMatchmakerViewController",
+        feature = "GameKit_GKPlayer"
+    ))]
+    #[objc2::method(optional, sel = "matchmakerViewController:hostedPlayerDidAccept:")]
+    unsafe fn matchmakerViewController_hostedPlayerDidAccept(
+        &self,
+        view_controller: &GKMatchmakerViewController,
+        player: &GKPlayer,
+    );
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString",
+        feature = "GameKit_GKMatchmakerViewController"
+    ))]
+    #[deprecated = "This is never invoked and its implementation does nothing, use matchmakerViewController:didFindHostedPlayers:"]
+    #[objc2::method(optional, sel = "matchmakerViewController:didFindPlayers:")]
+    unsafe fn matchmakerViewController_didFindPlayers(
+        &self,
+        view_controller: &GKMatchmakerViewController,
+        player_i_ds: &NSArray<NSString>,
+    );
+
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "GameKit_GKMatchmakerViewController"
+    ))]
+    #[deprecated = "This is never invoked and its implementation does nothing, use matchmakerViewController:hostedPlayerDidAccept:"]
+    #[objc2::method(
+        optional,
+        sel = "matchmakerViewController:didReceiveAcceptFromHostedPlayer:"
+    )]
+    unsafe fn matchmakerViewController_didReceiveAcceptFromHostedPlayer(
+        &self,
+        view_controller: &GKMatchmakerViewController,
+        player_id: &NSString,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSViewController`
+    #[cfg(feature = "GameKit_GKMatchmakerViewController")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameKit_GKMatchmakerViewController")]
+    pub type GKMatchmakerViewController;
+
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "initWithNibName:bundle:", managed = "Init")]
+    pub unsafe fn initWithNibName_bundle(
+        this: Option<Allocated<Self>>,
+        nib_name_or_nil: Option<&NSNibName>,
+        nib_bundle_or_nil: Option<&NSBundle>,
+    ) -> Id<Self>;
+}

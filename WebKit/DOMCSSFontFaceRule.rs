@@ -5,27 +5,33 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMCSSFontFaceRule")]
+#[objc2::interface(
+    unsafe super = DOMCSSRule,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMCSSFontFaceRule;
-
     #[cfg(feature = "WebKit_DOMCSSFontFaceRule")]
-    unsafe impl ClassType for DOMCSSFontFaceRule {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMCSSRule;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMCSSFontFaceRule;
+}
 
 #[cfg(feature = "WebKit_DOMCSSFontFaceRule")]
 unsafe impl NSObjectProtocol for DOMCSSFontFaceRule {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCSSFontFaceRule")]
-    unsafe impl DOMCSSFontFaceRule {
-        #[cfg(feature = "WebKit_DOMCSSStyleDeclaration")]
-        #[method_id(@__retain_semantics Other style)]
-        pub unsafe fn style(&self) -> Option<Id<DOMCSSStyleDeclaration>>;
-    }
-);
+    #[deprecated]
+    pub type DOMCSSFontFaceRule;
+
+    #[cfg(feature = "WebKit_DOMCSSStyleDeclaration")]
+    #[objc2::method(sel = "style", managed = "Other")]
+    pub unsafe fn style(&self) -> Option<Id<DOMCSSStyleDeclaration>>;
+}

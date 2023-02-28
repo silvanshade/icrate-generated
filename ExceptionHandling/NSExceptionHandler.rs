@@ -14,69 +14,70 @@ extern_fn!(
     pub unsafe fn NSExceptionHandlerResume();
 );
 
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        NSLogUncaughtExceptionMask = 1 << 0,
-        NSHandleUncaughtExceptionMask = 1 << 1,
-        NSLogUncaughtSystemExceptionMask = 1 << 2,
-        NSHandleUncaughtSystemExceptionMask = 1 << 3,
-        NSLogUncaughtRuntimeErrorMask = 1 << 4,
-        NSHandleUncaughtRuntimeErrorMask = 1 << 5,
-        NSLogTopLevelExceptionMask = 1 << 6,
-        NSHandleTopLevelExceptionMask = 1 << 7,
-        NSLogOtherExceptionMask = 1 << 8,
-        NSHandleOtherExceptionMask = 1 << 9,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    NSLogUncaughtExceptionMask = 1 << 0,
+    NSHandleUncaughtExceptionMask = 1 << 1,
+    NSLogUncaughtSystemExceptionMask = 1 << 2,
+    NSHandleUncaughtSystemExceptionMask = 1 << 3,
+    NSLogUncaughtRuntimeErrorMask = 1 << 4,
+    NSHandleUncaughtRuntimeErrorMask = 1 << 5,
+    NSLogTopLevelExceptionMask = 1 << 6,
+    NSHandleTopLevelExceptionMask = 1 << 7,
+    NSLogOtherExceptionMask = 1 << 8,
+    NSHandleOtherExceptionMask = 1 << 9,
+}
 
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        NSHangOnUncaughtExceptionMask = 1 << 0,
-        NSHangOnUncaughtSystemExceptionMask = 1 << 1,
-        NSHangOnUncaughtRuntimeErrorMask = 1 << 2,
-        NSHangOnTopLevelExceptionMask = 1 << 3,
-        NSHangOnOtherExceptionMask = 1 << 4,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    NSHangOnUncaughtExceptionMask = 1 << 0,
+    NSHangOnUncaughtSystemExceptionMask = 1 << 1,
+    NSHangOnUncaughtRuntimeErrorMask = 1 << 2,
+    NSHangOnTopLevelExceptionMask = 1 << 3,
+    NSHangOnOtherExceptionMask = 1 << 4,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "ExceptionHandling_NSExceptionHandler")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "ExceptionHandling_NSExceptionHandler")]
-    pub struct NSExceptionHandler;
-
-    #[cfg(feature = "ExceptionHandling_NSExceptionHandler")]
-    unsafe impl ClassType for NSExceptionHandler {
-        type Super = NSObject;
-    }
-);
+    pub type NSExceptionHandler;
+}
 
 #[cfg(feature = "ExceptionHandling_NSExceptionHandler")]
 unsafe impl NSObjectProtocol for NSExceptionHandler {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ExceptionHandling_NSExceptionHandler")]
-    unsafe impl NSExceptionHandler {
-        #[method_id(@__retain_semantics Other defaultExceptionHandler)]
-        pub unsafe fn defaultExceptionHandler() -> Option<Id<NSExceptionHandler>>;
+    pub type NSExceptionHandler;
 
-        #[method(setExceptionHandlingMask:)]
-        pub unsafe fn setExceptionHandlingMask(&self, a_mask: NSUInteger);
+    #[objc2::method(sel = "defaultExceptionHandler", managed = "Other")]
+    pub unsafe fn defaultExceptionHandler() -> Option<Id<NSExceptionHandler>>;
 
-        #[method(exceptionHandlingMask)]
-        pub unsafe fn exceptionHandlingMask(&self) -> NSUInteger;
+    #[objc2::method(sel = "setExceptionHandlingMask:")]
+    pub unsafe fn setExceptionHandlingMask(&self, a_mask: NSUInteger);
 
-        #[method(setExceptionHangingMask:)]
-        pub unsafe fn setExceptionHangingMask(&self, a_mask: NSUInteger);
+    #[objc2::method(sel = "exceptionHandlingMask")]
+    pub unsafe fn exceptionHandlingMask(&self) -> NSUInteger;
 
-        #[method(exceptionHangingMask)]
-        pub unsafe fn exceptionHangingMask(&self) -> NSUInteger;
+    #[objc2::method(sel = "setExceptionHangingMask:")]
+    pub unsafe fn setExceptionHangingMask(&self, a_mask: NSUInteger);
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(&self, an_object: Option<&Object>);
+    #[objc2::method(sel = "exceptionHangingMask")]
+    pub unsafe fn exceptionHangingMask(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<Object>>;
-    }
-);
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, an_object: Option<&Object>);
+
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<Object>>;
+}

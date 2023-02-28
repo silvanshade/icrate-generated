@@ -7,79 +7,82 @@ use crate::EventKit::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = EKObject,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "EventKit_EKCalendar")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "EventKit_EKCalendar")]
-    pub struct EKCalendar;
-
-    #[cfg(feature = "EventKit_EKCalendar")]
-    unsafe impl ClassType for EKCalendar {
-        #[inherits(NSObject)]
-        type Super = EKObject;
-    }
-);
+    pub type EKCalendar;
+}
 
 #[cfg(feature = "EventKit_EKCalendar")]
 unsafe impl NSObjectProtocol for EKCalendar {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "EventKit_EKCalendar")]
-    unsafe impl EKCalendar {
-        #[cfg(feature = "EventKit_EKEventStore")]
-        #[method_id(@__retain_semantics Other calendarWithEventStore:)]
-        pub unsafe fn calendarWithEventStore(event_store: &EKEventStore) -> Id<EKCalendar>;
+    pub type EKCalendar;
 
-        #[cfg(feature = "EventKit_EKEventStore")]
-        #[method_id(@__retain_semantics Other calendarForEntityType:eventStore:)]
-        pub unsafe fn calendarForEntityType_eventStore(
-            entity_type: EKEntityType,
-            event_store: &EKEventStore,
-        ) -> Id<EKCalendar>;
+    #[cfg(feature = "EventKit_EKEventStore")]
+    #[objc2::method(sel = "calendarWithEventStore:", managed = "Other")]
+    pub unsafe fn calendarWithEventStore(event_store: &EKEventStore) -> Id<EKCalendar>;
 
-        #[cfg(feature = "EventKit_EKSource")]
-        #[method_id(@__retain_semantics Other source)]
-        pub unsafe fn source(&self) -> Option<Id<EKSource>>;
+    #[cfg(feature = "EventKit_EKEventStore")]
+    #[objc2::method(sel = "calendarForEntityType:eventStore:", managed = "Other")]
+    pub unsafe fn calendarForEntityType_eventStore(
+        entity_type: EKEntityType,
+        event_store: &EKEventStore,
+    ) -> Id<EKCalendar>;
 
-        #[cfg(feature = "EventKit_EKSource")]
-        #[method(setSource:)]
-        pub unsafe fn setSource(&self, source: Option<&EKSource>);
+    #[cfg(feature = "EventKit_EKSource")]
+    #[objc2::method(sel = "source", managed = "Other")]
+    pub unsafe fn source(&self) -> Option<Id<EKSource>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other calendarIdentifier)]
-        pub unsafe fn calendarIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "EventKit_EKSource")]
+    #[objc2::method(sel = "setSource:")]
+    pub unsafe fn setSource(&self, source: Option<&EKSource>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "calendarIdentifier", managed = "Other")]
+    pub unsafe fn calendarIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> EKCalendarType;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
 
-        #[method(allowsContentModifications)]
-        pub unsafe fn allowsContentModifications(&self) -> bool;
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> EKCalendarType;
 
-        #[method(isSubscribed)]
-        pub unsafe fn isSubscribed(&self) -> bool;
+    #[objc2::method(sel = "allowsContentModifications")]
+    pub unsafe fn allowsContentModifications(&self) -> bool;
 
-        #[method(isImmutable)]
-        pub unsafe fn isImmutable(&self) -> bool;
+    #[objc2::method(sel = "isSubscribed")]
+    pub unsafe fn isSubscribed(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other color)]
-        pub unsafe fn color(&self) -> Id<NSColor>;
+    #[objc2::method(sel = "isImmutable")]
+    pub unsafe fn isImmutable(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setColor:)]
-        pub unsafe fn setColor(&self, color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "color", managed = "Other")]
+    pub unsafe fn color(&self) -> Id<NSColor>;
 
-        #[method(supportedEventAvailabilities)]
-        pub unsafe fn supportedEventAvailabilities(&self) -> EKCalendarEventAvailabilityMask;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setColor:")]
+    pub unsafe fn setColor(&self, color: Option<&NSColor>);
 
-        #[method(allowedEntityTypes)]
-        pub unsafe fn allowedEntityTypes(&self) -> EKEntityMask;
-    }
-);
+    #[objc2::method(sel = "supportedEventAvailabilities")]
+    pub unsafe fn supportedEventAvailabilities(&self) -> EKCalendarEventAvailabilityMask;
+
+    #[objc2::method(sel = "allowedEntityTypes")]
+    pub unsafe fn allowedEntityTypes(&self) -> EKEntityMask;
+}

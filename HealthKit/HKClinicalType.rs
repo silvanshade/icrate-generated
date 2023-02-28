@@ -26,29 +26,32 @@ extern_static!(HKClinicalTypeIdentifierVitalSignRecord: &'static HKClinicalTypeI
 
 extern_static!(HKClinicalTypeIdentifierCoverageRecord: &'static HKClinicalTypeIdentifier);
 
-extern_methods!(
-    /// ClinicalType
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKObjectType")]
-    unsafe impl HKObjectType {
-        #[cfg(feature = "HealthKit_HKClinicalType")]
-        #[method_id(@__retain_semantics Other clinicalTypeForIdentifier:)]
-        pub unsafe fn clinicalTypeForIdentifier(
-            identifier: &HKClinicalTypeIdentifier,
-        ) -> Option<Id<HKClinicalType>>;
-    }
-);
+    pub type HKObjectType;
 
-extern_class!(
+    #[cfg(feature = "HealthKit_HKClinicalType")]
+    #[objc2::method(sel = "clinicalTypeForIdentifier:", managed = "Other")]
+    pub unsafe fn clinicalTypeForIdentifier(
+        identifier: &HKClinicalTypeIdentifier,
+    ) -> Option<Id<HKClinicalType>>;
+}
+
+#[objc2::interface(
+    unsafe super = HKSampleType,
+    unsafe inherits = [
+        HKObjectType,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKClinicalType")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKClinicalType")]
-    pub struct HKClinicalType;
-
-    #[cfg(feature = "HealthKit_HKClinicalType")]
-    unsafe impl ClassType for HKClinicalType {
-        #[inherits(HKObjectType, NSObject)]
-        type Super = HKSampleType;
-    }
-);
+    pub type HKClinicalType;
+}
 
 #[cfg(feature = "HealthKit_HKClinicalType")]
 unsafe impl NSCoding for HKClinicalType {}
@@ -59,7 +62,10 @@ unsafe impl NSObjectProtocol for HKClinicalType {}
 #[cfg(feature = "HealthKit_HKClinicalType")]
 unsafe impl NSSecureCoding for HKClinicalType {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKClinicalType")]
-    unsafe impl HKClinicalType {}
-);
+    pub type HKClinicalType;
+}

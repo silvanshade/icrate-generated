@@ -5,19 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_protocol!(
-    pub unsafe trait WKScriptMessageHandler: NSObjectProtocol {
-        #[cfg(all(
-            feature = "WebKit_WKScriptMessage",
-            feature = "WebKit_WKUserContentController"
-        ))]
-        #[method(userContentController:didReceiveScriptMessage:)]
-        unsafe fn userContentController_didReceiveScriptMessage(
-            &self,
-            user_content_controller: &WKUserContentController,
-            message: &WKScriptMessage,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn WKScriptMessageHandler {}
-);
+#[objc2::protocol]
+pub unsafe trait WKScriptMessageHandler: NSObjectProtocol {
+    #[cfg(all(
+        feature = "WebKit_WKScriptMessage",
+        feature = "WebKit_WKUserContentController"
+    ))]
+    #[objc2::method(sel = "userContentController:didReceiveScriptMessage:")]
+    unsafe fn userContentController_didReceiveScriptMessage(
+        &self,
+        user_content_controller: &WKUserContentController,
+        message: &WKScriptMessage,
+    );
+}

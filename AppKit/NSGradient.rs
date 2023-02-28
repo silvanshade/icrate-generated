@@ -5,24 +5,23 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSGradientDrawingOptions {
-        NSGradientDrawsBeforeStartingLocation = 1 << 0,
-        NSGradientDrawsAfterEndingLocation = 1 << 1,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSGradientDrawingOptions {
+    NSGradientDrawsBeforeStartingLocation = 1 << 0,
+    NSGradientDrawsAfterEndingLocation = 1 << 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSGradient")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSGradient")]
-    pub struct NSGradient;
-
-    #[cfg(feature = "AppKit_NSGradient")]
-    unsafe impl ClassType for NSGradient {
-        type Super = NSObject;
-    }
-);
+    pub type NSGradient;
+}
 
 #[cfg(feature = "AppKit_NSGradient")]
 unsafe impl NSCoding for NSGradient {}
@@ -33,99 +32,102 @@ unsafe impl NSObjectProtocol for NSGradient {}
 #[cfg(feature = "AppKit_NSGradient")]
 unsafe impl NSSecureCoding for NSGradient {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSGradient")]
-    unsafe impl NSGradient {
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Init initWithStartingColor:endingColor:)]
-        pub unsafe fn initWithStartingColor_endingColor(
-            this: Option<Allocated<Self>>,
-            starting_color: &NSColor,
-            ending_color: &NSColor,
-        ) -> Option<Id<Self>>;
+    pub type NSGradient;
 
-        #[cfg(all(feature = "AppKit_NSColor", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Init initWithColors:)]
-        pub unsafe fn initWithColors(
-            this: Option<Allocated<Self>>,
-            color_array: &NSArray<NSColor>,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "initWithStartingColor:endingColor:", managed = "Init")]
+    pub unsafe fn initWithStartingColor_endingColor(
+        this: Option<Allocated<Self>>,
+        starting_color: &NSColor,
+        ending_color: &NSColor,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(all(
-            feature = "AppKit_NSColor",
-            feature = "AppKit_NSColorSpace",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Init initWithColors:atLocations:colorSpace:)]
-        pub unsafe fn initWithColors_atLocations_colorSpace(
-            this: Option<Allocated<Self>>,
-            color_array: &NSArray<NSColor>,
-            locations: *mut CGFloat,
-            color_space: &NSColorSpace,
-        ) -> Option<Id<Self>>;
+    #[cfg(all(feature = "AppKit_NSColor", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "initWithColors:", managed = "Init")]
+    pub unsafe fn initWithColors(
+        this: Option<Allocated<Self>>,
+        color_array: &NSArray<NSColor>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+    #[cfg(all(
+        feature = "AppKit_NSColor",
+        feature = "AppKit_NSColorSpace",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "initWithColors:atLocations:colorSpace:", managed = "Init")]
+    pub unsafe fn initWithColors_atLocations_colorSpace(
+        this: Option<Allocated<Self>>,
+        color_array: &NSArray<NSColor>,
+        locations: *mut CGFloat,
+        color_space: &NSColorSpace,
+    ) -> Option<Id<Self>>;
 
-        #[method(drawFromPoint:toPoint:options:)]
-        pub unsafe fn drawFromPoint_toPoint_options(
-            &self,
-            starting_point: NSPoint,
-            ending_point: NSPoint,
-            options: NSGradientDrawingOptions,
-        );
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
 
-        #[method(drawInRect:angle:)]
-        pub unsafe fn drawInRect_angle(&self, rect: NSRect, angle: CGFloat);
+    #[objc2::method(sel = "drawFromPoint:toPoint:options:")]
+    pub unsafe fn drawFromPoint_toPoint_options(
+        &self,
+        starting_point: NSPoint,
+        ending_point: NSPoint,
+        options: NSGradientDrawingOptions,
+    );
 
-        #[cfg(feature = "AppKit_NSBezierPath")]
-        #[method(drawInBezierPath:angle:)]
-        pub unsafe fn drawInBezierPath_angle(&self, path: &NSBezierPath, angle: CGFloat);
+    #[objc2::method(sel = "drawInRect:angle:")]
+    pub unsafe fn drawInRect_angle(&self, rect: NSRect, angle: CGFloat);
 
-        #[method(drawFromCenter:radius:toCenter:radius:options:)]
-        pub unsafe fn drawFromCenter_radius_toCenter_radius_options(
-            &self,
-            start_center: NSPoint,
-            start_radius: CGFloat,
-            end_center: NSPoint,
-            end_radius: CGFloat,
-            options: NSGradientDrawingOptions,
-        );
+    #[cfg(feature = "AppKit_NSBezierPath")]
+    #[objc2::method(sel = "drawInBezierPath:angle:")]
+    pub unsafe fn drawInBezierPath_angle(&self, path: &NSBezierPath, angle: CGFloat);
 
-        #[method(drawInRect:relativeCenterPosition:)]
-        pub unsafe fn drawInRect_relativeCenterPosition(
-            &self,
-            rect: NSRect,
-            relative_center_position: NSPoint,
-        );
+    #[objc2::method(sel = "drawFromCenter:radius:toCenter:radius:options:")]
+    pub unsafe fn drawFromCenter_radius_toCenter_radius_options(
+        &self,
+        start_center: NSPoint,
+        start_radius: CGFloat,
+        end_center: NSPoint,
+        end_radius: CGFloat,
+        options: NSGradientDrawingOptions,
+    );
 
-        #[cfg(feature = "AppKit_NSBezierPath")]
-        #[method(drawInBezierPath:relativeCenterPosition:)]
-        pub unsafe fn drawInBezierPath_relativeCenterPosition(
-            &self,
-            path: &NSBezierPath,
-            relative_center_position: NSPoint,
-        );
+    #[objc2::method(sel = "drawInRect:relativeCenterPosition:")]
+    pub unsafe fn drawInRect_relativeCenterPosition(
+        &self,
+        rect: NSRect,
+        relative_center_position: NSPoint,
+    );
 
-        #[cfg(feature = "AppKit_NSColorSpace")]
-        #[method_id(@__retain_semantics Other colorSpace)]
-        pub unsafe fn colorSpace(&self) -> Id<NSColorSpace>;
+    #[cfg(feature = "AppKit_NSBezierPath")]
+    #[objc2::method(sel = "drawInBezierPath:relativeCenterPosition:")]
+    pub unsafe fn drawInBezierPath_relativeCenterPosition(
+        &self,
+        path: &NSBezierPath,
+        relative_center_position: NSPoint,
+    );
 
-        #[method(numberOfColorStops)]
-        pub unsafe fn numberOfColorStops(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSColorSpace")]
+    #[objc2::method(sel = "colorSpace", managed = "Other")]
+    pub unsafe fn colorSpace(&self) -> Id<NSColorSpace>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(getColor:location:atIndex:)]
-        pub unsafe fn getColor_location_atIndex(
-            &self,
-            color: Option<&mut Id<NSColor>>,
-            location: *mut CGFloat,
-            index: NSInteger,
-        );
+    #[objc2::method(sel = "numberOfColorStops")]
+    pub unsafe fn numberOfColorStops(&self) -> NSInteger;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other interpolatedColorAtLocation:)]
-        pub unsafe fn interpolatedColorAtLocation(&self, location: CGFloat) -> Id<NSColor>;
-    }
-);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "getColor:location:atIndex:")]
+    pub unsafe fn getColor_location_atIndex(
+        &self,
+        color: Option<&mut Id<NSColor>>,
+        location: *mut CGFloat,
+        index: NSInteger,
+    );
+
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "interpolatedColorAtLocation:", managed = "Other")]
+    pub unsafe fn interpolatedColorAtLocation(&self, location: CGFloat) -> Id<NSColor>;
+}

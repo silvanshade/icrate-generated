@@ -5,65 +5,73 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMCSSStyleSheet")]
+#[objc2::interface(
+    unsafe super = DOMStyleSheet,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMCSSStyleSheet;
-
     #[cfg(feature = "WebKit_DOMCSSStyleSheet")]
-    unsafe impl ClassType for DOMCSSStyleSheet {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMStyleSheet;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMCSSStyleSheet;
+}
 
 #[cfg(feature = "WebKit_DOMCSSStyleSheet")]
 unsafe impl NSObjectProtocol for DOMCSSStyleSheet {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCSSStyleSheet")]
-    unsafe impl DOMCSSStyleSheet {
-        #[cfg(feature = "WebKit_DOMCSSRule")]
-        #[method_id(@__retain_semantics Other ownerRule)]
-        pub unsafe fn ownerRule(&self) -> Option<Id<DOMCSSRule>>;
+    #[deprecated]
+    pub type DOMCSSStyleSheet;
 
-        #[cfg(feature = "WebKit_DOMCSSRuleList")]
-        #[method_id(@__retain_semantics Other cssRules)]
-        pub unsafe fn cssRules(&self) -> Option<Id<DOMCSSRuleList>>;
+    #[cfg(feature = "WebKit_DOMCSSRule")]
+    #[objc2::method(sel = "ownerRule", managed = "Other")]
+    pub unsafe fn ownerRule(&self) -> Option<Id<DOMCSSRule>>;
 
-        #[cfg(feature = "WebKit_DOMCSSRuleList")]
-        #[method_id(@__retain_semantics Other rules)]
-        pub unsafe fn rules(&self) -> Option<Id<DOMCSSRuleList>>;
+    #[cfg(feature = "WebKit_DOMCSSRuleList")]
+    #[objc2::method(sel = "cssRules", managed = "Other")]
+    pub unsafe fn cssRules(&self) -> Option<Id<DOMCSSRuleList>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(insertRule:index:)]
-        pub unsafe fn insertRule_index(&self, rule: Option<&NSString>, index: c_uint) -> c_uint;
+    #[cfg(feature = "WebKit_DOMCSSRuleList")]
+    #[objc2::method(sel = "rules", managed = "Other")]
+    pub unsafe fn rules(&self) -> Option<Id<DOMCSSRuleList>>;
 
-        #[method(deleteRule:)]
-        pub unsafe fn deleteRule(&self, index: c_uint);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "insertRule:index:")]
+    pub unsafe fn insertRule_index(&self, rule: Option<&NSString>, index: c_uint) -> c_uint;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(addRule:style:index:)]
-        pub unsafe fn addRule_style_index(
-            &self,
-            selector: Option<&NSString>,
-            style: Option<&NSString>,
-            index: c_uint,
-        ) -> c_int;
+    #[objc2::method(sel = "deleteRule:")]
+    pub unsafe fn deleteRule(&self, index: c_uint);
 
-        #[method(removeRule:)]
-        pub unsafe fn removeRule(&self, index: c_uint);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "addRule:style:index:")]
+    pub unsafe fn addRule_style_index(
+        &self,
+        selector: Option<&NSString>,
+        style: Option<&NSString>,
+        index: c_uint,
+    ) -> c_int;
 
-extern_methods!(
-    /// DOMCSSStyleSheetDeprecated
+    #[objc2::method(sel = "removeRule:")]
+    pub unsafe fn removeRule(&self, index: c_uint);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCSSStyleSheet")]
-    unsafe impl DOMCSSStyleSheet {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(insertRule::)]
-        pub unsafe fn insertRule(&self, rule: Option<&NSString>, index: c_uint) -> c_uint;
-    }
-);
+    pub type DOMCSSStyleSheet;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "insertRule::")]
+    pub unsafe fn insertRule(&self, rule: Option<&NSString>, index: c_uint) -> c_uint;
+}

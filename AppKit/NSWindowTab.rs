@@ -5,53 +5,56 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSWindowTab")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSWindowTab")]
-    pub struct NSWindowTab;
-
-    #[cfg(feature = "AppKit_NSWindowTab")]
-    unsafe impl ClassType for NSWindowTab {
-        type Super = NSObject;
-    }
-);
+    pub type NSWindowTab;
+}
 
 #[cfg(feature = "AppKit_NSWindowTab")]
 unsafe impl NSObjectProtocol for NSWindowTab {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWindowTab")]
-    unsafe impl NSWindowTab {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    pub type NSWindowTab;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other attributedTitle)]
-        pub unsafe fn attributedTitle(&self) -> Option<Id<NSAttributedString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(setAttributedTitle:)]
-        pub unsafe fn setAttributedTitle(&self, attributed_title: Option<&NSAttributedString>);
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "attributedTitle", managed = "Other")]
+    pub unsafe fn attributedTitle(&self) -> Option<Id<NSAttributedString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other toolTip)]
-        pub unsafe fn toolTip(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "setAttributedTitle:")]
+    pub unsafe fn setAttributedTitle(&self, attributed_title: Option<&NSAttributedString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setToolTip:)]
-        pub unsafe fn setToolTip(&self, tool_tip: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "toolTip", managed = "Other")]
+    pub unsafe fn toolTip(&self) -> Id<NSString>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other accessoryView)]
-        pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setToolTip:")]
+    pub unsafe fn setToolTip(&self, tool_tip: Option<&NSString>);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setAccessoryView:)]
-        pub unsafe fn setAccessoryView(&self, accessory_view: Option<&NSView>);
-    }
-);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "accessoryView", managed = "Other")]
+    pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
+
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setAccessoryView:")]
+    pub unsafe fn setAccessoryView(&self, accessory_view: Option<&NSView>);
+}

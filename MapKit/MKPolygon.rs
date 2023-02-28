@@ -7,17 +7,18 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKMultiPoint,
+    unsafe inherits = [
+        MKShape,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKPolygon")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKPolygon")]
-    pub struct MKPolygon;
-
-    #[cfg(feature = "MapKit_MKPolygon")]
-    unsafe impl ClassType for MKPolygon {
-        #[inherits(MKShape, NSObject)]
-        type Super = MKMultiPoint;
-    }
-);
+    pub type MKPolygon;
+}
 
 #[cfg(feature = "MapKit_MKPolygon")]
 unsafe impl MKAnnotation for MKPolygon {}
@@ -28,39 +29,45 @@ unsafe impl MKOverlay for MKPolygon {}
 #[cfg(feature = "MapKit_MKPolygon")]
 unsafe impl NSObjectProtocol for MKPolygon {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKPolygon")]
-    unsafe impl MKPolygon {
-        #[method_id(@__retain_semantics Other polygonWithPoints:count:)]
-        pub unsafe fn polygonWithPoints_count(
-            points: NonNull<MKMapPoint>,
-            count: NSUInteger,
-        ) -> Id<Self>;
+    pub type MKPolygon;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other polygonWithPoints:count:interiorPolygons:)]
-        pub unsafe fn polygonWithPoints_count_interiorPolygons(
-            points: NonNull<MKMapPoint>,
-            count: NSUInteger,
-            interior_polygons: Option<&NSArray<MKPolygon>>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "polygonWithPoints:count:", managed = "Other")]
+    pub unsafe fn polygonWithPoints_count(
+        points: NonNull<MKMapPoint>,
+        count: NSUInteger,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other polygonWithCoordinates:count:)]
-        pub unsafe fn polygonWithCoordinates_count(
-            coords: NonNull<CLLocationCoordinate2D>,
-            count: NSUInteger,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "polygonWithPoints:count:interiorPolygons:", managed = "Other")]
+    pub unsafe fn polygonWithPoints_count_interiorPolygons(
+        points: NonNull<MKMapPoint>,
+        count: NSUInteger,
+        interior_polygons: Option<&NSArray<MKPolygon>>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other polygonWithCoordinates:count:interiorPolygons:)]
-        pub unsafe fn polygonWithCoordinates_count_interiorPolygons(
-            coords: NonNull<CLLocationCoordinate2D>,
-            count: NSUInteger,
-            interior_polygons: Option<&NSArray<MKPolygon>>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "polygonWithCoordinates:count:", managed = "Other")]
+    pub unsafe fn polygonWithCoordinates_count(
+        coords: NonNull<CLLocationCoordinate2D>,
+        count: NSUInteger,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other interiorPolygons)]
-        pub unsafe fn interiorPolygons(&self) -> Option<Id<NSArray<MKPolygon>>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(
+        sel = "polygonWithCoordinates:count:interiorPolygons:",
+        managed = "Other"
+    )]
+    pub unsafe fn polygonWithCoordinates_count_interiorPolygons(
+        coords: NonNull<CLLocationCoordinate2D>,
+        count: NSUInteger,
+        interior_polygons: Option<&NSArray<MKPolygon>>,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "interiorPolygons", managed = "Other")]
+    pub unsafe fn interiorPolygons(&self) -> Option<Id<NSArray<MKPolygon>>>;
+}

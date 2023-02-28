@@ -5,49 +5,53 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_enum!(
-    #[underlying(c_uint)]
+#[extern_enum]
+#[underlying(c_uint)]
+#[deprecated]
+pub enum __anonymous__ {
     #[deprecated]
-    pub enum __anonymous__ {
-        #[deprecated]
-        DOM_CSS_INHERIT = 0,
-        #[deprecated]
-        DOM_CSS_PRIMITIVE_VALUE = 1,
-        #[deprecated]
-        DOM_CSS_VALUE_LIST = 2,
-        #[deprecated]
-        DOM_CSS_CUSTOM = 3,
-    }
-);
+    DOM_CSS_INHERIT = 0,
+    #[deprecated]
+    DOM_CSS_PRIMITIVE_VALUE = 1,
+    #[deprecated]
+    DOM_CSS_VALUE_LIST = 2,
+    #[deprecated]
+    DOM_CSS_CUSTOM = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[deprecated]
+    #[cfg(feature = "WebKit_DOMCSSValue")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMCSSValue")]
-    #[deprecated]
-    pub struct DOMCSSValue;
-
-    #[cfg(feature = "WebKit_DOMCSSValue")]
-    unsafe impl ClassType for DOMCSSValue {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    pub type DOMCSSValue;
+}
 
 #[cfg(feature = "WebKit_DOMCSSValue")]
 unsafe impl NSObjectProtocol for DOMCSSValue {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCSSValue")]
-    unsafe impl DOMCSSValue {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other cssText)]
-        pub unsafe fn cssText(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMCSSValue;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCssText:)]
-        pub unsafe fn setCssText(&self, css_text: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "cssText", managed = "Other")]
+    pub unsafe fn cssText(&self) -> Id<NSString>;
 
-        #[method(cssValueType)]
-        pub unsafe fn cssValueType(&self) -> c_ushort;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCssText:")]
+    pub unsafe fn setCssText(&self, css_text: Option<&NSString>);
+
+    #[objc2::method(sel = "cssValueType")]
+    pub unsafe fn cssValueType(&self) -> c_ushort;
+}

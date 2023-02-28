@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MXMetric,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXCPUMetric")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXCPUMetric")]
-    pub struct MXCPUMetric;
-
-    #[cfg(feature = "MetricKit_MXCPUMetric")]
-    unsafe impl ClassType for MXCPUMetric {
-        #[inherits(NSObject)]
-        type Super = MXMetric;
-    }
-);
+    pub type MXCPUMetric;
+}
 
 #[cfg(feature = "MetricKit_MXCPUMetric")]
 unsafe impl NSCoding for MXCPUMetric {}
@@ -25,18 +25,21 @@ unsafe impl NSObjectProtocol for MXCPUMetric {}
 #[cfg(feature = "MetricKit_MXCPUMetric")]
 unsafe impl NSSecureCoding for MXCPUMetric {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXCPUMetric")]
-    unsafe impl MXCPUMetric {
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitDuration"
-        ))]
-        #[method_id(@__retain_semantics Other cumulativeCPUTime)]
-        pub unsafe fn cumulativeCPUTime(&self) -> Id<NSMeasurement<NSUnitDuration>>;
+    pub type MXCPUMetric;
 
-        #[cfg(all(feature = "Foundation_NSMeasurement", feature = "Foundation_NSUnit"))]
-        #[method_id(@__retain_semantics Other cumulativeCPUInstructions)]
-        pub unsafe fn cumulativeCPUInstructions(&self) -> Id<NSMeasurement<NSUnit>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitDuration"
+    ))]
+    #[objc2::method(sel = "cumulativeCPUTime", managed = "Other")]
+    pub unsafe fn cumulativeCPUTime(&self) -> Id<NSMeasurement<NSUnitDuration>>;
+
+    #[cfg(all(feature = "Foundation_NSMeasurement", feature = "Foundation_NSUnit"))]
+    #[objc2::method(sel = "cumulativeCPUInstructions", managed = "Other")]
+    pub unsafe fn cumulativeCPUInstructions(&self) -> Id<NSMeasurement<NSUnit>>;
+}

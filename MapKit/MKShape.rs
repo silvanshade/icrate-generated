@@ -7,16 +7,16 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKShape")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKShape")]
-    pub struct MKShape;
-
-    #[cfg(feature = "MapKit_MKShape")]
-    unsafe impl ClassType for MKShape {
-        type Super = NSObject;
-    }
-);
+    pub type MKShape;
+}
 
 #[cfg(feature = "MapKit_MKShape")]
 unsafe impl MKAnnotation for MKShape {}
@@ -24,23 +24,26 @@ unsafe impl MKAnnotation for MKShape {}
 #[cfg(feature = "MapKit_MKShape")]
 unsafe impl NSObjectProtocol for MKShape {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKShape")]
-    unsafe impl MKShape {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Option<Id<NSString>>;
+    pub type MKShape;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subtitle)]
-        pub unsafe fn subtitle(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSubtitle:)]
-        pub unsafe fn setSubtitle(&self, subtitle: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subtitle", managed = "Other")]
+    pub unsafe fn subtitle(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSubtitle:")]
+    pub unsafe fn setSubtitle(&self, subtitle: Option<&NSString>);
+}

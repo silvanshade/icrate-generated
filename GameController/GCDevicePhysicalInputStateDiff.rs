@@ -5,29 +5,25 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum GCDevicePhysicalInputElementChange {
-        GCDevicePhysicalInputElementUnknownChange = -1,
-        GCDevicePhysicalInputElementNoChange = 0,
-        GCDevicePhysicalInputElementChanged = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum GCDevicePhysicalInputElementChange {
+    GCDevicePhysicalInputElementUnknownChange = -1,
+    GCDevicePhysicalInputElementNoChange = 0,
+    GCDevicePhysicalInputElementChanged = 1,
+}
 
-extern_protocol!(
-    pub unsafe trait GCDevicePhysicalInputStateDiff: NSObjectProtocol {
-        #[method(changeForElement:)]
-        unsafe fn changeForElement(
-            &self,
-            element: &ProtocolObject<dyn GCPhysicalInputElement>,
-        ) -> GCDevicePhysicalInputElementChange;
+#[objc2::protocol]
+pub unsafe trait GCDevicePhysicalInputStateDiff: NSObjectProtocol {
+    #[objc2::method(sel = "changeForElement:")]
+    unsafe fn changeForElement(
+        &self,
+        element: &ProtocolObject<dyn GCPhysicalInputElement>,
+    ) -> GCDevicePhysicalInputElementChange;
 
-        #[cfg(feature = "Foundation_NSEnumerator")]
-        #[method_id(@__retain_semantics Other changedElements)]
-        unsafe fn changedElements(
-            &self,
-        ) -> Option<Id<NSEnumerator<ProtocolObject<dyn GCPhysicalInputElement>>>>;
-    }
-
-    unsafe impl ProtocolType for dyn GCDevicePhysicalInputStateDiff {}
-);
+    #[cfg(feature = "Foundation_NSEnumerator")]
+    #[objc2::method(sel = "changedElements", managed = "Other")]
+    unsafe fn changedElements(
+        &self,
+    ) -> Option<Id<NSEnumerator<ProtocolObject<dyn GCPhysicalInputElement>>>>;
+}

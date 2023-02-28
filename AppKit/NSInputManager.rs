@@ -5,76 +5,71 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSTextInput {
-        #[deprecated]
-        #[method(insertText:)]
-        unsafe fn insertText(&self, string: Option<&Object>);
+#[objc2::protocol]
+pub unsafe trait NSTextInput {
+    #[deprecated]
+    #[objc2::method(sel = "insertText:")]
+    unsafe fn insertText(&self, string: Option<&Object>);
 
-        #[deprecated]
-        #[method(doCommandBySelector:)]
-        unsafe fn doCommandBySelector(&self, selector: Option<Sel>);
+    #[deprecated]
+    #[objc2::method(sel = "doCommandBySelector:")]
+    unsafe fn doCommandBySelector(&self, selector: Option<Sel>);
 
-        #[deprecated]
-        #[method(setMarkedText:selectedRange:)]
-        unsafe fn setMarkedText_selectedRange(&self, string: Option<&Object>, sel_range: NSRange);
+    #[deprecated]
+    #[objc2::method(sel = "setMarkedText:selectedRange:")]
+    unsafe fn setMarkedText_selectedRange(&self, string: Option<&Object>, sel_range: NSRange);
 
-        #[deprecated]
-        #[method(unmarkText)]
-        unsafe fn unmarkText(&self);
+    #[deprecated]
+    #[objc2::method(sel = "unmarkText")]
+    unsafe fn unmarkText(&self);
 
-        #[deprecated]
-        #[method(hasMarkedText)]
-        unsafe fn hasMarkedText(&self) -> bool;
+    #[deprecated]
+    #[objc2::method(sel = "hasMarkedText")]
+    unsafe fn hasMarkedText(&self) -> bool;
 
-        #[deprecated]
-        #[method(conversationIdentifier)]
-        unsafe fn conversationIdentifier(&self) -> NSInteger;
+    #[deprecated]
+    #[objc2::method(sel = "conversationIdentifier")]
+    unsafe fn conversationIdentifier(&self) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other attributedSubstringFromRange:)]
-        unsafe fn attributedSubstringFromRange(
-            &self,
-            range: NSRange,
-        ) -> Option<Id<NSAttributedString>>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[deprecated]
+    #[objc2::method(sel = "attributedSubstringFromRange:", managed = "Other")]
+    unsafe fn attributedSubstringFromRange(&self, range: NSRange)
+        -> Option<Id<NSAttributedString>>;
 
-        #[deprecated]
-        #[method(markedRange)]
-        unsafe fn markedRange(&self) -> NSRange;
+    #[deprecated]
+    #[objc2::method(sel = "markedRange")]
+    unsafe fn markedRange(&self) -> NSRange;
 
-        #[deprecated]
-        #[method(selectedRange)]
-        unsafe fn selectedRange(&self) -> NSRange;
+    #[deprecated]
+    #[objc2::method(sel = "selectedRange")]
+    unsafe fn selectedRange(&self) -> NSRange;
 
-        #[deprecated]
-        #[method(firstRectForCharacterRange:)]
-        unsafe fn firstRectForCharacterRange(&self, range: NSRange) -> NSRect;
+    #[deprecated]
+    #[objc2::method(sel = "firstRectForCharacterRange:")]
+    unsafe fn firstRectForCharacterRange(&self, range: NSRange) -> NSRect;
 
-        #[deprecated]
-        #[method(characterIndexForPoint:)]
-        unsafe fn characterIndexForPoint(&self, point: NSPoint) -> NSUInteger;
+    #[deprecated]
+    #[objc2::method(sel = "characterIndexForPoint:")]
+    unsafe fn characterIndexForPoint(&self, point: NSPoint) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other validAttributesForMarkedText)]
-        unsafe fn validAttributesForMarkedText(&self) -> Option<Id<NSArray>>;
-    }
+    #[cfg(feature = "Foundation_NSArray")]
+    #[deprecated]
+    #[objc2::method(sel = "validAttributesForMarkedText", managed = "Other")]
+    unsafe fn validAttributesForMarkedText(&self) -> Option<Id<NSArray>>;
+}
 
-    unsafe impl ProtocolType for dyn NSTextInput {}
-);
-
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSInputManager")]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[deprecated = "Use NSTextInputContext instead"]
-    pub struct NSInputManager;
-
     #[cfg(feature = "AppKit_NSInputManager")]
-    unsafe impl ClassType for NSInputManager {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type NSInputManager;
+}
 
 #[cfg(feature = "AppKit_NSInputManager")]
 unsafe impl NSObjectProtocol for NSInputManager {}
@@ -82,77 +77,77 @@ unsafe impl NSObjectProtocol for NSInputManager {}
 #[cfg(feature = "AppKit_NSInputManager")]
 unsafe impl NSTextInput for NSInputManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSInputManager")]
-    unsafe impl NSInputManager {
-        #[deprecated]
-        #[method_id(@__retain_semantics Other currentInputManager)]
-        pub unsafe fn currentInputManager() -> Option<Id<NSInputManager>>;
+    #[deprecated = "Use NSTextInputContext instead"]
+    pub type NSInputManager;
 
-        #[deprecated]
-        #[method(cycleToNextInputLanguage:)]
-        pub unsafe fn cycleToNextInputLanguage(sender: Option<&Object>);
+    #[deprecated]
+    #[objc2::method(sel = "currentInputManager", managed = "Other")]
+    pub unsafe fn currentInputManager() -> Option<Id<NSInputManager>>;
 
-        #[deprecated]
-        #[method(cycleToNextInputServerInLanguage:)]
-        pub unsafe fn cycleToNextInputServerInLanguage(sender: Option<&Object>);
+    #[deprecated]
+    #[objc2::method(sel = "cycleToNextInputLanguage:")]
+    pub unsafe fn cycleToNextInputLanguage(sender: Option<&Object>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithName:host:)]
-        pub unsafe fn initWithName_host(
-            this: Option<Allocated<Self>>,
-            input_server_name: Option<&NSString>,
-            host_name: Option<&NSString>,
-        ) -> Option<Id<NSInputManager>>;
+    #[deprecated]
+    #[objc2::method(sel = "cycleToNextInputServerInLanguage:")]
+    pub unsafe fn cycleToNextInputServerInLanguage(sender: Option<&Object>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other localizedInputManagerName)]
-        pub unsafe fn localizedInputManagerName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "initWithName:host:", managed = "Init")]
+    pub unsafe fn initWithName_host(
+        this: Option<Allocated<Self>>,
+        input_server_name: Option<&NSString>,
+        host_name: Option<&NSString>,
+    ) -> Option<Id<NSInputManager>>;
 
-        #[deprecated]
-        #[method(markedTextAbandoned:)]
-        pub unsafe fn markedTextAbandoned(&self, cli: Option<&Object>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "localizedInputManagerName", managed = "Other")]
+    pub unsafe fn localizedInputManagerName(&self) -> Option<Id<NSString>>;
 
-        #[deprecated]
-        #[method(markedTextSelectionChanged:client:)]
-        pub unsafe fn markedTextSelectionChanged_client(
-            &self,
-            new_sel: NSRange,
-            cli: Option<&Object>,
-        );
+    #[deprecated]
+    #[objc2::method(sel = "markedTextAbandoned:")]
+    pub unsafe fn markedTextAbandoned(&self, cli: Option<&Object>);
 
-        #[deprecated]
-        #[method(wantsToInterpretAllKeystrokes)]
-        pub unsafe fn wantsToInterpretAllKeystrokes(&self) -> bool;
+    #[deprecated]
+    #[objc2::method(sel = "markedTextSelectionChanged:client:")]
+    pub unsafe fn markedTextSelectionChanged_client(&self, new_sel: NSRange, cli: Option<&Object>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other language)]
-        pub unsafe fn language(&self) -> Option<Id<NSString>>;
+    #[deprecated]
+    #[objc2::method(sel = "wantsToInterpretAllKeystrokes")]
+    pub unsafe fn wantsToInterpretAllKeystrokes(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "language", managed = "Other")]
+    pub unsafe fn language(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "AppKit_NSInputServer")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other server)]
-        pub unsafe fn server(&self) -> Option<Id<NSInputServer>>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[deprecated]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Option<Id<NSImage>>;
 
-        #[deprecated]
-        #[method(wantsToHandleMouseEvents)]
-        pub unsafe fn wantsToHandleMouseEvents(&self) -> bool;
+    #[cfg(feature = "AppKit_NSInputServer")]
+    #[deprecated]
+    #[objc2::method(sel = "server", managed = "Other")]
+    pub unsafe fn server(&self) -> Option<Id<NSInputServer>>;
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[deprecated]
-        #[method(handleMouseEvent:)]
-        pub unsafe fn handleMouseEvent(&self, mouse_event: Option<&NSEvent>) -> bool;
+    #[deprecated]
+    #[objc2::method(sel = "wantsToHandleMouseEvents")]
+    pub unsafe fn wantsToHandleMouseEvents(&self) -> bool;
 
-        #[deprecated]
-        #[method(wantsToDelayTextChangeNotifications)]
-        pub unsafe fn wantsToDelayTextChangeNotifications(&self) -> bool;
-    }
-);
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[deprecated]
+    #[objc2::method(sel = "handleMouseEvent:")]
+    pub unsafe fn handleMouseEvent(&self, mouse_event: Option<&NSEvent>) -> bool;
+
+    #[deprecated]
+    #[objc2::method(sel = "wantsToDelayTextChangeNotifications")]
+    pub unsafe fn wantsToDelayTextChangeNotifications(&self) -> bool;
+}

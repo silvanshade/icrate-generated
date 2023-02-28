@@ -5,16 +5,16 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::UserNotifications::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNNotificationTrigger")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "UserNotifications_UNNotificationTrigger")]
-    pub struct UNNotificationTrigger;
-
-    #[cfg(feature = "UserNotifications_UNNotificationTrigger")]
-    unsafe impl ClassType for UNNotificationTrigger {
-        type Super = NSObject;
-    }
-);
+    pub type UNNotificationTrigger;
+}
 
 #[cfg(feature = "UserNotifications_UNNotificationTrigger")]
 unsafe impl NSCoding for UNNotificationTrigger {}
@@ -25,28 +25,31 @@ unsafe impl NSObjectProtocol for UNNotificationTrigger {}
 #[cfg(feature = "UserNotifications_UNNotificationTrigger")]
 unsafe impl NSSecureCoding for UNNotificationTrigger {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "UserNotifications_UNNotificationTrigger")]
-    unsafe impl UNNotificationTrigger {
-        #[method(repeats)]
-        pub unsafe fn repeats(&self) -> bool;
+    pub type UNNotificationTrigger;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "repeats")]
+    pub unsafe fn repeats(&self) -> bool;
 
-extern_class!(
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = UNNotificationTrigger,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNPushNotificationTrigger")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "UserNotifications_UNPushNotificationTrigger")]
-    pub struct UNPushNotificationTrigger;
-
-    #[cfg(feature = "UserNotifications_UNPushNotificationTrigger")]
-    unsafe impl ClassType for UNPushNotificationTrigger {
-        #[inherits(NSObject)]
-        type Super = UNNotificationTrigger;
-    }
-);
+    pub type UNPushNotificationTrigger;
+}
 
 #[cfg(feature = "UserNotifications_UNPushNotificationTrigger")]
 unsafe impl NSCoding for UNPushNotificationTrigger {}
@@ -57,22 +60,25 @@ unsafe impl NSObjectProtocol for UNPushNotificationTrigger {}
 #[cfg(feature = "UserNotifications_UNPushNotificationTrigger")]
 unsafe impl NSSecureCoding for UNPushNotificationTrigger {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "UserNotifications_UNPushNotificationTrigger")]
-    unsafe impl UNPushNotificationTrigger {}
-);
+    pub type UNPushNotificationTrigger;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = UNNotificationTrigger,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNTimeIntervalNotificationTrigger")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "UserNotifications_UNTimeIntervalNotificationTrigger")]
-    pub struct UNTimeIntervalNotificationTrigger;
-
-    #[cfg(feature = "UserNotifications_UNTimeIntervalNotificationTrigger")]
-    unsafe impl ClassType for UNTimeIntervalNotificationTrigger {
-        #[inherits(NSObject)]
-        type Super = UNNotificationTrigger;
-    }
-);
+    pub type UNTimeIntervalNotificationTrigger;
+}
 
 #[cfg(feature = "UserNotifications_UNTimeIntervalNotificationTrigger")]
 unsafe impl NSCoding for UNTimeIntervalNotificationTrigger {}
@@ -83,35 +89,38 @@ unsafe impl NSObjectProtocol for UNTimeIntervalNotificationTrigger {}
 #[cfg(feature = "UserNotifications_UNTimeIntervalNotificationTrigger")]
 unsafe impl NSSecureCoding for UNTimeIntervalNotificationTrigger {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "UserNotifications_UNTimeIntervalNotificationTrigger")]
-    unsafe impl UNTimeIntervalNotificationTrigger {
-        #[method(timeInterval)]
-        pub unsafe fn timeInterval(&self) -> NSTimeInterval;
+    pub type UNTimeIntervalNotificationTrigger;
 
-        #[method_id(@__retain_semantics Other triggerWithTimeInterval:repeats:)]
-        pub unsafe fn triggerWithTimeInterval_repeats(
-            time_interval: NSTimeInterval,
-            repeats: bool,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "timeInterval")]
+    pub unsafe fn timeInterval(&self) -> NSTimeInterval;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other nextTriggerDate)]
-        pub unsafe fn nextTriggerDate(&self) -> Option<Id<NSDate>>;
-    }
-);
+    #[objc2::method(sel = "triggerWithTimeInterval:repeats:", managed = "Other")]
+    pub unsafe fn triggerWithTimeInterval_repeats(
+        time_interval: NSTimeInterval,
+        repeats: bool,
+    ) -> Id<Self>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "nextTriggerDate", managed = "Other")]
+    pub unsafe fn nextTriggerDate(&self) -> Option<Id<NSDate>>;
+}
+
+#[objc2::interface(
+    unsafe super = UNNotificationTrigger,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNCalendarNotificationTrigger")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "UserNotifications_UNCalendarNotificationTrigger")]
-    pub struct UNCalendarNotificationTrigger;
-
-    #[cfg(feature = "UserNotifications_UNCalendarNotificationTrigger")]
-    unsafe impl ClassType for UNCalendarNotificationTrigger {
-        #[inherits(NSObject)]
-        type Super = UNNotificationTrigger;
-    }
-);
+    pub type UNCalendarNotificationTrigger;
+}
 
 #[cfg(feature = "UserNotifications_UNCalendarNotificationTrigger")]
 unsafe impl NSCoding for UNCalendarNotificationTrigger {}
@@ -122,37 +131,40 @@ unsafe impl NSObjectProtocol for UNCalendarNotificationTrigger {}
 #[cfg(feature = "UserNotifications_UNCalendarNotificationTrigger")]
 unsafe impl NSSecureCoding for UNCalendarNotificationTrigger {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "UserNotifications_UNCalendarNotificationTrigger")]
-    unsafe impl UNCalendarNotificationTrigger {
-        #[cfg(feature = "Foundation_NSDateComponents")]
-        #[method_id(@__retain_semantics Other dateComponents)]
-        pub unsafe fn dateComponents(&self) -> Id<NSDateComponents>;
+    pub type UNCalendarNotificationTrigger;
 
-        #[cfg(feature = "Foundation_NSDateComponents")]
-        #[method_id(@__retain_semantics Other triggerWithDateMatchingComponents:repeats:)]
-        pub unsafe fn triggerWithDateMatchingComponents_repeats(
-            date_components: &NSDateComponents,
-            repeats: bool,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSDateComponents")]
+    #[objc2::method(sel = "dateComponents", managed = "Other")]
+    pub unsafe fn dateComponents(&self) -> Id<NSDateComponents>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other nextTriggerDate)]
-        pub unsafe fn nextTriggerDate(&self) -> Option<Id<NSDate>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSDateComponents")]
+    #[objc2::method(sel = "triggerWithDateMatchingComponents:repeats:", managed = "Other")]
+    pub unsafe fn triggerWithDateMatchingComponents_repeats(
+        date_components: &NSDateComponents,
+        repeats: bool,
+    ) -> Id<Self>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "nextTriggerDate", managed = "Other")]
+    pub unsafe fn nextTriggerDate(&self) -> Option<Id<NSDate>>;
+}
+
+#[objc2::interface(
+    unsafe super = UNNotificationTrigger,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNLocationNotificationTrigger")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "UserNotifications_UNLocationNotificationTrigger")]
-    pub struct UNLocationNotificationTrigger;
-
-    #[cfg(feature = "UserNotifications_UNLocationNotificationTrigger")]
-    unsafe impl ClassType for UNLocationNotificationTrigger {
-        #[inherits(NSObject)]
-        type Super = UNNotificationTrigger;
-    }
-);
+    pub type UNLocationNotificationTrigger;
+}
 
 #[cfg(feature = "UserNotifications_UNLocationNotificationTrigger")]
 unsafe impl NSCoding for UNLocationNotificationTrigger {}
@@ -163,15 +175,18 @@ unsafe impl NSObjectProtocol for UNLocationNotificationTrigger {}
 #[cfg(feature = "UserNotifications_UNLocationNotificationTrigger")]
 unsafe impl NSSecureCoding for UNLocationNotificationTrigger {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "UserNotifications_UNLocationNotificationTrigger")]
-    unsafe impl UNLocationNotificationTrigger {
-        #[cfg(feature = "CoreLocation_CLRegion")]
-        #[method_id(@__retain_semantics Other region)]
-        pub unsafe fn region(&self) -> Id<CLRegion>;
+    pub type UNLocationNotificationTrigger;
 
-        #[cfg(feature = "CoreLocation_CLRegion")]
-        #[method_id(@__retain_semantics Other triggerWithRegion:repeats:)]
-        pub unsafe fn triggerWithRegion_repeats(region: &CLRegion, repeats: bool) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "CoreLocation_CLRegion")]
+    #[objc2::method(sel = "region", managed = "Other")]
+    pub unsafe fn region(&self) -> Id<CLRegion>;
+
+    #[cfg(feature = "CoreLocation_CLRegion")]
+    #[objc2::method(sel = "triggerWithRegion:repeats:", managed = "Other")]
+    pub unsafe fn triggerWithRegion_repeats(region: &CLRegion, repeats: bool) -> Id<Self>;
+}

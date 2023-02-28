@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::IdentityLookup::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = ILClassificationRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "IdentityLookup_ILMessageClassificationRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "IdentityLookup_ILMessageClassificationRequest")]
-    pub struct ILMessageClassificationRequest;
-
-    #[cfg(feature = "IdentityLookup_ILMessageClassificationRequest")]
-    unsafe impl ClassType for ILMessageClassificationRequest {
-        #[inherits(NSObject)]
-        type Super = ILClassificationRequest;
-    }
-);
+    pub type ILMessageClassificationRequest;
+}
 
 #[cfg(feature = "IdentityLookup_ILMessageClassificationRequest")]
 unsafe impl NSCoding for ILMessageClassificationRequest {}
@@ -25,17 +25,20 @@ unsafe impl NSObjectProtocol for ILMessageClassificationRequest {}
 #[cfg(feature = "IdentityLookup_ILMessageClassificationRequest")]
 unsafe impl NSSecureCoding for ILMessageClassificationRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "IdentityLookup_ILMessageClassificationRequest")]
-    unsafe impl ILMessageClassificationRequest {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "IdentityLookup_ILMessageCommunication"
-        ))]
-        #[method_id(@__retain_semantics Other messageCommunications)]
-        pub unsafe fn messageCommunications(&self) -> Id<NSArray<ILMessageCommunication>>;
+    pub type ILMessageClassificationRequest;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "IdentityLookup_ILMessageCommunication"
+    ))]
+    #[objc2::method(sel = "messageCommunications", managed = "Other")]
+    pub unsafe fn messageCommunications(&self) -> Id<NSArray<ILMessageCommunication>>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

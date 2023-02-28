@@ -3,16 +3,16 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSURLResponse")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSURLResponse")]
-    pub struct NSURLResponse;
-
-    #[cfg(feature = "Foundation_NSURLResponse")]
-    unsafe impl ClassType for NSURLResponse {
-        type Super = NSObject;
-    }
-);
+    pub type NSURLResponse;
+}
 
 #[cfg(feature = "Foundation_NSURLResponse")]
 unsafe impl NSCoding for NSURLResponse {}
@@ -23,51 +23,57 @@ unsafe impl NSObjectProtocol for NSURLResponse {}
 #[cfg(feature = "Foundation_NSURLResponse")]
 unsafe impl NSSecureCoding for NSURLResponse {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLResponse")]
-    unsafe impl NSURLResponse {
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Init initWithURL:MIMEType:expectedContentLength:textEncodingName:)]
-        pub unsafe fn initWithURL_MIMEType_expectedContentLength_textEncodingName(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            mime_type: Option<&NSString>,
-            length: NSInteger,
-            name: Option<&NSString>,
-        ) -> Id<Self>;
+    pub type NSURLResponse;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
+    #[objc2::method(
+        sel = "initWithURL:MIMEType:expectedContentLength:textEncodingName:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithURL_MIMEType_expectedContentLength_textEncodingName(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        mime_type: Option<&NSString>,
+        length: NSInteger,
+        name: Option<&NSString>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other MIMEType)]
-        pub unsafe fn MIMEType(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
 
-        #[method(expectedContentLength)]
-        pub unsafe fn expectedContentLength(&self) -> c_longlong;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "MIMEType", managed = "Other")]
+    pub unsafe fn MIMEType(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other textEncodingName)]
-        pub unsafe fn textEncodingName(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "expectedContentLength")]
+    pub unsafe fn expectedContentLength(&self) -> c_longlong;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other suggestedFilename)]
-        pub unsafe fn suggestedFilename(&self) -> Option<Id<NSString>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "textEncodingName", managed = "Other")]
+    pub unsafe fn textEncodingName(&self) -> Option<Id<NSString>>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "suggestedFilename", managed = "Other")]
+    pub unsafe fn suggestedFilename(&self) -> Option<Id<NSString>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSURLResponse,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSHTTPURLResponse")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSHTTPURLResponse")]
-    pub struct NSHTTPURLResponse;
-
-    #[cfg(feature = "Foundation_NSHTTPURLResponse")]
-    unsafe impl ClassType for NSHTTPURLResponse {
-        #[inherits(NSObject)]
-        type Super = NSURLResponse;
-    }
-);
+    pub type NSHTTPURLResponse;
+}
 
 #[cfg(feature = "Foundation_NSHTTPURLResponse")]
 unsafe impl NSCoding for NSHTTPURLResponse {}
@@ -78,52 +84,67 @@ unsafe impl NSObjectProtocol for NSHTTPURLResponse {}
 #[cfg(feature = "Foundation_NSHTTPURLResponse")]
 unsafe impl NSSecureCoding for NSHTTPURLResponse {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSHTTPURLResponse")]
-    unsafe impl NSHTTPURLResponse {
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Init initWithURL:statusCode:HTTPVersion:headerFields:)]
-        pub unsafe fn initWithURL_statusCode_HTTPVersion_headerFields(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            status_code: NSInteger,
-            http_version: Option<&NSString>,
-            header_fields: Option<&NSDictionary<NSString, NSString>>,
-        ) -> Option<Id<Self>>;
+    pub type NSHTTPURLResponse;
 
-        #[method(statusCode)]
-        pub unsafe fn statusCode(&self) -> NSInteger;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "initWithURL:statusCode:HTTPVersion:headerFields:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithURL_statusCode_HTTPVersion_headerFields(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        status_code: NSInteger,
+        http_version: Option<&NSString>,
+        header_fields: Option<&NSDictionary<NSString, NSString>>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other allHeaderFields)]
-        pub unsafe fn allHeaderFields(&self) -> Id<NSDictionary>;
+    #[objc2::method(sel = "statusCode")]
+    pub unsafe fn statusCode(&self) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other valueForHTTPHeaderField:)]
-        pub unsafe fn valueForHTTPHeaderField(&self, field: &NSString) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "allHeaderFields", managed = "Other")]
+    pub unsafe fn allHeaderFields(&self) -> Id<NSDictionary>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedStringForStatusCode:)]
-        pub unsafe fn localizedStringForStatusCode(status_code: NSInteger) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "valueForHTTPHeaderField:", managed = "Other")]
+    pub unsafe fn valueForHTTPHeaderField(&self, field: &NSString) -> Option<Id<NSString>>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSURLResponse`
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedStringForStatusCode:", managed = "Other")]
+    pub unsafe fn localizedStringForStatusCode(status_code: NSInteger) -> Id<NSString>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSURLResponse`
     #[cfg(feature = "Foundation_NSHTTPURLResponse")]
-    unsafe impl NSHTTPURLResponse {
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Init initWithURL:MIMEType:expectedContentLength:textEncodingName:)]
-        pub unsafe fn initWithURL_MIMEType_expectedContentLength_textEncodingName(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            mime_type: Option<&NSString>,
-            length: NSInteger,
-            name: Option<&NSString>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSHTTPURLResponse")]
+    pub type NSHTTPURLResponse;
+
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
+    #[objc2::method(
+        sel = "initWithURL:MIMEType:expectedContentLength:textEncodingName:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithURL_MIMEType_expectedContentLength_textEncodingName(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        mime_type: Option<&NSString>,
+        length: NSInteger,
+        name: Option<&NSString>,
+    ) -> Id<Self>;
+}

@@ -6,16 +6,16 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHCloudIdentifier")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHCloudIdentifier")]
-    pub struct PHCloudIdentifier;
-
-    #[cfg(feature = "PhotoKit_PHCloudIdentifier")]
-    unsafe impl ClassType for PHCloudIdentifier {
-        type Super = NSObject;
-    }
-);
+    pub type PHCloudIdentifier;
+}
 
 #[cfg(feature = "PhotoKit_PHCloudIdentifier")]
 unsafe impl NSCoding for PHCloudIdentifier {}
@@ -26,137 +26,151 @@ unsafe impl NSObjectProtocol for PHCloudIdentifier {}
 #[cfg(feature = "PhotoKit_PHCloudIdentifier")]
 unsafe impl NSSecureCoding for PHCloudIdentifier {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHCloudIdentifier")]
-    unsafe impl PHCloudIdentifier {
-        #[deprecated]
-        #[method_id(@__retain_semantics Other notFoundIdentifier)]
-        pub unsafe fn notFoundIdentifier() -> Id<PHCloudIdentifier>;
+    pub type PHCloudIdentifier;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringValue)]
-        pub unsafe fn stringValue(&self) -> Id<NSString>;
+    #[deprecated]
+    #[objc2::method(sel = "notFoundIdentifier", managed = "Other")]
+    pub unsafe fn notFoundIdentifier() -> Id<PHCloudIdentifier>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithStringValue:)]
-        pub unsafe fn initWithStringValue(
-            this: Option<Allocated<Self>>,
-            string_value: &NSString,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringValue", managed = "Other")]
+    pub unsafe fn stringValue(&self) -> Id<NSString>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithStringValue:", managed = "Init")]
+    pub unsafe fn initWithStringValue(
+        this: Option<Allocated<Self>>,
+        string_value: &NSString,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHCloudIdentifierMapping")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHCloudIdentifierMapping")]
-    pub struct PHCloudIdentifierMapping;
-
-    #[cfg(feature = "PhotoKit_PHCloudIdentifierMapping")]
-    unsafe impl ClassType for PHCloudIdentifierMapping {
-        type Super = NSObject;
-    }
-);
+    pub type PHCloudIdentifierMapping;
+}
 
 #[cfg(feature = "PhotoKit_PHCloudIdentifierMapping")]
 unsafe impl NSObjectProtocol for PHCloudIdentifierMapping {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHCloudIdentifierMapping")]
-    unsafe impl PHCloudIdentifierMapping {
-        #[cfg(feature = "PhotoKit_PHCloudIdentifier")]
-        #[method_id(@__retain_semantics Other cloudIdentifier)]
-        pub unsafe fn cloudIdentifier(&self) -> Option<Id<PHCloudIdentifier>>;
+    pub type PHCloudIdentifierMapping;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other error)]
-        pub unsafe fn error(&self) -> Option<Id<NSError>>;
-    }
-);
+    #[cfg(feature = "PhotoKit_PHCloudIdentifier")]
+    #[objc2::method(sel = "cloudIdentifier", managed = "Other")]
+    pub unsafe fn cloudIdentifier(&self) -> Option<Id<PHCloudIdentifier>>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "error", managed = "Other")]
+    pub unsafe fn error(&self) -> Option<Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHLocalIdentifierMapping")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHLocalIdentifierMapping")]
-    pub struct PHLocalIdentifierMapping;
-
-    #[cfg(feature = "PhotoKit_PHLocalIdentifierMapping")]
-    unsafe impl ClassType for PHLocalIdentifierMapping {
-        type Super = NSObject;
-    }
-);
+    pub type PHLocalIdentifierMapping;
+}
 
 #[cfg(feature = "PhotoKit_PHLocalIdentifierMapping")]
 unsafe impl NSObjectProtocol for PHLocalIdentifierMapping {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHLocalIdentifierMapping")]
-    unsafe impl PHLocalIdentifierMapping {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localIdentifier)]
-        pub unsafe fn localIdentifier(&self) -> Option<Id<NSString>>;
+    pub type PHLocalIdentifierMapping;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other error)]
-        pub unsafe fn error(&self) -> Option<Id<NSError>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localIdentifier", managed = "Other")]
+    pub unsafe fn localIdentifier(&self) -> Option<Id<NSString>>;
 
-extern_methods!(
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "error", managed = "Other")]
+    pub unsafe fn error(&self) -> Option<Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHCloudIdentifier")]
-    unsafe impl PHCloudIdentifier {}
-);
+    pub type PHCloudIdentifier;
+}
 
-extern_methods!(
-    /// CloudIdentifiers
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHPhotoLibrary")]
-    unsafe impl PHPhotoLibrary {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "PhotoKit_PHCloudIdentifier",
-            feature = "PhotoKit_PHLocalIdentifierMapping"
-        ))]
-        #[method_id(@__retain_semantics Other localIdentifierMappingsForCloudIdentifiers:)]
-        pub unsafe fn localIdentifierMappingsForCloudIdentifiers(
-            &self,
-            cloud_identifiers: &NSArray<PHCloudIdentifier>,
-        ) -> Id<NSDictionary<PHCloudIdentifier, PHLocalIdentifierMapping>>;
+    pub type PHPhotoLibrary;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "PhotoKit_PHCloudIdentifierMapping"
-        ))]
-        #[method_id(@__retain_semantics Other cloudIdentifierMappingsForLocalIdentifiers:)]
-        pub unsafe fn cloudIdentifierMappingsForLocalIdentifiers(
-            &self,
-            local_identifiers: &NSArray<NSString>,
-        ) -> Id<NSDictionary<NSString, PHCloudIdentifierMapping>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "PhotoKit_PHCloudIdentifier",
+        feature = "PhotoKit_PHLocalIdentifierMapping"
+    ))]
+    #[objc2::method(sel = "localIdentifierMappingsForCloudIdentifiers:", managed = "Other")]
+    pub unsafe fn localIdentifierMappingsForCloudIdentifiers(
+        &self,
+        cloud_identifiers: &NSArray<PHCloudIdentifier>,
+    ) -> Id<NSDictionary<PHCloudIdentifier, PHLocalIdentifierMapping>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString",
-            feature = "PhotoKit_PHCloudIdentifier"
-        ))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other localIdentifiersForCloudIdentifiers:)]
-        pub unsafe fn localIdentifiersForCloudIdentifiers(
-            &self,
-            cloud_identifiers: &NSArray<PHCloudIdentifier>,
-        ) -> Id<NSArray<NSString>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "PhotoKit_PHCloudIdentifierMapping"
+    ))]
+    #[objc2::method(sel = "cloudIdentifierMappingsForLocalIdentifiers:", managed = "Other")]
+    pub unsafe fn cloudIdentifierMappingsForLocalIdentifiers(
+        &self,
+        local_identifiers: &NSArray<NSString>,
+    ) -> Id<NSDictionary<NSString, PHCloudIdentifierMapping>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString",
-            feature = "PhotoKit_PHCloudIdentifier"
-        ))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other cloudIdentifiersForLocalIdentifiers:)]
-        pub unsafe fn cloudIdentifiersForLocalIdentifiers(
-            &self,
-            local_identifiers: &NSArray<NSString>,
-        ) -> Id<NSArray<PHCloudIdentifier>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString",
+        feature = "PhotoKit_PHCloudIdentifier"
+    ))]
+    #[deprecated]
+    #[objc2::method(sel = "localIdentifiersForCloudIdentifiers:", managed = "Other")]
+    pub unsafe fn localIdentifiersForCloudIdentifiers(
+        &self,
+        cloud_identifiers: &NSArray<PHCloudIdentifier>,
+    ) -> Id<NSArray<NSString>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString",
+        feature = "PhotoKit_PHCloudIdentifier"
+    ))]
+    #[deprecated]
+    #[objc2::method(sel = "cloudIdentifiersForLocalIdentifiers:", managed = "Other")]
+    pub unsafe fn cloudIdentifiersForLocalIdentifiers(
+        &self,
+        local_identifiers: &NSArray<NSString>,
+    ) -> Id<NSArray<PHCloudIdentifier>>;
+}
 
 extern_static!(PHLocalIdentifierNotFound: &'static NSString);

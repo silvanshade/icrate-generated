@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSImageRep,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSEPSImageRep")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSEPSImageRep")]
-    pub struct NSEPSImageRep;
-
-    #[cfg(feature = "AppKit_NSEPSImageRep")]
-    unsafe impl ClassType for NSEPSImageRep {
-        #[inherits(NSObject)]
-        type Super = NSImageRep;
-    }
-);
+    pub type NSEPSImageRep;
+}
 
 #[cfg(feature = "AppKit_NSEPSImageRep")]
 unsafe impl NSCoding for NSEPSImageRep {}
@@ -23,29 +23,32 @@ unsafe impl NSCoding for NSEPSImageRep {}
 #[cfg(feature = "AppKit_NSEPSImageRep")]
 unsafe impl NSObjectProtocol for NSEPSImageRep {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSEPSImageRep")]
-    unsafe impl NSEPSImageRep {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other imageRepWithData:)]
-        pub unsafe fn imageRepWithData(eps_data: &NSData) -> Option<Id<Self>>;
+    pub type NSEPSImageRep;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Init initWithData:)]
-        pub unsafe fn initWithData(
-            this: Option<Allocated<Self>>,
-            eps_data: &NSData,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "imageRepWithData:", managed = "Other")]
+    pub unsafe fn imageRepWithData(eps_data: &NSData) -> Option<Id<Self>>;
 
-        #[deprecated]
-        #[method(prepareGState)]
-        pub unsafe fn prepareGState(&self);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "initWithData:", managed = "Init")]
+    pub unsafe fn initWithData(
+        this: Option<Allocated<Self>>,
+        eps_data: &NSData,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other EPSRepresentation)]
-        pub unsafe fn EPSRepresentation(&self) -> Id<NSData>;
+    #[deprecated]
+    #[objc2::method(sel = "prepareGState")]
+    pub unsafe fn prepareGState(&self);
 
-        #[method(boundingBox)]
-        pub unsafe fn boundingBox(&self) -> NSRect;
-    }
-);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "EPSRepresentation", managed = "Other")]
+    pub unsafe fn EPSRepresentation(&self) -> Id<NSData>;
+
+    #[objc2::method(sel = "boundingBox")]
+    pub unsafe fn boundingBox(&self) -> NSRect;
+}

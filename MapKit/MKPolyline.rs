@@ -7,17 +7,18 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKMultiPoint,
+    unsafe inherits = [
+        MKShape,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKPolyline")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKPolyline")]
-    pub struct MKPolyline;
-
-    #[cfg(feature = "MapKit_MKPolyline")]
-    unsafe impl ClassType for MKPolyline {
-        #[inherits(MKShape, NSObject)]
-        type Super = MKMultiPoint;
-    }
-);
+    pub type MKPolyline;
+}
 
 #[cfg(feature = "MapKit_MKPolyline")]
 unsafe impl MKAnnotation for MKPolyline {}
@@ -28,19 +29,22 @@ unsafe impl MKOverlay for MKPolyline {}
 #[cfg(feature = "MapKit_MKPolyline")]
 unsafe impl NSObjectProtocol for MKPolyline {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKPolyline")]
-    unsafe impl MKPolyline {
-        #[method_id(@__retain_semantics Other polylineWithPoints:count:)]
-        pub unsafe fn polylineWithPoints_count(
-            points: NonNull<MKMapPoint>,
-            count: NSUInteger,
-        ) -> Id<Self>;
+    pub type MKPolyline;
 
-        #[method_id(@__retain_semantics Other polylineWithCoordinates:count:)]
-        pub unsafe fn polylineWithCoordinates_count(
-            coords: NonNull<CLLocationCoordinate2D>,
-            count: NSUInteger,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "polylineWithPoints:count:", managed = "Other")]
+    pub unsafe fn polylineWithPoints_count(
+        points: NonNull<MKMapPoint>,
+        count: NSUInteger,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "polylineWithCoordinates:count:", managed = "Other")]
+    pub unsafe fn polylineWithCoordinates_count(
+        coords: NonNull<CLLocationCoordinate2D>,
+        count: NSUInteger,
+    ) -> Id<Self>;
+}

@@ -5,58 +5,59 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCMicroGamepadSnapshot")]
+#[objc2::interface(
+    unsafe super = GCMicroGamepad,
+    unsafe inherits = [
+        GCPhysicalInputProfile,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated = "GCMicroGamepadSnapshot has been deprecated, use [GCController controllerWithMicroGamepad] instead"]
-    pub struct GCMicroGamepadSnapshot;
-
     #[cfg(feature = "GameController_GCMicroGamepadSnapshot")]
-    unsafe impl ClassType for GCMicroGamepadSnapshot {
-        #[inherits(GCPhysicalInputProfile, NSObject)]
-        type Super = GCMicroGamepad;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type GCMicroGamepadSnapshot;
+}
 
 #[cfg(feature = "GameController_GCMicroGamepadSnapshot")]
 unsafe impl NSObjectProtocol for GCMicroGamepadSnapshot {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCMicroGamepadSnapshot")]
-    unsafe impl GCMicroGamepadSnapshot {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other snapshotData)]
-        pub unsafe fn snapshotData(&self) -> Id<NSData>;
-
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(setSnapshotData:)]
-        pub unsafe fn setSnapshotData(&self, snapshot_data: &NSData);
-
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Init initWithSnapshotData:)]
-        pub unsafe fn initWithSnapshotData(
-            this: Option<Allocated<Self>>,
-            data: &NSData,
-        ) -> Id<Self>;
-
-        #[cfg(all(feature = "Foundation_NSData", feature = "GameController_GCController"))]
-        #[method_id(@__retain_semantics Init initWithController:snapshotData:)]
-        pub unsafe fn initWithController_snapshotData(
-            this: Option<Allocated<Self>>,
-            controller: &GCController,
-            data: &NSData,
-        ) -> Id<Self>;
-    }
-);
-
-ns_enum!(
-    #[underlying(NSInteger)]
     #[deprecated = "GCMicroGamepadSnapshot has been deprecated, use [GCController controllerWithMicroGamepad] instead"]
-    pub enum GCMicroGamepadSnapshotDataVersion {
-        #[deprecated = "GCMicroGamepadSnapshot has been deprecated, use [GCController controllerWithMicroGamepad] instead"]
-        GCMicroGamepadSnapshotDataVersion1 = 0x0100,
-    }
-);
+    pub type GCMicroGamepadSnapshot;
+
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "snapshotData", managed = "Other")]
+    pub unsafe fn snapshotData(&self) -> Id<NSData>;
+
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "setSnapshotData:")]
+    pub unsafe fn setSnapshotData(&self, snapshot_data: &NSData);
+
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "initWithSnapshotData:", managed = "Init")]
+    pub unsafe fn initWithSnapshotData(this: Option<Allocated<Self>>, data: &NSData) -> Id<Self>;
+
+    #[cfg(all(feature = "Foundation_NSData", feature = "GameController_GCController"))]
+    #[objc2::method(sel = "initWithController:snapshotData:", managed = "Init")]
+    pub unsafe fn initWithController_snapshotData(
+        this: Option<Allocated<Self>>,
+        controller: &GCController,
+        data: &NSData,
+    ) -> Id<Self>;
+}
+
+#[ns_enum]
+#[underlying(NSInteger)]
+#[deprecated = "GCMicroGamepadSnapshot has been deprecated, use [GCController controllerWithMicroGamepad] instead"]
+pub enum GCMicroGamepadSnapshotDataVersion {
+    #[deprecated = "GCMicroGamepadSnapshot has been deprecated, use [GCController controllerWithMicroGamepad] instead"]
+    GCMicroGamepadSnapshotDataVersion1 = 0x0100,
+}
 
 extern_static!(GCCurrentMicroGamepadSnapshotDataVersion: GCMicroGamepadSnapshotDataVersion);
 

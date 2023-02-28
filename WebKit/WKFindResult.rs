@@ -5,27 +5,30 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKFindResult")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKFindResult")]
-    pub struct WKFindResult;
-
-    #[cfg(feature = "WebKit_WKFindResult")]
-    unsafe impl ClassType for WKFindResult {
-        type Super = NSObject;
-    }
-);
+    pub type WKFindResult;
+}
 
 #[cfg(feature = "WebKit_WKFindResult")]
 unsafe impl NSObjectProtocol for WKFindResult {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKFindResult")]
-    unsafe impl WKFindResult {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type WKFindResult;
 
-        #[method(matchFound)]
-        pub unsafe fn matchFound(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "matchFound")]
+    pub unsafe fn matchFound(&self) -> bool;
+}

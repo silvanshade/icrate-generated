@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLFontElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLFontElement;
-
     #[cfg(feature = "WebKit_DOMHTMLFontElement")]
-    unsafe impl ClassType for DOMHTMLFontElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLFontElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLFontElement")]
 unsafe impl DOMEventTarget for DOMHTMLFontElement {}
@@ -24,31 +28,35 @@ unsafe impl DOMEventTarget for DOMHTMLFontElement {}
 #[cfg(feature = "WebKit_DOMHTMLFontElement")]
 unsafe impl NSObjectProtocol for DOMHTMLFontElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLFontElement")]
-    unsafe impl DOMHTMLFontElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other color)]
-        pub unsafe fn color(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMHTMLFontElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setColor:)]
-        pub unsafe fn setColor(&self, color: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "color", managed = "Other")]
+    pub unsafe fn color(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other face)]
-        pub unsafe fn face(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setColor:")]
+    pub unsafe fn setColor(&self, color: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setFace:)]
-        pub unsafe fn setFace(&self, face: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "face", managed = "Other")]
+    pub unsafe fn face(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other size)]
-        pub unsafe fn size(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setFace:")]
+    pub unsafe fn setFace(&self, face: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSize:)]
-        pub unsafe fn setSize(&self, size: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "size", managed = "Other")]
+    pub unsafe fn size(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSize:")]
+    pub unsafe fn setSize(&self, size: Option<&NSString>);
+}

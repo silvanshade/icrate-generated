@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MXMetric,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXDiskIOMetric")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXDiskIOMetric")]
-    pub struct MXDiskIOMetric;
-
-    #[cfg(feature = "MetricKit_MXDiskIOMetric")]
-    unsafe impl ClassType for MXDiskIOMetric {
-        #[inherits(NSObject)]
-        type Super = MXMetric;
-    }
-);
+    pub type MXDiskIOMetric;
+}
 
 #[cfg(feature = "MetricKit_MXDiskIOMetric")]
 unsafe impl NSCoding for MXDiskIOMetric {}
@@ -25,15 +25,17 @@ unsafe impl NSObjectProtocol for MXDiskIOMetric {}
 #[cfg(feature = "MetricKit_MXDiskIOMetric")]
 unsafe impl NSSecureCoding for MXDiskIOMetric {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXDiskIOMetric")]
-    unsafe impl MXDiskIOMetric {
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitInformationStorage"
-        ))]
-        #[method_id(@__retain_semantics Other cumulativeLogicalWrites)]
-        pub unsafe fn cumulativeLogicalWrites(&self)
-            -> Id<NSMeasurement<NSUnitInformationStorage>>;
-    }
-);
+    pub type MXDiskIOMetric;
+
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitInformationStorage"
+    ))]
+    #[objc2::method(sel = "cumulativeLogicalWrites", managed = "Other")]
+    pub unsafe fn cumulativeLogicalWrites(&self) -> Id<NSMeasurement<NSUnitInformationStorage>>;
+}

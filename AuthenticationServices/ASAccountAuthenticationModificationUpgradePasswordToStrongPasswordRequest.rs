@@ -4,23 +4,19 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = ASAccountAuthenticationModificationRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(
+        feature = "AuthenticationServices_ASAccountAuthenticationModificationUpgradePasswordToStrongPasswordRequest"
+    )]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(
-        feature = "AuthenticationServices_ASAccountAuthenticationModificationUpgradePasswordToStrongPasswordRequest"
-    )]
-    pub struct ASAccountAuthenticationModificationUpgradePasswordToStrongPasswordRequest;
-
-    #[cfg(
-        feature = "AuthenticationServices_ASAccountAuthenticationModificationUpgradePasswordToStrongPasswordRequest"
-    )]
-    unsafe impl ClassType
-        for ASAccountAuthenticationModificationUpgradePasswordToStrongPasswordRequest
-    {
-        #[inherits(NSObject)]
-        type Super = ASAccountAuthenticationModificationRequest;
-    }
-);
+    pub type ASAccountAuthenticationModificationUpgradePasswordToStrongPasswordRequest;
+}
 
 #[cfg(
     feature = "AuthenticationServices_ASAccountAuthenticationModificationUpgradePasswordToStrongPasswordRequest"
@@ -30,34 +26,37 @@ unsafe impl NSObjectProtocol
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(
         feature = "AuthenticationServices_ASAccountAuthenticationModificationUpgradePasswordToStrongPasswordRequest"
     )]
-    unsafe impl ASAccountAuthenticationModificationUpgradePasswordToStrongPasswordRequest {
-        #[cfg(all(
-            feature = "AuthenticationServices_ASCredentialServiceIdentifier",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Init initWithUser:serviceIdentifier:userInfo:)]
-        pub unsafe fn initWithUser_serviceIdentifier_userInfo(
-            this: Option<Allocated<Self>>,
-            user: &NSString,
-            service_identifier: &ASCredentialServiceIdentifier,
-            user_info: Option<&NSDictionary>,
-        ) -> Id<Self>;
+    pub type ASAccountAuthenticationModificationUpgradePasswordToStrongPasswordRequest;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other user)]
-        pub unsafe fn user(&self) -> Id<NSString>;
+    #[cfg(all(
+        feature = "AuthenticationServices_ASCredentialServiceIdentifier",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "initWithUser:serviceIdentifier:userInfo:", managed = "Init")]
+    pub unsafe fn initWithUser_serviceIdentifier_userInfo(
+        this: Option<Allocated<Self>>,
+        user: &NSString,
+        service_identifier: &ASCredentialServiceIdentifier,
+        user_info: Option<&NSDictionary>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "AuthenticationServices_ASCredentialServiceIdentifier")]
-        #[method_id(@__retain_semantics Other serviceIdentifier)]
-        pub unsafe fn serviceIdentifier(&self) -> Id<ASCredentialServiceIdentifier>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "user", managed = "Other")]
+    pub unsafe fn user(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other userInfo)]
-        pub unsafe fn userInfo(&self) -> Option<Id<NSDictionary>>;
-    }
-);
+    #[cfg(feature = "AuthenticationServices_ASCredentialServiceIdentifier")]
+    #[objc2::method(sel = "serviceIdentifier", managed = "Other")]
+    pub unsafe fn serviceIdentifier(&self) -> Id<ASCredentialServiceIdentifier>;
+
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "userInfo", managed = "Other")]
+    pub unsafe fn userInfo(&self) -> Option<Id<NSDictionary>>;
+}

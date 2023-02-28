@@ -5,39 +5,42 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKFindConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKFindConfiguration")]
-    pub struct WKFindConfiguration;
-
-    #[cfg(feature = "WebKit_WKFindConfiguration")]
-    unsafe impl ClassType for WKFindConfiguration {
-        type Super = NSObject;
-    }
-);
+    pub type WKFindConfiguration;
+}
 
 #[cfg(feature = "WebKit_WKFindConfiguration")]
 unsafe impl NSObjectProtocol for WKFindConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKFindConfiguration")]
-    unsafe impl WKFindConfiguration {
-        #[method(backwards)]
-        pub unsafe fn backwards(&self) -> bool;
+    pub type WKFindConfiguration;
 
-        #[method(setBackwards:)]
-        pub unsafe fn setBackwards(&self, backwards: bool);
+    #[objc2::method(sel = "backwards")]
+    pub unsafe fn backwards(&self) -> bool;
 
-        #[method(caseSensitive)]
-        pub unsafe fn caseSensitive(&self) -> bool;
+    #[objc2::method(sel = "setBackwards:")]
+    pub unsafe fn setBackwards(&self, backwards: bool);
 
-        #[method(setCaseSensitive:)]
-        pub unsafe fn setCaseSensitive(&self, case_sensitive: bool);
+    #[objc2::method(sel = "caseSensitive")]
+    pub unsafe fn caseSensitive(&self) -> bool;
 
-        #[method(wraps)]
-        pub unsafe fn wraps(&self) -> bool;
+    #[objc2::method(sel = "setCaseSensitive:")]
+    pub unsafe fn setCaseSensitive(&self, case_sensitive: bool);
 
-        #[method(setWraps:)]
-        pub unsafe fn setWraps(&self, wraps: bool);
-    }
-);
+    #[objc2::method(sel = "wraps")]
+    pub unsafe fn wraps(&self) -> bool;
+
+    #[objc2::method(sel = "setWraps:")]
+    pub unsafe fn setWraps(&self, wraps: bool);
+}

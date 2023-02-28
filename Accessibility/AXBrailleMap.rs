@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Accessibility::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Accessibility_AXBrailleMap")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Accessibility_AXBrailleMap")]
-    pub struct AXBrailleMap;
-
-    #[cfg(feature = "Accessibility_AXBrailleMap")]
-    unsafe impl ClassType for AXBrailleMap {
-        type Super = NSObject;
-    }
-);
+    pub type AXBrailleMap;
+}
 
 #[cfg(feature = "Accessibility_AXBrailleMap")]
 unsafe impl NSCoding for AXBrailleMap {}
@@ -24,54 +24,50 @@ unsafe impl NSObjectProtocol for AXBrailleMap {}
 #[cfg(feature = "Accessibility_AXBrailleMap")]
 unsafe impl NSSecureCoding for AXBrailleMap {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Accessibility_AXBrailleMap")]
-    unsafe impl AXBrailleMap {
-        #[method(dimensions)]
-        pub unsafe fn dimensions(&self) -> CGSize;
+    pub type AXBrailleMap;
 
-        #[method(setHeight:atPoint:)]
-        pub unsafe fn setHeight_atPoint(&self, status: c_float, point: CGPoint);
+    #[objc2::method(sel = "dimensions")]
+    pub unsafe fn dimensions(&self) -> CGSize;
 
-        #[method(heightAtPoint:)]
-        pub unsafe fn heightAtPoint(&self, point: CGPoint) -> c_float;
+    #[objc2::method(sel = "setHeight:atPoint:")]
+    pub unsafe fn setHeight_atPoint(&self, status: c_float, point: CGPoint);
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "heightAtPoint:")]
+    pub unsafe fn heightAtPoint(&self, point: CGPoint) -> c_float;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-extern_protocol!(
-    pub unsafe trait AXBrailleMapRenderer: NSObjectProtocol {
-        #[optional]
-        #[method(accessibilityBrailleMapRenderRegion)]
-        unsafe fn accessibilityBrailleMapRenderRegion(&self) -> CGRect;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}
 
-        #[optional]
-        #[method(setAccessibilityBrailleMapRenderRegion:)]
-        unsafe fn setAccessibilityBrailleMapRenderRegion(
-            &self,
-            accessibility_braille_map_render_region: CGRect,
-        );
+#[objc2::protocol]
+pub unsafe trait AXBrailleMapRenderer: NSObjectProtocol {
+    #[objc2::method(optional, sel = "accessibilityBrailleMapRenderRegion")]
+    unsafe fn accessibilityBrailleMapRenderRegion(&self) -> CGRect;
 
-        #[cfg(feature = "Accessibility_AXBrailleMap")]
-        #[optional]
-        #[method(accessibilityBrailleMapRenderer)]
-        unsafe fn accessibilityBrailleMapRenderer(
-            &self,
-        ) -> NonNull<Block<(NonNull<AXBrailleMap>,), ()>>;
+    #[objc2::method(optional, sel = "setAccessibilityBrailleMapRenderRegion:")]
+    unsafe fn setAccessibilityBrailleMapRenderRegion(
+        &self,
+        accessibility_braille_map_render_region: CGRect,
+    );
 
-        #[cfg(feature = "Accessibility_AXBrailleMap")]
-        #[optional]
-        #[method(setAccessibilityBrailleMapRenderer:)]
-        unsafe fn setAccessibilityBrailleMapRenderer(
-            &self,
-            accessibility_braille_map_renderer: &Block<(NonNull<AXBrailleMap>,), ()>,
-        );
-    }
+    #[cfg(feature = "Accessibility_AXBrailleMap")]
+    #[objc2::method(optional, sel = "accessibilityBrailleMapRenderer")]
+    unsafe fn accessibilityBrailleMapRenderer(
+        &self,
+    ) -> NonNull<Block<(NonNull<AXBrailleMap>,), ()>>;
 
-    unsafe impl ProtocolType for dyn AXBrailleMapRenderer {}
-);
+    #[cfg(feature = "Accessibility_AXBrailleMap")]
+    #[objc2::method(optional, sel = "setAccessibilityBrailleMapRenderer:")]
+    unsafe fn setAccessibilityBrailleMapRenderer(
+        &self,
+        accessibility_braille_map_renderer: &Block<(NonNull<AXBrailleMap>,), ()>,
+    );
+}

@@ -4,17 +4,18 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = ASAuthorizationOpenIDRequest,
+    unsafe inherits = [
+        ASAuthorizationRequest,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnRequest")]
-    pub struct ASAuthorizationSingleSignOnRequest;
-
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnRequest")]
-    unsafe impl ClassType for ASAuthorizationSingleSignOnRequest {
-        #[inherits(ASAuthorizationRequest, NSObject)]
-        type Super = ASAuthorizationOpenIDRequest;
-    }
-);
+    pub type ASAuthorizationSingleSignOnRequest;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnRequest")]
 unsafe impl NSCoding for ASAuthorizationSingleSignOnRequest {}
@@ -25,24 +26,24 @@ unsafe impl NSObjectProtocol for ASAuthorizationSingleSignOnRequest {}
 #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnRequest")]
 unsafe impl NSSecureCoding for ASAuthorizationSingleSignOnRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnRequest")]
-    unsafe impl ASAuthorizationSingleSignOnRequest {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURLQueryItem"))]
-        #[method_id(@__retain_semantics Other authorizationOptions)]
-        pub unsafe fn authorizationOptions(&self) -> Id<NSArray<NSURLQueryItem>>;
+    pub type ASAuthorizationSingleSignOnRequest;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURLQueryItem"))]
-        #[method(setAuthorizationOptions:)]
-        pub unsafe fn setAuthorizationOptions(
-            &self,
-            authorization_options: &NSArray<NSURLQueryItem>,
-        );
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURLQueryItem"))]
+    #[objc2::method(sel = "authorizationOptions", managed = "Other")]
+    pub unsafe fn authorizationOptions(&self) -> Id<NSArray<NSURLQueryItem>>;
 
-        #[method(isUserInterfaceEnabled)]
-        pub unsafe fn isUserInterfaceEnabled(&self) -> bool;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURLQueryItem"))]
+    #[objc2::method(sel = "setAuthorizationOptions:")]
+    pub unsafe fn setAuthorizationOptions(&self, authorization_options: &NSArray<NSURLQueryItem>);
 
-        #[method(setUserInterfaceEnabled:)]
-        pub unsafe fn setUserInterfaceEnabled(&self, user_interface_enabled: bool);
-    }
-);
+    #[objc2::method(sel = "isUserInterfaceEnabled")]
+    pub unsafe fn isUserInterfaceEnabled(&self) -> bool;
+
+    #[objc2::method(sel = "setUserInterfaceEnabled:")]
+    pub unsafe fn setUserInterfaceEnabled(&self, user_interface_enabled: bool);
+}

@@ -5,17 +5,18 @@ use crate::AppKit::*;
 use crate::ExtensionKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSViewController,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "ExtensionKit_EXHostViewController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "ExtensionKit_EXHostViewController")]
-    pub struct EXHostViewController;
-
-    #[cfg(feature = "ExtensionKit_EXHostViewController")]
-    unsafe impl ClassType for EXHostViewController {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSViewController;
-    }
-);
+    pub type EXHostViewController;
+}
 
 #[cfg(feature = "ExtensionKit_EXHostViewController")]
 unsafe impl NSCoding for EXHostViewController {}
@@ -32,68 +33,69 @@ unsafe impl NSSeguePerforming for EXHostViewController {}
 #[cfg(feature = "ExtensionKit_EXHostViewController")]
 unsafe impl NSUserInterfaceItemIdentification for EXHostViewController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ExtensionKit_EXHostViewController")]
-    unsafe impl EXHostViewController {
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn EXHostViewControllerDelegate>>>;
+    pub type EXHostViewController;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn EXHostViewControllerDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn EXHostViewControllerDelegate>>>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other placeholderView)]
-        pub unsafe fn placeholderView(&self) -> Id<NSView>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn EXHostViewControllerDelegate>>,
+    );
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setPlaceholderView:)]
-        pub unsafe fn setPlaceholderView(&self, placeholder_view: &NSView);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "placeholderView", managed = "Other")]
+    pub unsafe fn placeholderView(&self) -> Id<NSView>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSXPCConnection"))]
-        #[method_id(@__retain_semantics Other makeXPCConnectionWithError:_)]
-        pub unsafe fn makeXPCConnectionWithError(&self)
-            -> Result<Id<NSXPCConnection>, Id<NSError>>;
-    }
-);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setPlaceholderView:")]
+    pub unsafe fn setPlaceholderView(&self, placeholder_view: &NSView);
 
-extern_protocol!(
-    pub unsafe trait EXHostViewControllerDelegate: NSObjectProtocol {
-        #[cfg(feature = "ExtensionKit_EXHostViewController")]
-        #[optional]
-        #[method(hostViewControllerDidActivate:)]
-        unsafe fn hostViewControllerDidActivate(&self, view_controller: &EXHostViewController);
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSXPCConnection"))]
+    #[objc2::method(sel = "makeXPCConnectionWithError:", managed = "Other", throws)]
+    pub unsafe fn makeXPCConnectionWithError(&self) -> Result<Id<NSXPCConnection>, Id<NSError>>;
+}
 
-        #[cfg(all(
-            feature = "ExtensionKit_EXHostViewController",
-            feature = "Foundation_NSError"
-        ))]
-        #[optional]
-        #[method(hostViewControllerWillDeactivate:error:)]
-        unsafe fn hostViewControllerWillDeactivate_error(
-            &self,
-            view_controller: &EXHostViewController,
-            error: Option<&NSError>,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn EXHostViewControllerDelegate {}
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSViewController`
+#[objc2::protocol]
+pub unsafe trait EXHostViewControllerDelegate: NSObjectProtocol {
     #[cfg(feature = "ExtensionKit_EXHostViewController")]
-    unsafe impl EXHostViewController {
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Init initWithNibName:bundle:)]
-        pub unsafe fn initWithNibName_bundle(
-            this: Option<Allocated<Self>>,
-            nib_name_or_nil: Option<&NSNibName>,
-            nib_bundle_or_nil: Option<&NSBundle>,
-        ) -> Id<Self>;
+    #[objc2::method(optional, sel = "hostViewControllerDidActivate:")]
+    unsafe fn hostViewControllerDidActivate(&self, view_controller: &EXHostViewController);
+
+    #[cfg(all(
+        feature = "ExtensionKit_EXHostViewController",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(optional, sel = "hostViewControllerWillDeactivate:error:")]
+    unsafe fn hostViewControllerWillDeactivate_error(
+        &self,
+        view_controller: &EXHostViewController,
+        error: Option<&NSError>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSViewController`
+    #[cfg(feature = "ExtensionKit_EXHostViewController")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "ExtensionKit_EXHostViewController")]
+    pub type EXHostViewController;
+
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "initWithNibName:bundle:", managed = "Init")]
+    pub unsafe fn initWithNibName_bundle(
+        this: Option<Allocated<Self>>,
+        nib_name_or_nil: Option<&NSNibName>,
+        nib_bundle_or_nil: Option<&NSBundle>,
+    ) -> Id<Self>;
+}

@@ -7,36 +7,42 @@ use crate::WebKit::*;
 
 pub type DOMTimeStamp = c_ulonglong;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMObject")]
+#[objc2::interface(
+    unsafe super = WebScriptObject,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMObject;
-
     #[cfg(feature = "WebKit_DOMObject")]
-    unsafe impl ClassType for DOMObject {
-        #[inherits(NSObject)]
-        type Super = WebScriptObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMObject;
+}
 
 #[cfg(feature = "WebKit_DOMObject")]
 unsafe impl NSObjectProtocol for DOMObject {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMObject")]
-    unsafe impl DOMObject {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Option<Id<Self>>;
-    }
-);
+    #[deprecated]
+    pub type DOMObject;
 
-extern_methods!(
-    /// DOMLinkStyle
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Option<Id<Self>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMObject")]
-    unsafe impl DOMObject {
-        #[cfg(feature = "WebKit_DOMStyleSheet")]
-        #[method_id(@__retain_semantics Other sheet)]
-        pub unsafe fn sheet(&self) -> Option<Id<DOMStyleSheet>>;
-    }
-);
+    pub type DOMObject;
+
+    #[cfg(feature = "WebKit_DOMStyleSheet")]
+    #[objc2::method(sel = "sheet", managed = "Other")]
+    pub unsafe fn sheet(&self) -> Option<Id<DOMStyleSheet>>;
+}

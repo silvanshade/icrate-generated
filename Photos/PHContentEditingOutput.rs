@@ -6,40 +6,43 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHContentEditingOutput")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHContentEditingOutput")]
-    pub struct PHContentEditingOutput;
-
-    #[cfg(feature = "PhotoKit_PHContentEditingOutput")]
-    unsafe impl ClassType for PHContentEditingOutput {
-        type Super = NSObject;
-    }
-);
+    pub type PHContentEditingOutput;
+}
 
 #[cfg(feature = "PhotoKit_PHContentEditingOutput")]
 unsafe impl NSObjectProtocol for PHContentEditingOutput {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHContentEditingOutput")]
-    unsafe impl PHContentEditingOutput {
-        #[cfg(feature = "PhotoKit_PHContentEditingInput")]
-        #[method_id(@__retain_semantics Init initWithContentEditingInput:)]
-        pub unsafe fn initWithContentEditingInput(
-            this: Option<Allocated<Self>>,
-            content_editing_input: &PHContentEditingInput,
-        ) -> Id<Self>;
+    pub type PHContentEditingOutput;
 
-        #[cfg(feature = "PhotoKit_PHAdjustmentData")]
-        #[method_id(@__retain_semantics Other adjustmentData)]
-        pub unsafe fn adjustmentData(&self) -> Option<Id<PHAdjustmentData>>;
+    #[cfg(feature = "PhotoKit_PHContentEditingInput")]
+    #[objc2::method(sel = "initWithContentEditingInput:", managed = "Init")]
+    pub unsafe fn initWithContentEditingInput(
+        this: Option<Allocated<Self>>,
+        content_editing_input: &PHContentEditingInput,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "PhotoKit_PHAdjustmentData")]
-        #[method(setAdjustmentData:)]
-        pub unsafe fn setAdjustmentData(&self, adjustment_data: Option<&PHAdjustmentData>);
+    #[cfg(feature = "PhotoKit_PHAdjustmentData")]
+    #[objc2::method(sel = "adjustmentData", managed = "Other")]
+    pub unsafe fn adjustmentData(&self) -> Option<Id<PHAdjustmentData>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other renderedContentURL)]
-        pub unsafe fn renderedContentURL(&self) -> Id<NSURL>;
-    }
-);
+    #[cfg(feature = "PhotoKit_PHAdjustmentData")]
+    #[objc2::method(sel = "setAdjustmentData:")]
+    pub unsafe fn setAdjustmentData(&self, adjustment_data: Option<&PHAdjustmentData>);
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "renderedContentURL", managed = "Other")]
+    pub unsafe fn renderedContentURL(&self) -> Id<NSURL>;
+}

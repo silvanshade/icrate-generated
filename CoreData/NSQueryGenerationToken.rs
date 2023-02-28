@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSQueryGenerationToken")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSQueryGenerationToken")]
-    pub struct NSQueryGenerationToken;
-
-    #[cfg(feature = "CoreData_NSQueryGenerationToken")]
-    unsafe impl ClassType for NSQueryGenerationToken {
-        type Super = NSObject;
-    }
-);
+    pub type NSQueryGenerationToken;
+}
 
 #[cfg(feature = "CoreData_NSQueryGenerationToken")]
 unsafe impl NSCoding for NSQueryGenerationToken {}
@@ -24,10 +24,13 @@ unsafe impl NSObjectProtocol for NSQueryGenerationToken {}
 #[cfg(feature = "CoreData_NSQueryGenerationToken")]
 unsafe impl NSSecureCoding for NSQueryGenerationToken {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSQueryGenerationToken")]
-    unsafe impl NSQueryGenerationToken {
-        #[method_id(@__retain_semantics Other currentQueryGenerationToken)]
-        pub unsafe fn currentQueryGenerationToken() -> Id<NSQueryGenerationToken>;
-    }
-);
+    pub type NSQueryGenerationToken;
+
+    #[objc2::method(sel = "currentQueryGenerationToken", managed = "Other")]
+    pub unsafe fn currentQueryGenerationToken() -> Id<NSQueryGenerationToken>;
+}

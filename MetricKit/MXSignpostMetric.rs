@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXSignpostIntervalData")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXSignpostIntervalData")]
-    pub struct MXSignpostIntervalData;
-
-    #[cfg(feature = "MetricKit_MXSignpostIntervalData")]
-    unsafe impl ClassType for MXSignpostIntervalData {
-        type Super = NSObject;
-    }
-);
+    pub type MXSignpostIntervalData;
+}
 
 #[cfg(feature = "MetricKit_MXSignpostIntervalData")]
 unsafe impl NSCoding for MXSignpostIntervalData {}
@@ -24,56 +24,59 @@ unsafe impl NSObjectProtocol for MXSignpostIntervalData {}
 #[cfg(feature = "MetricKit_MXSignpostIntervalData")]
 unsafe impl NSSecureCoding for MXSignpostIntervalData {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXSignpostIntervalData")]
-    unsafe impl MXSignpostIntervalData {
-        #[cfg(all(
-            feature = "Foundation_NSUnitDuration",
-            feature = "MetricKit_MXHistogram"
-        ))]
-        #[method_id(@__retain_semantics Other histogrammedSignpostDuration)]
-        pub unsafe fn histogrammedSignpostDuration(&self) -> Id<MXHistogram<NSUnitDuration>>;
+    pub type MXSignpostIntervalData;
 
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitDuration"
-        ))]
-        #[method_id(@__retain_semantics Other cumulativeCPUTime)]
-        pub unsafe fn cumulativeCPUTime(&self) -> Option<Id<NSMeasurement<NSUnitDuration>>>;
+    #[cfg(all(
+        feature = "Foundation_NSUnitDuration",
+        feature = "MetricKit_MXHistogram"
+    ))]
+    #[objc2::method(sel = "histogrammedSignpostDuration", managed = "Other")]
+    pub unsafe fn histogrammedSignpostDuration(&self) -> Id<MXHistogram<NSUnitDuration>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSUnitInformationStorage",
-            feature = "MetricKit_MXAverage"
-        ))]
-        #[method_id(@__retain_semantics Other averageMemory)]
-        pub unsafe fn averageMemory(&self) -> Option<Id<MXAverage<NSUnitInformationStorage>>>;
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitDuration"
+    ))]
+    #[objc2::method(sel = "cumulativeCPUTime", managed = "Other")]
+    pub unsafe fn cumulativeCPUTime(&self) -> Option<Id<NSMeasurement<NSUnitDuration>>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitInformationStorage"
-        ))]
-        #[method_id(@__retain_semantics Other cumulativeLogicalWrites)]
-        pub unsafe fn cumulativeLogicalWrites(
-            &self,
-        ) -> Option<Id<NSMeasurement<NSUnitInformationStorage>>>;
+    #[cfg(all(
+        feature = "Foundation_NSUnitInformationStorage",
+        feature = "MetricKit_MXAverage"
+    ))]
+    #[objc2::method(sel = "averageMemory", managed = "Other")]
+    pub unsafe fn averageMemory(&self) -> Option<Id<MXAverage<NSUnitInformationStorage>>>;
 
-        #[cfg(all(feature = "Foundation_NSMeasurement", feature = "Foundation_NSUnit"))]
-        #[method_id(@__retain_semantics Other cumulativeHitchTimeRatio)]
-        pub unsafe fn cumulativeHitchTimeRatio(&self) -> Option<Id<NSMeasurement<NSUnit>>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitInformationStorage"
+    ))]
+    #[objc2::method(sel = "cumulativeLogicalWrites", managed = "Other")]
+    pub unsafe fn cumulativeLogicalWrites(
+        &self,
+    ) -> Option<Id<NSMeasurement<NSUnitInformationStorage>>>;
 
-extern_class!(
+    #[cfg(all(feature = "Foundation_NSMeasurement", feature = "Foundation_NSUnit"))]
+    #[objc2::method(sel = "cumulativeHitchTimeRatio", managed = "Other")]
+    pub unsafe fn cumulativeHitchTimeRatio(&self) -> Option<Id<NSMeasurement<NSUnit>>>;
+}
+
+#[objc2::interface(
+    unsafe super = MXMetric,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXSignpostMetric")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXSignpostMetric")]
-    pub struct MXSignpostMetric;
-
-    #[cfg(feature = "MetricKit_MXSignpostMetric")]
-    unsafe impl ClassType for MXSignpostMetric {
-        #[inherits(NSObject)]
-        type Super = MXMetric;
-    }
-);
+    pub type MXSignpostMetric;
+}
 
 #[cfg(feature = "MetricKit_MXSignpostMetric")]
 unsafe impl NSCoding for MXSignpostMetric {}
@@ -84,22 +87,25 @@ unsafe impl NSObjectProtocol for MXSignpostMetric {}
 #[cfg(feature = "MetricKit_MXSignpostMetric")]
 unsafe impl NSSecureCoding for MXSignpostMetric {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXSignpostMetric")]
-    unsafe impl MXSignpostMetric {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other signpostName)]
-        pub unsafe fn signpostName(&self) -> Id<NSString>;
+    pub type MXSignpostMetric;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other signpostCategory)]
-        pub unsafe fn signpostCategory(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "signpostName", managed = "Other")]
+    pub unsafe fn signpostName(&self) -> Id<NSString>;
 
-        #[cfg(feature = "MetricKit_MXSignpostIntervalData")]
-        #[method_id(@__retain_semantics Other signpostIntervalData)]
-        pub unsafe fn signpostIntervalData(&self) -> Option<Id<MXSignpostIntervalData>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "signpostCategory", managed = "Other")]
+    pub unsafe fn signpostCategory(&self) -> Id<NSString>;
 
-        #[method(totalCount)]
-        pub unsafe fn totalCount(&self) -> NSUInteger;
-    }
-);
+    #[cfg(feature = "MetricKit_MXSignpostIntervalData")]
+    #[objc2::method(sel = "signpostIntervalData", managed = "Other")]
+    pub unsafe fn signpostIntervalData(&self) -> Option<Id<MXSignpostIntervalData>>;
+
+    #[objc2::method(sel = "totalCount")]
+    pub unsafe fn totalCount(&self) -> NSUInteger;
+}

@@ -6,16 +6,16 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKObjectType")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKObjectType")]
-    pub struct HKObjectType;
-
-    #[cfg(feature = "HealthKit_HKObjectType")]
-    unsafe impl ClassType for HKObjectType {
-        type Super = NSObject;
-    }
-);
+    pub type HKObjectType;
+}
 
 #[cfg(feature = "HealthKit_HKObjectType")]
 unsafe impl NSCoding for HKObjectType {}
@@ -26,86 +26,89 @@ unsafe impl NSObjectProtocol for HKObjectType {}
 #[cfg(feature = "HealthKit_HKObjectType")]
 unsafe impl NSSecureCoding for HKObjectType {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKObjectType")]
-    unsafe impl HKObjectType {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    pub type HKObjectType;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "HealthKit_HKQuantityType")]
-        #[method_id(@__retain_semantics Other quantityTypeForIdentifier:)]
-        pub unsafe fn quantityTypeForIdentifier(
-            identifier: &HKQuantityTypeIdentifier,
-        ) -> Option<Id<HKQuantityType>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "HealthKit_HKCategoryType")]
-        #[method_id(@__retain_semantics Other categoryTypeForIdentifier:)]
-        pub unsafe fn categoryTypeForIdentifier(
-            identifier: &HKCategoryTypeIdentifier,
-        ) -> Option<Id<HKCategoryType>>;
+    #[cfg(feature = "HealthKit_HKQuantityType")]
+    #[objc2::method(sel = "quantityTypeForIdentifier:", managed = "Other")]
+    pub unsafe fn quantityTypeForIdentifier(
+        identifier: &HKQuantityTypeIdentifier,
+    ) -> Option<Id<HKQuantityType>>;
 
-        #[cfg(feature = "HealthKit_HKCharacteristicType")]
-        #[method_id(@__retain_semantics Other characteristicTypeForIdentifier:)]
-        pub unsafe fn characteristicTypeForIdentifier(
-            identifier: &HKCharacteristicTypeIdentifier,
-        ) -> Option<Id<HKCharacteristicType>>;
+    #[cfg(feature = "HealthKit_HKCategoryType")]
+    #[objc2::method(sel = "categoryTypeForIdentifier:", managed = "Other")]
+    pub unsafe fn categoryTypeForIdentifier(
+        identifier: &HKCategoryTypeIdentifier,
+    ) -> Option<Id<HKCategoryType>>;
 
-        #[cfg(feature = "HealthKit_HKCorrelationType")]
-        #[method_id(@__retain_semantics Other correlationTypeForIdentifier:)]
-        pub unsafe fn correlationTypeForIdentifier(
-            identifier: &HKCorrelationTypeIdentifier,
-        ) -> Option<Id<HKCorrelationType>>;
+    #[cfg(feature = "HealthKit_HKCharacteristicType")]
+    #[objc2::method(sel = "characteristicTypeForIdentifier:", managed = "Other")]
+    pub unsafe fn characteristicTypeForIdentifier(
+        identifier: &HKCharacteristicTypeIdentifier,
+    ) -> Option<Id<HKCharacteristicType>>;
 
-        #[cfg(feature = "HealthKit_HKDocumentType")]
-        #[method_id(@__retain_semantics Other documentTypeForIdentifier:)]
-        pub unsafe fn documentTypeForIdentifier(
-            identifier: &HKDocumentTypeIdentifier,
-        ) -> Option<Id<HKDocumentType>>;
+    #[cfg(feature = "HealthKit_HKCorrelationType")]
+    #[objc2::method(sel = "correlationTypeForIdentifier:", managed = "Other")]
+    pub unsafe fn correlationTypeForIdentifier(
+        identifier: &HKCorrelationTypeIdentifier,
+    ) -> Option<Id<HKCorrelationType>>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "HealthKit_HKSeriesType"))]
-        #[method_id(@__retain_semantics Other seriesTypeForIdentifier:)]
-        pub unsafe fn seriesTypeForIdentifier(identifier: &NSString) -> Option<Id<HKSeriesType>>;
+    #[cfg(feature = "HealthKit_HKDocumentType")]
+    #[objc2::method(sel = "documentTypeForIdentifier:", managed = "Other")]
+    pub unsafe fn documentTypeForIdentifier(
+        identifier: &HKDocumentTypeIdentifier,
+    ) -> Option<Id<HKDocumentType>>;
 
-        #[cfg(feature = "HealthKit_HKWorkoutType")]
-        #[method_id(@__retain_semantics Other workoutType)]
-        pub unsafe fn workoutType() -> Id<HKWorkoutType>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "HealthKit_HKSeriesType"))]
+    #[objc2::method(sel = "seriesTypeForIdentifier:", managed = "Other")]
+    pub unsafe fn seriesTypeForIdentifier(identifier: &NSString) -> Option<Id<HKSeriesType>>;
 
-        #[cfg(feature = "HealthKit_HKActivitySummaryType")]
-        #[method_id(@__retain_semantics Other activitySummaryType)]
-        pub unsafe fn activitySummaryType() -> Id<HKActivitySummaryType>;
+    #[cfg(feature = "HealthKit_HKWorkoutType")]
+    #[objc2::method(sel = "workoutType", managed = "Other")]
+    pub unsafe fn workoutType() -> Id<HKWorkoutType>;
 
-        #[cfg(feature = "HealthKit_HKAudiogramSampleType")]
-        #[method_id(@__retain_semantics Other audiogramSampleType)]
-        pub unsafe fn audiogramSampleType() -> Id<HKAudiogramSampleType>;
+    #[cfg(feature = "HealthKit_HKActivitySummaryType")]
+    #[objc2::method(sel = "activitySummaryType", managed = "Other")]
+    pub unsafe fn activitySummaryType() -> Id<HKActivitySummaryType>;
 
-        #[cfg(feature = "HealthKit_HKElectrocardiogramType")]
-        #[method_id(@__retain_semantics Other electrocardiogramType)]
-        pub unsafe fn electrocardiogramType() -> Id<HKElectrocardiogramType>;
+    #[cfg(feature = "HealthKit_HKAudiogramSampleType")]
+    #[objc2::method(sel = "audiogramSampleType", managed = "Other")]
+    pub unsafe fn audiogramSampleType() -> Id<HKAudiogramSampleType>;
 
-        #[cfg(feature = "HealthKit_HKPrescriptionType")]
-        #[method_id(@__retain_semantics Other visionPrescriptionType)]
-        pub unsafe fn visionPrescriptionType() -> Id<HKPrescriptionType>;
+    #[cfg(feature = "HealthKit_HKElectrocardiogramType")]
+    #[objc2::method(sel = "electrocardiogramType", managed = "Other")]
+    pub unsafe fn electrocardiogramType() -> Id<HKElectrocardiogramType>;
 
-        #[method(requiresPerObjectAuthorization)]
-        pub unsafe fn requiresPerObjectAuthorization(&self) -> bool;
-    }
-);
+    #[cfg(feature = "HealthKit_HKPrescriptionType")]
+    #[objc2::method(sel = "visionPrescriptionType", managed = "Other")]
+    pub unsafe fn visionPrescriptionType() -> Id<HKPrescriptionType>;
 
-extern_class!(
+    #[objc2::method(sel = "requiresPerObjectAuthorization")]
+    pub unsafe fn requiresPerObjectAuthorization(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe super = HKObjectType,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKCharacteristicType")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKCharacteristicType")]
-    pub struct HKCharacteristicType;
-
-    #[cfg(feature = "HealthKit_HKCharacteristicType")]
-    unsafe impl ClassType for HKCharacteristicType {
-        #[inherits(NSObject)]
-        type Super = HKObjectType;
-    }
-);
+    pub type HKCharacteristicType;
+}
 
 #[cfg(feature = "HealthKit_HKCharacteristicType")]
 unsafe impl NSCoding for HKCharacteristicType {}
@@ -116,22 +119,25 @@ unsafe impl NSObjectProtocol for HKCharacteristicType {}
 #[cfg(feature = "HealthKit_HKCharacteristicType")]
 unsafe impl NSSecureCoding for HKCharacteristicType {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKCharacteristicType")]
-    unsafe impl HKCharacteristicType {}
-);
+    pub type HKCharacteristicType;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKObjectType,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKSampleType")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKSampleType")]
-    pub struct HKSampleType;
-
-    #[cfg(feature = "HealthKit_HKSampleType")]
-    unsafe impl ClassType for HKSampleType {
-        #[inherits(NSObject)]
-        type Super = HKObjectType;
-    }
-);
+    pub type HKSampleType;
+}
 
 #[cfg(feature = "HealthKit_HKSampleType")]
 unsafe impl NSCoding for HKSampleType {}
@@ -142,37 +148,41 @@ unsafe impl NSObjectProtocol for HKSampleType {}
 #[cfg(feature = "HealthKit_HKSampleType")]
 unsafe impl NSSecureCoding for HKSampleType {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKSampleType")]
-    unsafe impl HKSampleType {
-        #[method(isMaximumDurationRestricted)]
-        pub unsafe fn isMaximumDurationRestricted(&self) -> bool;
+    pub type HKSampleType;
 
-        #[method(maximumAllowedDuration)]
-        pub unsafe fn maximumAllowedDuration(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "isMaximumDurationRestricted")]
+    pub unsafe fn isMaximumDurationRestricted(&self) -> bool;
 
-        #[method(isMinimumDurationRestricted)]
-        pub unsafe fn isMinimumDurationRestricted(&self) -> bool;
+    #[objc2::method(sel = "maximumAllowedDuration")]
+    pub unsafe fn maximumAllowedDuration(&self) -> NSTimeInterval;
 
-        #[method(minimumAllowedDuration)]
-        pub unsafe fn minimumAllowedDuration(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "isMinimumDurationRestricted")]
+    pub unsafe fn isMinimumDurationRestricted(&self) -> bool;
 
-        #[method(allowsRecalibrationForEstimates)]
-        pub unsafe fn allowsRecalibrationForEstimates(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "minimumAllowedDuration")]
+    pub unsafe fn minimumAllowedDuration(&self) -> NSTimeInterval;
 
-extern_class!(
+    #[objc2::method(sel = "allowsRecalibrationForEstimates")]
+    pub unsafe fn allowsRecalibrationForEstimates(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe super = HKSampleType,
+    unsafe inherits = [
+        HKObjectType,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKCategoryType")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKCategoryType")]
-    pub struct HKCategoryType;
-
-    #[cfg(feature = "HealthKit_HKCategoryType")]
-    unsafe impl ClassType for HKCategoryType {
-        #[inherits(HKObjectType, NSObject)]
-        type Super = HKSampleType;
-    }
-);
+    pub type HKCategoryType;
+}
 
 #[cfg(feature = "HealthKit_HKCategoryType")]
 unsafe impl NSCoding for HKCategoryType {}
@@ -183,22 +193,26 @@ unsafe impl NSObjectProtocol for HKCategoryType {}
 #[cfg(feature = "HealthKit_HKCategoryType")]
 unsafe impl NSSecureCoding for HKCategoryType {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKCategoryType")]
-    unsafe impl HKCategoryType {}
-);
+    pub type HKCategoryType;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSampleType,
+    unsafe inherits = [
+        HKObjectType,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKCorrelationType")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKCorrelationType")]
-    pub struct HKCorrelationType;
-
-    #[cfg(feature = "HealthKit_HKCorrelationType")]
-    unsafe impl ClassType for HKCorrelationType {
-        #[inherits(HKObjectType, NSObject)]
-        type Super = HKSampleType;
-    }
-);
+    pub type HKCorrelationType;
+}
 
 #[cfg(feature = "HealthKit_HKCorrelationType")]
 unsafe impl NSCoding for HKCorrelationType {}
@@ -209,22 +223,26 @@ unsafe impl NSObjectProtocol for HKCorrelationType {}
 #[cfg(feature = "HealthKit_HKCorrelationType")]
 unsafe impl NSSecureCoding for HKCorrelationType {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKCorrelationType")]
-    unsafe impl HKCorrelationType {}
-);
+    pub type HKCorrelationType;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSampleType,
+    unsafe inherits = [
+        HKObjectType,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKDocumentType")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKDocumentType")]
-    pub struct HKDocumentType;
-
-    #[cfg(feature = "HealthKit_HKDocumentType")]
-    unsafe impl ClassType for HKDocumentType {
-        #[inherits(HKObjectType, NSObject)]
-        type Super = HKSampleType;
-    }
-);
+    pub type HKDocumentType;
+}
 
 #[cfg(feature = "HealthKit_HKDocumentType")]
 unsafe impl NSCoding for HKDocumentType {}
@@ -235,22 +253,26 @@ unsafe impl NSObjectProtocol for HKDocumentType {}
 #[cfg(feature = "HealthKit_HKDocumentType")]
 unsafe impl NSSecureCoding for HKDocumentType {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKDocumentType")]
-    unsafe impl HKDocumentType {}
-);
+    pub type HKDocumentType;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSampleType,
+    unsafe inherits = [
+        HKObjectType,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKQuantityType")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKQuantityType")]
-    pub struct HKQuantityType;
-
-    #[cfg(feature = "HealthKit_HKQuantityType")]
-    unsafe impl ClassType for HKQuantityType {
-        #[inherits(HKObjectType, NSObject)]
-        type Super = HKSampleType;
-    }
-);
+    pub type HKQuantityType;
+}
 
 #[cfg(feature = "HealthKit_HKQuantityType")]
 unsafe impl NSCoding for HKQuantityType {}
@@ -261,29 +283,33 @@ unsafe impl NSObjectProtocol for HKQuantityType {}
 #[cfg(feature = "HealthKit_HKQuantityType")]
 unsafe impl NSSecureCoding for HKQuantityType {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQuantityType")]
-    unsafe impl HKQuantityType {
-        #[method(aggregationStyle)]
-        pub unsafe fn aggregationStyle(&self) -> HKQuantityAggregationStyle;
+    pub type HKQuantityType;
 
-        #[cfg(feature = "HealthKit_HKUnit")]
-        #[method(isCompatibleWithUnit:)]
-        pub unsafe fn isCompatibleWithUnit(&self, unit: &HKUnit) -> bool;
-    }
-);
+    #[objc2::method(sel = "aggregationStyle")]
+    pub unsafe fn aggregationStyle(&self) -> HKQuantityAggregationStyle;
 
-extern_class!(
+    #[cfg(feature = "HealthKit_HKUnit")]
+    #[objc2::method(sel = "isCompatibleWithUnit:")]
+    pub unsafe fn isCompatibleWithUnit(&self, unit: &HKUnit) -> bool;
+}
+
+#[objc2::interface(
+    unsafe super = HKSampleType,
+    unsafe inherits = [
+        HKObjectType,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKWorkoutType")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKWorkoutType")]
-    pub struct HKWorkoutType;
-
-    #[cfg(feature = "HealthKit_HKWorkoutType")]
-    unsafe impl ClassType for HKWorkoutType {
-        #[inherits(HKObjectType, NSObject)]
-        type Super = HKSampleType;
-    }
-);
+    pub type HKWorkoutType;
+}
 
 #[cfg(feature = "HealthKit_HKWorkoutType")]
 unsafe impl NSCoding for HKWorkoutType {}
@@ -294,22 +320,26 @@ unsafe impl NSObjectProtocol for HKWorkoutType {}
 #[cfg(feature = "HealthKit_HKWorkoutType")]
 unsafe impl NSSecureCoding for HKWorkoutType {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKWorkoutType")]
-    unsafe impl HKWorkoutType {}
-);
+    pub type HKWorkoutType;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSampleType,
+    unsafe inherits = [
+        HKObjectType,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKSeriesType")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKSeriesType")]
-    pub struct HKSeriesType;
-
-    #[cfg(feature = "HealthKit_HKSeriesType")]
-    unsafe impl ClassType for HKSeriesType {
-        #[inherits(HKObjectType, NSObject)]
-        type Super = HKSampleType;
-    }
-);
+    pub type HKSeriesType;
+}
 
 #[cfg(feature = "HealthKit_HKSeriesType")]
 unsafe impl NSCoding for HKSeriesType {}
@@ -320,28 +350,31 @@ unsafe impl NSObjectProtocol for HKSeriesType {}
 #[cfg(feature = "HealthKit_HKSeriesType")]
 unsafe impl NSSecureCoding for HKSeriesType {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKSeriesType")]
-    unsafe impl HKSeriesType {
-        #[method_id(@__retain_semantics Other workoutRouteType)]
-        pub unsafe fn workoutRouteType() -> Id<Self>;
+    pub type HKSeriesType;
 
-        #[method_id(@__retain_semantics Other heartbeatSeriesType)]
-        pub unsafe fn heartbeatSeriesType() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "workoutRouteType", managed = "Other")]
+    pub unsafe fn workoutRouteType() -> Id<Self>;
 
-extern_class!(
+    #[objc2::method(sel = "heartbeatSeriesType", managed = "Other")]
+    pub unsafe fn heartbeatSeriesType() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = HKObjectType,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKActivitySummaryType")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKActivitySummaryType")]
-    pub struct HKActivitySummaryType;
-
-    #[cfg(feature = "HealthKit_HKActivitySummaryType")]
-    unsafe impl ClassType for HKActivitySummaryType {
-        #[inherits(NSObject)]
-        type Super = HKObjectType;
-    }
-);
+    pub type HKActivitySummaryType;
+}
 
 #[cfg(feature = "HealthKit_HKActivitySummaryType")]
 unsafe impl NSCoding for HKActivitySummaryType {}
@@ -352,22 +385,26 @@ unsafe impl NSObjectProtocol for HKActivitySummaryType {}
 #[cfg(feature = "HealthKit_HKActivitySummaryType")]
 unsafe impl NSSecureCoding for HKActivitySummaryType {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKActivitySummaryType")]
-    unsafe impl HKActivitySummaryType {}
-);
+    pub type HKActivitySummaryType;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSampleType,
+    unsafe inherits = [
+        HKObjectType,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKAudiogramSampleType")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKAudiogramSampleType")]
-    pub struct HKAudiogramSampleType;
-
-    #[cfg(feature = "HealthKit_HKAudiogramSampleType")]
-    unsafe impl ClassType for HKAudiogramSampleType {
-        #[inherits(HKObjectType, NSObject)]
-        type Super = HKSampleType;
-    }
-);
+    pub type HKAudiogramSampleType;
+}
 
 #[cfg(feature = "HealthKit_HKAudiogramSampleType")]
 unsafe impl NSCoding for HKAudiogramSampleType {}
@@ -378,22 +415,26 @@ unsafe impl NSObjectProtocol for HKAudiogramSampleType {}
 #[cfg(feature = "HealthKit_HKAudiogramSampleType")]
 unsafe impl NSSecureCoding for HKAudiogramSampleType {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKAudiogramSampleType")]
-    unsafe impl HKAudiogramSampleType {}
-);
+    pub type HKAudiogramSampleType;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSampleType,
+    unsafe inherits = [
+        HKObjectType,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKElectrocardiogramType")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKElectrocardiogramType")]
-    pub struct HKElectrocardiogramType;
-
-    #[cfg(feature = "HealthKit_HKElectrocardiogramType")]
-    unsafe impl ClassType for HKElectrocardiogramType {
-        #[inherits(HKObjectType, NSObject)]
-        type Super = HKSampleType;
-    }
-);
+    pub type HKElectrocardiogramType;
+}
 
 #[cfg(feature = "HealthKit_HKElectrocardiogramType")]
 unsafe impl NSCoding for HKElectrocardiogramType {}
@@ -404,22 +445,26 @@ unsafe impl NSObjectProtocol for HKElectrocardiogramType {}
 #[cfg(feature = "HealthKit_HKElectrocardiogramType")]
 unsafe impl NSSecureCoding for HKElectrocardiogramType {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKElectrocardiogramType")]
-    unsafe impl HKElectrocardiogramType {}
-);
+    pub type HKElectrocardiogramType;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSampleType,
+    unsafe inherits = [
+        HKObjectType,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKPrescriptionType")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKPrescriptionType")]
-    pub struct HKPrescriptionType;
-
-    #[cfg(feature = "HealthKit_HKPrescriptionType")]
-    unsafe impl ClassType for HKPrescriptionType {
-        #[inherits(HKObjectType, NSObject)]
-        type Super = HKSampleType;
-    }
-);
+    pub type HKPrescriptionType;
+}
 
 #[cfg(feature = "HealthKit_HKPrescriptionType")]
 unsafe impl NSCoding for HKPrescriptionType {}
@@ -430,7 +475,10 @@ unsafe impl NSObjectProtocol for HKPrescriptionType {}
 #[cfg(feature = "HealthKit_HKPrescriptionType")]
 unsafe impl NSSecureCoding for HKPrescriptionType {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKPrescriptionType")]
-    unsafe impl HKPrescriptionType {}
-);
+    pub type HKPrescriptionType;
+}

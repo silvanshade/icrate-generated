@@ -4,15 +4,14 @@ use crate::common::*;
 use crate::ExternalAccessory::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum EABluetoothAccessoryPickerErrorCode {
-        EABluetoothAccessoryPickerAlreadyConnected = 0,
-        EABluetoothAccessoryPickerResultNotFound = 1,
-        EABluetoothAccessoryPickerResultCancelled = 2,
-        EABluetoothAccessoryPickerResultFailed = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum EABluetoothAccessoryPickerErrorCode {
+    EABluetoothAccessoryPickerAlreadyConnected = 0,
+    EABluetoothAccessoryPickerResultNotFound = 1,
+    EABluetoothAccessoryPickerResultCancelled = 2,
+    EABluetoothAccessoryPickerResultFailed = 3,
+}
 
 extern_static!(EABluetoothAccessoryPickerErrorDomain: &'static NSString);
 
@@ -26,45 +25,48 @@ extern_static!(EAAccessoryKey: &'static NSString);
 
 extern_static!(EAAccessorySelectedKey: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "ExternalAccessory_EAAccessoryManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "ExternalAccessory_EAAccessoryManager")]
-    pub struct EAAccessoryManager;
-
-    #[cfg(feature = "ExternalAccessory_EAAccessoryManager")]
-    unsafe impl ClassType for EAAccessoryManager {
-        type Super = NSObject;
-    }
-);
+    pub type EAAccessoryManager;
+}
 
 #[cfg(feature = "ExternalAccessory_EAAccessoryManager")]
 unsafe impl NSObjectProtocol for EAAccessoryManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ExternalAccessory_EAAccessoryManager")]
-    unsafe impl EAAccessoryManager {
-        #[method_id(@__retain_semantics Other sharedAccessoryManager)]
-        pub unsafe fn sharedAccessoryManager() -> Id<EAAccessoryManager>;
+    pub type EAAccessoryManager;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method(showBluetoothAccessoryPickerWithNameFilter:completion:)]
-        pub unsafe fn showBluetoothAccessoryPickerWithNameFilter_completion(
-            &self,
-            predicate: Option<&NSPredicate>,
-            completion: EABluetoothAccessoryPickerCompletion,
-        );
+    #[objc2::method(sel = "sharedAccessoryManager", managed = "Other")]
+    pub unsafe fn sharedAccessoryManager() -> Id<EAAccessoryManager>;
 
-        #[method(registerForLocalNotifications)]
-        pub unsafe fn registerForLocalNotifications(&self);
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "showBluetoothAccessoryPickerWithNameFilter:completion:")]
+    pub unsafe fn showBluetoothAccessoryPickerWithNameFilter_completion(
+        &self,
+        predicate: Option<&NSPredicate>,
+        completion: EABluetoothAccessoryPickerCompletion,
+    );
 
-        #[method(unregisterForLocalNotifications)]
-        pub unsafe fn unregisterForLocalNotifications(&self);
+    #[objc2::method(sel = "registerForLocalNotifications")]
+    pub unsafe fn registerForLocalNotifications(&self);
 
-        #[cfg(all(
-            feature = "ExternalAccessory_EAAccessory",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other connectedAccessories)]
-        pub unsafe fn connectedAccessories(&self) -> Id<NSArray<EAAccessory>>;
-    }
-);
+    #[objc2::method(sel = "unregisterForLocalNotifications")]
+    pub unsafe fn unregisterForLocalNotifications(&self);
+
+    #[cfg(all(
+        feature = "ExternalAccessory_EAAccessory",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "connectedAccessories", managed = "Other")]
+    pub unsafe fn connectedAccessories(&self) -> Id<NSArray<EAAccessory>>;
+}

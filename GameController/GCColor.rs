@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCColor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCColor")]
-    pub struct GCColor;
-
-    #[cfg(feature = "GameController_GCColor")]
-    unsafe impl ClassType for GCColor {
-        type Super = NSObject;
-    }
-);
+    pub type GCColor;
+}
 
 #[cfg(feature = "GameController_GCColor")]
 unsafe impl NSCoding for GCColor {}
@@ -25,27 +25,30 @@ unsafe impl NSObjectProtocol for GCColor {}
 #[cfg(feature = "GameController_GCColor")]
 unsafe impl NSSecureCoding for GCColor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCColor")]
-    unsafe impl GCColor {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type GCColor;
 
-        #[method_id(@__retain_semantics Init initWithRed:green:blue:)]
-        pub unsafe fn initWithRed_green_blue(
-            this: Option<Allocated<Self>>,
-            red: c_float,
-            green: c_float,
-            blue: c_float,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(red)]
-        pub unsafe fn red(&self) -> c_float;
+    #[objc2::method(sel = "initWithRed:green:blue:", managed = "Init")]
+    pub unsafe fn initWithRed_green_blue(
+        this: Option<Allocated<Self>>,
+        red: c_float,
+        green: c_float,
+        blue: c_float,
+    ) -> Id<Self>;
 
-        #[method(green)]
-        pub unsafe fn green(&self) -> c_float;
+    #[objc2::method(sel = "red")]
+    pub unsafe fn red(&self) -> c_float;
 
-        #[method(blue)]
-        pub unsafe fn blue(&self) -> c_float;
-    }
-);
+    #[objc2::method(sel = "green")]
+    pub unsafe fn green(&self) -> c_float;
+
+    #[objc2::method(sel = "blue")]
+    pub unsafe fn blue(&self) -> c_float;
+}

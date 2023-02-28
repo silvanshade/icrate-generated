@@ -5,53 +5,50 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_protocol!(
-    pub unsafe trait GCSwitchPositionInput: NSObjectProtocol {
-        #[method(positionDidChangeHandler)]
-        unsafe fn positionDidChangeHandler(
-            &self,
-        ) -> *mut Block<
-            (
-                NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
-                NonNull<ProtocolObject<dyn GCSwitchPositionInput>>,
-                NSInteger,
-            ),
-            (),
-        >;
+#[objc2::protocol]
+pub unsafe trait GCSwitchPositionInput: NSObjectProtocol {
+    #[objc2::method(sel = "positionDidChangeHandler")]
+    unsafe fn positionDidChangeHandler(
+        &self,
+    ) -> *mut Block<
+        (
+            NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
+            NonNull<ProtocolObject<dyn GCSwitchPositionInput>>,
+            NSInteger,
+        ),
+        (),
+    >;
 
-        #[method(setPositionDidChangeHandler:)]
-        unsafe fn setPositionDidChangeHandler(
-            &self,
-            position_did_change_handler: Option<
-                &Block<
-                    (
-                        NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
-                        NonNull<ProtocolObject<dyn GCSwitchPositionInput>>,
-                        NSInteger,
-                    ),
-                    (),
-                >,
+    #[objc2::method(sel = "setPositionDidChangeHandler:")]
+    unsafe fn setPositionDidChangeHandler(
+        &self,
+        position_did_change_handler: Option<
+            &Block<
+                (
+                    NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
+                    NonNull<ProtocolObject<dyn GCSwitchPositionInput>>,
+                    NSInteger,
+                ),
+                (),
             >,
-        );
+        >,
+    );
 
-        #[method(position)]
-        unsafe fn position(&self) -> NSInteger;
+    #[objc2::method(sel = "position")]
+    unsafe fn position(&self) -> NSInteger;
 
-        #[method(positionRange)]
-        unsafe fn positionRange(&self) -> NSRange;
+    #[objc2::method(sel = "positionRange")]
+    unsafe fn positionRange(&self) -> NSRange;
 
-        #[method(isSequential)]
-        unsafe fn isSequential(&self) -> bool;
+    #[objc2::method(sel = "isSequential")]
+    unsafe fn isSequential(&self) -> bool;
 
-        #[method(canWrap)]
-        unsafe fn canWrap(&self) -> bool;
+    #[objc2::method(sel = "canWrap")]
+    unsafe fn canWrap(&self) -> bool;
 
-        #[method(lastPositionTimestamp)]
-        unsafe fn lastPositionTimestamp(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "lastPositionTimestamp")]
+    unsafe fn lastPositionTimestamp(&self) -> NSTimeInterval;
 
-        #[method(lastPositionLatency)]
-        unsafe fn lastPositionLatency(&self) -> NSTimeInterval;
-    }
-
-    unsafe impl ProtocolType for dyn GCSwitchPositionInput {}
-);
+    #[objc2::method(sel = "lastPositionLatency")]
+    unsafe fn lastPositionLatency(&self) -> NSTimeInterval;
+}

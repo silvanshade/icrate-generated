@@ -5,19 +5,18 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSPrintPanelOptions {
-        NSPrintPanelShowsCopies = 1 << 0,
-        NSPrintPanelShowsPageRange = 1 << 1,
-        NSPrintPanelShowsPaperSize = 1 << 2,
-        NSPrintPanelShowsOrientation = 1 << 3,
-        NSPrintPanelShowsScaling = 1 << 4,
-        NSPrintPanelShowsPrintSelection = 1 << 5,
-        NSPrintPanelShowsPageSetupAccessory = 1 << 8,
-        NSPrintPanelShowsPreview = 1 << 17,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSPrintPanelOptions {
+    NSPrintPanelShowsCopies = 1 << 0,
+    NSPrintPanelShowsPageRange = 1 << 1,
+    NSPrintPanelShowsPaperSize = 1 << 2,
+    NSPrintPanelShowsOrientation = 1 << 3,
+    NSPrintPanelShowsScaling = 1 << 4,
+    NSPrintPanelShowsPrintSelection = 1 << 5,
+    NSPrintPanelShowsPageSetupAccessory = 1 << 8,
+    NSPrintPanelShowsPreview = 1 << 17,
+}
 
 typed_enum!(
     pub type NSPrintPanelJobStyleHint = NSString;
@@ -39,129 +38,132 @@ extern_static!(
     NSPrintPanelAccessorySummaryItemDescriptionKey: &'static NSPrintPanelAccessorySummaryKey
 );
 
-extern_protocol!(
-    pub unsafe trait NSPrintPanelAccessorizing {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other localizedSummaryItems)]
-        unsafe fn localizedSummaryItems(
-            &self,
-        ) -> Id<NSArray<NSDictionary<NSPrintPanelAccessorySummaryKey, NSString>>>;
+#[objc2::protocol]
+pub unsafe trait NSPrintPanelAccessorizing {
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "localizedSummaryItems", managed = "Other")]
+    unsafe fn localizedSummaryItems(
+        &self,
+    ) -> Id<NSArray<NSDictionary<NSPrintPanelAccessorySummaryKey, NSString>>>;
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other keyPathsForValuesAffectingPreview)]
-        unsafe fn keyPathsForValuesAffectingPreview(&self) -> Id<NSSet<NSString>>;
-    }
+    #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
+    #[objc2::method(optional, sel = "keyPathsForValuesAffectingPreview", managed = "Other")]
+    unsafe fn keyPathsForValuesAffectingPreview(&self) -> Id<NSSet<NSString>>;
+}
 
-    unsafe impl ProtocolType for dyn NSPrintPanelAccessorizing {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPrintPanel")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPrintPanel")]
-    pub struct NSPrintPanel;
-
-    #[cfg(feature = "AppKit_NSPrintPanel")]
-    unsafe impl ClassType for NSPrintPanel {
-        type Super = NSObject;
-    }
-);
+    pub type NSPrintPanel;
+}
 
 #[cfg(feature = "AppKit_NSPrintPanel")]
 unsafe impl NSObjectProtocol for NSPrintPanel {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPrintPanel")]
-    unsafe impl NSPrintPanel {
-        #[method_id(@__retain_semantics Other printPanel)]
-        pub unsafe fn printPanel() -> Id<NSPrintPanel>;
+    pub type NSPrintPanel;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method(addAccessoryController:)]
-        pub unsafe fn addAccessoryController(&self, accessory_controller: &NSViewController);
+    #[objc2::method(sel = "printPanel", managed = "Other")]
+    pub unsafe fn printPanel() -> Id<NSPrintPanel>;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method(removeAccessoryController:)]
-        pub unsafe fn removeAccessoryController(&self, accessory_controller: &NSViewController);
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "addAccessoryController:")]
+    pub unsafe fn addAccessoryController(&self, accessory_controller: &NSViewController);
 
-        #[cfg(all(feature = "AppKit_NSViewController", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other accessoryControllers)]
-        pub unsafe fn accessoryControllers(&self) -> Id<NSArray<NSViewController>>;
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "removeAccessoryController:")]
+    pub unsafe fn removeAccessoryController(&self, accessory_controller: &NSViewController);
 
-        #[method(options)]
-        pub unsafe fn options(&self) -> NSPrintPanelOptions;
+    #[cfg(all(feature = "AppKit_NSViewController", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "accessoryControllers", managed = "Other")]
+    pub unsafe fn accessoryControllers(&self) -> Id<NSArray<NSViewController>>;
 
-        #[method(setOptions:)]
-        pub unsafe fn setOptions(&self, options: NSPrintPanelOptions);
+    #[objc2::method(sel = "options")]
+    pub unsafe fn options(&self) -> NSPrintPanelOptions;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setDefaultButtonTitle:)]
-        pub unsafe fn setDefaultButtonTitle(&self, default_button_title: Option<&NSString>);
+    #[objc2::method(sel = "setOptions:")]
+    pub unsafe fn setOptions(&self, options: NSPrintPanelOptions);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other defaultButtonTitle)]
-        pub unsafe fn defaultButtonTitle(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setDefaultButtonTitle:")]
+    pub unsafe fn setDefaultButtonTitle(&self, default_button_title: Option<&NSString>);
 
-        #[method_id(@__retain_semantics Other helpAnchor)]
-        pub unsafe fn helpAnchor(&self) -> Option<Id<NSHelpAnchorName>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "defaultButtonTitle", managed = "Other")]
+    pub unsafe fn defaultButtonTitle(&self) -> Option<Id<NSString>>;
 
-        #[method(setHelpAnchor:)]
-        pub unsafe fn setHelpAnchor(&self, help_anchor: Option<&NSHelpAnchorName>);
+    #[objc2::method(sel = "helpAnchor", managed = "Other")]
+    pub unsafe fn helpAnchor(&self) -> Option<Id<NSHelpAnchorName>>;
 
-        #[method_id(@__retain_semantics Other jobStyleHint)]
-        pub unsafe fn jobStyleHint(&self) -> Option<Id<NSPrintPanelJobStyleHint>>;
+    #[objc2::method(sel = "setHelpAnchor:")]
+    pub unsafe fn setHelpAnchor(&self, help_anchor: Option<&NSHelpAnchorName>);
 
-        #[method(setJobStyleHint:)]
-        pub unsafe fn setJobStyleHint(&self, job_style_hint: Option<&NSPrintPanelJobStyleHint>);
+    #[objc2::method(sel = "jobStyleHint", managed = "Other")]
+    pub unsafe fn jobStyleHint(&self) -> Option<Id<NSPrintPanelJobStyleHint>>;
 
-        #[cfg(all(feature = "AppKit_NSPrintInfo", feature = "AppKit_NSWindow"))]
-        #[method(beginSheetWithPrintInfo:modalForWindow:delegate:didEndSelector:contextInfo:)]
-        pub unsafe fn beginSheetWithPrintInfo_modalForWindow_delegate_didEndSelector_contextInfo(
-            &self,
-            print_info: &NSPrintInfo,
-            doc_window: &NSWindow,
-            delegate: Option<&Object>,
-            did_end_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
+    #[objc2::method(sel = "setJobStyleHint:")]
+    pub unsafe fn setJobStyleHint(&self, job_style_hint: Option<&NSPrintPanelJobStyleHint>);
 
-        #[cfg(feature = "AppKit_NSPrintInfo")]
-        #[method(runModalWithPrintInfo:)]
-        pub unsafe fn runModalWithPrintInfo(&self, print_info: &NSPrintInfo) -> NSInteger;
+    #[cfg(all(feature = "AppKit_NSPrintInfo", feature = "AppKit_NSWindow"))]
+    #[objc2::method(
+        sel = "beginSheetWithPrintInfo:modalForWindow:delegate:didEndSelector:contextInfo:"
+    )]
+    pub unsafe fn beginSheetWithPrintInfo_modalForWindow_delegate_didEndSelector_contextInfo(
+        &self,
+        print_info: &NSPrintInfo,
+        doc_window: &NSWindow,
+        delegate: Option<&Object>,
+        did_end_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
 
-        #[method(runModal)]
-        pub unsafe fn runModal(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSPrintInfo")]
+    #[objc2::method(sel = "runModalWithPrintInfo:")]
+    pub unsafe fn runModalWithPrintInfo(&self, print_info: &NSPrintInfo) -> NSInteger;
 
-        #[cfg(feature = "AppKit_NSPrintInfo")]
-        #[method_id(@__retain_semantics Other printInfo)]
-        pub unsafe fn printInfo(&self) -> Id<NSPrintInfo>;
-    }
-);
+    #[objc2::method(sel = "runModal")]
+    pub unsafe fn runModal(&self) -> NSInteger;
 
-extern_methods!(
-    /// NSDeprecated
+    #[cfg(feature = "AppKit_NSPrintInfo")]
+    #[objc2::method(sel = "printInfo", managed = "Other")]
+    pub unsafe fn printInfo(&self) -> Id<NSPrintInfo>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPrintPanel")]
-    unsafe impl NSPrintPanel {
-        #[cfg(feature = "AppKit_NSView")]
-        #[deprecated = "Use -addAccessoryController instead"]
-        #[method(setAccessoryView:)]
-        pub unsafe fn setAccessoryView(&self, accessory_view: Option<&NSView>);
+    pub type NSPrintPanel;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[deprecated = "Use -accessoryControllers instead. For compatibility this returns the view of the first accessory controller, or nil"]
-        #[method_id(@__retain_semantics Other accessoryView)]
-        pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
+    #[cfg(feature = "AppKit_NSView")]
+    #[deprecated = "Use -addAccessoryController instead"]
+    #[objc2::method(sel = "setAccessoryView:")]
+    pub unsafe fn setAccessoryView(&self, accessory_view: Option<&NSView>);
 
-        #[deprecated]
-        #[method(updateFromPrintInfo)]
-        pub unsafe fn updateFromPrintInfo(&self);
+    #[cfg(feature = "AppKit_NSView")]
+    #[deprecated = "Use -accessoryControllers instead. For compatibility this returns the view of the first accessory controller, or nil"]
+    #[objc2::method(sel = "accessoryView", managed = "Other")]
+    pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
 
-        #[deprecated]
-        #[method(finalWritePrintInfo)]
-        pub unsafe fn finalWritePrintInfo(&self);
-    }
-);
+    #[deprecated]
+    #[objc2::method(sel = "updateFromPrintInfo")]
+    pub unsafe fn updateFromPrintInfo(&self);
+
+    #[deprecated]
+    #[objc2::method(sel = "finalWritePrintInfo")]
+    pub unsafe fn finalWritePrintInfo(&self);
+}

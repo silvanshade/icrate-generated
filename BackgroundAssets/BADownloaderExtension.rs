@@ -4,61 +4,60 @@ use crate::common::*;
 use crate::BackgroundAssets::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait BADownloaderExtension: NSObjectProtocol {
-        #[cfg(all(
-            feature = "BackgroundAssets_BAAppExtensionInfo",
-            feature = "BackgroundAssets_BADownload",
-            feature = "Foundation_NSSet",
-            feature = "Foundation_NSURL"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other downloadsForRequest:manifestURL:extensionInfo:)]
-        unsafe fn downloadsForRequest_manifestURL_extensionInfo(
-            &self,
-            content_request: BAContentRequest,
-            manifest_url: &NSURL,
-            extension_info: &BAAppExtensionInfo,
-        ) -> Id<NSSet<BADownload>>;
+#[objc2::protocol]
+pub unsafe trait BADownloaderExtension: NSObjectProtocol {
+    #[cfg(all(
+        feature = "BackgroundAssets_BAAppExtensionInfo",
+        feature = "BackgroundAssets_BADownload",
+        feature = "Foundation_NSSet",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "downloadsForRequest:manifestURL:extensionInfo:",
+        managed = "Other"
+    )]
+    unsafe fn downloadsForRequest_manifestURL_extensionInfo(
+        &self,
+        content_request: BAContentRequest,
+        manifest_url: &NSURL,
+        extension_info: &BAAppExtensionInfo,
+    ) -> Id<NSSet<BADownload>>;
 
-        #[cfg(all(
-            feature = "BackgroundAssets_BADownload",
-            feature = "Foundation_NSURLAuthenticationChallenge",
-            feature = "Foundation_NSURLCredential"
-        ))]
-        #[optional]
-        #[method(backgroundDownload:didReceiveChallenge:completionHandler:)]
-        unsafe fn backgroundDownload_didReceiveChallenge_completionHandler(
-            &self,
-            download: &BADownload,
-            challenge: &NSURLAuthenticationChallenge,
-            completion_handler: &Block<
-                (NSURLSessionAuthChallengeDisposition, *mut NSURLCredential),
-                (),
-            >,
-        );
+    #[cfg(all(
+        feature = "BackgroundAssets_BADownload",
+        feature = "Foundation_NSURLAuthenticationChallenge",
+        feature = "Foundation_NSURLCredential"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "backgroundDownload:didReceiveChallenge:completionHandler:"
+    )]
+    unsafe fn backgroundDownload_didReceiveChallenge_completionHandler(
+        &self,
+        download: &BADownload,
+        challenge: &NSURLAuthenticationChallenge,
+        completion_handler: &Block<
+            (NSURLSessionAuthChallengeDisposition, *mut NSURLCredential),
+            (),
+        >,
+    );
 
-        #[cfg(all(
-            feature = "BackgroundAssets_BADownload",
-            feature = "Foundation_NSError"
-        ))]
-        #[optional]
-        #[method(backgroundDownload:failedWithError:)]
-        unsafe fn backgroundDownload_failedWithError(&self, download: &BADownload, error: &NSError);
+    #[cfg(all(
+        feature = "BackgroundAssets_BADownload",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(optional, sel = "backgroundDownload:failedWithError:")]
+    unsafe fn backgroundDownload_failedWithError(&self, download: &BADownload, error: &NSError);
 
-        #[cfg(all(feature = "BackgroundAssets_BADownload", feature = "Foundation_NSURL"))]
-        #[optional]
-        #[method(backgroundDownload:finishedWithFileURL:)]
-        unsafe fn backgroundDownload_finishedWithFileURL(
-            &self,
-            download: &BADownload,
-            file_url: &NSURL,
-        );
+    #[cfg(all(feature = "BackgroundAssets_BADownload", feature = "Foundation_NSURL"))]
+    #[objc2::method(optional, sel = "backgroundDownload:finishedWithFileURL:")]
+    unsafe fn backgroundDownload_finishedWithFileURL(
+        &self,
+        download: &BADownload,
+        file_url: &NSURL,
+    );
 
-        #[optional]
-        #[method(extensionWillTerminate)]
-        unsafe fn extensionWillTerminate(&self);
-    }
-
-    unsafe impl ProtocolType for dyn BADownloaderExtension {}
-);
+    #[objc2::method(optional, sel = "extensionWillTerminate")]
+    unsafe fn extensionWillTerminate(&self);
+}

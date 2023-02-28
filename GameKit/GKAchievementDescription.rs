@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameKit_GKAchievementDescription")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKAchievementDescription")]
-    pub struct GKAchievementDescription;
-
-    #[cfg(feature = "GameKit_GKAchievementDescription")]
-    unsafe impl ClassType for GKAchievementDescription {
-        type Super = NSObject;
-    }
-);
+    pub type GKAchievementDescription;
+}
 
 #[cfg(feature = "GameKit_GKAchievementDescription")]
 unsafe impl NSCoding for GKAchievementDescription {}
@@ -25,69 +25,74 @@ unsafe impl NSObjectProtocol for GKAchievementDescription {}
 #[cfg(feature = "GameKit_GKAchievementDescription")]
 unsafe impl NSSecureCoding for GKAchievementDescription {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKAchievementDescription")]
-    unsafe impl GKAchievementDescription {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
-        #[method(loadAchievementDescriptionsWithCompletionHandler:)]
-        pub unsafe fn loadAchievementDescriptionsWithCompletionHandler(
-            completion_handler: Option<
-                &Block<(*mut NSArray<GKAchievementDescription>, *mut NSError), ()>,
-            >,
-        );
+    pub type GKAchievementDescription;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "loadAchievementDescriptionsWithCompletionHandler:")]
+    pub unsafe fn loadAchievementDescriptionsWithCompletionHandler(
+        completion_handler: Option<
+            &Block<(*mut NSArray<GKAchievementDescription>, *mut NSError), ()>,
+        >,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other groupIdentifier)]
-        pub unsafe fn groupIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "groupIdentifier", managed = "Other")]
+    pub unsafe fn groupIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other achievedDescription)]
-        pub unsafe fn achievedDescription(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other unachievedDescription)]
-        pub unsafe fn unachievedDescription(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "achievedDescription", managed = "Other")]
+    pub unsafe fn achievedDescription(&self) -> Option<Id<NSString>>;
 
-        #[method(maximumPoints)]
-        pub unsafe fn maximumPoints(&self) -> NSInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "unachievedDescription", managed = "Other")]
+    pub unsafe fn unachievedDescription(&self) -> Option<Id<NSString>>;
 
-        #[method(isHidden)]
-        pub unsafe fn isHidden(&self) -> bool;
+    #[objc2::method(sel = "maximumPoints")]
+    pub unsafe fn maximumPoints(&self) -> NSInteger;
 
-        #[method(isReplayable)]
-        pub unsafe fn isReplayable(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "isHidden")]
+    pub unsafe fn isHidden(&self) -> bool;
 
-extern_methods!(
-    /// UI
+    #[objc2::method(sel = "isReplayable")]
+    pub unsafe fn isReplayable(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKAchievementDescription")]
-    unsafe impl GKAchievementDescription {
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Option<Id<NSImage>>;
+    pub type GKAchievementDescription;
 
-        #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSError"))]
-        #[method(loadImageWithCompletionHandler:)]
-        pub unsafe fn loadImageWithCompletionHandler(
-            &self,
-            completion_handler: Option<&Block<(*mut NSImage, *mut NSError), ()>>,
-        );
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Option<Id<NSImage>>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other incompleteAchievementImage)]
-        pub unsafe fn incompleteAchievementImage() -> Id<NSImage>;
+    #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "loadImageWithCompletionHandler:")]
+    pub unsafe fn loadImageWithCompletionHandler(
+        &self,
+        completion_handler: Option<&Block<(*mut NSImage, *mut NSError), ()>>,
+    );
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other placeholderCompletedAchievementImage)]
-        pub unsafe fn placeholderCompletedAchievementImage() -> Id<NSImage>;
-    }
-);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "incompleteAchievementImage", managed = "Other")]
+    pub unsafe fn incompleteAchievementImage() -> Id<NSImage>;
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "placeholderCompletedAchievementImage", managed = "Other")]
+    pub unsafe fn placeholderCompletedAchievementImage() -> Id<NSImage>;
+}

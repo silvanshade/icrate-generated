@@ -11,99 +11,103 @@ pub type NSHelpAnchorName = NSString;
 
 pub type NSHelpManagerContextHelpKey = NSString;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSHelpManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSHelpManager")]
-    pub struct NSHelpManager;
-
-    #[cfg(feature = "AppKit_NSHelpManager")]
-    unsafe impl ClassType for NSHelpManager {
-        type Super = NSObject;
-    }
-);
+    pub type NSHelpManager;
+}
 
 #[cfg(feature = "AppKit_NSHelpManager")]
 unsafe impl NSObjectProtocol for NSHelpManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSHelpManager")]
-    unsafe impl NSHelpManager {
-        #[method_id(@__retain_semantics Other sharedHelpManager)]
-        pub unsafe fn sharedHelpManager() -> Id<NSHelpManager>;
+    pub type NSHelpManager;
 
-        #[method(isContextHelpModeActive)]
-        pub unsafe fn isContextHelpModeActive() -> bool;
+    #[objc2::method(sel = "sharedHelpManager", managed = "Other")]
+    pub unsafe fn sharedHelpManager() -> Id<NSHelpManager>;
 
-        #[method(setContextHelpModeActive:)]
-        pub unsafe fn setContextHelpModeActive(context_help_mode_active: bool);
+    #[objc2::method(sel = "isContextHelpModeActive")]
+    pub unsafe fn isContextHelpModeActive() -> bool;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(setContextHelp:forObject:)]
-        pub unsafe fn setContextHelp_forObject(
-            &self,
-            attr_string: &NSAttributedString,
-            object: &Object,
-        );
+    #[objc2::method(sel = "setContextHelpModeActive:")]
+    pub unsafe fn setContextHelpModeActive(context_help_mode_active: bool);
 
-        #[method(removeContextHelpForObject:)]
-        pub unsafe fn removeContextHelpForObject(&self, object: &Object);
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "setContextHelp:forObject:")]
+    pub unsafe fn setContextHelp_forObject(
+        &self,
+        attr_string: &NSAttributedString,
+        object: &Object,
+    );
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other contextHelpForObject:)]
-        pub unsafe fn contextHelpForObject(
-            &self,
-            object: &Object,
-        ) -> Option<Id<NSAttributedString>>;
+    #[objc2::method(sel = "removeContextHelpForObject:")]
+    pub unsafe fn removeContextHelpForObject(&self, object: &Object);
 
-        #[method(showContextHelpForObject:locationHint:)]
-        pub unsafe fn showContextHelpForObject_locationHint(
-            &self,
-            object: &Object,
-            pt: NSPoint,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "contextHelpForObject:", managed = "Other")]
+    pub unsafe fn contextHelpForObject(&self, object: &Object) -> Option<Id<NSAttributedString>>;
 
-        #[method(openHelpAnchor:inBook:)]
-        pub unsafe fn openHelpAnchor_inBook(
-            &self,
-            anchor: &NSHelpAnchorName,
-            book: Option<&NSHelpBookName>,
-        );
+    #[objc2::method(sel = "showContextHelpForObject:locationHint:")]
+    pub unsafe fn showContextHelpForObject_locationHint(
+        &self,
+        object: &Object,
+        pt: NSPoint,
+    ) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(findString:inBook:)]
-        pub unsafe fn findString_inBook(&self, query: &NSString, book: Option<&NSHelpBookName>);
+    #[objc2::method(sel = "openHelpAnchor:inBook:")]
+    pub unsafe fn openHelpAnchor_inBook(
+        &self,
+        anchor: &NSHelpAnchorName,
+        book: Option<&NSHelpBookName>,
+    );
 
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method(registerBooksInBundle:)]
-        pub unsafe fn registerBooksInBundle(&self, bundle: &NSBundle) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "findString:inBook:")]
+    pub unsafe fn findString_inBook(&self, query: &NSString, book: Option<&NSHelpBookName>);
+
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "registerBooksInBundle:")]
+    pub unsafe fn registerBooksInBundle(&self, bundle: &NSBundle) -> bool;
+}
 
 extern_static!(NSContextHelpModeDidActivateNotification: &'static NSNotificationName);
 
 extern_static!(NSContextHelpModeDidDeactivateNotification: &'static NSNotificationName);
 
-extern_methods!(
-    /// NSBundleHelpExtension
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSBundle")]
-    unsafe impl NSBundle {
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other contextHelpForKey:)]
-        pub unsafe fn contextHelpForKey(
-            &self,
-            key: &NSHelpManagerContextHelpKey,
-        ) -> Option<Id<NSAttributedString>>;
-    }
-);
+    pub type NSBundle;
 
-extern_methods!(
-    /// NSApplicationHelpExtension
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "contextHelpForKey:", managed = "Other")]
+    pub unsafe fn contextHelpForKey(
+        &self,
+        key: &NSHelpManagerContextHelpKey,
+    ) -> Option<Id<NSAttributedString>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[method(activateContextHelpMode:)]
-        pub unsafe fn activateContextHelpMode(&self, sender: Option<&Object>);
+    pub type NSApplication;
 
-        #[method(showHelp:)]
-        pub unsafe fn showHelp(&self, sender: Option<&Object>);
-    }
-);
+    #[objc2::method(sel = "activateContextHelpMode:")]
+    pub unsafe fn activateContextHelpMode(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "showHelp:")]
+    pub unsafe fn showHelp(&self, sender: Option<&Object>);
+}

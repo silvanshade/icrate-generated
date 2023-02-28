@@ -6,86 +6,88 @@ use crate::Foundation::*;
 
 extern_static!(ASCredentialIdentityStoreErrorDomain: &'static NSErrorDomain);
 
-ns_error_enum!(
-    #[underlying(NSInteger)]
-    pub enum ASCredentialIdentityStoreErrorCode {
-        ASCredentialIdentityStoreErrorCodeInternalError = 0,
-        ASCredentialIdentityStoreErrorCodeStoreDisabled = 1,
-        ASCredentialIdentityStoreErrorCodeStoreBusy = 2,
-    }
-);
+#[ns_error_enum]
+#[underlying(NSInteger)]
+pub enum ASCredentialIdentityStoreErrorCode {
+    ASCredentialIdentityStoreErrorCodeInternalError = 0,
+    ASCredentialIdentityStoreErrorCodeStoreDisabled = 1,
+    ASCredentialIdentityStoreErrorCodeStoreBusy = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASCredentialIdentityStore")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASCredentialIdentityStore")]
-    pub struct ASCredentialIdentityStore;
-
-    #[cfg(feature = "AuthenticationServices_ASCredentialIdentityStore")]
-    unsafe impl ClassType for ASCredentialIdentityStore {
-        type Super = NSObject;
-    }
-);
+    pub type ASCredentialIdentityStore;
+}
 
 #[cfg(feature = "AuthenticationServices_ASCredentialIdentityStore")]
 unsafe impl NSObjectProtocol for ASCredentialIdentityStore {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASCredentialIdentityStore")]
-    unsafe impl ASCredentialIdentityStore {
-        #[method_id(@__retain_semantics Other sharedStore)]
-        pub unsafe fn sharedStore() -> Id<ASCredentialIdentityStore>;
+    pub type ASCredentialIdentityStore;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "sharedStore", managed = "Other")]
+    pub unsafe fn sharedStore() -> Id<ASCredentialIdentityStore>;
 
-        #[cfg(feature = "AuthenticationServices_ASCredentialIdentityStoreState")]
-        #[method(getCredentialIdentityStoreStateWithCompletion:)]
-        pub unsafe fn getCredentialIdentityStoreStateWithCompletion(
-            &self,
-            completion: &Block<(NonNull<ASCredentialIdentityStoreState>,), ()>,
-        );
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASPasswordCredentialIdentity",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(saveCredentialIdentities:completion:)]
-        pub unsafe fn saveCredentialIdentities_completion(
-            &self,
-            credential_identities: &NSArray<ASPasswordCredentialIdentity>,
-            completion: Option<&Block<(Bool, *mut NSError), ()>>,
-        );
+    #[cfg(feature = "AuthenticationServices_ASCredentialIdentityStoreState")]
+    #[objc2::method(sel = "getCredentialIdentityStoreStateWithCompletion:")]
+    pub unsafe fn getCredentialIdentityStoreStateWithCompletion(
+        &self,
+        completion: &Block<(NonNull<ASCredentialIdentityStoreState>,), ()>,
+    );
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASPasswordCredentialIdentity",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(removeCredentialIdentities:completion:)]
-        pub unsafe fn removeCredentialIdentities_completion(
-            &self,
-            credential_identities: &NSArray<ASPasswordCredentialIdentity>,
-            completion: Option<&Block<(Bool, *mut NSError), ()>>,
-        );
+    #[cfg(all(
+        feature = "AuthenticationServices_ASPasswordCredentialIdentity",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "saveCredentialIdentities:completion:")]
+    pub unsafe fn saveCredentialIdentities_completion(
+        &self,
+        credential_identities: &NSArray<ASPasswordCredentialIdentity>,
+        completion: Option<&Block<(Bool, *mut NSError), ()>>,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(removeAllCredentialIdentitiesWithCompletion:)]
-        pub unsafe fn removeAllCredentialIdentitiesWithCompletion(
-            &self,
-            completion: Option<&Block<(Bool, *mut NSError), ()>>,
-        );
+    #[cfg(all(
+        feature = "AuthenticationServices_ASPasswordCredentialIdentity",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "removeCredentialIdentities:completion:")]
+    pub unsafe fn removeCredentialIdentities_completion(
+        &self,
+        credential_identities: &NSArray<ASPasswordCredentialIdentity>,
+        completion: Option<&Block<(Bool, *mut NSError), ()>>,
+    );
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASPasswordCredentialIdentity",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(replaceCredentialIdentitiesWithIdentities:completion:)]
-        pub unsafe fn replaceCredentialIdentitiesWithIdentities_completion(
-            &self,
-            new_credential_identities: &NSArray<ASPasswordCredentialIdentity>,
-            completion: Option<&Block<(Bool, *mut NSError), ()>>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "removeAllCredentialIdentitiesWithCompletion:")]
+    pub unsafe fn removeAllCredentialIdentitiesWithCompletion(
+        &self,
+        completion: Option<&Block<(Bool, *mut NSError), ()>>,
+    );
+
+    #[cfg(all(
+        feature = "AuthenticationServices_ASPasswordCredentialIdentity",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "replaceCredentialIdentitiesWithIdentities:completion:")]
+    pub unsafe fn replaceCredentialIdentitiesWithIdentities_completion(
+        &self,
+        new_credential_identities: &NSArray<ASPasswordCredentialIdentity>,
+        completion: Option<&Block<(Bool, *mut NSError), ()>>,
+    );
+}

@@ -6,16 +6,16 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKSource")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKSource")]
-    pub struct HKSource;
-
-    #[cfg(feature = "HealthKit_HKSource")]
-    unsafe impl ClassType for HKSource {
-        type Super = NSObject;
-    }
-);
+    pub type HKSource;
+}
 
 #[cfg(feature = "HealthKit_HKSource")]
 unsafe impl NSCoding for HKSource {}
@@ -26,21 +26,24 @@ unsafe impl NSObjectProtocol for HKSource {}
 #[cfg(feature = "HealthKit_HKSource")]
 unsafe impl NSSecureCoding for HKSource {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKSource")]
-    unsafe impl HKSource {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    pub type HKSource;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other bundleIdentifier)]
-        pub unsafe fn bundleIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Other defaultSource)]
-        pub unsafe fn defaultSource() -> Id<HKSource>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "bundleIdentifier", managed = "Other")]
+    pub unsafe fn bundleIdentifier(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "defaultSource", managed = "Other")]
+    pub unsafe fn defaultSource() -> Id<HKSource>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

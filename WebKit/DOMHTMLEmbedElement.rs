@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLEmbedElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLEmbedElement;
-
     #[cfg(feature = "WebKit_DOMHTMLEmbedElement")]
-    unsafe impl ClassType for DOMHTMLEmbedElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLEmbedElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLEmbedElement")]
 unsafe impl DOMEventTarget for DOMHTMLEmbedElement {}
@@ -24,51 +28,55 @@ unsafe impl DOMEventTarget for DOMHTMLEmbedElement {}
 #[cfg(feature = "WebKit_DOMHTMLEmbedElement")]
 unsafe impl NSObjectProtocol for DOMHTMLEmbedElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLEmbedElement")]
-    unsafe impl DOMHTMLEmbedElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other align)]
-        pub unsafe fn align(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMHTMLEmbedElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAlign:)]
-        pub unsafe fn setAlign(&self, align: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "align", managed = "Other")]
+    pub unsafe fn align(&self) -> Id<NSString>;
 
-        #[method(height)]
-        pub unsafe fn height(&self) -> c_int;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAlign:")]
+    pub unsafe fn setAlign(&self, align: Option<&NSString>);
 
-        #[method(setHeight:)]
-        pub unsafe fn setHeight(&self, height: c_int);
+    #[objc2::method(sel = "height")]
+    pub unsafe fn height(&self) -> c_int;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setHeight:")]
+    pub unsafe fn setHeight(&self, height: c_int);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other src)]
-        pub unsafe fn src(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSrc:)]
-        pub unsafe fn setSrc(&self, src: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "src", managed = "Other")]
+    pub unsafe fn src(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other type)]
-        pub unsafe fn r#type(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSrc:")]
+    pub unsafe fn setSrc(&self, src: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setType:)]
-        pub unsafe fn setType(&self, r#type: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "type", managed = "Other")]
+    pub unsafe fn r#type(&self) -> Id<NSString>;
 
-        #[method(width)]
-        pub unsafe fn width(&self) -> c_int;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setType:")]
+    pub unsafe fn setType(&self, r#type: Option<&NSString>);
 
-        #[method(setWidth:)]
-        pub unsafe fn setWidth(&self, width: c_int);
-    }
-);
+    #[objc2::method(sel = "width")]
+    pub unsafe fn width(&self) -> c_int;
+
+    #[objc2::method(sel = "setWidth:")]
+    pub unsafe fn setWidth(&self, width: c_int);
+}

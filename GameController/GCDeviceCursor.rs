@@ -5,22 +5,26 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = GCControllerDirectionPad,
+    unsafe inherits = [
+        GCControllerElement,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCDeviceCursor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCDeviceCursor")]
-    pub struct GCDeviceCursor;
-
-    #[cfg(feature = "GameController_GCDeviceCursor")]
-    unsafe impl ClassType for GCDeviceCursor {
-        #[inherits(GCControllerElement, NSObject)]
-        type Super = GCControllerDirectionPad;
-    }
-);
+    pub type GCDeviceCursor;
+}
 
 #[cfg(feature = "GameController_GCDeviceCursor")]
 unsafe impl NSObjectProtocol for GCDeviceCursor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCDeviceCursor")]
-    unsafe impl GCDeviceCursor {}
-);
+    pub type GCDeviceCursor;
+}

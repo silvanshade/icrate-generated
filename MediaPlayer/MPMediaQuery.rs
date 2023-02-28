@@ -5,30 +5,29 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MPMediaGrouping {
-        MPMediaGroupingTitle = 0,
-        MPMediaGroupingAlbum = 1,
-        MPMediaGroupingArtist = 2,
-        MPMediaGroupingAlbumArtist = 3,
-        MPMediaGroupingComposer = 4,
-        MPMediaGroupingGenre = 5,
-        MPMediaGroupingPlaylist = 6,
-        MPMediaGroupingPodcastTitle = 7,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MPMediaGrouping {
+    MPMediaGroupingTitle = 0,
+    MPMediaGroupingAlbum = 1,
+    MPMediaGroupingArtist = 2,
+    MPMediaGroupingAlbumArtist = 3,
+    MPMediaGroupingComposer = 4,
+    MPMediaGroupingGenre = 5,
+    MPMediaGroupingPlaylist = 6,
+    MPMediaGroupingPodcastTitle = 7,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPMediaQuery")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPMediaQuery")]
-    pub struct MPMediaQuery;
-
-    #[cfg(feature = "MediaPlayer_MPMediaQuery")]
-    unsafe impl ClassType for MPMediaQuery {
-        type Super = NSObject;
-    }
-);
+    pub type MPMediaQuery;
+}
 
 #[cfg(feature = "MediaPlayer_MPMediaQuery")]
 unsafe impl NSCoding for MPMediaQuery {}
@@ -39,105 +38,105 @@ unsafe impl NSObjectProtocol for MPMediaQuery {}
 #[cfg(feature = "MediaPlayer_MPMediaQuery")]
 unsafe impl NSSecureCoding for MPMediaQuery {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPMediaQuery")]
-    unsafe impl MPMediaQuery {
-        #[cfg(all(feature = "Foundation_NSSet", feature = "MediaPlayer_MPMediaPredicate"))]
-        #[method_id(@__retain_semantics Init initWithFilterPredicates:)]
-        pub unsafe fn initWithFilterPredicates(
-            this: Option<Allocated<Self>>,
-            filter_predicates: Option<&NSSet<MPMediaPredicate>>,
-        ) -> Id<Self>;
+    pub type MPMediaQuery;
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "MediaPlayer_MPMediaPredicate"))]
-        #[method_id(@__retain_semantics Other filterPredicates)]
-        pub unsafe fn filterPredicates(&self) -> Option<Id<NSSet<MPMediaPredicate>>>;
+    #[cfg(all(feature = "Foundation_NSSet", feature = "MediaPlayer_MPMediaPredicate"))]
+    #[objc2::method(sel = "initWithFilterPredicates:", managed = "Init")]
+    pub unsafe fn initWithFilterPredicates(
+        this: Option<Allocated<Self>>,
+        filter_predicates: Option<&NSSet<MPMediaPredicate>>,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "MediaPlayer_MPMediaPredicate"))]
-        #[method(setFilterPredicates:)]
-        pub unsafe fn setFilterPredicates(
-            &self,
-            filter_predicates: Option<&NSSet<MPMediaPredicate>>,
-        );
+    #[cfg(all(feature = "Foundation_NSSet", feature = "MediaPlayer_MPMediaPredicate"))]
+    #[objc2::method(sel = "filterPredicates", managed = "Other")]
+    pub unsafe fn filterPredicates(&self) -> Option<Id<NSSet<MPMediaPredicate>>>;
 
-        #[cfg(feature = "MediaPlayer_MPMediaPredicate")]
-        #[method(addFilterPredicate:)]
-        pub unsafe fn addFilterPredicate(&self, predicate: &MPMediaPredicate);
+    #[cfg(all(feature = "Foundation_NSSet", feature = "MediaPlayer_MPMediaPredicate"))]
+    #[objc2::method(sel = "setFilterPredicates:")]
+    pub unsafe fn setFilterPredicates(&self, filter_predicates: Option<&NSSet<MPMediaPredicate>>);
 
-        #[cfg(feature = "MediaPlayer_MPMediaPredicate")]
-        #[method(removeFilterPredicate:)]
-        pub unsafe fn removeFilterPredicate(&self, predicate: &MPMediaPredicate);
+    #[cfg(feature = "MediaPlayer_MPMediaPredicate")]
+    #[objc2::method(sel = "addFilterPredicate:")]
+    pub unsafe fn addFilterPredicate(&self, predicate: &MPMediaPredicate);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MediaPlayer_MPMediaItem"))]
-        #[method_id(@__retain_semantics Other items)]
-        pub unsafe fn items(&self) -> Option<Id<NSArray<MPMediaItem>>>;
+    #[cfg(feature = "MediaPlayer_MPMediaPredicate")]
+    #[objc2::method(sel = "removeFilterPredicate:")]
+    pub unsafe fn removeFilterPredicate(&self, predicate: &MPMediaPredicate);
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "MediaPlayer_MPMediaItemCollection"
-        ))]
-        #[method_id(@__retain_semantics Other collections)]
-        pub unsafe fn collections(&self) -> Option<Id<NSArray<MPMediaItemCollection>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MediaPlayer_MPMediaItem"))]
+    #[objc2::method(sel = "items", managed = "Other")]
+    pub unsafe fn items(&self) -> Option<Id<NSArray<MPMediaItem>>>;
 
-        #[method(groupingType)]
-        pub unsafe fn groupingType(&self) -> MPMediaGrouping;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "MediaPlayer_MPMediaItemCollection"
+    ))]
+    #[objc2::method(sel = "collections", managed = "Other")]
+    pub unsafe fn collections(&self) -> Option<Id<NSArray<MPMediaItemCollection>>>;
 
-        #[method(setGroupingType:)]
-        pub unsafe fn setGroupingType(&self, grouping_type: MPMediaGrouping);
+    #[objc2::method(sel = "groupingType")]
+    pub unsafe fn groupingType(&self) -> MPMediaGrouping;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "MediaPlayer_MPMediaQuerySection"
-        ))]
-        #[method_id(@__retain_semantics Other itemSections)]
-        pub unsafe fn itemSections(&self) -> Option<Id<NSArray<MPMediaQuerySection>>>;
+    #[objc2::method(sel = "setGroupingType:")]
+    pub unsafe fn setGroupingType(&self, grouping_type: MPMediaGrouping);
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "MediaPlayer_MPMediaQuerySection"
-        ))]
-        #[method_id(@__retain_semantics Other collectionSections)]
-        pub unsafe fn collectionSections(&self) -> Option<Id<NSArray<MPMediaQuerySection>>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "MediaPlayer_MPMediaQuerySection"
+    ))]
+    #[objc2::method(sel = "itemSections", managed = "Other")]
+    pub unsafe fn itemSections(&self) -> Option<Id<NSArray<MPMediaQuerySection>>>;
 
-        #[method_id(@__retain_semantics Other albumsQuery)]
-        pub unsafe fn albumsQuery() -> Id<MPMediaQuery>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "MediaPlayer_MPMediaQuerySection"
+    ))]
+    #[objc2::method(sel = "collectionSections", managed = "Other")]
+    pub unsafe fn collectionSections(&self) -> Option<Id<NSArray<MPMediaQuerySection>>>;
 
-        #[method_id(@__retain_semantics Other artistsQuery)]
-        pub unsafe fn artistsQuery() -> Id<MPMediaQuery>;
+    #[objc2::method(sel = "albumsQuery", managed = "Other")]
+    pub unsafe fn albumsQuery() -> Id<MPMediaQuery>;
 
-        #[method_id(@__retain_semantics Other songsQuery)]
-        pub unsafe fn songsQuery() -> Id<MPMediaQuery>;
+    #[objc2::method(sel = "artistsQuery", managed = "Other")]
+    pub unsafe fn artistsQuery() -> Id<MPMediaQuery>;
 
-        #[method_id(@__retain_semantics Other playlistsQuery)]
-        pub unsafe fn playlistsQuery() -> Id<MPMediaQuery>;
+    #[objc2::method(sel = "songsQuery", managed = "Other")]
+    pub unsafe fn songsQuery() -> Id<MPMediaQuery>;
 
-        #[method_id(@__retain_semantics Other podcastsQuery)]
-        pub unsafe fn podcastsQuery() -> Id<MPMediaQuery>;
+    #[objc2::method(sel = "playlistsQuery", managed = "Other")]
+    pub unsafe fn playlistsQuery() -> Id<MPMediaQuery>;
 
-        #[method_id(@__retain_semantics Other audiobooksQuery)]
-        pub unsafe fn audiobooksQuery() -> Id<MPMediaQuery>;
+    #[objc2::method(sel = "podcastsQuery", managed = "Other")]
+    pub unsafe fn podcastsQuery() -> Id<MPMediaQuery>;
 
-        #[method_id(@__retain_semantics Other compilationsQuery)]
-        pub unsafe fn compilationsQuery() -> Id<MPMediaQuery>;
+    #[objc2::method(sel = "audiobooksQuery", managed = "Other")]
+    pub unsafe fn audiobooksQuery() -> Id<MPMediaQuery>;
 
-        #[method_id(@__retain_semantics Other composersQuery)]
-        pub unsafe fn composersQuery() -> Id<MPMediaQuery>;
+    #[objc2::method(sel = "compilationsQuery", managed = "Other")]
+    pub unsafe fn compilationsQuery() -> Id<MPMediaQuery>;
 
-        #[method_id(@__retain_semantics Other genresQuery)]
-        pub unsafe fn genresQuery() -> Id<MPMediaQuery>;
-    }
-);
+    #[objc2::method(sel = "composersQuery", managed = "Other")]
+    pub unsafe fn composersQuery() -> Id<MPMediaQuery>;
 
-extern_class!(
+    #[objc2::method(sel = "genresQuery", managed = "Other")]
+    pub unsafe fn genresQuery() -> Id<MPMediaQuery>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPMediaPredicate")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPMediaPredicate")]
-    pub struct MPMediaPredicate;
-
-    #[cfg(feature = "MediaPlayer_MPMediaPredicate")]
-    unsafe impl ClassType for MPMediaPredicate {
-        type Super = NSObject;
-    }
-);
+    pub type MPMediaPredicate;
+}
 
 #[cfg(feature = "MediaPlayer_MPMediaPredicate")]
 unsafe impl NSCoding for MPMediaPredicate {}
@@ -148,30 +147,32 @@ unsafe impl NSObjectProtocol for MPMediaPredicate {}
 #[cfg(feature = "MediaPlayer_MPMediaPredicate")]
 unsafe impl NSSecureCoding for MPMediaPredicate {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPMediaPredicate")]
-    unsafe impl MPMediaPredicate {}
-);
+    pub type MPMediaPredicate;
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MPMediaPredicateComparison {
-        MPMediaPredicateComparisonEqualTo = 0,
-        MPMediaPredicateComparisonContains = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MPMediaPredicateComparison {
+    MPMediaPredicateComparisonEqualTo = 0,
+    MPMediaPredicateComparisonContains = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MPMediaPredicate,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPMediaPropertyPredicate")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPMediaPropertyPredicate")]
-    pub struct MPMediaPropertyPredicate;
-
-    #[cfg(feature = "MediaPlayer_MPMediaPropertyPredicate")]
-    unsafe impl ClassType for MPMediaPropertyPredicate {
-        #[inherits(NSObject)]
-        type Super = MPMediaPredicate;
-    }
-);
+    pub type MPMediaPropertyPredicate;
+}
 
 #[cfg(feature = "MediaPlayer_MPMediaPropertyPredicate")]
 unsafe impl NSCoding for MPMediaPropertyPredicate {}
@@ -182,48 +183,56 @@ unsafe impl NSObjectProtocol for MPMediaPropertyPredicate {}
 #[cfg(feature = "MediaPlayer_MPMediaPropertyPredicate")]
 unsafe impl NSSecureCoding for MPMediaPropertyPredicate {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPMediaPropertyPredicate")]
-    unsafe impl MPMediaPropertyPredicate {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other predicateWithValue:forProperty:)]
-        pub unsafe fn predicateWithValue_forProperty(
-            value: Option<&Object>,
-            property: &NSString,
-        ) -> Id<MPMediaPropertyPredicate>;
+    pub type MPMediaPropertyPredicate;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other predicateWithValue:forProperty:comparisonType:)]
-        pub unsafe fn predicateWithValue_forProperty_comparisonType(
-            value: Option<&Object>,
-            property: &NSString,
-            comparison_type: MPMediaPredicateComparison,
-        ) -> Id<MPMediaPropertyPredicate>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "predicateWithValue:forProperty:", managed = "Other")]
+    pub unsafe fn predicateWithValue_forProperty(
+        value: Option<&Object>,
+        property: &NSString,
+    ) -> Id<MPMediaPropertyPredicate>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other property)]
-        pub unsafe fn property(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "predicateWithValue:forProperty:comparisonType:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateWithValue_forProperty_comparisonType(
+        value: Option<&Object>,
+        property: &NSString,
+        comparison_type: MPMediaPredicateComparison,
+    ) -> Id<MPMediaPropertyPredicate>;
 
-        #[method_id(@__retain_semantics Other value)]
-        pub unsafe fn value(&self) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "property", managed = "Other")]
+    pub unsafe fn property(&self) -> Id<NSString>;
 
-        #[method(comparisonType)]
-        pub unsafe fn comparisonType(&self) -> MPMediaPredicateComparison;
-    }
-);
+    #[objc2::method(sel = "value", managed = "Other")]
+    pub unsafe fn value(&self) -> Option<Id<Object>>;
 
-extern_methods!(
-    /// MPMediaQueryAdditions
+    #[objc2::method(sel = "comparisonType")]
+    pub unsafe fn comparisonType(&self) -> MPMediaPredicateComparison;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPMediaItem")]
-    unsafe impl MPMediaItem {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other persistentIDPropertyForGroupingType:)]
-        pub unsafe fn persistentIDPropertyForGroupingType(
-            grouping_type: MPMediaGrouping,
-        ) -> Id<NSString>;
+    pub type MPMediaItem;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other titlePropertyForGroupingType:)]
-        pub unsafe fn titlePropertyForGroupingType(grouping_type: MPMediaGrouping) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "persistentIDPropertyForGroupingType:", managed = "Other")]
+    pub unsafe fn persistentIDPropertyForGroupingType(
+        grouping_type: MPMediaGrouping,
+    ) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "titlePropertyForGroupingType:", managed = "Other")]
+    pub unsafe fn titlePropertyForGroupingType(grouping_type: MPMediaGrouping) -> Id<NSString>;
+}

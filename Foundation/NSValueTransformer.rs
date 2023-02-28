@@ -19,72 +19,78 @@ extern_static!(NSKeyedUnarchiveFromDataTransformerName: &'static NSValueTransfor
 
 extern_static!(NSSecureUnarchiveFromDataTransformerName: &'static NSValueTransformerName);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSValueTransformer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSValueTransformer")]
-    pub struct NSValueTransformer;
-
-    #[cfg(feature = "Foundation_NSValueTransformer")]
-    unsafe impl ClassType for NSValueTransformer {
-        type Super = NSObject;
-    }
-);
+    pub type NSValueTransformer;
+}
 
 #[cfg(feature = "Foundation_NSValueTransformer")]
 unsafe impl NSObjectProtocol for NSValueTransformer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSValueTransformer")]
-    unsafe impl NSValueTransformer {
-        #[method(setValueTransformer:forName:)]
-        pub unsafe fn setValueTransformer_forName(
-            transformer: Option<&NSValueTransformer>,
-            name: &NSValueTransformerName,
-        );
+    pub type NSValueTransformer;
 
-        #[method_id(@__retain_semantics Other valueTransformerForName:)]
-        pub unsafe fn valueTransformerForName(
-            name: &NSValueTransformerName,
-        ) -> Option<Id<NSValueTransformer>>;
+    #[objc2::method(sel = "setValueTransformer:forName:")]
+    pub unsafe fn setValueTransformer_forName(
+        transformer: Option<&NSValueTransformer>,
+        name: &NSValueTransformerName,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other valueTransformerNames)]
-        pub unsafe fn valueTransformerNames() -> Id<NSArray<NSValueTransformerName>>;
+    #[objc2::method(sel = "valueTransformerForName:", managed = "Other")]
+    pub unsafe fn valueTransformerForName(
+        name: &NSValueTransformerName,
+    ) -> Option<Id<NSValueTransformer>>;
 
-        #[method(transformedValueClass)]
-        pub unsafe fn transformedValueClass() -> &'static Class;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "valueTransformerNames", managed = "Other")]
+    pub unsafe fn valueTransformerNames() -> Id<NSArray<NSValueTransformerName>>;
 
-        #[method(allowsReverseTransformation)]
-        pub unsafe fn allowsReverseTransformation() -> bool;
+    #[objc2::method(sel = "transformedValueClass")]
+    pub unsafe fn transformedValueClass() -> &'static Class;
 
-        #[method_id(@__retain_semantics Other transformedValue:)]
-        pub unsafe fn transformedValue(&self, value: Option<&Object>) -> Option<Id<Object>>;
+    #[objc2::method(sel = "allowsReverseTransformation")]
+    pub unsafe fn allowsReverseTransformation() -> bool;
 
-        #[method_id(@__retain_semantics Other reverseTransformedValue:)]
-        pub unsafe fn reverseTransformedValue(&self, value: Option<&Object>) -> Option<Id<Object>>;
-    }
-);
+    #[objc2::method(sel = "transformedValue:", managed = "Other")]
+    pub unsafe fn transformedValue(&self, value: Option<&Object>) -> Option<Id<Object>>;
 
-extern_class!(
+    #[objc2::method(sel = "reverseTransformedValue:", managed = "Other")]
+    pub unsafe fn reverseTransformedValue(&self, value: Option<&Object>) -> Option<Id<Object>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSValueTransformer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSSecureUnarchiveFromDataTransformer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSSecureUnarchiveFromDataTransformer")]
-    pub struct NSSecureUnarchiveFromDataTransformer;
-
-    #[cfg(feature = "Foundation_NSSecureUnarchiveFromDataTransformer")]
-    unsafe impl ClassType for NSSecureUnarchiveFromDataTransformer {
-        #[inherits(NSObject)]
-        type Super = NSValueTransformer;
-    }
-);
+    pub type NSSecureUnarchiveFromDataTransformer;
+}
 
 #[cfg(feature = "Foundation_NSSecureUnarchiveFromDataTransformer")]
 unsafe impl NSObjectProtocol for NSSecureUnarchiveFromDataTransformer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSSecureUnarchiveFromDataTransformer")]
-    unsafe impl NSSecureUnarchiveFromDataTransformer {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other allowedTopLevelClasses)]
-        pub unsafe fn allowedTopLevelClasses() -> Id<NSArray<TodoClass>>;
-    }
-);
+    pub type NSSecureUnarchiveFromDataTransformer;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "allowedTopLevelClasses", managed = "Other")]
+    pub unsafe fn allowedTopLevelClasses() -> Id<NSArray<TodoClass>>;
+}

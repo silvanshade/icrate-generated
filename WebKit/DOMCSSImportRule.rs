@@ -5,35 +5,41 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMCSSImportRule")]
+#[objc2::interface(
+    unsafe super = DOMCSSRule,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMCSSImportRule;
-
     #[cfg(feature = "WebKit_DOMCSSImportRule")]
-    unsafe impl ClassType for DOMCSSImportRule {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMCSSRule;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMCSSImportRule;
+}
 
 #[cfg(feature = "WebKit_DOMCSSImportRule")]
 unsafe impl NSObjectProtocol for DOMCSSImportRule {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCSSImportRule")]
-    unsafe impl DOMCSSImportRule {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other href)]
-        pub unsafe fn href(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMCSSImportRule;
 
-        #[cfg(feature = "WebKit_DOMMediaList")]
-        #[method_id(@__retain_semantics Other media)]
-        pub unsafe fn media(&self) -> Option<Id<DOMMediaList>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "href", managed = "Other")]
+    pub unsafe fn href(&self) -> Id<NSString>;
 
-        #[cfg(feature = "WebKit_DOMCSSStyleSheet")]
-        #[method_id(@__retain_semantics Other styleSheet)]
-        pub unsafe fn styleSheet(&self) -> Option<Id<DOMCSSStyleSheet>>;
-    }
-);
+    #[cfg(feature = "WebKit_DOMMediaList")]
+    #[objc2::method(sel = "media", managed = "Other")]
+    pub unsafe fn media(&self) -> Option<Id<DOMMediaList>>;
+
+    #[cfg(feature = "WebKit_DOMCSSStyleSheet")]
+    #[objc2::method(sel = "styleSheet", managed = "Other")]
+    pub unsafe fn styleSheet(&self) -> Option<Id<DOMCSSStyleSheet>>;
+}

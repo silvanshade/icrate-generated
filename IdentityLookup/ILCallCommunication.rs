@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::IdentityLookup::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = ILCommunication,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "IdentityLookup_ILCallCommunication")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "IdentityLookup_ILCallCommunication")]
-    pub struct ILCallCommunication;
-
-    #[cfg(feature = "IdentityLookup_ILCallCommunication")]
-    unsafe impl ClassType for ILCallCommunication {
-        #[inherits(NSObject)]
-        type Super = ILCommunication;
-    }
-);
+    pub type ILCallCommunication;
+}
 
 #[cfg(feature = "IdentityLookup_ILCallCommunication")]
 unsafe impl NSCoding for ILCallCommunication {}
@@ -25,16 +25,16 @@ unsafe impl NSObjectProtocol for ILCallCommunication {}
 #[cfg(feature = "IdentityLookup_ILCallCommunication")]
 unsafe impl NSSecureCoding for ILCallCommunication {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "IdentityLookup_ILCallCommunication")]
-    unsafe impl ILCallCommunication {
-        #[method(isEqualToCallCommunication:)]
-        pub unsafe fn isEqualToCallCommunication(
-            &self,
-            communication: &ILCallCommunication,
-        ) -> bool;
+    pub type ILCallCommunication;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "isEqualToCallCommunication:")]
+    pub unsafe fn isEqualToCallCommunication(&self, communication: &ILCallCommunication) -> bool;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

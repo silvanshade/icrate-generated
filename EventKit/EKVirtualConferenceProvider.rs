@@ -7,16 +7,16 @@ use crate::EventKit::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "EventKit_EKVirtualConferenceProvider")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "EventKit_EKVirtualConferenceProvider")]
-    pub struct EKVirtualConferenceProvider;
-
-    #[cfg(feature = "EventKit_EKVirtualConferenceProvider")]
-    unsafe impl ClassType for EKVirtualConferenceProvider {
-        type Super = NSObject;
-    }
-);
+    pub type EKVirtualConferenceProvider;
+}
 
 #[cfg(feature = "EventKit_EKVirtualConferenceProvider")]
 unsafe impl NSExtensionRequestHandling for EKVirtualConferenceProvider {}
@@ -24,35 +24,38 @@ unsafe impl NSExtensionRequestHandling for EKVirtualConferenceProvider {}
 #[cfg(feature = "EventKit_EKVirtualConferenceProvider")]
 unsafe impl NSObjectProtocol for EKVirtualConferenceProvider {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "EventKit_EKVirtualConferenceProvider")]
-    unsafe impl EKVirtualConferenceProvider {
-        #[cfg(all(
-            feature = "EventKit_EKVirtualConferenceRoomTypeDescriptor",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(fetchAvailableRoomTypesWithCompletionHandler:)]
-        pub unsafe fn fetchAvailableRoomTypesWithCompletionHandler(
-            &self,
-            completion_handler: &Block<
-                (
-                    *mut NSArray<EKVirtualConferenceRoomTypeDescriptor>,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        );
+    pub type EKVirtualConferenceProvider;
 
-        #[cfg(all(
-            feature = "EventKit_EKVirtualConferenceDescriptor",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(fetchVirtualConferenceForIdentifier:completionHandler:)]
-        pub unsafe fn fetchVirtualConferenceForIdentifier_completionHandler(
-            &self,
-            identifier: &EKVirtualConferenceRoomTypeIdentifier,
-            completion_handler: &Block<(*mut EKVirtualConferenceDescriptor, *mut NSError), ()>,
-        );
-    }
-);
+    #[cfg(all(
+        feature = "EventKit_EKVirtualConferenceRoomTypeDescriptor",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "fetchAvailableRoomTypesWithCompletionHandler:")]
+    pub unsafe fn fetchAvailableRoomTypesWithCompletionHandler(
+        &self,
+        completion_handler: &Block<
+            (
+                *mut NSArray<EKVirtualConferenceRoomTypeDescriptor>,
+                *mut NSError,
+            ),
+            (),
+        >,
+    );
+
+    #[cfg(all(
+        feature = "EventKit_EKVirtualConferenceDescriptor",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "fetchVirtualConferenceForIdentifier:completionHandler:")]
+    pub unsafe fn fetchVirtualConferenceForIdentifier_completionHandler(
+        &self,
+        identifier: &EKVirtualConferenceRoomTypeIdentifier,
+        completion_handler: &Block<(*mut EKVirtualConferenceDescriptor, *mut NSError), ()>,
+    );
+}

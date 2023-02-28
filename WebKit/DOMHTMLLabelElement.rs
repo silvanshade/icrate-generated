@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLLabelElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLLabelElement;
-
     #[cfg(feature = "WebKit_DOMHTMLLabelElement")]
-    unsafe impl ClassType for DOMHTMLLabelElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLLabelElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLLabelElement")]
 unsafe impl DOMEventTarget for DOMHTMLLabelElement {}
@@ -24,29 +28,33 @@ unsafe impl DOMEventTarget for DOMHTMLLabelElement {}
 #[cfg(feature = "WebKit_DOMHTMLLabelElement")]
 unsafe impl NSObjectProtocol for DOMHTMLLabelElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLLabelElement")]
-    unsafe impl DOMHTMLLabelElement {
-        #[cfg(feature = "WebKit_DOMHTMLFormElement")]
-        #[method_id(@__retain_semantics Other form)]
-        pub unsafe fn form(&self) -> Option<Id<DOMHTMLFormElement>>;
+    #[deprecated]
+    pub type DOMHTMLLabelElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other htmlFor)]
-        pub unsafe fn htmlFor(&self) -> Id<NSString>;
+    #[cfg(feature = "WebKit_DOMHTMLFormElement")]
+    #[objc2::method(sel = "form", managed = "Other")]
+    pub unsafe fn form(&self) -> Option<Id<DOMHTMLFormElement>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setHtmlFor:)]
-        pub unsafe fn setHtmlFor(&self, html_for: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "htmlFor", managed = "Other")]
+    pub unsafe fn htmlFor(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other accessKey)]
-        pub unsafe fn accessKey(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setHtmlFor:")]
+    pub unsafe fn setHtmlFor(&self, html_for: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(setAccessKey:)]
-        pub unsafe fn setAccessKey(&self, access_key: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "accessKey", managed = "Other")]
+    pub unsafe fn accessKey(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "setAccessKey:")]
+    pub unsafe fn setAccessKey(&self, access_key: Option<&NSString>);
+}

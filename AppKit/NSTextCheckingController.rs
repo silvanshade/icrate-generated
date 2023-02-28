@@ -5,100 +5,106 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextCheckingController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextCheckingController")]
-    pub struct NSTextCheckingController;
-
-    #[cfg(feature = "AppKit_NSTextCheckingController")]
-    unsafe impl ClassType for NSTextCheckingController {
-        type Super = NSObject;
-    }
-);
+    pub type NSTextCheckingController;
+}
 
 #[cfg(feature = "AppKit_NSTextCheckingController")]
 unsafe impl NSObjectProtocol for NSTextCheckingController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextCheckingController")]
-    unsafe impl NSTextCheckingController {
-        #[method_id(@__retain_semantics Init initWithClient:)]
-        pub unsafe fn initWithClient(
-            this: Option<Allocated<Self>>,
-            client: &ProtocolObject<dyn NSTextCheckingClient>,
-        ) -> Id<Self>;
+    pub type NSTextCheckingController;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "initWithClient:", managed = "Init")]
+    pub unsafe fn initWithClient(
+        this: Option<Allocated<Self>>,
+        client: &ProtocolObject<dyn NSTextCheckingClient>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other client)]
-        pub unsafe fn client(&self) -> Id<ProtocolObject<dyn NSTextCheckingClient>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(invalidate)]
-        pub unsafe fn invalidate(&self);
+    #[objc2::method(sel = "client", managed = "Other")]
+    pub unsafe fn client(&self) -> Id<ProtocolObject<dyn NSTextCheckingClient>>;
 
-        #[method(didChangeTextInRange:)]
-        pub unsafe fn didChangeTextInRange(&self, range: NSRange);
+    #[objc2::method(sel = "invalidate")]
+    pub unsafe fn invalidate(&self);
 
-        #[method(insertedTextInRange:)]
-        pub unsafe fn insertedTextInRange(&self, range: NSRange);
+    #[objc2::method(sel = "didChangeTextInRange:")]
+    pub unsafe fn didChangeTextInRange(&self, range: NSRange);
 
-        #[method(didChangeSelectedRange)]
-        pub unsafe fn didChangeSelectedRange(&self);
+    #[objc2::method(sel = "insertedTextInRange:")]
+    pub unsafe fn insertedTextInRange(&self, range: NSRange);
 
-        #[method(considerTextCheckingForRange:)]
-        pub unsafe fn considerTextCheckingForRange(&self, range: NSRange);
+    #[objc2::method(sel = "didChangeSelectedRange")]
+    pub unsafe fn didChangeSelectedRange(&self);
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(checkTextInRange:types:options:)]
-        pub unsafe fn checkTextInRange_types_options(
-            &self,
-            range: NSRange,
-            checking_types: NSTextCheckingTypes,
-            options: &NSDictionary<NSTextCheckingOptionKey, Object>,
-        );
+    #[objc2::method(sel = "considerTextCheckingForRange:")]
+    pub unsafe fn considerTextCheckingForRange(&self, range: NSRange);
 
-        #[method(checkTextInSelection:)]
-        pub unsafe fn checkTextInSelection(&self, sender: Option<&Object>);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "checkTextInRange:types:options:")]
+    pub unsafe fn checkTextInRange_types_options(
+        &self,
+        range: NSRange,
+        checking_types: NSTextCheckingTypes,
+        options: &NSDictionary<NSTextCheckingOptionKey, Object>,
+    );
 
-        #[method(checkTextInDocument:)]
-        pub unsafe fn checkTextInDocument(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "checkTextInSelection:")]
+    pub unsafe fn checkTextInSelection(&self, sender: Option<&Object>);
 
-        #[method(orderFrontSubstitutionsPanel:)]
-        pub unsafe fn orderFrontSubstitutionsPanel(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "checkTextInDocument:")]
+    pub unsafe fn checkTextInDocument(&self, sender: Option<&Object>);
 
-        #[method(checkSpelling:)]
-        pub unsafe fn checkSpelling(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "orderFrontSubstitutionsPanel:")]
+    pub unsafe fn orderFrontSubstitutionsPanel(&self, sender: Option<&Object>);
 
-        #[method(showGuessPanel:)]
-        pub unsafe fn showGuessPanel(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "checkSpelling:")]
+    pub unsafe fn checkSpelling(&self, sender: Option<&Object>);
 
-        #[method(changeSpelling:)]
-        pub unsafe fn changeSpelling(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "showGuessPanel:")]
+    pub unsafe fn showGuessPanel(&self, sender: Option<&Object>);
 
-        #[method(ignoreSpelling:)]
-        pub unsafe fn ignoreSpelling(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "changeSpelling:")]
+    pub unsafe fn changeSpelling(&self, sender: Option<&Object>);
 
-        #[method(updateCandidates)]
-        pub unsafe fn updateCandidates(&self);
+    #[objc2::method(sel = "ignoreSpelling:")]
+    pub unsafe fn ignoreSpelling(&self, sender: Option<&Object>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other validAnnotations)]
-        pub unsafe fn validAnnotations(&self) -> Id<NSArray<NSAttributedStringKey>>;
+    #[objc2::method(sel = "updateCandidates")]
+    pub unsafe fn updateCandidates(&self);
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method_id(@__retain_semantics Other menuAtIndex:clickedOnSelection:effectiveRange:)]
-        pub unsafe fn menuAtIndex_clickedOnSelection_effectiveRange(
-            &self,
-            location: NSUInteger,
-            clicked_on_selection: bool,
-            effective_range: NSRangePointer,
-        ) -> Option<Id<NSMenu>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "validAnnotations", managed = "Other")]
+    pub unsafe fn validAnnotations(&self) -> Id<NSArray<NSAttributedStringKey>>;
 
-        #[method(spellCheckerDocumentTag)]
-        pub unsafe fn spellCheckerDocumentTag(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(
+        sel = "menuAtIndex:clickedOnSelection:effectiveRange:",
+        managed = "Other"
+    )]
+    pub unsafe fn menuAtIndex_clickedOnSelection_effectiveRange(
+        &self,
+        location: NSUInteger,
+        clicked_on_selection: bool,
+        effective_range: NSRangePointer,
+    ) -> Option<Id<NSMenu>>;
 
-        #[method(setSpellCheckerDocumentTag:)]
-        pub unsafe fn setSpellCheckerDocumentTag(&self, spell_checker_document_tag: NSInteger);
-    }
-);
+    #[objc2::method(sel = "spellCheckerDocumentTag")]
+    pub unsafe fn spellCheckerDocumentTag(&self) -> NSInteger;
+
+    #[objc2::method(sel = "setSpellCheckerDocumentTag:")]
+    pub unsafe fn setSpellCheckerDocumentTag(&self, spell_checker_document_tag: NSInteger);
+}

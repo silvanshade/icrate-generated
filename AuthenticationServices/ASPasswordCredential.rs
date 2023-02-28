@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASPasswordCredential")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASPasswordCredential")]
-    pub struct ASPasswordCredential;
-
-    #[cfg(feature = "AuthenticationServices_ASPasswordCredential")]
-    unsafe impl ClassType for ASPasswordCredential {
-        type Super = NSObject;
-    }
-);
+    pub type ASPasswordCredential;
+}
 
 #[cfg(feature = "AuthenticationServices_ASPasswordCredential")]
 unsafe impl ASAuthorizationCredential for ASPasswordCredential {}
@@ -27,28 +27,30 @@ unsafe impl NSObjectProtocol for ASPasswordCredential {}
 #[cfg(feature = "AuthenticationServices_ASPasswordCredential")]
 unsafe impl NSSecureCoding for ASPasswordCredential {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASPasswordCredential")]
-    unsafe impl ASPasswordCredential {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithUser:password:)]
-        pub unsafe fn initWithUser_password(
-            this: Option<Allocated<Self>>,
-            user: &NSString,
-            password: &NSString,
-        ) -> Id<Self>;
+    pub type ASPasswordCredential;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other credentialWithUser:password:)]
-        pub unsafe fn credentialWithUser_password(user: &NSString, password: &NSString)
-            -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithUser:password:", managed = "Init")]
+    pub unsafe fn initWithUser_password(
+        this: Option<Allocated<Self>>,
+        user: &NSString,
+        password: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other user)]
-        pub unsafe fn user(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "credentialWithUser:password:", managed = "Other")]
+    pub unsafe fn credentialWithUser_password(user: &NSString, password: &NSString) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other password)]
-        pub unsafe fn password(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "user", managed = "Other")]
+    pub unsafe fn user(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "password", managed = "Other")]
+    pub unsafe fn password(&self) -> Id<NSString>;
+}

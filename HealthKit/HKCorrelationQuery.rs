@@ -6,61 +6,65 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKQuery,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKCorrelationQuery")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKCorrelationQuery")]
-    pub struct HKCorrelationQuery;
-
-    #[cfg(feature = "HealthKit_HKCorrelationQuery")]
-    unsafe impl ClassType for HKCorrelationQuery {
-        #[inherits(NSObject)]
-        type Super = HKQuery;
-    }
-);
+    pub type HKCorrelationQuery;
+}
 
 #[cfg(feature = "HealthKit_HKCorrelationQuery")]
 unsafe impl NSObjectProtocol for HKCorrelationQuery {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKCorrelationQuery")]
-    unsafe impl HKCorrelationQuery {
-        #[cfg(feature = "HealthKit_HKCorrelationType")]
-        #[method_id(@__retain_semantics Other correlationType)]
-        pub unsafe fn correlationType(&self) -> Id<HKCorrelationType>;
+    pub type HKCorrelationQuery;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKSampleType"
-        ))]
-        #[method_id(@__retain_semantics Other samplePredicates)]
-        pub unsafe fn samplePredicates(
-            &self,
-        ) -> Option<Id<NSDictionary<HKSampleType, NSPredicate>>>;
+    #[cfg(feature = "HealthKit_HKCorrelationType")]
+    #[objc2::method(sel = "correlationType", managed = "Other")]
+    pub unsafe fn correlationType(&self) -> Id<HKCorrelationType>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKCorrelation",
-            feature = "HealthKit_HKCorrelationType",
-            feature = "HealthKit_HKSampleType"
-        ))]
-        #[method_id(@__retain_semantics Init initWithType:predicate:samplePredicates:completion:)]
-        pub unsafe fn initWithType_predicate_samplePredicates_completion(
-            this: Option<Allocated<Self>>,
-            correlation_type: &HKCorrelationType,
-            predicate: Option<&NSPredicate>,
-            sample_predicates: Option<&NSDictionary<HKSampleType, NSPredicate>>,
-            completion: &Block<
-                (
-                    NonNull<HKCorrelationQuery>,
-                    *mut NSArray<HKCorrelation>,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKSampleType"
+    ))]
+    #[objc2::method(sel = "samplePredicates", managed = "Other")]
+    pub unsafe fn samplePredicates(&self) -> Option<Id<NSDictionary<HKSampleType, NSPredicate>>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKCorrelation",
+        feature = "HealthKit_HKCorrelationType",
+        feature = "HealthKit_HKSampleType"
+    ))]
+    #[objc2::method(
+        sel = "initWithType:predicate:samplePredicates:completion:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithType_predicate_samplePredicates_completion(
+        this: Option<Allocated<Self>>,
+        correlation_type: &HKCorrelationType,
+        predicate: Option<&NSPredicate>,
+        sample_predicates: Option<&NSDictionary<HKSampleType, NSPredicate>>,
+        completion: &Block<
+            (
+                NonNull<HKCorrelationQuery>,
+                *mut NSArray<HKCorrelation>,
+                *mut NSError,
+            ),
+            (),
+        >,
+    ) -> Id<Self>;
+}

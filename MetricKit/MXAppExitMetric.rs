@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXForegroundExitData")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXForegroundExitData")]
-    pub struct MXForegroundExitData;
-
-    #[cfg(feature = "MetricKit_MXForegroundExitData")]
-    unsafe impl ClassType for MXForegroundExitData {
-        type Super = NSObject;
-    }
-);
+    pub type MXForegroundExitData;
+}
 
 #[cfg(feature = "MetricKit_MXForegroundExitData")]
 unsafe impl NSCoding for MXForegroundExitData {}
@@ -24,39 +24,42 @@ unsafe impl NSObjectProtocol for MXForegroundExitData {}
 #[cfg(feature = "MetricKit_MXForegroundExitData")]
 unsafe impl NSSecureCoding for MXForegroundExitData {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXForegroundExitData")]
-    unsafe impl MXForegroundExitData {
-        #[method(cumulativeNormalAppExitCount)]
-        pub unsafe fn cumulativeNormalAppExitCount(&self) -> NSUInteger;
+    pub type MXForegroundExitData;
 
-        #[method(cumulativeMemoryResourceLimitExitCount)]
-        pub unsafe fn cumulativeMemoryResourceLimitExitCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "cumulativeNormalAppExitCount")]
+    pub unsafe fn cumulativeNormalAppExitCount(&self) -> NSUInteger;
 
-        #[method(cumulativeBadAccessExitCount)]
-        pub unsafe fn cumulativeBadAccessExitCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "cumulativeMemoryResourceLimitExitCount")]
+    pub unsafe fn cumulativeMemoryResourceLimitExitCount(&self) -> NSUInteger;
 
-        #[method(cumulativeAbnormalExitCount)]
-        pub unsafe fn cumulativeAbnormalExitCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "cumulativeBadAccessExitCount")]
+    pub unsafe fn cumulativeBadAccessExitCount(&self) -> NSUInteger;
 
-        #[method(cumulativeIllegalInstructionExitCount)]
-        pub unsafe fn cumulativeIllegalInstructionExitCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "cumulativeAbnormalExitCount")]
+    pub unsafe fn cumulativeAbnormalExitCount(&self) -> NSUInteger;
 
-        #[method(cumulativeAppWatchdogExitCount)]
-        pub unsafe fn cumulativeAppWatchdogExitCount(&self) -> NSUInteger;
-    }
-);
+    #[objc2::method(sel = "cumulativeIllegalInstructionExitCount")]
+    pub unsafe fn cumulativeIllegalInstructionExitCount(&self) -> NSUInteger;
 
-extern_class!(
+    #[objc2::method(sel = "cumulativeAppWatchdogExitCount")]
+    pub unsafe fn cumulativeAppWatchdogExitCount(&self) -> NSUInteger;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXBackgroundExitData")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXBackgroundExitData")]
-    pub struct MXBackgroundExitData;
-
-    #[cfg(feature = "MetricKit_MXBackgroundExitData")]
-    unsafe impl ClassType for MXBackgroundExitData {
-        type Super = NSObject;
-    }
-);
+    pub type MXBackgroundExitData;
+}
 
 #[cfg(feature = "MetricKit_MXBackgroundExitData")]
 unsafe impl NSCoding for MXBackgroundExitData {}
@@ -67,52 +70,55 @@ unsafe impl NSObjectProtocol for MXBackgroundExitData {}
 #[cfg(feature = "MetricKit_MXBackgroundExitData")]
 unsafe impl NSSecureCoding for MXBackgroundExitData {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXBackgroundExitData")]
-    unsafe impl MXBackgroundExitData {
-        #[method(cumulativeNormalAppExitCount)]
-        pub unsafe fn cumulativeNormalAppExitCount(&self) -> NSUInteger;
+    pub type MXBackgroundExitData;
 
-        #[method(cumulativeMemoryResourceLimitExitCount)]
-        pub unsafe fn cumulativeMemoryResourceLimitExitCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "cumulativeNormalAppExitCount")]
+    pub unsafe fn cumulativeNormalAppExitCount(&self) -> NSUInteger;
 
-        #[method(cumulativeCPUResourceLimitExitCount)]
-        pub unsafe fn cumulativeCPUResourceLimitExitCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "cumulativeMemoryResourceLimitExitCount")]
+    pub unsafe fn cumulativeMemoryResourceLimitExitCount(&self) -> NSUInteger;
 
-        #[method(cumulativeMemoryPressureExitCount)]
-        pub unsafe fn cumulativeMemoryPressureExitCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "cumulativeCPUResourceLimitExitCount")]
+    pub unsafe fn cumulativeCPUResourceLimitExitCount(&self) -> NSUInteger;
 
-        #[method(cumulativeBadAccessExitCount)]
-        pub unsafe fn cumulativeBadAccessExitCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "cumulativeMemoryPressureExitCount")]
+    pub unsafe fn cumulativeMemoryPressureExitCount(&self) -> NSUInteger;
 
-        #[method(cumulativeAbnormalExitCount)]
-        pub unsafe fn cumulativeAbnormalExitCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "cumulativeBadAccessExitCount")]
+    pub unsafe fn cumulativeBadAccessExitCount(&self) -> NSUInteger;
 
-        #[method(cumulativeIllegalInstructionExitCount)]
-        pub unsafe fn cumulativeIllegalInstructionExitCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "cumulativeAbnormalExitCount")]
+    pub unsafe fn cumulativeAbnormalExitCount(&self) -> NSUInteger;
 
-        #[method(cumulativeAppWatchdogExitCount)]
-        pub unsafe fn cumulativeAppWatchdogExitCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "cumulativeIllegalInstructionExitCount")]
+    pub unsafe fn cumulativeIllegalInstructionExitCount(&self) -> NSUInteger;
 
-        #[method(cumulativeSuspendedWithLockedFileExitCount)]
-        pub unsafe fn cumulativeSuspendedWithLockedFileExitCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "cumulativeAppWatchdogExitCount")]
+    pub unsafe fn cumulativeAppWatchdogExitCount(&self) -> NSUInteger;
 
-        #[method(cumulativeBackgroundTaskAssertionTimeoutExitCount)]
-        pub unsafe fn cumulativeBackgroundTaskAssertionTimeoutExitCount(&self) -> NSUInteger;
-    }
-);
+    #[objc2::method(sel = "cumulativeSuspendedWithLockedFileExitCount")]
+    pub unsafe fn cumulativeSuspendedWithLockedFileExitCount(&self) -> NSUInteger;
 
-extern_class!(
+    #[objc2::method(sel = "cumulativeBackgroundTaskAssertionTimeoutExitCount")]
+    pub unsafe fn cumulativeBackgroundTaskAssertionTimeoutExitCount(&self) -> NSUInteger;
+}
+
+#[objc2::interface(
+    unsafe super = MXMetric,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXAppExitMetric")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXAppExitMetric")]
-    pub struct MXAppExitMetric;
-
-    #[cfg(feature = "MetricKit_MXAppExitMetric")]
-    unsafe impl ClassType for MXAppExitMetric {
-        #[inherits(NSObject)]
-        type Super = MXMetric;
-    }
-);
+    pub type MXAppExitMetric;
+}
 
 #[cfg(feature = "MetricKit_MXAppExitMetric")]
 unsafe impl NSCoding for MXAppExitMetric {}
@@ -123,15 +129,18 @@ unsafe impl NSObjectProtocol for MXAppExitMetric {}
 #[cfg(feature = "MetricKit_MXAppExitMetric")]
 unsafe impl NSSecureCoding for MXAppExitMetric {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXAppExitMetric")]
-    unsafe impl MXAppExitMetric {
-        #[cfg(feature = "MetricKit_MXForegroundExitData")]
-        #[method_id(@__retain_semantics Other foregroundExitData)]
-        pub unsafe fn foregroundExitData(&self) -> Id<MXForegroundExitData>;
+    pub type MXAppExitMetric;
 
-        #[cfg(feature = "MetricKit_MXBackgroundExitData")]
-        #[method_id(@__retain_semantics Other backgroundExitData)]
-        pub unsafe fn backgroundExitData(&self) -> Id<MXBackgroundExitData>;
-    }
-);
+    #[cfg(feature = "MetricKit_MXForegroundExitData")]
+    #[objc2::method(sel = "foregroundExitData", managed = "Other")]
+    pub unsafe fn foregroundExitData(&self) -> Id<MXForegroundExitData>;
+
+    #[cfg(feature = "MetricKit_MXBackgroundExitData")]
+    #[objc2::method(sel = "backgroundExitData", managed = "Other")]
+    pub unsafe fn backgroundExitData(&self) -> Id<MXBackgroundExitData>;
+}

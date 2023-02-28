@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::CallKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CallKit_CXCallDirectoryProvider")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CallKit_CXCallDirectoryProvider")]
-    pub struct CXCallDirectoryProvider;
-
-    #[cfg(feature = "CallKit_CXCallDirectoryProvider")]
-    unsafe impl ClassType for CXCallDirectoryProvider {
-        type Super = NSObject;
-    }
-);
+    pub type CXCallDirectoryProvider;
+}
 
 #[cfg(feature = "CallKit_CXCallDirectoryProvider")]
 unsafe impl NSExtensionRequestHandling for CXCallDirectoryProvider {}
@@ -21,14 +21,17 @@ unsafe impl NSExtensionRequestHandling for CXCallDirectoryProvider {}
 #[cfg(feature = "CallKit_CXCallDirectoryProvider")]
 unsafe impl NSObjectProtocol for CXCallDirectoryProvider {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CallKit_CXCallDirectoryProvider")]
-    unsafe impl CXCallDirectoryProvider {
-        #[cfg(feature = "CallKit_CXCallDirectoryExtensionContext")]
-        #[method(beginRequestWithExtensionContext:)]
-        pub unsafe fn beginRequestWithExtensionContext(
-            &self,
-            context: &CXCallDirectoryExtensionContext,
-        );
-    }
-);
+    pub type CXCallDirectoryProvider;
+
+    #[cfg(feature = "CallKit_CXCallDirectoryExtensionContext")]
+    #[objc2::method(sel = "beginRequestWithExtensionContext:")]
+    pub unsafe fn beginRequestWithExtensionContext(
+        &self,
+        context: &CXCallDirectoryExtensionContext,
+    );
+}

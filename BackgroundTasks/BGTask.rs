@@ -4,80 +4,89 @@ use crate::common::*;
 use crate::BackgroundTasks::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "BackgroundTasks_BGTask")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "BackgroundTasks_BGTask")]
-    pub struct BGTask;
-
-    #[cfg(feature = "BackgroundTasks_BGTask")]
-    unsafe impl ClassType for BGTask {
-        type Super = NSObject;
-    }
-);
+    pub type BGTask;
+}
 
 #[cfg(feature = "BackgroundTasks_BGTask")]
 unsafe impl NSObjectProtocol for BGTask {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "BackgroundTasks_BGTask")]
-    unsafe impl BGTask {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    pub type BGTask;
 
-        #[method(expirationHandler)]
-        pub unsafe fn expirationHandler(&self) -> *mut Block<(), ()>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
 
-        #[method(setExpirationHandler:)]
-        pub unsafe fn setExpirationHandler(&self, expiration_handler: Option<&Block<(), ()>>);
+    #[objc2::method(sel = "expirationHandler")]
+    pub unsafe fn expirationHandler(&self) -> *mut Block<(), ()>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "setExpirationHandler:")]
+    pub unsafe fn setExpirationHandler(&self, expiration_handler: Option<&Block<(), ()>>);
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new(&self) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(setTaskCompletedWithSuccess:)]
-        pub unsafe fn setTaskCompletedWithSuccess(&self, success: bool);
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new(&self) -> Id<Self>;
 
-extern_class!(
+    #[objc2::method(sel = "setTaskCompletedWithSuccess:")]
+    pub unsafe fn setTaskCompletedWithSuccess(&self, success: bool);
+}
+
+#[objc2::interface(
+    unsafe super = BGTask,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "BackgroundTasks_BGProcessingTask")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "BackgroundTasks_BGProcessingTask")]
-    pub struct BGProcessingTask;
-
-    #[cfg(feature = "BackgroundTasks_BGProcessingTask")]
-    unsafe impl ClassType for BGProcessingTask {
-        #[inherits(NSObject)]
-        type Super = BGTask;
-    }
-);
+    pub type BGProcessingTask;
+}
 
 #[cfg(feature = "BackgroundTasks_BGProcessingTask")]
 unsafe impl NSObjectProtocol for BGProcessingTask {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "BackgroundTasks_BGProcessingTask")]
-    unsafe impl BGProcessingTask {}
-);
+    pub type BGProcessingTask;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = BGTask,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "BackgroundTasks_BGAppRefreshTask")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "BackgroundTasks_BGAppRefreshTask")]
-    pub struct BGAppRefreshTask;
-
-    #[cfg(feature = "BackgroundTasks_BGAppRefreshTask")]
-    unsafe impl ClassType for BGAppRefreshTask {
-        #[inherits(NSObject)]
-        type Super = BGTask;
-    }
-);
+    pub type BGAppRefreshTask;
+}
 
 #[cfg(feature = "BackgroundTasks_BGAppRefreshTask")]
 unsafe impl NSObjectProtocol for BGAppRefreshTask {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "BackgroundTasks_BGAppRefreshTask")]
-    unsafe impl BGAppRefreshTask {}
-);
+    pub type BGAppRefreshTask;
+}

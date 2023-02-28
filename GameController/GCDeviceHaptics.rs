@@ -27,35 +27,38 @@ extern_static!(GCHapticsLocalityRightTrigger: &'static GCHapticsLocality);
 
 extern_static!(GCHapticDurationInfinite: c_float);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCDeviceHaptics")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCDeviceHaptics")]
-    pub struct GCDeviceHaptics;
-
-    #[cfg(feature = "GameController_GCDeviceHaptics")]
-    unsafe impl ClassType for GCDeviceHaptics {
-        type Super = NSObject;
-    }
-);
+    pub type GCDeviceHaptics;
+}
 
 #[cfg(feature = "GameController_GCDeviceHaptics")]
 unsafe impl NSObjectProtocol for GCDeviceHaptics {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCDeviceHaptics")]
-    unsafe impl GCDeviceHaptics {
-        #[cfg(feature = "Foundation_NSSet")]
-        #[method_id(@__retain_semantics Other supportedLocalities)]
-        pub unsafe fn supportedLocalities(&self) -> Id<NSSet<GCHapticsLocality>>;
+    pub type GCDeviceHaptics;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSSet")]
+    #[objc2::method(sel = "supportedLocalities", managed = "Other")]
+    pub unsafe fn supportedLocalities(&self) -> Id<NSSet<GCHapticsLocality>>;
 
-        #[cfg(feature = "GameController_CHHapticEngine")]
-        #[method_id(@__retain_semantics Other createEngineWithLocality:)]
-        pub unsafe fn createEngineWithLocality(
-            &self,
-            locality: &GCHapticsLocality,
-        ) -> Option<Id<CHHapticEngine>>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[cfg(feature = "GameController_CHHapticEngine")]
+    #[objc2::method(sel = "createEngineWithLocality:", managed = "Other")]
+    pub unsafe fn createEngineWithLocality(
+        &self,
+        locality: &GCHapticsLocality,
+    ) -> Option<Id<CHHapticEngine>>;
+}

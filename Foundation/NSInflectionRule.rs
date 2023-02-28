@@ -3,16 +3,16 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSInflectionRule")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSInflectionRule")]
-    pub struct NSInflectionRule;
-
-    #[cfg(feature = "Foundation_NSInflectionRule")]
-    unsafe impl ClassType for NSInflectionRule {
-        type Super = NSObject;
-    }
-);
+    pub type NSInflectionRule;
+}
 
 #[cfg(feature = "Foundation_NSInflectionRule")]
 unsafe impl NSCoding for NSInflectionRule {}
@@ -23,28 +23,31 @@ unsafe impl NSObjectProtocol for NSInflectionRule {}
 #[cfg(feature = "Foundation_NSInflectionRule")]
 unsafe impl NSSecureCoding for NSInflectionRule {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSInflectionRule")]
-    unsafe impl NSInflectionRule {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSInflectionRule;
 
-        #[method_id(@__retain_semantics Other automaticRule)]
-        pub unsafe fn automaticRule() -> Id<NSInflectionRule>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-extern_class!(
+    #[objc2::method(sel = "automaticRule", managed = "Other")]
+    pub unsafe fn automaticRule() -> Id<NSInflectionRule>;
+}
+
+#[objc2::interface(
+    unsafe super = NSInflectionRule,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSInflectionRuleExplicit")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSInflectionRuleExplicit")]
-    pub struct NSInflectionRuleExplicit;
-
-    #[cfg(feature = "Foundation_NSInflectionRuleExplicit")]
-    unsafe impl ClassType for NSInflectionRuleExplicit {
-        #[inherits(NSObject)]
-        type Super = NSInflectionRule;
-    }
-);
+    pub type NSInflectionRuleExplicit;
+}
 
 #[cfg(feature = "Foundation_NSInflectionRuleExplicit")]
 unsafe impl NSCoding for NSInflectionRuleExplicit {}
@@ -55,31 +58,36 @@ unsafe impl NSObjectProtocol for NSInflectionRuleExplicit {}
 #[cfg(feature = "Foundation_NSInflectionRuleExplicit")]
 unsafe impl NSSecureCoding for NSInflectionRuleExplicit {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSInflectionRuleExplicit")]
-    unsafe impl NSInflectionRuleExplicit {
-        #[cfg(feature = "Foundation_NSMorphology")]
-        #[method_id(@__retain_semantics Init initWithMorphology:)]
-        pub unsafe fn initWithMorphology(
-            this: Option<Allocated<Self>>,
-            morphology: &NSMorphology,
-        ) -> Id<Self>;
+    pub type NSInflectionRuleExplicit;
 
-        #[cfg(feature = "Foundation_NSMorphology")]
-        #[method_id(@__retain_semantics Other morphology)]
-        pub unsafe fn morphology(&self) -> Id<NSMorphology>;
-    }
-);
+    #[cfg(feature = "Foundation_NSMorphology")]
+    #[objc2::method(sel = "initWithMorphology:", managed = "Init")]
+    pub unsafe fn initWithMorphology(
+        this: Option<Allocated<Self>>,
+        morphology: &NSMorphology,
+    ) -> Id<Self>;
 
-extern_methods!(
-    /// NSInflectionAvailability
+    #[cfg(feature = "Foundation_NSMorphology")]
+    #[objc2::method(sel = "morphology", managed = "Other")]
+    pub unsafe fn morphology(&self) -> Id<NSMorphology>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSInflectionRule")]
-    unsafe impl NSInflectionRule {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(canInflectLanguage:)]
-        pub unsafe fn canInflectLanguage(language: &NSString) -> bool;
+    pub type NSInflectionRule;
 
-        #[method(canInflectPreferredLocalization)]
-        pub unsafe fn canInflectPreferredLocalization() -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "canInflectLanguage:")]
+    pub unsafe fn canInflectLanguage(language: &NSString) -> bool;
+
+    #[objc2::method(sel = "canInflectPreferredLocalization")]
+    pub unsafe fn canInflectPreferredLocalization() -> bool;
+}

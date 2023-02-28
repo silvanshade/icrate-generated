@@ -15,41 +15,38 @@ pub type GCKeyboardValueChangedHandler = *mut Block<
     (),
 >;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = GCPhysicalInputProfile,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCKeyboardInput")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCKeyboardInput")]
-    pub struct GCKeyboardInput;
-
-    #[cfg(feature = "GameController_GCKeyboardInput")]
-    unsafe impl ClassType for GCKeyboardInput {
-        #[inherits(NSObject)]
-        type Super = GCPhysicalInputProfile;
-    }
-);
+    pub type GCKeyboardInput;
+}
 
 #[cfg(feature = "GameController_GCKeyboardInput")]
 unsafe impl NSObjectProtocol for GCKeyboardInput {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCKeyboardInput")]
-    unsafe impl GCKeyboardInput {
-        #[method(keyChangedHandler)]
-        pub unsafe fn keyChangedHandler(&self) -> GCKeyboardValueChangedHandler;
+    pub type GCKeyboardInput;
 
-        #[method(setKeyChangedHandler:)]
-        pub unsafe fn setKeyChangedHandler(
-            &self,
-            key_changed_handler: GCKeyboardValueChangedHandler,
-        );
+    #[objc2::method(sel = "keyChangedHandler")]
+    pub unsafe fn keyChangedHandler(&self) -> GCKeyboardValueChangedHandler;
 
-        #[method(isAnyKeyPressed)]
-        pub unsafe fn isAnyKeyPressed(&self) -> bool;
+    #[objc2::method(sel = "setKeyChangedHandler:")]
+    pub unsafe fn setKeyChangedHandler(&self, key_changed_handler: GCKeyboardValueChangedHandler);
 
-        #[cfg(feature = "GameController_GCControllerButtonInput")]
-        #[method_id(@__retain_semantics Other buttonForKeyCode:)]
-        pub unsafe fn buttonForKeyCode(
-            &self,
-            code: GCKeyCode,
-        ) -> Option<Id<GCControllerButtonInput>>;
-    }
-);
+    #[objc2::method(sel = "isAnyKeyPressed")]
+    pub unsafe fn isAnyKeyPressed(&self) -> bool;
+
+    #[cfg(feature = "GameController_GCControllerButtonInput")]
+    #[objc2::method(sel = "buttonForKeyCode:", managed = "Other")]
+    pub unsafe fn buttonForKeyCode(&self, code: GCKeyCode) -> Option<Id<GCControllerButtonInput>>;
+}

@@ -5,40 +5,43 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKScriptMessage")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKScriptMessage")]
-    pub struct WKScriptMessage;
-
-    #[cfg(feature = "WebKit_WKScriptMessage")]
-    unsafe impl ClassType for WKScriptMessage {
-        type Super = NSObject;
-    }
-);
+    pub type WKScriptMessage;
+}
 
 #[cfg(feature = "WebKit_WKScriptMessage")]
 unsafe impl NSObjectProtocol for WKScriptMessage {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKScriptMessage")]
-    unsafe impl WKScriptMessage {
-        #[method_id(@__retain_semantics Other body)]
-        pub unsafe fn body(&self) -> Id<Object>;
+    pub type WKScriptMessage;
 
-        #[cfg(feature = "WebKit_WKWebView")]
-        #[method_id(@__retain_semantics Other webView)]
-        pub unsafe fn webView(&self) -> Option<Id<WKWebView>>;
+    #[objc2::method(sel = "body", managed = "Other")]
+    pub unsafe fn body(&self) -> Id<Object>;
 
-        #[cfg(feature = "WebKit_WKFrameInfo")]
-        #[method_id(@__retain_semantics Other frameInfo)]
-        pub unsafe fn frameInfo(&self) -> Id<WKFrameInfo>;
+    #[cfg(feature = "WebKit_WKWebView")]
+    #[objc2::method(sel = "webView", managed = "Other")]
+    pub unsafe fn webView(&self) -> Option<Id<WKWebView>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "WebKit_WKFrameInfo")]
+    #[objc2::method(sel = "frameInfo", managed = "Other")]
+    pub unsafe fn frameInfo(&self) -> Id<WKFrameInfo>;
 
-        #[cfg(feature = "WebKit_WKContentWorld")]
-        #[method_id(@__retain_semantics Other world)]
-        pub unsafe fn world(&self) -> Id<WKContentWorld>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
+
+    #[cfg(feature = "WebKit_WKContentWorld")]
+    #[objc2::method(sel = "world", managed = "Other")]
+    pub unsafe fn world(&self) -> Id<WKContentWorld>;
+}

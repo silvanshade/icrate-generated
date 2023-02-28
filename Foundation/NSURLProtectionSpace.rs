@@ -33,16 +33,16 @@ extern_static!(NSURLAuthenticationMethodClientCertificate: &'static NSString);
 
 extern_static!(NSURLAuthenticationMethodServerTrust: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSURLProtectionSpace")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSURLProtectionSpace")]
-    pub struct NSURLProtectionSpace;
-
-    #[cfg(feature = "Foundation_NSURLProtectionSpace")]
-    unsafe impl ClassType for NSURLProtectionSpace {
-        type Super = NSObject;
-    }
-);
+    pub type NSURLProtectionSpace;
+}
 
 #[cfg(feature = "Foundation_NSURLProtectionSpace")]
 unsafe impl NSCoding for NSURLProtectionSpace {}
@@ -53,74 +53,87 @@ unsafe impl NSObjectProtocol for NSURLProtectionSpace {}
 #[cfg(feature = "Foundation_NSURLProtectionSpace")]
 unsafe impl NSSecureCoding for NSURLProtectionSpace {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLProtectionSpace")]
-    unsafe impl NSURLProtectionSpace {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithHost:port:protocol:realm:authenticationMethod:)]
-        pub unsafe fn initWithHost_port_protocol_realm_authenticationMethod(
-            this: Option<Allocated<Self>>,
-            host: &NSString,
-            port: NSInteger,
-            protocol: Option<&NSString>,
-            realm: Option<&NSString>,
-            authentication_method: Option<&NSString>,
-        ) -> Id<Self>;
+    pub type NSURLProtectionSpace;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithProxyHost:port:type:realm:authenticationMethod:)]
-        pub unsafe fn initWithProxyHost_port_type_realm_authenticationMethod(
-            this: Option<Allocated<Self>>,
-            host: &NSString,
-            port: NSInteger,
-            r#type: Option<&NSString>,
-            realm: Option<&NSString>,
-            authentication_method: Option<&NSString>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "initWithHost:port:protocol:realm:authenticationMethod:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithHost_port_protocol_realm_authenticationMethod(
+        this: Option<Allocated<Self>>,
+        host: &NSString,
+        port: NSInteger,
+        protocol: Option<&NSString>,
+        realm: Option<&NSString>,
+        authentication_method: Option<&NSString>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other realm)]
-        pub unsafe fn realm(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "initWithProxyHost:port:type:realm:authenticationMethod:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithProxyHost_port_type_realm_authenticationMethod(
+        this: Option<Allocated<Self>>,
+        host: &NSString,
+        port: NSInteger,
+        r#type: Option<&NSString>,
+        realm: Option<&NSString>,
+        authentication_method: Option<&NSString>,
+    ) -> Id<Self>;
 
-        #[method(receivesCredentialSecurely)]
-        pub unsafe fn receivesCredentialSecurely(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "realm", managed = "Other")]
+    pub unsafe fn realm(&self) -> Option<Id<NSString>>;
 
-        #[method(isProxy)]
-        pub unsafe fn isProxy(&self) -> bool;
+    #[objc2::method(sel = "receivesCredentialSecurely")]
+    pub unsafe fn receivesCredentialSecurely(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other host)]
-        pub unsafe fn host(&self) -> Id<NSString>;
+    #[objc2::method(sel = "isProxy")]
+    pub unsafe fn isProxy(&self) -> bool;
 
-        #[method(port)]
-        pub unsafe fn port(&self) -> NSInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "host", managed = "Other")]
+    pub unsafe fn host(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other proxyType)]
-        pub unsafe fn proxyType(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "port")]
+    pub unsafe fn port(&self) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other protocol)]
-        pub unsafe fn protocol(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "proxyType", managed = "Other")]
+    pub unsafe fn proxyType(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other authenticationMethod)]
-        pub unsafe fn authenticationMethod(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "protocol", managed = "Other")]
+    pub unsafe fn protocol(&self) -> Option<Id<NSString>>;
 
-extern_methods!(
-    /// NSClientCertificateSpace
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "authenticationMethod", managed = "Other")]
+    pub unsafe fn authenticationMethod(&self) -> Id<NSString>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLProtectionSpace")]
-    unsafe impl NSURLProtectionSpace {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSData"))]
-        #[method_id(@__retain_semantics Other distinguishedNames)]
-        pub unsafe fn distinguishedNames(&self) -> Option<Id<NSArray<NSData>>>;
-    }
-);
+    pub type NSURLProtectionSpace;
 
-extern_methods!(
-    /// NSServerTrustValidationSpace
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSData"))]
+    #[objc2::method(sel = "distinguishedNames", managed = "Other")]
+    pub unsafe fn distinguishedNames(&self) -> Option<Id<NSArray<NSData>>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLProtectionSpace")]
-    unsafe impl NSURLProtectionSpace {}
-);
+    pub type NSURLProtectionSpace;
+}

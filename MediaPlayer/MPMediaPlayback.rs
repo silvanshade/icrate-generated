@@ -5,46 +5,43 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-extern_protocol!(
-    pub unsafe trait MPMediaPlayback {
-        #[method(prepareToPlay)]
-        unsafe fn prepareToPlay(&self);
+#[objc2::protocol]
+pub unsafe trait MPMediaPlayback {
+    #[objc2::method(sel = "prepareToPlay")]
+    unsafe fn prepareToPlay(&self);
 
-        #[method(isPreparedToPlay)]
-        unsafe fn isPreparedToPlay(&self) -> bool;
+    #[objc2::method(sel = "isPreparedToPlay")]
+    unsafe fn isPreparedToPlay(&self) -> bool;
 
-        #[method(play)]
-        unsafe fn play(&self);
+    #[objc2::method(sel = "play")]
+    unsafe fn play(&self);
 
-        #[method(pause)]
-        unsafe fn pause(&self);
+    #[objc2::method(sel = "pause")]
+    unsafe fn pause(&self);
 
-        #[method(stop)]
-        unsafe fn stop(&self);
+    #[objc2::method(sel = "stop")]
+    unsafe fn stop(&self);
 
-        #[method(currentPlaybackTime)]
-        unsafe fn currentPlaybackTime(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "currentPlaybackTime")]
+    unsafe fn currentPlaybackTime(&self) -> NSTimeInterval;
 
-        #[method(setCurrentPlaybackTime:)]
-        unsafe fn setCurrentPlaybackTime(&self, current_playback_time: NSTimeInterval);
+    #[objc2::method(sel = "setCurrentPlaybackTime:")]
+    unsafe fn setCurrentPlaybackTime(&self, current_playback_time: NSTimeInterval);
 
-        #[method(currentPlaybackRate)]
-        unsafe fn currentPlaybackRate(&self) -> c_float;
+    #[objc2::method(sel = "currentPlaybackRate")]
+    unsafe fn currentPlaybackRate(&self) -> c_float;
 
-        #[method(setCurrentPlaybackRate:)]
-        unsafe fn setCurrentPlaybackRate(&self, current_playback_rate: c_float);
+    #[objc2::method(sel = "setCurrentPlaybackRate:")]
+    unsafe fn setCurrentPlaybackRate(&self, current_playback_rate: c_float);
 
-        #[method(beginSeekingForward)]
-        unsafe fn beginSeekingForward(&self);
+    #[objc2::method(sel = "beginSeekingForward")]
+    unsafe fn beginSeekingForward(&self);
 
-        #[method(beginSeekingBackward)]
-        unsafe fn beginSeekingBackward(&self);
+    #[objc2::method(sel = "beginSeekingBackward")]
+    unsafe fn beginSeekingBackward(&self);
 
-        #[method(endSeeking)]
-        unsafe fn endSeeking(&self);
-    }
-
-    unsafe impl ProtocolType for dyn MPMediaPlayback {}
-);
+    #[objc2::method(sel = "endSeeking")]
+    unsafe fn endSeeking(&self);
+}
 
 extern_static!(MPMediaPlaybackIsPreparedToPlayDidChangeNotification: Option<&'static NSString>);

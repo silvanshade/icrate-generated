@@ -5,17 +5,18 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTableRowView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTableRowView")]
-    pub struct NSTableRowView;
-
-    #[cfg(feature = "AppKit_NSTableRowView")]
-    unsafe impl ClassType for NSTableRowView {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type NSTableRowView;
+}
 
 #[cfg(feature = "AppKit_NSTableRowView")]
 unsafe impl NSAccessibility for NSTableRowView {}
@@ -47,116 +48,122 @@ unsafe impl NSObjectProtocol for NSTableRowView {}
 #[cfg(feature = "AppKit_NSTableRowView")]
 unsafe impl NSUserInterfaceItemIdentification for NSTableRowView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTableRowView")]
-    unsafe impl NSTableRowView {
-        #[method(selectionHighlightStyle)]
-        pub unsafe fn selectionHighlightStyle(&self) -> NSTableViewSelectionHighlightStyle;
+    pub type NSTableRowView;
 
-        #[method(setSelectionHighlightStyle:)]
-        pub unsafe fn setSelectionHighlightStyle(
-            &self,
-            selection_highlight_style: NSTableViewSelectionHighlightStyle,
-        );
+    #[objc2::method(sel = "selectionHighlightStyle")]
+    pub unsafe fn selectionHighlightStyle(&self) -> NSTableViewSelectionHighlightStyle;
 
-        #[method(isEmphasized)]
-        pub unsafe fn isEmphasized(&self) -> bool;
+    #[objc2::method(sel = "setSelectionHighlightStyle:")]
+    pub unsafe fn setSelectionHighlightStyle(
+        &self,
+        selection_highlight_style: NSTableViewSelectionHighlightStyle,
+    );
 
-        #[method(setEmphasized:)]
-        pub unsafe fn setEmphasized(&self, emphasized: bool);
+    #[objc2::method(sel = "isEmphasized")]
+    pub unsafe fn isEmphasized(&self) -> bool;
 
-        #[method(isGroupRowStyle)]
-        pub unsafe fn isGroupRowStyle(&self) -> bool;
+    #[objc2::method(sel = "setEmphasized:")]
+    pub unsafe fn setEmphasized(&self, emphasized: bool);
 
-        #[method(setGroupRowStyle:)]
-        pub unsafe fn setGroupRowStyle(&self, group_row_style: bool);
+    #[objc2::method(sel = "isGroupRowStyle")]
+    pub unsafe fn isGroupRowStyle(&self) -> bool;
 
-        #[method(isSelected)]
-        pub unsafe fn isSelected(&self) -> bool;
+    #[objc2::method(sel = "setGroupRowStyle:")]
+    pub unsafe fn setGroupRowStyle(&self, group_row_style: bool);
 
-        #[method(setSelected:)]
-        pub unsafe fn setSelected(&self, selected: bool);
+    #[objc2::method(sel = "isSelected")]
+    pub unsafe fn isSelected(&self) -> bool;
 
-        #[method(isPreviousRowSelected)]
-        pub unsafe fn isPreviousRowSelected(&self) -> bool;
+    #[objc2::method(sel = "setSelected:")]
+    pub unsafe fn setSelected(&self, selected: bool);
 
-        #[method(setPreviousRowSelected:)]
-        pub unsafe fn setPreviousRowSelected(&self, previous_row_selected: bool);
+    #[objc2::method(sel = "isPreviousRowSelected")]
+    pub unsafe fn isPreviousRowSelected(&self) -> bool;
 
-        #[method(isNextRowSelected)]
-        pub unsafe fn isNextRowSelected(&self) -> bool;
+    #[objc2::method(sel = "setPreviousRowSelected:")]
+    pub unsafe fn setPreviousRowSelected(&self, previous_row_selected: bool);
 
-        #[method(setNextRowSelected:)]
-        pub unsafe fn setNextRowSelected(&self, next_row_selected: bool);
+    #[objc2::method(sel = "isNextRowSelected")]
+    pub unsafe fn isNextRowSelected(&self) -> bool;
 
-        #[method(isFloating)]
-        pub unsafe fn isFloating(&self) -> bool;
+    #[objc2::method(sel = "setNextRowSelected:")]
+    pub unsafe fn setNextRowSelected(&self, next_row_selected: bool);
 
-        #[method(setFloating:)]
-        pub unsafe fn setFloating(&self, floating: bool);
+    #[objc2::method(sel = "isFloating")]
+    pub unsafe fn isFloating(&self) -> bool;
 
-        #[method(isTargetForDropOperation)]
-        pub unsafe fn isTargetForDropOperation(&self) -> bool;
+    #[objc2::method(sel = "setFloating:")]
+    pub unsafe fn setFloating(&self, floating: bool);
 
-        #[method(setTargetForDropOperation:)]
-        pub unsafe fn setTargetForDropOperation(&self, target_for_drop_operation: bool);
+    #[objc2::method(sel = "isTargetForDropOperation")]
+    pub unsafe fn isTargetForDropOperation(&self) -> bool;
 
-        #[method(draggingDestinationFeedbackStyle)]
-        pub unsafe fn draggingDestinationFeedbackStyle(
-            &self,
-        ) -> NSTableViewDraggingDestinationFeedbackStyle;
+    #[objc2::method(sel = "setTargetForDropOperation:")]
+    pub unsafe fn setTargetForDropOperation(&self, target_for_drop_operation: bool);
 
-        #[method(setDraggingDestinationFeedbackStyle:)]
-        pub unsafe fn setDraggingDestinationFeedbackStyle(
-            &self,
-            dragging_destination_feedback_style: NSTableViewDraggingDestinationFeedbackStyle,
-        );
+    #[objc2::method(sel = "draggingDestinationFeedbackStyle")]
+    pub unsafe fn draggingDestinationFeedbackStyle(
+        &self,
+    ) -> NSTableViewDraggingDestinationFeedbackStyle;
 
-        #[method(indentationForDropOperation)]
-        pub unsafe fn indentationForDropOperation(&self) -> CGFloat;
+    #[objc2::method(sel = "setDraggingDestinationFeedbackStyle:")]
+    pub unsafe fn setDraggingDestinationFeedbackStyle(
+        &self,
+        dragging_destination_feedback_style: NSTableViewDraggingDestinationFeedbackStyle,
+    );
 
-        #[method(setIndentationForDropOperation:)]
-        pub unsafe fn setIndentationForDropOperation(
-            &self,
-            indentation_for_drop_operation: CGFloat,
-        );
+    #[objc2::method(sel = "indentationForDropOperation")]
+    pub unsafe fn indentationForDropOperation(&self) -> CGFloat;
 
-        #[method(interiorBackgroundStyle)]
-        pub unsafe fn interiorBackgroundStyle(&self) -> NSBackgroundStyle;
+    #[objc2::method(sel = "setIndentationForDropOperation:")]
+    pub unsafe fn setIndentationForDropOperation(&self, indentation_for_drop_operation: CGFloat);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other backgroundColor)]
-        pub unsafe fn backgroundColor(&self) -> Id<NSColor>;
+    #[objc2::method(sel = "interiorBackgroundStyle")]
+    pub unsafe fn interiorBackgroundStyle(&self) -> NSBackgroundStyle;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setBackgroundColor:)]
-        pub unsafe fn setBackgroundColor(&self, background_color: &NSColor);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "backgroundColor", managed = "Other")]
+    pub unsafe fn backgroundColor(&self) -> Id<NSColor>;
 
-        #[method(drawBackgroundInRect:)]
-        pub unsafe fn drawBackgroundInRect(&self, dirty_rect: NSRect);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setBackgroundColor:")]
+    pub unsafe fn setBackgroundColor(&self, background_color: &NSColor);
 
-        #[method(drawSelectionInRect:)]
-        pub unsafe fn drawSelectionInRect(&self, dirty_rect: NSRect);
+    #[objc2::method(sel = "drawBackgroundInRect:")]
+    pub unsafe fn drawBackgroundInRect(&self, dirty_rect: NSRect);
 
-        #[method(drawSeparatorInRect:)]
-        pub unsafe fn drawSeparatorInRect(&self, dirty_rect: NSRect);
+    #[objc2::method(sel = "drawSelectionInRect:")]
+    pub unsafe fn drawSelectionInRect(&self, dirty_rect: NSRect);
 
-        #[method(drawDraggingDestinationFeedbackInRect:)]
-        pub unsafe fn drawDraggingDestinationFeedbackInRect(&self, dirty_rect: NSRect);
+    #[objc2::method(sel = "drawSeparatorInRect:")]
+    pub unsafe fn drawSeparatorInRect(&self, dirty_rect: NSRect);
 
-        #[method_id(@__retain_semantics Other viewAtColumn:)]
-        pub unsafe fn viewAtColumn(&self, column: NSInteger) -> Option<Id<Object>>;
+    #[objc2::method(sel = "drawDraggingDestinationFeedbackInRect:")]
+    pub unsafe fn drawDraggingDestinationFeedbackInRect(&self, dirty_rect: NSRect);
 
-        #[method(numberOfColumns)]
-        pub unsafe fn numberOfColumns(&self) -> NSInteger;
-    }
-);
+    #[objc2::method(sel = "viewAtColumn:", managed = "Other")]
+    pub unsafe fn viewAtColumn(&self, column: NSInteger) -> Option<Id<Object>>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[objc2::method(sel = "numberOfColumns")]
+    pub unsafe fn numberOfColumns(&self) -> NSInteger;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "AppKit_NSTableRowView")]
-    unsafe impl NSTableRowView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTableRowView")]
+    pub type NSTableRowView;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

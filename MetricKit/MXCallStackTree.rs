@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXCallStackTree")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXCallStackTree")]
-    pub struct MXCallStackTree;
-
-    #[cfg(feature = "MetricKit_MXCallStackTree")]
-    unsafe impl ClassType for MXCallStackTree {
-        type Super = NSObject;
-    }
-);
+    pub type MXCallStackTree;
+}
 
 #[cfg(feature = "MetricKit_MXCallStackTree")]
 unsafe impl NSCoding for MXCallStackTree {}
@@ -24,11 +24,14 @@ unsafe impl NSObjectProtocol for MXCallStackTree {}
 #[cfg(feature = "MetricKit_MXCallStackTree")]
 unsafe impl NSSecureCoding for MXCallStackTree {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXCallStackTree")]
-    unsafe impl MXCallStackTree {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other JSONRepresentation)]
-        pub unsafe fn JSONRepresentation(&self) -> Id<NSData>;
-    }
-);
+    pub type MXCallStackTree;
+
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "JSONRepresentation", managed = "Other")]
+    pub unsafe fn JSONRepresentation(&self) -> Id<NSData>;
+}

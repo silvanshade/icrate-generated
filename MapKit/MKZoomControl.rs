@@ -7,17 +7,18 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKZoomControl")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKZoomControl")]
-    pub struct MKZoomControl;
-
-    #[cfg(feature = "MapKit_MKZoomControl")]
-    unsafe impl ClassType for MKZoomControl {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type MKZoomControl;
+}
 
 #[cfg(feature = "MapKit_MKZoomControl")]
 unsafe impl NSAccessibility for MKZoomControl {}
@@ -43,28 +44,37 @@ unsafe impl NSObjectProtocol for MKZoomControl {}
 #[cfg(feature = "MapKit_MKZoomControl")]
 unsafe impl NSUserInterfaceItemIdentification for MKZoomControl {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKZoomControl")]
-    unsafe impl MKZoomControl {
-        #[cfg(feature = "MapKit_MKMapView")]
-        #[method_id(@__retain_semantics Other zoomControlWithMapView:)]
-        pub unsafe fn zoomControlWithMapView(map_view: Option<&MKMapView>) -> Id<Self>;
+    pub type MKZoomControl;
 
-        #[cfg(feature = "MapKit_MKMapView")]
-        #[method_id(@__retain_semantics Other mapView)]
-        pub unsafe fn mapView(&self) -> Option<Id<MKMapView>>;
+    #[cfg(feature = "MapKit_MKMapView")]
+    #[objc2::method(sel = "zoomControlWithMapView:", managed = "Other")]
+    pub unsafe fn zoomControlWithMapView(map_view: Option<&MKMapView>) -> Id<Self>;
 
-        #[cfg(feature = "MapKit_MKMapView")]
-        #[method(setMapView:)]
-        pub unsafe fn setMapView(&self, map_view: Option<&MKMapView>);
-    }
-);
+    #[cfg(feature = "MapKit_MKMapView")]
+    #[objc2::method(sel = "mapView", managed = "Other")]
+    pub unsafe fn mapView(&self) -> Option<Id<MKMapView>>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[cfg(feature = "MapKit_MKMapView")]
+    #[objc2::method(sel = "setMapView:")]
+    pub unsafe fn setMapView(&self, map_view: Option<&MKMapView>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "MapKit_MKZoomControl")]
-    unsafe impl MKZoomControl {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKZoomControl")]
+    pub type MKZoomControl;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

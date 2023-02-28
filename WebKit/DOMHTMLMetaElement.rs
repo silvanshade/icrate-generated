@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLMetaElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLMetaElement;
-
     #[cfg(feature = "WebKit_DOMHTMLMetaElement")]
-    unsafe impl ClassType for DOMHTMLMetaElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLMetaElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLMetaElement")]
 unsafe impl DOMEventTarget for DOMHTMLMetaElement {}
@@ -24,39 +28,43 @@ unsafe impl DOMEventTarget for DOMHTMLMetaElement {}
 #[cfg(feature = "WebKit_DOMHTMLMetaElement")]
 unsafe impl NSObjectProtocol for DOMHTMLMetaElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLMetaElement")]
-    unsafe impl DOMHTMLMetaElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other content)]
-        pub unsafe fn content(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMHTMLMetaElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setContent:)]
-        pub unsafe fn setContent(&self, content: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "content", managed = "Other")]
+    pub unsafe fn content(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other httpEquiv)]
-        pub unsafe fn httpEquiv(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setContent:")]
+    pub unsafe fn setContent(&self, content: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setHttpEquiv:)]
-        pub unsafe fn setHttpEquiv(&self, http_equiv: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "httpEquiv", managed = "Other")]
+    pub unsafe fn httpEquiv(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setHttpEquiv:")]
+    pub unsafe fn setHttpEquiv(&self, http_equiv: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other scheme)]
-        pub unsafe fn scheme(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setScheme:)]
-        pub unsafe fn setScheme(&self, scheme: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "scheme", managed = "Other")]
+    pub unsafe fn scheme(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setScheme:")]
+    pub unsafe fn setScheme(&self, scheme: Option<&NSString>);
+}

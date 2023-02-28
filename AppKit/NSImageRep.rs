@@ -9,32 +9,30 @@ typed_enum!(
     pub type NSImageHintKey = NSString;
 );
 
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        NSImageRepMatchesDevice = 0,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    NSImageRepMatchesDevice = 0,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSImageLayoutDirection {
-        NSImageLayoutDirectionUnspecified = -1,
-        NSImageLayoutDirectionLeftToRight = 2,
-        NSImageLayoutDirectionRightToLeft = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSImageLayoutDirection {
+    NSImageLayoutDirectionUnspecified = -1,
+    NSImageLayoutDirectionLeftToRight = 2,
+    NSImageLayoutDirectionRightToLeft = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSImageRep")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSImageRep")]
-    pub struct NSImageRep;
-
-    #[cfg(feature = "AppKit_NSImageRep")]
-    unsafe impl ClassType for NSImageRep {
-        type Super = NSObject;
-    }
-);
+    pub type NSImageRep;
+}
 
 #[cfg(feature = "AppKit_NSImageRep")]
 unsafe impl NSCoding for NSImageRep {}
@@ -42,181 +40,182 @@ unsafe impl NSCoding for NSImageRep {}
 #[cfg(feature = "AppKit_NSImageRep")]
 unsafe impl NSObjectProtocol for NSImageRep {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSImageRep")]
-    unsafe impl NSImageRep {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSImageRep;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(draw)]
-        pub unsafe fn draw(&self) -> bool;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[method(drawAtPoint:)]
-        pub unsafe fn drawAtPoint(&self, point: NSPoint) -> bool;
+    #[objc2::method(sel = "draw")]
+    pub unsafe fn draw(&self) -> bool;
 
-        #[method(drawInRect:)]
-        pub unsafe fn drawInRect(&self, rect: NSRect) -> bool;
+    #[objc2::method(sel = "drawAtPoint:")]
+    pub unsafe fn drawAtPoint(&self, point: NSPoint) -> bool;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(drawInRect:fromRect:operation:fraction:respectFlipped:hints:)]
-        pub unsafe fn drawInRect_fromRect_operation_fraction_respectFlipped_hints(
-            &self,
-            dst_space_portion_rect: NSRect,
-            src_space_portion_rect: NSRect,
-            op: NSCompositingOperation,
-            requested_alpha: CGFloat,
-            respect_context_is_flipped: bool,
-            hints: Option<&NSDictionary<NSImageHintKey, Object>>,
-        ) -> bool;
+    #[objc2::method(sel = "drawInRect:")]
+    pub unsafe fn drawInRect(&self, rect: NSRect) -> bool;
 
-        #[method(size)]
-        pub unsafe fn size(&self) -> NSSize;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "drawInRect:fromRect:operation:fraction:respectFlipped:hints:")]
+    pub unsafe fn drawInRect_fromRect_operation_fraction_respectFlipped_hints(
+        &self,
+        dst_space_portion_rect: NSRect,
+        src_space_portion_rect: NSRect,
+        op: NSCompositingOperation,
+        requested_alpha: CGFloat,
+        respect_context_is_flipped: bool,
+        hints: Option<&NSDictionary<NSImageHintKey, Object>>,
+    ) -> bool;
 
-        #[method(setSize:)]
-        pub unsafe fn setSize(&self, size: NSSize);
+    #[objc2::method(sel = "size")]
+    pub unsafe fn size(&self) -> NSSize;
 
-        #[method(hasAlpha)]
-        pub unsafe fn hasAlpha(&self) -> bool;
+    #[objc2::method(sel = "setSize:")]
+    pub unsafe fn setSize(&self, size: NSSize);
 
-        #[method(setAlpha:)]
-        pub unsafe fn setAlpha(&self, alpha: bool);
+    #[objc2::method(sel = "hasAlpha")]
+    pub unsafe fn hasAlpha(&self) -> bool;
 
-        #[method(isOpaque)]
-        pub unsafe fn isOpaque(&self) -> bool;
+    #[objc2::method(sel = "setAlpha:")]
+    pub unsafe fn setAlpha(&self, alpha: bool);
 
-        #[method(setOpaque:)]
-        pub unsafe fn setOpaque(&self, opaque: bool);
+    #[objc2::method(sel = "isOpaque")]
+    pub unsafe fn isOpaque(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other colorSpaceName)]
-        pub unsafe fn colorSpaceName(&self) -> Id<NSColorSpaceName>;
+    #[objc2::method(sel = "setOpaque:")]
+    pub unsafe fn setOpaque(&self, opaque: bool);
 
-        #[method(setColorSpaceName:)]
-        pub unsafe fn setColorSpaceName(&self, color_space_name: &NSColorSpaceName);
+    #[objc2::method(sel = "colorSpaceName", managed = "Other")]
+    pub unsafe fn colorSpaceName(&self) -> Id<NSColorSpaceName>;
 
-        #[method(bitsPerSample)]
-        pub unsafe fn bitsPerSample(&self) -> NSInteger;
+    #[objc2::method(sel = "setColorSpaceName:")]
+    pub unsafe fn setColorSpaceName(&self, color_space_name: &NSColorSpaceName);
 
-        #[method(setBitsPerSample:)]
-        pub unsafe fn setBitsPerSample(&self, bits_per_sample: NSInteger);
+    #[objc2::method(sel = "bitsPerSample")]
+    pub unsafe fn bitsPerSample(&self) -> NSInteger;
 
-        #[method(pixelsWide)]
-        pub unsafe fn pixelsWide(&self) -> NSInteger;
+    #[objc2::method(sel = "setBitsPerSample:")]
+    pub unsafe fn setBitsPerSample(&self, bits_per_sample: NSInteger);
 
-        #[method(setPixelsWide:)]
-        pub unsafe fn setPixelsWide(&self, pixels_wide: NSInteger);
+    #[objc2::method(sel = "pixelsWide")]
+    pub unsafe fn pixelsWide(&self) -> NSInteger;
 
-        #[method(pixelsHigh)]
-        pub unsafe fn pixelsHigh(&self) -> NSInteger;
+    #[objc2::method(sel = "setPixelsWide:")]
+    pub unsafe fn setPixelsWide(&self, pixels_wide: NSInteger);
 
-        #[method(setPixelsHigh:)]
-        pub unsafe fn setPixelsHigh(&self, pixels_high: NSInteger);
+    #[objc2::method(sel = "pixelsHigh")]
+    pub unsafe fn pixelsHigh(&self) -> NSInteger;
 
-        #[method(layoutDirection)]
-        pub unsafe fn layoutDirection(&self) -> NSImageLayoutDirection;
+    #[objc2::method(sel = "setPixelsHigh:")]
+    pub unsafe fn setPixelsHigh(&self, pixels_high: NSInteger);
 
-        #[method(setLayoutDirection:)]
-        pub unsafe fn setLayoutDirection(&self, layout_direction: NSImageLayoutDirection);
+    #[objc2::method(sel = "layoutDirection")]
+    pub unsafe fn layoutDirection(&self) -> NSImageLayoutDirection;
 
-        #[method(registerImageRepClass:)]
-        pub unsafe fn registerImageRepClass(image_rep_class: &Class);
+    #[objc2::method(sel = "setLayoutDirection:")]
+    pub unsafe fn setLayoutDirection(&self, layout_direction: NSImageLayoutDirection);
 
-        #[method(unregisterImageRepClass:)]
-        pub unsafe fn unregisterImageRepClass(image_rep_class: &Class);
+    #[objc2::method(sel = "registerImageRepClass:")]
+    pub unsafe fn registerImageRepClass(image_rep_class: &Class);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other registeredImageRepClasses)]
-        pub unsafe fn registeredImageRepClasses() -> Id<NSArray<TodoClass>>;
+    #[objc2::method(sel = "unregisterImageRepClass:")]
+    pub unsafe fn unregisterImageRepClass(image_rep_class: &Class);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use +imageRepClassForType: instead"]
-        #[method(imageRepClassForFileType:)]
-        pub unsafe fn imageRepClassForFileType(r#type: &NSString) -> Option<&'static Class>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "registeredImageRepClasses", managed = "Other")]
+    pub unsafe fn registeredImageRepClasses() -> Id<NSArray<TodoClass>>;
 
-        #[deprecated = "Use +imageRepClassForType: instead"]
-        #[method(imageRepClassForPasteboardType:)]
-        pub unsafe fn imageRepClassForPasteboardType(
-            r#type: &NSPasteboardType,
-        ) -> Option<&'static Class>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use +imageRepClassForType: instead"]
+    #[objc2::method(sel = "imageRepClassForFileType:")]
+    pub unsafe fn imageRepClassForFileType(r#type: &NSString) -> Option<&'static Class>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(imageRepClassForType:)]
-        pub unsafe fn imageRepClassForType(r#type: &NSString) -> Option<&'static Class>;
+    #[deprecated = "Use +imageRepClassForType: instead"]
+    #[objc2::method(sel = "imageRepClassForPasteboardType:")]
+    pub unsafe fn imageRepClassForPasteboardType(
+        r#type: &NSPasteboardType,
+    ) -> Option<&'static Class>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(imageRepClassForData:)]
-        pub unsafe fn imageRepClassForData(data: &NSData) -> Option<&'static Class>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "imageRepClassForType:")]
+    pub unsafe fn imageRepClassForType(r#type: &NSString) -> Option<&'static Class>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(canInitWithData:)]
-        pub unsafe fn canInitWithData(data: &NSData) -> bool;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "imageRepClassForData:")]
+    pub unsafe fn imageRepClassForData(data: &NSData) -> Option<&'static Class>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[deprecated = "Use +imageUnfilteredTypes instead"]
-        #[method_id(@__retain_semantics Other imageUnfilteredFileTypes)]
-        pub unsafe fn imageUnfilteredFileTypes() -> Id<NSArray<NSString>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "canInitWithData:")]
+    pub unsafe fn canInitWithData(data: &NSData) -> bool;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[deprecated = "Use +imageUnfilteredTypes instead"]
-        #[method_id(@__retain_semantics Other imageUnfilteredPasteboardTypes)]
-        pub unsafe fn imageUnfilteredPasteboardTypes() -> Id<NSArray<NSPasteboardType>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[deprecated = "Use +imageUnfilteredTypes instead"]
+    #[objc2::method(sel = "imageUnfilteredFileTypes", managed = "Other")]
+    pub unsafe fn imageUnfilteredFileTypes() -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[deprecated = "Use +imageTypes instead"]
-        #[method_id(@__retain_semantics Other imageFileTypes)]
-        pub unsafe fn imageFileTypes() -> Id<NSArray<NSString>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[deprecated = "Use +imageUnfilteredTypes instead"]
+    #[objc2::method(sel = "imageUnfilteredPasteboardTypes", managed = "Other")]
+    pub unsafe fn imageUnfilteredPasteboardTypes() -> Id<NSArray<NSPasteboardType>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[deprecated = "Use +imageTypes instead"]
-        #[method_id(@__retain_semantics Other imagePasteboardTypes)]
-        pub unsafe fn imagePasteboardTypes() -> Id<NSArray<NSPasteboardType>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[deprecated = "Use +imageTypes instead"]
+    #[objc2::method(sel = "imageFileTypes", managed = "Other")]
+    pub unsafe fn imageFileTypes() -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other imageUnfilteredTypes)]
-        pub unsafe fn imageUnfilteredTypes() -> Id<NSArray<NSString>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[deprecated = "Use +imageTypes instead"]
+    #[objc2::method(sel = "imagePasteboardTypes", managed = "Other")]
+    pub unsafe fn imagePasteboardTypes() -> Id<NSArray<NSPasteboardType>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other imageTypes)]
-        pub unsafe fn imageTypes() -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "imageUnfilteredTypes", managed = "Other")]
+    pub unsafe fn imageUnfilteredTypes() -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "AppKit_NSPasteboard")]
-        #[method(canInitWithPasteboard:)]
-        pub unsafe fn canInitWithPasteboard(pasteboard: &NSPasteboard) -> bool;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "imageTypes", managed = "Other")]
+    pub unsafe fn imageTypes() -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other imageRepsWithContentsOfFile:)]
-        pub unsafe fn imageRepsWithContentsOfFile(
-            filename: &NSString,
-        ) -> Option<Id<NSArray<NSImageRep>>>;
+    #[cfg(feature = "AppKit_NSPasteboard")]
+    #[objc2::method(sel = "canInitWithPasteboard:")]
+    pub unsafe fn canInitWithPasteboard(pasteboard: &NSPasteboard) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other imageRepWithContentsOfFile:)]
-        pub unsafe fn imageRepWithContentsOfFile(filename: &NSString) -> Option<Id<NSImageRep>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "imageRepsWithContentsOfFile:", managed = "Other")]
+    pub unsafe fn imageRepsWithContentsOfFile(
+        filename: &NSString,
+    ) -> Option<Id<NSArray<NSImageRep>>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other imageRepsWithContentsOfURL:)]
-        pub unsafe fn imageRepsWithContentsOfURL(url: &NSURL) -> Option<Id<NSArray<NSImageRep>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "imageRepWithContentsOfFile:", managed = "Other")]
+    pub unsafe fn imageRepWithContentsOfFile(filename: &NSString) -> Option<Id<NSImageRep>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other imageRepWithContentsOfURL:)]
-        pub unsafe fn imageRepWithContentsOfURL(url: &NSURL) -> Option<Id<NSImageRep>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "imageRepsWithContentsOfURL:", managed = "Other")]
+    pub unsafe fn imageRepsWithContentsOfURL(url: &NSURL) -> Option<Id<NSArray<NSImageRep>>>;
 
-        #[cfg(all(feature = "AppKit_NSPasteboard", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other imageRepsWithPasteboard:)]
-        pub unsafe fn imageRepsWithPasteboard(
-            pasteboard: &NSPasteboard,
-        ) -> Option<Id<NSArray<NSImageRep>>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "imageRepWithContentsOfURL:", managed = "Other")]
+    pub unsafe fn imageRepWithContentsOfURL(url: &NSURL) -> Option<Id<NSImageRep>>;
 
-        #[cfg(feature = "AppKit_NSPasteboard")]
-        #[method_id(@__retain_semantics Other imageRepWithPasteboard:)]
-        pub unsafe fn imageRepWithPasteboard(pasteboard: &NSPasteboard) -> Option<Id<NSImageRep>>;
-    }
-);
+    #[cfg(all(feature = "AppKit_NSPasteboard", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "imageRepsWithPasteboard:", managed = "Other")]
+    pub unsafe fn imageRepsWithPasteboard(
+        pasteboard: &NSPasteboard,
+    ) -> Option<Id<NSArray<NSImageRep>>>;
+
+    #[cfg(feature = "AppKit_NSPasteboard")]
+    #[objc2::method(sel = "imageRepWithPasteboard:", managed = "Other")]
+    pub unsafe fn imageRepWithPasteboard(pasteboard: &NSPasteboard) -> Option<Id<NSImageRep>>;
+}
 
 extern_static!(NSImageRepRegistryDidChangeNotification: &'static NSNotificationName);

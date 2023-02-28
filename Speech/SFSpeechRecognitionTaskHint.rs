@@ -4,12 +4,11 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Speech::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum SFSpeechRecognitionTaskHint {
-        SFSpeechRecognitionTaskHintUnspecified = 0,
-        SFSpeechRecognitionTaskHintDictation = 1,
-        SFSpeechRecognitionTaskHintSearch = 2,
-        SFSpeechRecognitionTaskHintConfirmation = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum SFSpeechRecognitionTaskHint {
+    SFSpeechRecognitionTaskHintUnspecified = 0,
+    SFSpeechRecognitionTaskHintDictation = 1,
+    SFSpeechRecognitionTaskHintSearch = 2,
+    SFSpeechRecognitionTaskHintConfirmation = 3,
+}

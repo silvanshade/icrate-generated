@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSFetchIndexDescription")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSFetchIndexDescription")]
-    pub struct NSFetchIndexDescription;
-
-    #[cfg(feature = "CoreData_NSFetchIndexDescription")]
-    unsafe impl ClassType for NSFetchIndexDescription {
-        type Super = NSObject;
-    }
-);
+    pub type NSFetchIndexDescription;
+}
 
 #[cfg(feature = "CoreData_NSFetchIndexDescription")]
 unsafe impl NSCoding for NSFetchIndexDescription {}
@@ -21,56 +21,56 @@ unsafe impl NSCoding for NSFetchIndexDescription {}
 #[cfg(feature = "CoreData_NSFetchIndexDescription")]
 unsafe impl NSObjectProtocol for NSFetchIndexDescription {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSFetchIndexDescription")]
-    unsafe impl NSFetchIndexDescription {
-        #[cfg(all(
-            feature = "CoreData_NSFetchIndexElementDescription",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Init initWithName:elements:)]
-        pub unsafe fn initWithName_elements(
-            this: Option<Allocated<Self>>,
-            name: &NSString,
-            elements: Option<&NSArray<NSFetchIndexElementDescription>>,
-        ) -> Id<Self>;
+    pub type NSFetchIndexDescription;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(all(
+        feature = "CoreData_NSFetchIndexElementDescription",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "initWithName:elements:", managed = "Init")]
+    pub unsafe fn initWithName_elements(
+        this: Option<Allocated<Self>>,
+        name: &NSString,
+        elements: Option<&NSArray<NSFetchIndexElementDescription>>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[cfg(all(
-            feature = "CoreData_NSFetchIndexElementDescription",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other elements)]
-        pub unsafe fn elements(&self) -> Id<NSArray<NSFetchIndexElementDescription>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: &NSString);
 
-        #[cfg(all(
-            feature = "CoreData_NSFetchIndexElementDescription",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method(setElements:)]
-        pub unsafe fn setElements(&self, elements: &NSArray<NSFetchIndexElementDescription>);
+    #[cfg(all(
+        feature = "CoreData_NSFetchIndexElementDescription",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "elements", managed = "Other")]
+    pub unsafe fn elements(&self) -> Id<NSArray<NSFetchIndexElementDescription>>;
 
-        #[cfg(feature = "CoreData_NSEntityDescription")]
-        #[method_id(@__retain_semantics Other entity)]
-        pub unsafe fn entity(&self) -> Option<Id<NSEntityDescription>>;
+    #[cfg(all(
+        feature = "CoreData_NSFetchIndexElementDescription",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "setElements:")]
+    pub unsafe fn setElements(&self, elements: &NSArray<NSFetchIndexElementDescription>);
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other partialIndexPredicate)]
-        pub unsafe fn partialIndexPredicate(&self) -> Option<Id<NSPredicate>>;
+    #[cfg(feature = "CoreData_NSEntityDescription")]
+    #[objc2::method(sel = "entity", managed = "Other")]
+    pub unsafe fn entity(&self) -> Option<Id<NSEntityDescription>>;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method(setPartialIndexPredicate:)]
-        pub unsafe fn setPartialIndexPredicate(
-            &self,
-            partial_index_predicate: Option<&NSPredicate>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "partialIndexPredicate", managed = "Other")]
+    pub unsafe fn partialIndexPredicate(&self) -> Option<Id<NSPredicate>>;
+
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "setPartialIndexPredicate:")]
+    pub unsafe fn setPartialIndexPredicate(&self, partial_index_predicate: Option<&NSPredicate>);
+}

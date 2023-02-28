@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::IdentityLookup::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "IdentityLookup_ILClassificationRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "IdentityLookup_ILClassificationRequest")]
-    pub struct ILClassificationRequest;
-
-    #[cfg(feature = "IdentityLookup_ILClassificationRequest")]
-    unsafe impl ClassType for ILClassificationRequest {
-        type Super = NSObject;
-    }
-);
+    pub type ILClassificationRequest;
+}
 
 #[cfg(feature = "IdentityLookup_ILClassificationRequest")]
 unsafe impl NSCoding for ILClassificationRequest {}
@@ -24,7 +24,10 @@ unsafe impl NSObjectProtocol for ILClassificationRequest {}
 #[cfg(feature = "IdentityLookup_ILClassificationRequest")]
 unsafe impl NSSecureCoding for ILClassificationRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "IdentityLookup_ILClassificationRequest")]
-    unsafe impl ILClassificationRequest {}
-);
+    pub type ILClassificationRequest;
+}

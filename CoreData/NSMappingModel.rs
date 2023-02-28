@@ -4,66 +4,76 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSMappingModel")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSMappingModel")]
-    pub struct NSMappingModel;
-
-    #[cfg(feature = "CoreData_NSMappingModel")]
-    unsafe impl ClassType for NSMappingModel {
-        type Super = NSObject;
-    }
-);
+    pub type NSMappingModel;
+}
 
 #[cfg(feature = "CoreData_NSMappingModel")]
 unsafe impl NSObjectProtocol for NSMappingModel {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSMappingModel")]
-    unsafe impl NSMappingModel {
-        #[cfg(all(
-            feature = "CoreData_NSManagedObjectModel",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSBundle"
-        ))]
-        #[method_id(@__retain_semantics Other mappingModelFromBundles:forSourceModel:destinationModel:)]
-        pub unsafe fn mappingModelFromBundles_forSourceModel_destinationModel(
-            bundles: Option<&NSArray<NSBundle>>,
-            source_model: Option<&NSManagedObjectModel>,
-            destination_model: Option<&NSManagedObjectModel>,
-        ) -> Option<Id<NSMappingModel>>;
+    pub type NSMappingModel;
 
-        #[cfg(all(
-            feature = "CoreData_NSManagedObjectModel",
-            feature = "Foundation_NSError"
-        ))]
-        #[method_id(@__retain_semantics Other inferredMappingModelForSourceModel:destinationModel:error:_)]
-        pub unsafe fn inferredMappingModelForSourceModel_destinationModel_error(
-            source_model: &NSManagedObjectModel,
-            destination_model: &NSManagedObjectModel,
-        ) -> Result<Id<NSMappingModel>, Id<NSError>>;
+    #[cfg(all(
+        feature = "CoreData_NSManagedObjectModel",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSBundle"
+    ))]
+    #[objc2::method(
+        sel = "mappingModelFromBundles:forSourceModel:destinationModel:",
+        managed = "Other"
+    )]
+    pub unsafe fn mappingModelFromBundles_forSourceModel_destinationModel(
+        bundles: Option<&NSArray<NSBundle>>,
+        source_model: Option<&NSManagedObjectModel>,
+        destination_model: Option<&NSManagedObjectModel>,
+    ) -> Option<Id<NSMappingModel>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:)]
-        pub unsafe fn initWithContentsOfURL(
-            this: Option<Allocated<Self>>,
-            url: Option<&NSURL>,
-        ) -> Option<Id<Self>>;
+    #[cfg(all(
+        feature = "CoreData_NSManagedObjectModel",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(
+        sel = "inferredMappingModelForSourceModel:destinationModel:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn inferredMappingModelForSourceModel_destinationModel_error(
+        source_model: &NSManagedObjectModel,
+        destination_model: &NSManagedObjectModel,
+    ) -> Result<Id<NSMappingModel>, Id<NSError>>;
 
-        #[cfg(all(feature = "CoreData_NSEntityMapping", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other entityMappings)]
-        pub unsafe fn entityMappings(&self) -> Option<Id<NSArray<NSEntityMapping>>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initWithContentsOfURL:", managed = "Init")]
+    pub unsafe fn initWithContentsOfURL(
+        this: Option<Allocated<Self>>,
+        url: Option<&NSURL>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(all(feature = "CoreData_NSEntityMapping", feature = "Foundation_NSArray"))]
-        #[method(setEntityMappings:)]
-        pub unsafe fn setEntityMappings(&self, entity_mappings: Option<&NSArray<NSEntityMapping>>);
+    #[cfg(all(feature = "CoreData_NSEntityMapping", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "entityMappings", managed = "Other")]
+    pub unsafe fn entityMappings(&self) -> Option<Id<NSArray<NSEntityMapping>>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSEntityMapping",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other entityMappingsByName)]
-        pub unsafe fn entityMappingsByName(&self) -> Id<NSDictionary<NSString, NSEntityMapping>>;
-    }
-);
+    #[cfg(all(feature = "CoreData_NSEntityMapping", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setEntityMappings:")]
+    pub unsafe fn setEntityMappings(&self, entity_mappings: Option<&NSArray<NSEntityMapping>>);
+
+    #[cfg(all(
+        feature = "CoreData_NSEntityMapping",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "entityMappingsByName", managed = "Other")]
+    pub unsafe fn entityMappingsByName(&self) -> Id<NSDictionary<NSString, NSEntityMapping>>;
+}

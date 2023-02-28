@@ -3,44 +3,42 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSByteCountFormatterUnits {
-        NSByteCountFormatterUseDefault = 0,
-        NSByteCountFormatterUseBytes = 1 << 0,
-        NSByteCountFormatterUseKB = 1 << 1,
-        NSByteCountFormatterUseMB = 1 << 2,
-        NSByteCountFormatterUseGB = 1 << 3,
-        NSByteCountFormatterUseTB = 1 << 4,
-        NSByteCountFormatterUsePB = 1 << 5,
-        NSByteCountFormatterUseEB = 1 << 6,
-        NSByteCountFormatterUseZB = 1 << 7,
-        NSByteCountFormatterUseYBOrHigher = 0x0FF << 8,
-        NSByteCountFormatterUseAll = 0x0FFFF,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSByteCountFormatterUnits {
+    NSByteCountFormatterUseDefault = 0,
+    NSByteCountFormatterUseBytes = 1 << 0,
+    NSByteCountFormatterUseKB = 1 << 1,
+    NSByteCountFormatterUseMB = 1 << 2,
+    NSByteCountFormatterUseGB = 1 << 3,
+    NSByteCountFormatterUseTB = 1 << 4,
+    NSByteCountFormatterUsePB = 1 << 5,
+    NSByteCountFormatterUseEB = 1 << 6,
+    NSByteCountFormatterUseZB = 1 << 7,
+    NSByteCountFormatterUseYBOrHigher = 0x0FF << 8,
+    NSByteCountFormatterUseAll = 0x0FFFF,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSByteCountFormatterCountStyle {
-        NSByteCountFormatterCountStyleFile = 0,
-        NSByteCountFormatterCountStyleMemory = 1,
-        NSByteCountFormatterCountStyleDecimal = 2,
-        NSByteCountFormatterCountStyleBinary = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSByteCountFormatterCountStyle {
+    NSByteCountFormatterCountStyleFile = 0,
+    NSByteCountFormatterCountStyleMemory = 1,
+    NSByteCountFormatterCountStyleDecimal = 2,
+    NSByteCountFormatterCountStyleBinary = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSFormatter,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSByteCountFormatter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSByteCountFormatter")]
-    pub struct NSByteCountFormatter;
-
-    #[cfg(feature = "Foundation_NSByteCountFormatter")]
-    unsafe impl ClassType for NSByteCountFormatter {
-        #[inherits(NSObject)]
-        type Super = NSFormatter;
-    }
-);
+    pub type NSByteCountFormatter;
+}
 
 #[cfg(feature = "Foundation_NSByteCountFormatter")]
 unsafe impl NSCoding for NSByteCountFormatter {}
@@ -48,98 +46,101 @@ unsafe impl NSCoding for NSByteCountFormatter {}
 #[cfg(feature = "Foundation_NSByteCountFormatter")]
 unsafe impl NSObjectProtocol for NSByteCountFormatter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSByteCountFormatter")]
-    unsafe impl NSByteCountFormatter {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringFromByteCount:countStyle:)]
-        pub unsafe fn stringFromByteCount_countStyle(
-            byte_count: c_longlong,
-            count_style: NSByteCountFormatterCountStyle,
-        ) -> Id<NSString>;
+    pub type NSByteCountFormatter;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringFromByteCount:)]
-        pub unsafe fn stringFromByteCount(&self, byte_count: c_longlong) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringFromByteCount:countStyle:", managed = "Other")]
+    pub unsafe fn stringFromByteCount_countStyle(
+        byte_count: c_longlong,
+        count_style: NSByteCountFormatterCountStyle,
+    ) -> Id<NSString>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitInformationStorage"
-        ))]
-        #[method_id(@__retain_semantics Other stringFromMeasurement:countStyle:)]
-        pub unsafe fn stringFromMeasurement_countStyle(
-            measurement: &NSMeasurement<NSUnitInformationStorage>,
-            count_style: NSByteCountFormatterCountStyle,
-        ) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringFromByteCount:", managed = "Other")]
+    pub unsafe fn stringFromByteCount(&self, byte_count: c_longlong) -> Id<NSString>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitInformationStorage"
-        ))]
-        #[method_id(@__retain_semantics Other stringFromMeasurement:)]
-        pub unsafe fn stringFromMeasurement(
-            &self,
-            measurement: &NSMeasurement<NSUnitInformationStorage>,
-        ) -> Id<NSString>;
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitInformationStorage"
+    ))]
+    #[objc2::method(sel = "stringFromMeasurement:countStyle:", managed = "Other")]
+    pub unsafe fn stringFromMeasurement_countStyle(
+        measurement: &NSMeasurement<NSUnitInformationStorage>,
+        count_style: NSByteCountFormatterCountStyle,
+    ) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringForObjectValue:)]
-        pub unsafe fn stringForObjectValue(&self, obj: Option<&Object>) -> Option<Id<NSString>>;
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitInformationStorage"
+    ))]
+    #[objc2::method(sel = "stringFromMeasurement:", managed = "Other")]
+    pub unsafe fn stringFromMeasurement(
+        &self,
+        measurement: &NSMeasurement<NSUnitInformationStorage>,
+    ) -> Id<NSString>;
 
-        #[method(allowedUnits)]
-        pub unsafe fn allowedUnits(&self) -> NSByteCountFormatterUnits;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringForObjectValue:", managed = "Other")]
+    pub unsafe fn stringForObjectValue(&self, obj: Option<&Object>) -> Option<Id<NSString>>;
 
-        #[method(setAllowedUnits:)]
-        pub unsafe fn setAllowedUnits(&self, allowed_units: NSByteCountFormatterUnits);
+    #[objc2::method(sel = "allowedUnits")]
+    pub unsafe fn allowedUnits(&self) -> NSByteCountFormatterUnits;
 
-        #[method(countStyle)]
-        pub unsafe fn countStyle(&self) -> NSByteCountFormatterCountStyle;
+    #[objc2::method(sel = "setAllowedUnits:")]
+    pub unsafe fn setAllowedUnits(&self, allowed_units: NSByteCountFormatterUnits);
 
-        #[method(setCountStyle:)]
-        pub unsafe fn setCountStyle(&self, count_style: NSByteCountFormatterCountStyle);
+    #[objc2::method(sel = "countStyle")]
+    pub unsafe fn countStyle(&self) -> NSByteCountFormatterCountStyle;
 
-        #[method(allowsNonnumericFormatting)]
-        pub unsafe fn allowsNonnumericFormatting(&self) -> bool;
+    #[objc2::method(sel = "setCountStyle:")]
+    pub unsafe fn setCountStyle(&self, count_style: NSByteCountFormatterCountStyle);
 
-        #[method(setAllowsNonnumericFormatting:)]
-        pub unsafe fn setAllowsNonnumericFormatting(&self, allows_nonnumeric_formatting: bool);
+    #[objc2::method(sel = "allowsNonnumericFormatting")]
+    pub unsafe fn allowsNonnumericFormatting(&self) -> bool;
 
-        #[method(includesUnit)]
-        pub unsafe fn includesUnit(&self) -> bool;
+    #[objc2::method(sel = "setAllowsNonnumericFormatting:")]
+    pub unsafe fn setAllowsNonnumericFormatting(&self, allows_nonnumeric_formatting: bool);
 
-        #[method(setIncludesUnit:)]
-        pub unsafe fn setIncludesUnit(&self, includes_unit: bool);
+    #[objc2::method(sel = "includesUnit")]
+    pub unsafe fn includesUnit(&self) -> bool;
 
-        #[method(includesCount)]
-        pub unsafe fn includesCount(&self) -> bool;
+    #[objc2::method(sel = "setIncludesUnit:")]
+    pub unsafe fn setIncludesUnit(&self, includes_unit: bool);
 
-        #[method(setIncludesCount:)]
-        pub unsafe fn setIncludesCount(&self, includes_count: bool);
+    #[objc2::method(sel = "includesCount")]
+    pub unsafe fn includesCount(&self) -> bool;
 
-        #[method(includesActualByteCount)]
-        pub unsafe fn includesActualByteCount(&self) -> bool;
+    #[objc2::method(sel = "setIncludesCount:")]
+    pub unsafe fn setIncludesCount(&self, includes_count: bool);
 
-        #[method(setIncludesActualByteCount:)]
-        pub unsafe fn setIncludesActualByteCount(&self, includes_actual_byte_count: bool);
+    #[objc2::method(sel = "includesActualByteCount")]
+    pub unsafe fn includesActualByteCount(&self) -> bool;
 
-        #[method(isAdaptive)]
-        pub unsafe fn isAdaptive(&self) -> bool;
+    #[objc2::method(sel = "setIncludesActualByteCount:")]
+    pub unsafe fn setIncludesActualByteCount(&self, includes_actual_byte_count: bool);
 
-        #[method(setAdaptive:)]
-        pub unsafe fn setAdaptive(&self, adaptive: bool);
+    #[objc2::method(sel = "isAdaptive")]
+    pub unsafe fn isAdaptive(&self) -> bool;
 
-        #[method(zeroPadsFractionDigits)]
-        pub unsafe fn zeroPadsFractionDigits(&self) -> bool;
+    #[objc2::method(sel = "setAdaptive:")]
+    pub unsafe fn setAdaptive(&self, adaptive: bool);
 
-        #[method(setZeroPadsFractionDigits:)]
-        pub unsafe fn setZeroPadsFractionDigits(&self, zero_pads_fraction_digits: bool);
+    #[objc2::method(sel = "zeroPadsFractionDigits")]
+    pub unsafe fn zeroPadsFractionDigits(&self) -> bool;
 
-        #[method(formattingContext)]
-        pub unsafe fn formattingContext(&self) -> NSFormattingContext;
+    #[objc2::method(sel = "setZeroPadsFractionDigits:")]
+    pub unsafe fn setZeroPadsFractionDigits(&self, zero_pads_fraction_digits: bool);
 
-        #[method(setFormattingContext:)]
-        pub unsafe fn setFormattingContext(&self, formatting_context: NSFormattingContext);
-    }
-);
+    #[objc2::method(sel = "formattingContext")]
+    pub unsafe fn formattingContext(&self) -> NSFormattingContext;
+
+    #[objc2::method(sel = "setFormattingContext:")]
+    pub unsafe fn setFormattingContext(&self, formatting_context: NSFormattingContext);
+}

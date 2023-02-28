@@ -4,53 +4,53 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLVisibleFunctionTableDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLVisibleFunctionTableDescriptor")]
-    pub struct MTLVisibleFunctionTableDescriptor;
-
-    #[cfg(feature = "Metal_MTLVisibleFunctionTableDescriptor")]
-    unsafe impl ClassType for MTLVisibleFunctionTableDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLVisibleFunctionTableDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLVisibleFunctionTableDescriptor")]
 unsafe impl NSObjectProtocol for MTLVisibleFunctionTableDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLVisibleFunctionTableDescriptor")]
-    unsafe impl MTLVisibleFunctionTableDescriptor {
-        #[method_id(@__retain_semantics Other visibleFunctionTableDescriptor)]
-        pub unsafe fn visibleFunctionTableDescriptor() -> Id<MTLVisibleFunctionTableDescriptor>;
+    pub type MTLVisibleFunctionTableDescriptor;
 
-        #[method(functionCount)]
-        pub unsafe fn functionCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "visibleFunctionTableDescriptor", managed = "Other")]
+    pub unsafe fn visibleFunctionTableDescriptor() -> Id<MTLVisibleFunctionTableDescriptor>;
 
-        #[method(setFunctionCount:)]
-        pub unsafe fn setFunctionCount(&self, function_count: NSUInteger);
-    }
-);
+    #[objc2::method(sel = "functionCount")]
+    pub unsafe fn functionCount(&self) -> NSUInteger;
 
-extern_protocol!(
-    pub unsafe trait MTLVisibleFunctionTable: MTLResource {
-        #[method(gpuResourceID)]
-        unsafe fn gpuResourceID(&self) -> MTLResourceID;
+    #[objc2::method(sel = "setFunctionCount:")]
+    pub unsafe fn setFunctionCount(&self, function_count: NSUInteger);
+}
 
-        #[method(setFunction:atIndex:)]
-        unsafe fn setFunction_atIndex(
-            &self,
-            function: Option<&ProtocolObject<dyn MTLFunctionHandle>>,
-            index: NSUInteger,
-        );
+#[objc2::protocol]
+pub unsafe trait MTLVisibleFunctionTable: MTLResource {
+    #[objc2::method(sel = "gpuResourceID")]
+    unsafe fn gpuResourceID(&self) -> MTLResourceID;
 
-        #[method(setFunctions:withRange:)]
-        unsafe fn setFunctions_withRange(
-            &self,
-            functions: NonNull<*const ProtocolObject<dyn MTLFunctionHandle>>,
-            range: NSRange,
-        );
-    }
+    #[objc2::method(sel = "setFunction:atIndex:")]
+    unsafe fn setFunction_atIndex(
+        &self,
+        function: Option<&ProtocolObject<dyn MTLFunctionHandle>>,
+        index: NSUInteger,
+    );
 
-    unsafe impl ProtocolType for dyn MTLVisibleFunctionTable {}
-);
+    #[objc2::method(sel = "setFunctions:withRange:")]
+    unsafe fn setFunctions_withRange(
+        &self,
+        functions: NonNull<*const ProtocolObject<dyn MTLFunctionHandle>>,
+        range: NSRange,
+    );
+}

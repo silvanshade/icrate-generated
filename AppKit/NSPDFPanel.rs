@@ -5,67 +5,66 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSInteger)]
-    pub enum NSPDFPanelOptions {
-        NSPDFPanelShowsPaperSize = 1 << 2,
-        NSPDFPanelShowsOrientation = 1 << 3,
-        NSPDFPanelRequestsParentDirectory = 1 << 24,
-    }
-);
+#[ns_options]
+#[underlying(NSInteger)]
+pub enum NSPDFPanelOptions {
+    NSPDFPanelShowsPaperSize = 1 << 2,
+    NSPDFPanelShowsOrientation = 1 << 3,
+    NSPDFPanelRequestsParentDirectory = 1 << 24,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPDFPanel")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPDFPanel")]
-    pub struct NSPDFPanel;
-
-    #[cfg(feature = "AppKit_NSPDFPanel")]
-    unsafe impl ClassType for NSPDFPanel {
-        type Super = NSObject;
-    }
-);
+    pub type NSPDFPanel;
+}
 
 #[cfg(feature = "AppKit_NSPDFPanel")]
 unsafe impl NSObjectProtocol for NSPDFPanel {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPDFPanel")]
-    unsafe impl NSPDFPanel {
-        #[method_id(@__retain_semantics Other panel)]
-        pub unsafe fn panel() -> Id<NSPDFPanel>;
+    pub type NSPDFPanel;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other accessoryController)]
-        pub unsafe fn accessoryController(&self) -> Option<Id<NSViewController>>;
+    #[objc2::method(sel = "panel", managed = "Other")]
+    pub unsafe fn panel() -> Id<NSPDFPanel>;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method(setAccessoryController:)]
-        pub unsafe fn setAccessoryController(
-            &self,
-            accessory_controller: Option<&NSViewController>,
-        );
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "accessoryController", managed = "Other")]
+    pub unsafe fn accessoryController(&self) -> Option<Id<NSViewController>>;
 
-        #[method(options)]
-        pub unsafe fn options(&self) -> NSPDFPanelOptions;
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "setAccessoryController:")]
+    pub unsafe fn setAccessoryController(&self, accessory_controller: Option<&NSViewController>);
 
-        #[method(setOptions:)]
-        pub unsafe fn setOptions(&self, options: NSPDFPanelOptions);
+    #[objc2::method(sel = "options")]
+    pub unsafe fn options(&self) -> NSPDFPanelOptions;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other defaultFileName)]
-        pub unsafe fn defaultFileName(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setOptions:")]
+    pub unsafe fn setOptions(&self, options: NSPDFPanelOptions);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setDefaultFileName:)]
-        pub unsafe fn setDefaultFileName(&self, default_file_name: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "defaultFileName", managed = "Other")]
+    pub unsafe fn defaultFileName(&self) -> Id<NSString>;
 
-        #[cfg(all(feature = "AppKit_NSPDFInfo", feature = "AppKit_NSWindow"))]
-        #[method(beginSheetWithPDFInfo:modalForWindow:completionHandler:)]
-        pub unsafe fn beginSheetWithPDFInfo_modalForWindow_completionHandler(
-            &self,
-            pdf_info: &NSPDFInfo,
-            doc_window: Option<&NSWindow>,
-            completion_handler: &Block<(NSInteger,), ()>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setDefaultFileName:")]
+    pub unsafe fn setDefaultFileName(&self, default_file_name: &NSString);
+
+    #[cfg(all(feature = "AppKit_NSPDFInfo", feature = "AppKit_NSWindow"))]
+    #[objc2::method(sel = "beginSheetWithPDFInfo:modalForWindow:completionHandler:")]
+    pub unsafe fn beginSheetWithPDFInfo_modalForWindow_completionHandler(
+        &self,
+        pdf_info: &NSPDFInfo,
+        doc_window: Option<&NSWindow>,
+        completion_handler: &Block<(NSInteger,), ()>,
+    );
+}

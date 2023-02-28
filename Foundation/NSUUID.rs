@@ -3,16 +3,16 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUUID")]
     #[derive(PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUUID")]
-    pub struct NSUUID;
-
-    #[cfg(feature = "Foundation_NSUUID")]
-    unsafe impl ClassType for NSUUID {
-        type Super = NSObject;
-    }
-);
+    pub type NSUUID;
+}
 
 #[cfg(feature = "Foundation_NSUUID")]
 unsafe impl NSCoding for NSUUID {}
@@ -23,27 +23,28 @@ unsafe impl NSObjectProtocol for NSUUID {}
 #[cfg(feature = "Foundation_NSUUID")]
 unsafe impl NSSecureCoding for NSUUID {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUUID")]
-    unsafe impl NSUUID {
-        #[method_id(@__retain_semantics Other UUID)]
-        pub fn UUID() -> Id<Self>;
+    pub type NSUUID;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "UUID", managed = "Other")]
+    pub fn UUID() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithUUIDString:)]
-        pub fn initWithUUIDString(
-            this: Option<Allocated<Self>>,
-            string: &NSString,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(compare:)]
-        pub unsafe fn compare(&self, other_uuid: &NSUUID) -> NSComparisonResult;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithUUIDString:", managed = "Init")]
+    pub fn initWithUUIDString(this: Option<Allocated<Self>>, string: &NSString)
+        -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other UUIDString)]
-        pub fn UUIDString(&self) -> Id<NSString>;
-    }
-);
+    #[objc2::method(sel = "compare:")]
+    pub unsafe fn compare(&self, other_uuid: &NSUUID) -> NSComparisonResult;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "UUIDString", managed = "Other")]
+    pub fn UUIDString(&self) -> Id<NSString>;
+}

@@ -5,113 +5,112 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSTextAttachmentCellProtocol: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(drawWithFrame:inView:)]
-        unsafe fn drawWithFrame_inView(&self, cell_frame: NSRect, control_view: Option<&NSView>);
+#[objc2::protocol]
+pub unsafe trait NSTextAttachmentCellProtocol: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "drawWithFrame:inView:")]
+    unsafe fn drawWithFrame_inView(&self, cell_frame: NSRect, control_view: Option<&NSView>);
 
-        #[method(wantsToTrackMouse)]
-        unsafe fn wantsToTrackMouse(&self) -> bool;
+    #[objc2::method(sel = "wantsToTrackMouse")]
+    unsafe fn wantsToTrackMouse(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(highlight:withFrame:inView:)]
-        unsafe fn highlight_withFrame_inView(
-            &self,
-            flag: bool,
-            cell_frame: NSRect,
-            control_view: Option<&NSView>,
-        );
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "highlight:withFrame:inView:")]
+    unsafe fn highlight_withFrame_inView(
+        &self,
+        flag: bool,
+        cell_frame: NSRect,
+        control_view: Option<&NSView>,
+    );
 
-        #[cfg(all(feature = "AppKit_NSEvent", feature = "AppKit_NSView"))]
-        #[method(trackMouse:inRect:ofView:untilMouseUp:)]
-        unsafe fn trackMouse_inRect_ofView_untilMouseUp(
-            &self,
-            the_event: &NSEvent,
-            cell_frame: NSRect,
-            control_view: Option<&NSView>,
-            flag: bool,
-        ) -> bool;
+    #[cfg(all(feature = "AppKit_NSEvent", feature = "AppKit_NSView"))]
+    #[objc2::method(sel = "trackMouse:inRect:ofView:untilMouseUp:")]
+    unsafe fn trackMouse_inRect_ofView_untilMouseUp(
+        &self,
+        the_event: &NSEvent,
+        cell_frame: NSRect,
+        control_view: Option<&NSView>,
+        flag: bool,
+    ) -> bool;
 
-        #[method(cellSize)]
-        unsafe fn cellSize(&self) -> NSSize;
+    #[objc2::method(sel = "cellSize")]
+    unsafe fn cellSize(&self) -> NSSize;
 
-        #[method(cellBaselineOffset)]
-        unsafe fn cellBaselineOffset(&self) -> NSPoint;
+    #[objc2::method(sel = "cellBaselineOffset")]
+    unsafe fn cellBaselineOffset(&self) -> NSPoint;
 
-        #[cfg(feature = "AppKit_NSTextAttachment")]
-        #[method_id(@__retain_semantics Other attachment)]
-        unsafe fn attachment(&self) -> Option<Id<NSTextAttachment>>;
+    #[cfg(feature = "AppKit_NSTextAttachment")]
+    #[objc2::method(sel = "attachment", managed = "Other")]
+    unsafe fn attachment(&self) -> Option<Id<NSTextAttachment>>;
 
-        #[cfg(feature = "AppKit_NSTextAttachment")]
-        #[method(setAttachment:)]
-        unsafe fn setAttachment(&self, attachment: Option<&NSTextAttachment>);
+    #[cfg(feature = "AppKit_NSTextAttachment")]
+    #[objc2::method(sel = "setAttachment:")]
+    unsafe fn setAttachment(&self, attachment: Option<&NSTextAttachment>);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(drawWithFrame:inView:characterIndex:)]
-        unsafe fn drawWithFrame_inView_characterIndex(
-            &self,
-            cell_frame: NSRect,
-            control_view: Option<&NSView>,
-            char_index: NSUInteger,
-        );
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "drawWithFrame:inView:characterIndex:")]
+    unsafe fn drawWithFrame_inView_characterIndex(
+        &self,
+        cell_frame: NSRect,
+        control_view: Option<&NSView>,
+        char_index: NSUInteger,
+    );
 
-        #[cfg(all(feature = "AppKit_NSLayoutManager", feature = "AppKit_NSView"))]
-        #[method(drawWithFrame:inView:characterIndex:layoutManager:)]
-        unsafe fn drawWithFrame_inView_characterIndex_layoutManager(
-            &self,
-            cell_frame: NSRect,
-            control_view: Option<&NSView>,
-            char_index: NSUInteger,
-            layout_manager: &NSLayoutManager,
-        );
+    #[cfg(all(feature = "AppKit_NSLayoutManager", feature = "AppKit_NSView"))]
+    #[objc2::method(sel = "drawWithFrame:inView:characterIndex:layoutManager:")]
+    unsafe fn drawWithFrame_inView_characterIndex_layoutManager(
+        &self,
+        cell_frame: NSRect,
+        control_view: Option<&NSView>,
+        char_index: NSUInteger,
+        layout_manager: &NSLayoutManager,
+    );
 
-        #[cfg(all(feature = "AppKit_NSEvent", feature = "AppKit_NSView"))]
-        #[method(wantsToTrackMouseForEvent:inRect:ofView:atCharacterIndex:)]
-        unsafe fn wantsToTrackMouseForEvent_inRect_ofView_atCharacterIndex(
-            &self,
-            the_event: &NSEvent,
-            cell_frame: NSRect,
-            control_view: Option<&NSView>,
-            char_index: NSUInteger,
-        ) -> bool;
+    #[cfg(all(feature = "AppKit_NSEvent", feature = "AppKit_NSView"))]
+    #[objc2::method(sel = "wantsToTrackMouseForEvent:inRect:ofView:atCharacterIndex:")]
+    unsafe fn wantsToTrackMouseForEvent_inRect_ofView_atCharacterIndex(
+        &self,
+        the_event: &NSEvent,
+        cell_frame: NSRect,
+        control_view: Option<&NSView>,
+        char_index: NSUInteger,
+    ) -> bool;
 
-        #[cfg(all(feature = "AppKit_NSEvent", feature = "AppKit_NSView"))]
-        #[method(trackMouse:inRect:ofView:atCharacterIndex:untilMouseUp:)]
-        unsafe fn trackMouse_inRect_ofView_atCharacterIndex_untilMouseUp(
-            &self,
-            the_event: &NSEvent,
-            cell_frame: NSRect,
-            control_view: Option<&NSView>,
-            char_index: NSUInteger,
-            flag: bool,
-        ) -> bool;
+    #[cfg(all(feature = "AppKit_NSEvent", feature = "AppKit_NSView"))]
+    #[objc2::method(sel = "trackMouse:inRect:ofView:atCharacterIndex:untilMouseUp:")]
+    unsafe fn trackMouse_inRect_ofView_atCharacterIndex_untilMouseUp(
+        &self,
+        the_event: &NSEvent,
+        cell_frame: NSRect,
+        control_view: Option<&NSView>,
+        char_index: NSUInteger,
+        flag: bool,
+    ) -> bool;
 
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(cellFrameForTextContainer:proposedLineFragment:glyphPosition:characterIndex:)]
-        unsafe fn cellFrameForTextContainer_proposedLineFragment_glyphPosition_characterIndex(
-            &self,
-            text_container: &NSTextContainer,
-            line_frag: NSRect,
-            position: NSPoint,
-            char_index: NSUInteger,
-        ) -> NSRect;
-    }
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(
+        sel = "cellFrameForTextContainer:proposedLineFragment:glyphPosition:characterIndex:"
+    )]
+    unsafe fn cellFrameForTextContainer_proposedLineFragment_glyphPosition_characterIndex(
+        &self,
+        text_container: &NSTextContainer,
+        line_frag: NSRect,
+        position: NSPoint,
+        char_index: NSUInteger,
+    ) -> NSRect;
+}
 
-    unsafe impl ProtocolType for dyn NSTextAttachmentCellProtocol {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSCell,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextAttachmentCell")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextAttachmentCell")]
-    pub struct NSTextAttachmentCell;
-
-    #[cfg(feature = "AppKit_NSTextAttachmentCell")]
-    unsafe impl ClassType for NSTextAttachmentCell {
-        #[inherits(NSObject)]
-        type Super = NSCell;
-    }
-);
+    pub type NSTextAttachmentCell;
+}
 
 #[cfg(feature = "AppKit_NSTextAttachmentCell")]
 unsafe impl NSAccessibility for NSTextAttachmentCell {}
@@ -131,24 +130,31 @@ unsafe impl NSTextAttachmentCellProtocol for NSTextAttachmentCell {}
 #[cfg(feature = "AppKit_NSTextAttachmentCell")]
 unsafe impl NSUserInterfaceItemIdentification for NSTextAttachmentCell {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextAttachmentCell")]
-    unsafe impl NSTextAttachmentCell {}
-);
+    pub type NSTextAttachmentCell;
+}
 
-extern_methods!(
-    /// Methods declared on superclass `NSCell`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSCell`
     #[cfg(feature = "AppKit_NSTextAttachmentCell")]
-    unsafe impl NSTextAttachmentCell {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initTextCell:)]
-        pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Init initImageCell:)]
-        pub unsafe fn initImageCell(
-            this: Option<Allocated<Self>>,
-            image: Option<&NSImage>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextAttachmentCell")]
+    pub type NSTextAttachmentCell;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initTextCell:", managed = "Init")]
+    pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "initImageCell:", managed = "Init")]
+    pub unsafe fn initImageCell(this: Option<Allocated<Self>>, image: Option<&NSImage>)
+        -> Id<Self>;
+}

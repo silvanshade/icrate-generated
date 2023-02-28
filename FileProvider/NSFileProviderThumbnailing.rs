@@ -6,30 +6,35 @@ use crate::FileProvider::*;
 use crate::Foundation::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_methods!(
-    /// NSFileProviderThumbnailing
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderExtension")]
-    unsafe impl NSFileProviderExtension {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSProgress"
-        ))]
-        #[method_id(@__retain_semantics Other fetchThumbnailsForItemIdentifiers:requestedSize:perThumbnailCompletionHandler:completionHandler:)]
-        pub unsafe fn fetchThumbnailsForItemIdentifiers_requestedSize_perThumbnailCompletionHandler_completionHandler(
-            &self,
-            item_identifiers: &NSArray<NSFileProviderItemIdentifier>,
-            size: CGSize,
-            per_thumbnail_completion_handler: &Block<
-                (
-                    NonNull<NSFileProviderItemIdentifier>,
-                    *mut NSData,
-                    *mut NSError,
-                ),
-                (),
-            >,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        ) -> Id<NSProgress>;
-    }
-);
+    pub type NSFileProviderExtension;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSProgress"
+    ))]
+    #[objc2::method(
+        sel = "fetchThumbnailsForItemIdentifiers:requestedSize:perThumbnailCompletionHandler:completionHandler:",
+        managed = "Other"
+    )]
+    pub unsafe fn fetchThumbnailsForItemIdentifiers_requestedSize_perThumbnailCompletionHandler_completionHandler(
+        &self,
+        item_identifiers: &NSArray<NSFileProviderItemIdentifier>,
+        size: CGSize,
+        per_thumbnail_completion_handler: &Block<
+            (
+                NonNull<NSFileProviderItemIdentifier>,
+                *mut NSData,
+                *mut NSError,
+            ),
+            (),
+        >,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    ) -> Id<NSProgress>;
+}

@@ -6,200 +6,203 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKWorkoutBuilder")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKWorkoutBuilder")]
-    pub struct HKWorkoutBuilder;
-
-    #[cfg(feature = "HealthKit_HKWorkoutBuilder")]
-    unsafe impl ClassType for HKWorkoutBuilder {
-        type Super = NSObject;
-    }
-);
+    pub type HKWorkoutBuilder;
+}
 
 #[cfg(feature = "HealthKit_HKWorkoutBuilder")]
 unsafe impl NSObjectProtocol for HKWorkoutBuilder {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKWorkoutBuilder")]
-    unsafe impl HKWorkoutBuilder {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type HKWorkoutBuilder;
 
-        #[cfg(feature = "HealthKit_HKDevice")]
-        #[method_id(@__retain_semantics Other device)]
-        pub unsafe fn device(&self) -> Option<Id<HKDevice>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other startDate)]
-        pub unsafe fn startDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "HealthKit_HKDevice")]
+    #[objc2::method(sel = "device", managed = "Other")]
+    pub unsafe fn device(&self) -> Option<Id<HKDevice>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other endDate)]
-        pub unsafe fn endDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "startDate", managed = "Other")]
+    pub unsafe fn startDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "HealthKit_HKWorkoutConfiguration")]
-        #[method_id(@__retain_semantics Other workoutConfiguration)]
-        pub unsafe fn workoutConfiguration(&self) -> Id<HKWorkoutConfiguration>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "endDate", managed = "Other")]
+    pub unsafe fn endDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other metadata)]
-        pub unsafe fn metadata(&self) -> Id<NSDictionary<NSString, Object>>;
+    #[cfg(feature = "HealthKit_HKWorkoutConfiguration")]
+    #[objc2::method(sel = "workoutConfiguration", managed = "Other")]
+    pub unsafe fn workoutConfiguration(&self) -> Id<HKWorkoutConfiguration>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "HealthKit_HKWorkoutEvent"))]
-        #[method_id(@__retain_semantics Other workoutEvents)]
-        pub unsafe fn workoutEvents(&self) -> Id<NSArray<HKWorkoutEvent>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "metadata", managed = "Other")]
+    pub unsafe fn metadata(&self) -> Id<NSDictionary<NSString, Object>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "HealthKit_HKWorkoutActivity"
-        ))]
-        #[method_id(@__retain_semantics Other workoutActivities)]
-        pub unsafe fn workoutActivities(&self) -> Id<NSArray<HKWorkoutActivity>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "HealthKit_HKWorkoutEvent"))]
+    #[objc2::method(sel = "workoutEvents", managed = "Other")]
+    pub unsafe fn workoutEvents(&self) -> Id<NSArray<HKWorkoutEvent>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "HealthKit_HKQuantityType",
-            feature = "HealthKit_HKStatistics"
-        ))]
-        #[method_id(@__retain_semantics Other allStatistics)]
-        pub unsafe fn allStatistics(&self) -> Id<NSDictionary<HKQuantityType, HKStatistics>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "HealthKit_HKWorkoutActivity"
+    ))]
+    #[objc2::method(sel = "workoutActivities", managed = "Other")]
+    pub unsafe fn workoutActivities(&self) -> Id<NSArray<HKWorkoutActivity>>;
 
-        #[cfg(all(
-            feature = "HealthKit_HKDevice",
-            feature = "HealthKit_HKHealthStore",
-            feature = "HealthKit_HKWorkoutConfiguration"
-        ))]
-        #[method_id(@__retain_semantics Init initWithHealthStore:configuration:device:)]
-        pub unsafe fn initWithHealthStore_configuration_device(
-            this: Option<Allocated<Self>>,
-            health_store: &HKHealthStore,
-            configuration: &HKWorkoutConfiguration,
-            device: Option<&HKDevice>,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "HealthKit_HKQuantityType",
+        feature = "HealthKit_HKStatistics"
+    ))]
+    #[objc2::method(sel = "allStatistics", managed = "Other")]
+    pub unsafe fn allStatistics(&self) -> Id<NSDictionary<HKQuantityType, HKStatistics>>;
 
-        #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSError"))]
-        #[method(beginCollectionWithStartDate:completion:)]
-        pub unsafe fn beginCollectionWithStartDate_completion(
-            &self,
-            start_date: &NSDate,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "HealthKit_HKDevice",
+        feature = "HealthKit_HKHealthStore",
+        feature = "HealthKit_HKWorkoutConfiguration"
+    ))]
+    #[objc2::method(sel = "initWithHealthStore:configuration:device:", managed = "Init")]
+    pub unsafe fn initWithHealthStore_configuration_device(
+        this: Option<Allocated<Self>>,
+        health_store: &HKHealthStore,
+        configuration: &HKWorkoutConfiguration,
+        device: Option<&HKDevice>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKSample"
-        ))]
-        #[method(addSamples:completion:)]
-        pub unsafe fn addSamples_completion(
-            &self,
-            samples: &NSArray<HKSample>,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "beginCollectionWithStartDate:completion:")]
+    pub unsafe fn beginCollectionWithStartDate_completion(
+        &self,
+        start_date: &NSDate,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKWorkoutEvent"
-        ))]
-        #[method(addWorkoutEvents:completion:)]
-        pub unsafe fn addWorkoutEvents_completion(
-            &self,
-            workout_events: &NSArray<HKWorkoutEvent>,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKSample"
+    ))]
+    #[objc2::method(sel = "addSamples:completion:")]
+    pub unsafe fn addSamples_completion(
+        &self,
+        samples: &NSArray<HKSample>,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(addMetadata:completion:)]
-        pub unsafe fn addMetadata_completion(
-            &self,
-            metadata: &NSDictionary<NSString, Object>,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKWorkoutEvent"
+    ))]
+    #[objc2::method(sel = "addWorkoutEvents:completion:")]
+    pub unsafe fn addWorkoutEvents_completion(
+        &self,
+        workout_events: &NSArray<HKWorkoutEvent>,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKWorkoutActivity"
-        ))]
-        #[method(addWorkoutActivity:completion:)]
-        pub unsafe fn addWorkoutActivity_completion(
-            &self,
-            workout_activity: &HKWorkoutActivity,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "addMetadata:completion:")]
+    pub unsafe fn addMetadata_completion(
+        &self,
+        metadata: &NSDictionary<NSString, Object>,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSUUID"
-        ))]
-        #[method(updateActivityWithUUID:endDate:completion:)]
-        pub unsafe fn updateActivityWithUUID_endDate_completion(
-            &self,
-            uuid: &NSUUID,
-            end_date: &NSDate,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKWorkoutActivity"
+    ))]
+    #[objc2::method(sel = "addWorkoutActivity:completion:")]
+    pub unsafe fn addWorkoutActivity_completion(
+        &self,
+        workout_activity: &HKWorkoutActivity,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUUID"
-        ))]
-        #[method(updateActivityWithUUID:addMedatata:completion:)]
-        pub unsafe fn updateActivityWithUUID_addMedatata_completion(
-            &self,
-            uuid: &NSUUID,
-            metadata: &NSDictionary<NSString, Object>,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSUUID"
+    ))]
+    #[objc2::method(sel = "updateActivityWithUUID:endDate:completion:")]
+    pub unsafe fn updateActivityWithUUID_endDate_completion(
+        &self,
+        uuid: &NSUUID,
+        end_date: &NSDate,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSError"))]
-        #[method(endCollectionWithEndDate:completion:)]
-        pub unsafe fn endCollectionWithEndDate_completion(
-            &self,
-            end_date: &NSDate,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUUID"
+    ))]
+    #[objc2::method(sel = "updateActivityWithUUID:addMedatata:completion:")]
+    pub unsafe fn updateActivityWithUUID_addMedatata_completion(
+        &self,
+        uuid: &NSUUID,
+        metadata: &NSDictionary<NSString, Object>,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "HealthKit_HKWorkout"))]
-        #[method(finishWorkoutWithCompletion:)]
-        pub unsafe fn finishWorkoutWithCompletion(
-            &self,
-            completion: &Block<(*mut HKWorkout, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "endCollectionWithEndDate:completion:")]
+    pub unsafe fn endCollectionWithEndDate_completion(
+        &self,
+        end_date: &NSDate,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[method(discardWorkout)]
-        pub unsafe fn discardWorkout(&self);
+    #[cfg(all(feature = "Foundation_NSError", feature = "HealthKit_HKWorkout"))]
+    #[objc2::method(sel = "finishWorkoutWithCompletion:")]
+    pub unsafe fn finishWorkoutWithCompletion(
+        &self,
+        completion: &Block<(*mut HKWorkout, *mut NSError), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(elapsedTimeAtDate:)]
-        pub unsafe fn elapsedTimeAtDate(&self, date: &NSDate) -> NSTimeInterval;
+    #[objc2::method(sel = "discardWorkout")]
+    pub unsafe fn discardWorkout(&self);
 
-        #[cfg(all(
-            feature = "HealthKit_HKQuantityType",
-            feature = "HealthKit_HKStatistics"
-        ))]
-        #[method_id(@__retain_semantics Other statisticsForType:)]
-        pub unsafe fn statisticsForType(
-            &self,
-            quantity_type: &HKQuantityType,
-        ) -> Option<Id<HKStatistics>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "elapsedTimeAtDate:")]
+    pub unsafe fn elapsedTimeAtDate(&self, date: &NSDate) -> NSTimeInterval;
 
-        #[cfg(all(
-            feature = "HealthKit_HKSeriesBuilder",
-            feature = "HealthKit_HKSeriesType"
-        ))]
-        #[method_id(@__retain_semantics Other seriesBuilderForType:)]
-        pub unsafe fn seriesBuilderForType(
-            &self,
-            series_type: &HKSeriesType,
-        ) -> Option<Id<HKSeriesBuilder>>;
-    }
-);
+    #[cfg(all(
+        feature = "HealthKit_HKQuantityType",
+        feature = "HealthKit_HKStatistics"
+    ))]
+    #[objc2::method(sel = "statisticsForType:", managed = "Other")]
+    pub unsafe fn statisticsForType(
+        &self,
+        quantity_type: &HKQuantityType,
+    ) -> Option<Id<HKStatistics>>;
+
+    #[cfg(all(
+        feature = "HealthKit_HKSeriesBuilder",
+        feature = "HealthKit_HKSeriesType"
+    ))]
+    #[objc2::method(sel = "seriesBuilderForType:", managed = "Other")]
+    pub unsafe fn seriesBuilderForType(
+        &self,
+        series_type: &HKSeriesType,
+    ) -> Option<Id<HKSeriesBuilder>>;
+}

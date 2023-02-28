@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKScore")]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[deprecated = "Replaced by GKLeaderboardScore"]
-    pub struct GKScore;
-
     #[cfg(feature = "GameKit_GKScore")]
-    unsafe impl ClassType for GKScore {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type GKScore;
+}
 
 #[cfg(feature = "GameKit_GKScore")]
 unsafe impl NSCoding for GKScore {}
@@ -26,121 +26,129 @@ unsafe impl NSObjectProtocol for GKScore {}
 #[cfg(feature = "GameKit_GKScore")]
 unsafe impl NSSecureCoding for GKScore {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKScore")]
-    unsafe impl GKScore {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithLeaderboardIdentifier:)]
-        pub unsafe fn initWithLeaderboardIdentifier(
-            this: Option<Allocated<Self>>,
-            identifier: &NSString,
-        ) -> Id<Self>;
+    #[deprecated = "Replaced by GKLeaderboardScore"]
+    pub type GKScore;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "GameKit_GKPlayer"))]
-        #[method_id(@__retain_semantics Init initWithLeaderboardIdentifier:player:)]
-        pub unsafe fn initWithLeaderboardIdentifier_player(
-            this: Option<Allocated<Self>>,
-            identifier: &NSString,
-            player: &GKPlayer,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithLeaderboardIdentifier:", managed = "Init")]
+    pub unsafe fn initWithLeaderboardIdentifier(
+        this: Option<Allocated<Self>>,
+        identifier: &NSString,
+    ) -> Id<Self>;
 
-        #[method(value)]
-        pub unsafe fn value(&self) -> i64;
+    #[cfg(all(feature = "Foundation_NSString", feature = "GameKit_GKPlayer"))]
+    #[objc2::method(sel = "initWithLeaderboardIdentifier:player:", managed = "Init")]
+    pub unsafe fn initWithLeaderboardIdentifier_player(
+        this: Option<Allocated<Self>>,
+        identifier: &NSString,
+        player: &GKPlayer,
+    ) -> Id<Self>;
 
-        #[method(setValue:)]
-        pub unsafe fn setValue(&self, value: i64);
+    #[objc2::method(sel = "value")]
+    pub unsafe fn value(&self) -> i64;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other formattedValue)]
-        pub unsafe fn formattedValue(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setValue:")]
+    pub unsafe fn setValue(&self, value: i64);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other leaderboardIdentifier)]
-        pub unsafe fn leaderboardIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "formattedValue", managed = "Other")]
+    pub unsafe fn formattedValue(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLeaderboardIdentifier:)]
-        pub unsafe fn setLeaderboardIdentifier(&self, leaderboard_identifier: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "leaderboardIdentifier", managed = "Other")]
+    pub unsafe fn leaderboardIdentifier(&self) -> Id<NSString>;
 
-        #[method(context)]
-        pub unsafe fn context(&self) -> u64;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLeaderboardIdentifier:")]
+    pub unsafe fn setLeaderboardIdentifier(&self, leaderboard_identifier: &NSString);
 
-        #[method(setContext:)]
-        pub unsafe fn setContext(&self, context: u64);
+    #[objc2::method(sel = "context")]
+    pub unsafe fn context(&self) -> u64;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other date)]
-        pub unsafe fn date(&self) -> Id<NSDate>;
+    #[objc2::method(sel = "setContext:")]
+    pub unsafe fn setContext(&self, context: u64);
 
-        #[cfg(feature = "GameKit_GKPlayer")]
-        #[method_id(@__retain_semantics Other player)]
-        pub unsafe fn player(&self) -> Option<Id<GKPlayer>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "date", managed = "Other")]
+    pub unsafe fn date(&self) -> Id<NSDate>;
 
-        #[method(rank)]
-        pub unsafe fn rank(&self) -> NSInteger;
+    #[cfg(feature = "GameKit_GKPlayer")]
+    #[objc2::method(sel = "player", managed = "Other")]
+    pub unsafe fn player(&self) -> Option<Id<GKPlayer>>;
 
-        #[method(shouldSetDefaultLeaderboard)]
-        pub unsafe fn shouldSetDefaultLeaderboard(&self) -> bool;
+    #[objc2::method(sel = "rank")]
+    pub unsafe fn rank(&self) -> NSInteger;
 
-        #[method(setShouldSetDefaultLeaderboard:)]
-        pub unsafe fn setShouldSetDefaultLeaderboard(&self, should_set_default_leaderboard: bool);
+    #[objc2::method(sel = "shouldSetDefaultLeaderboard")]
+    pub unsafe fn shouldSetDefaultLeaderboard(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
-        #[method(reportScores:withCompletionHandler:)]
-        pub unsafe fn reportScores_withCompletionHandler(
-            scores: &NSArray<GKScore>,
-            completion_handler: Option<&Block<(*mut NSError,), ()>>,
-        );
-    }
-);
+    #[objc2::method(sel = "setShouldSetDefaultLeaderboard:")]
+    pub unsafe fn setShouldSetDefaultLeaderboard(&self, should_set_default_leaderboard: bool);
 
-extern_methods!(
-    /// Deprecated
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "reportScores:withCompletionHandler:")]
+    pub unsafe fn reportScores_withCompletionHandler(
+        scores: &NSArray<GKScore>,
+        completion_handler: Option<&Block<(*mut NSError,), ()>>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKScore")]
-    unsafe impl GKScore {
-        #[cfg(feature = "Foundation_NSError")]
-        #[deprecated = "Use +reportScores:withCompletionhandler: instead"]
-        #[method(reportScoreWithCompletionHandler:)]
-        pub unsafe fn reportScoreWithCompletionHandler(
-            &self,
-            completion_handler: Option<&Block<(*mut NSError,), ()>>,
-        );
+    pub type GKScore;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use initWithLeaderboardIdentifier: instead"]
-        #[method_id(@__retain_semantics Init initWithCategory:)]
-        pub unsafe fn initWithCategory(
-            this: Option<Allocated<Self>>,
-            category: Option<&NSString>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[deprecated = "Use +reportScores:withCompletionhandler: instead"]
+    #[objc2::method(sel = "reportScoreWithCompletionHandler:")]
+    pub unsafe fn reportScoreWithCompletionHandler(
+        &self,
+        completion_handler: Option<&Block<(*mut NSError,), ()>>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use leaderboardIdentifier instead"]
-        #[method_id(@__retain_semantics Other category)]
-        pub unsafe fn category(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use initWithLeaderboardIdentifier: instead"]
+    #[objc2::method(sel = "initWithCategory:", managed = "Init")]
+    pub unsafe fn initWithCategory(
+        this: Option<Allocated<Self>>,
+        category: Option<&NSString>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use leaderboardIdentifier instead"]
-        #[method(setCategory:)]
-        pub unsafe fn setCategory(&self, category: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use leaderboardIdentifier instead"]
+    #[objc2::method(sel = "category", managed = "Other")]
+    pub unsafe fn category(&self) -> Option<Id<NSString>>;
 
-extern_methods!(
-    /// Obsoleted
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use leaderboardIdentifier instead"]
+    #[objc2::method(sel = "setCategory:")]
+    pub unsafe fn setCategory(&self, category: Option<&NSString>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKScore")]
-    unsafe impl GKScore {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithLeaderboardIdentifier:forPlayer:)]
-        pub unsafe fn initWithLeaderboardIdentifier_forPlayer(
-            this: Option<Allocated<Self>>,
-            identifier: &NSString,
-            player_id: &NSString,
-        ) -> Option<Id<Self>>;
+    pub type GKScore;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "use player instead"]
-        #[method_id(@__retain_semantics Other playerID)]
-        pub unsafe fn playerID(&self) -> Option<Id<NSString>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithLeaderboardIdentifier:forPlayer:", managed = "Init")]
+    pub unsafe fn initWithLeaderboardIdentifier_forPlayer(
+        this: Option<Allocated<Self>>,
+        identifier: &NSString,
+        player_id: &NSString,
+    ) -> Option<Id<Self>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "use player instead"]
+    #[objc2::method(sel = "playerID", managed = "Other")]
+    pub unsafe fn playerID(&self) -> Option<Id<NSString>>;
+}

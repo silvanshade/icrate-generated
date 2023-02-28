@@ -6,106 +6,110 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = PHChangeRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHCollectionListChangeRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHCollectionListChangeRequest")]
-    pub struct PHCollectionListChangeRequest;
-
-    #[cfg(feature = "PhotoKit_PHCollectionListChangeRequest")]
-    unsafe impl ClassType for PHCollectionListChangeRequest {
-        #[inherits(NSObject)]
-        type Super = PHChangeRequest;
-    }
-);
+    pub type PHCollectionListChangeRequest;
+}
 
 #[cfg(feature = "PhotoKit_PHCollectionListChangeRequest")]
 unsafe impl NSObjectProtocol for PHCollectionListChangeRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHCollectionListChangeRequest")]
-    unsafe impl PHCollectionListChangeRequest {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other creationRequestForCollectionListWithTitle:)]
-        pub unsafe fn creationRequestForCollectionListWithTitle(title: &NSString) -> Id<Self>;
+    pub type PHCollectionListChangeRequest;
 
-        #[cfg(feature = "PhotoKit_PHObjectPlaceholder")]
-        #[method_id(@__retain_semantics Other placeholderForCreatedCollectionList)]
-        pub unsafe fn placeholderForCreatedCollectionList(&self) -> Id<PHObjectPlaceholder>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "creationRequestForCollectionListWithTitle:", managed = "Other")]
+    pub unsafe fn creationRequestForCollectionListWithTitle(title: &NSString) -> Id<Self>;
 
-        #[method(deleteCollectionLists:)]
-        pub unsafe fn deleteCollectionLists(
-            collection_lists: &ProtocolObject<dyn NSFastEnumeration>,
-        );
+    #[cfg(feature = "PhotoKit_PHObjectPlaceholder")]
+    #[objc2::method(sel = "placeholderForCreatedCollectionList", managed = "Other")]
+    pub unsafe fn placeholderForCreatedCollectionList(&self) -> Id<PHObjectPlaceholder>;
 
-        #[cfg(feature = "PhotoKit_PHCollectionList")]
-        #[method_id(@__retain_semantics Other changeRequestForCollectionList:)]
-        pub unsafe fn changeRequestForCollectionList(
-            collection_list: &PHCollectionList,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "deleteCollectionLists:")]
+    pub unsafe fn deleteCollectionLists(collection_lists: &ProtocolObject<dyn NSFastEnumeration>);
 
-        #[cfg(all(
-            feature = "PhotoKit_PHCollection",
-            feature = "PhotoKit_PHCollectionList",
-            feature = "PhotoKit_PHFetchResult"
-        ))]
-        #[method_id(@__retain_semantics Other changeRequestForCollectionList:childCollections:)]
-        pub unsafe fn changeRequestForCollectionList_childCollections(
-            collection_list: &PHCollectionList,
-            child_collections: &PHFetchResult<PHCollection>,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "PhotoKit_PHCollectionList")]
+    #[objc2::method(sel = "changeRequestForCollectionList:", managed = "Other")]
+    pub unsafe fn changeRequestForCollectionList(
+        collection_list: &PHCollectionList,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(all(feature = "PhotoKit_PHCollection", feature = "PhotoKit_PHFetchResult"))]
-        #[method_id(@__retain_semantics Other changeRequestForTopLevelCollectionListUserCollections:)]
-        pub unsafe fn changeRequestForTopLevelCollectionListUserCollections(
-            child_collections: &PHFetchResult<PHCollection>,
-        ) -> Option<Id<Self>>;
+    #[cfg(all(
+        feature = "PhotoKit_PHCollection",
+        feature = "PhotoKit_PHCollectionList",
+        feature = "PhotoKit_PHFetchResult"
+    ))]
+    #[objc2::method(
+        sel = "changeRequestForCollectionList:childCollections:",
+        managed = "Other"
+    )]
+    pub unsafe fn changeRequestForCollectionList_childCollections(
+        collection_list: &PHCollectionList,
+        child_collections: &PHFetchResult<PHCollection>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[cfg(all(feature = "PhotoKit_PHCollection", feature = "PhotoKit_PHFetchResult"))]
+    #[objc2::method(
+        sel = "changeRequestForTopLevelCollectionListUserCollections:",
+        managed = "Other"
+    )]
+    pub unsafe fn changeRequestForTopLevelCollectionListUserCollections(
+        child_collections: &PHFetchResult<PHCollection>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[method(addChildCollections:)]
-        pub unsafe fn addChildCollections(
-            &self,
-            collections: &ProtocolObject<dyn NSFastEnumeration>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(insertChildCollections:atIndexes:)]
-        pub unsafe fn insertChildCollections_atIndexes(
-            &self,
-            collections: &ProtocolObject<dyn NSFastEnumeration>,
-            indexes: &NSIndexSet,
-        );
+    #[objc2::method(sel = "addChildCollections:")]
+    pub unsafe fn addChildCollections(&self, collections: &ProtocolObject<dyn NSFastEnumeration>);
 
-        #[method(removeChildCollections:)]
-        pub unsafe fn removeChildCollections(
-            &self,
-            collections: &ProtocolObject<dyn NSFastEnumeration>,
-        );
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "insertChildCollections:atIndexes:")]
+    pub unsafe fn insertChildCollections_atIndexes(
+        &self,
+        collections: &ProtocolObject<dyn NSFastEnumeration>,
+        indexes: &NSIndexSet,
+    );
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(removeChildCollectionsAtIndexes:)]
-        pub unsafe fn removeChildCollectionsAtIndexes(&self, indexes: &NSIndexSet);
+    #[objc2::method(sel = "removeChildCollections:")]
+    pub unsafe fn removeChildCollections(
+        &self,
+        collections: &ProtocolObject<dyn NSFastEnumeration>,
+    );
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(replaceChildCollectionsAtIndexes:withChildCollections:)]
-        pub unsafe fn replaceChildCollectionsAtIndexes_withChildCollections(
-            &self,
-            indexes: &NSIndexSet,
-            collections: &ProtocolObject<dyn NSFastEnumeration>,
-        );
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "removeChildCollectionsAtIndexes:")]
+    pub unsafe fn removeChildCollectionsAtIndexes(&self, indexes: &NSIndexSet);
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(moveChildCollectionsAtIndexes:toIndex:)]
-        pub unsafe fn moveChildCollectionsAtIndexes_toIndex(
-            &self,
-            indexes: &NSIndexSet,
-            to_index: NSUInteger,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "replaceChildCollectionsAtIndexes:withChildCollections:")]
+    pub unsafe fn replaceChildCollectionsAtIndexes_withChildCollections(
+        &self,
+        indexes: &NSIndexSet,
+        collections: &ProtocolObject<dyn NSFastEnumeration>,
+    );
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "moveChildCollectionsAtIndexes:toIndex:")]
+    pub unsafe fn moveChildCollectionsAtIndexes_toIndex(
+        &self,
+        indexes: &NSIndexSet,
+        to_index: NSUInteger,
+    );
+}

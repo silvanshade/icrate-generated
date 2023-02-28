@@ -5,15 +5,20 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::UserNotifications::*;
 
-extern_methods!(
-    /// UNUserNotificationCenterSupport
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSString")]
-    unsafe impl NSString {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other localizedUserNotificationStringForKey:arguments:)]
-        pub unsafe fn localizedUserNotificationStringForKey_arguments(
-            key: &NSString,
-            arguments: Option<&NSArray>,
-        ) -> Id<NSString>;
-    }
-);
+    pub type NSString;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(
+        sel = "localizedUserNotificationStringForKey:arguments:",
+        managed = "Other"
+    )]
+    pub unsafe fn localizedUserNotificationStringForKey_arguments(
+        key: &NSString,
+        arguments: Option<&NSArray>,
+    ) -> Id<NSString>;
+}

@@ -6,71 +6,74 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKElectrocardiogramVoltageMeasurement")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKElectrocardiogramVoltageMeasurement")]
-    pub struct HKElectrocardiogramVoltageMeasurement;
-
-    #[cfg(feature = "HealthKit_HKElectrocardiogramVoltageMeasurement")]
-    unsafe impl ClassType for HKElectrocardiogramVoltageMeasurement {
-        type Super = NSObject;
-    }
-);
+    pub type HKElectrocardiogramVoltageMeasurement;
+}
 
 #[cfg(feature = "HealthKit_HKElectrocardiogramVoltageMeasurement")]
 unsafe impl NSObjectProtocol for HKElectrocardiogramVoltageMeasurement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKElectrocardiogramVoltageMeasurement")]
-    unsafe impl HKElectrocardiogramVoltageMeasurement {
-        #[method(timeSinceSampleStart)]
-        pub unsafe fn timeSinceSampleStart(&self) -> NSTimeInterval;
+    pub type HKElectrocardiogramVoltageMeasurement;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other quantityForLead:)]
-        pub unsafe fn quantityForLead(
-            &self,
-            lead: HKElectrocardiogramLead,
-        ) -> Option<Id<HKQuantity>>;
-    }
-);
+    #[objc2::method(sel = "timeSinceSampleStart")]
+    pub unsafe fn timeSinceSampleStart(&self) -> NSTimeInterval;
 
-extern_class!(
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "quantityForLead:", managed = "Other")]
+    pub unsafe fn quantityForLead(&self, lead: HKElectrocardiogramLead) -> Option<Id<HKQuantity>>;
+}
+
+#[objc2::interface(
+    unsafe super = HKQuery,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKElectrocardiogramQuery")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKElectrocardiogramQuery")]
-    pub struct HKElectrocardiogramQuery;
-
-    #[cfg(feature = "HealthKit_HKElectrocardiogramQuery")]
-    unsafe impl ClassType for HKElectrocardiogramQuery {
-        #[inherits(NSObject)]
-        type Super = HKQuery;
-    }
-);
+    pub type HKElectrocardiogramQuery;
+}
 
 #[cfg(feature = "HealthKit_HKElectrocardiogramQuery")]
 unsafe impl NSObjectProtocol for HKElectrocardiogramQuery {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKElectrocardiogramQuery")]
-    unsafe impl HKElectrocardiogramQuery {
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKElectrocardiogram",
-            feature = "HealthKit_HKElectrocardiogramVoltageMeasurement"
-        ))]
-        #[method_id(@__retain_semantics Init initWithElectrocardiogram:dataHandler:)]
-        pub unsafe fn initWithElectrocardiogram_dataHandler(
-            this: Option<Allocated<Self>>,
-            electrocardiogram: &HKElectrocardiogram,
-            data_handler: &Block<
-                (
-                    NonNull<HKElectrocardiogramQuery>,
-                    *mut HKElectrocardiogramVoltageMeasurement,
-                    Bool,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        ) -> Id<Self>;
-    }
-);
+    pub type HKElectrocardiogramQuery;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKElectrocardiogram",
+        feature = "HealthKit_HKElectrocardiogramVoltageMeasurement"
+    ))]
+    #[objc2::method(sel = "initWithElectrocardiogram:dataHandler:", managed = "Init")]
+    pub unsafe fn initWithElectrocardiogram_dataHandler(
+        this: Option<Allocated<Self>>,
+        electrocardiogram: &HKElectrocardiogram,
+        data_handler: &Block<
+            (
+                NonNull<HKElectrocardiogramQuery>,
+                *mut HKElectrocardiogramVoltageMeasurement,
+                Bool,
+                *mut NSError,
+            ),
+            (),
+        >,
+    ) -> Id<Self>;
+}

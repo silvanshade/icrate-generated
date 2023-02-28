@@ -5,30 +5,29 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CKOperationGroupTransferSize {
-        CKOperationGroupTransferSizeUnknown = 0,
-        CKOperationGroupTransferSizeKilobytes = 1,
-        CKOperationGroupTransferSizeMegabytes = 2,
-        CKOperationGroupTransferSizeTensOfMegabytes = 3,
-        CKOperationGroupTransferSizeHundredsOfMegabytes = 4,
-        CKOperationGroupTransferSizeGigabytes = 5,
-        CKOperationGroupTransferSizeTensOfGigabytes = 6,
-        CKOperationGroupTransferSizeHundredsOfGigabytes = 7,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CKOperationGroupTransferSize {
+    CKOperationGroupTransferSizeUnknown = 0,
+    CKOperationGroupTransferSizeKilobytes = 1,
+    CKOperationGroupTransferSizeMegabytes = 2,
+    CKOperationGroupTransferSizeTensOfMegabytes = 3,
+    CKOperationGroupTransferSizeHundredsOfMegabytes = 4,
+    CKOperationGroupTransferSizeGigabytes = 5,
+    CKOperationGroupTransferSizeTensOfGigabytes = 6,
+    CKOperationGroupTransferSizeHundredsOfGigabytes = 7,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKOperationGroup")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKOperationGroup")]
-    pub struct CKOperationGroup;
-
-    #[cfg(feature = "CloudKit_CKOperationGroup")]
-    unsafe impl ClassType for CKOperationGroup {
-        type Super = NSObject;
-    }
-);
+    pub type CKOperationGroup;
+}
 
 #[cfg(feature = "CloudKit_CKOperationGroup")]
 unsafe impl NSCoding for CKOperationGroup {}
@@ -39,59 +38,61 @@ unsafe impl NSObjectProtocol for CKOperationGroup {}
 #[cfg(feature = "CloudKit_CKOperationGroup")]
 unsafe impl NSSecureCoding for CKOperationGroup {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKOperationGroup")]
-    unsafe impl CKOperationGroup {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKOperationGroup;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, a_decoder: &NSCoder)
-            -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other operationGroupID)]
-        pub unsafe fn operationGroupID(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, a_decoder: &NSCoder) -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKOperationConfiguration")]
-        #[method_id(@__retain_semantics Other defaultConfiguration)]
-        pub unsafe fn defaultConfiguration(&self) -> Id<CKOperationConfiguration>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "operationGroupID", managed = "Other")]
+    pub unsafe fn operationGroupID(&self) -> Id<NSString>;
 
-        #[cfg(feature = "CloudKit_CKOperationConfiguration")]
-        #[method(setDefaultConfiguration:)]
-        pub unsafe fn setDefaultConfiguration(
-            &self,
-            default_configuration: Option<&CKOperationConfiguration>,
-        );
+    #[cfg(feature = "CloudKit_CKOperationConfiguration")]
+    #[objc2::method(sel = "defaultConfiguration", managed = "Other")]
+    pub unsafe fn defaultConfiguration(&self) -> Id<CKOperationConfiguration>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "CloudKit_CKOperationConfiguration")]
+    #[objc2::method(sel = "setDefaultConfiguration:")]
+    pub unsafe fn setDefaultConfiguration(
+        &self,
+        default_configuration: Option<&CKOperationConfiguration>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSString>>;
 
-        #[method(quantity)]
-        pub unsafe fn quantity(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
 
-        #[method(setQuantity:)]
-        pub unsafe fn setQuantity(&self, quantity: NSUInteger);
+    #[objc2::method(sel = "quantity")]
+    pub unsafe fn quantity(&self) -> NSUInteger;
 
-        #[method(expectedSendSize)]
-        pub unsafe fn expectedSendSize(&self) -> CKOperationGroupTransferSize;
+    #[objc2::method(sel = "setQuantity:")]
+    pub unsafe fn setQuantity(&self, quantity: NSUInteger);
 
-        #[method(setExpectedSendSize:)]
-        pub unsafe fn setExpectedSendSize(&self, expected_send_size: CKOperationGroupTransferSize);
+    #[objc2::method(sel = "expectedSendSize")]
+    pub unsafe fn expectedSendSize(&self) -> CKOperationGroupTransferSize;
 
-        #[method(expectedReceiveSize)]
-        pub unsafe fn expectedReceiveSize(&self) -> CKOperationGroupTransferSize;
+    #[objc2::method(sel = "setExpectedSendSize:")]
+    pub unsafe fn setExpectedSendSize(&self, expected_send_size: CKOperationGroupTransferSize);
 
-        #[method(setExpectedReceiveSize:)]
-        pub unsafe fn setExpectedReceiveSize(
-            &self,
-            expected_receive_size: CKOperationGroupTransferSize,
-        );
-    }
-);
+    #[objc2::method(sel = "expectedReceiveSize")]
+    pub unsafe fn expectedReceiveSize(&self) -> CKOperationGroupTransferSize;
+
+    #[objc2::method(sel = "setExpectedReceiveSize:")]
+    pub unsafe fn setExpectedReceiveSize(
+        &self,
+        expected_receive_size: CKOperationGroupTransferSize,
+    );
+}

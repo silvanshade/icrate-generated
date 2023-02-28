@@ -5,53 +5,62 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_methods!(
-    /// DOMNodeExtensions
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMNode")]
-    unsafe impl DOMNode {
-        #[method(boundingBox)]
-        pub unsafe fn boundingBox(&self) -> NSRect;
+    pub type DOMNode;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other lineBoxRects)]
-        pub unsafe fn lineBoxRects(&self) -> Option<Id<NSArray>>;
-    }
-);
+    #[objc2::method(sel = "boundingBox")]
+    pub unsafe fn boundingBox(&self) -> NSRect;
 
-extern_methods!(
-    /// DOMElementAppKitExtensions
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "lineBoxRects", managed = "Other")]
+    pub unsafe fn lineBoxRects(&self) -> Option<Id<NSArray>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMElement")]
-    unsafe impl DOMElement {
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Option<Id<NSImage>>;
-    }
-);
+    pub type DOMElement;
 
-extern_methods!(
-    /// DOMHTMLDocumentExtensions
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Option<Id<NSImage>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLDocument")]
-    unsafe impl DOMHTMLDocument {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL",
-            feature = "WebKit_DOMDocumentFragment"
-        ))]
-        #[method_id(@__retain_semantics Other createDocumentFragmentWithMarkupString:baseURL:)]
-        pub unsafe fn createDocumentFragmentWithMarkupString_baseURL(
-            &self,
-            markup_string: Option<&NSString>,
-            base_url: Option<&NSURL>,
-        ) -> Option<Id<DOMDocumentFragment>>;
+    pub type DOMHTMLDocument;
 
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "WebKit_DOMDocumentFragment"
-        ))]
-        #[method_id(@__retain_semantics Other createDocumentFragmentWithText:)]
-        pub unsafe fn createDocumentFragmentWithText(
-            &self,
-            text: Option<&NSString>,
-        ) -> Option<Id<DOMDocumentFragment>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL",
+        feature = "WebKit_DOMDocumentFragment"
+    ))]
+    #[objc2::method(
+        sel = "createDocumentFragmentWithMarkupString:baseURL:",
+        managed = "Other"
+    )]
+    pub unsafe fn createDocumentFragmentWithMarkupString_baseURL(
+        &self,
+        markup_string: Option<&NSString>,
+        base_url: Option<&NSURL>,
+    ) -> Option<Id<DOMDocumentFragment>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "WebKit_DOMDocumentFragment"
+    ))]
+    #[objc2::method(sel = "createDocumentFragmentWithText:", managed = "Other")]
+    pub unsafe fn createDocumentFragmentWithText(
+        &self,
+        text: Option<&NSString>,
+    ) -> Option<Id<DOMDocumentFragment>>;
+}

@@ -3,30 +3,33 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSAutoreleasePool")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSAutoreleasePool")]
-    pub struct NSAutoreleasePool;
-
-    #[cfg(feature = "Foundation_NSAutoreleasePool")]
-    unsafe impl ClassType for NSAutoreleasePool {
-        type Super = NSObject;
-    }
-);
+    pub type NSAutoreleasePool;
+}
 
 #[cfg(feature = "Foundation_NSAutoreleasePool")]
 unsafe impl NSObjectProtocol for NSAutoreleasePool {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAutoreleasePool")]
-    unsafe impl NSAutoreleasePool {
-        #[method(addObject:)]
-        pub unsafe fn addObject_class(an_object: &Object);
+    pub type NSAutoreleasePool;
 
-        #[method(addObject:)]
-        pub unsafe fn addObject(&self, an_object: &Object);
+    #[objc2::method(sel = "addObject:")]
+    pub unsafe fn addObject_class(an_object: &Object);
 
-        #[method(drain)]
-        pub unsafe fn drain(&self);
-    }
-);
+    #[objc2::method(sel = "addObject:")]
+    pub unsafe fn addObject(&self, an_object: &Object);
+
+    #[objc2::method(sel = "drain")]
+    pub unsafe fn drain(&self);
+}

@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSTouchBarItem,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSButtonTouchBarItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSButtonTouchBarItem")]
-    pub struct NSButtonTouchBarItem;
-
-    #[cfg(feature = "AppKit_NSButtonTouchBarItem")]
-    unsafe impl ClassType for NSButtonTouchBarItem {
-        #[inherits(NSObject)]
-        type Super = NSTouchBarItem;
-    }
-);
+    pub type NSButtonTouchBarItem;
+}
 
 #[cfg(feature = "AppKit_NSButtonTouchBarItem")]
 unsafe impl NSCoding for NSButtonTouchBarItem {}
@@ -23,97 +23,115 @@ unsafe impl NSCoding for NSButtonTouchBarItem {}
 #[cfg(feature = "AppKit_NSButtonTouchBarItem")]
 unsafe impl NSObjectProtocol for NSButtonTouchBarItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSButtonTouchBarItem")]
-    unsafe impl NSButtonTouchBarItem {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other buttonTouchBarItemWithIdentifier:title:target:action:)]
-        pub unsafe fn buttonTouchBarItemWithIdentifier_title_target_action(
-            identifier: &NSTouchBarItemIdentifier,
-            title: &NSString,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
+    pub type NSButtonTouchBarItem;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other buttonTouchBarItemWithIdentifier:image:target:action:)]
-        pub unsafe fn buttonTouchBarItemWithIdentifier_image_target_action(
-            identifier: &NSTouchBarItemIdentifier,
-            image: &NSImage,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "buttonTouchBarItemWithIdentifier:title:target:action:",
+        managed = "Other"
+    )]
+    pub unsafe fn buttonTouchBarItemWithIdentifier_title_target_action(
+        identifier: &NSTouchBarItemIdentifier,
+        title: &NSString,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other buttonTouchBarItemWithIdentifier:title:image:target:action:)]
-        pub unsafe fn buttonTouchBarItemWithIdentifier_title_image_target_action(
-            identifier: &NSTouchBarItemIdentifier,
-            title: &NSString,
-            image: &NSImage,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(
+        sel = "buttonTouchBarItemWithIdentifier:image:target:action:",
+        managed = "Other"
+    )]
+    pub unsafe fn buttonTouchBarItemWithIdentifier_image_target_action(
+        identifier: &NSTouchBarItemIdentifier,
+        image: &NSImage,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "buttonTouchBarItemWithIdentifier:title:image:target:action:",
+        managed = "Other"
+    )]
+    pub unsafe fn buttonTouchBarItemWithIdentifier_title_image_target_action(
+        identifier: &NSTouchBarItemIdentifier,
+        title: &NSString,
+        image: &NSImage,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setImage:)]
-        pub unsafe fn setImage(&self, image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Option<Id<NSImage>>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other bezelColor)]
-        pub unsafe fn bezelColor(&self) -> Option<Id<NSColor>>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setImage:")]
+    pub unsafe fn setImage(&self, image: Option<&NSImage>);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setBezelColor:)]
-        pub unsafe fn setBezelColor(&self, bezel_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "bezelColor", managed = "Other")]
+    pub unsafe fn bezelColor(&self) -> Option<Id<NSColor>>;
 
-        #[method_id(@__retain_semantics Other target)]
-        pub unsafe fn target(&self) -> Option<Id<Object>>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setBezelColor:")]
+    pub unsafe fn setBezelColor(&self, bezel_color: Option<&NSColor>);
 
-        #[method(setTarget:)]
-        pub unsafe fn setTarget(&self, target: Option<&Object>);
+    #[objc2::method(sel = "target", managed = "Other")]
+    pub unsafe fn target(&self) -> Option<Id<Object>>;
 
-        #[method(action)]
-        pub unsafe fn action(&self) -> Option<Sel>;
+    #[objc2::method(sel = "setTarget:")]
+    pub unsafe fn setTarget(&self, target: Option<&Object>);
 
-        #[method(setAction:)]
-        pub unsafe fn setAction(&self, action: Option<Sel>);
+    #[objc2::method(sel = "action")]
+    pub unsafe fn action(&self) -> Option<Sel>;
 
-        #[method(isEnabled)]
-        pub unsafe fn isEnabled(&self) -> bool;
+    #[objc2::method(sel = "setAction:")]
+    pub unsafe fn setAction(&self, action: Option<Sel>);
 
-        #[method(setEnabled:)]
-        pub unsafe fn setEnabled(&self, enabled: bool);
+    #[objc2::method(sel = "isEnabled")]
+    pub unsafe fn isEnabled(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other customizationLabel)]
-        pub unsafe fn customizationLabel(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setEnabled:")]
+    pub unsafe fn setEnabled(&self, enabled: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCustomizationLabel:)]
-        pub unsafe fn setCustomizationLabel(&self, customization_label: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "customizationLabel", managed = "Other")]
+    pub unsafe fn customizationLabel(&self) -> Id<NSString>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSTouchBarItem`
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCustomizationLabel:")]
+    pub unsafe fn setCustomizationLabel(&self, customization_label: Option<&NSString>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSTouchBarItem`
     #[cfg(feature = "AppKit_NSButtonTouchBarItem")]
-    unsafe impl NSButtonTouchBarItem {
-        #[method_id(@__retain_semantics Init initWithIdentifier:)]
-        pub unsafe fn initWithIdentifier(
-            this: Option<Allocated<Self>>,
-            identifier: &NSTouchBarItemIdentifier,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSButtonTouchBarItem")]
+    pub type NSButtonTouchBarItem;
+
+    #[objc2::method(sel = "initWithIdentifier:", managed = "Init")]
+    pub unsafe fn initWithIdentifier(
+        this: Option<Allocated<Self>>,
+        identifier: &NSTouchBarItemIdentifier,
+    ) -> Id<Self>;
+}

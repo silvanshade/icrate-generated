@@ -5,17 +5,19 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSControl,
+    unsafe inherits = [
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSStepper")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSStepper")]
-    pub struct NSStepper;
-
-    #[cfg(feature = "AppKit_NSStepper")]
-    unsafe impl ClassType for NSStepper {
-        #[inherits(NSView, NSResponder, NSObject)]
-        type Super = NSControl;
-    }
-);
+    pub type NSStepper;
+}
 
 #[cfg(feature = "AppKit_NSStepper")]
 unsafe impl NSAccessibility for NSStepper {}
@@ -44,46 +46,55 @@ unsafe impl NSObjectProtocol for NSStepper {}
 #[cfg(feature = "AppKit_NSStepper")]
 unsafe impl NSUserInterfaceItemIdentification for NSStepper {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSStepper")]
-    unsafe impl NSStepper {
-        #[method(minValue)]
-        pub unsafe fn minValue(&self) -> c_double;
+    pub type NSStepper;
 
-        #[method(setMinValue:)]
-        pub unsafe fn setMinValue(&self, min_value: c_double);
+    #[objc2::method(sel = "minValue")]
+    pub unsafe fn minValue(&self) -> c_double;
 
-        #[method(maxValue)]
-        pub unsafe fn maxValue(&self) -> c_double;
+    #[objc2::method(sel = "setMinValue:")]
+    pub unsafe fn setMinValue(&self, min_value: c_double);
 
-        #[method(setMaxValue:)]
-        pub unsafe fn setMaxValue(&self, max_value: c_double);
+    #[objc2::method(sel = "maxValue")]
+    pub unsafe fn maxValue(&self) -> c_double;
 
-        #[method(increment)]
-        pub unsafe fn increment(&self) -> c_double;
+    #[objc2::method(sel = "setMaxValue:")]
+    pub unsafe fn setMaxValue(&self, max_value: c_double);
 
-        #[method(setIncrement:)]
-        pub unsafe fn setIncrement(&self, increment: c_double);
+    #[objc2::method(sel = "increment")]
+    pub unsafe fn increment(&self) -> c_double;
 
-        #[method(valueWraps)]
-        pub unsafe fn valueWraps(&self) -> bool;
+    #[objc2::method(sel = "setIncrement:")]
+    pub unsafe fn setIncrement(&self, increment: c_double);
 
-        #[method(setValueWraps:)]
-        pub unsafe fn setValueWraps(&self, value_wraps: bool);
+    #[objc2::method(sel = "valueWraps")]
+    pub unsafe fn valueWraps(&self) -> bool;
 
-        #[method(autorepeat)]
-        pub unsafe fn autorepeat(&self) -> bool;
+    #[objc2::method(sel = "setValueWraps:")]
+    pub unsafe fn setValueWraps(&self, value_wraps: bool);
 
-        #[method(setAutorepeat:)]
-        pub unsafe fn setAutorepeat(&self, autorepeat: bool);
-    }
-);
+    #[objc2::method(sel = "autorepeat")]
+    pub unsafe fn autorepeat(&self) -> bool;
 
-extern_methods!(
-    /// Methods declared on superclass `NSControl`
+    #[objc2::method(sel = "setAutorepeat:")]
+    pub unsafe fn setAutorepeat(&self, autorepeat: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSControl`
     #[cfg(feature = "AppKit_NSStepper")]
-    unsafe impl NSStepper {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSStepper")]
+    pub type NSStepper;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

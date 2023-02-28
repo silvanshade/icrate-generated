@@ -5,113 +5,126 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSToolbarItemGroupSelectionMode {
-        NSToolbarItemGroupSelectionModeSelectOne = 0,
-        NSToolbarItemGroupSelectionModeSelectAny = 1,
-        NSToolbarItemGroupSelectionModeMomentary = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSToolbarItemGroupSelectionMode {
+    NSToolbarItemGroupSelectionModeSelectOne = 0,
+    NSToolbarItemGroupSelectionModeSelectAny = 1,
+    NSToolbarItemGroupSelectionModeMomentary = 2,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSToolbarItemGroupControlRepresentation {
-        NSToolbarItemGroupControlRepresentationAutomatic = 0,
-        NSToolbarItemGroupControlRepresentationExpanded = 1,
-        NSToolbarItemGroupControlRepresentationCollapsed = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSToolbarItemGroupControlRepresentation {
+    NSToolbarItemGroupControlRepresentationAutomatic = 0,
+    NSToolbarItemGroupControlRepresentationExpanded = 1,
+    NSToolbarItemGroupControlRepresentationCollapsed = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSToolbarItem,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSToolbarItemGroup")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSToolbarItemGroup")]
-    pub struct NSToolbarItemGroup;
-
-    #[cfg(feature = "AppKit_NSToolbarItemGroup")]
-    unsafe impl ClassType for NSToolbarItemGroup {
-        #[inherits(NSObject)]
-        type Super = NSToolbarItem;
-    }
-);
+    pub type NSToolbarItemGroup;
+}
 
 #[cfg(feature = "AppKit_NSToolbarItemGroup")]
 unsafe impl NSObjectProtocol for NSToolbarItemGroup {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSToolbarItemGroup")]
-    unsafe impl NSToolbarItemGroup {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other groupWithItemIdentifier:titles:selectionMode:labels:target:action:)]
-        pub unsafe fn groupWithItemIdentifier_titles_selectionMode_labels_target_action(
-            item_identifier: &NSToolbarItemIdentifier,
-            titles: &NSArray<NSString>,
-            selection_mode: NSToolbarItemGroupSelectionMode,
-            labels: Option<&NSArray<NSString>>,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
+    pub type NSToolbarItemGroup;
 
-        #[cfg(all(
-            feature = "AppKit_NSImage",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other groupWithItemIdentifier:images:selectionMode:labels:target:action:)]
-        pub unsafe fn groupWithItemIdentifier_images_selectionMode_labels_target_action(
-            item_identifier: &NSToolbarItemIdentifier,
-            images: &NSArray<NSImage>,
-            selection_mode: NSToolbarItemGroupSelectionMode,
-            labels: Option<&NSArray<NSString>>,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "groupWithItemIdentifier:titles:selectionMode:labels:target:action:",
+        managed = "Other"
+    )]
+    pub unsafe fn groupWithItemIdentifier_titles_selectionMode_labels_target_action(
+        item_identifier: &NSToolbarItemIdentifier,
+        titles: &NSArray<NSString>,
+        selection_mode: NSToolbarItemGroupSelectionMode,
+        labels: Option<&NSArray<NSString>>,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other subitems)]
-        pub unsafe fn subitems(&self) -> Id<NSArray<NSToolbarItem>>;
+    #[cfg(all(
+        feature = "AppKit_NSImage",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "groupWithItemIdentifier:images:selectionMode:labels:target:action:",
+        managed = "Other"
+    )]
+    pub unsafe fn groupWithItemIdentifier_images_selectionMode_labels_target_action(
+        item_identifier: &NSToolbarItemIdentifier,
+        images: &NSArray<NSImage>,
+        selection_mode: NSToolbarItemGroupSelectionMode,
+        labels: Option<&NSArray<NSString>>,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setSubitems:)]
-        pub unsafe fn setSubitems(&self, subitems: &NSArray<NSToolbarItem>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "subitems", managed = "Other")]
+    pub unsafe fn subitems(&self) -> Id<NSArray<NSToolbarItem>>;
 
-        #[method(controlRepresentation)]
-        pub unsafe fn controlRepresentation(&self) -> NSToolbarItemGroupControlRepresentation;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setSubitems:")]
+    pub unsafe fn setSubitems(&self, subitems: &NSArray<NSToolbarItem>);
 
-        #[method(setControlRepresentation:)]
-        pub unsafe fn setControlRepresentation(
-            &self,
-            control_representation: NSToolbarItemGroupControlRepresentation,
-        );
+    #[objc2::method(sel = "controlRepresentation")]
+    pub unsafe fn controlRepresentation(&self) -> NSToolbarItemGroupControlRepresentation;
 
-        #[method(selectionMode)]
-        pub unsafe fn selectionMode(&self) -> NSToolbarItemGroupSelectionMode;
+    #[objc2::method(sel = "setControlRepresentation:")]
+    pub unsafe fn setControlRepresentation(
+        &self,
+        control_representation: NSToolbarItemGroupControlRepresentation,
+    );
 
-        #[method(setSelectionMode:)]
-        pub unsafe fn setSelectionMode(&self, selection_mode: NSToolbarItemGroupSelectionMode);
+    #[objc2::method(sel = "selectionMode")]
+    pub unsafe fn selectionMode(&self) -> NSToolbarItemGroupSelectionMode;
 
-        #[method(selectedIndex)]
-        pub unsafe fn selectedIndex(&self) -> NSInteger;
+    #[objc2::method(sel = "setSelectionMode:")]
+    pub unsafe fn setSelectionMode(&self, selection_mode: NSToolbarItemGroupSelectionMode);
 
-        #[method(setSelectedIndex:)]
-        pub unsafe fn setSelectedIndex(&self, selected_index: NSInteger);
+    #[objc2::method(sel = "selectedIndex")]
+    pub unsafe fn selectedIndex(&self) -> NSInteger;
 
-        #[method(setSelected:atIndex:)]
-        pub unsafe fn setSelected_atIndex(&self, selected: bool, index: NSInteger);
+    #[objc2::method(sel = "setSelectedIndex:")]
+    pub unsafe fn setSelectedIndex(&self, selected_index: NSInteger);
 
-        #[method(isSelectedAtIndex:)]
-        pub unsafe fn isSelectedAtIndex(&self, index: NSInteger) -> bool;
-    }
-);
+    #[objc2::method(sel = "setSelected:atIndex:")]
+    pub unsafe fn setSelected_atIndex(&self, selected: bool, index: NSInteger);
 
-extern_methods!(
-    /// Methods declared on superclass `NSToolbarItem`
+    #[objc2::method(sel = "isSelectedAtIndex:")]
+    pub unsafe fn isSelectedAtIndex(&self, index: NSInteger) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSToolbarItem`
     #[cfg(feature = "AppKit_NSToolbarItemGroup")]
-    unsafe impl NSToolbarItemGroup {
-        #[method_id(@__retain_semantics Init initWithItemIdentifier:)]
-        pub unsafe fn initWithItemIdentifier(
-            this: Option<Allocated<Self>>,
-            item_identifier: &NSToolbarItemIdentifier,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSToolbarItemGroup")]
+    pub type NSToolbarItemGroup;
+
+    #[objc2::method(sel = "initWithItemIdentifier:", managed = "Init")]
+    pub unsafe fn initWithItemIdentifier(
+        this: Option<Allocated<Self>>,
+        item_identifier: &NSToolbarItemIdentifier,
+    ) -> Id<Self>;
+}

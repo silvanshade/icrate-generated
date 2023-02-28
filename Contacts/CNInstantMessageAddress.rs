@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Contacts::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Contacts_CNInstantMessageAddress")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Contacts_CNInstantMessageAddress")]
-    pub struct CNInstantMessageAddress;
-
-    #[cfg(feature = "Contacts_CNInstantMessageAddress")]
-    unsafe impl ClassType for CNInstantMessageAddress {
-        type Super = NSObject;
-    }
-);
+    pub type CNInstantMessageAddress;
+}
 
 #[cfg(feature = "Contacts_CNInstantMessageAddress")]
 unsafe impl NSCoding for CNInstantMessageAddress {}
@@ -24,34 +24,37 @@ unsafe impl NSObjectProtocol for CNInstantMessageAddress {}
 #[cfg(feature = "Contacts_CNInstantMessageAddress")]
 unsafe impl NSSecureCoding for CNInstantMessageAddress {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Contacts_CNInstantMessageAddress")]
-    unsafe impl CNInstantMessageAddress {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other username)]
-        pub unsafe fn username(&self) -> Id<NSString>;
+    pub type CNInstantMessageAddress;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other service)]
-        pub unsafe fn service(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "username", managed = "Other")]
+    pub unsafe fn username(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithUsername:service:)]
-        pub unsafe fn initWithUsername_service(
-            this: Option<Allocated<Self>>,
-            username: &NSString,
-            service: &NSString,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "service", managed = "Other")]
+    pub unsafe fn service(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedStringForKey:)]
-        pub unsafe fn localizedStringForKey(key: &NSString) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithUsername:service:", managed = "Init")]
+    pub unsafe fn initWithUsername_service(
+        this: Option<Allocated<Self>>,
+        username: &NSString,
+        service: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedStringForService:)]
-        pub unsafe fn localizedStringForService(service: &NSString) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedStringForKey:", managed = "Other")]
+    pub unsafe fn localizedStringForKey(key: &NSString) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedStringForService:", managed = "Other")]
+    pub unsafe fn localizedStringForService(service: &NSString) -> Id<NSString>;
+}
 
 extern_static!(CNInstantMessageAddressUsernameKey: &'static NSString);
 

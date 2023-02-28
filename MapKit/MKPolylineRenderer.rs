@@ -7,57 +7,67 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKOverlayPathRenderer,
+    unsafe inherits = [
+        MKOverlayRenderer,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKPolylineRenderer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKPolylineRenderer")]
-    pub struct MKPolylineRenderer;
-
-    #[cfg(feature = "MapKit_MKPolylineRenderer")]
-    unsafe impl ClassType for MKPolylineRenderer {
-        #[inherits(MKOverlayRenderer, NSObject)]
-        type Super = MKOverlayPathRenderer;
-    }
-);
+    pub type MKPolylineRenderer;
+}
 
 #[cfg(feature = "MapKit_MKPolylineRenderer")]
 unsafe impl NSObjectProtocol for MKPolylineRenderer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKPolylineRenderer")]
-    unsafe impl MKPolylineRenderer {
-        #[cfg(feature = "MapKit_MKPolyline")]
-        #[method_id(@__retain_semantics Init initWithPolyline:)]
-        pub unsafe fn initWithPolyline(
-            this: Option<Allocated<Self>>,
-            polyline: &MKPolyline,
-        ) -> Id<Self>;
+    pub type MKPolylineRenderer;
 
-        #[cfg(feature = "MapKit_MKPolyline")]
-        #[method_id(@__retain_semantics Other polyline)]
-        pub unsafe fn polyline(&self) -> Id<MKPolyline>;
+    #[cfg(feature = "MapKit_MKPolyline")]
+    #[objc2::method(sel = "initWithPolyline:", managed = "Init")]
+    pub unsafe fn initWithPolyline(
+        this: Option<Allocated<Self>>,
+        polyline: &MKPolyline,
+    ) -> Id<Self>;
 
-        #[method(strokeStart)]
-        pub unsafe fn strokeStart(&self) -> CGFloat;
+    #[cfg(feature = "MapKit_MKPolyline")]
+    #[objc2::method(sel = "polyline", managed = "Other")]
+    pub unsafe fn polyline(&self) -> Id<MKPolyline>;
 
-        #[method(setStrokeStart:)]
-        pub unsafe fn setStrokeStart(&self, stroke_start: CGFloat);
+    #[objc2::method(sel = "strokeStart")]
+    pub unsafe fn strokeStart(&self) -> CGFloat;
 
-        #[method(strokeEnd)]
-        pub unsafe fn strokeEnd(&self) -> CGFloat;
+    #[objc2::method(sel = "setStrokeStart:")]
+    pub unsafe fn setStrokeStart(&self, stroke_start: CGFloat);
 
-        #[method(setStrokeEnd:)]
-        pub unsafe fn setStrokeEnd(&self, stroke_end: CGFloat);
-    }
-);
+    #[objc2::method(sel = "strokeEnd")]
+    pub unsafe fn strokeEnd(&self) -> CGFloat;
 
-extern_methods!(
-    /// Methods declared on superclass `MKOverlayRenderer`
+    #[objc2::method(sel = "setStrokeEnd:")]
+    pub unsafe fn setStrokeEnd(&self, stroke_end: CGFloat);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `MKOverlayRenderer`
     #[cfg(feature = "MapKit_MKPolylineRenderer")]
-    unsafe impl MKPolylineRenderer {
-        #[method_id(@__retain_semantics Init initWithOverlay:)]
-        pub unsafe fn initWithOverlay(
-            this: Option<Allocated<Self>>,
-            overlay: &ProtocolObject<dyn MKOverlay>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKPolylineRenderer")]
+    pub type MKPolylineRenderer;
+
+    #[objc2::method(sel = "initWithOverlay:", managed = "Init")]
+    pub unsafe fn initWithOverlay(
+        this: Option<Allocated<Self>>,
+        overlay: &ProtocolObject<dyn MKOverlay>,
+    ) -> Id<Self>;
+}

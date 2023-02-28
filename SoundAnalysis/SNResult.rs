@@ -4,34 +4,26 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::SoundAnalysis::*;
 
-extern_protocol!(
-    pub unsafe trait SNResult: NSObjectProtocol {}
+#[objc2::protocol]
+pub unsafe trait SNResult: NSObjectProtocol {}
 
-    unsafe impl ProtocolType for dyn SNResult {}
-);
+#[objc2::protocol]
+pub unsafe trait SNResultsObserving: NSObjectProtocol {
+    #[objc2::method(sel = "request:didProduceResult:")]
+    unsafe fn request_didProduceResult(
+        &self,
+        request: &ProtocolObject<dyn SNRequest>,
+        result: &ProtocolObject<dyn SNResult>,
+    );
 
-extern_protocol!(
-    pub unsafe trait SNResultsObserving: NSObjectProtocol {
-        #[method(request:didProduceResult:)]
-        unsafe fn request_didProduceResult(
-            &self,
-            request: &ProtocolObject<dyn SNRequest>,
-            result: &ProtocolObject<dyn SNResult>,
-        );
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(optional, sel = "request:didFailWithError:")]
+    unsafe fn request_didFailWithError(
+        &self,
+        request: &ProtocolObject<dyn SNRequest>,
+        error: &NSError,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[optional]
-        #[method(request:didFailWithError:)]
-        unsafe fn request_didFailWithError(
-            &self,
-            request: &ProtocolObject<dyn SNRequest>,
-            error: &NSError,
-        );
-
-        #[optional]
-        #[method(requestDidComplete:)]
-        unsafe fn requestDidComplete(&self, request: &ProtocolObject<dyn SNRequest>);
-    }
-
-    unsafe impl ProtocolType for dyn SNResultsObserving {}
-);
+    #[objc2::method(optional, sel = "requestDidComplete:")]
+    unsafe fn requestDidComplete(&self, request: &ProtocolObject<dyn SNRequest>);
+}

@@ -4,28 +4,27 @@ use crate::common::*;
 use crate::ClassKit::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CLSProgressReportingCapabilityKind {
-        CLSProgressReportingCapabilityKindDuration = 0,
-        CLSProgressReportingCapabilityKindPercent = 1,
-        CLSProgressReportingCapabilityKindBinary = 2,
-        CLSProgressReportingCapabilityKindQuantity = 3,
-        CLSProgressReportingCapabilityKindScore = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CLSProgressReportingCapabilityKind {
+    CLSProgressReportingCapabilityKindDuration = 0,
+    CLSProgressReportingCapabilityKindPercent = 1,
+    CLSProgressReportingCapabilityKindBinary = 2,
+    CLSProgressReportingCapabilityKindQuantity = 3,
+    CLSProgressReportingCapabilityKindScore = 4,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CLSObject,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "ClassKit_CLSProgressReportingCapability")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "ClassKit_CLSProgressReportingCapability")]
-    pub struct CLSProgressReportingCapability;
-
-    #[cfg(feature = "ClassKit_CLSProgressReportingCapability")]
-    unsafe impl ClassType for CLSProgressReportingCapability {
-        #[inherits(NSObject)]
-        type Super = CLSObject;
-    }
-);
+    pub type CLSProgressReportingCapability;
+}
 
 #[cfg(feature = "ClassKit_CLSProgressReportingCapability")]
 unsafe impl NSCoding for CLSProgressReportingCapability {}
@@ -36,22 +35,25 @@ unsafe impl NSObjectProtocol for CLSProgressReportingCapability {}
 #[cfg(feature = "ClassKit_CLSProgressReportingCapability")]
 unsafe impl NSSecureCoding for CLSProgressReportingCapability {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ClassKit_CLSProgressReportingCapability")]
-    unsafe impl CLSProgressReportingCapability {
-        #[method(kind)]
-        pub unsafe fn kind(&self) -> CLSProgressReportingCapabilityKind;
+    pub type CLSProgressReportingCapability;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other details)]
-        pub unsafe fn details(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "kind")]
+    pub unsafe fn kind(&self) -> CLSProgressReportingCapabilityKind;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithKind:details:)]
-        pub unsafe fn initWithKind_details(
-            this: Option<Allocated<Self>>,
-            kind: CLSProgressReportingCapabilityKind,
-            details: Option<&NSString>,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "details", managed = "Other")]
+    pub unsafe fn details(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithKind:details:", managed = "Init")]
+    pub unsafe fn initWithKind_details(
+        this: Option<Allocated<Self>>,
+        kind: CLSProgressReportingCapabilityKind,
+        details: Option<&NSString>,
+    ) -> Id<Self>;
+}

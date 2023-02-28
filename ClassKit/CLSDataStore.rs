@@ -4,129 +4,128 @@ use crate::common::*;
 use crate::ClassKit::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait CLSDataStoreDelegate: NSObjectProtocol {
-        #[cfg(all(
-            feature = "ClassKit_CLSContext",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other createContextForIdentifier:parentContext:parentIdentifierPath:)]
-        unsafe fn createContextForIdentifier_parentContext_parentIdentifierPath(
-            &self,
-            identifier: &NSString,
-            parent_context: &CLSContext,
-            parent_identifier_path: &NSArray<NSString>,
-        ) -> Option<Id<CLSContext>>;
-    }
+#[objc2::protocol]
+pub unsafe trait CLSDataStoreDelegate: NSObjectProtocol {
+    #[cfg(all(
+        feature = "ClassKit_CLSContext",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "createContextForIdentifier:parentContext:parentIdentifierPath:",
+        managed = "Other"
+    )]
+    unsafe fn createContextForIdentifier_parentContext_parentIdentifierPath(
+        &self,
+        identifier: &NSString,
+        parent_context: &CLSContext,
+        parent_identifier_path: &NSArray<NSString>,
+    ) -> Option<Id<CLSContext>>;
+}
 
-    unsafe impl ProtocolType for dyn CLSDataStoreDelegate {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "ClassKit_CLSDataStore")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "ClassKit_CLSDataStore")]
-    pub struct CLSDataStore;
-
-    #[cfg(feature = "ClassKit_CLSDataStore")]
-    unsafe impl ClassType for CLSDataStore {
-        type Super = NSObject;
-    }
-);
+    pub type CLSDataStore;
+}
 
 #[cfg(feature = "ClassKit_CLSDataStore")]
 unsafe impl NSObjectProtocol for CLSDataStore {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ClassKit_CLSDataStore")]
-    unsafe impl CLSDataStore {
-        #[method_id(@__retain_semantics Other shared)]
-        pub unsafe fn shared() -> Id<CLSDataStore>;
+    pub type CLSDataStore;
 
-        #[cfg(feature = "ClassKit_CLSContext")]
-        #[method_id(@__retain_semantics Other mainAppContext)]
-        pub unsafe fn mainAppContext(&self) -> Id<CLSContext>;
+    #[objc2::method(sel = "shared", managed = "Other")]
+    pub unsafe fn shared() -> Id<CLSDataStore>;
 
-        #[cfg(feature = "ClassKit_CLSContext")]
-        #[method_id(@__retain_semantics Other activeContext)]
-        pub unsafe fn activeContext(&self) -> Option<Id<CLSContext>>;
+    #[cfg(feature = "ClassKit_CLSContext")]
+    #[objc2::method(sel = "mainAppContext", managed = "Other")]
+    pub unsafe fn mainAppContext(&self) -> Id<CLSContext>;
 
-        #[cfg(feature = "ClassKit_CLSActivity")]
-        #[method_id(@__retain_semantics Other runningActivity)]
-        pub unsafe fn runningActivity(&self) -> Option<Id<CLSActivity>>;
+    #[cfg(feature = "ClassKit_CLSContext")]
+    #[objc2::method(sel = "activeContext", managed = "Other")]
+    pub unsafe fn activeContext(&self) -> Option<Id<CLSContext>>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn CLSDataStoreDelegate>>>;
+    #[cfg(feature = "ClassKit_CLSActivity")]
+    #[objc2::method(sel = "runningActivity", managed = "Other")]
+    pub unsafe fn runningActivity(&self) -> Option<Id<CLSActivity>>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn CLSDataStoreDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn CLSDataStoreDelegate>>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn CLSDataStoreDelegate>>);
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(saveWithCompletion:)]
-        pub unsafe fn saveWithCompletion(&self, completion: Option<&Block<(*mut NSError,), ()>>);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method(completeAllAssignedActivitiesMatching:)]
-        pub unsafe fn completeAllAssignedActivitiesMatching(
-            &self,
-            context_path: &NSArray<NSString>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "saveWithCompletion:")]
+    pub unsafe fn saveWithCompletion(&self, completion: Option<&Block<(*mut NSError,), ()>>);
 
-extern_methods!(
-    /// Contexts
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "completeAllAssignedActivitiesMatching:")]
+    pub unsafe fn completeAllAssignedActivitiesMatching(&self, context_path: &NSArray<NSString>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ClassKit_CLSDataStore")]
-    unsafe impl CLSDataStore {
-        #[cfg(all(
-            feature = "ClassKit_CLSContext",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSPredicate"
-        ))]
-        #[method(contextsMatchingPredicate:completion:)]
-        pub unsafe fn contextsMatchingPredicate_completion(
-            &self,
-            predicate: &NSPredicate,
-            completion: &Block<(NonNull<NSArray<CLSContext>>, *mut NSError), ()>,
-        );
+    pub type CLSDataStore;
 
-        #[cfg(all(
-            feature = "ClassKit_CLSContext",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(contextsMatchingIdentifierPath:completion:)]
-        pub unsafe fn contextsMatchingIdentifierPath_completion(
-            &self,
-            identifier_path: &NSArray<NSString>,
-            completion: &Block<(NonNull<NSArray<CLSContext>>, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "ClassKit_CLSContext",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSPredicate"
+    ))]
+    #[objc2::method(sel = "contextsMatchingPredicate:completion:")]
+    pub unsafe fn contextsMatchingPredicate_completion(
+        &self,
+        predicate: &NSPredicate,
+        completion: &Block<(NonNull<NSArray<CLSContext>>, *mut NSError), ()>,
+    );
 
-        #[cfg(feature = "ClassKit_CLSContext")]
-        #[method(removeContext:)]
-        pub unsafe fn removeContext(&self, context: &CLSContext);
+    #[cfg(all(
+        feature = "ClassKit_CLSContext",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "contextsMatchingIdentifierPath:completion:")]
+    pub unsafe fn contextsMatchingIdentifierPath_completion(
+        &self,
+        identifier_path: &NSArray<NSString>,
+        completion: &Block<(NonNull<NSArray<CLSContext>>, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "ClassKit_CLSActivity",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(fetchActivityForURL:completion:)]
-        pub unsafe fn fetchActivityForURL_completion(
-            &self,
-            url: &NSURL,
-            completion: &Block<(*mut CLSActivity, *mut NSError), ()>,
-        );
-    }
-);
+    #[cfg(feature = "ClassKit_CLSContext")]
+    #[objc2::method(sel = "removeContext:")]
+    pub unsafe fn removeContext(&self, context: &CLSContext);
+
+    #[cfg(all(
+        feature = "ClassKit_CLSActivity",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "fetchActivityForURL:completion:")]
+    pub unsafe fn fetchActivityForURL_completion(
+        &self,
+        url: &NSURL,
+        completion: &Block<(*mut CLSActivity, *mut NSError), ()>,
+    );
+}

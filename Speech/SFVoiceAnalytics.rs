@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Speech::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Speech_SFAcousticFeature")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Speech_SFAcousticFeature")]
-    pub struct SFAcousticFeature;
-
-    #[cfg(feature = "Speech_SFAcousticFeature")]
-    unsafe impl ClassType for SFAcousticFeature {
-        type Super = NSObject;
-    }
-);
+    pub type SFAcousticFeature;
+}
 
 #[cfg(feature = "Speech_SFAcousticFeature")]
 unsafe impl NSCoding for SFAcousticFeature {}
@@ -24,28 +24,31 @@ unsafe impl NSObjectProtocol for SFAcousticFeature {}
 #[cfg(feature = "Speech_SFAcousticFeature")]
 unsafe impl NSSecureCoding for SFAcousticFeature {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Speech_SFAcousticFeature")]
-    unsafe impl SFAcousticFeature {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other acousticFeatureValuePerFrame)]
-        pub unsafe fn acousticFeatureValuePerFrame(&self) -> Id<NSArray<NSNumber>>;
+    pub type SFAcousticFeature;
 
-        #[method(frameDuration)]
-        pub unsafe fn frameDuration(&self) -> NSTimeInterval;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "acousticFeatureValuePerFrame", managed = "Other")]
+    pub unsafe fn acousticFeatureValuePerFrame(&self) -> Id<NSArray<NSNumber>>;
 
-extern_class!(
+    #[objc2::method(sel = "frameDuration")]
+    pub unsafe fn frameDuration(&self) -> NSTimeInterval;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Speech_SFVoiceAnalytics")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Speech_SFVoiceAnalytics")]
-    pub struct SFVoiceAnalytics;
-
-    #[cfg(feature = "Speech_SFVoiceAnalytics")]
-    unsafe impl ClassType for SFVoiceAnalytics {
-        type Super = NSObject;
-    }
-);
+    pub type SFVoiceAnalytics;
+}
 
 #[cfg(feature = "Speech_SFVoiceAnalytics")]
 unsafe impl NSCoding for SFVoiceAnalytics {}
@@ -56,23 +59,26 @@ unsafe impl NSObjectProtocol for SFVoiceAnalytics {}
 #[cfg(feature = "Speech_SFVoiceAnalytics")]
 unsafe impl NSSecureCoding for SFVoiceAnalytics {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Speech_SFVoiceAnalytics")]
-    unsafe impl SFVoiceAnalytics {
-        #[cfg(feature = "Speech_SFAcousticFeature")]
-        #[method_id(@__retain_semantics Other jitter)]
-        pub unsafe fn jitter(&self) -> Id<SFAcousticFeature>;
+    pub type SFVoiceAnalytics;
 
-        #[cfg(feature = "Speech_SFAcousticFeature")]
-        #[method_id(@__retain_semantics Other shimmer)]
-        pub unsafe fn shimmer(&self) -> Id<SFAcousticFeature>;
+    #[cfg(feature = "Speech_SFAcousticFeature")]
+    #[objc2::method(sel = "jitter", managed = "Other")]
+    pub unsafe fn jitter(&self) -> Id<SFAcousticFeature>;
 
-        #[cfg(feature = "Speech_SFAcousticFeature")]
-        #[method_id(@__retain_semantics Other pitch)]
-        pub unsafe fn pitch(&self) -> Id<SFAcousticFeature>;
+    #[cfg(feature = "Speech_SFAcousticFeature")]
+    #[objc2::method(sel = "shimmer", managed = "Other")]
+    pub unsafe fn shimmer(&self) -> Id<SFAcousticFeature>;
 
-        #[cfg(feature = "Speech_SFAcousticFeature")]
-        #[method_id(@__retain_semantics Other voicing)]
-        pub unsafe fn voicing(&self) -> Id<SFAcousticFeature>;
-    }
-);
+    #[cfg(feature = "Speech_SFAcousticFeature")]
+    #[objc2::method(sel = "pitch", managed = "Other")]
+    pub unsafe fn pitch(&self) -> Id<SFAcousticFeature>;
+
+    #[cfg(feature = "Speech_SFAcousticFeature")]
+    #[objc2::method(sel = "voicing", managed = "Other")]
+    pub unsafe fn voicing(&self) -> Id<SFAcousticFeature>;
+}

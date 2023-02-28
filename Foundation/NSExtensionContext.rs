@@ -3,48 +3,51 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSExtensionContext")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSExtensionContext")]
-    pub struct NSExtensionContext;
-
-    #[cfg(feature = "Foundation_NSExtensionContext")]
-    unsafe impl ClassType for NSExtensionContext {
-        type Super = NSObject;
-    }
-);
+    pub type NSExtensionContext;
+}
 
 #[cfg(feature = "Foundation_NSExtensionContext")]
 unsafe impl NSObjectProtocol for NSExtensionContext {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSExtensionContext")]
-    unsafe impl NSExtensionContext {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other inputItems)]
-        pub unsafe fn inputItems(&self) -> Id<NSArray>;
+    pub type NSExtensionContext;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(completeRequestReturningItems:completionHandler:)]
-        pub unsafe fn completeRequestReturningItems_completionHandler(
-            &self,
-            items: Option<&NSArray>,
-            completion_handler: Option<&Block<(Bool,), ()>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "inputItems", managed = "Other")]
+    pub unsafe fn inputItems(&self) -> Id<NSArray>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(cancelRequestWithError:)]
-        pub unsafe fn cancelRequestWithError(&self, error: &NSError);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "completeRequestReturningItems:completionHandler:")]
+    pub unsafe fn completeRequestReturningItems_completionHandler(
+        &self,
+        items: Option<&NSArray>,
+        completion_handler: Option<&Block<(Bool,), ()>>,
+    );
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(openURL:completionHandler:)]
-        pub unsafe fn openURL_completionHandler(
-            &self,
-            url: &NSURL,
-            completion_handler: Option<&Block<(Bool,), ()>>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "cancelRequestWithError:")]
+    pub unsafe fn cancelRequestWithError(&self, error: &NSError);
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "openURL:completionHandler:")]
+    pub unsafe fn openURL_completionHandler(
+        &self,
+        url: &NSURL,
+        completion_handler: Option<&Block<(Bool,), ()>>,
+    );
+}
 
 extern_static!(NSExtensionItemsAndErrorsKey: Option<&'static NSString>);
 

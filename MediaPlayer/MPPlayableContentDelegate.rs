@@ -5,65 +5,67 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-extern_protocol!(
+#[objc2::protocol]
+#[deprecated = "Use CarPlay framework"]
+pub unsafe trait MPPlayableContentDelegate: NSObjectProtocol {
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSIndexPath",
+        feature = "MediaPlayer_MPPlayableContentManager"
+    ))]
     #[deprecated = "Use CarPlay framework"]
-    pub unsafe trait MPPlayableContentDelegate: NSObjectProtocol {
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSIndexPath",
-            feature = "MediaPlayer_MPPlayableContentManager"
-        ))]
-        #[deprecated = "Use CarPlay framework"]
-        #[optional]
-        #[method(playableContentManager:initiatePlaybackOfContentItemAtIndexPath:completionHandler:)]
-        unsafe fn playableContentManager_initiatePlaybackOfContentItemAtIndexPath_completionHandler(
-            &self,
-            content_manager: &MPPlayableContentManager,
-            index_path: &NSIndexPath,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
+    #[objc2::method(
+        optional,
+        sel = "playableContentManager:initiatePlaybackOfContentItemAtIndexPath:completionHandler:"
+    )]
+    unsafe fn playableContentManager_initiatePlaybackOfContentItemAtIndexPath_completionHandler(
+        &self,
+        content_manager: &MPPlayableContentManager,
+        index_path: &NSIndexPath,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "MediaPlayer_MPPlayableContentManager"
-        ))]
-        #[deprecated = "Use Intents framework for initiating playback queues."]
-        #[optional]
-        #[method(playableContentManager:initializePlaybackQueueWithCompletionHandler:)]
-        unsafe fn playableContentManager_initializePlaybackQueueWithCompletionHandler(
-            &self,
-            content_manager: &MPPlayableContentManager,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "MediaPlayer_MPPlayableContentManager"
+    ))]
+    #[deprecated = "Use Intents framework for initiating playback queues."]
+    #[objc2::method(
+        optional,
+        sel = "playableContentManager:initializePlaybackQueueWithCompletionHandler:"
+    )]
+    unsafe fn playableContentManager_initializePlaybackQueueWithCompletionHandler(
+        &self,
+        content_manager: &MPPlayableContentManager,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "MediaPlayer_MPPlayableContentManager"
-        ))]
-        #[deprecated = "Use Intents framework for initiating playback queues."]
-        #[optional]
-        #[method(playableContentManager:initializePlaybackQueueWithContentItems:completionHandler:)]
-        unsafe fn playableContentManager_initializePlaybackQueueWithContentItems_completionHandler(
-            &self,
-            content_manager: &MPPlayableContentManager,
-            content_items: Option<&NSArray>,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "MediaPlayer_MPPlayableContentManager"
+    ))]
+    #[deprecated = "Use Intents framework for initiating playback queues."]
+    #[objc2::method(
+        optional,
+        sel = "playableContentManager:initializePlaybackQueueWithContentItems:completionHandler:"
+    )]
+    unsafe fn playableContentManager_initializePlaybackQueueWithContentItems_completionHandler(
+        &self,
+        content_manager: &MPPlayableContentManager,
+        content_items: Option<&NSArray>,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
 
-        #[cfg(all(
-            feature = "MediaPlayer_MPPlayableContentManager",
-            feature = "MediaPlayer_MPPlayableContentManagerContext"
-        ))]
-        #[deprecated = "Use CarPlay framework"]
-        #[optional]
-        #[method(playableContentManager:didUpdateContext:)]
-        unsafe fn playableContentManager_didUpdateContext(
-            &self,
-            content_manager: &MPPlayableContentManager,
-            context: &MPPlayableContentManagerContext,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn MPPlayableContentDelegate {}
-);
+    #[cfg(all(
+        feature = "MediaPlayer_MPPlayableContentManager",
+        feature = "MediaPlayer_MPPlayableContentManagerContext"
+    ))]
+    #[deprecated = "Use CarPlay framework"]
+    #[objc2::method(optional, sel = "playableContentManager:didUpdateContext:")]
+    unsafe fn playableContentManager_didUpdateContext(
+        &self,
+        content_manager: &MPPlayableContentManager,
+        context: &MPPlayableContentManagerContext,
+    );
+}

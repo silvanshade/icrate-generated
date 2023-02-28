@@ -9,16 +9,16 @@ pub type CLHeadingComponentValue = c_double;
 
 extern_static!(kCLHeadingFilterNone: CLLocationDegrees);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreLocation_CLHeading")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreLocation_CLHeading")]
-    pub struct CLHeading;
-
-    #[cfg(feature = "CoreLocation_CLHeading")]
-    unsafe impl ClassType for CLHeading {
-        type Super = NSObject;
-    }
-);
+    pub type CLHeading;
+}
 
 #[cfg(feature = "CoreLocation_CLHeading")]
 unsafe impl NSCoding for CLHeading {}
@@ -29,29 +29,32 @@ unsafe impl NSObjectProtocol for CLHeading {}
 #[cfg(feature = "CoreLocation_CLHeading")]
 unsafe impl NSSecureCoding for CLHeading {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreLocation_CLHeading")]
-    unsafe impl CLHeading {
-        #[method(magneticHeading)]
-        pub unsafe fn magneticHeading(&self) -> CLLocationDirection;
+    pub type CLHeading;
 
-        #[method(trueHeading)]
-        pub unsafe fn trueHeading(&self) -> CLLocationDirection;
+    #[objc2::method(sel = "magneticHeading")]
+    pub unsafe fn magneticHeading(&self) -> CLLocationDirection;
 
-        #[method(headingAccuracy)]
-        pub unsafe fn headingAccuracy(&self) -> CLLocationDirection;
+    #[objc2::method(sel = "trueHeading")]
+    pub unsafe fn trueHeading(&self) -> CLLocationDirection;
 
-        #[method(x)]
-        pub unsafe fn x(&self) -> CLHeadingComponentValue;
+    #[objc2::method(sel = "headingAccuracy")]
+    pub unsafe fn headingAccuracy(&self) -> CLLocationDirection;
 
-        #[method(y)]
-        pub unsafe fn y(&self) -> CLHeadingComponentValue;
+    #[objc2::method(sel = "x")]
+    pub unsafe fn x(&self) -> CLHeadingComponentValue;
 
-        #[method(z)]
-        pub unsafe fn z(&self) -> CLHeadingComponentValue;
+    #[objc2::method(sel = "y")]
+    pub unsafe fn y(&self) -> CLHeadingComponentValue;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other timestamp)]
-        pub unsafe fn timestamp(&self) -> Id<NSDate>;
-    }
-);
+    #[objc2::method(sel = "z")]
+    pub unsafe fn z(&self) -> CLHeadingComponentValue;
+
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "timestamp", managed = "Other")]
+    pub unsafe fn timestamp(&self) -> Id<NSDate>;
+}

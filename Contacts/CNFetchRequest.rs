@@ -4,21 +4,24 @@ use crate::common::*;
 use crate::Contacts::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Contacts_CNFetchRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Contacts_CNFetchRequest")]
-    pub struct CNFetchRequest;
-
-    #[cfg(feature = "Contacts_CNFetchRequest")]
-    unsafe impl ClassType for CNFetchRequest {
-        type Super = NSObject;
-    }
-);
+    pub type CNFetchRequest;
+}
 
 #[cfg(feature = "Contacts_CNFetchRequest")]
 unsafe impl NSObjectProtocol for CNFetchRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Contacts_CNFetchRequest")]
-    unsafe impl CNFetchRequest {}
-);
+    pub type CNFetchRequest;
+}

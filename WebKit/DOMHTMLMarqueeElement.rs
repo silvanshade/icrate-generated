@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLMarqueeElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLMarqueeElement;
-
     #[cfg(feature = "WebKit_DOMHTMLMarqueeElement")]
-    unsafe impl ClassType for DOMHTMLMarqueeElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLMarqueeElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLMarqueeElement")]
 unsafe impl DOMEventTarget for DOMHTMLMarqueeElement {}
@@ -24,13 +28,17 @@ unsafe impl DOMEventTarget for DOMHTMLMarqueeElement {}
 #[cfg(feature = "WebKit_DOMHTMLMarqueeElement")]
 unsafe impl NSObjectProtocol for DOMHTMLMarqueeElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLMarqueeElement")]
-    unsafe impl DOMHTMLMarqueeElement {
-        #[method(start)]
-        pub unsafe fn start(&self);
+    #[deprecated]
+    pub type DOMHTMLMarqueeElement;
 
-        #[method(stop)]
-        pub unsafe fn stop(&self);
-    }
-);
+    #[objc2::method(sel = "start")]
+    pub unsafe fn start(&self);
+
+    #[objc2::method(sel = "stop")]
+    pub unsafe fn stop(&self);
+}

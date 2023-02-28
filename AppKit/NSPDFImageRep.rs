@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSImageRep,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPDFImageRep")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPDFImageRep")]
-    pub struct NSPDFImageRep;
-
-    #[cfg(feature = "AppKit_NSPDFImageRep")]
-    unsafe impl ClassType for NSPDFImageRep {
-        #[inherits(NSObject)]
-        type Super = NSImageRep;
-    }
-);
+    pub type NSPDFImageRep;
+}
 
 #[cfg(feature = "AppKit_NSPDFImageRep")]
 unsafe impl NSCoding for NSPDFImageRep {}
@@ -23,34 +23,37 @@ unsafe impl NSCoding for NSPDFImageRep {}
 #[cfg(feature = "AppKit_NSPDFImageRep")]
 unsafe impl NSObjectProtocol for NSPDFImageRep {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPDFImageRep")]
-    unsafe impl NSPDFImageRep {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other imageRepWithData:)]
-        pub unsafe fn imageRepWithData(pdf_data: &NSData) -> Option<Id<Self>>;
+    pub type NSPDFImageRep;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Init initWithData:)]
-        pub unsafe fn initWithData(
-            this: Option<Allocated<Self>>,
-            pdf_data: &NSData,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "imageRepWithData:", managed = "Other")]
+    pub unsafe fn imageRepWithData(pdf_data: &NSData) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other PDFRepresentation)]
-        pub unsafe fn PDFRepresentation(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "initWithData:", managed = "Init")]
+    pub unsafe fn initWithData(
+        this: Option<Allocated<Self>>,
+        pdf_data: &NSData,
+    ) -> Option<Id<Self>>;
 
-        #[method(bounds)]
-        pub unsafe fn bounds(&self) -> NSRect;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "PDFRepresentation", managed = "Other")]
+    pub unsafe fn PDFRepresentation(&self) -> Id<NSData>;
 
-        #[method(currentPage)]
-        pub unsafe fn currentPage(&self) -> NSInteger;
+    #[objc2::method(sel = "bounds")]
+    pub unsafe fn bounds(&self) -> NSRect;
 
-        #[method(setCurrentPage:)]
-        pub unsafe fn setCurrentPage(&self, current_page: NSInteger);
+    #[objc2::method(sel = "currentPage")]
+    pub unsafe fn currentPage(&self) -> NSInteger;
 
-        #[method(pageCount)]
-        pub unsafe fn pageCount(&self) -> NSInteger;
-    }
-);
+    #[objc2::method(sel = "setCurrentPage:")]
+    pub unsafe fn setCurrentPage(&self, current_page: NSInteger);
+
+    #[objc2::method(sel = "pageCount")]
+    pub unsafe fn pageCount(&self) -> NSInteger;
+}

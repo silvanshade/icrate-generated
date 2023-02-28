@@ -328,41 +328,39 @@ extern_static!(
     NSURLUbiquitousSharedItemPermissionsReadWrite: &'static NSURLUbiquitousSharedItemPermissions
 );
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSURLBookmarkCreationOptions {
-        #[deprecated = "Not supported"]
-        NSURLBookmarkCreationPreferFileIDResolution = 1 << 8,
-        NSURLBookmarkCreationMinimalBookmark = 1 << 9,
-        NSURLBookmarkCreationSuitableForBookmarkFile = 1 << 10,
-        NSURLBookmarkCreationWithSecurityScope = 1 << 11,
-        NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess = 1 << 12,
-        NSURLBookmarkCreationWithoutImplicitSecurityScope = 1 << 29,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSURLBookmarkCreationOptions {
+    #[deprecated = "Not supported"]
+    NSURLBookmarkCreationPreferFileIDResolution = 1 << 8,
+    NSURLBookmarkCreationMinimalBookmark = 1 << 9,
+    NSURLBookmarkCreationSuitableForBookmarkFile = 1 << 10,
+    NSURLBookmarkCreationWithSecurityScope = 1 << 11,
+    NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess = 1 << 12,
+    NSURLBookmarkCreationWithoutImplicitSecurityScope = 1 << 29,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSURLBookmarkResolutionOptions {
-        NSURLBookmarkResolutionWithoutUI = 1 << 8,
-        NSURLBookmarkResolutionWithoutMounting = 1 << 9,
-        NSURLBookmarkResolutionWithSecurityScope = 1 << 10,
-        NSURLBookmarkResolutionWithoutImplicitStartAccessing = 1 << 15,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSURLBookmarkResolutionOptions {
+    NSURLBookmarkResolutionWithoutUI = 1 << 8,
+    NSURLBookmarkResolutionWithoutMounting = 1 << 9,
+    NSURLBookmarkResolutionWithSecurityScope = 1 << 10,
+    NSURLBookmarkResolutionWithoutImplicitStartAccessing = 1 << 15,
+}
 
 pub type NSURLBookmarkFileCreationOptions = NSUInteger;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSURL")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSURL")]
-    pub struct NSURL;
-
-    #[cfg(feature = "Foundation_NSURL")]
-    unsafe impl ClassType for NSURL {
-        type Super = NSObject;
-    }
-);
+    pub type NSURL;
+}
 
 #[cfg(feature = "Foundation_NSURL")]
 unsafe impl NSCoding for NSURL {}
@@ -373,393 +371,436 @@ unsafe impl NSObjectProtocol for NSURL {}
 #[cfg(feature = "Foundation_NSURL")]
 unsafe impl NSSecureCoding for NSURL {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURL")]
-    unsafe impl NSURL {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use NSURLComponents instead, which lets you create a valid URL with any valid combination of URL components and subcomponents (not just scheme, host and path), and lets you set components and subcomponents with either percent-encoded or un-percent-encoded strings."]
-        #[method_id(@__retain_semantics Init initWithScheme:host:path:)]
-        pub unsafe fn initWithScheme_host_path(
-            this: Option<Allocated<Self>>,
-            scheme: &NSString,
-            host: Option<&NSString>,
-            path: &NSString,
-        ) -> Option<Id<Self>>;
+    pub type NSURL;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initFileURLWithPath:isDirectory:relativeToURL:)]
-        pub unsafe fn initFileURLWithPath_isDirectory_relativeToURL(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-            is_dir: bool,
-            base_url: Option<&NSURL>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use NSURLComponents instead, which lets you create a valid URL with any valid combination of URL components and subcomponents (not just scheme, host and path), and lets you set components and subcomponents with either percent-encoded or un-percent-encoded strings."]
+    #[objc2::method(sel = "initWithScheme:host:path:", managed = "Init")]
+    pub unsafe fn initWithScheme_host_path(
+        this: Option<Allocated<Self>>,
+        scheme: &NSString,
+        host: Option<&NSString>,
+        path: &NSString,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initFileURLWithPath:relativeToURL:)]
-        pub unsafe fn initFileURLWithPath_relativeToURL(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-            base_url: Option<&NSURL>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "initFileURLWithPath:isDirectory:relativeToURL:",
+        managed = "Init"
+    )]
+    pub unsafe fn initFileURLWithPath_isDirectory_relativeToURL(
+        this: Option<Allocated<Self>>,
+        path: &NSString,
+        is_dir: bool,
+        base_url: Option<&NSURL>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initFileURLWithPath:isDirectory:)]
-        pub unsafe fn initFileURLWithPath_isDirectory(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-            is_dir: bool,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initFileURLWithPath:relativeToURL:", managed = "Init")]
+    pub unsafe fn initFileURLWithPath_relativeToURL(
+        this: Option<Allocated<Self>>,
+        path: &NSString,
+        base_url: Option<&NSURL>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initFileURLWithPath:)]
-        pub unsafe fn initFileURLWithPath(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initFileURLWithPath:isDirectory:", managed = "Init")]
+    pub unsafe fn initFileURLWithPath_isDirectory(
+        this: Option<Allocated<Self>>,
+        path: &NSString,
+        is_dir: bool,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fileURLWithPath:isDirectory:relativeToURL:)]
-        pub unsafe fn fileURLWithPath_isDirectory_relativeToURL(
-            path: &NSString,
-            is_dir: bool,
-            base_url: Option<&NSURL>,
-        ) -> Id<NSURL>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initFileURLWithPath:", managed = "Init")]
+    pub unsafe fn initFileURLWithPath(this: Option<Allocated<Self>>, path: &NSString) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fileURLWithPath:relativeToURL:)]
-        pub unsafe fn fileURLWithPath_relativeToURL(
-            path: &NSString,
-            base_url: Option<&NSURL>,
-        ) -> Id<NSURL>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fileURLWithPath:isDirectory:relativeToURL:", managed = "Other")]
+    pub unsafe fn fileURLWithPath_isDirectory_relativeToURL(
+        path: &NSString,
+        is_dir: bool,
+        base_url: Option<&NSURL>,
+    ) -> Id<NSURL>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fileURLWithPath:isDirectory:)]
-        pub unsafe fn fileURLWithPath_isDirectory(path: &NSString, is_dir: bool) -> Id<NSURL>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fileURLWithPath:relativeToURL:", managed = "Other")]
+    pub unsafe fn fileURLWithPath_relativeToURL(
+        path: &NSString,
+        base_url: Option<&NSURL>,
+    ) -> Id<NSURL>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fileURLWithPath:)]
-        pub unsafe fn fileURLWithPath(path: &NSString) -> Id<NSURL>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fileURLWithPath:isDirectory:", managed = "Other")]
+    pub unsafe fn fileURLWithPath_isDirectory(path: &NSString, is_dir: bool) -> Id<NSURL>;
 
-        #[method_id(@__retain_semantics Init initFileURLWithFileSystemRepresentation:isDirectory:relativeToURL:)]
-        pub unsafe fn initFileURLWithFileSystemRepresentation_isDirectory_relativeToURL(
-            this: Option<Allocated<Self>>,
-            path: NonNull<c_char>,
-            is_dir: bool,
-            base_url: Option<&NSURL>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fileURLWithPath:", managed = "Other")]
+    pub unsafe fn fileURLWithPath(path: &NSString) -> Id<NSURL>;
 
-        #[method_id(@__retain_semantics Other fileURLWithFileSystemRepresentation:isDirectory:relativeToURL:)]
-        pub unsafe fn fileURLWithFileSystemRepresentation_isDirectory_relativeToURL(
-            path: NonNull<c_char>,
-            is_dir: bool,
-            base_url: Option<&NSURL>,
-        ) -> Id<NSURL>;
+    #[objc2::method(
+        sel = "initFileURLWithFileSystemRepresentation:isDirectory:relativeToURL:",
+        managed = "Init"
+    )]
+    pub unsafe fn initFileURLWithFileSystemRepresentation_isDirectory_relativeToURL(
+        this: Option<Allocated<Self>>,
+        path: NonNull<c_char>,
+        is_dir: bool,
+        base_url: Option<&NSURL>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithString:)]
-        pub unsafe fn initWithString(
-            this: Option<Allocated<Self>>,
-            url_string: &NSString,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(
+        sel = "fileURLWithFileSystemRepresentation:isDirectory:relativeToURL:",
+        managed = "Other"
+    )]
+    pub unsafe fn fileURLWithFileSystemRepresentation_isDirectory_relativeToURL(
+        path: NonNull<c_char>,
+        is_dir: bool,
+        base_url: Option<&NSURL>,
+    ) -> Id<NSURL>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithString:relativeToURL:)]
-        pub unsafe fn initWithString_relativeToURL(
-            this: Option<Allocated<Self>>,
-            url_string: &NSString,
-            base_url: Option<&NSURL>,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithString:", managed = "Init")]
+    pub unsafe fn initWithString(
+        this: Option<Allocated<Self>>,
+        url_string: &NSString,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other URLWithString:)]
-        pub unsafe fn URLWithString(url_string: &NSString) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithString:relativeToURL:", managed = "Init")]
+    pub unsafe fn initWithString_relativeToURL(
+        this: Option<Allocated<Self>>,
+        url_string: &NSString,
+        base_url: Option<&NSURL>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other URLWithString:relativeToURL:)]
-        pub unsafe fn URLWithString_relativeToURL(
-            url_string: &NSString,
-            base_url: Option<&NSURL>,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "URLWithString:", managed = "Other")]
+    pub unsafe fn URLWithString(url_string: &NSString) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Init initWithDataRepresentation:relativeToURL:)]
-        pub unsafe fn initWithDataRepresentation_relativeToURL(
-            this: Option<Allocated<Self>>,
-            data: &NSData,
-            base_url: Option<&NSURL>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "URLWithString:relativeToURL:", managed = "Other")]
+    pub unsafe fn URLWithString_relativeToURL(
+        url_string: &NSString,
+        base_url: Option<&NSURL>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other URLWithDataRepresentation:relativeToURL:)]
-        pub unsafe fn URLWithDataRepresentation_relativeToURL(
-            data: &NSData,
-            base_url: Option<&NSURL>,
-        ) -> Id<NSURL>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "initWithDataRepresentation:relativeToURL:", managed = "Init")]
+    pub unsafe fn initWithDataRepresentation_relativeToURL(
+        this: Option<Allocated<Self>>,
+        data: &NSData,
+        base_url: Option<&NSURL>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Init initAbsoluteURLWithDataRepresentation:relativeToURL:)]
-        pub unsafe fn initAbsoluteURLWithDataRepresentation_relativeToURL(
-            this: Option<Allocated<Self>>,
-            data: &NSData,
-            base_url: Option<&NSURL>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "URLWithDataRepresentation:relativeToURL:", managed = "Other")]
+    pub unsafe fn URLWithDataRepresentation_relativeToURL(
+        data: &NSData,
+        base_url: Option<&NSURL>,
+    ) -> Id<NSURL>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other absoluteURLWithDataRepresentation:relativeToURL:)]
-        pub unsafe fn absoluteURLWithDataRepresentation_relativeToURL(
-            data: &NSData,
-            base_url: Option<&NSURL>,
-        ) -> Id<NSURL>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(
+        sel = "initAbsoluteURLWithDataRepresentation:relativeToURL:",
+        managed = "Init"
+    )]
+    pub unsafe fn initAbsoluteURLWithDataRepresentation_relativeToURL(
+        this: Option<Allocated<Self>>,
+        data: &NSData,
+        base_url: Option<&NSURL>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other dataRepresentation)]
-        pub unsafe fn dataRepresentation(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(
+        sel = "absoluteURLWithDataRepresentation:relativeToURL:",
+        managed = "Other"
+    )]
+    pub unsafe fn absoluteURLWithDataRepresentation_relativeToURL(
+        data: &NSData,
+        base_url: Option<&NSURL>,
+    ) -> Id<NSURL>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other absoluteString)]
-        pub unsafe fn absoluteString(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "dataRepresentation", managed = "Other")]
+    pub unsafe fn dataRepresentation(&self) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other relativeString)]
-        pub unsafe fn relativeString(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "absoluteString", managed = "Other")]
+    pub unsafe fn absoluteString(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other baseURL)]
-        pub unsafe fn baseURL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "relativeString", managed = "Other")]
+    pub unsafe fn relativeString(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Other absoluteURL)]
-        pub unsafe fn absoluteURL(&self) -> Option<Id<NSURL>>;
+    #[objc2::method(sel = "baseURL", managed = "Other")]
+    pub unsafe fn baseURL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other scheme)]
-        pub unsafe fn scheme(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "absoluteURL", managed = "Other")]
+    pub unsafe fn absoluteURL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other resourceSpecifier)]
-        pub unsafe fn resourceSpecifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "scheme", managed = "Other")]
+    pub unsafe fn scheme(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other host)]
-        pub unsafe fn host(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "resourceSpecifier", managed = "Other")]
+    pub unsafe fn resourceSpecifier(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other port)]
-        pub unsafe fn port(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "host", managed = "Other")]
+    pub unsafe fn host(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other user)]
-        pub unsafe fn user(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "port", managed = "Other")]
+    pub unsafe fn port(&self) -> Option<Id<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other password)]
-        pub unsafe fn password(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "user", managed = "Other")]
+    pub unsafe fn user(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other path)]
-        pub unsafe fn path(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "password", managed = "Other")]
+    pub unsafe fn password(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fragment)]
-        pub unsafe fn fragment(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "path", managed = "Other")]
+    pub unsafe fn path(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "The parameterString method is deprecated. Post deprecation for applications linked with or after the macOS 10.15, and for all iOS, watchOS, and tvOS applications, parameterString will always return nil, and the path method will return the complete path including the semicolon separator and params component if the URL string contains them."]
-        #[method_id(@__retain_semantics Other parameterString)]
-        pub unsafe fn parameterString(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fragment", managed = "Other")]
+    pub unsafe fn fragment(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other query)]
-        pub unsafe fn query(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "The parameterString method is deprecated. Post deprecation for applications linked with or after the macOS 10.15, and for all iOS, watchOS, and tvOS applications, parameterString will always return nil, and the path method will return the complete path including the semicolon separator and params component if the URL string contains them."]
+    #[objc2::method(sel = "parameterString", managed = "Other")]
+    pub unsafe fn parameterString(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other relativePath)]
-        pub unsafe fn relativePath(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "query", managed = "Other")]
+    pub unsafe fn query(&self) -> Option<Id<NSString>>;
 
-        #[method(hasDirectoryPath)]
-        pub unsafe fn hasDirectoryPath(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "relativePath", managed = "Other")]
+    pub unsafe fn relativePath(&self) -> Option<Id<NSString>>;
 
-        #[method(getFileSystemRepresentation:maxLength:)]
-        pub unsafe fn getFileSystemRepresentation_maxLength(
-            &self,
-            buffer: NonNull<c_char>,
-            max_buffer_length: NSUInteger,
-        ) -> bool;
+    #[objc2::method(sel = "hasDirectoryPath")]
+    pub unsafe fn hasDirectoryPath(&self) -> bool;
 
-        #[method(fileSystemRepresentation)]
-        pub unsafe fn fileSystemRepresentation(&self) -> NonNull<c_char>;
+    #[objc2::method(sel = "getFileSystemRepresentation:maxLength:")]
+    pub unsafe fn getFileSystemRepresentation_maxLength(
+        &self,
+        buffer: NonNull<c_char>,
+        max_buffer_length: NSUInteger,
+    ) -> bool;
 
-        #[method(isFileURL)]
-        pub unsafe fn isFileURL(&self) -> bool;
+    #[objc2::method(sel = "fileSystemRepresentation")]
+    pub unsafe fn fileSystemRepresentation(&self) -> NonNull<c_char>;
 
-        #[method_id(@__retain_semantics Other standardizedURL)]
-        pub unsafe fn standardizedURL(&self) -> Option<Id<NSURL>>;
+    #[objc2::method(sel = "isFileURL")]
+    pub unsafe fn isFileURL(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(checkResourceIsReachableAndReturnError:_)]
-        pub unsafe fn checkResourceIsReachableAndReturnError(&self) -> Result<(), Id<NSError>>;
+    #[objc2::method(sel = "standardizedURL", managed = "Other")]
+    pub unsafe fn standardizedURL(&self) -> Option<Id<NSURL>>;
 
-        #[method(isFileReferenceURL)]
-        pub unsafe fn isFileReferenceURL(&self) -> bool;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "checkResourceIsReachableAndReturnError:", throws)]
+    pub unsafe fn checkResourceIsReachableAndReturnError(&self) -> Result<(), Id<NSError>>;
 
-        #[method_id(@__retain_semantics Other fileReferenceURL)]
-        pub unsafe fn fileReferenceURL(&self) -> Option<Id<NSURL>>;
+    #[objc2::method(sel = "isFileReferenceURL")]
+    pub unsafe fn isFileReferenceURL(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other filePathURL)]
-        pub unsafe fn filePathURL(&self) -> Option<Id<NSURL>>;
+    #[objc2::method(sel = "fileReferenceURL", managed = "Other")]
+    pub unsafe fn fileReferenceURL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(getResourceValue:forKey:error:_)]
-        pub unsafe fn getResourceValue_forKey_error(
-            &self,
-            value: &mut Option<Id<Object>>,
-            key: &NSURLResourceKey,
-        ) -> Result<(), Id<NSError>>;
+    #[objc2::method(sel = "filePathURL", managed = "Other")]
+    pub unsafe fn filePathURL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError"
-        ))]
-        #[method_id(@__retain_semantics Other resourceValuesForKeys:error:_)]
-        pub unsafe fn resourceValuesForKeys_error(
-            &self,
-            keys: &NSArray<NSURLResourceKey>,
-        ) -> Result<Id<NSDictionary<NSURLResourceKey, Object>>, Id<NSError>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "getResourceValue:forKey:error:", throws)]
+    pub unsafe fn getResourceValue_forKey_error(
+        &self,
+        value: &mut Option<Id<Object>>,
+        key: &NSURLResourceKey,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(setResourceValue:forKey:error:_)]
-        pub unsafe fn setResourceValue_forKey_error(
-            &self,
-            value: Option<&Object>,
-            key: &NSURLResourceKey,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "resourceValuesForKeys:error:", managed = "Other", throws)]
+    pub unsafe fn resourceValuesForKeys_error(
+        &self,
+        keys: &NSArray<NSURLResourceKey>,
+    ) -> Result<Id<NSDictionary<NSURLResourceKey, Object>>, Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSError"))]
-        #[method(setResourceValues:error:_)]
-        pub unsafe fn setResourceValues_error(
-            &self,
-            keyed_values: &NSDictionary<NSURLResourceKey, Object>,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "setResourceValue:forKey:error:", throws)]
+    pub unsafe fn setResourceValue_forKey_error(
+        &self,
+        value: Option<&Object>,
+        key: &NSURLResourceKey,
+    ) -> Result<(), Id<NSError>>;
 
-        #[method(removeCachedResourceValueForKey:)]
-        pub unsafe fn removeCachedResourceValueForKey(&self, key: &NSURLResourceKey);
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "setResourceValues:error:", throws)]
+    pub unsafe fn setResourceValues_error(
+        &self,
+        keyed_values: &NSDictionary<NSURLResourceKey, Object>,
+    ) -> Result<(), Id<NSError>>;
 
-        #[method(removeAllCachedResourceValues)]
-        pub unsafe fn removeAllCachedResourceValues(&self);
+    #[objc2::method(sel = "removeCachedResourceValueForKey:")]
+    pub unsafe fn removeCachedResourceValueForKey(&self, key: &NSURLResourceKey);
 
-        #[method(setTemporaryResourceValue:forKey:)]
-        pub unsafe fn setTemporaryResourceValue_forKey(
-            &self,
-            value: Option<&Object>,
-            key: &NSURLResourceKey,
-        );
+    #[objc2::method(sel = "removeAllCachedResourceValues")]
+    pub unsafe fn removeAllCachedResourceValues(&self);
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError"
-        ))]
-        #[method_id(@__retain_semantics Other bookmarkDataWithOptions:includingResourceValuesForKeys:relativeToURL:error:_)]
-        pub unsafe fn bookmarkDataWithOptions_includingResourceValuesForKeys_relativeToURL_error(
-            &self,
-            options: NSURLBookmarkCreationOptions,
-            keys: Option<&NSArray<NSURLResourceKey>>,
-            relative_url: Option<&NSURL>,
-        ) -> Result<Id<NSData>, Id<NSError>>;
+    #[objc2::method(sel = "setTemporaryResourceValue:forKey:")]
+    pub unsafe fn setTemporaryResourceValue_forKey(
+        &self,
+        value: Option<&Object>,
+        key: &NSURLResourceKey,
+    );
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method_id(@__retain_semantics Init initByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:_)]
-        pub unsafe fn initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error(
-            this: Option<Allocated<Self>>,
-            bookmark_data: &NSData,
-            options: NSURLBookmarkResolutionOptions,
-            relative_url: Option<&NSURL>,
-            is_stale: *mut Bool,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(
+        sel = "bookmarkDataWithOptions:includingResourceValuesForKeys:relativeToURL:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn bookmarkDataWithOptions_includingResourceValuesForKeys_relativeToURL_error(
+        &self,
+        options: NSURLBookmarkCreationOptions,
+        keys: Option<&NSArray<NSURLResourceKey>>,
+        relative_url: Option<&NSURL>,
+    ) -> Result<Id<NSData>, Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method_id(@__retain_semantics Other URLByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:_)]
-        pub unsafe fn URLByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error(
-            bookmark_data: &NSData,
-            options: NSURLBookmarkResolutionOptions,
-            relative_url: Option<&NSURL>,
-            is_stale: *mut Bool,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(
+        sel = "initByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:",
+        managed = "Init",
+        throws
+    )]
+    pub unsafe fn initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error(
+        this: Option<Allocated<Self>>,
+        bookmark_data: &NSData,
+        options: NSURLBookmarkResolutionOptions,
+        relative_url: Option<&NSURL>,
+        is_stale: *mut Bool,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[method_id(@__retain_semantics Other resourceValuesForKeys:fromBookmarkData:)]
-        pub unsafe fn resourceValuesForKeys_fromBookmarkData(
-            keys: &NSArray<NSURLResourceKey>,
-            bookmark_data: &NSData,
-        ) -> Option<Id<NSDictionary<NSURLResourceKey, Object>>>;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(
+        sel = "URLByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn URLByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error(
+        bookmark_data: &NSData,
+        options: NSURLBookmarkResolutionOptions,
+        relative_url: Option<&NSURL>,
+        is_stale: *mut Bool,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method(writeBookmarkData:toURL:options:error:_)]
-        pub unsafe fn writeBookmarkData_toURL_options_error(
-            bookmark_data: &NSData,
-            bookmark_file_url: &NSURL,
-            options: NSURLBookmarkFileCreationOptions,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[objc2::method(sel = "resourceValuesForKeys:fromBookmarkData:", managed = "Other")]
+    pub unsafe fn resourceValuesForKeys_fromBookmarkData(
+        keys: &NSArray<NSURLResourceKey>,
+        bookmark_data: &NSData,
+    ) -> Option<Id<NSDictionary<NSURLResourceKey, Object>>>;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method_id(@__retain_semantics Other bookmarkDataWithContentsOfURL:error:_)]
-        pub unsafe fn bookmarkDataWithContentsOfURL_error(
-            bookmark_file_url: &NSURL,
-        ) -> Result<Id<NSData>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "writeBookmarkData:toURL:options:error:", throws)]
+    pub unsafe fn writeBookmarkData_toURL_options_error(
+        bookmark_data: &NSData,
+        bookmark_file_url: &NSURL,
+        options: NSURLBookmarkFileCreationOptions,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other URLByResolvingAliasFileAtURL:options:error:_)]
-        pub unsafe fn URLByResolvingAliasFileAtURL_options_error(
-            url: &NSURL,
-            options: NSURLBookmarkResolutionOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(
+        sel = "bookmarkDataWithContentsOfURL:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn bookmarkDataWithContentsOfURL_error(
+        bookmark_file_url: &NSURL,
+    ) -> Result<Id<NSData>, Id<NSError>>;
 
-        #[method(startAccessingSecurityScopedResource)]
-        pub unsafe fn startAccessingSecurityScopedResource(&self) -> bool;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(
+        sel = "URLByResolvingAliasFileAtURL:options:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn URLByResolvingAliasFileAtURL_options_error(
+        url: &NSURL,
+        options: NSURLBookmarkResolutionOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[method(stopAccessingSecurityScopedResource)]
-        pub unsafe fn stopAccessingSecurityScopedResource(&self);
-    }
-);
+    #[objc2::method(sel = "startAccessingSecurityScopedResource")]
+    pub unsafe fn startAccessingSecurityScopedResource(&self) -> bool;
 
-extern_methods!(
-    /// NSPromisedItems
+    #[objc2::method(sel = "stopAccessingSecurityScopedResource")]
+    pub unsafe fn stopAccessingSecurityScopedResource(&self);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURL")]
-    unsafe impl NSURL {
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(getPromisedItemResourceValue:forKey:error:_)]
-        pub unsafe fn getPromisedItemResourceValue_forKey_error(
-            &self,
-            value: &mut Option<Id<Object>>,
-            key: &NSURLResourceKey,
-        ) -> Result<(), Id<NSError>>;
+    pub type NSURL;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError"
-        ))]
-        #[method_id(@__retain_semantics Other promisedItemResourceValuesForKeys:error:_)]
-        pub unsafe fn promisedItemResourceValuesForKeys_error(
-            &self,
-            keys: &NSArray<NSURLResourceKey>,
-        ) -> Result<Id<NSDictionary<NSURLResourceKey, Object>>, Id<NSError>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "getPromisedItemResourceValue:forKey:error:", throws)]
+    pub unsafe fn getPromisedItemResourceValue_forKey_error(
+        &self,
+        value: &mut Option<Id<Object>>,
+        key: &NSURLResourceKey,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(checkPromisedItemIsReachableAndReturnError:_)]
-        pub unsafe fn checkPromisedItemIsReachableAndReturnError(&self) -> Result<(), Id<NSError>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(
+        sel = "promisedItemResourceValuesForKeys:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn promisedItemResourceValuesForKeys_error(
+        &self,
+        keys: &NSArray<NSURLResourceKey>,
+    ) -> Result<Id<NSDictionary<NSURLResourceKey, Object>>, Id<NSError>>;
 
-extern_methods!(
-    /// NSItemProvider
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "checkPromisedItemIsReachableAndReturnError:", throws)]
+    pub unsafe fn checkPromisedItemIsReachableAndReturnError(&self) -> Result<(), Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURL")]
-    unsafe impl NSURL {}
-);
+    pub type NSURL;
+}
 
 #[cfg(feature = "Foundation_NSURL")]
 unsafe impl NSItemProviderReading for NSURL {}
@@ -767,16 +808,16 @@ unsafe impl NSItemProviderReading for NSURL {}
 #[cfg(feature = "Foundation_NSURL")]
 unsafe impl NSItemProviderWriting for NSURL {}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSURLQueryItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSURLQueryItem")]
-    pub struct NSURLQueryItem;
-
-    #[cfg(feature = "Foundation_NSURLQueryItem")]
-    unsafe impl ClassType for NSURLQueryItem {
-        type Super = NSObject;
-    }
-);
+    pub type NSURLQueryItem;
+}
 
 #[cfg(feature = "Foundation_NSURLQueryItem")]
 unsafe impl NSCoding for NSURLQueryItem {}
@@ -787,381 +828,394 @@ unsafe impl NSObjectProtocol for NSURLQueryItem {}
 #[cfg(feature = "Foundation_NSURLQueryItem")]
 unsafe impl NSSecureCoding for NSURLQueryItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLQueryItem")]
-    unsafe impl NSURLQueryItem {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithName:value:)]
-        pub unsafe fn initWithName_value(
-            this: Option<Allocated<Self>>,
-            name: &NSString,
-            value: Option<&NSString>,
-        ) -> Id<Self>;
+    pub type NSURLQueryItem;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other queryItemWithName:value:)]
-        pub unsafe fn queryItemWithName_value(
-            name: &NSString,
-            value: Option<&NSString>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithName:value:", managed = "Init")]
+    pub unsafe fn initWithName_value(
+        this: Option<Allocated<Self>>,
+        name: &NSString,
+        value: Option<&NSString>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "queryItemWithName:value:", managed = "Other")]
+    pub unsafe fn queryItemWithName_value(name: &NSString, value: Option<&NSString>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other value)]
-        pub unsafe fn value(&self) -> Option<Id<NSString>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "value", managed = "Other")]
+    pub unsafe fn value(&self) -> Option<Id<NSString>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSURLComponents")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSURLComponents")]
-    pub struct NSURLComponents;
-
-    #[cfg(feature = "Foundation_NSURLComponents")]
-    unsafe impl ClassType for NSURLComponents {
-        type Super = NSObject;
-    }
-);
+    pub type NSURLComponents;
+}
 
 #[cfg(feature = "Foundation_NSURLComponents")]
 unsafe impl NSObjectProtocol for NSURLComponents {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLComponents")]
-    unsafe impl NSURLComponents {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSURLComponents;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithURL:resolvingAgainstBaseURL:)]
-        pub unsafe fn initWithURL_resolvingAgainstBaseURL(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            resolve: bool,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other componentsWithURL:resolvingAgainstBaseURL:)]
-        pub unsafe fn componentsWithURL_resolvingAgainstBaseURL(
-            url: &NSURL,
-            resolve: bool,
-        ) -> Option<Id<Self>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithString:)]
-        pub unsafe fn initWithString(
-            this: Option<Allocated<Self>>,
-            url_string: &NSString,
-        ) -> Option<Id<Self>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other componentsWithString:)]
-        pub unsafe fn componentsWithString(url_string: &NSString) -> Option<Id<Self>>;
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URLRelativeToURL:)]
-        pub unsafe fn URLRelativeToURL(&self, base_url: Option<&NSURL>) -> Option<Id<NSURL>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other string)]
-        pub unsafe fn string(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other scheme)]
-        pub unsafe fn scheme(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setScheme:)]
-        pub unsafe fn setScheme(&self, scheme: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other user)]
-        pub unsafe fn user(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setUser:)]
-        pub unsafe fn setUser(&self, user: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other password)]
-        pub unsafe fn password(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPassword:)]
-        pub unsafe fn setPassword(&self, password: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other host)]
-        pub unsafe fn host(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setHost:)]
-        pub unsafe fn setHost(&self, host: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other port)]
-        pub unsafe fn port(&self) -> Option<Id<NSNumber>>;
-
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method(setPort:)]
-        pub unsafe fn setPort(&self, port: Option<&NSNumber>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other path)]
-        pub unsafe fn path(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPath:)]
-        pub unsafe fn setPath(&self, path: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other query)]
-        pub unsafe fn query(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setQuery:)]
-        pub unsafe fn setQuery(&self, query: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fragment)]
-        pub unsafe fn fragment(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setFragment:)]
-        pub unsafe fn setFragment(&self, fragment: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other percentEncodedUser)]
-        pub unsafe fn percentEncodedUser(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPercentEncodedUser:)]
-        pub unsafe fn setPercentEncodedUser(&self, percent_encoded_user: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other percentEncodedPassword)]
-        pub unsafe fn percentEncodedPassword(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPercentEncodedPassword:)]
-        pub unsafe fn setPercentEncodedPassword(&self, percent_encoded_password: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use encodedHost instead"]
-        #[method_id(@__retain_semantics Other percentEncodedHost)]
-        pub unsafe fn percentEncodedHost(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use encodedHost instead"]
-        #[method(setPercentEncodedHost:)]
-        pub unsafe fn setPercentEncodedHost(&self, percent_encoded_host: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other percentEncodedPath)]
-        pub unsafe fn percentEncodedPath(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPercentEncodedPath:)]
-        pub unsafe fn setPercentEncodedPath(&self, percent_encoded_path: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other percentEncodedQuery)]
-        pub unsafe fn percentEncodedQuery(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPercentEncodedQuery:)]
-        pub unsafe fn setPercentEncodedQuery(&self, percent_encoded_query: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other percentEncodedFragment)]
-        pub unsafe fn percentEncodedFragment(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPercentEncodedFragment:)]
-        pub unsafe fn setPercentEncodedFragment(&self, percent_encoded_fragment: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other encodedHost)]
-        pub unsafe fn encodedHost(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setEncodedHost:)]
-        pub unsafe fn setEncodedHost(&self, encoded_host: Option<&NSString>);
-
-        #[method(rangeOfScheme)]
-        pub unsafe fn rangeOfScheme(&self) -> NSRange;
-
-        #[method(rangeOfUser)]
-        pub unsafe fn rangeOfUser(&self) -> NSRange;
-
-        #[method(rangeOfPassword)]
-        pub unsafe fn rangeOfPassword(&self) -> NSRange;
-
-        #[method(rangeOfHost)]
-        pub unsafe fn rangeOfHost(&self) -> NSRange;
-
-        #[method(rangeOfPort)]
-        pub unsafe fn rangeOfPort(&self) -> NSRange;
-
-        #[method(rangeOfPath)]
-        pub unsafe fn rangeOfPath(&self) -> NSRange;
-
-        #[method(rangeOfQuery)]
-        pub unsafe fn rangeOfQuery(&self) -> NSRange;
-
-        #[method(rangeOfFragment)]
-        pub unsafe fn rangeOfFragment(&self) -> NSRange;
-
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURLQueryItem"))]
-        #[method_id(@__retain_semantics Other queryItems)]
-        pub unsafe fn queryItems(&self) -> Option<Id<NSArray<NSURLQueryItem>>>;
-
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURLQueryItem"))]
-        #[method(setQueryItems:)]
-        pub unsafe fn setQueryItems(&self, query_items: Option<&NSArray<NSURLQueryItem>>);
-
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURLQueryItem"))]
-        #[method_id(@__retain_semantics Other percentEncodedQueryItems)]
-        pub unsafe fn percentEncodedQueryItems(&self) -> Option<Id<NSArray<NSURLQueryItem>>>;
-
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURLQueryItem"))]
-        #[method(setPercentEncodedQueryItems:)]
-        pub unsafe fn setPercentEncodedQueryItems(
-            &self,
-            percent_encoded_query_items: Option<&NSArray<NSURLQueryItem>>,
-        );
-    }
-);
-
-extern_methods!(
-    /// NSURLUtilities
-    #[cfg(feature = "Foundation_NSCharacterSet")]
-    unsafe impl NSCharacterSet {
-        #[method_id(@__retain_semantics Other URLUserAllowedCharacterSet)]
-        pub unsafe fn URLUserAllowedCharacterSet() -> Id<NSCharacterSet>;
-
-        #[method_id(@__retain_semantics Other URLPasswordAllowedCharacterSet)]
-        pub unsafe fn URLPasswordAllowedCharacterSet() -> Id<NSCharacterSet>;
-
-        #[method_id(@__retain_semantics Other URLHostAllowedCharacterSet)]
-        pub unsafe fn URLHostAllowedCharacterSet() -> Id<NSCharacterSet>;
-
-        #[method_id(@__retain_semantics Other URLPathAllowedCharacterSet)]
-        pub unsafe fn URLPathAllowedCharacterSet() -> Id<NSCharacterSet>;
-
-        #[method_id(@__retain_semantics Other URLQueryAllowedCharacterSet)]
-        pub unsafe fn URLQueryAllowedCharacterSet() -> Id<NSCharacterSet>;
-
-        #[method_id(@__retain_semantics Other URLFragmentAllowedCharacterSet)]
-        pub unsafe fn URLFragmentAllowedCharacterSet() -> Id<NSCharacterSet>;
-    }
-);
-
-extern_methods!(
-    /// NSURLUtilities
-    #[cfg(feature = "Foundation_NSString")]
-    unsafe impl NSString {
-        #[cfg(feature = "Foundation_NSCharacterSet")]
-        #[method_id(@__retain_semantics Other stringByAddingPercentEncodingWithAllowedCharacters:)]
-        pub unsafe fn stringByAddingPercentEncodingWithAllowedCharacters(
-            &self,
-            allowed_characters: &NSCharacterSet,
-        ) -> Option<Id<NSString>>;
-
-        #[method_id(@__retain_semantics Other stringByRemovingPercentEncoding)]
-        pub unsafe fn stringByRemovingPercentEncoding(&self) -> Option<Id<NSString>>;
-
-        #[deprecated = "Use -stringByAddingPercentEncodingWithAllowedCharacters: instead, which always uses the recommended UTF-8 encoding, and which encodes for a specific URL component or subcomponent since each URL component or subcomponent has different rules for what characters are valid."]
-        #[method_id(@__retain_semantics Other stringByAddingPercentEscapesUsingEncoding:)]
-        pub unsafe fn stringByAddingPercentEscapesUsingEncoding(
-            &self,
-            enc: NSStringEncoding,
-        ) -> Option<Id<NSString>>;
-
-        #[deprecated = "Use -stringByRemovingPercentEncoding instead, which always uses the recommended UTF-8 encoding."]
-        #[method_id(@__retain_semantics Other stringByReplacingPercentEscapesUsingEncoding:)]
-        pub unsafe fn stringByReplacingPercentEscapesUsingEncoding(
-            &self,
-            enc: NSStringEncoding,
-        ) -> Option<Id<NSString>>;
-    }
-);
-
-extern_methods!(
-    /// NSURLPathUtilities
     #[cfg(feature = "Foundation_NSURL")]
-    unsafe impl NSURL {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other fileURLWithPathComponents:)]
-        pub unsafe fn fileURLWithPathComponents(
-            components: &NSArray<NSString>,
-        ) -> Option<Id<NSURL>>;
+    #[objc2::method(sel = "initWithURL:resolvingAgainstBaseURL:", managed = "Init")]
+    pub unsafe fn initWithURL_resolvingAgainstBaseURL(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        resolve: bool,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other pathComponents)]
-        pub unsafe fn pathComponents(&self) -> Option<Id<NSArray<NSString>>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "componentsWithURL:resolvingAgainstBaseURL:", managed = "Other")]
+    pub unsafe fn componentsWithURL_resolvingAgainstBaseURL(
+        url: &NSURL,
+        resolve: bool,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other lastPathComponent)]
-        pub unsafe fn lastPathComponent(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithString:", managed = "Init")]
+    pub unsafe fn initWithString(
+        this: Option<Allocated<Self>>,
+        url_string: &NSString,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other pathExtension)]
-        pub unsafe fn pathExtension(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "componentsWithString:", managed = "Other")]
+    pub unsafe fn componentsWithString(url_string: &NSString) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other URLByAppendingPathComponent:)]
-        pub unsafe fn URLByAppendingPathComponent(
-            &self,
-            path_component: &NSString,
-        ) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other URLByAppendingPathComponent:isDirectory:)]
-        pub unsafe fn URLByAppendingPathComponent_isDirectory(
-            &self,
-            path_component: &NSString,
-            is_directory: bool,
-        ) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URLRelativeToURL:", managed = "Other")]
+    pub unsafe fn URLRelativeToURL(&self, base_url: Option<&NSURL>) -> Option<Id<NSURL>>;
 
-        #[method_id(@__retain_semantics Other URLByDeletingLastPathComponent)]
-        pub unsafe fn URLByDeletingLastPathComponent(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "string", managed = "Other")]
+    pub unsafe fn string(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other URLByAppendingPathExtension:)]
-        pub unsafe fn URLByAppendingPathExtension(
-            &self,
-            path_extension: &NSString,
-        ) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "scheme", managed = "Other")]
+    pub unsafe fn scheme(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other URLByDeletingPathExtension)]
-        pub unsafe fn URLByDeletingPathExtension(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setScheme:")]
+    pub unsafe fn setScheme(&self, scheme: Option<&NSString>);
 
-        #[method_id(@__retain_semantics Other URLByStandardizingPath)]
-        pub unsafe fn URLByStandardizingPath(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "user", managed = "Other")]
+    pub unsafe fn user(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other URLByResolvingSymlinksInPath)]
-        pub unsafe fn URLByResolvingSymlinksInPath(&self) -> Option<Id<NSURL>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setUser:")]
+    pub unsafe fn setUser(&self, user: Option<&NSString>);
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "password", managed = "Other")]
+    pub unsafe fn password(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPassword:")]
+    pub unsafe fn setPassword(&self, password: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "host", managed = "Other")]
+    pub unsafe fn host(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setHost:")]
+    pub unsafe fn setHost(&self, host: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "port", managed = "Other")]
+    pub unsafe fn port(&self) -> Option<Id<NSNumber>>;
+
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "setPort:")]
+    pub unsafe fn setPort(&self, port: Option<&NSNumber>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "path", managed = "Other")]
+    pub unsafe fn path(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPath:")]
+    pub unsafe fn setPath(&self, path: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "query", managed = "Other")]
+    pub unsafe fn query(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setQuery:")]
+    pub unsafe fn setQuery(&self, query: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fragment", managed = "Other")]
+    pub unsafe fn fragment(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setFragment:")]
+    pub unsafe fn setFragment(&self, fragment: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "percentEncodedUser", managed = "Other")]
+    pub unsafe fn percentEncodedUser(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPercentEncodedUser:")]
+    pub unsafe fn setPercentEncodedUser(&self, percent_encoded_user: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "percentEncodedPassword", managed = "Other")]
+    pub unsafe fn percentEncodedPassword(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPercentEncodedPassword:")]
+    pub unsafe fn setPercentEncodedPassword(&self, percent_encoded_password: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use encodedHost instead"]
+    #[objc2::method(sel = "percentEncodedHost", managed = "Other")]
+    pub unsafe fn percentEncodedHost(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use encodedHost instead"]
+    #[objc2::method(sel = "setPercentEncodedHost:")]
+    pub unsafe fn setPercentEncodedHost(&self, percent_encoded_host: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "percentEncodedPath", managed = "Other")]
+    pub unsafe fn percentEncodedPath(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPercentEncodedPath:")]
+    pub unsafe fn setPercentEncodedPath(&self, percent_encoded_path: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "percentEncodedQuery", managed = "Other")]
+    pub unsafe fn percentEncodedQuery(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPercentEncodedQuery:")]
+    pub unsafe fn setPercentEncodedQuery(&self, percent_encoded_query: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "percentEncodedFragment", managed = "Other")]
+    pub unsafe fn percentEncodedFragment(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPercentEncodedFragment:")]
+    pub unsafe fn setPercentEncodedFragment(&self, percent_encoded_fragment: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "encodedHost", managed = "Other")]
+    pub unsafe fn encodedHost(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setEncodedHost:")]
+    pub unsafe fn setEncodedHost(&self, encoded_host: Option<&NSString>);
+
+    #[objc2::method(sel = "rangeOfScheme")]
+    pub unsafe fn rangeOfScheme(&self) -> NSRange;
+
+    #[objc2::method(sel = "rangeOfUser")]
+    pub unsafe fn rangeOfUser(&self) -> NSRange;
+
+    #[objc2::method(sel = "rangeOfPassword")]
+    pub unsafe fn rangeOfPassword(&self) -> NSRange;
+
+    #[objc2::method(sel = "rangeOfHost")]
+    pub unsafe fn rangeOfHost(&self) -> NSRange;
+
+    #[objc2::method(sel = "rangeOfPort")]
+    pub unsafe fn rangeOfPort(&self) -> NSRange;
+
+    #[objc2::method(sel = "rangeOfPath")]
+    pub unsafe fn rangeOfPath(&self) -> NSRange;
+
+    #[objc2::method(sel = "rangeOfQuery")]
+    pub unsafe fn rangeOfQuery(&self) -> NSRange;
+
+    #[objc2::method(sel = "rangeOfFragment")]
+    pub unsafe fn rangeOfFragment(&self) -> NSRange;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURLQueryItem"))]
+    #[objc2::method(sel = "queryItems", managed = "Other")]
+    pub unsafe fn queryItems(&self) -> Option<Id<NSArray<NSURLQueryItem>>>;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURLQueryItem"))]
+    #[objc2::method(sel = "setQueryItems:")]
+    pub unsafe fn setQueryItems(&self, query_items: Option<&NSArray<NSURLQueryItem>>);
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURLQueryItem"))]
+    #[objc2::method(sel = "percentEncodedQueryItems", managed = "Other")]
+    pub unsafe fn percentEncodedQueryItems(&self) -> Option<Id<NSArray<NSURLQueryItem>>>;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURLQueryItem"))]
+    #[objc2::method(sel = "setPercentEncodedQueryItems:")]
+    pub unsafe fn setPercentEncodedQueryItems(
+        &self,
+        percent_encoded_query_items: Option<&NSArray<NSURLQueryItem>>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSCharacterSet")]
+    pub type NSCharacterSet;
+
+    #[objc2::method(sel = "URLUserAllowedCharacterSet", managed = "Other")]
+    pub unsafe fn URLUserAllowedCharacterSet() -> Id<NSCharacterSet>;
+
+    #[objc2::method(sel = "URLPasswordAllowedCharacterSet", managed = "Other")]
+    pub unsafe fn URLPasswordAllowedCharacterSet() -> Id<NSCharacterSet>;
+
+    #[objc2::method(sel = "URLHostAllowedCharacterSet", managed = "Other")]
+    pub unsafe fn URLHostAllowedCharacterSet() -> Id<NSCharacterSet>;
+
+    #[objc2::method(sel = "URLPathAllowedCharacterSet", managed = "Other")]
+    pub unsafe fn URLPathAllowedCharacterSet() -> Id<NSCharacterSet>;
+
+    #[objc2::method(sel = "URLQueryAllowedCharacterSet", managed = "Other")]
+    pub unsafe fn URLQueryAllowedCharacterSet() -> Id<NSCharacterSet>;
+
+    #[objc2::method(sel = "URLFragmentAllowedCharacterSet", managed = "Other")]
+    pub unsafe fn URLFragmentAllowedCharacterSet() -> Id<NSCharacterSet>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSString")]
+    pub type NSString;
+
+    #[cfg(feature = "Foundation_NSCharacterSet")]
+    #[objc2::method(
+        sel = "stringByAddingPercentEncodingWithAllowedCharacters:",
+        managed = "Other"
+    )]
+    pub unsafe fn stringByAddingPercentEncodingWithAllowedCharacters(
+        &self,
+        allowed_characters: &NSCharacterSet,
+    ) -> Option<Id<NSString>>;
+
+    #[objc2::method(sel = "stringByRemovingPercentEncoding", managed = "Other")]
+    pub unsafe fn stringByRemovingPercentEncoding(&self) -> Option<Id<NSString>>;
+
+    #[deprecated = "Use -stringByAddingPercentEncodingWithAllowedCharacters: instead, which always uses the recommended UTF-8 encoding, and which encodes for a specific URL component or subcomponent since each URL component or subcomponent has different rules for what characters are valid."]
+    #[objc2::method(sel = "stringByAddingPercentEscapesUsingEncoding:", managed = "Other")]
+    pub unsafe fn stringByAddingPercentEscapesUsingEncoding(
+        &self,
+        enc: NSStringEncoding,
+    ) -> Option<Id<NSString>>;
+
+    #[deprecated = "Use -stringByRemovingPercentEncoding instead, which always uses the recommended UTF-8 encoding."]
+    #[objc2::method(
+        sel = "stringByReplacingPercentEscapesUsingEncoding:",
+        managed = "Other"
+    )]
+    pub unsafe fn stringByReplacingPercentEscapesUsingEncoding(
+        &self,
+        enc: NSStringEncoding,
+    ) -> Option<Id<NSString>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSURL")]
+    pub type NSURL;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "fileURLWithPathComponents:", managed = "Other")]
+    pub unsafe fn fileURLWithPathComponents(components: &NSArray<NSString>) -> Option<Id<NSURL>>;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "pathComponents", managed = "Other")]
+    pub unsafe fn pathComponents(&self) -> Option<Id<NSArray<NSString>>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "lastPathComponent", managed = "Other")]
+    pub unsafe fn lastPathComponent(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "pathExtension", managed = "Other")]
+    pub unsafe fn pathExtension(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "URLByAppendingPathComponent:", managed = "Other")]
+    pub unsafe fn URLByAppendingPathComponent(
+        &self,
+        path_component: &NSString,
+    ) -> Option<Id<NSURL>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "URLByAppendingPathComponent:isDirectory:", managed = "Other")]
+    pub unsafe fn URLByAppendingPathComponent_isDirectory(
+        &self,
+        path_component: &NSString,
+        is_directory: bool,
+    ) -> Option<Id<NSURL>>;
+
+    #[objc2::method(sel = "URLByDeletingLastPathComponent", managed = "Other")]
+    pub unsafe fn URLByDeletingLastPathComponent(&self) -> Option<Id<NSURL>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "URLByAppendingPathExtension:", managed = "Other")]
+    pub unsafe fn URLByAppendingPathExtension(
+        &self,
+        path_extension: &NSString,
+    ) -> Option<Id<NSURL>>;
+
+    #[objc2::method(sel = "URLByDeletingPathExtension", managed = "Other")]
+    pub unsafe fn URLByDeletingPathExtension(&self) -> Option<Id<NSURL>>;
+
+    #[objc2::method(sel = "URLByStandardizingPath", managed = "Other")]
+    pub unsafe fn URLByStandardizingPath(&self) -> Option<Id<NSURL>>;
+
+    #[objc2::method(sel = "URLByResolvingSymlinksInPath", managed = "Other")]
+    pub unsafe fn URLByResolvingSymlinksInPath(&self) -> Option<Id<NSURL>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSFileSecurity")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSFileSecurity")]
-    pub struct NSFileSecurity;
-
-    #[cfg(feature = "Foundation_NSFileSecurity")]
-    unsafe impl ClassType for NSFileSecurity {
-        type Super = NSObject;
-    }
-);
+    pub type NSFileSecurity;
+}
 
 #[cfg(feature = "Foundation_NSFileSecurity")]
 unsafe impl NSCoding for NSFileSecurity {}
@@ -1172,55 +1226,56 @@ unsafe impl NSObjectProtocol for NSFileSecurity {}
 #[cfg(feature = "Foundation_NSFileSecurity")]
 unsafe impl NSSecureCoding for NSFileSecurity {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSFileSecurity")]
-    unsafe impl NSFileSecurity {
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
-    }
-);
+    pub type NSFileSecurity;
 
-extern_methods!(
-    /// NSURLLoading
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURL")]
-    unsafe impl NSURL {
-        #[cfg(feature = "Foundation_NSData")]
-        #[deprecated = "Use NSURLConnection instead"]
-        #[method_id(@__retain_semantics Other resourceDataUsingCache:)]
-        pub unsafe fn resourceDataUsingCache(&self, should_use_cache: bool) -> Option<Id<NSData>>;
+    pub type NSURL;
 
-        #[deprecated = "Use NSURLConnection instead"]
-        #[method(loadResourceDataNotifyingClient:usingCache:)]
-        pub unsafe fn loadResourceDataNotifyingClient_usingCache(
-            &self,
-            client: &Object,
-            should_use_cache: bool,
-        );
+    #[cfg(feature = "Foundation_NSData")]
+    #[deprecated = "Use NSURLConnection instead"]
+    #[objc2::method(sel = "resourceDataUsingCache:", managed = "Other")]
+    pub unsafe fn resourceDataUsingCache(&self, should_use_cache: bool) -> Option<Id<NSData>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use NSURLConnection instead"]
-        #[method_id(@__retain_semantics Other propertyForKey:)]
-        pub unsafe fn propertyForKey(&self, property_key: &NSString) -> Option<Id<Object>>;
+    #[deprecated = "Use NSURLConnection instead"]
+    #[objc2::method(sel = "loadResourceDataNotifyingClient:usingCache:")]
+    pub unsafe fn loadResourceDataNotifyingClient_usingCache(
+        &self,
+        client: &Object,
+        should_use_cache: bool,
+    );
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[deprecated = "Use NSURLConnection instead"]
-        #[method(setResourceData:)]
-        pub unsafe fn setResourceData(&self, data: &NSData) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use NSURLConnection instead"]
+    #[objc2::method(sel = "propertyForKey:", managed = "Other")]
+    pub unsafe fn propertyForKey(&self, property_key: &NSString) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use NSURLConnection instead"]
-        #[method(setProperty:forKey:)]
-        pub unsafe fn setProperty_forKey(&self, property: &Object, property_key: &NSString)
-            -> bool;
+    #[cfg(feature = "Foundation_NSData")]
+    #[deprecated = "Use NSURLConnection instead"]
+    #[objc2::method(sel = "setResourceData:")]
+    pub unsafe fn setResourceData(&self, data: &NSData) -> bool;
 
-        #[cfg(feature = "Foundation_NSURLHandle")]
-        #[deprecated = "Use NSURLConnection instead"]
-        #[method_id(@__retain_semantics Other URLHandleUsingCache:)]
-        pub unsafe fn URLHandleUsingCache(&self, should_use_cache: bool)
-            -> Option<Id<NSURLHandle>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use NSURLConnection instead"]
+    #[objc2::method(sel = "setProperty:forKey:")]
+    pub unsafe fn setProperty_forKey(&self, property: &Object, property_key: &NSString) -> bool;
+
+    #[cfg(feature = "Foundation_NSURLHandle")]
+    #[deprecated = "Use NSURLConnection instead"]
+    #[objc2::method(sel = "URLHandleUsingCache:", managed = "Other")]
+    pub unsafe fn URLHandleUsingCache(&self, should_use_cache: bool) -> Option<Id<NSURLHandle>>;
+}

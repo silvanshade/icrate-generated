@@ -6,125 +6,124 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum PHAuthorizationStatus {
-        PHAuthorizationStatusNotDetermined = 0,
-        PHAuthorizationStatusRestricted = 1,
-        PHAuthorizationStatusDenied = 2,
-        PHAuthorizationStatusAuthorized = 3,
-        PHAuthorizationStatusLimited = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum PHAuthorizationStatus {
+    PHAuthorizationStatusNotDetermined = 0,
+    PHAuthorizationStatusRestricted = 1,
+    PHAuthorizationStatusDenied = 2,
+    PHAuthorizationStatusAuthorized = 3,
+    PHAuthorizationStatusLimited = 4,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum PHAccessLevel {
-        PHAccessLevelAddOnly = 1,
-        PHAccessLevelReadWrite = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum PHAccessLevel {
+    PHAccessLevelAddOnly = 1,
+    PHAccessLevelReadWrite = 2,
+}
 
-extern_protocol!(
-    pub unsafe trait PHPhotoLibraryChangeObserver: NSObjectProtocol {
-        #[cfg(feature = "PhotoKit_PHChange")]
-        #[method(photoLibraryDidChange:)]
-        unsafe fn photoLibraryDidChange(&self, change_instance: &PHChange);
-    }
+#[objc2::protocol]
+pub unsafe trait PHPhotoLibraryChangeObserver: NSObjectProtocol {
+    #[cfg(feature = "PhotoKit_PHChange")]
+    #[objc2::method(sel = "photoLibraryDidChange:")]
+    unsafe fn photoLibraryDidChange(&self, change_instance: &PHChange);
+}
 
-    unsafe impl ProtocolType for dyn PHPhotoLibraryChangeObserver {}
-);
+#[objc2::protocol]
+pub unsafe trait PHPhotoLibraryAvailabilityObserver: NSObjectProtocol {
+    #[cfg(feature = "PhotoKit_PHPhotoLibrary")]
+    #[objc2::method(sel = "photoLibraryDidBecomeUnavailable:")]
+    unsafe fn photoLibraryDidBecomeUnavailable(&self, photo_library: &PHPhotoLibrary);
+}
 
-extern_protocol!(
-    pub unsafe trait PHPhotoLibraryAvailabilityObserver: NSObjectProtocol {
-        #[cfg(feature = "PhotoKit_PHPhotoLibrary")]
-        #[method(photoLibraryDidBecomeUnavailable:)]
-        unsafe fn photoLibraryDidBecomeUnavailable(&self, photo_library: &PHPhotoLibrary);
-    }
-
-    unsafe impl ProtocolType for dyn PHPhotoLibraryAvailabilityObserver {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHPhotoLibrary")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHPhotoLibrary")]
-    pub struct PHPhotoLibrary;
-
-    #[cfg(feature = "PhotoKit_PHPhotoLibrary")]
-    unsafe impl ClassType for PHPhotoLibrary {
-        type Super = NSObject;
-    }
-);
+    pub type PHPhotoLibrary;
+}
 
 #[cfg(feature = "PhotoKit_PHPhotoLibrary")]
 unsafe impl NSObjectProtocol for PHPhotoLibrary {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHPhotoLibrary")]
-    unsafe impl PHPhotoLibrary {
-        #[method_id(@__retain_semantics Other sharedPhotoLibrary)]
-        pub unsafe fn sharedPhotoLibrary() -> Id<PHPhotoLibrary>;
+    pub type PHPhotoLibrary;
 
-        #[method(authorizationStatusForAccessLevel:)]
-        pub unsafe fn authorizationStatusForAccessLevel(
-            access_level: PHAccessLevel,
-        ) -> PHAuthorizationStatus;
+    #[objc2::method(sel = "sharedPhotoLibrary", managed = "Other")]
+    pub unsafe fn sharedPhotoLibrary() -> Id<PHPhotoLibrary>;
 
-        #[method(requestAuthorizationForAccessLevel:handler:)]
-        pub unsafe fn requestAuthorizationForAccessLevel_handler(
-            access_level: PHAccessLevel,
-            handler: &Block<(PHAuthorizationStatus,), ()>,
-        );
+    #[objc2::method(sel = "authorizationStatusForAccessLevel:")]
+    pub unsafe fn authorizationStatusForAccessLevel(
+        access_level: PHAccessLevel,
+    ) -> PHAuthorizationStatus;
 
-        #[deprecated]
-        #[method(authorizationStatus)]
-        pub unsafe fn authorizationStatus() -> PHAuthorizationStatus;
+    #[objc2::method(sel = "requestAuthorizationForAccessLevel:handler:")]
+    pub unsafe fn requestAuthorizationForAccessLevel_handler(
+        access_level: PHAccessLevel,
+        handler: &Block<(PHAuthorizationStatus,), ()>,
+    );
 
-        #[deprecated]
-        #[method(requestAuthorization:)]
-        pub unsafe fn requestAuthorization(handler: &Block<(PHAuthorizationStatus,), ()>);
+    #[deprecated]
+    #[objc2::method(sel = "authorizationStatus")]
+    pub unsafe fn authorizationStatus() -> PHAuthorizationStatus;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other unavailabilityReason)]
-        pub unsafe fn unavailabilityReason(&self) -> Option<Id<NSError>>;
+    #[deprecated]
+    #[objc2::method(sel = "requestAuthorization:")]
+    pub unsafe fn requestAuthorization(handler: &Block<(PHAuthorizationStatus,), ()>);
 
-        #[method(registerAvailabilityObserver:)]
-        pub unsafe fn registerAvailabilityObserver(
-            &self,
-            observer: &ProtocolObject<dyn PHPhotoLibraryAvailabilityObserver>,
-        );
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "unavailabilityReason", managed = "Other")]
+    pub unsafe fn unavailabilityReason(&self) -> Option<Id<NSError>>;
 
-        #[method(unregisterAvailabilityObserver:)]
-        pub unsafe fn unregisterAvailabilityObserver(
-            &self,
-            observer: &ProtocolObject<dyn PHPhotoLibraryAvailabilityObserver>,
-        );
+    #[objc2::method(sel = "registerAvailabilityObserver:")]
+    pub unsafe fn registerAvailabilityObserver(
+        &self,
+        observer: &ProtocolObject<dyn PHPhotoLibraryAvailabilityObserver>,
+    );
 
-        #[method(registerChangeObserver:)]
-        pub unsafe fn registerChangeObserver(
-            &self,
-            observer: &ProtocolObject<dyn PHPhotoLibraryChangeObserver>,
-        );
+    #[objc2::method(sel = "unregisterAvailabilityObserver:")]
+    pub unsafe fn unregisterAvailabilityObserver(
+        &self,
+        observer: &ProtocolObject<dyn PHPhotoLibraryAvailabilityObserver>,
+    );
 
-        #[method(unregisterChangeObserver:)]
-        pub unsafe fn unregisterChangeObserver(
-            &self,
-            observer: &ProtocolObject<dyn PHPhotoLibraryChangeObserver>,
-        );
+    #[objc2::method(sel = "registerChangeObserver:")]
+    pub unsafe fn registerChangeObserver(
+        &self,
+        observer: &ProtocolObject<dyn PHPhotoLibraryChangeObserver>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "PhotoKit_PHPersistentChangeFetchResult",
-            feature = "PhotoKit_PHPersistentChangeToken"
-        ))]
-        #[method_id(@__retain_semantics Other fetchPersistentChangesSinceToken:error:_)]
-        pub unsafe fn fetchPersistentChangesSinceToken_error(
-            &self,
-            token: &PHPersistentChangeToken,
-        ) -> Result<Id<PHPersistentChangeFetchResult>, Id<NSError>>;
+    #[objc2::method(sel = "unregisterChangeObserver:")]
+    pub unsafe fn unregisterChangeObserver(
+        &self,
+        observer: &ProtocolObject<dyn PHPhotoLibraryChangeObserver>,
+    );
 
-        #[cfg(feature = "PhotoKit_PHPersistentChangeToken")]
-        #[method_id(@__retain_semantics Other currentChangeToken)]
-        pub unsafe fn currentChangeToken(&self) -> Id<PHPersistentChangeToken>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "PhotoKit_PHPersistentChangeFetchResult",
+        feature = "PhotoKit_PHPersistentChangeToken"
+    ))]
+    #[objc2::method(
+        sel = "fetchPersistentChangesSinceToken:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn fetchPersistentChangesSinceToken_error(
+        &self,
+        token: &PHPersistentChangeToken,
+    ) -> Result<Id<PHPersistentChangeFetchResult>, Id<NSError>>;
+
+    #[cfg(feature = "PhotoKit_PHPersistentChangeToken")]
+    #[objc2::method(sel = "currentChangeToken", managed = "Other")]
+    pub unsafe fn currentChangeToken(&self) -> Id<PHPersistentChangeToken>;
+}

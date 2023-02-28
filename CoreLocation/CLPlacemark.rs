@@ -5,16 +5,16 @@ use crate::Contacts::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreLocation_CLPlacemark")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreLocation_CLPlacemark")]
-    pub struct CLPlacemark;
-
-    #[cfg(feature = "CoreLocation_CLPlacemark")]
-    unsafe impl ClassType for CLPlacemark {
-        type Super = NSObject;
-    }
-);
+    pub type CLPlacemark;
+}
 
 #[cfg(feature = "CoreLocation_CLPlacemark")]
 unsafe impl NSCoding for CLPlacemark {}
@@ -25,98 +25,103 @@ unsafe impl NSObjectProtocol for CLPlacemark {}
 #[cfg(feature = "CoreLocation_CLPlacemark")]
 unsafe impl NSSecureCoding for CLPlacemark {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreLocation_CLPlacemark")]
-    unsafe impl CLPlacemark {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CLPlacemark;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithPlacemark:)]
-        pub unsafe fn initWithPlacemark(
-            this: Option<Allocated<Self>>,
-            placemark: &CLPlacemark,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "CoreLocation_CLLocation")]
-        #[method_id(@__retain_semantics Other location)]
-        pub unsafe fn location(&self) -> Option<Id<CLLocation>>;
+    #[objc2::method(sel = "initWithPlacemark:", managed = "Init")]
+    pub unsafe fn initWithPlacemark(
+        this: Option<Allocated<Self>>,
+        placemark: &CLPlacemark,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "CoreLocation_CLRegion")]
-        #[method_id(@__retain_semantics Other region)]
-        pub unsafe fn region(&self) -> Option<Id<CLRegion>>;
+    #[cfg(feature = "CoreLocation_CLLocation")]
+    #[objc2::method(sel = "location", managed = "Other")]
+    pub unsafe fn location(&self) -> Option<Id<CLLocation>>;
 
-        #[cfg(feature = "Foundation_NSTimeZone")]
-        #[method_id(@__retain_semantics Other timeZone)]
-        pub unsafe fn timeZone(&self) -> Option<Id<NSTimeZone>>;
+    #[cfg(feature = "CoreLocation_CLRegion")]
+    #[objc2::method(sel = "region", managed = "Other")]
+    pub unsafe fn region(&self) -> Option<Id<CLRegion>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[deprecated = "Use @properties"]
-        #[method_id(@__retain_semantics Other addressDictionary)]
-        pub unsafe fn addressDictionary(&self) -> Option<Id<NSDictionary>>;
+    #[cfg(feature = "Foundation_NSTimeZone")]
+    #[objc2::method(sel = "timeZone", managed = "Other")]
+    pub unsafe fn timeZone(&self) -> Option<Id<NSTimeZone>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[deprecated = "Use @properties"]
+    #[objc2::method(sel = "addressDictionary", managed = "Other")]
+    pub unsafe fn addressDictionary(&self) -> Option<Id<NSDictionary>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other thoroughfare)]
-        pub unsafe fn thoroughfare(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subThoroughfare)]
-        pub unsafe fn subThoroughfare(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "thoroughfare", managed = "Other")]
+    pub unsafe fn thoroughfare(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other locality)]
-        pub unsafe fn locality(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subThoroughfare", managed = "Other")]
+    pub unsafe fn subThoroughfare(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subLocality)]
-        pub unsafe fn subLocality(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "locality", managed = "Other")]
+    pub unsafe fn locality(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other administrativeArea)]
-        pub unsafe fn administrativeArea(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subLocality", managed = "Other")]
+    pub unsafe fn subLocality(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subAdministrativeArea)]
-        pub unsafe fn subAdministrativeArea(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "administrativeArea", managed = "Other")]
+    pub unsafe fn administrativeArea(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other postalCode)]
-        pub unsafe fn postalCode(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subAdministrativeArea", managed = "Other")]
+    pub unsafe fn subAdministrativeArea(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other ISOcountryCode)]
-        pub unsafe fn ISOcountryCode(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "postalCode", managed = "Other")]
+    pub unsafe fn postalCode(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other country)]
-        pub unsafe fn country(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "ISOcountryCode", managed = "Other")]
+    pub unsafe fn ISOcountryCode(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other inlandWater)]
-        pub unsafe fn inlandWater(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "country", managed = "Other")]
+    pub unsafe fn country(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other ocean)]
-        pub unsafe fn ocean(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "inlandWater", managed = "Other")]
+    pub unsafe fn inlandWater(&self) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other areasOfInterest)]
-        pub unsafe fn areasOfInterest(&self) -> Option<Id<NSArray<NSString>>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "ocean", managed = "Other")]
+    pub unsafe fn ocean(&self) -> Option<Id<NSString>>;
 
-extern_methods!(
-    /// ContactsAdditions
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "areasOfInterest", managed = "Other")]
+    pub unsafe fn areasOfInterest(&self) -> Option<Id<NSArray<NSString>>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreLocation_CLPlacemark")]
-    unsafe impl CLPlacemark {
-        #[cfg(feature = "Contacts_CNPostalAddress")]
-        #[method_id(@__retain_semantics Other postalAddress)]
-        pub unsafe fn postalAddress(&self) -> Option<Id<CNPostalAddress>>;
-    }
-);
+    pub type CLPlacemark;
+
+    #[cfg(feature = "Contacts_CNPostalAddress")]
+    #[objc2::method(sel = "postalAddress", managed = "Other")]
+    pub unsafe fn postalAddress(&self) -> Option<Id<CNPostalAddress>>;
+}

@@ -6,93 +6,96 @@ use crate::Foundation::*;
 
 extern_static!(ASWebAuthenticationSessionErrorDomain: &'static NSErrorDomain);
 
-ns_error_enum!(
-    #[underlying(NSInteger)]
-    pub enum ASWebAuthenticationSessionErrorCode {
-        ASWebAuthenticationSessionErrorCodeCanceledLogin = 1,
-        ASWebAuthenticationSessionErrorCodePresentationContextNotProvided = 2,
-        ASWebAuthenticationSessionErrorCodePresentationContextInvalid = 3,
-    }
-);
+#[ns_error_enum]
+#[underlying(NSInteger)]
+pub enum ASWebAuthenticationSessionErrorCode {
+    ASWebAuthenticationSessionErrorCodeCanceledLogin = 1,
+    ASWebAuthenticationSessionErrorCodePresentationContextNotProvided = 2,
+    ASWebAuthenticationSessionErrorCodePresentationContextInvalid = 3,
+}
 
 pub type ASWebAuthenticationSessionCompletionHandler = *mut Block<(*mut NSURL, *mut NSError), ()>;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSession")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSession")]
-    pub struct ASWebAuthenticationSession;
-
-    #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSession")]
-    unsafe impl ClassType for ASWebAuthenticationSession {
-        type Super = NSObject;
-    }
-);
+    pub type ASWebAuthenticationSession;
+}
 
 #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSession")]
 unsafe impl NSObjectProtocol for ASWebAuthenticationSession {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSession")]
-    unsafe impl ASWebAuthenticationSession {
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Init initWithURL:callbackURLScheme:completionHandler:)]
-        pub unsafe fn initWithURL_callbackURLScheme_completionHandler(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            callback_url_scheme: Option<&NSString>,
-            completion_handler: ASWebAuthenticationSessionCompletionHandler,
-        ) -> Id<Self>;
+    pub type ASWebAuthenticationSession;
 
-        #[method_id(@__retain_semantics Other presentationContextProvider)]
-        pub unsafe fn presentationContextProvider(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn ASWebAuthenticationPresentationContextProviding>>>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
+    #[objc2::method(
+        sel = "initWithURL:callbackURLScheme:completionHandler:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithURL_callbackURLScheme_completionHandler(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        callback_url_scheme: Option<&NSString>,
+        completion_handler: ASWebAuthenticationSessionCompletionHandler,
+    ) -> Id<Self>;
 
-        #[method(setPresentationContextProvider:)]
-        pub unsafe fn setPresentationContextProvider(
-            &self,
-            presentation_context_provider: Option<
-                &ProtocolObject<dyn ASWebAuthenticationPresentationContextProviding>,
-            >,
-        );
+    #[objc2::method(sel = "presentationContextProvider", managed = "Other")]
+    pub unsafe fn presentationContextProvider(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn ASWebAuthenticationPresentationContextProviding>>>;
 
-        #[method(prefersEphemeralWebBrowserSession)]
-        pub unsafe fn prefersEphemeralWebBrowserSession(&self) -> bool;
+    #[objc2::method(sel = "setPresentationContextProvider:")]
+    pub unsafe fn setPresentationContextProvider(
+        &self,
+        presentation_context_provider: Option<
+            &ProtocolObject<dyn ASWebAuthenticationPresentationContextProviding>,
+        >,
+    );
 
-        #[method(setPrefersEphemeralWebBrowserSession:)]
-        pub unsafe fn setPrefersEphemeralWebBrowserSession(
-            &self,
-            prefers_ephemeral_web_browser_session: bool,
-        );
+    #[objc2::method(sel = "prefersEphemeralWebBrowserSession")]
+    pub unsafe fn prefersEphemeralWebBrowserSession(&self) -> bool;
 
-        #[method(canStart)]
-        pub unsafe fn canStart(&self) -> bool;
+    #[objc2::method(sel = "setPrefersEphemeralWebBrowserSession:")]
+    pub unsafe fn setPrefersEphemeralWebBrowserSession(
+        &self,
+        prefers_ephemeral_web_browser_session: bool,
+    );
 
-        #[method(start)]
-        pub unsafe fn start(&self) -> bool;
+    #[objc2::method(sel = "canStart")]
+    pub unsafe fn canStart(&self) -> bool;
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
+    #[objc2::method(sel = "start")]
+    pub unsafe fn start(&self) -> bool;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-extern_protocol!(
-    pub unsafe trait ASWebAuthenticationPresentationContextProviding:
-        NSObjectProtocol
-    {
-        #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSession")]
-        #[method_id(@__retain_semantics Other presentationAnchorForWebAuthenticationSession:)]
-        unsafe fn presentationAnchorForWebAuthenticationSession(
-            &self,
-            session: &ASWebAuthenticationSession,
-        ) -> Id<ASPresentationAnchor>;
-    }
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}
 
-    unsafe impl ProtocolType for dyn ASWebAuthenticationPresentationContextProviding {}
-);
+#[objc2::protocol]
+pub unsafe trait ASWebAuthenticationPresentationContextProviding: NSObjectProtocol {
+    #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSession")]
+    #[objc2::method(
+        sel = "presentationAnchorForWebAuthenticationSession:",
+        managed = "Other"
+    )]
+    unsafe fn presentationAnchorForWebAuthenticationSession(
+        &self,
+        session: &ASWebAuthenticationSession,
+    ) -> Id<ASPresentationAnchor>;
+}

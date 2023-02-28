@@ -19,16 +19,16 @@ extern_static!(NSTouchBarItemPriorityNormal: NSTouchBarItemPriority = 0);
 
 extern_static!(NSTouchBarItemPriorityLow: NSTouchBarItemPriority = -1000);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTouchBarItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTouchBarItem")]
-    pub struct NSTouchBarItem;
-
-    #[cfg(feature = "AppKit_NSTouchBarItem")]
-    unsafe impl ClassType for NSTouchBarItem {
-        type Super = NSObject;
-    }
-);
+    pub type NSTouchBarItem;
+}
 
 #[cfg(feature = "AppKit_NSTouchBarItem")]
 unsafe impl NSCoding for NSTouchBarItem {}
@@ -36,50 +36,51 @@ unsafe impl NSCoding for NSTouchBarItem {}
 #[cfg(feature = "AppKit_NSTouchBarItem")]
 unsafe impl NSObjectProtocol for NSTouchBarItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTouchBarItem")]
-    unsafe impl NSTouchBarItem {
-        #[method_id(@__retain_semantics Init initWithIdentifier:)]
-        pub unsafe fn initWithIdentifier(
-            this: Option<Allocated<Self>>,
-            identifier: &NSTouchBarItemIdentifier,
-        ) -> Id<Self>;
+    pub type NSTouchBarItem;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "initWithIdentifier:", managed = "Init")]
+    pub unsafe fn initWithIdentifier(
+        this: Option<Allocated<Self>>,
+        identifier: &NSTouchBarItemIdentifier,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSTouchBarItemIdentifier>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(visibilityPriority)]
-        pub unsafe fn visibilityPriority(&self) -> NSTouchBarItemPriority;
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSTouchBarItemIdentifier>;
 
-        #[method(setVisibilityPriority:)]
-        pub unsafe fn setVisibilityPriority(&self, visibility_priority: NSTouchBarItemPriority);
+    #[objc2::method(sel = "visibilityPriority")]
+    pub unsafe fn visibilityPriority(&self) -> NSTouchBarItemPriority;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other view)]
-        pub unsafe fn view(&self) -> Option<Id<NSView>>;
+    #[objc2::method(sel = "setVisibilityPriority:")]
+    pub unsafe fn setVisibilityPriority(&self, visibility_priority: NSTouchBarItemPriority);
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other viewController)]
-        pub unsafe fn viewController(&self) -> Option<Id<NSViewController>>;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "view", managed = "Other")]
+    pub unsafe fn view(&self) -> Option<Id<NSView>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other customizationLabel)]
-        pub unsafe fn customizationLabel(&self) -> Id<NSString>;
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "viewController", managed = "Other")]
+    pub unsafe fn viewController(&self) -> Option<Id<NSViewController>>;
 
-        #[method(isVisible)]
-        pub unsafe fn isVisible(&self) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "customizationLabel", managed = "Other")]
+    pub unsafe fn customizationLabel(&self) -> Id<NSString>;
+
+    #[objc2::method(sel = "isVisible")]
+    pub unsafe fn isVisible(&self) -> bool;
+}
 
 extern_static!(NSTouchBarItemIdentifierFixedSpaceSmall: &'static NSTouchBarItemIdentifier);
 

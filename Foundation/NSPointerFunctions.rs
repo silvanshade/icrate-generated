@@ -3,183 +3,182 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSPointerFunctionsOptions {
-        NSPointerFunctionsStrongMemory = 0 << 0,
-        #[deprecated = "GC no longer supported"]
-        NSPointerFunctionsZeroingWeakMemory = 1 << 0,
-        NSPointerFunctionsOpaqueMemory = 2 << 0,
-        NSPointerFunctionsMallocMemory = 3 << 0,
-        NSPointerFunctionsMachVirtualMemory = 4 << 0,
-        NSPointerFunctionsWeakMemory = 5 << 0,
-        NSPointerFunctionsObjectPersonality = 0 << 8,
-        NSPointerFunctionsOpaquePersonality = 1 << 8,
-        NSPointerFunctionsObjectPointerPersonality = 2 << 8,
-        NSPointerFunctionsCStringPersonality = 3 << 8,
-        NSPointerFunctionsStructPersonality = 4 << 8,
-        NSPointerFunctionsIntegerPersonality = 5 << 8,
-        NSPointerFunctionsCopyIn = 1 << 16,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSPointerFunctionsOptions {
+    NSPointerFunctionsStrongMemory = 0 << 0,
+    #[deprecated = "GC no longer supported"]
+    NSPointerFunctionsZeroingWeakMemory = 1 << 0,
+    NSPointerFunctionsOpaqueMemory = 2 << 0,
+    NSPointerFunctionsMallocMemory = 3 << 0,
+    NSPointerFunctionsMachVirtualMemory = 4 << 0,
+    NSPointerFunctionsWeakMemory = 5 << 0,
+    NSPointerFunctionsObjectPersonality = 0 << 8,
+    NSPointerFunctionsOpaquePersonality = 1 << 8,
+    NSPointerFunctionsObjectPointerPersonality = 2 << 8,
+    NSPointerFunctionsCStringPersonality = 3 << 8,
+    NSPointerFunctionsStructPersonality = 4 << 8,
+    NSPointerFunctionsIntegerPersonality = 5 << 8,
+    NSPointerFunctionsCopyIn = 1 << 16,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSPointerFunctions")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSPointerFunctions")]
-    pub struct NSPointerFunctions;
-
-    #[cfg(feature = "Foundation_NSPointerFunctions")]
-    unsafe impl ClassType for NSPointerFunctions {
-        type Super = NSObject;
-    }
-);
+    pub type NSPointerFunctions;
+}
 
 #[cfg(feature = "Foundation_NSPointerFunctions")]
 unsafe impl NSObjectProtocol for NSPointerFunctions {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSPointerFunctions")]
-    unsafe impl NSPointerFunctions {
-        #[method_id(@__retain_semantics Init initWithOptions:)]
-        pub unsafe fn initWithOptions(
-            this: Option<Allocated<Self>>,
-            options: NSPointerFunctionsOptions,
-        ) -> Id<Self>;
+    pub type NSPointerFunctions;
 
-        #[method_id(@__retain_semantics Other pointerFunctionsWithOptions:)]
-        pub unsafe fn pointerFunctionsWithOptions(
-            options: NSPointerFunctionsOptions,
-        ) -> Id<NSPointerFunctions>;
+    #[objc2::method(sel = "initWithOptions:", managed = "Init")]
+    pub unsafe fn initWithOptions(
+        this: Option<Allocated<Self>>,
+        options: NSPointerFunctionsOptions,
+    ) -> Id<Self>;
 
-        #[method(hashFunction)]
-        pub unsafe fn hashFunction(
-            &self,
-        ) -> Option<
+    #[objc2::method(sel = "pointerFunctionsWithOptions:", managed = "Other")]
+    pub unsafe fn pointerFunctionsWithOptions(
+        options: NSPointerFunctionsOptions,
+    ) -> Id<NSPointerFunctions>;
+
+    #[objc2::method(sel = "hashFunction")]
+    pub unsafe fn hashFunction(
+        &self,
+    ) -> Option<
+        unsafe extern "C" fn(
+            NonNull<c_void>,
+            Option<unsafe extern "C" fn(NonNull<c_void>) -> NSUInteger>,
+        ) -> NSUInteger,
+    >;
+
+    #[objc2::method(sel = "setHashFunction:")]
+    pub unsafe fn setHashFunction(
+        &self,
+        hash_function: Option<
             unsafe extern "C" fn(
                 NonNull<c_void>,
                 Option<unsafe extern "C" fn(NonNull<c_void>) -> NSUInteger>,
             ) -> NSUInteger,
-        >;
+        >,
+    );
 
-        #[method(setHashFunction:)]
-        pub unsafe fn setHashFunction(
-            &self,
-            hash_function: Option<
-                unsafe extern "C" fn(
-                    NonNull<c_void>,
-                    Option<unsafe extern "C" fn(NonNull<c_void>) -> NSUInteger>,
-                ) -> NSUInteger,
-            >,
-        );
+    #[objc2::method(sel = "isEqualFunction")]
+    pub unsafe fn isEqualFunction(
+        &self,
+    ) -> Option<
+        unsafe extern "C" fn(
+            NonNull<c_void>,
+            NonNull<c_void>,
+            Option<unsafe extern "C" fn(NonNull<c_void>) -> NSUInteger>,
+        ) -> Bool,
+    >;
 
-        #[method(isEqualFunction)]
-        pub unsafe fn isEqualFunction(
-            &self,
-        ) -> Option<
+    #[objc2::method(sel = "setIsEqualFunction:")]
+    pub unsafe fn setIsEqualFunction(
+        &self,
+        is_equal_function: Option<
             unsafe extern "C" fn(
                 NonNull<c_void>,
                 NonNull<c_void>,
                 Option<unsafe extern "C" fn(NonNull<c_void>) -> NSUInteger>,
             ) -> Bool,
-        >;
+        >,
+    );
 
-        #[method(setIsEqualFunction:)]
-        pub unsafe fn setIsEqualFunction(
-            &self,
-            is_equal_function: Option<
-                unsafe extern "C" fn(
-                    NonNull<c_void>,
-                    NonNull<c_void>,
-                    Option<unsafe extern "C" fn(NonNull<c_void>) -> NSUInteger>,
-                ) -> Bool,
-            >,
-        );
+    #[objc2::method(sel = "sizeFunction")]
+    pub unsafe fn sizeFunction(
+        &self,
+    ) -> Option<unsafe extern "C" fn(NonNull<c_void>) -> NSUInteger>;
 
-        #[method(sizeFunction)]
-        pub unsafe fn sizeFunction(
-            &self,
-        ) -> Option<unsafe extern "C" fn(NonNull<c_void>) -> NSUInteger>;
+    #[objc2::method(sel = "setSizeFunction:")]
+    pub unsafe fn setSizeFunction(
+        &self,
+        size_function: Option<unsafe extern "C" fn(NonNull<c_void>) -> NSUInteger>,
+    );
 
-        #[method(setSizeFunction:)]
-        pub unsafe fn setSizeFunction(
-            &self,
-            size_function: Option<unsafe extern "C" fn(NonNull<c_void>) -> NSUInteger>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "descriptionFunction")]
+    pub unsafe fn descriptionFunction(
+        &self,
+    ) -> Option<unsafe extern "C" fn(NonNull<c_void>) -> *mut NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(descriptionFunction)]
-        pub unsafe fn descriptionFunction(
-            &self,
-        ) -> Option<unsafe extern "C" fn(NonNull<c_void>) -> *mut NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setDescriptionFunction:")]
+    pub unsafe fn setDescriptionFunction(
+        &self,
+        description_function: Option<unsafe extern "C" fn(NonNull<c_void>) -> *mut NSString>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setDescriptionFunction:)]
-        pub unsafe fn setDescriptionFunction(
-            &self,
-            description_function: Option<unsafe extern "C" fn(NonNull<c_void>) -> *mut NSString>,
-        );
+    #[objc2::method(sel = "relinquishFunction")]
+    pub unsafe fn relinquishFunction(
+        &self,
+    ) -> Option<
+        unsafe extern "C" fn(
+            NonNull<c_void>,
+            Option<unsafe extern "C" fn(NonNull<c_void>) -> NSUInteger>,
+        ),
+    >;
 
-        #[method(relinquishFunction)]
-        pub unsafe fn relinquishFunction(
-            &self,
-        ) -> Option<
+    #[objc2::method(sel = "setRelinquishFunction:")]
+    pub unsafe fn setRelinquishFunction(
+        &self,
+        relinquish_function: Option<
             unsafe extern "C" fn(
                 NonNull<c_void>,
                 Option<unsafe extern "C" fn(NonNull<c_void>) -> NSUInteger>,
             ),
-        >;
+        >,
+    );
 
-        #[method(setRelinquishFunction:)]
-        pub unsafe fn setRelinquishFunction(
-            &self,
-            relinquish_function: Option<
-                unsafe extern "C" fn(
-                    NonNull<c_void>,
-                    Option<unsafe extern "C" fn(NonNull<c_void>) -> NSUInteger>,
-                ),
-            >,
-        );
+    #[objc2::method(sel = "acquireFunction")]
+    pub unsafe fn acquireFunction(
+        &self,
+    ) -> Option<
+        unsafe extern "C" fn(
+            NonNull<c_void>,
+            Option<unsafe extern "C" fn(NonNull<c_void>) -> NSUInteger>,
+            Bool,
+        ) -> NonNull<c_void>,
+    >;
 
-        #[method(acquireFunction)]
-        pub unsafe fn acquireFunction(
-            &self,
-        ) -> Option<
+    #[objc2::method(sel = "setAcquireFunction:")]
+    pub unsafe fn setAcquireFunction(
+        &self,
+        acquire_function: Option<
             unsafe extern "C" fn(
                 NonNull<c_void>,
                 Option<unsafe extern "C" fn(NonNull<c_void>) -> NSUInteger>,
                 Bool,
             ) -> NonNull<c_void>,
-        >;
+        >,
+    );
 
-        #[method(setAcquireFunction:)]
-        pub unsafe fn setAcquireFunction(
-            &self,
-            acquire_function: Option<
-                unsafe extern "C" fn(
-                    NonNull<c_void>,
-                    Option<unsafe extern "C" fn(NonNull<c_void>) -> NSUInteger>,
-                    Bool,
-                ) -> NonNull<c_void>,
-            >,
-        );
+    #[deprecated = "Garbage collection no longer supported"]
+    #[objc2::method(sel = "usesStrongWriteBarrier")]
+    pub unsafe fn usesStrongWriteBarrier(&self) -> bool;
 
-        #[deprecated = "Garbage collection no longer supported"]
-        #[method(usesStrongWriteBarrier)]
-        pub unsafe fn usesStrongWriteBarrier(&self) -> bool;
+    #[deprecated = "Garbage collection no longer supported"]
+    #[objc2::method(sel = "setUsesStrongWriteBarrier:")]
+    pub unsafe fn setUsesStrongWriteBarrier(&self, uses_strong_write_barrier: bool);
 
-        #[deprecated = "Garbage collection no longer supported"]
-        #[method(setUsesStrongWriteBarrier:)]
-        pub unsafe fn setUsesStrongWriteBarrier(&self, uses_strong_write_barrier: bool);
+    #[deprecated = "Garbage collection no longer supported"]
+    #[objc2::method(sel = "usesWeakReadAndWriteBarriers")]
+    pub unsafe fn usesWeakReadAndWriteBarriers(&self) -> bool;
 
-        #[deprecated = "Garbage collection no longer supported"]
-        #[method(usesWeakReadAndWriteBarriers)]
-        pub unsafe fn usesWeakReadAndWriteBarriers(&self) -> bool;
-
-        #[deprecated = "Garbage collection no longer supported"]
-        #[method(setUsesWeakReadAndWriteBarriers:)]
-        pub unsafe fn setUsesWeakReadAndWriteBarriers(
-            &self,
-            uses_weak_read_and_write_barriers: bool,
-        );
-    }
-);
+    #[deprecated = "Garbage collection no longer supported"]
+    #[objc2::method(sel = "setUsesWeakReadAndWriteBarriers:")]
+    pub unsafe fn setUsesWeakReadAndWriteBarriers(&self, uses_weak_read_and_write_barriers: bool);
+}

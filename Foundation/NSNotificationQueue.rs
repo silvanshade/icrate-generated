@@ -3,75 +3,76 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSPostingStyle {
-        NSPostWhenIdle = 1,
-        NSPostASAP = 2,
-        NSPostNow = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSPostingStyle {
+    NSPostWhenIdle = 1,
+    NSPostASAP = 2,
+    NSPostNow = 3,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSNotificationCoalescing {
-        NSNotificationNoCoalescing = 0,
-        NSNotificationCoalescingOnName = 1,
-        NSNotificationCoalescingOnSender = 2,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSNotificationCoalescing {
+    NSNotificationNoCoalescing = 0,
+    NSNotificationCoalescingOnName = 1,
+    NSNotificationCoalescingOnSender = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSNotificationQueue")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSNotificationQueue")]
-    pub struct NSNotificationQueue;
-
-    #[cfg(feature = "Foundation_NSNotificationQueue")]
-    unsafe impl ClassType for NSNotificationQueue {
-        type Super = NSObject;
-    }
-);
+    pub type NSNotificationQueue;
+}
 
 #[cfg(feature = "Foundation_NSNotificationQueue")]
 unsafe impl NSObjectProtocol for NSNotificationQueue {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSNotificationQueue")]
-    unsafe impl NSNotificationQueue {
-        #[method_id(@__retain_semantics Other defaultQueue)]
-        pub unsafe fn defaultQueue() -> Id<NSNotificationQueue>;
+    pub type NSNotificationQueue;
 
-        #[cfg(feature = "Foundation_NSNotificationCenter")]
-        #[method_id(@__retain_semantics Init initWithNotificationCenter:)]
-        pub unsafe fn initWithNotificationCenter(
-            this: Option<Allocated<Self>>,
-            notification_center: &NSNotificationCenter,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "defaultQueue", managed = "Other")]
+    pub unsafe fn defaultQueue() -> Id<NSNotificationQueue>;
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[method(enqueueNotification:postingStyle:)]
-        pub unsafe fn enqueueNotification_postingStyle(
-            &self,
-            notification: &NSNotification,
-            posting_style: NSPostingStyle,
-        );
+    #[cfg(feature = "Foundation_NSNotificationCenter")]
+    #[objc2::method(sel = "initWithNotificationCenter:", managed = "Init")]
+    pub unsafe fn initWithNotificationCenter(
+        this: Option<Allocated<Self>>,
+        notification_center: &NSNotificationCenter,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNotification"))]
-        #[method(enqueueNotification:postingStyle:coalesceMask:forModes:)]
-        pub unsafe fn enqueueNotification_postingStyle_coalesceMask_forModes(
-            &self,
-            notification: &NSNotification,
-            posting_style: NSPostingStyle,
-            coalesce_mask: NSNotificationCoalescing,
-            modes: Option<&NSArray<NSRunLoopMode>>,
-        );
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(sel = "enqueueNotification:postingStyle:")]
+    pub unsafe fn enqueueNotification_postingStyle(
+        &self,
+        notification: &NSNotification,
+        posting_style: NSPostingStyle,
+    );
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[method(dequeueNotificationsMatching:coalesceMask:)]
-        pub unsafe fn dequeueNotificationsMatching_coalesceMask(
-            &self,
-            notification: &NSNotification,
-            coalesce_mask: NSUInteger,
-        );
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNotification"))]
+    #[objc2::method(sel = "enqueueNotification:postingStyle:coalesceMask:forModes:")]
+    pub unsafe fn enqueueNotification_postingStyle_coalesceMask_forModes(
+        &self,
+        notification: &NSNotification,
+        posting_style: NSPostingStyle,
+        coalesce_mask: NSNotificationCoalescing,
+        modes: Option<&NSArray<NSRunLoopMode>>,
+    );
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(sel = "dequeueNotificationsMatching:coalesceMask:")]
+    pub unsafe fn dequeueNotificationsMatching_coalesceMask(
+        &self,
+        notification: &NSNotification,
+        coalesce_mask: NSUInteger,
+    );
+}

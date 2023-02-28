@@ -3,16 +3,16 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSNull")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSNull")]
-    pub struct NSNull;
-
-    #[cfg(feature = "Foundation_NSNull")]
-    unsafe impl ClassType for NSNull {
-        type Super = NSObject;
-    }
-);
+    pub type NSNull;
+}
 
 #[cfg(feature = "Foundation_NSNull")]
 unsafe impl NSCoding for NSNull {}
@@ -23,10 +23,13 @@ unsafe impl NSObjectProtocol for NSNull {}
 #[cfg(feature = "Foundation_NSNull")]
 unsafe impl NSSecureCoding for NSNull {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSNull")]
-    unsafe impl NSNull {
-        #[method_id(@__retain_semantics Other null)]
-        pub unsafe fn null() -> Id<NSNull>;
-    }
-);
+    pub type NSNull;
+
+    #[objc2::method(sel = "null", managed = "Other")]
+    pub unsafe fn null() -> Id<NSNull>;
+}

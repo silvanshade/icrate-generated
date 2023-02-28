@@ -13,17 +13,17 @@ extern_static!(NSSliderAccessoryWidthDefault: NSSliderAccessoryWidth);
 
 extern_static!(NSSliderAccessoryWidthWide: NSSliderAccessoryWidth);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSTouchBarItem,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSliderTouchBarItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSSliderTouchBarItem")]
-    pub struct NSSliderTouchBarItem;
-
-    #[cfg(feature = "AppKit_NSSliderTouchBarItem")]
-    unsafe impl ClassType for NSSliderTouchBarItem {
-        #[inherits(NSObject)]
-        type Super = NSTouchBarItem;
-    }
-);
+    pub type NSSliderTouchBarItem;
+}
 
 #[cfg(feature = "AppKit_NSSliderTouchBarItem")]
 unsafe impl NSCoding for NSSliderTouchBarItem {}
@@ -31,105 +31,114 @@ unsafe impl NSCoding for NSSliderTouchBarItem {}
 #[cfg(feature = "AppKit_NSSliderTouchBarItem")]
 unsafe impl NSObjectProtocol for NSSliderTouchBarItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSliderTouchBarItem")]
-    unsafe impl NSSliderTouchBarItem {
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other view)]
-        pub unsafe fn view(&self) -> Id<NSView>;
+    pub type NSSliderTouchBarItem;
 
-        #[cfg(feature = "AppKit_NSSlider")]
-        #[method_id(@__retain_semantics Other slider)]
-        pub unsafe fn slider(&self) -> Id<NSSlider>;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "view", managed = "Other")]
+    pub unsafe fn view(&self) -> Id<NSView>;
 
-        #[cfg(feature = "AppKit_NSSlider")]
-        #[method(setSlider:)]
-        pub unsafe fn setSlider(&self, slider: &NSSlider);
+    #[cfg(feature = "AppKit_NSSlider")]
+    #[objc2::method(sel = "slider", managed = "Other")]
+    pub unsafe fn slider(&self) -> Id<NSSlider>;
 
-        #[method(doubleValue)]
-        pub unsafe fn doubleValue(&self) -> c_double;
+    #[cfg(feature = "AppKit_NSSlider")]
+    #[objc2::method(sel = "setSlider:")]
+    pub unsafe fn setSlider(&self, slider: &NSSlider);
 
-        #[method(setDoubleValue:)]
-        pub unsafe fn setDoubleValue(&self, double_value: c_double);
+    #[objc2::method(sel = "doubleValue")]
+    pub unsafe fn doubleValue(&self) -> c_double;
 
-        #[method(minimumSliderWidth)]
-        pub unsafe fn minimumSliderWidth(&self) -> CGFloat;
+    #[objc2::method(sel = "setDoubleValue:")]
+    pub unsafe fn setDoubleValue(&self, double_value: c_double);
 
-        #[method(setMinimumSliderWidth:)]
-        pub unsafe fn setMinimumSliderWidth(&self, minimum_slider_width: CGFloat);
+    #[objc2::method(sel = "minimumSliderWidth")]
+    pub unsafe fn minimumSliderWidth(&self) -> CGFloat;
 
-        #[method(maximumSliderWidth)]
-        pub unsafe fn maximumSliderWidth(&self) -> CGFloat;
+    #[objc2::method(sel = "setMinimumSliderWidth:")]
+    pub unsafe fn setMinimumSliderWidth(&self, minimum_slider_width: CGFloat);
 
-        #[method(setMaximumSliderWidth:)]
-        pub unsafe fn setMaximumSliderWidth(&self, maximum_slider_width: CGFloat);
+    #[objc2::method(sel = "maximumSliderWidth")]
+    pub unsafe fn maximumSliderWidth(&self) -> CGFloat;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        pub unsafe fn label(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setMaximumSliderWidth:")]
+    pub unsafe fn setMaximumSliderWidth(&self, maximum_slider_width: CGFloat);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        pub unsafe fn setLabel(&self, label: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    pub unsafe fn label(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "AppKit_NSSliderAccessory")]
-        #[method_id(@__retain_semantics Other minimumValueAccessory)]
-        pub unsafe fn minimumValueAccessory(&self) -> Option<Id<NSSliderAccessory>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    pub unsafe fn setLabel(&self, label: Option<&NSString>);
 
-        #[cfg(feature = "AppKit_NSSliderAccessory")]
-        #[method(setMinimumValueAccessory:)]
-        pub unsafe fn setMinimumValueAccessory(
-            &self,
-            minimum_value_accessory: Option<&NSSliderAccessory>,
-        );
+    #[cfg(feature = "AppKit_NSSliderAccessory")]
+    #[objc2::method(sel = "minimumValueAccessory", managed = "Other")]
+    pub unsafe fn minimumValueAccessory(&self) -> Option<Id<NSSliderAccessory>>;
 
-        #[cfg(feature = "AppKit_NSSliderAccessory")]
-        #[method_id(@__retain_semantics Other maximumValueAccessory)]
-        pub unsafe fn maximumValueAccessory(&self) -> Option<Id<NSSliderAccessory>>;
+    #[cfg(feature = "AppKit_NSSliderAccessory")]
+    #[objc2::method(sel = "setMinimumValueAccessory:")]
+    pub unsafe fn setMinimumValueAccessory(
+        &self,
+        minimum_value_accessory: Option<&NSSliderAccessory>,
+    );
 
-        #[cfg(feature = "AppKit_NSSliderAccessory")]
-        #[method(setMaximumValueAccessory:)]
-        pub unsafe fn setMaximumValueAccessory(
-            &self,
-            maximum_value_accessory: Option<&NSSliderAccessory>,
-        );
+    #[cfg(feature = "AppKit_NSSliderAccessory")]
+    #[objc2::method(sel = "maximumValueAccessory", managed = "Other")]
+    pub unsafe fn maximumValueAccessory(&self) -> Option<Id<NSSliderAccessory>>;
 
-        #[method(valueAccessoryWidth)]
-        pub unsafe fn valueAccessoryWidth(&self) -> NSSliderAccessoryWidth;
+    #[cfg(feature = "AppKit_NSSliderAccessory")]
+    #[objc2::method(sel = "setMaximumValueAccessory:")]
+    pub unsafe fn setMaximumValueAccessory(
+        &self,
+        maximum_value_accessory: Option<&NSSliderAccessory>,
+    );
 
-        #[method(setValueAccessoryWidth:)]
-        pub unsafe fn setValueAccessoryWidth(&self, value_accessory_width: NSSliderAccessoryWidth);
+    #[objc2::method(sel = "valueAccessoryWidth")]
+    pub unsafe fn valueAccessoryWidth(&self) -> NSSliderAccessoryWidth;
 
-        #[method_id(@__retain_semantics Other target)]
-        pub unsafe fn target(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setValueAccessoryWidth:")]
+    pub unsafe fn setValueAccessoryWidth(&self, value_accessory_width: NSSliderAccessoryWidth);
 
-        #[method(setTarget:)]
-        pub unsafe fn setTarget(&self, target: Option<&Object>);
+    #[objc2::method(sel = "target", managed = "Other")]
+    pub unsafe fn target(&self) -> Option<Id<Object>>;
 
-        #[method(action)]
-        pub unsafe fn action(&self) -> Option<Sel>;
+    #[objc2::method(sel = "setTarget:")]
+    pub unsafe fn setTarget(&self, target: Option<&Object>);
 
-        #[method(setAction:)]
-        pub unsafe fn setAction(&self, action: Option<Sel>);
+    #[objc2::method(sel = "action")]
+    pub unsafe fn action(&self) -> Option<Sel>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other customizationLabel)]
-        pub unsafe fn customizationLabel(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setAction:")]
+    pub unsafe fn setAction(&self, action: Option<Sel>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCustomizationLabel:)]
-        pub unsafe fn setCustomizationLabel(&self, customization_label: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "customizationLabel", managed = "Other")]
+    pub unsafe fn customizationLabel(&self) -> Id<NSString>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSTouchBarItem`
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCustomizationLabel:")]
+    pub unsafe fn setCustomizationLabel(&self, customization_label: Option<&NSString>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSTouchBarItem`
     #[cfg(feature = "AppKit_NSSliderTouchBarItem")]
-    unsafe impl NSSliderTouchBarItem {
-        #[method_id(@__retain_semantics Init initWithIdentifier:)]
-        pub unsafe fn initWithIdentifier(
-            this: Option<Allocated<Self>>,
-            identifier: &NSTouchBarItemIdentifier,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSliderTouchBarItem")]
+    pub type NSSliderTouchBarItem;
+
+    #[objc2::method(sel = "initWithIdentifier:", managed = "Init")]
+    pub unsafe fn initWithIdentifier(
+        this: Option<Allocated<Self>>,
+        identifier: &NSTouchBarItemIdentifier,
+    ) -> Id<Self>;
+}

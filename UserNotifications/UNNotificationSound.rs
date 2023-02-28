@@ -9,16 +9,16 @@ typed_extensible_enum!(
     pub type UNNotificationSoundName = NSString;
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNNotificationSound")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "UserNotifications_UNNotificationSound")]
-    pub struct UNNotificationSound;
-
-    #[cfg(feature = "UserNotifications_UNNotificationSound")]
-    unsafe impl ClassType for UNNotificationSound {
-        type Super = NSObject;
-    }
-);
+    pub type UNNotificationSound;
+}
 
 #[cfg(feature = "UserNotifications_UNNotificationSound")]
 unsafe impl NSCoding for UNNotificationSound {}
@@ -29,37 +29,40 @@ unsafe impl NSObjectProtocol for UNNotificationSound {}
 #[cfg(feature = "UserNotifications_UNNotificationSound")]
 unsafe impl NSSecureCoding for UNNotificationSound {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "UserNotifications_UNNotificationSound")]
-    unsafe impl UNNotificationSound {
-        #[method_id(@__retain_semantics Other defaultSound)]
-        pub unsafe fn defaultSound() -> Id<UNNotificationSound>;
+    pub type UNNotificationSound;
 
-        #[method_id(@__retain_semantics Other defaultRingtoneSound)]
-        pub unsafe fn defaultRingtoneSound() -> Id<UNNotificationSound>;
+    #[objc2::method(sel = "defaultSound", managed = "Other")]
+    pub unsafe fn defaultSound() -> Id<UNNotificationSound>;
 
-        #[method_id(@__retain_semantics Other defaultCriticalSound)]
-        pub unsafe fn defaultCriticalSound() -> Id<UNNotificationSound>;
+    #[objc2::method(sel = "defaultRingtoneSound", managed = "Other")]
+    pub unsafe fn defaultRingtoneSound() -> Id<UNNotificationSound>;
 
-        #[method_id(@__retain_semantics Other defaultCriticalSoundWithAudioVolume:)]
-        pub unsafe fn defaultCriticalSoundWithAudioVolume(volume: c_float) -> Id<Self>;
+    #[objc2::method(sel = "defaultCriticalSound", managed = "Other")]
+    pub unsafe fn defaultCriticalSound() -> Id<UNNotificationSound>;
 
-        #[method_id(@__retain_semantics Other soundNamed:)]
-        pub unsafe fn soundNamed(name: &UNNotificationSoundName) -> Id<Self>;
+    #[objc2::method(sel = "defaultCriticalSoundWithAudioVolume:", managed = "Other")]
+    pub unsafe fn defaultCriticalSoundWithAudioVolume(volume: c_float) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other ringtoneSoundNamed:)]
-        pub unsafe fn ringtoneSoundNamed(name: &UNNotificationSoundName) -> Id<Self>;
+    #[objc2::method(sel = "soundNamed:", managed = "Other")]
+    pub unsafe fn soundNamed(name: &UNNotificationSoundName) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other criticalSoundNamed:)]
-        pub unsafe fn criticalSoundNamed(name: &UNNotificationSoundName) -> Id<Self>;
+    #[objc2::method(sel = "ringtoneSoundNamed:", managed = "Other")]
+    pub unsafe fn ringtoneSoundNamed(name: &UNNotificationSoundName) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other criticalSoundNamed:withAudioVolume:)]
-        pub unsafe fn criticalSoundNamed_withAudioVolume(
-            name: &UNNotificationSoundName,
-            volume: c_float,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "criticalSoundNamed:", managed = "Other")]
+    pub unsafe fn criticalSoundNamed(name: &UNNotificationSoundName) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "criticalSoundNamed:withAudioVolume:", managed = "Other")]
+    pub unsafe fn criticalSoundNamed_withAudioVolume(
+        name: &UNNotificationSoundName,
+        volume: c_float,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

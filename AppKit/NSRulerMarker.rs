@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSRulerMarker")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSRulerMarker")]
-    pub struct NSRulerMarker;
-
-    #[cfg(feature = "AppKit_NSRulerMarker")]
-    unsafe impl ClassType for NSRulerMarker {
-        type Super = NSObject;
-    }
-);
+    pub type NSRulerMarker;
+}
 
 #[cfg(feature = "AppKit_NSRulerMarker")]
 unsafe impl NSCoding for NSRulerMarker {}
@@ -22,83 +22,88 @@ unsafe impl NSCoding for NSRulerMarker {}
 #[cfg(feature = "AppKit_NSRulerMarker")]
 unsafe impl NSObjectProtocol for NSRulerMarker {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSRulerMarker")]
-    unsafe impl NSRulerMarker {
-        #[cfg(all(feature = "AppKit_NSImage", feature = "AppKit_NSRulerView"))]
-        #[method_id(@__retain_semantics Init initWithRulerView:markerLocation:image:imageOrigin:)]
-        pub unsafe fn initWithRulerView_markerLocation_image_imageOrigin(
-            this: Option<Allocated<Self>>,
-            ruler: &NSRulerView,
-            location: CGFloat,
-            image: &NSImage,
-            image_origin: NSPoint,
-        ) -> Id<Self>;
+    pub type NSRulerMarker;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+    #[cfg(all(feature = "AppKit_NSImage", feature = "AppKit_NSRulerView"))]
+    #[objc2::method(
+        sel = "initWithRulerView:markerLocation:image:imageOrigin:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithRulerView_markerLocation_image_imageOrigin(
+        this: Option<Allocated<Self>>,
+        ruler: &NSRulerView,
+        location: CGFloat,
+        image: &NSImage,
+        image_origin: NSPoint,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSRulerView")]
-        #[method_id(@__retain_semantics Other ruler)]
-        pub unsafe fn ruler(&self) -> Option<Id<NSRulerView>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(markerLocation)]
-        pub unsafe fn markerLocation(&self) -> CGFloat;
+    #[cfg(feature = "AppKit_NSRulerView")]
+    #[objc2::method(sel = "ruler", managed = "Other")]
+    pub unsafe fn ruler(&self) -> Option<Id<NSRulerView>>;
 
-        #[method(setMarkerLocation:)]
-        pub unsafe fn setMarkerLocation(&self, marker_location: CGFloat);
+    #[objc2::method(sel = "markerLocation")]
+    pub unsafe fn markerLocation(&self) -> CGFloat;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Id<NSImage>;
+    #[objc2::method(sel = "setMarkerLocation:")]
+    pub unsafe fn setMarkerLocation(&self, marker_location: CGFloat);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setImage:)]
-        pub unsafe fn setImage(&self, image: &NSImage);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Id<NSImage>;
 
-        #[method(imageOrigin)]
-        pub unsafe fn imageOrigin(&self) -> NSPoint;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setImage:")]
+    pub unsafe fn setImage(&self, image: &NSImage);
 
-        #[method(setImageOrigin:)]
-        pub unsafe fn setImageOrigin(&self, image_origin: NSPoint);
+    #[objc2::method(sel = "imageOrigin")]
+    pub unsafe fn imageOrigin(&self) -> NSPoint;
 
-        #[method(isMovable)]
-        pub unsafe fn isMovable(&self) -> bool;
+    #[objc2::method(sel = "setImageOrigin:")]
+    pub unsafe fn setImageOrigin(&self, image_origin: NSPoint);
 
-        #[method(setMovable:)]
-        pub unsafe fn setMovable(&self, movable: bool);
+    #[objc2::method(sel = "isMovable")]
+    pub unsafe fn isMovable(&self) -> bool;
 
-        #[method(isRemovable)]
-        pub unsafe fn isRemovable(&self) -> bool;
+    #[objc2::method(sel = "setMovable:")]
+    pub unsafe fn setMovable(&self, movable: bool);
 
-        #[method(setRemovable:)]
-        pub unsafe fn setRemovable(&self, removable: bool);
+    #[objc2::method(sel = "isRemovable")]
+    pub unsafe fn isRemovable(&self) -> bool;
 
-        #[method(isDragging)]
-        pub unsafe fn isDragging(&self) -> bool;
+    #[objc2::method(sel = "setRemovable:")]
+    pub unsafe fn setRemovable(&self, removable: bool);
 
-        #[method_id(@__retain_semantics Other representedObject)]
-        pub unsafe fn representedObject(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "isDragging")]
+    pub unsafe fn isDragging(&self) -> bool;
 
-        #[method(setRepresentedObject:)]
-        pub unsafe fn setRepresentedObject(&self, represented_object: Option<&Object>);
+    #[objc2::method(sel = "representedObject", managed = "Other")]
+    pub unsafe fn representedObject(&self) -> Option<Id<Object>>;
 
-        #[method(imageRectInRuler)]
-        pub unsafe fn imageRectInRuler(&self) -> NSRect;
+    #[objc2::method(sel = "setRepresentedObject:")]
+    pub unsafe fn setRepresentedObject(&self, represented_object: Option<&Object>);
 
-        #[method(thicknessRequiredInRuler)]
-        pub unsafe fn thicknessRequiredInRuler(&self) -> CGFloat;
+    #[objc2::method(sel = "imageRectInRuler")]
+    pub unsafe fn imageRectInRuler(&self) -> NSRect;
 
-        #[method(drawRect:)]
-        pub unsafe fn drawRect(&self, rect: NSRect);
+    #[objc2::method(sel = "thicknessRequiredInRuler")]
+    pub unsafe fn thicknessRequiredInRuler(&self) -> CGFloat;
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(trackMouse:adding:)]
-        pub unsafe fn trackMouse_adding(&self, mouse_down_event: &NSEvent, is_adding: bool)
-            -> bool;
-    }
-);
+    #[objc2::method(sel = "drawRect:")]
+    pub unsafe fn drawRect(&self, rect: NSRect);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "trackMouse:adding:")]
+    pub unsafe fn trackMouse_adding(&self, mouse_down_event: &NSEvent, is_adding: bool) -> bool;
+}

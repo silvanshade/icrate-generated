@@ -5,18 +5,20 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMEntityReference")]
+#[objc2::interface(
+    unsafe super = DOMNode,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMEntityReference;
-
     #[cfg(feature = "WebKit_DOMEntityReference")]
-    unsafe impl ClassType for DOMEntityReference {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMNode;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMEntityReference;
+}
 
 #[cfg(feature = "WebKit_DOMEntityReference")]
 unsafe impl DOMEventTarget for DOMEntityReference {}
@@ -24,7 +26,11 @@ unsafe impl DOMEventTarget for DOMEntityReference {}
 #[cfg(feature = "WebKit_DOMEntityReference")]
 unsafe impl NSObjectProtocol for DOMEntityReference {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMEntityReference")]
-    unsafe impl DOMEntityReference {}
-);
+    #[deprecated]
+    pub type DOMEntityReference;
+}

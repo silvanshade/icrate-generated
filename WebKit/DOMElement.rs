@@ -5,27 +5,28 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_enum!(
-    #[underlying(c_uint)]
+#[extern_enum]
+#[underlying(c_uint)]
+#[deprecated]
+pub enum __anonymous__ {
     #[deprecated]
-    pub enum __anonymous__ {
-        #[deprecated]
-        DOM_ALLOW_KEYBOARD_INPUT = 1,
-    }
-);
+    DOM_ALLOW_KEYBOARD_INPUT = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = DOMNode,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[deprecated]
+    #[cfg(feature = "WebKit_DOMElement")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMElement")]
-    #[deprecated]
-    pub struct DOMElement;
-
-    #[cfg(feature = "WebKit_DOMElement")]
-    unsafe impl ClassType for DOMElement {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMNode;
-    }
-);
+    pub type DOMElement;
+}
 
 #[cfg(feature = "WebKit_DOMElement")]
 unsafe impl DOMEventTarget for DOMElement {}
@@ -33,297 +34,294 @@ unsafe impl DOMEventTarget for DOMElement {}
 #[cfg(feature = "WebKit_DOMElement")]
 unsafe impl NSObjectProtocol for DOMElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMElement")]
-    unsafe impl DOMElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other tagName)]
-        pub unsafe fn tagName(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMElement;
 
-        #[cfg(feature = "WebKit_DOMCSSStyleDeclaration")]
-        #[method_id(@__retain_semantics Other style)]
-        pub unsafe fn style(&self) -> Option<Id<DOMCSSStyleDeclaration>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "tagName", managed = "Other")]
+    pub unsafe fn tagName(&self) -> Id<NSString>;
 
-        #[method(offsetLeft)]
-        pub unsafe fn offsetLeft(&self) -> c_int;
+    #[cfg(feature = "WebKit_DOMCSSStyleDeclaration")]
+    #[objc2::method(sel = "style", managed = "Other")]
+    pub unsafe fn style(&self) -> Option<Id<DOMCSSStyleDeclaration>>;
 
-        #[method(offsetTop)]
-        pub unsafe fn offsetTop(&self) -> c_int;
+    #[objc2::method(sel = "offsetLeft")]
+    pub unsafe fn offsetLeft(&self) -> c_int;
 
-        #[method(offsetWidth)]
-        pub unsafe fn offsetWidth(&self) -> c_int;
+    #[objc2::method(sel = "offsetTop")]
+    pub unsafe fn offsetTop(&self) -> c_int;
 
-        #[method(offsetHeight)]
-        pub unsafe fn offsetHeight(&self) -> c_int;
+    #[objc2::method(sel = "offsetWidth")]
+    pub unsafe fn offsetWidth(&self) -> c_int;
 
-        #[method(clientLeft)]
-        pub unsafe fn clientLeft(&self) -> c_int;
+    #[objc2::method(sel = "offsetHeight")]
+    pub unsafe fn offsetHeight(&self) -> c_int;
 
-        #[method(clientTop)]
-        pub unsafe fn clientTop(&self) -> c_int;
+    #[objc2::method(sel = "clientLeft")]
+    pub unsafe fn clientLeft(&self) -> c_int;
 
-        #[method(clientWidth)]
-        pub unsafe fn clientWidth(&self) -> c_int;
+    #[objc2::method(sel = "clientTop")]
+    pub unsafe fn clientTop(&self) -> c_int;
 
-        #[method(clientHeight)]
-        pub unsafe fn clientHeight(&self) -> c_int;
+    #[objc2::method(sel = "clientWidth")]
+    pub unsafe fn clientWidth(&self) -> c_int;
 
-        #[method(scrollLeft)]
-        pub unsafe fn scrollLeft(&self) -> c_int;
+    #[objc2::method(sel = "clientHeight")]
+    pub unsafe fn clientHeight(&self) -> c_int;
 
-        #[method(setScrollLeft:)]
-        pub unsafe fn setScrollLeft(&self, scroll_left: c_int);
+    #[objc2::method(sel = "scrollLeft")]
+    pub unsafe fn scrollLeft(&self) -> c_int;
 
-        #[method(scrollTop)]
-        pub unsafe fn scrollTop(&self) -> c_int;
+    #[objc2::method(sel = "setScrollLeft:")]
+    pub unsafe fn setScrollLeft(&self, scroll_left: c_int);
 
-        #[method(setScrollTop:)]
-        pub unsafe fn setScrollTop(&self, scroll_top: c_int);
+    #[objc2::method(sel = "scrollTop")]
+    pub unsafe fn scrollTop(&self) -> c_int;
 
-        #[method(scrollWidth)]
-        pub unsafe fn scrollWidth(&self) -> c_int;
+    #[objc2::method(sel = "setScrollTop:")]
+    pub unsafe fn setScrollTop(&self, scroll_top: c_int);
 
-        #[method(scrollHeight)]
-        pub unsafe fn scrollHeight(&self) -> c_int;
+    #[objc2::method(sel = "scrollWidth")]
+    pub unsafe fn scrollWidth(&self) -> c_int;
 
-        #[method_id(@__retain_semantics Other offsetParent)]
-        pub unsafe fn offsetParent(&self) -> Option<Id<DOMElement>>;
+    #[objc2::method(sel = "scrollHeight")]
+    pub unsafe fn scrollHeight(&self) -> c_int;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other innerHTML)]
-        pub unsafe fn innerHTML(&self) -> Id<NSString>;
+    #[objc2::method(sel = "offsetParent", managed = "Other")]
+    pub unsafe fn offsetParent(&self) -> Option<Id<DOMElement>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setInnerHTML:)]
-        pub unsafe fn setInnerHTML(&self, inner_html: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "innerHTML", managed = "Other")]
+    pub unsafe fn innerHTML(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other outerHTML)]
-        pub unsafe fn outerHTML(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setInnerHTML:")]
+    pub unsafe fn setInnerHTML(&self, inner_html: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setOuterHTML:)]
-        pub unsafe fn setOuterHTML(&self, outer_html: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "outerHTML", managed = "Other")]
+    pub unsafe fn outerHTML(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other className)]
-        pub unsafe fn className(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setOuterHTML:")]
+    pub unsafe fn setOuterHTML(&self, outer_html: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setClassName:)]
-        pub unsafe fn setClassName(&self, class_name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "className", managed = "Other")]
+    pub unsafe fn className(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other innerText)]
-        pub unsafe fn innerText(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setClassName:")]
+    pub unsafe fn setClassName(&self, class_name: Option<&NSString>);
 
-        #[method_id(@__retain_semantics Other previousElementSibling)]
-        pub unsafe fn previousElementSibling(&self) -> Option<Id<DOMElement>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "innerText", managed = "Other")]
+    pub unsafe fn innerText(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Other nextElementSibling)]
-        pub unsafe fn nextElementSibling(&self) -> Option<Id<DOMElement>>;
+    #[objc2::method(sel = "previousElementSibling", managed = "Other")]
+    pub unsafe fn previousElementSibling(&self) -> Option<Id<DOMElement>>;
 
-        #[method_id(@__retain_semantics Other firstElementChild)]
-        pub unsafe fn firstElementChild(&self) -> Option<Id<DOMElement>>;
+    #[objc2::method(sel = "nextElementSibling", managed = "Other")]
+    pub unsafe fn nextElementSibling(&self) -> Option<Id<DOMElement>>;
 
-        #[method_id(@__retain_semantics Other lastElementChild)]
-        pub unsafe fn lastElementChild(&self) -> Option<Id<DOMElement>>;
+    #[objc2::method(sel = "firstElementChild", managed = "Other")]
+    pub unsafe fn firstElementChild(&self) -> Option<Id<DOMElement>>;
 
-        #[method(childElementCount)]
-        pub unsafe fn childElementCount(&self) -> c_uint;
+    #[objc2::method(sel = "lastElementChild", managed = "Other")]
+    pub unsafe fn lastElementChild(&self) -> Option<Id<DOMElement>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other getAttribute:)]
-        pub unsafe fn getAttribute(&self, name: Option<&NSString>) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "childElementCount")]
+    pub unsafe fn childElementCount(&self) -> c_uint;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAttribute:value:)]
-        pub unsafe fn setAttribute_value(&self, name: Option<&NSString>, value: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "getAttribute:", managed = "Other")]
+    pub unsafe fn getAttribute(&self, name: Option<&NSString>) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(removeAttribute:)]
-        pub unsafe fn removeAttribute(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAttribute:value:")]
+    pub unsafe fn setAttribute_value(&self, name: Option<&NSString>, value: Option<&NSString>);
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMAttr"))]
-        #[method_id(@__retain_semantics Other getAttributeNode:)]
-        pub unsafe fn getAttributeNode(&self, name: Option<&NSString>) -> Option<Id<DOMAttr>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "removeAttribute:")]
+    pub unsafe fn removeAttribute(&self, name: Option<&NSString>);
 
-        #[cfg(feature = "WebKit_DOMAttr")]
-        #[method_id(@__retain_semantics Other setAttributeNode:)]
-        pub unsafe fn setAttributeNode(&self, new_attr: Option<&DOMAttr>) -> Option<Id<DOMAttr>>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMAttr"))]
+    #[objc2::method(sel = "getAttributeNode:", managed = "Other")]
+    pub unsafe fn getAttributeNode(&self, name: Option<&NSString>) -> Option<Id<DOMAttr>>;
 
-        #[cfg(feature = "WebKit_DOMAttr")]
-        #[method_id(@__retain_semantics Other removeAttributeNode:)]
-        pub unsafe fn removeAttributeNode(&self, old_attr: Option<&DOMAttr>)
-            -> Option<Id<DOMAttr>>;
+    #[cfg(feature = "WebKit_DOMAttr")]
+    #[objc2::method(sel = "setAttributeNode:", managed = "Other")]
+    pub unsafe fn setAttributeNode(&self, new_attr: Option<&DOMAttr>) -> Option<Id<DOMAttr>>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNodeList"))]
-        #[method_id(@__retain_semantics Other getElementsByTagName:)]
-        pub unsafe fn getElementsByTagName(
-            &self,
-            name: Option<&NSString>,
-        ) -> Option<Id<DOMNodeList>>;
+    #[cfg(feature = "WebKit_DOMAttr")]
+    #[objc2::method(sel = "removeAttributeNode:", managed = "Other")]
+    pub unsafe fn removeAttributeNode(&self, old_attr: Option<&DOMAttr>) -> Option<Id<DOMAttr>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other getAttributeNS:localName:)]
-        pub unsafe fn getAttributeNS_localName(
-            &self,
-            namespace_uri: Option<&NSString>,
-            local_name: Option<&NSString>,
-        ) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNodeList"))]
+    #[objc2::method(sel = "getElementsByTagName:", managed = "Other")]
+    pub unsafe fn getElementsByTagName(&self, name: Option<&NSString>) -> Option<Id<DOMNodeList>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAttributeNS:qualifiedName:value:)]
-        pub unsafe fn setAttributeNS_qualifiedName_value(
-            &self,
-            namespace_uri: Option<&NSString>,
-            qualified_name: Option<&NSString>,
-            value: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "getAttributeNS:localName:", managed = "Other")]
+    pub unsafe fn getAttributeNS_localName(
+        &self,
+        namespace_uri: Option<&NSString>,
+        local_name: Option<&NSString>,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(removeAttributeNS:localName:)]
-        pub unsafe fn removeAttributeNS_localName(
-            &self,
-            namespace_uri: Option<&NSString>,
-            local_name: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAttributeNS:qualifiedName:value:")]
+    pub unsafe fn setAttributeNS_qualifiedName_value(
+        &self,
+        namespace_uri: Option<&NSString>,
+        qualified_name: Option<&NSString>,
+        value: Option<&NSString>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNodeList"))]
-        #[method_id(@__retain_semantics Other getElementsByTagNameNS:localName:)]
-        pub unsafe fn getElementsByTagNameNS_localName(
-            &self,
-            namespace_uri: Option<&NSString>,
-            local_name: Option<&NSString>,
-        ) -> Option<Id<DOMNodeList>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "removeAttributeNS:localName:")]
+    pub unsafe fn removeAttributeNS_localName(
+        &self,
+        namespace_uri: Option<&NSString>,
+        local_name: Option<&NSString>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMAttr"))]
-        #[method_id(@__retain_semantics Other getAttributeNodeNS:localName:)]
-        pub unsafe fn getAttributeNodeNS_localName(
-            &self,
-            namespace_uri: Option<&NSString>,
-            local_name: Option<&NSString>,
-        ) -> Option<Id<DOMAttr>>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNodeList"))]
+    #[objc2::method(sel = "getElementsByTagNameNS:localName:", managed = "Other")]
+    pub unsafe fn getElementsByTagNameNS_localName(
+        &self,
+        namespace_uri: Option<&NSString>,
+        local_name: Option<&NSString>,
+    ) -> Option<Id<DOMNodeList>>;
 
-        #[cfg(feature = "WebKit_DOMAttr")]
-        #[method_id(@__retain_semantics Other setAttributeNodeNS:)]
-        pub unsafe fn setAttributeNodeNS(&self, new_attr: Option<&DOMAttr>) -> Option<Id<DOMAttr>>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMAttr"))]
+    #[objc2::method(sel = "getAttributeNodeNS:localName:", managed = "Other")]
+    pub unsafe fn getAttributeNodeNS_localName(
+        &self,
+        namespace_uri: Option<&NSString>,
+        local_name: Option<&NSString>,
+    ) -> Option<Id<DOMAttr>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(hasAttribute:)]
-        pub unsafe fn hasAttribute(&self, name: Option<&NSString>) -> bool;
+    #[cfg(feature = "WebKit_DOMAttr")]
+    #[objc2::method(sel = "setAttributeNodeNS:", managed = "Other")]
+    pub unsafe fn setAttributeNodeNS(&self, new_attr: Option<&DOMAttr>) -> Option<Id<DOMAttr>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(hasAttributeNS:localName:)]
-        pub unsafe fn hasAttributeNS_localName(
-            &self,
-            namespace_uri: Option<&NSString>,
-            local_name: Option<&NSString>,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "hasAttribute:")]
+    pub unsafe fn hasAttribute(&self, name: Option<&NSString>) -> bool;
 
-        #[method(focus)]
-        pub unsafe fn focus(&self);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "hasAttributeNS:localName:")]
+    pub unsafe fn hasAttributeNS_localName(
+        &self,
+        namespace_uri: Option<&NSString>,
+        local_name: Option<&NSString>,
+    ) -> bool;
 
-        #[method(blur)]
-        pub unsafe fn blur(&self);
+    #[objc2::method(sel = "focus")]
+    pub unsafe fn focus(&self);
 
-        #[method(scrollIntoView:)]
-        pub unsafe fn scrollIntoView(&self, align_with_top: bool);
+    #[objc2::method(sel = "blur")]
+    pub unsafe fn blur(&self);
 
-        #[method(scrollIntoViewIfNeeded:)]
-        pub unsafe fn scrollIntoViewIfNeeded(&self, center_if_needed: bool);
+    #[objc2::method(sel = "scrollIntoView:")]
+    pub unsafe fn scrollIntoView(&self, align_with_top: bool);
 
-        #[method(scrollByLines:)]
-        pub unsafe fn scrollByLines(&self, lines: c_int);
+    #[objc2::method(sel = "scrollIntoViewIfNeeded:")]
+    pub unsafe fn scrollIntoViewIfNeeded(&self, center_if_needed: bool);
 
-        #[method(scrollByPages:)]
-        pub unsafe fn scrollByPages(&self, pages: c_int);
+    #[objc2::method(sel = "scrollByLines:")]
+    pub unsafe fn scrollByLines(&self, lines: c_int);
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNodeList"))]
-        #[method_id(@__retain_semantics Other getElementsByClassName:)]
-        pub unsafe fn getElementsByClassName(
-            &self,
-            name: Option<&NSString>,
-        ) -> Option<Id<DOMNodeList>>;
+    #[objc2::method(sel = "scrollByPages:")]
+    pub unsafe fn scrollByPages(&self, pages: c_int);
 
-        #[method(webkitRequestFullScreen:)]
-        pub unsafe fn webkitRequestFullScreen(&self, flags: c_ushort);
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNodeList"))]
+    #[objc2::method(sel = "getElementsByClassName:", managed = "Other")]
+    pub unsafe fn getElementsByClassName(&self, name: Option<&NSString>)
+        -> Option<Id<DOMNodeList>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other querySelector:)]
-        pub unsafe fn querySelector(&self, selectors: Option<&NSString>) -> Option<Id<DOMElement>>;
+    #[objc2::method(sel = "webkitRequestFullScreen:")]
+    pub unsafe fn webkitRequestFullScreen(&self, flags: c_ushort);
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNodeList"))]
-        #[method_id(@__retain_semantics Other querySelectorAll:)]
-        pub unsafe fn querySelectorAll(
-            &self,
-            selectors: Option<&NSString>,
-        ) -> Option<Id<DOMNodeList>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "querySelector:", managed = "Other")]
+    pub unsafe fn querySelector(&self, selectors: Option<&NSString>) -> Option<Id<DOMElement>>;
 
-extern_methods!(
-    /// DOMElementDeprecated
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNodeList"))]
+    #[objc2::method(sel = "querySelectorAll:", managed = "Other")]
+    pub unsafe fn querySelectorAll(&self, selectors: Option<&NSString>) -> Option<Id<DOMNodeList>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMElement")]
-    unsafe impl DOMElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(setAttribute::)]
-        pub unsafe fn setAttribute(&self, name: Option<&NSString>, value: Option<&NSString>);
+    pub type DOMElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other getAttributeNS::)]
-        pub unsafe fn getAttributeNS(
-            &self,
-            namespace_uri: Option<&NSString>,
-            local_name: Option<&NSString>,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "setAttribute::")]
+    pub unsafe fn setAttribute(&self, name: Option<&NSString>, value: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(setAttributeNS:::)]
-        pub unsafe fn setAttributeNS(
-            &self,
-            namespace_uri: Option<&NSString>,
-            qualified_name: Option<&NSString>,
-            value: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "getAttributeNS::", managed = "Other")]
+    pub unsafe fn getAttributeNS(
+        &self,
+        namespace_uri: Option<&NSString>,
+        local_name: Option<&NSString>,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(removeAttributeNS::)]
-        pub unsafe fn removeAttributeNS(
-            &self,
-            namespace_uri: Option<&NSString>,
-            local_name: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "setAttributeNS:::")]
+    pub unsafe fn setAttributeNS(
+        &self,
+        namespace_uri: Option<&NSString>,
+        qualified_name: Option<&NSString>,
+        value: Option<&NSString>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNodeList"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other getElementsByTagNameNS::)]
-        pub unsafe fn getElementsByTagNameNS(
-            &self,
-            namespace_uri: Option<&NSString>,
-            local_name: Option<&NSString>,
-        ) -> Option<Id<DOMNodeList>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "removeAttributeNS::")]
+    pub unsafe fn removeAttributeNS(
+        &self,
+        namespace_uri: Option<&NSString>,
+        local_name: Option<&NSString>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMAttr"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other getAttributeNodeNS::)]
-        pub unsafe fn getAttributeNodeNS(
-            &self,
-            namespace_uri: Option<&NSString>,
-            local_name: Option<&NSString>,
-        ) -> Option<Id<DOMAttr>>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNodeList"))]
+    #[deprecated]
+    #[objc2::method(sel = "getElementsByTagNameNS::", managed = "Other")]
+    pub unsafe fn getElementsByTagNameNS(
+        &self,
+        namespace_uri: Option<&NSString>,
+        local_name: Option<&NSString>,
+    ) -> Option<Id<DOMNodeList>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(hasAttributeNS::)]
-        pub unsafe fn hasAttributeNS(
-            &self,
-            namespace_uri: Option<&NSString>,
-            local_name: Option<&NSString>,
-        ) -> bool;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMAttr"))]
+    #[deprecated]
+    #[objc2::method(sel = "getAttributeNodeNS::", managed = "Other")]
+    pub unsafe fn getAttributeNodeNS(
+        &self,
+        namespace_uri: Option<&NSString>,
+        local_name: Option<&NSString>,
+    ) -> Option<Id<DOMAttr>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "hasAttributeNS::")]
+    pub unsafe fn hasAttributeNS(
+        &self,
+        namespace_uri: Option<&NSString>,
+        local_name: Option<&NSString>,
+    ) -> bool;
+}

@@ -4,72 +4,74 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSPersistentHistoryChangeType {
-        NSPersistentHistoryChangeTypeInsert = 0,
-        NSPersistentHistoryChangeTypeUpdate = 1,
-        NSPersistentHistoryChangeTypeDelete = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSPersistentHistoryChangeType {
+    NSPersistentHistoryChangeTypeInsert = 0,
+    NSPersistentHistoryChangeTypeUpdate = 1,
+    NSPersistentHistoryChangeTypeDelete = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPersistentHistoryChange")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSPersistentHistoryChange")]
-    pub struct NSPersistentHistoryChange;
-
-    #[cfg(feature = "CoreData_NSPersistentHistoryChange")]
-    unsafe impl ClassType for NSPersistentHistoryChange {
-        type Super = NSObject;
-    }
-);
+    pub type NSPersistentHistoryChange;
+}
 
 #[cfg(feature = "CoreData_NSPersistentHistoryChange")]
 unsafe impl NSObjectProtocol for NSPersistentHistoryChange {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPersistentHistoryChange")]
-    unsafe impl NSPersistentHistoryChange {
-        #[cfg(all(
-            feature = "CoreData_NSEntityDescription",
-            feature = "CoreData_NSManagedObjectContext"
-        ))]
-        #[method_id(@__retain_semantics Other entityDescriptionWithContext:)]
-        pub unsafe fn entityDescriptionWithContext(
-            context: &NSManagedObjectContext,
-        ) -> Option<Id<NSEntityDescription>>;
+    pub type NSPersistentHistoryChange;
 
-        #[cfg(feature = "CoreData_NSEntityDescription")]
-        #[method_id(@__retain_semantics Other entityDescription)]
-        pub unsafe fn entityDescription() -> Option<Id<NSEntityDescription>>;
+    #[cfg(all(
+        feature = "CoreData_NSEntityDescription",
+        feature = "CoreData_NSManagedObjectContext"
+    ))]
+    #[objc2::method(sel = "entityDescriptionWithContext:", managed = "Other")]
+    pub unsafe fn entityDescriptionWithContext(
+        context: &NSManagedObjectContext,
+    ) -> Option<Id<NSEntityDescription>>;
 
-        #[cfg(feature = "CoreData_NSFetchRequest")]
-        #[method_id(@__retain_semantics Other fetchRequest)]
-        pub unsafe fn fetchRequest() -> Option<Id<NSFetchRequest>>;
+    #[cfg(feature = "CoreData_NSEntityDescription")]
+    #[objc2::method(sel = "entityDescription", managed = "Other")]
+    pub unsafe fn entityDescription() -> Option<Id<NSEntityDescription>>;
 
-        #[method(changeID)]
-        pub unsafe fn changeID(&self) -> i64;
+    #[cfg(feature = "CoreData_NSFetchRequest")]
+    #[objc2::method(sel = "fetchRequest", managed = "Other")]
+    pub unsafe fn fetchRequest() -> Option<Id<NSFetchRequest>>;
 
-        #[cfg(feature = "CoreData_NSManagedObjectID")]
-        #[method_id(@__retain_semantics Other changedObjectID)]
-        pub unsafe fn changedObjectID(&self) -> Id<NSManagedObjectID>;
+    #[objc2::method(sel = "changeID")]
+    pub unsafe fn changeID(&self) -> i64;
 
-        #[method(changeType)]
-        pub unsafe fn changeType(&self) -> NSPersistentHistoryChangeType;
+    #[cfg(feature = "CoreData_NSManagedObjectID")]
+    #[objc2::method(sel = "changedObjectID", managed = "Other")]
+    pub unsafe fn changedObjectID(&self) -> Id<NSManagedObjectID>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other tombstone)]
-        pub unsafe fn tombstone(&self) -> Option<Id<NSDictionary>>;
+    #[objc2::method(sel = "changeType")]
+    pub unsafe fn changeType(&self) -> NSPersistentHistoryChangeType;
 
-        #[cfg(feature = "CoreData_NSPersistentHistoryTransaction")]
-        #[method_id(@__retain_semantics Other transaction)]
-        pub unsafe fn transaction(&self) -> Option<Id<NSPersistentHistoryTransaction>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "tombstone", managed = "Other")]
+    pub unsafe fn tombstone(&self) -> Option<Id<NSDictionary>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSPropertyDescription",
-            feature = "Foundation_NSSet"
-        ))]
-        #[method_id(@__retain_semantics Other updatedProperties)]
-        pub unsafe fn updatedProperties(&self) -> Option<Id<NSSet<NSPropertyDescription>>>;
-    }
-);
+    #[cfg(feature = "CoreData_NSPersistentHistoryTransaction")]
+    #[objc2::method(sel = "transaction", managed = "Other")]
+    pub unsafe fn transaction(&self) -> Option<Id<NSPersistentHistoryTransaction>>;
+
+    #[cfg(all(
+        feature = "CoreData_NSPropertyDescription",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(sel = "updatedProperties", managed = "Other")]
+    pub unsafe fn updatedProperties(&self) -> Option<Id<NSSet<NSPropertyDescription>>>;
+}

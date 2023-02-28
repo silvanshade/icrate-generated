@@ -5,24 +5,23 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSTextFinderAction {
-        NSTextFinderActionShowFindInterface = 1,
-        NSTextFinderActionNextMatch = 2,
-        NSTextFinderActionPreviousMatch = 3,
-        NSTextFinderActionReplaceAll = 4,
-        NSTextFinderActionReplace = 5,
-        NSTextFinderActionReplaceAndFind = 6,
-        NSTextFinderActionSetSearchString = 7,
-        NSTextFinderActionReplaceAllInSelection = 8,
-        NSTextFinderActionSelectAll = 9,
-        NSTextFinderActionSelectAllInSelection = 10,
-        NSTextFinderActionHideFindInterface = 11,
-        NSTextFinderActionShowReplaceInterface = 12,
-        NSTextFinderActionHideReplaceInterface = 13,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSTextFinderAction {
+    NSTextFinderActionShowFindInterface = 1,
+    NSTextFinderActionNextMatch = 2,
+    NSTextFinderActionPreviousMatch = 3,
+    NSTextFinderActionReplaceAll = 4,
+    NSTextFinderActionReplace = 5,
+    NSTextFinderActionReplaceAndFind = 6,
+    NSTextFinderActionSetSearchString = 7,
+    NSTextFinderActionReplaceAllInSelection = 8,
+    NSTextFinderActionSelectAll = 9,
+    NSTextFinderActionSelectAllInSelection = 10,
+    NSTextFinderActionHideFindInterface = 11,
+    NSTextFinderActionShowReplaceInterface = 12,
+    NSTextFinderActionHideReplaceInterface = 13,
+}
 
 typed_enum!(
     pub type NSPasteboardTypeTextFinderOptionKey = NSString;
@@ -32,26 +31,25 @@ extern_static!(NSTextFinderCaseInsensitiveKey: &'static NSPasteboardTypeTextFind
 
 extern_static!(NSTextFinderMatchingTypeKey: &'static NSPasteboardTypeTextFinderOptionKey);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSTextFinderMatchingType {
-        NSTextFinderMatchingTypeContains = 0,
-        NSTextFinderMatchingTypeStartsWith = 1,
-        NSTextFinderMatchingTypeFullWord = 2,
-        NSTextFinderMatchingTypeEndsWith = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSTextFinderMatchingType {
+    NSTextFinderMatchingTypeContains = 0,
+    NSTextFinderMatchingTypeStartsWith = 1,
+    NSTextFinderMatchingTypeFullWord = 2,
+    NSTextFinderMatchingTypeEndsWith = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextFinder")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextFinder")]
-    pub struct NSTextFinder;
-
-    #[cfg(feature = "AppKit_NSTextFinder")]
-    unsafe impl ClassType for NSTextFinder {
-        type Super = NSObject;
-    }
-);
+    pub type NSTextFinder;
+}
 
 #[cfg(feature = "AppKit_NSTextFinder")]
 unsafe impl NSCoding for NSTextFinder {}
@@ -59,200 +57,187 @@ unsafe impl NSCoding for NSTextFinder {}
 #[cfg(feature = "AppKit_NSTextFinder")]
 unsafe impl NSObjectProtocol for NSTextFinder {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextFinder")]
-    unsafe impl NSTextFinder {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSTextFinder;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other client)]
-        pub unsafe fn client(&self) -> Option<Id<ProtocolObject<dyn NSTextFinderClient>>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
 
-        #[method(setClient:)]
-        pub unsafe fn setClient(&self, client: Option<&ProtocolObject<dyn NSTextFinderClient>>);
+    #[objc2::method(sel = "client", managed = "Other")]
+    pub unsafe fn client(&self) -> Option<Id<ProtocolObject<dyn NSTextFinderClient>>>;
 
-        #[method(performAction:)]
-        pub unsafe fn performAction(&self, op: NSTextFinderAction);
+    #[objc2::method(sel = "setClient:")]
+    pub unsafe fn setClient(&self, client: Option<&ProtocolObject<dyn NSTextFinderClient>>);
 
-        #[method(validateAction:)]
-        pub unsafe fn validateAction(&self, op: NSTextFinderAction) -> bool;
+    #[objc2::method(sel = "performAction:")]
+    pub unsafe fn performAction(&self, op: NSTextFinderAction);
 
-        #[method_id(@__retain_semantics Other findBarContainer)]
-        pub unsafe fn findBarContainer(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn NSTextFinderBarContainer>>>;
+    #[objc2::method(sel = "validateAction:")]
+    pub unsafe fn validateAction(&self, op: NSTextFinderAction) -> bool;
 
-        #[method(setFindBarContainer:)]
-        pub unsafe fn setFindBarContainer(
-            &self,
-            find_bar_container: Option<&ProtocolObject<dyn NSTextFinderBarContainer>>,
-        );
+    #[objc2::method(sel = "findBarContainer", managed = "Other")]
+    pub unsafe fn findBarContainer(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn NSTextFinderBarContainer>>>;
 
-        #[method(cancelFindIndicator)]
-        pub unsafe fn cancelFindIndicator(&self);
+    #[objc2::method(sel = "setFindBarContainer:")]
+    pub unsafe fn setFindBarContainer(
+        &self,
+        find_bar_container: Option<&ProtocolObject<dyn NSTextFinderBarContainer>>,
+    );
 
-        #[method(findIndicatorNeedsUpdate)]
-        pub unsafe fn findIndicatorNeedsUpdate(&self) -> bool;
+    #[objc2::method(sel = "cancelFindIndicator")]
+    pub unsafe fn cancelFindIndicator(&self);
 
-        #[method(setFindIndicatorNeedsUpdate:)]
-        pub unsafe fn setFindIndicatorNeedsUpdate(&self, find_indicator_needs_update: bool);
+    #[objc2::method(sel = "findIndicatorNeedsUpdate")]
+    pub unsafe fn findIndicatorNeedsUpdate(&self) -> bool;
 
-        #[method(isIncrementalSearchingEnabled)]
-        pub unsafe fn isIncrementalSearchingEnabled(&self) -> bool;
+    #[objc2::method(sel = "setFindIndicatorNeedsUpdate:")]
+    pub unsafe fn setFindIndicatorNeedsUpdate(&self, find_indicator_needs_update: bool);
 
-        #[method(setIncrementalSearchingEnabled:)]
-        pub unsafe fn setIncrementalSearchingEnabled(&self, incremental_searching_enabled: bool);
+    #[objc2::method(sel = "isIncrementalSearchingEnabled")]
+    pub unsafe fn isIncrementalSearchingEnabled(&self) -> bool;
 
-        #[method(incrementalSearchingShouldDimContentView)]
-        pub unsafe fn incrementalSearchingShouldDimContentView(&self) -> bool;
+    #[objc2::method(sel = "setIncrementalSearchingEnabled:")]
+    pub unsafe fn setIncrementalSearchingEnabled(&self, incremental_searching_enabled: bool);
 
-        #[method(setIncrementalSearchingShouldDimContentView:)]
-        pub unsafe fn setIncrementalSearchingShouldDimContentView(
-            &self,
-            incremental_searching_should_dim_content_view: bool,
-        );
+    #[objc2::method(sel = "incrementalSearchingShouldDimContentView")]
+    pub unsafe fn incrementalSearchingShouldDimContentView(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
-        #[method_id(@__retain_semantics Other incrementalMatchRanges)]
-        pub unsafe fn incrementalMatchRanges(&self) -> Id<NSArray<NSValue>>;
+    #[objc2::method(sel = "setIncrementalSearchingShouldDimContentView:")]
+    pub unsafe fn setIncrementalSearchingShouldDimContentView(
+        &self,
+        incremental_searching_should_dim_content_view: bool,
+    );
 
-        #[method(drawIncrementalMatchHighlightInRect:)]
-        pub unsafe fn drawIncrementalMatchHighlightInRect(rect: NSRect);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
+    #[objc2::method(sel = "incrementalMatchRanges", managed = "Other")]
+    pub unsafe fn incrementalMatchRanges(&self) -> Id<NSArray<NSValue>>;
 
-        #[method(noteClientStringWillChange)]
-        pub unsafe fn noteClientStringWillChange(&self);
-    }
-);
+    #[objc2::method(sel = "drawIncrementalMatchHighlightInRect:")]
+    pub unsafe fn drawIncrementalMatchHighlightInRect(rect: NSRect);
 
-extern_protocol!(
-    pub unsafe trait NSTextFinderClient: NSObjectProtocol {
-        #[optional]
-        #[method(isSelectable)]
-        unsafe fn isSelectable(&self) -> bool;
+    #[objc2::method(sel = "noteClientStringWillChange")]
+    pub unsafe fn noteClientStringWillChange(&self);
+}
 
-        #[optional]
-        #[method(allowsMultipleSelection)]
-        unsafe fn allowsMultipleSelection(&self) -> bool;
+#[objc2::protocol]
+pub unsafe trait NSTextFinderClient: NSObjectProtocol {
+    #[objc2::method(optional, sel = "isSelectable")]
+    unsafe fn isSelectable(&self) -> bool;
 
-        #[optional]
-        #[method(isEditable)]
-        unsafe fn isEditable(&self) -> bool;
+    #[objc2::method(optional, sel = "allowsMultipleSelection")]
+    unsafe fn allowsMultipleSelection(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[optional]
-        #[method_id(@__retain_semantics Other string)]
-        unsafe fn string(&self) -> Id<NSString>;
+    #[objc2::method(optional, sel = "isEditable")]
+    unsafe fn isEditable(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[optional]
-        #[method_id(@__retain_semantics Other stringAtIndex:effectiveRange:endsWithSearchBoundary:)]
-        unsafe fn stringAtIndex_effectiveRange_endsWithSearchBoundary(
-            &self,
-            character_index: NSUInteger,
-            out_range: NSRangePointer,
-            out_flag: NonNull<Bool>,
-        ) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(optional, sel = "string", managed = "Other")]
+    unsafe fn string(&self) -> Id<NSString>;
 
-        #[optional]
-        #[method(stringLength)]
-        unsafe fn stringLength(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        optional,
+        sel = "stringAtIndex:effectiveRange:endsWithSearchBoundary:",
+        managed = "Other"
+    )]
+    unsafe fn stringAtIndex_effectiveRange_endsWithSearchBoundary(
+        &self,
+        character_index: NSUInteger,
+        out_range: NSRangePointer,
+        out_flag: NonNull<Bool>,
+    ) -> Id<NSString>;
 
-        #[optional]
-        #[method(firstSelectedRange)]
-        unsafe fn firstSelectedRange(&self) -> NSRange;
+    #[objc2::method(optional, sel = "stringLength")]
+    unsafe fn stringLength(&self) -> NSUInteger;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other selectedRanges)]
-        unsafe fn selectedRanges(&self) -> Id<NSArray<NSValue>>;
+    #[objc2::method(optional, sel = "firstSelectedRange")]
+    unsafe fn firstSelectedRange(&self) -> NSRange;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
-        #[optional]
-        #[method(setSelectedRanges:)]
-        unsafe fn setSelectedRanges(&self, selected_ranges: &NSArray<NSValue>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
+    #[objc2::method(optional, sel = "selectedRanges", managed = "Other")]
+    unsafe fn selectedRanges(&self) -> Id<NSArray<NSValue>>;
 
-        #[optional]
-        #[method(scrollRangeToVisible:)]
-        unsafe fn scrollRangeToVisible(&self, range: NSRange);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
+    #[objc2::method(optional, sel = "setSelectedRanges:")]
+    unsafe fn setSelectedRanges(&self, selected_ranges: &NSArray<NSValue>);
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSValue"
-        ))]
-        #[optional]
-        #[method(shouldReplaceCharactersInRanges:withStrings:)]
-        unsafe fn shouldReplaceCharactersInRanges_withStrings(
-            &self,
-            ranges: &NSArray<NSValue>,
-            strings: &NSArray<NSString>,
-        ) -> bool;
+    #[objc2::method(optional, sel = "scrollRangeToVisible:")]
+    unsafe fn scrollRangeToVisible(&self, range: NSRange);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[optional]
-        #[method(replaceCharactersInRange:withString:)]
-        unsafe fn replaceCharactersInRange_withString(&self, range: NSRange, string: &NSString);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSValue"
+    ))]
+    #[objc2::method(optional, sel = "shouldReplaceCharactersInRanges:withStrings:")]
+    unsafe fn shouldReplaceCharactersInRanges_withStrings(
+        &self,
+        ranges: &NSArray<NSValue>,
+        strings: &NSArray<NSString>,
+    ) -> bool;
 
-        #[optional]
-        #[method(didReplaceCharacters)]
-        unsafe fn didReplaceCharacters(&self);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(optional, sel = "replaceCharactersInRange:withString:")]
+    unsafe fn replaceCharactersInRange_withString(&self, range: NSRange, string: &NSString);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[optional]
-        #[method_id(@__retain_semantics Other contentViewAtIndex:effectiveCharacterRange:)]
-        unsafe fn contentViewAtIndex_effectiveCharacterRange(
-            &self,
-            index: NSUInteger,
-            out_range: NSRangePointer,
-        ) -> Id<NSView>;
+    #[objc2::method(optional, sel = "didReplaceCharacters")]
+    unsafe fn didReplaceCharacters(&self);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other rectsForCharacterRange:)]
-        unsafe fn rectsForCharacterRange(&self, range: NSRange) -> Option<Id<NSArray<NSValue>>>;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(
+        optional,
+        sel = "contentViewAtIndex:effectiveCharacterRange:",
+        managed = "Other"
+    )]
+    unsafe fn contentViewAtIndex_effectiveCharacterRange(
+        &self,
+        index: NSUInteger,
+        out_range: NSRangePointer,
+    ) -> Id<NSView>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other visibleCharacterRanges)]
-        unsafe fn visibleCharacterRanges(&self) -> Id<NSArray<NSValue>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
+    #[objc2::method(optional, sel = "rectsForCharacterRange:", managed = "Other")]
+    unsafe fn rectsForCharacterRange(&self, range: NSRange) -> Option<Id<NSArray<NSValue>>>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[optional]
-        #[method(drawCharactersInRange:forContentView:)]
-        unsafe fn drawCharactersInRange_forContentView(&self, range: NSRange, view: &NSView);
-    }
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
+    #[objc2::method(optional, sel = "visibleCharacterRanges", managed = "Other")]
+    unsafe fn visibleCharacterRanges(&self) -> Id<NSArray<NSValue>>;
 
-    unsafe impl ProtocolType for dyn NSTextFinderClient {}
-);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(optional, sel = "drawCharactersInRange:forContentView:")]
+    unsafe fn drawCharactersInRange_forContentView(&self, range: NSRange, view: &NSView);
+}
 
-extern_protocol!(
-    pub unsafe trait NSTextFinderBarContainer: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other findBarView)]
-        unsafe fn findBarView(&self) -> Option<Id<NSView>>;
+#[objc2::protocol]
+pub unsafe trait NSTextFinderBarContainer: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "findBarView", managed = "Other")]
+    unsafe fn findBarView(&self) -> Option<Id<NSView>>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setFindBarView:)]
-        unsafe fn setFindBarView(&self, find_bar_view: Option<&NSView>);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setFindBarView:")]
+    unsafe fn setFindBarView(&self, find_bar_view: Option<&NSView>);
 
-        #[method(isFindBarVisible)]
-        unsafe fn isFindBarVisible(&self) -> bool;
+    #[objc2::method(sel = "isFindBarVisible")]
+    unsafe fn isFindBarVisible(&self) -> bool;
 
-        #[method(setFindBarVisible:)]
-        unsafe fn setFindBarVisible(&self, find_bar_visible: bool);
+    #[objc2::method(sel = "setFindBarVisible:")]
+    unsafe fn setFindBarVisible(&self, find_bar_visible: bool);
 
-        #[method(findBarViewDidChangeHeight)]
-        unsafe fn findBarViewDidChangeHeight(&self);
+    #[objc2::method(sel = "findBarViewDidChangeHeight")]
+    unsafe fn findBarViewDidChangeHeight(&self);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[optional]
-        #[method_id(@__retain_semantics Other contentView)]
-        unsafe fn contentView(&self) -> Option<Id<NSView>>;
-    }
-
-    unsafe impl ProtocolType for dyn NSTextFinderBarContainer {}
-);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(optional, sel = "contentView", managed = "Other")]
+    unsafe fn contentView(&self) -> Option<Id<NSView>>;
+}

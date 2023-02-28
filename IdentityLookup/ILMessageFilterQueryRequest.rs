@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::IdentityLookup::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "IdentityLookup_ILMessageFilterQueryRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "IdentityLookup_ILMessageFilterQueryRequest")]
-    pub struct ILMessageFilterQueryRequest;
-
-    #[cfg(feature = "IdentityLookup_ILMessageFilterQueryRequest")]
-    unsafe impl ClassType for ILMessageFilterQueryRequest {
-        type Super = NSObject;
-    }
-);
+    pub type ILMessageFilterQueryRequest;
+}
 
 #[cfg(feature = "IdentityLookup_ILMessageFilterQueryRequest")]
 unsafe impl NSCoding for ILMessageFilterQueryRequest {}
@@ -24,25 +24,28 @@ unsafe impl NSObjectProtocol for ILMessageFilterQueryRequest {}
 #[cfg(feature = "IdentityLookup_ILMessageFilterQueryRequest")]
 unsafe impl NSSecureCoding for ILMessageFilterQueryRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "IdentityLookup_ILMessageFilterQueryRequest")]
-    unsafe impl ILMessageFilterQueryRequest {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other sender)]
-        pub unsafe fn sender(&self) -> Option<Id<NSString>>;
+    pub type ILMessageFilterQueryRequest;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other messageBody)]
-        pub unsafe fn messageBody(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "sender", managed = "Other")]
+    pub unsafe fn sender(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other receiverISOCountryCode)]
-        pub unsafe fn receiverISOCountryCode(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "messageBody", managed = "Other")]
+    pub unsafe fn messageBody(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "receiverISOCountryCode", managed = "Other")]
+    pub unsafe fn receiverISOCountryCode(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

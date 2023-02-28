@@ -5,16 +5,16 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::UserNotifications::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNNotificationRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "UserNotifications_UNNotificationRequest")]
-    pub struct UNNotificationRequest;
-
-    #[cfg(feature = "UserNotifications_UNNotificationRequest")]
-    unsafe impl ClassType for UNNotificationRequest {
-        type Super = NSObject;
-    }
-);
+    pub type UNNotificationRequest;
+}
 
 #[cfg(feature = "UserNotifications_UNNotificationRequest")]
 unsafe impl NSCoding for UNNotificationRequest {}
@@ -25,34 +25,37 @@ unsafe impl NSObjectProtocol for UNNotificationRequest {}
 #[cfg(feature = "UserNotifications_UNNotificationRequest")]
 unsafe impl NSSecureCoding for UNNotificationRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "UserNotifications_UNNotificationRequest")]
-    unsafe impl UNNotificationRequest {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    pub type UNNotificationRequest;
 
-        #[cfg(feature = "UserNotifications_UNNotificationContent")]
-        #[method_id(@__retain_semantics Other content)]
-        pub unsafe fn content(&self) -> Id<UNNotificationContent>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "UserNotifications_UNNotificationTrigger")]
-        #[method_id(@__retain_semantics Other trigger)]
-        pub unsafe fn trigger(&self) -> Option<Id<UNNotificationTrigger>>;
+    #[cfg(feature = "UserNotifications_UNNotificationContent")]
+    #[objc2::method(sel = "content", managed = "Other")]
+    pub unsafe fn content(&self) -> Id<UNNotificationContent>;
 
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "UserNotifications_UNNotificationContent",
-            feature = "UserNotifications_UNNotificationTrigger"
-        ))]
-        #[method_id(@__retain_semantics Other requestWithIdentifier:content:trigger:)]
-        pub unsafe fn requestWithIdentifier_content_trigger(
-            identifier: &NSString,
-            content: &UNNotificationContent,
-            trigger: Option<&UNNotificationTrigger>,
-        ) -> Id<Self>;
+    #[cfg(feature = "UserNotifications_UNNotificationTrigger")]
+    #[objc2::method(sel = "trigger", managed = "Other")]
+    pub unsafe fn trigger(&self) -> Option<Id<UNNotificationTrigger>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "UserNotifications_UNNotificationContent",
+        feature = "UserNotifications_UNNotificationTrigger"
+    ))]
+    #[objc2::method(sel = "requestWithIdentifier:content:trigger:", managed = "Other")]
+    pub unsafe fn requestWithIdentifier_content_trigger(
+        identifier: &NSString,
+        content: &UNNotificationContent,
+        trigger: Option<&UNNotificationTrigger>,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

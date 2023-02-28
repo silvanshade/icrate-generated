@@ -33,16 +33,16 @@ extern_static!(NSOldStyleException: &'static NSExceptionName);
 
 extern_static!(NSInconsistentArchiveException: &'static NSExceptionName);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSException")]
     #[derive(PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSException")]
-    pub struct NSException;
-
-    #[cfg(feature = "Foundation_NSException")]
-    unsafe impl ClassType for NSException {
-        type Super = NSObject;
-    }
-);
+    pub type NSException;
+}
 
 #[cfg(feature = "Foundation_NSException")]
 unsafe impl NSCoding for NSException {}
@@ -53,52 +53,57 @@ unsafe impl NSObjectProtocol for NSException {}
 #[cfg(feature = "Foundation_NSException")]
 unsafe impl NSSecureCoding for NSException {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSException")]
-    unsafe impl NSException {
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other exceptionWithName:reason:userInfo:)]
-        pub unsafe fn exceptionWithName_reason_userInfo(
-            name: &NSExceptionName,
-            reason: Option<&NSString>,
-            user_info: Option<&NSDictionary>,
-        ) -> Id<NSException>;
+    pub type NSException;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithName:reason:userInfo:)]
-        pub unsafe fn initWithName_reason_userInfo(
-            this: Option<Allocated<Self>>,
-            a_name: &NSExceptionName,
-            a_reason: Option<&NSString>,
-            a_user_info: Option<&NSDictionary>,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "exceptionWithName:reason:userInfo:", managed = "Other")]
+    pub unsafe fn exceptionWithName_reason_userInfo(
+        name: &NSExceptionName,
+        reason: Option<&NSString>,
+        user_info: Option<&NSDictionary>,
+    ) -> Id<NSException>;
 
-        #[method_id(@__retain_semantics Other name)]
-        pub fn name(&self) -> Id<NSExceptionName>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithName:reason:userInfo:", managed = "Init")]
+    pub unsafe fn initWithName_reason_userInfo(
+        this: Option<Allocated<Self>>,
+        a_name: &NSExceptionName,
+        a_reason: Option<&NSString>,
+        a_user_info: Option<&NSDictionary>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other reason)]
-        pub fn reason(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub fn name(&self) -> Id<NSExceptionName>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other userInfo)]
-        pub fn userInfo(&self) -> Option<Id<NSDictionary>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "reason", managed = "Other")]
+    pub fn reason(&self) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other callStackReturnAddresses)]
-        pub unsafe fn callStackReturnAddresses(&self) -> Id<NSArray<NSNumber>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "userInfo", managed = "Other")]
+    pub fn userInfo(&self) -> Option<Id<NSDictionary>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other callStackSymbols)]
-        pub unsafe fn callStackSymbols(&self) -> Id<NSArray<NSString>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "callStackReturnAddresses", managed = "Other")]
+    pub unsafe fn callStackReturnAddresses(&self) -> Id<NSArray<NSNumber>>;
 
-extern_methods!(
-    /// NSExceptionRaisingConveniences
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "callStackSymbols", managed = "Other")]
+    pub unsafe fn callStackSymbols(&self) -> Id<NSArray<NSString>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSException")]
-    unsafe impl NSException {}
-);
+    pub type NSException;
+}
 
 pub type NSUncaughtExceptionHandler = TodoFunction;
 
@@ -112,24 +117,27 @@ extern_fn!(
 
 extern_static!(NSAssertionHandlerKey: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSAssertionHandler")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSAssertionHandler")]
-    pub struct NSAssertionHandler;
-
-    #[cfg(feature = "Foundation_NSAssertionHandler")]
-    unsafe impl ClassType for NSAssertionHandler {
-        type Super = NSObject;
-    }
-);
+    pub type NSAssertionHandler;
+}
 
 #[cfg(feature = "Foundation_NSAssertionHandler")]
 unsafe impl NSObjectProtocol for NSAssertionHandler {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAssertionHandler")]
-    unsafe impl NSAssertionHandler {
-        #[method_id(@__retain_semantics Other currentHandler)]
-        pub unsafe fn currentHandler() -> Id<NSAssertionHandler>;
-    }
-);
+    pub type NSAssertionHandler;
+
+    #[objc2::method(sel = "currentHandler", managed = "Other")]
+    pub unsafe fn currentHandler() -> Id<NSAssertionHandler>;
+}

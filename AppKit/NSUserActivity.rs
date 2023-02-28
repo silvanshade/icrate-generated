@@ -5,54 +5,55 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSUserActivityRestoring: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSUserActivity")]
-        #[method(restoreUserActivityState:)]
-        unsafe fn restoreUserActivityState(&self, user_activity: &NSUserActivity);
-    }
+#[objc2::protocol]
+pub unsafe trait NSUserActivityRestoring: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSUserActivity")]
+    #[objc2::method(sel = "restoreUserActivityState:")]
+    unsafe fn restoreUserActivityState(&self, user_activity: &NSUserActivity);
+}
 
-    unsafe impl ProtocolType for dyn NSUserActivityRestoring {}
-);
-
-extern_methods!(
-    /// NSUserActivity
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSResponder")]
-    unsafe impl NSResponder {
-        #[cfg(feature = "Foundation_NSUserActivity")]
-        #[method_id(@__retain_semantics Other userActivity)]
-        pub unsafe fn userActivity(&self) -> Option<Id<NSUserActivity>>;
+    pub type NSResponder;
 
-        #[cfg(feature = "Foundation_NSUserActivity")]
-        #[method(setUserActivity:)]
-        pub unsafe fn setUserActivity(&self, user_activity: Option<&NSUserActivity>);
+    #[cfg(feature = "Foundation_NSUserActivity")]
+    #[objc2::method(sel = "userActivity", managed = "Other")]
+    pub unsafe fn userActivity(&self) -> Option<Id<NSUserActivity>>;
 
-        #[cfg(feature = "Foundation_NSUserActivity")]
-        #[method(updateUserActivityState:)]
-        pub unsafe fn updateUserActivityState(&self, user_activity: &NSUserActivity);
-    }
-);
+    #[cfg(feature = "Foundation_NSUserActivity")]
+    #[objc2::method(sel = "setUserActivity:")]
+    pub unsafe fn setUserActivity(&self, user_activity: Option<&NSUserActivity>);
+
+    #[cfg(feature = "Foundation_NSUserActivity")]
+    #[objc2::method(sel = "updateUserActivityState:")]
+    pub unsafe fn updateUserActivityState(&self, user_activity: &NSUserActivity);
+}
 
 #[cfg(feature = "AppKit_NSResponder")]
 unsafe impl NSUserActivityRestoring for NSResponder {}
 
-extern_methods!(
-    /// NSUserActivity
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSDocument")]
-    unsafe impl NSDocument {
-        #[cfg(feature = "Foundation_NSUserActivity")]
-        #[method_id(@__retain_semantics Other userActivity)]
-        pub unsafe fn userActivity(&self) -> Option<Id<NSUserActivity>>;
+    pub type NSDocument;
 
-        #[cfg(feature = "Foundation_NSUserActivity")]
-        #[method(setUserActivity:)]
-        pub unsafe fn setUserActivity(&self, user_activity: Option<&NSUserActivity>);
+    #[cfg(feature = "Foundation_NSUserActivity")]
+    #[objc2::method(sel = "userActivity", managed = "Other")]
+    pub unsafe fn userActivity(&self) -> Option<Id<NSUserActivity>>;
 
-        #[cfg(feature = "Foundation_NSUserActivity")]
-        #[method(updateUserActivityState:)]
-        pub unsafe fn updateUserActivityState(&self, activity: &NSUserActivity);
-    }
-);
+    #[cfg(feature = "Foundation_NSUserActivity")]
+    #[objc2::method(sel = "setUserActivity:")]
+    pub unsafe fn setUserActivity(&self, user_activity: Option<&NSUserActivity>);
+
+    #[cfg(feature = "Foundation_NSUserActivity")]
+    #[objc2::method(sel = "updateUserActivityState:")]
+    pub unsafe fn updateUserActivityState(&self, activity: &NSUserActivity);
+}
 
 #[cfg(feature = "AppKit_NSDocument")]
 unsafe impl NSUserActivityRestoring for NSDocument {}

@@ -5,86 +5,89 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameKit_GKVoiceChatService")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKVoiceChatService")]
-    pub struct GKVoiceChatService;
-
-    #[cfg(feature = "GameKit_GKVoiceChatService")]
-    unsafe impl ClassType for GKVoiceChatService {
-        type Super = NSObject;
-    }
-);
+    pub type GKVoiceChatService;
+}
 
 #[cfg(feature = "GameKit_GKVoiceChatService")]
 unsafe impl NSObjectProtocol for GKVoiceChatService {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKVoiceChatService")]
-    unsafe impl GKVoiceChatService {
-        #[method_id(@__retain_semantics Other defaultVoiceChatService)]
-        pub unsafe fn defaultVoiceChatService() -> Option<Id<GKVoiceChatService>>;
+    pub type GKVoiceChatService;
 
-        #[method(isVoIPAllowed)]
-        pub unsafe fn isVoIPAllowed() -> bool;
+    #[objc2::method(sel = "defaultVoiceChatService", managed = "Other")]
+    pub unsafe fn defaultVoiceChatService() -> Option<Id<GKVoiceChatService>>;
 
-        #[method_id(@__retain_semantics Other client)]
-        pub unsafe fn client(&self) -> Option<Id<ProtocolObject<dyn GKVoiceChatClient>>>;
+    #[objc2::method(sel = "isVoIPAllowed")]
+    pub unsafe fn isVoIPAllowed() -> bool;
 
-        #[method(setClient:)]
-        pub unsafe fn setClient(&self, client: Option<&ProtocolObject<dyn GKVoiceChatClient>>);
+    #[objc2::method(sel = "client", managed = "Other")]
+    pub unsafe fn client(&self) -> Option<Id<ProtocolObject<dyn GKVoiceChatClient>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(stopVoiceChatWithParticipantID:)]
-        pub unsafe fn stopVoiceChatWithParticipantID(&self, participant_id: Option<&NSString>);
+    #[objc2::method(sel = "setClient:")]
+    pub unsafe fn setClient(&self, client: Option<&ProtocolObject<dyn GKVoiceChatClient>>);
 
-        #[method(denyCallID:)]
-        pub unsafe fn denyCallID(&self, call_id: NSInteger);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stopVoiceChatWithParticipantID:")]
+    pub unsafe fn stopVoiceChatWithParticipantID(&self, participant_id: Option<&NSString>);
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
-        #[method(receivedRealTimeData:fromParticipantID:)]
-        pub unsafe fn receivedRealTimeData_fromParticipantID(
-            &self,
-            audio: Option<&NSData>,
-            participant_id: Option<&NSString>,
-        );
+    #[objc2::method(sel = "denyCallID:")]
+    pub unsafe fn denyCallID(&self, call_id: NSInteger);
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
-        #[method(receivedData:fromParticipantID:)]
-        pub unsafe fn receivedData_fromParticipantID(
-            &self,
-            arbitrary_data: Option<&NSData>,
-            participant_id: Option<&NSString>,
-        );
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "receivedRealTimeData:fromParticipantID:")]
+    pub unsafe fn receivedRealTimeData_fromParticipantID(
+        &self,
+        audio: Option<&NSData>,
+        participant_id: Option<&NSString>,
+    );
 
-        #[method(isMicrophoneMuted)]
-        pub unsafe fn isMicrophoneMuted(&self) -> bool;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "receivedData:fromParticipantID:")]
+    pub unsafe fn receivedData_fromParticipantID(
+        &self,
+        arbitrary_data: Option<&NSData>,
+        participant_id: Option<&NSString>,
+    );
 
-        #[method(setMicrophoneMuted:)]
-        pub unsafe fn setMicrophoneMuted(&self, microphone_muted: bool);
+    #[objc2::method(sel = "isMicrophoneMuted")]
+    pub unsafe fn isMicrophoneMuted(&self) -> bool;
 
-        #[method(remoteParticipantVolume)]
-        pub unsafe fn remoteParticipantVolume(&self) -> c_float;
+    #[objc2::method(sel = "setMicrophoneMuted:")]
+    pub unsafe fn setMicrophoneMuted(&self, microphone_muted: bool);
 
-        #[method(setRemoteParticipantVolume:)]
-        pub unsafe fn setRemoteParticipantVolume(&self, remote_participant_volume: c_float);
+    #[objc2::method(sel = "remoteParticipantVolume")]
+    pub unsafe fn remoteParticipantVolume(&self) -> c_float;
 
-        #[method(isOutputMeteringEnabled)]
-        pub unsafe fn isOutputMeteringEnabled(&self) -> bool;
+    #[objc2::method(sel = "setRemoteParticipantVolume:")]
+    pub unsafe fn setRemoteParticipantVolume(&self, remote_participant_volume: c_float);
 
-        #[method(setOutputMeteringEnabled:)]
-        pub unsafe fn setOutputMeteringEnabled(&self, output_metering_enabled: bool);
+    #[objc2::method(sel = "isOutputMeteringEnabled")]
+    pub unsafe fn isOutputMeteringEnabled(&self) -> bool;
 
-        #[method(isInputMeteringEnabled)]
-        pub unsafe fn isInputMeteringEnabled(&self) -> bool;
+    #[objc2::method(sel = "setOutputMeteringEnabled:")]
+    pub unsafe fn setOutputMeteringEnabled(&self, output_metering_enabled: bool);
 
-        #[method(setInputMeteringEnabled:)]
-        pub unsafe fn setInputMeteringEnabled(&self, input_metering_enabled: bool);
+    #[objc2::method(sel = "isInputMeteringEnabled")]
+    pub unsafe fn isInputMeteringEnabled(&self) -> bool;
 
-        #[method(outputMeterLevel)]
-        pub unsafe fn outputMeterLevel(&self) -> c_float;
+    #[objc2::method(sel = "setInputMeteringEnabled:")]
+    pub unsafe fn setInputMeteringEnabled(&self, input_metering_enabled: bool);
 
-        #[method(inputMeterLevel)]
-        pub unsafe fn inputMeterLevel(&self) -> c_float;
-    }
-);
+    #[objc2::method(sel = "outputMeterLevel")]
+    pub unsafe fn outputMeterLevel(&self) -> c_float;
+
+    #[objc2::method(sel = "inputMeterLevel")]
+    pub unsafe fn inputMeterLevel(&self) -> c_float;
+}

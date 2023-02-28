@@ -7,17 +7,17 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKShape,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKMultiPoint")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKMultiPoint")]
-    pub struct MKMultiPoint;
-
-    #[cfg(feature = "MapKit_MKMultiPoint")]
-    unsafe impl ClassType for MKMultiPoint {
-        #[inherits(NSObject)]
-        type Super = MKShape;
-    }
-);
+    pub type MKMultiPoint;
+}
 
 #[cfg(feature = "MapKit_MKMultiPoint")]
 unsafe impl MKAnnotation for MKMultiPoint {}
@@ -25,32 +25,34 @@ unsafe impl MKAnnotation for MKMultiPoint {}
 #[cfg(feature = "MapKit_MKMultiPoint")]
 unsafe impl NSObjectProtocol for MKMultiPoint {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMultiPoint")]
-    unsafe impl MKMultiPoint {
-        #[method(points)]
-        pub unsafe fn points(&self) -> NonNull<MKMapPoint>;
+    pub type MKMultiPoint;
 
-        #[method(pointCount)]
-        pub unsafe fn pointCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "points")]
+    pub unsafe fn points(&self) -> NonNull<MKMapPoint>;
 
-        #[method(getCoordinates:range:)]
-        pub unsafe fn getCoordinates_range(
-            &self,
-            coords: NonNull<CLLocationCoordinate2D>,
-            range: NSRange,
-        );
+    #[objc2::method(sel = "pointCount")]
+    pub unsafe fn pointCount(&self) -> NSUInteger;
 
-        #[method(locationAtPointIndex:)]
-        pub unsafe fn locationAtPointIndex(&self, index: NSUInteger) -> CGFloat;
+    #[objc2::method(sel = "getCoordinates:range:")]
+    pub unsafe fn getCoordinates_range(
+        &self,
+        coords: NonNull<CLLocationCoordinate2D>,
+        range: NSRange,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSIndexSet",
-            feature = "Foundation_NSNumber"
-        ))]
-        #[method_id(@__retain_semantics Other locationsAtPointIndexes:)]
-        pub unsafe fn locationsAtPointIndexes(&self, indexes: &NSIndexSet)
-            -> Id<NSArray<NSNumber>>;
-    }
-);
+    #[objc2::method(sel = "locationAtPointIndex:")]
+    pub unsafe fn locationAtPointIndex(&self, index: NSUInteger) -> CGFloat;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSIndexSet",
+        feature = "Foundation_NSNumber"
+    ))]
+    #[objc2::method(sel = "locationsAtPointIndexes:", managed = "Other")]
+    pub unsafe fn locationsAtPointIndexes(&self, indexes: &NSIndexSet) -> Id<NSArray<NSNumber>>;
+}

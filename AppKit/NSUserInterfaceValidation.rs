@@ -5,26 +5,20 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSValidatedUserInterfaceItem {
-        #[method(action)]
-        unsafe fn action(&self) -> Option<Sel>;
+#[objc2::protocol]
+pub unsafe trait NSValidatedUserInterfaceItem {
+    #[objc2::method(sel = "action")]
+    unsafe fn action(&self) -> Option<Sel>;
 
-        #[method(tag)]
-        unsafe fn tag(&self) -> NSInteger;
-    }
+    #[objc2::method(sel = "tag")]
+    unsafe fn tag(&self) -> NSInteger;
+}
 
-    unsafe impl ProtocolType for dyn NSValidatedUserInterfaceItem {}
-);
-
-extern_protocol!(
-    pub unsafe trait NSUserInterfaceValidations {
-        #[method(validateUserInterfaceItem:)]
-        unsafe fn validateUserInterfaceItem(
-            &self,
-            item: &ProtocolObject<dyn NSValidatedUserInterfaceItem>,
-        ) -> bool;
-    }
-
-    unsafe impl ProtocolType for dyn NSUserInterfaceValidations {}
-);
+#[objc2::protocol]
+pub unsafe trait NSUserInterfaceValidations {
+    #[objc2::method(sel = "validateUserInterfaceItem:")]
+    unsafe fn validateUserInterfaceItem(
+        &self,
+        item: &ProtocolObject<dyn NSValidatedUserInterfaceItem>,
+    ) -> bool;
+}

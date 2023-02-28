@@ -3,46 +3,51 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSProxy,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSProtocolChecker")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSProtocolChecker")]
-    pub struct NSProtocolChecker;
-
-    #[cfg(feature = "Foundation_NSProtocolChecker")]
-    unsafe impl ClassType for NSProtocolChecker {
-        type Super = NSProxy;
-    }
-);
+    pub type NSProtocolChecker;
+}
 
 #[cfg(feature = "Foundation_NSProtocolChecker")]
 unsafe impl NSObjectProtocol for NSProtocolChecker {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSProtocolChecker")]
-    unsafe impl NSProtocolChecker {
-        #[method_id(@__retain_semantics Other protocol)]
-        pub unsafe fn protocol(&self) -> Id<Protocol>;
+    pub type NSProtocolChecker;
 
-        #[method_id(@__retain_semantics Other target)]
-        pub unsafe fn target(&self) -> Option<Id<NSObject>>;
-    }
-);
+    #[objc2::method(sel = "protocol", managed = "Other")]
+    pub unsafe fn protocol(&self) -> Id<Protocol>;
 
-extern_methods!(
-    /// NSProtocolCheckerCreation
+    #[objc2::method(sel = "target", managed = "Other")]
+    pub unsafe fn target(&self) -> Option<Id<NSObject>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSProtocolChecker")]
-    unsafe impl NSProtocolChecker {
-        #[method_id(@__retain_semantics Other protocolCheckerWithTarget:protocol:)]
-        pub unsafe fn protocolCheckerWithTarget_protocol(
-            an_object: &NSObject,
-            a_protocol: &Protocol,
-        ) -> Id<Self>;
+    pub type NSProtocolChecker;
 
-        #[method_id(@__retain_semantics Init initWithTarget:protocol:)]
-        pub unsafe fn initWithTarget_protocol(
-            this: Option<Allocated<Self>>,
-            an_object: &NSObject,
-            a_protocol: &Protocol,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "protocolCheckerWithTarget:protocol:", managed = "Other")]
+    pub unsafe fn protocolCheckerWithTarget_protocol(
+        an_object: &NSObject,
+        a_protocol: &Protocol,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "initWithTarget:protocol:", managed = "Init")]
+    pub unsafe fn initWithTarget_protocol(
+        this: Option<Allocated<Self>>,
+        an_object: &NSObject,
+        a_protocol: &Protocol,
+    ) -> Id<Self>;
+}

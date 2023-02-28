@@ -4,108 +4,112 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::SoundAnalysis::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "SoundAnalysis_SNAudioStreamAnalyzer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "SoundAnalysis_SNAudioStreamAnalyzer")]
-    pub struct SNAudioStreamAnalyzer;
-
-    #[cfg(feature = "SoundAnalysis_SNAudioStreamAnalyzer")]
-    unsafe impl ClassType for SNAudioStreamAnalyzer {
-        type Super = NSObject;
-    }
-);
+    pub type SNAudioStreamAnalyzer;
+}
 
 #[cfg(feature = "SoundAnalysis_SNAudioStreamAnalyzer")]
 unsafe impl NSObjectProtocol for SNAudioStreamAnalyzer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "SoundAnalysis_SNAudioStreamAnalyzer")]
-    unsafe impl SNAudioStreamAnalyzer {
-        #[cfg(feature = "AVFAudio_AVAudioFormat")]
-        #[method_id(@__retain_semantics Init initWithFormat:)]
-        pub unsafe fn initWithFormat(
-            this: Option<Allocated<Self>>,
-            format: &AVAudioFormat,
-        ) -> Id<Self>;
+    pub type SNAudioStreamAnalyzer;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "AVFAudio_AVAudioFormat")]
+    #[objc2::method(sel = "initWithFormat:", managed = "Init")]
+    pub unsafe fn initWithFormat(this: Option<Allocated<Self>>, format: &AVAudioFormat)
+        -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(addRequest:withObserver:error:_)]
-        pub unsafe fn addRequest_withObserver_error(
-            &self,
-            request: &ProtocolObject<dyn SNRequest>,
-            observer: &ProtocolObject<dyn SNResultsObserving>,
-        ) -> Result<(), Id<NSError>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(removeRequest:)]
-        pub unsafe fn removeRequest(&self, request: &ProtocolObject<dyn SNRequest>);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "addRequest:withObserver:error:", throws)]
+    pub unsafe fn addRequest_withObserver_error(
+        &self,
+        request: &ProtocolObject<dyn SNRequest>,
+        observer: &ProtocolObject<dyn SNResultsObserving>,
+    ) -> Result<(), Id<NSError>>;
 
-        #[method(removeAllRequests)]
-        pub unsafe fn removeAllRequests(&self);
+    #[objc2::method(sel = "removeRequest:")]
+    pub unsafe fn removeRequest(&self, request: &ProtocolObject<dyn SNRequest>);
 
-        #[cfg(feature = "AVFAudio_AVAudioBuffer")]
-        #[method(analyzeAudioBuffer:atAudioFramePosition:)]
-        pub unsafe fn analyzeAudioBuffer_atAudioFramePosition(
-            &self,
-            audio_buffer: &AVAudioBuffer,
-            audio_frame_position: AVAudioFramePosition,
-        );
+    #[objc2::method(sel = "removeAllRequests")]
+    pub unsafe fn removeAllRequests(&self);
 
-        #[method(completeAnalysis)]
-        pub unsafe fn completeAnalysis(&self);
-    }
-);
+    #[cfg(feature = "AVFAudio_AVAudioBuffer")]
+    #[objc2::method(sel = "analyzeAudioBuffer:atAudioFramePosition:")]
+    pub unsafe fn analyzeAudioBuffer_atAudioFramePosition(
+        &self,
+        audio_buffer: &AVAudioBuffer,
+        audio_frame_position: AVAudioFramePosition,
+    );
 
-extern_class!(
+    #[objc2::method(sel = "completeAnalysis")]
+    pub unsafe fn completeAnalysis(&self);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "SoundAnalysis_SNAudioFileAnalyzer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "SoundAnalysis_SNAudioFileAnalyzer")]
-    pub struct SNAudioFileAnalyzer;
-
-    #[cfg(feature = "SoundAnalysis_SNAudioFileAnalyzer")]
-    unsafe impl ClassType for SNAudioFileAnalyzer {
-        type Super = NSObject;
-    }
-);
+    pub type SNAudioFileAnalyzer;
+}
 
 #[cfg(feature = "SoundAnalysis_SNAudioFileAnalyzer")]
 unsafe impl NSObjectProtocol for SNAudioFileAnalyzer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "SoundAnalysis_SNAudioFileAnalyzer")]
-    unsafe impl SNAudioFileAnalyzer {
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Init initWithURL:error:_)]
-        pub unsafe fn initWithURL_error(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    pub type SNAudioFileAnalyzer;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "initWithURL:error:", managed = "Init", throws)]
+    pub unsafe fn initWithURL_error(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(addRequest:withObserver:error:_)]
-        pub unsafe fn addRequest_withObserver_error(
-            &self,
-            request: &ProtocolObject<dyn SNRequest>,
-            observer: &ProtocolObject<dyn SNResultsObserving>,
-        ) -> Result<(), Id<NSError>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(removeRequest:)]
-        pub unsafe fn removeRequest(&self, request: &ProtocolObject<dyn SNRequest>);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "addRequest:withObserver:error:", throws)]
+    pub unsafe fn addRequest_withObserver_error(
+        &self,
+        request: &ProtocolObject<dyn SNRequest>,
+        observer: &ProtocolObject<dyn SNResultsObserving>,
+    ) -> Result<(), Id<NSError>>;
 
-        #[method(removeAllRequests)]
-        pub unsafe fn removeAllRequests(&self);
+    #[objc2::method(sel = "removeRequest:")]
+    pub unsafe fn removeRequest(&self, request: &ProtocolObject<dyn SNRequest>);
 
-        #[method(analyze)]
-        pub unsafe fn analyze(&self);
+    #[objc2::method(sel = "removeAllRequests")]
+    pub unsafe fn removeAllRequests(&self);
 
-        #[method(analyzeWithCompletionHandler:)]
-        pub unsafe fn analyzeWithCompletionHandler(&self, completion_handler: &Block<(Bool,), ()>);
+    #[objc2::method(sel = "analyze")]
+    pub unsafe fn analyze(&self);
 
-        #[method(cancelAnalysis)]
-        pub unsafe fn cancelAnalysis(&self);
-    }
-);
+    #[objc2::method(sel = "analyzeWithCompletionHandler:")]
+    pub unsafe fn analyzeWithCompletionHandler(&self, completion_handler: &Block<(Bool,), ()>);
+
+    #[objc2::method(sel = "cancelAnalysis")]
+    pub unsafe fn cancelAnalysis(&self);
+}

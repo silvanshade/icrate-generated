@@ -5,35 +5,33 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSPickerTouchBarItemSelectionMode {
-        NSPickerTouchBarItemSelectionModeSelectOne = 0,
-        NSPickerTouchBarItemSelectionModeSelectAny = 1,
-        NSPickerTouchBarItemSelectionModeMomentary = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSPickerTouchBarItemSelectionMode {
+    NSPickerTouchBarItemSelectionModeSelectOne = 0,
+    NSPickerTouchBarItemSelectionModeSelectAny = 1,
+    NSPickerTouchBarItemSelectionModeMomentary = 2,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSPickerTouchBarItemControlRepresentation {
-        NSPickerTouchBarItemControlRepresentationAutomatic = 0,
-        NSPickerTouchBarItemControlRepresentationExpanded = 1,
-        NSPickerTouchBarItemControlRepresentationCollapsed = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSPickerTouchBarItemControlRepresentation {
+    NSPickerTouchBarItemControlRepresentationAutomatic = 0,
+    NSPickerTouchBarItemControlRepresentationExpanded = 1,
+    NSPickerTouchBarItemControlRepresentationCollapsed = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSTouchBarItem,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPickerTouchBarItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPickerTouchBarItem")]
-    pub struct NSPickerTouchBarItem;
-
-    #[cfg(feature = "AppKit_NSPickerTouchBarItem")]
-    unsafe impl ClassType for NSPickerTouchBarItem {
-        #[inherits(NSObject)]
-        type Super = NSTouchBarItem;
-    }
-);
+    pub type NSPickerTouchBarItem;
+}
 
 #[cfg(feature = "AppKit_NSPickerTouchBarItem")]
 unsafe impl NSCoding for NSPickerTouchBarItem {}
@@ -41,144 +39,156 @@ unsafe impl NSCoding for NSPickerTouchBarItem {}
 #[cfg(feature = "AppKit_NSPickerTouchBarItem")]
 unsafe impl NSObjectProtocol for NSPickerTouchBarItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPickerTouchBarItem")]
-    unsafe impl NSPickerTouchBarItem {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other pickerTouchBarItemWithIdentifier:labels:selectionMode:target:action:)]
-        pub unsafe fn pickerTouchBarItemWithIdentifier_labels_selectionMode_target_action(
-            identifier: &NSTouchBarItemIdentifier,
-            labels: &NSArray<NSString>,
-            selection_mode: NSPickerTouchBarItemSelectionMode,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
+    pub type NSPickerTouchBarItem;
 
-        #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other pickerTouchBarItemWithIdentifier:images:selectionMode:target:action:)]
-        pub unsafe fn pickerTouchBarItemWithIdentifier_images_selectionMode_target_action(
-            identifier: &NSTouchBarItemIdentifier,
-            images: &NSArray<NSImage>,
-            selection_mode: NSPickerTouchBarItemSelectionMode,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "pickerTouchBarItemWithIdentifier:labels:selectionMode:target:action:",
+        managed = "Other"
+    )]
+    pub unsafe fn pickerTouchBarItemWithIdentifier_labels_selectionMode_target_action(
+        identifier: &NSTouchBarItemIdentifier,
+        labels: &NSArray<NSString>,
+        selection_mode: NSPickerTouchBarItemSelectionMode,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
 
-        #[method(controlRepresentation)]
-        pub unsafe fn controlRepresentation(&self) -> NSPickerTouchBarItemControlRepresentation;
+    #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSArray"))]
+    #[objc2::method(
+        sel = "pickerTouchBarItemWithIdentifier:images:selectionMode:target:action:",
+        managed = "Other"
+    )]
+    pub unsafe fn pickerTouchBarItemWithIdentifier_images_selectionMode_target_action(
+        identifier: &NSTouchBarItemIdentifier,
+        images: &NSArray<NSImage>,
+        selection_mode: NSPickerTouchBarItemSelectionMode,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
 
-        #[method(setControlRepresentation:)]
-        pub unsafe fn setControlRepresentation(
-            &self,
-            control_representation: NSPickerTouchBarItemControlRepresentation,
-        );
+    #[objc2::method(sel = "controlRepresentation")]
+    pub unsafe fn controlRepresentation(&self) -> NSPickerTouchBarItemControlRepresentation;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other collapsedRepresentationLabel)]
-        pub unsafe fn collapsedRepresentationLabel(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setControlRepresentation:")]
+    pub unsafe fn setControlRepresentation(
+        &self,
+        control_representation: NSPickerTouchBarItemControlRepresentation,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCollapsedRepresentationLabel:)]
-        pub unsafe fn setCollapsedRepresentationLabel(
-            &self,
-            collapsed_representation_label: &NSString,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "collapsedRepresentationLabel", managed = "Other")]
+    pub unsafe fn collapsedRepresentationLabel(&self) -> Id<NSString>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other collapsedRepresentationImage)]
-        pub unsafe fn collapsedRepresentationImage(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCollapsedRepresentationLabel:")]
+    pub unsafe fn setCollapsedRepresentationLabel(&self, collapsed_representation_label: &NSString);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setCollapsedRepresentationImage:)]
-        pub unsafe fn setCollapsedRepresentationImage(
-            &self,
-            collapsed_representation_image: Option<&NSImage>,
-        );
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "collapsedRepresentationImage", managed = "Other")]
+    pub unsafe fn collapsedRepresentationImage(&self) -> Option<Id<NSImage>>;
 
-        #[method(selectedIndex)]
-        pub unsafe fn selectedIndex(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setCollapsedRepresentationImage:")]
+    pub unsafe fn setCollapsedRepresentationImage(
+        &self,
+        collapsed_representation_image: Option<&NSImage>,
+    );
 
-        #[method(setSelectedIndex:)]
-        pub unsafe fn setSelectedIndex(&self, selected_index: NSInteger);
+    #[objc2::method(sel = "selectedIndex")]
+    pub unsafe fn selectedIndex(&self) -> NSInteger;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other selectionColor)]
-        pub unsafe fn selectionColor(&self) -> Option<Id<NSColor>>;
+    #[objc2::method(sel = "setSelectedIndex:")]
+    pub unsafe fn setSelectedIndex(&self, selected_index: NSInteger);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setSelectionColor:)]
-        pub unsafe fn setSelectionColor(&self, selection_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "selectionColor", managed = "Other")]
+    pub unsafe fn selectionColor(&self) -> Option<Id<NSColor>>;
 
-        #[method(selectionMode)]
-        pub unsafe fn selectionMode(&self) -> NSPickerTouchBarItemSelectionMode;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setSelectionColor:")]
+    pub unsafe fn setSelectionColor(&self, selection_color: Option<&NSColor>);
 
-        #[method(setSelectionMode:)]
-        pub unsafe fn setSelectionMode(&self, selection_mode: NSPickerTouchBarItemSelectionMode);
+    #[objc2::method(sel = "selectionMode")]
+    pub unsafe fn selectionMode(&self) -> NSPickerTouchBarItemSelectionMode;
 
-        #[method(numberOfOptions)]
-        pub unsafe fn numberOfOptions(&self) -> NSInteger;
+    #[objc2::method(sel = "setSelectionMode:")]
+    pub unsafe fn setSelectionMode(&self, selection_mode: NSPickerTouchBarItemSelectionMode);
 
-        #[method(setNumberOfOptions:)]
-        pub unsafe fn setNumberOfOptions(&self, number_of_options: NSInteger);
+    #[objc2::method(sel = "numberOfOptions")]
+    pub unsafe fn numberOfOptions(&self) -> NSInteger;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setImage:atIndex:)]
-        pub unsafe fn setImage_atIndex(&self, image: Option<&NSImage>, index: NSInteger);
+    #[objc2::method(sel = "setNumberOfOptions:")]
+    pub unsafe fn setNumberOfOptions(&self, number_of_options: NSInteger);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other imageAtIndex:)]
-        pub unsafe fn imageAtIndex(&self, index: NSInteger) -> Option<Id<NSImage>>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setImage:atIndex:")]
+    pub unsafe fn setImage_atIndex(&self, image: Option<&NSImage>, index: NSInteger);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:atIndex:)]
-        pub unsafe fn setLabel_atIndex(&self, label: &NSString, index: NSInteger);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "imageAtIndex:", managed = "Other")]
+    pub unsafe fn imageAtIndex(&self, index: NSInteger) -> Option<Id<NSImage>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other labelAtIndex:)]
-        pub unsafe fn labelAtIndex(&self, index: NSInteger) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:atIndex:")]
+    pub unsafe fn setLabel_atIndex(&self, label: &NSString, index: NSInteger);
 
-        #[method_id(@__retain_semantics Other target)]
-        pub unsafe fn target(&self) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "labelAtIndex:", managed = "Other")]
+    pub unsafe fn labelAtIndex(&self, index: NSInteger) -> Option<Id<NSString>>;
 
-        #[method(setTarget:)]
-        pub unsafe fn setTarget(&self, target: Option<&Object>);
+    #[objc2::method(sel = "target", managed = "Other")]
+    pub unsafe fn target(&self) -> Option<Id<Object>>;
 
-        #[method(action)]
-        pub unsafe fn action(&self) -> Option<Sel>;
+    #[objc2::method(sel = "setTarget:")]
+    pub unsafe fn setTarget(&self, target: Option<&Object>);
 
-        #[method(setAction:)]
-        pub unsafe fn setAction(&self, action: Option<Sel>);
+    #[objc2::method(sel = "action")]
+    pub unsafe fn action(&self) -> Option<Sel>;
 
-        #[method(isEnabled)]
-        pub unsafe fn isEnabled(&self) -> bool;
+    #[objc2::method(sel = "setAction:")]
+    pub unsafe fn setAction(&self, action: Option<Sel>);
 
-        #[method(setEnabled:)]
-        pub unsafe fn setEnabled(&self, enabled: bool);
+    #[objc2::method(sel = "isEnabled")]
+    pub unsafe fn isEnabled(&self) -> bool;
 
-        #[method(setEnabled:atIndex:)]
-        pub unsafe fn setEnabled_atIndex(&self, enabled: bool, index: NSInteger);
+    #[objc2::method(sel = "setEnabled:")]
+    pub unsafe fn setEnabled(&self, enabled: bool);
 
-        #[method(isEnabledAtIndex:)]
-        pub unsafe fn isEnabledAtIndex(&self, index: NSInteger) -> bool;
+    #[objc2::method(sel = "setEnabled:atIndex:")]
+    pub unsafe fn setEnabled_atIndex(&self, enabled: bool, index: NSInteger);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other customizationLabel)]
-        pub unsafe fn customizationLabel(&self) -> Id<NSString>;
+    #[objc2::method(sel = "isEnabledAtIndex:")]
+    pub unsafe fn isEnabledAtIndex(&self, index: NSInteger) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCustomizationLabel:)]
-        pub unsafe fn setCustomizationLabel(&self, customization_label: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "customizationLabel", managed = "Other")]
+    pub unsafe fn customizationLabel(&self) -> Id<NSString>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSTouchBarItem`
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCustomizationLabel:")]
+    pub unsafe fn setCustomizationLabel(&self, customization_label: Option<&NSString>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSTouchBarItem`
     #[cfg(feature = "AppKit_NSPickerTouchBarItem")]
-    unsafe impl NSPickerTouchBarItem {
-        #[method_id(@__retain_semantics Init initWithIdentifier:)]
-        pub unsafe fn initWithIdentifier(
-            this: Option<Allocated<Self>>,
-            identifier: &NSTouchBarItemIdentifier,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPickerTouchBarItem")]
+    pub type NSPickerTouchBarItem;
+
+    #[objc2::method(sel = "initWithIdentifier:", managed = "Init")]
+    pub unsafe fn initWithIdentifier(
+        this: Option<Allocated<Self>>,
+        identifier: &NSTouchBarItemIdentifier,
+    ) -> Id<Self>;
+}

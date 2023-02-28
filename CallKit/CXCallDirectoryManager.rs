@@ -4,56 +4,58 @@ use crate::common::*;
 use crate::CallKit::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CXCallDirectoryEnabledStatus {
-        CXCallDirectoryEnabledStatusUnknown = 0,
-        CXCallDirectoryEnabledStatusDisabled = 1,
-        CXCallDirectoryEnabledStatusEnabled = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CXCallDirectoryEnabledStatus {
+    CXCallDirectoryEnabledStatusUnknown = 0,
+    CXCallDirectoryEnabledStatusDisabled = 1,
+    CXCallDirectoryEnabledStatusEnabled = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CallKit_CXCallDirectoryManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CallKit_CXCallDirectoryManager")]
-    pub struct CXCallDirectoryManager;
-
-    #[cfg(feature = "CallKit_CXCallDirectoryManager")]
-    unsafe impl ClassType for CXCallDirectoryManager {
-        type Super = NSObject;
-    }
-);
+    pub type CXCallDirectoryManager;
+}
 
 #[cfg(feature = "CallKit_CXCallDirectoryManager")]
 unsafe impl NSObjectProtocol for CXCallDirectoryManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CallKit_CXCallDirectoryManager")]
-    unsafe impl CXCallDirectoryManager {
-        #[method_id(@__retain_semantics Other sharedInstance)]
-        pub unsafe fn sharedInstance() -> Id<CXCallDirectoryManager>;
+    pub type CXCallDirectoryManager;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(reloadExtensionWithIdentifier:completionHandler:)]
-        pub unsafe fn reloadExtensionWithIdentifier_completionHandler(
-            &self,
-            identifier: &NSString,
-            completion: Option<&Block<(*mut NSError,), ()>>,
-        );
+    #[objc2::method(sel = "sharedInstance", managed = "Other")]
+    pub unsafe fn sharedInstance() -> Id<CXCallDirectoryManager>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(getEnabledStatusForExtensionWithIdentifier:completionHandler:)]
-        pub unsafe fn getEnabledStatusForExtensionWithIdentifier_completionHandler(
-            &self,
-            identifier: &NSString,
-            completion: &Block<(CXCallDirectoryEnabledStatus, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "reloadExtensionWithIdentifier:completionHandler:")]
+    pub unsafe fn reloadExtensionWithIdentifier_completionHandler(
+        &self,
+        identifier: &NSString,
+        completion: Option<&Block<(*mut NSError,), ()>>,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(openSettingsWithCompletionHandler:)]
-        pub unsafe fn openSettingsWithCompletionHandler(
-            &self,
-            completion: Option<&Block<(*mut NSError,), ()>>,
-        );
-    }
-);
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "getEnabledStatusForExtensionWithIdentifier:completionHandler:")]
+    pub unsafe fn getEnabledStatusForExtensionWithIdentifier_completionHandler(
+        &self,
+        identifier: &NSString,
+        completion: &Block<(CXCallDirectoryEnabledStatus, *mut NSError), ()>,
+    );
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "openSettingsWithCompletionHandler:")]
+    pub unsafe fn openSettingsWithCompletionHandler(
+        &self,
+        completion: Option<&Block<(*mut NSError,), ()>>,
+    );
+}

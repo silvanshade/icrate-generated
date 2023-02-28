@@ -15,27 +15,26 @@ extern_static!(GCControllerDidStopBeingCurrentNotification: &'static NSString);
 
 extern_static!(GCControllerUserCustomizationsDidChangeNotification: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum GCControllerPlayerIndex {
-        GCControllerPlayerIndexUnset = -1,
-        GCControllerPlayerIndex1 = 0,
-        GCControllerPlayerIndex2 = 1,
-        GCControllerPlayerIndex3 = 2,
-        GCControllerPlayerIndex4 = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum GCControllerPlayerIndex {
+    GCControllerPlayerIndexUnset = -1,
+    GCControllerPlayerIndex1 = 0,
+    GCControllerPlayerIndex2 = 1,
+    GCControllerPlayerIndex3 = 2,
+    GCControllerPlayerIndex4 = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCController")]
-    pub struct GCController;
-
-    #[cfg(feature = "GameController_GCController")]
-    unsafe impl ClassType for GCController {
-        type Super = NSObject;
-    }
-);
+    pub type GCController;
+}
 
 #[cfg(feature = "GameController_GCController")]
 unsafe impl GCDevice for GCController {}
@@ -43,93 +42,96 @@ unsafe impl GCDevice for GCController {}
 #[cfg(feature = "GameController_GCController")]
 unsafe impl NSObjectProtocol for GCController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCController")]
-    unsafe impl GCController {
-        #[deprecated = "controllerPausedHandler has been deprecated. Use the Menu button found on the controller's profile, if it exists."]
-        #[method(controllerPausedHandler)]
-        pub unsafe fn controllerPausedHandler(&self) -> *mut Block<(NonNull<GCController>,), ()>;
+    pub type GCController;
 
-        #[deprecated = "controllerPausedHandler has been deprecated. Use the Menu button found on the controller's profile, if it exists."]
-        #[method(setControllerPausedHandler:)]
-        pub unsafe fn setControllerPausedHandler(
-            &self,
-            controller_paused_handler: Option<&Block<(NonNull<GCController>,), ()>>,
-        );
+    #[deprecated = "controllerPausedHandler has been deprecated. Use the Menu button found on the controller's profile, if it exists."]
+    #[objc2::method(sel = "controllerPausedHandler")]
+    pub unsafe fn controllerPausedHandler(&self) -> *mut Block<(NonNull<GCController>,), ()>;
 
-        #[method_id(@__retain_semantics Other current)]
-        pub unsafe fn current() -> Option<Id<GCController>>;
+    #[deprecated = "controllerPausedHandler has been deprecated. Use the Menu button found on the controller's profile, if it exists."]
+    #[objc2::method(sel = "setControllerPausedHandler:")]
+    pub unsafe fn setControllerPausedHandler(
+        &self,
+        controller_paused_handler: Option<&Block<(NonNull<GCController>,), ()>>,
+    );
 
-        #[method(shouldMonitorBackgroundEvents)]
-        pub unsafe fn shouldMonitorBackgroundEvents() -> bool;
+    #[objc2::method(sel = "current", managed = "Other")]
+    pub unsafe fn current() -> Option<Id<GCController>>;
 
-        #[method(setShouldMonitorBackgroundEvents:)]
-        pub unsafe fn setShouldMonitorBackgroundEvents(should_monitor_background_events: bool);
+    #[objc2::method(sel = "shouldMonitorBackgroundEvents")]
+    pub unsafe fn shouldMonitorBackgroundEvents() -> bool;
 
-        #[method(isAttachedToDevice)]
-        pub unsafe fn isAttachedToDevice(&self) -> bool;
+    #[objc2::method(sel = "setShouldMonitorBackgroundEvents:")]
+    pub unsafe fn setShouldMonitorBackgroundEvents(should_monitor_background_events: bool);
 
-        #[method(isSnapshot)]
-        pub unsafe fn isSnapshot(&self) -> bool;
+    #[objc2::method(sel = "isAttachedToDevice")]
+    pub unsafe fn isAttachedToDevice(&self) -> bool;
 
-        #[method(playerIndex)]
-        pub unsafe fn playerIndex(&self) -> GCControllerPlayerIndex;
+    #[objc2::method(sel = "isSnapshot")]
+    pub unsafe fn isSnapshot(&self) -> bool;
 
-        #[method(setPlayerIndex:)]
-        pub unsafe fn setPlayerIndex(&self, player_index: GCControllerPlayerIndex);
+    #[objc2::method(sel = "playerIndex")]
+    pub unsafe fn playerIndex(&self) -> GCControllerPlayerIndex;
 
-        #[cfg(feature = "GameController_GCDeviceBattery")]
-        #[method_id(@__retain_semantics Other battery)]
-        pub unsafe fn battery(&self) -> Option<Id<GCDeviceBattery>>;
+    #[objc2::method(sel = "setPlayerIndex:")]
+    pub unsafe fn setPlayerIndex(&self, player_index: GCControllerPlayerIndex);
 
-        #[cfg(feature = "GameController_GCPhysicalInputProfile")]
-        #[method_id(@__retain_semantics Other physicalInputProfile)]
-        pub unsafe fn physicalInputProfile(&self) -> Id<GCPhysicalInputProfile>;
+    #[cfg(feature = "GameController_GCDeviceBattery")]
+    #[objc2::method(sel = "battery", managed = "Other")]
+    pub unsafe fn battery(&self) -> Option<Id<GCDeviceBattery>>;
 
-        #[cfg(feature = "GameController_GCGamepad")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other gamepad)]
-        pub unsafe fn gamepad(&self) -> Option<Id<GCGamepad>>;
+    #[cfg(feature = "GameController_GCPhysicalInputProfile")]
+    #[objc2::method(sel = "physicalInputProfile", managed = "Other")]
+    pub unsafe fn physicalInputProfile(&self) -> Id<GCPhysicalInputProfile>;
 
-        #[cfg(feature = "GameController_GCMicroGamepad")]
-        #[method_id(@__retain_semantics Other microGamepad)]
-        pub unsafe fn microGamepad(&self) -> Option<Id<GCMicroGamepad>>;
+    #[cfg(feature = "GameController_GCGamepad")]
+    #[deprecated]
+    #[objc2::method(sel = "gamepad", managed = "Other")]
+    pub unsafe fn gamepad(&self) -> Option<Id<GCGamepad>>;
 
-        #[cfg(feature = "GameController_GCExtendedGamepad")]
-        #[method_id(@__retain_semantics Other extendedGamepad)]
-        pub unsafe fn extendedGamepad(&self) -> Option<Id<GCExtendedGamepad>>;
+    #[cfg(feature = "GameController_GCMicroGamepad")]
+    #[objc2::method(sel = "microGamepad", managed = "Other")]
+    pub unsafe fn microGamepad(&self) -> Option<Id<GCMicroGamepad>>;
 
-        #[cfg(feature = "GameController_GCMotion")]
-        #[method_id(@__retain_semantics Other motion)]
-        pub unsafe fn motion(&self) -> Option<Id<GCMotion>>;
+    #[cfg(feature = "GameController_GCExtendedGamepad")]
+    #[objc2::method(sel = "extendedGamepad", managed = "Other")]
+    pub unsafe fn extendedGamepad(&self) -> Option<Id<GCExtendedGamepad>>;
 
-        #[cfg(feature = "GameController_GCDeviceLight")]
-        #[method_id(@__retain_semantics Other light)]
-        pub unsafe fn light(&self) -> Option<Id<GCDeviceLight>>;
+    #[cfg(feature = "GameController_GCMotion")]
+    #[objc2::method(sel = "motion", managed = "Other")]
+    pub unsafe fn motion(&self) -> Option<Id<GCMotion>>;
 
-        #[cfg(feature = "GameController_GCDeviceHaptics")]
-        #[method_id(@__retain_semantics Other haptics)]
-        pub unsafe fn haptics(&self) -> Option<Id<GCDeviceHaptics>>;
+    #[cfg(feature = "GameController_GCDeviceLight")]
+    #[objc2::method(sel = "light", managed = "Other")]
+    pub unsafe fn light(&self) -> Option<Id<GCDeviceLight>>;
 
-        #[method_id(@__retain_semantics Other capture)]
-        pub unsafe fn capture(&self) -> Id<GCController>;
+    #[cfg(feature = "GameController_GCDeviceHaptics")]
+    #[objc2::method(sel = "haptics", managed = "Other")]
+    pub unsafe fn haptics(&self) -> Option<Id<GCDeviceHaptics>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other controllers)]
-        pub unsafe fn controllers() -> Id<NSArray<GCController>>;
+    #[objc2::method(sel = "capture", managed = "Other")]
+    pub unsafe fn capture(&self) -> Id<GCController>;
 
-        #[method(startWirelessControllerDiscoveryWithCompletionHandler:)]
-        pub unsafe fn startWirelessControllerDiscoveryWithCompletionHandler(
-            completion_handler: Option<&Block<(), ()>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "controllers", managed = "Other")]
+    pub unsafe fn controllers() -> Id<NSArray<GCController>>;
 
-        #[method(stopWirelessControllerDiscovery)]
-        pub unsafe fn stopWirelessControllerDiscovery();
+    #[objc2::method(sel = "startWirelessControllerDiscoveryWithCompletionHandler:")]
+    pub unsafe fn startWirelessControllerDiscoveryWithCompletionHandler(
+        completion_handler: Option<&Block<(), ()>>,
+    );
 
-        #[method_id(@__retain_semantics Other controllerWithMicroGamepad)]
-        pub unsafe fn controllerWithMicroGamepad() -> Id<GCController>;
+    #[objc2::method(sel = "stopWirelessControllerDiscovery")]
+    pub unsafe fn stopWirelessControllerDiscovery();
 
-        #[method_id(@__retain_semantics Other controllerWithExtendedGamepad)]
-        pub unsafe fn controllerWithExtendedGamepad() -> Id<GCController>;
-    }
-);
+    #[objc2::method(sel = "controllerWithMicroGamepad", managed = "Other")]
+    pub unsafe fn controllerWithMicroGamepad() -> Id<GCController>;
+
+    #[objc2::method(sel = "controllerWithExtendedGamepad", managed = "Other")]
+    pub unsafe fn controllerWithExtendedGamepad() -> Id<GCController>;
+}

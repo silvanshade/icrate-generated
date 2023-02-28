@@ -6,17 +6,19 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSeriesSample,
+    unsafe inherits = [
+        HKSample,
+        HKObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKHeartbeatSeriesSample")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKHeartbeatSeriesSample")]
-    pub struct HKHeartbeatSeriesSample;
-
-    #[cfg(feature = "HealthKit_HKHeartbeatSeriesSample")]
-    unsafe impl ClassType for HKHeartbeatSeriesSample {
-        #[inherits(HKSample, HKObject, NSObject)]
-        type Super = HKSeriesSample;
-    }
-);
+    pub type HKHeartbeatSeriesSample;
+}
 
 #[cfg(feature = "HealthKit_HKHeartbeatSeriesSample")]
 unsafe impl NSCoding for HKHeartbeatSeriesSample {}
@@ -27,7 +29,10 @@ unsafe impl NSObjectProtocol for HKHeartbeatSeriesSample {}
 #[cfg(feature = "HealthKit_HKHeartbeatSeriesSample")]
 unsafe impl NSSecureCoding for HKHeartbeatSeriesSample {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKHeartbeatSeriesSample")]
-    unsafe impl HKHeartbeatSeriesSample {}
-);
+    pub type HKHeartbeatSeriesSample;
+}

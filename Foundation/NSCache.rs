@@ -3,31 +3,21 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-__inner_extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCache")]
-    pub struct NSCache<
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type NSCache<
         KeyType: Message = Object,
         ObjectType: Message = Object,
         KeyTypeOwnership: Ownership = Shared,
         ObjectTypeOwnership: Ownership = Shared,
-    > {
-        _inner0: PhantomData<*mut (KeyType, KeyTypeOwnership)>,
-        _inner1: PhantomData<*mut (ObjectType, ObjectTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "Foundation_NSCache")]
-    unsafe impl<
-            KeyType: Message,
-            ObjectType: Message,
-            KeyTypeOwnership: Ownership,
-            ObjectTypeOwnership: Ownership,
-        > ClassType for NSCache<KeyType, ObjectType, KeyTypeOwnership, ObjectTypeOwnership>
-    {
-        type Super = NSObject;
-    }
-);
+    >;
+}
 
 #[cfg(feature = "Foundation_NSCache")]
 unsafe impl<
@@ -39,77 +29,73 @@ unsafe impl<
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCache")]
-    unsafe impl<
-            KeyType: Message,
-            ObjectType: Message,
-            KeyTypeOwnership: Ownership,
-            ObjectTypeOwnership: Ownership,
-        > NSCache<KeyType, ObjectType, KeyTypeOwnership, ObjectTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    pub type NSCache<
+        KeyType: Message = Object,
+        ObjectType: Message = Object,
+        KeyTypeOwnership: Ownership = Shared,
+        ObjectTypeOwnership: Ownership = Shared,
+    >;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSCacheDelegate>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: &NSString);
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSCacheDelegate>>);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSCacheDelegate>>>;
 
-        #[method_id(@__retain_semantics Other objectForKey:)]
-        pub unsafe fn objectForKey(
-            &self,
-            key: &KeyType,
-        ) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSCacheDelegate>>);
 
-        #[method(setObject:forKey:)]
-        pub unsafe fn setObject_forKey(&self, obj: &ObjectType, key: &KeyType);
+    #[objc2::method(sel = "objectForKey:", managed = "Other")]
+    pub unsafe fn objectForKey(&self, key: &KeyType)
+        -> Option<Id<ObjectType, ObjectTypeOwnership>>;
 
-        #[method(setObject:forKey:cost:)]
-        pub unsafe fn setObject_forKey_cost(&self, obj: &ObjectType, key: &KeyType, g: NSUInteger);
+    #[objc2::method(sel = "setObject:forKey:")]
+    pub unsafe fn setObject_forKey(&self, obj: &ObjectType, key: &KeyType);
 
-        #[method(removeObjectForKey:)]
-        pub unsafe fn removeObjectForKey(&self, key: &KeyType);
+    #[objc2::method(sel = "setObject:forKey:cost:")]
+    pub unsafe fn setObject_forKey_cost(&self, obj: &ObjectType, key: &KeyType, g: NSUInteger);
 
-        #[method(removeAllObjects)]
-        pub unsafe fn removeAllObjects(&self);
+    #[objc2::method(sel = "removeObjectForKey:")]
+    pub unsafe fn removeObjectForKey(&self, key: &KeyType);
 
-        #[method(totalCostLimit)]
-        pub unsafe fn totalCostLimit(&self) -> NSUInteger;
+    #[objc2::method(sel = "removeAllObjects")]
+    pub unsafe fn removeAllObjects(&self);
 
-        #[method(setTotalCostLimit:)]
-        pub unsafe fn setTotalCostLimit(&self, total_cost_limit: NSUInteger);
+    #[objc2::method(sel = "totalCostLimit")]
+    pub unsafe fn totalCostLimit(&self) -> NSUInteger;
 
-        #[method(countLimit)]
-        pub unsafe fn countLimit(&self) -> NSUInteger;
+    #[objc2::method(sel = "setTotalCostLimit:")]
+    pub unsafe fn setTotalCostLimit(&self, total_cost_limit: NSUInteger);
 
-        #[method(setCountLimit:)]
-        pub unsafe fn setCountLimit(&self, count_limit: NSUInteger);
+    #[objc2::method(sel = "countLimit")]
+    pub unsafe fn countLimit(&self) -> NSUInteger;
 
-        #[method(evictsObjectsWithDiscardedContent)]
-        pub unsafe fn evictsObjectsWithDiscardedContent(&self) -> bool;
+    #[objc2::method(sel = "setCountLimit:")]
+    pub unsafe fn setCountLimit(&self, count_limit: NSUInteger);
 
-        #[method(setEvictsObjectsWithDiscardedContent:)]
-        pub unsafe fn setEvictsObjectsWithDiscardedContent(
-            &self,
-            evicts_objects_with_discarded_content: bool,
-        );
-    }
-);
+    #[objc2::method(sel = "evictsObjectsWithDiscardedContent")]
+    pub unsafe fn evictsObjectsWithDiscardedContent(&self) -> bool;
 
-extern_protocol!(
-    pub unsafe trait NSCacheDelegate: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSCache")]
-        #[optional]
-        #[method(cache:willEvictObject:)]
-        unsafe fn cache_willEvictObject(&self, cache: &NSCache, obj: &Object);
-    }
+    #[objc2::method(sel = "setEvictsObjectsWithDiscardedContent:")]
+    pub unsafe fn setEvictsObjectsWithDiscardedContent(
+        &self,
+        evicts_objects_with_discarded_content: bool,
+    );
+}
 
-    unsafe impl ProtocolType for dyn NSCacheDelegate {}
-);
+#[objc2::protocol]
+pub unsafe trait NSCacheDelegate: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSCache")]
+    #[objc2::method(optional, sel = "cache:willEvictObject:")]
+    unsafe fn cache_willEvictObject(&self, cache: &NSCache, obj: &Object);
+}

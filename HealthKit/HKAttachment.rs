@@ -6,16 +6,16 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKAttachment")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKAttachment")]
-    pub struct HKAttachment;
-
-    #[cfg(feature = "HealthKit_HKAttachment")]
-    unsafe impl ClassType for HKAttachment {
-        type Super = NSObject;
-    }
-);
+    pub type HKAttachment;
+}
 
 #[cfg(feature = "HealthKit_HKAttachment")]
 unsafe impl NSCoding for HKAttachment {}
@@ -26,36 +26,39 @@ unsafe impl NSObjectProtocol for HKAttachment {}
 #[cfg(feature = "HealthKit_HKAttachment")]
 unsafe impl NSSecureCoding for HKAttachment {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKAttachment")]
-    unsafe impl HKAttachment {
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSUUID>;
+    pub type HKAttachment;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSUUID>;
 
-        #[cfg(feature = "UniformTypeIdentifiers_UTType")]
-        #[method_id(@__retain_semantics Other contentType)]
-        pub unsafe fn contentType(&self) -> Id<UTType>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[method(size)]
-        pub unsafe fn size(&self) -> NSInteger;
+    #[cfg(feature = "UniformTypeIdentifiers_UTType")]
+    #[objc2::method(sel = "contentType", managed = "Other")]
+    pub unsafe fn contentType(&self) -> Id<UTType>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other creationDate)]
-        pub unsafe fn creationDate(&self) -> Id<NSDate>;
+    #[objc2::method(sel = "size")]
+    pub unsafe fn size(&self) -> NSInteger;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other metadata)]
-        pub unsafe fn metadata(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "creationDate", managed = "Other")]
+    pub unsafe fn creationDate(&self) -> Id<NSDate>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "metadata", managed = "Other")]
+    pub unsafe fn metadata(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

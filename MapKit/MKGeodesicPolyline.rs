@@ -7,17 +7,19 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKPolyline,
+    unsafe inherits = [
+        MKMultiPoint,
+        MKShape,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKGeodesicPolyline")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKGeodesicPolyline")]
-    pub struct MKGeodesicPolyline;
-
-    #[cfg(feature = "MapKit_MKGeodesicPolyline")]
-    unsafe impl ClassType for MKGeodesicPolyline {
-        #[inherits(MKMultiPoint, MKShape, NSObject)]
-        type Super = MKPolyline;
-    }
-);
+    pub type MKGeodesicPolyline;
+}
 
 #[cfg(feature = "MapKit_MKGeodesicPolyline")]
 unsafe impl MKAnnotation for MKGeodesicPolyline {}
@@ -28,19 +30,22 @@ unsafe impl MKOverlay for MKGeodesicPolyline {}
 #[cfg(feature = "MapKit_MKGeodesicPolyline")]
 unsafe impl NSObjectProtocol for MKGeodesicPolyline {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKGeodesicPolyline")]
-    unsafe impl MKGeodesicPolyline {
-        #[method_id(@__retain_semantics Other polylineWithPoints:count:)]
-        pub unsafe fn polylineWithPoints_count(
-            points: NonNull<MKMapPoint>,
-            count: NSUInteger,
-        ) -> Id<Self>;
+    pub type MKGeodesicPolyline;
 
-        #[method_id(@__retain_semantics Other polylineWithCoordinates:count:)]
-        pub unsafe fn polylineWithCoordinates_count(
-            coords: NonNull<CLLocationCoordinate2D>,
-            count: NSUInteger,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "polylineWithPoints:count:", managed = "Other")]
+    pub unsafe fn polylineWithPoints_count(
+        points: NonNull<MKMapPoint>,
+        count: NSUInteger,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "polylineWithCoordinates:count:", managed = "Other")]
+    pub unsafe fn polylineWithCoordinates_count(
+        coords: NonNull<CLLocationCoordinate2D>,
+        count: NSUInteger,
+    ) -> Id<Self>;
+}

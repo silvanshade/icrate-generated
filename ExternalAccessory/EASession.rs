@@ -4,48 +4,51 @@ use crate::common::*;
 use crate::ExternalAccessory::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "ExternalAccessory_EASession")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "ExternalAccessory_EASession")]
-    pub struct EASession;
-
-    #[cfg(feature = "ExternalAccessory_EASession")]
-    unsafe impl ClassType for EASession {
-        type Super = NSObject;
-    }
-);
+    pub type EASession;
+}
 
 #[cfg(feature = "ExternalAccessory_EASession")]
 unsafe impl NSObjectProtocol for EASession {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ExternalAccessory_EASession")]
-    unsafe impl EASession {
-        #[cfg(all(
-            feature = "ExternalAccessory_EAAccessory",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Init initWithAccessory:forProtocol:)]
-        pub unsafe fn initWithAccessory_forProtocol(
-            this: Option<Allocated<Self>>,
-            accessory: &EAAccessory,
-            protocol_string: &NSString,
-        ) -> Option<Id<Self>>;
+    pub type EASession;
 
-        #[cfg(feature = "ExternalAccessory_EAAccessory")]
-        #[method_id(@__retain_semantics Other accessory)]
-        pub unsafe fn accessory(&self) -> Option<Id<EAAccessory>>;
+    #[cfg(all(
+        feature = "ExternalAccessory_EAAccessory",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "initWithAccessory:forProtocol:", managed = "Init")]
+    pub unsafe fn initWithAccessory_forProtocol(
+        this: Option<Allocated<Self>>,
+        accessory: &EAAccessory,
+        protocol_string: &NSString,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other protocolString)]
-        pub unsafe fn protocolString(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "ExternalAccessory_EAAccessory")]
+    #[objc2::method(sel = "accessory", managed = "Other")]
+    pub unsafe fn accessory(&self) -> Option<Id<EAAccessory>>;
 
-        #[cfg(feature = "Foundation_NSInputStream")]
-        #[method_id(@__retain_semantics Other inputStream)]
-        pub unsafe fn inputStream(&self) -> Option<Id<NSInputStream>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "protocolString", managed = "Other")]
+    pub unsafe fn protocolString(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSOutputStream")]
-        #[method_id(@__retain_semantics Other outputStream)]
-        pub unsafe fn outputStream(&self) -> Option<Id<NSOutputStream>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSInputStream")]
+    #[objc2::method(sel = "inputStream", managed = "Other")]
+    pub unsafe fn inputStream(&self) -> Option<Id<NSInputStream>>;
+
+    #[cfg(feature = "Foundation_NSOutputStream")]
+    #[objc2::method(sel = "outputStream", managed = "Other")]
+    pub unsafe fn outputStream(&self) -> Option<Id<NSOutputStream>>;
+}

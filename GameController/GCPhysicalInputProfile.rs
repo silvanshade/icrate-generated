@@ -5,162 +5,163 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCPhysicalInputProfile")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCPhysicalInputProfile")]
-    pub struct GCPhysicalInputProfile;
-
-    #[cfg(feature = "GameController_GCPhysicalInputProfile")]
-    unsafe impl ClassType for GCPhysicalInputProfile {
-        type Super = NSObject;
-    }
-);
+    pub type GCPhysicalInputProfile;
+}
 
 #[cfg(feature = "GameController_GCPhysicalInputProfile")]
 unsafe impl NSObjectProtocol for GCPhysicalInputProfile {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCPhysicalInputProfile")]
-    unsafe impl GCPhysicalInputProfile {
-        #[method_id(@__retain_semantics Other device)]
-        pub unsafe fn device(&self) -> Option<Id<ProtocolObject<dyn GCDevice>>>;
+    pub type GCPhysicalInputProfile;
 
-        #[method(lastEventTimestamp)]
-        pub unsafe fn lastEventTimestamp(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "device", managed = "Other")]
+    pub unsafe fn device(&self) -> Option<Id<ProtocolObject<dyn GCDevice>>>;
 
-        #[method(hasRemappedElements)]
-        pub unsafe fn hasRemappedElements(&self) -> bool;
+    #[objc2::method(sel = "lastEventTimestamp")]
+    pub unsafe fn lastEventTimestamp(&self) -> NSTimeInterval;
 
-        #[cfg(feature = "GameController_GCControllerElement")]
-        #[method(valueDidChangeHandler)]
-        pub unsafe fn valueDidChangeHandler(
-            &self,
-        ) -> *mut Block<
-            (
-                NonNull<GCPhysicalInputProfile>,
-                NonNull<GCControllerElement>,
-            ),
-            (),
-        >;
+    #[objc2::method(sel = "hasRemappedElements")]
+    pub unsafe fn hasRemappedElements(&self) -> bool;
 
-        #[cfg(feature = "GameController_GCControllerElement")]
-        #[method(setValueDidChangeHandler:)]
-        pub unsafe fn setValueDidChangeHandler(
-            &self,
-            value_did_change_handler: Option<
-                &Block<
-                    (
-                        NonNull<GCPhysicalInputProfile>,
-                        NonNull<GCControllerElement>,
-                    ),
-                    (),
-                >,
+    #[cfg(feature = "GameController_GCControllerElement")]
+    #[objc2::method(sel = "valueDidChangeHandler")]
+    pub unsafe fn valueDidChangeHandler(
+        &self,
+    ) -> *mut Block<
+        (
+            NonNull<GCPhysicalInputProfile>,
+            NonNull<GCControllerElement>,
+        ),
+        (),
+    >;
+
+    #[cfg(feature = "GameController_GCControllerElement")]
+    #[objc2::method(sel = "setValueDidChangeHandler:")]
+    pub unsafe fn setValueDidChangeHandler(
+        &self,
+        value_did_change_handler: Option<
+            &Block<
+                (
+                    NonNull<GCPhysicalInputProfile>,
+                    NonNull<GCControllerElement>,
+                ),
+                (),
             >,
-        );
+        >,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "GameController_GCControllerElement"
-        ))]
-        #[method_id(@__retain_semantics Other elements)]
-        pub unsafe fn elements(&self) -> Id<NSDictionary<NSString, GCControllerElement>>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "GameController_GCControllerElement"
+    ))]
+    #[objc2::method(sel = "elements", managed = "Other")]
+    pub unsafe fn elements(&self) -> Id<NSDictionary<NSString, GCControllerElement>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "GameController_GCControllerButtonInput"
-        ))]
-        #[method_id(@__retain_semantics Other buttons)]
-        pub unsafe fn buttons(&self) -> Id<NSDictionary<NSString, GCControllerButtonInput>>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "GameController_GCControllerButtonInput"
+    ))]
+    #[objc2::method(sel = "buttons", managed = "Other")]
+    pub unsafe fn buttons(&self) -> Id<NSDictionary<NSString, GCControllerButtonInput>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "GameController_GCControllerAxisInput"
-        ))]
-        #[method_id(@__retain_semantics Other axes)]
-        pub unsafe fn axes(&self) -> Id<NSDictionary<NSString, GCControllerAxisInput>>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "GameController_GCControllerAxisInput"
+    ))]
+    #[objc2::method(sel = "axes", managed = "Other")]
+    pub unsafe fn axes(&self) -> Id<NSDictionary<NSString, GCControllerAxisInput>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "GameController_GCControllerDirectionPad"
-        ))]
-        #[method_id(@__retain_semantics Other dpads)]
-        pub unsafe fn dpads(&self) -> Id<NSDictionary<NSString, GCControllerDirectionPad>>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "GameController_GCControllerDirectionPad"
+    ))]
+    #[objc2::method(sel = "dpads", managed = "Other")]
+    pub unsafe fn dpads(&self) -> Id<NSDictionary<NSString, GCControllerDirectionPad>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "GameController_GCControllerTouchpad"
-        ))]
-        #[method_id(@__retain_semantics Other touchpads)]
-        pub unsafe fn touchpads(&self) -> Id<NSDictionary<NSString, GCControllerTouchpad>>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "GameController_GCControllerTouchpad"
+    ))]
+    #[objc2::method(sel = "touchpads", managed = "Other")]
+    pub unsafe fn touchpads(&self) -> Id<NSDictionary<NSString, GCControllerTouchpad>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSSet",
-            feature = "GameController_GCControllerElement"
-        ))]
-        #[method_id(@__retain_semantics Other allElements)]
-        pub unsafe fn allElements(&self) -> Id<NSSet<GCControllerElement>>;
+    #[cfg(all(
+        feature = "Foundation_NSSet",
+        feature = "GameController_GCControllerElement"
+    ))]
+    #[objc2::method(sel = "allElements", managed = "Other")]
+    pub unsafe fn allElements(&self) -> Id<NSSet<GCControllerElement>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSSet",
-            feature = "GameController_GCControllerButtonInput"
-        ))]
-        #[method_id(@__retain_semantics Other allButtons)]
-        pub unsafe fn allButtons(&self) -> Id<NSSet<GCControllerButtonInput>>;
+    #[cfg(all(
+        feature = "Foundation_NSSet",
+        feature = "GameController_GCControllerButtonInput"
+    ))]
+    #[objc2::method(sel = "allButtons", managed = "Other")]
+    pub unsafe fn allButtons(&self) -> Id<NSSet<GCControllerButtonInput>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSSet",
-            feature = "GameController_GCControllerAxisInput"
-        ))]
-        #[method_id(@__retain_semantics Other allAxes)]
-        pub unsafe fn allAxes(&self) -> Id<NSSet<GCControllerAxisInput>>;
+    #[cfg(all(
+        feature = "Foundation_NSSet",
+        feature = "GameController_GCControllerAxisInput"
+    ))]
+    #[objc2::method(sel = "allAxes", managed = "Other")]
+    pub unsafe fn allAxes(&self) -> Id<NSSet<GCControllerAxisInput>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSSet",
-            feature = "GameController_GCControllerDirectionPad"
-        ))]
-        #[method_id(@__retain_semantics Other allDpads)]
-        pub unsafe fn allDpads(&self) -> Id<NSSet<GCControllerDirectionPad>>;
+    #[cfg(all(
+        feature = "Foundation_NSSet",
+        feature = "GameController_GCControllerDirectionPad"
+    ))]
+    #[objc2::method(sel = "allDpads", managed = "Other")]
+    pub unsafe fn allDpads(&self) -> Id<NSSet<GCControllerDirectionPad>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSSet",
-            feature = "GameController_GCControllerTouchpad"
-        ))]
-        #[method_id(@__retain_semantics Other allTouchpads)]
-        pub unsafe fn allTouchpads(&self) -> Id<NSSet<GCControllerTouchpad>>;
+    #[cfg(all(
+        feature = "Foundation_NSSet",
+        feature = "GameController_GCControllerTouchpad"
+    ))]
+    #[objc2::method(sel = "allTouchpads", managed = "Other")]
+    pub unsafe fn allTouchpads(&self) -> Id<NSSet<GCControllerTouchpad>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "GameController_GCControllerElement"
-        ))]
-        #[method_id(@__retain_semantics Other objectForKeyedSubscript:)]
-        pub unsafe fn objectForKeyedSubscript(
-            &self,
-            key: &NSString,
-        ) -> Option<Id<GCControllerElement>>;
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "GameController_GCControllerElement"
+    ))]
+    #[objc2::method(sel = "objectForKeyedSubscript:", managed = "Other")]
+    pub unsafe fn objectForKeyedSubscript(&self, key: &NSString)
+        -> Option<Id<GCControllerElement>>;
 
-        #[method_id(@__retain_semantics Other capture)]
-        pub unsafe fn capture(&self) -> Id<Self>;
+    #[objc2::method(sel = "capture", managed = "Other")]
+    pub unsafe fn capture(&self) -> Id<Self>;
 
-        #[method(setStateFromPhysicalInput:)]
-        pub unsafe fn setStateFromPhysicalInput(&self, physical_input: &GCPhysicalInputProfile);
+    #[objc2::method(sel = "setStateFromPhysicalInput:")]
+    pub unsafe fn setStateFromPhysicalInput(&self, physical_input: &GCPhysicalInputProfile);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other mappedElementAliasForPhysicalInputName:)]
-        pub unsafe fn mappedElementAliasForPhysicalInputName(
-            &self,
-            input_name: &NSString,
-        ) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "mappedElementAliasForPhysicalInputName:", managed = "Other")]
+    pub unsafe fn mappedElementAliasForPhysicalInputName(
+        &self,
+        input_name: &NSString,
+    ) -> Id<NSString>;
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other mappedPhysicalInputNamesForElementAlias:)]
-        pub unsafe fn mappedPhysicalInputNamesForElementAlias(
-            &self,
-            element_alias: &NSString,
-        ) -> Id<NSSet<NSString>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "mappedPhysicalInputNamesForElementAlias:", managed = "Other")]
+    pub unsafe fn mappedPhysicalInputNamesForElementAlias(
+        &self,
+        element_alias: &NSString,
+    ) -> Id<NSSet<NSString>>;
+}

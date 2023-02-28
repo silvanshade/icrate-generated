@@ -3,17 +3,17 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSFormatter,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSListFormatter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSListFormatter")]
-    pub struct NSListFormatter;
-
-    #[cfg(feature = "Foundation_NSListFormatter")]
-    unsafe impl ClassType for NSListFormatter {
-        #[inherits(NSObject)]
-        type Super = NSFormatter;
-    }
-);
+    pub type NSListFormatter;
+}
 
 #[cfg(feature = "Foundation_NSListFormatter")]
 unsafe impl NSCoding for NSListFormatter {}
@@ -21,33 +21,36 @@ unsafe impl NSCoding for NSListFormatter {}
 #[cfg(feature = "Foundation_NSListFormatter")]
 unsafe impl NSObjectProtocol for NSListFormatter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSListFormatter")]
-    unsafe impl NSListFormatter {
-        #[cfg(feature = "Foundation_NSLocale")]
-        #[method_id(@__retain_semantics Other locale)]
-        pub unsafe fn locale(&self) -> Id<NSLocale>;
+    pub type NSListFormatter;
 
-        #[cfg(feature = "Foundation_NSLocale")]
-        #[method(setLocale:)]
-        pub unsafe fn setLocale(&self, locale: Option<&NSLocale>);
+    #[cfg(feature = "Foundation_NSLocale")]
+    #[objc2::method(sel = "locale", managed = "Other")]
+    pub unsafe fn locale(&self) -> Id<NSLocale>;
 
-        #[method_id(@__retain_semantics Other itemFormatter)]
-        pub unsafe fn itemFormatter(&self) -> Option<Id<NSFormatter>>;
+    #[cfg(feature = "Foundation_NSLocale")]
+    #[objc2::method(sel = "setLocale:")]
+    pub unsafe fn setLocale(&self, locale: Option<&NSLocale>);
 
-        #[method(setItemFormatter:)]
-        pub unsafe fn setItemFormatter(&self, item_formatter: Option<&NSFormatter>);
+    #[objc2::method(sel = "itemFormatter", managed = "Other")]
+    pub unsafe fn itemFormatter(&self) -> Option<Id<NSFormatter>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other localizedStringByJoiningStrings:)]
-        pub unsafe fn localizedStringByJoiningStrings(strings: &NSArray<NSString>) -> Id<NSString>;
+    #[objc2::method(sel = "setItemFormatter:")]
+    pub unsafe fn setItemFormatter(&self, item_formatter: Option<&NSFormatter>);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other stringFromItems:)]
-        pub unsafe fn stringFromItems(&self, items: &NSArray) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "localizedStringByJoiningStrings:", managed = "Other")]
+    pub unsafe fn localizedStringByJoiningStrings(strings: &NSArray<NSString>) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringForObjectValue:)]
-        pub unsafe fn stringForObjectValue(&self, obj: Option<&Object>) -> Option<Id<NSString>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "stringFromItems:", managed = "Other")]
+    pub unsafe fn stringFromItems(&self, items: &NSArray) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringForObjectValue:", managed = "Other")]
+    pub unsafe fn stringForObjectValue(&self, obj: Option<&Object>) -> Option<Id<NSString>>;
+}

@@ -3,86 +3,92 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSItemProviderRepresentationVisibility {
-        NSItemProviderRepresentationVisibilityAll = 0,
-        NSItemProviderRepresentationVisibilityTeam = 1,
-        NSItemProviderRepresentationVisibilityGroup = 2,
-        NSItemProviderRepresentationVisibilityOwnProcess = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSItemProviderRepresentationVisibility {
+    NSItemProviderRepresentationVisibilityAll = 0,
+    NSItemProviderRepresentationVisibilityTeam = 1,
+    NSItemProviderRepresentationVisibilityGroup = 2,
+    NSItemProviderRepresentationVisibilityOwnProcess = 3,
+}
 
-ns_options!(
-    #[underlying(NSInteger)]
-    pub enum NSItemProviderFileOptions {
-        NSItemProviderFileOptionOpenInPlace = 1,
-    }
-);
+#[ns_options]
+#[underlying(NSInteger)]
+pub enum NSItemProviderFileOptions {
+    NSItemProviderFileOptionOpenInPlace = 1,
+}
 
-extern_protocol!(
-    pub unsafe trait NSItemProviderWriting: NSObjectProtocol {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other writableTypeIdentifiersForItemProvider)]
-        unsafe fn writableTypeIdentifiersForItemProvider_class() -> Id<NSArray<NSString>>;
+#[objc2::protocol]
+pub unsafe trait NSItemProviderWriting: NSObjectProtocol {
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "writableTypeIdentifiersForItemProvider", managed = "Other")]
+    unsafe fn writableTypeIdentifiersForItemProvider_class() -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other writableTypeIdentifiersForItemProvider)]
-        unsafe fn writableTypeIdentifiersForItemProvider(&self) -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        optional,
+        sel = "writableTypeIdentifiersForItemProvider",
+        managed = "Other"
+    )]
+    unsafe fn writableTypeIdentifiersForItemProvider(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[optional]
-        #[method(itemProviderVisibilityForRepresentationWithTypeIdentifier:)]
-        unsafe fn itemProviderVisibilityForRepresentationWithTypeIdentifier_class(
-            type_identifier: &NSString,
-        ) -> NSItemProviderRepresentationVisibility;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        optional,
+        sel = "itemProviderVisibilityForRepresentationWithTypeIdentifier:"
+    )]
+    unsafe fn itemProviderVisibilityForRepresentationWithTypeIdentifier_class(
+        type_identifier: &NSString,
+    ) -> NSItemProviderRepresentationVisibility;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[optional]
-        #[method(itemProviderVisibilityForRepresentationWithTypeIdentifier:)]
-        unsafe fn itemProviderVisibilityForRepresentationWithTypeIdentifier(
-            &self,
-            type_identifier: &NSString,
-        ) -> NSItemProviderRepresentationVisibility;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        optional,
+        sel = "itemProviderVisibilityForRepresentationWithTypeIdentifier:"
+    )]
+    unsafe fn itemProviderVisibilityForRepresentationWithTypeIdentifier(
+        &self,
+        type_identifier: &NSString,
+    ) -> NSItemProviderRepresentationVisibility;
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSProgress",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other loadDataWithTypeIdentifier:forItemProviderCompletionHandler:)]
-        unsafe fn loadDataWithTypeIdentifier_forItemProviderCompletionHandler(
-            &self,
-            type_identifier: &NSString,
-            completion_handler: &Block<(*mut NSData, *mut NSError), ()>,
-        ) -> Option<Id<NSProgress>>;
-    }
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSProgress",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "loadDataWithTypeIdentifier:forItemProviderCompletionHandler:",
+        managed = "Other"
+    )]
+    unsafe fn loadDataWithTypeIdentifier_forItemProviderCompletionHandler(
+        &self,
+        type_identifier: &NSString,
+        completion_handler: &Block<(*mut NSData, *mut NSError), ()>,
+    ) -> Option<Id<NSProgress>>;
+}
 
-    unsafe impl ProtocolType for dyn NSItemProviderWriting {}
-);
+#[objc2::protocol]
+pub unsafe trait NSItemProviderReading: NSObjectProtocol {
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "readableTypeIdentifiersForItemProvider", managed = "Other")]
+    unsafe fn readableTypeIdentifiersForItemProvider() -> Id<NSArray<NSString>>;
 
-extern_protocol!(
-    pub unsafe trait NSItemProviderReading: NSObjectProtocol {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other readableTypeIdentifiersForItemProvider)]
-        unsafe fn readableTypeIdentifiersForItemProvider() -> Id<NSArray<NSString>>;
-
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other objectWithItemProviderData:typeIdentifier:error:_)]
-        unsafe fn objectWithItemProviderData_typeIdentifier_error(
-            data: &NSData,
-            type_identifier: &NSString,
-        ) -> Result<Id<Self>, Id<NSError>>;
-    }
-
-    unsafe impl ProtocolType for dyn NSItemProviderReading {}
-);
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "objectWithItemProviderData:typeIdentifier:error:",
+        managed = "Other",
+        throws
+    )]
+    unsafe fn objectWithItemProviderData_typeIdentifier_error(
+        data: &NSData,
+        type_identifier: &NSString,
+    ) -> Result<Id<Self>, Id<NSError>>;
+}
 
 pub type NSItemProviderCompletionHandler =
     *mut Block<(*mut ProtocolObject<dyn NSSecureCoding>, *mut NSError), ()>;
@@ -96,202 +102,212 @@ pub type NSItemProviderLoadHandler = *mut Block<
     (),
 >;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSItemProvider")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSItemProvider")]
-    pub struct NSItemProvider;
-
-    #[cfg(feature = "Foundation_NSItemProvider")]
-    unsafe impl ClassType for NSItemProvider {
-        type Super = NSObject;
-    }
-);
+    pub type NSItemProvider;
+}
 
 #[cfg(feature = "Foundation_NSItemProvider")]
 unsafe impl NSObjectProtocol for NSItemProvider {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSItemProvider")]
-    unsafe impl NSItemProvider {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSItemProvider;
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSProgress",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(registerDataRepresentationForTypeIdentifier:visibility:loadHandler:)]
-        pub unsafe fn registerDataRepresentationForTypeIdentifier_visibility_loadHandler(
-            &self,
-            type_identifier: &NSString,
-            visibility: NSItemProviderRepresentationVisibility,
-            load_handler: &Block<
-                (NonNull<Block<(*mut NSData, *mut NSError), ()>>,),
-                *mut NSProgress,
-            >,
-        );
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSProgress",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(registerFileRepresentationForTypeIdentifier:fileOptions:visibility:loadHandler:)]
-        pub unsafe fn registerFileRepresentationForTypeIdentifier_fileOptions_visibility_loadHandler(
-            &self,
-            type_identifier: &NSString,
-            file_options: NSItemProviderFileOptions,
-            visibility: NSItemProviderRepresentationVisibility,
-            load_handler: &Block<
-                (NonNull<Block<(*mut NSURL, Bool, *mut NSError), ()>>,),
-                *mut NSProgress,
-            >,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSProgress",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "registerDataRepresentationForTypeIdentifier:visibility:loadHandler:")]
+    pub unsafe fn registerDataRepresentationForTypeIdentifier_visibility_loadHandler(
+        &self,
+        type_identifier: &NSString,
+        visibility: NSItemProviderRepresentationVisibility,
+        load_handler: &Block<(NonNull<Block<(*mut NSData, *mut NSError), ()>>,), *mut NSProgress>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other registeredTypeIdentifiers)]
-        pub unsafe fn registeredTypeIdentifiers(&self) -> Id<NSArray<NSString>>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSProgress",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "registerFileRepresentationForTypeIdentifier:fileOptions:visibility:loadHandler:"
+    )]
+    pub unsafe fn registerFileRepresentationForTypeIdentifier_fileOptions_visibility_loadHandler(
+        &self,
+        type_identifier: &NSString,
+        file_options: NSItemProviderFileOptions,
+        visibility: NSItemProviderRepresentationVisibility,
+        load_handler: &Block<
+            (NonNull<Block<(*mut NSURL, Bool, *mut NSError), ()>>,),
+            *mut NSProgress,
+        >,
+    );
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other registeredTypeIdentifiersWithFileOptions:)]
-        pub unsafe fn registeredTypeIdentifiersWithFileOptions(
-            &self,
-            file_options: NSItemProviderFileOptions,
-        ) -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "registeredTypeIdentifiers", managed = "Other")]
+    pub unsafe fn registeredTypeIdentifiers(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(hasItemConformingToTypeIdentifier:)]
-        pub unsafe fn hasItemConformingToTypeIdentifier(&self, type_identifier: &NSString) -> bool;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "registeredTypeIdentifiersWithFileOptions:", managed = "Other")]
+    pub unsafe fn registeredTypeIdentifiersWithFileOptions(
+        &self,
+        file_options: NSItemProviderFileOptions,
+    ) -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(hasRepresentationConformingToTypeIdentifier:fileOptions:)]
-        pub unsafe fn hasRepresentationConformingToTypeIdentifier_fileOptions(
-            &self,
-            type_identifier: &NSString,
-            file_options: NSItemProviderFileOptions,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "hasItemConformingToTypeIdentifier:")]
+    pub unsafe fn hasItemConformingToTypeIdentifier(&self, type_identifier: &NSString) -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSProgress",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other loadDataRepresentationForTypeIdentifier:completionHandler:)]
-        pub unsafe fn loadDataRepresentationForTypeIdentifier_completionHandler(
-            &self,
-            type_identifier: &NSString,
-            completion_handler: &Block<(*mut NSData, *mut NSError), ()>,
-        ) -> Id<NSProgress>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "hasRepresentationConformingToTypeIdentifier:fileOptions:")]
+    pub unsafe fn hasRepresentationConformingToTypeIdentifier_fileOptions(
+        &self,
+        type_identifier: &NSString,
+        file_options: NSItemProviderFileOptions,
+    ) -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSProgress",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other loadFileRepresentationForTypeIdentifier:completionHandler:)]
-        pub unsafe fn loadFileRepresentationForTypeIdentifier_completionHandler(
-            &self,
-            type_identifier: &NSString,
-            completion_handler: &Block<(*mut NSURL, *mut NSError), ()>,
-        ) -> Id<NSProgress>;
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSProgress",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "loadDataRepresentationForTypeIdentifier:completionHandler:",
+        managed = "Other"
+    )]
+    pub unsafe fn loadDataRepresentationForTypeIdentifier_completionHandler(
+        &self,
+        type_identifier: &NSString,
+        completion_handler: &Block<(*mut NSData, *mut NSError), ()>,
+    ) -> Id<NSProgress>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSProgress",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other loadInPlaceFileRepresentationForTypeIdentifier:completionHandler:)]
-        pub unsafe fn loadInPlaceFileRepresentationForTypeIdentifier_completionHandler(
-            &self,
-            type_identifier: &NSString,
-            completion_handler: &Block<(*mut NSURL, Bool, *mut NSError), ()>,
-        ) -> Id<NSProgress>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSProgress",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "loadFileRepresentationForTypeIdentifier:completionHandler:",
+        managed = "Other"
+    )]
+    pub unsafe fn loadFileRepresentationForTypeIdentifier_completionHandler(
+        &self,
+        type_identifier: &NSString,
+        completion_handler: &Block<(*mut NSURL, *mut NSError), ()>,
+    ) -> Id<NSProgress>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other suggestedName)]
-        pub unsafe fn suggestedName(&self) -> Option<Id<NSString>>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSProgress",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "loadInPlaceFileRepresentationForTypeIdentifier:completionHandler:",
+        managed = "Other"
+    )]
+    pub unsafe fn loadInPlaceFileRepresentationForTypeIdentifier_completionHandler(
+        &self,
+        type_identifier: &NSString,
+        completion_handler: &Block<(*mut NSURL, Bool, *mut NSError), ()>,
+    ) -> Id<NSProgress>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSuggestedName:)]
-        pub unsafe fn setSuggestedName(&self, suggested_name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "suggestedName", managed = "Other")]
+    pub unsafe fn suggestedName(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Init initWithObject:)]
-        pub unsafe fn initWithObject(
-            this: Option<Allocated<Self>>,
-            object: &ProtocolObject<dyn NSItemProviderWriting>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSuggestedName:")]
+    pub unsafe fn setSuggestedName(&self, suggested_name: Option<&NSString>);
 
-        #[method(registerObject:visibility:)]
-        pub unsafe fn registerObject_visibility(
-            &self,
-            object: &ProtocolObject<dyn NSItemProviderWriting>,
-            visibility: NSItemProviderRepresentationVisibility,
-        );
+    #[objc2::method(sel = "initWithObject:", managed = "Init")]
+    pub unsafe fn initWithObject(
+        this: Option<Allocated<Self>>,
+        object: &ProtocolObject<dyn NSItemProviderWriting>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithItem:typeIdentifier:)]
-        pub unsafe fn initWithItem_typeIdentifier(
-            this: Option<Allocated<Self>>,
-            item: Option<&ProtocolObject<dyn NSSecureCoding>>,
-            type_identifier: Option<&NSString>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "registerObject:visibility:")]
+    pub unsafe fn registerObject_visibility(
+        &self,
+        object: &ProtocolObject<dyn NSItemProviderWriting>,
+        visibility: NSItemProviderRepresentationVisibility,
+    );
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:)]
-        pub unsafe fn initWithContentsOfURL(
-            this: Option<Allocated<Self>>,
-            file_url: Option<&NSURL>,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithItem:typeIdentifier:", managed = "Init")]
+    pub unsafe fn initWithItem_typeIdentifier(
+        this: Option<Allocated<Self>>,
+        item: Option<&ProtocolObject<dyn NSSecureCoding>>,
+        type_identifier: Option<&NSString>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(registerItemForTypeIdentifier:loadHandler:)]
-        pub unsafe fn registerItemForTypeIdentifier_loadHandler(
-            &self,
-            type_identifier: &NSString,
-            load_handler: NSItemProviderLoadHandler,
-        );
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initWithContentsOfURL:", managed = "Init")]
+    pub unsafe fn initWithContentsOfURL(
+        this: Option<Allocated<Self>>,
+        file_url: Option<&NSURL>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(loadItemForTypeIdentifier:options:completionHandler:)]
-        pub unsafe fn loadItemForTypeIdentifier_options_completionHandler(
-            &self,
-            type_identifier: &NSString,
-            options: Option<&NSDictionary>,
-            completion_handler: NSItemProviderCompletionHandler,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "registerItemForTypeIdentifier:loadHandler:")]
+    pub unsafe fn registerItemForTypeIdentifier_loadHandler(
+        &self,
+        type_identifier: &NSString,
+        load_handler: NSItemProviderLoadHandler,
+    );
+
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "loadItemForTypeIdentifier:options:completionHandler:")]
+    pub unsafe fn loadItemForTypeIdentifier_options_completionHandler(
+        &self,
+        type_identifier: &NSString,
+        options: Option<&NSDictionary>,
+        completion_handler: NSItemProviderCompletionHandler,
+    );
+}
 
 extern_static!(NSItemProviderPreferredImageSizeKey: &'static NSString);
 
-extern_methods!(
-    /// NSPreviewSupport
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSItemProvider")]
-    unsafe impl NSItemProvider {
-        #[method(previewImageHandler)]
-        pub unsafe fn previewImageHandler(&self) -> NSItemProviderLoadHandler;
+    pub type NSItemProvider;
 
-        #[method(setPreviewImageHandler:)]
-        pub unsafe fn setPreviewImageHandler(
-            &self,
-            preview_image_handler: NSItemProviderLoadHandler,
-        );
+    #[objc2::method(sel = "previewImageHandler")]
+    pub unsafe fn previewImageHandler(&self) -> NSItemProviderLoadHandler;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(loadPreviewImageWithOptions:completionHandler:)]
-        pub unsafe fn loadPreviewImageWithOptions_completionHandler(
-            &self,
-            options: Option<&NSDictionary>,
-            completion_handler: NSItemProviderCompletionHandler,
-        );
-    }
-);
+    #[objc2::method(sel = "setPreviewImageHandler:")]
+    pub unsafe fn setPreviewImageHandler(&self, preview_image_handler: NSItemProviderLoadHandler);
+
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "loadPreviewImageWithOptions:completionHandler:")]
+    pub unsafe fn loadPreviewImageWithOptions_completionHandler(
+        &self,
+        options: Option<&NSDictionary>,
+        completion_handler: NSItemProviderCompletionHandler,
+    );
+}
 
 extern_static!(NSExtensionJavaScriptPreprocessingResultsKey: Option<&'static NSString>);
 
@@ -299,12 +315,11 @@ extern_static!(NSExtensionJavaScriptFinalizeArgumentKey: Option<&'static NSStrin
 
 extern_static!(NSItemProviderErrorDomain: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSItemProviderErrorCode {
-        NSItemProviderUnknownError = -1,
-        NSItemProviderItemUnavailableError = -1000,
-        NSItemProviderUnexpectedValueClassError = -1100,
-        NSItemProviderUnavailableCoercionError = -1200,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSItemProviderErrorCode {
+    NSItemProviderUnknownError = -1,
+    NSItemProviderItemUnavailableError = -1000,
+    NSItemProviderUnexpectedValueClassError = -1100,
+    NSItemProviderUnavailableCoercionError = -1200,
+}

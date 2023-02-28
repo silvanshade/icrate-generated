@@ -10,16 +10,16 @@ typed_extensible_enum!(
     pub type NSFileProviderDomainIdentifier = NSString;
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "FileProvider_NSFileProviderDomainVersion")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "FileProvider_NSFileProviderDomainVersion")]
-    pub struct NSFileProviderDomainVersion;
-
-    #[cfg(feature = "FileProvider_NSFileProviderDomainVersion")]
-    unsafe impl ClassType for NSFileProviderDomainVersion {
-        type Super = NSObject;
-    }
-);
+    pub type NSFileProviderDomainVersion;
+}
 
 #[cfg(feature = "FileProvider_NSFileProviderDomainVersion")]
 unsafe impl NSCoding for NSFileProviderDomainVersion {}
@@ -30,114 +30,122 @@ unsafe impl NSObjectProtocol for NSFileProviderDomainVersion {}
 #[cfg(feature = "FileProvider_NSFileProviderDomainVersion")]
 unsafe impl NSSecureCoding for NSFileProviderDomainVersion {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderDomainVersion")]
-    unsafe impl NSFileProviderDomainVersion {
-        #[method_id(@__retain_semantics Other next)]
-        pub unsafe fn next(&self) -> Id<NSFileProviderDomainVersion>;
+    pub type NSFileProviderDomainVersion;
 
-        #[method(compare:)]
-        pub unsafe fn compare(
-            &self,
-            other_version: &NSFileProviderDomainVersion,
-        ) -> NSComparisonResult;
-    }
-);
+    #[objc2::method(sel = "next", managed = "Other")]
+    pub unsafe fn next(&self) -> Id<NSFileProviderDomainVersion>;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSFileProviderDomainTestingModes {
-        NSFileProviderDomainTestingModeAlwaysEnabled = 1 << 0,
-        NSFileProviderDomainTestingModeInteractive = 1 << 1,
-    }
-);
+    #[objc2::method(sel = "compare:")]
+    pub unsafe fn compare(&self, other_version: &NSFileProviderDomainVersion)
+        -> NSComparisonResult;
+}
 
-extern_class!(
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSFileProviderDomainTestingModes {
+    NSFileProviderDomainTestingModeAlwaysEnabled = 1 << 0,
+    NSFileProviderDomainTestingModeInteractive = 1 << 1,
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "FileProvider_NSFileProviderDomain")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "FileProvider_NSFileProviderDomain")]
-    pub struct NSFileProviderDomain;
-
-    #[cfg(feature = "FileProvider_NSFileProviderDomain")]
-    unsafe impl ClassType for NSFileProviderDomain {
-        type Super = NSObject;
-    }
-);
+    pub type NSFileProviderDomain;
+}
 
 #[cfg(feature = "FileProvider_NSFileProviderDomain")]
 unsafe impl NSObjectProtocol for NSFileProviderDomain {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderDomain")]
-    unsafe impl NSFileProviderDomain {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithIdentifier:displayName:pathRelativeToDocumentStorage:)]
-        pub unsafe fn initWithIdentifier_displayName_pathRelativeToDocumentStorage(
-            this: Option<Allocated<Self>>,
-            identifier: &NSFileProviderDomainIdentifier,
-            display_name: &NSString,
-            path_relative_to_document_storage: &NSString,
-        ) -> Id<Self>;
+    pub type NSFileProviderDomain;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithIdentifier:displayName:)]
-        pub unsafe fn initWithIdentifier_displayName(
-            this: Option<Allocated<Self>>,
-            identifier: &NSFileProviderDomainIdentifier,
-            display_name: &NSString,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "initWithIdentifier:displayName:pathRelativeToDocumentStorage:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithIdentifier_displayName_pathRelativeToDocumentStorage(
+        this: Option<Allocated<Self>>,
+        identifier: &NSFileProviderDomainIdentifier,
+        display_name: &NSString,
+        path_relative_to_document_storage: &NSString,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSFileProviderDomainIdentifier>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithIdentifier:displayName:", managed = "Init")]
+    pub unsafe fn initWithIdentifier_displayName(
+        this: Option<Allocated<Self>>,
+        identifier: &NSFileProviderDomainIdentifier,
+        display_name: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other displayName)]
-        pub unsafe fn displayName(&self) -> Id<NSString>;
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSFileProviderDomainIdentifier>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other pathRelativeToDocumentStorage)]
-        pub unsafe fn pathRelativeToDocumentStorage(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "displayName", managed = "Other")]
+    pub unsafe fn displayName(&self) -> Id<NSString>;
 
-        #[method(isDisconnected)]
-        pub unsafe fn isDisconnected(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "pathRelativeToDocumentStorage", managed = "Other")]
+    pub unsafe fn pathRelativeToDocumentStorage(&self) -> Id<NSString>;
 
-        #[method(userEnabled)]
-        pub unsafe fn userEnabled(&self) -> bool;
+    #[objc2::method(sel = "isDisconnected")]
+    pub unsafe fn isDisconnected(&self) -> bool;
 
-        #[method(isHidden)]
-        pub unsafe fn isHidden(&self) -> bool;
+    #[objc2::method(sel = "userEnabled")]
+    pub unsafe fn userEnabled(&self) -> bool;
 
-        #[method(setHidden:)]
-        pub unsafe fn setHidden(&self, hidden: bool);
+    #[objc2::method(sel = "isHidden")]
+    pub unsafe fn isHidden(&self) -> bool;
 
-        #[method(isReplicated)]
-        pub unsafe fn isReplicated(&self) -> bool;
+    #[objc2::method(sel = "setHidden:")]
+    pub unsafe fn setHidden(&self, hidden: bool);
 
-        #[method(testingModes)]
-        pub unsafe fn testingModes(&self) -> NSFileProviderDomainTestingModes;
+    #[objc2::method(sel = "isReplicated")]
+    pub unsafe fn isReplicated(&self) -> bool;
 
-        #[method(setTestingModes:)]
-        pub unsafe fn setTestingModes(&self, testing_modes: NSFileProviderDomainTestingModes);
+    #[objc2::method(sel = "testingModes")]
+    pub unsafe fn testingModes(&self) -> NSFileProviderDomainTestingModes;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other backingStoreIdentity)]
-        pub unsafe fn backingStoreIdentity(&self) -> Option<Id<NSData>>;
+    #[objc2::method(sel = "setTestingModes:")]
+    pub unsafe fn setTestingModes(&self, testing_modes: NSFileProviderDomainTestingModes);
 
-        #[method(supportsSyncingTrash)]
-        pub unsafe fn supportsSyncingTrash(&self) -> bool;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "backingStoreIdentity", managed = "Other")]
+    pub unsafe fn backingStoreIdentity(&self) -> Option<Id<NSData>>;
 
-        #[method(setSupportsSyncingTrash:)]
-        pub unsafe fn setSupportsSyncingTrash(&self, supports_syncing_trash: bool);
-    }
-);
+    #[objc2::method(sel = "supportsSyncingTrash")]
+    pub unsafe fn supportsSyncingTrash(&self) -> bool;
 
-extern_methods!(
-    /// NSFileProviderDomain
+    #[objc2::method(sel = "setSupportsSyncingTrash:")]
+    pub unsafe fn setSupportsSyncingTrash(&self, supports_syncing_trash: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderExtension")]
-    unsafe impl NSFileProviderExtension {
-        #[cfg(feature = "FileProvider_NSFileProviderDomain")]
-        #[method_id(@__retain_semantics Other domain)]
-        pub unsafe fn domain(&self) -> Option<Id<NSFileProviderDomain>>;
-    }
-);
+    pub type NSFileProviderExtension;
+
+    #[cfg(feature = "FileProvider_NSFileProviderDomain")]
+    #[objc2::method(sel = "domain", managed = "Other")]
+    pub unsafe fn domain(&self) -> Option<Id<NSFileProviderDomain>>;
+}
 
 extern_static!(NSFileProviderDomainDidChange: &'static NSNotificationName);

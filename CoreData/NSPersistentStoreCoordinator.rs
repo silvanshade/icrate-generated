@@ -94,16 +94,16 @@ extern_static!(NSPersistentStoreURLKey: &'static NSString);
 
 extern_static!(NSPersistentHistoryTokenKey: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
-    pub struct NSPersistentStoreCoordinator;
-
-    #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
-    unsafe impl ClassType for NSPersistentStoreCoordinator {
-        type Super = NSObject;
-    }
-);
+    pub type NSPersistentStoreCoordinator;
+}
 
 #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
 unsafe impl NSLocking for NSPersistentStoreCoordinator {}
@@ -111,329 +111,360 @@ unsafe impl NSLocking for NSPersistentStoreCoordinator {}
 #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
 unsafe impl NSObjectProtocol for NSPersistentStoreCoordinator {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
-    unsafe impl NSPersistentStoreCoordinator {
-        #[cfg(feature = "CoreData_NSManagedObjectModel")]
-        #[method_id(@__retain_semantics Init initWithManagedObjectModel:)]
-        pub unsafe fn initWithManagedObjectModel(
-            this: Option<Allocated<Self>>,
-            model: &NSManagedObjectModel,
-        ) -> Id<Self>;
+    pub type NSPersistentStoreCoordinator;
 
-        #[cfg(feature = "CoreData_NSManagedObjectModel")]
-        #[method_id(@__retain_semantics Other managedObjectModel)]
-        pub unsafe fn managedObjectModel(&self) -> Id<NSManagedObjectModel>;
+    #[cfg(feature = "CoreData_NSManagedObjectModel")]
+    #[objc2::method(sel = "initWithManagedObjectModel:", managed = "Init")]
+    pub unsafe fn initWithManagedObjectModel(
+        this: Option<Allocated<Self>>,
+        model: &NSManagedObjectModel,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other persistentStores)]
-        pub unsafe fn persistentStores(&self) -> Id<NSArray<NSPersistentStore>>;
+    #[cfg(feature = "CoreData_NSManagedObjectModel")]
+    #[objc2::method(sel = "managedObjectModel", managed = "Other")]
+    pub unsafe fn managedObjectModel(&self) -> Id<NSManagedObjectModel>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "persistentStores", managed = "Other")]
+    pub unsafe fn persistentStores(&self) -> Id<NSArray<NSPersistentStore>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other persistentStoreForURL:)]
-        pub unsafe fn persistentStoreForURL(&self, url: &NSURL) -> Option<Id<NSPersistentStore>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
 
-        #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other URLForPersistentStore:)]
-        pub unsafe fn URLForPersistentStore(&self, store: &NSPersistentStore) -> Id<NSURL>;
+    #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "persistentStoreForURL:", managed = "Other")]
+    pub unsafe fn persistentStoreForURL(&self, url: &NSURL) -> Option<Id<NSPersistentStore>>;
 
-        #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSURL"))]
-        #[method(setURL:forPersistentStore:)]
-        pub unsafe fn setURL_forPersistentStore(
-            &self,
-            url: &NSURL,
-            store: &NSPersistentStore,
-        ) -> bool;
+    #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "URLForPersistentStore:", managed = "Other")]
+    pub unsafe fn URLForPersistentStore(&self, store: &NSPersistentStore) -> Id<NSURL>;
 
-        #[cfg(all(
-            feature = "CoreData_NSPersistentStore",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other addPersistentStoreWithType:configuration:URL:options:error:_)]
-        pub unsafe fn addPersistentStoreWithType_configuration_URL_options_error(
-            &self,
-            store_type: &NSString,
-            configuration: Option<&NSString>,
-            store_url: Option<&NSURL>,
-            options: Option<&NSDictionary>,
-        ) -> Result<Id<NSPersistentStore>, Id<NSError>>;
+    #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "setURL:forPersistentStore:")]
+    pub unsafe fn setURL_forPersistentStore(&self, url: &NSURL, store: &NSPersistentStore) -> bool;
 
-        #[cfg(all(
-            feature = "CoreData_NSPersistentStoreDescription",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(addPersistentStoreWithDescription:completionHandler:)]
-        pub unsafe fn addPersistentStoreWithDescription_completionHandler(
-            &self,
-            store_description: &NSPersistentStoreDescription,
-            block: &Block<(NonNull<NSPersistentStoreDescription>, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "CoreData_NSPersistentStore",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "addPersistentStoreWithType:configuration:URL:options:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn addPersistentStoreWithType_configuration_URL_options_error(
+        &self,
+        store_type: &NSString,
+        configuration: Option<&NSString>,
+        store_url: Option<&NSURL>,
+        options: Option<&NSDictionary>,
+    ) -> Result<Id<NSPersistentStore>, Id<NSError>>;
 
-        #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSError"))]
-        #[method(removePersistentStore:error:_)]
-        pub unsafe fn removePersistentStore_error(
-            &self,
-            store: &NSPersistentStore,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "CoreData_NSPersistentStoreDescription",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "addPersistentStoreWithDescription:completionHandler:")]
+    pub unsafe fn addPersistentStoreWithDescription_completionHandler(
+        &self,
+        store_description: &NSPersistentStoreDescription,
+        block: &Block<(NonNull<NSPersistentStoreDescription>, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "CoreData_NSPersistentStore",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(setMetadata:forPersistentStore:)]
-        pub unsafe fn setMetadata_forPersistentStore(
-            &self,
-            metadata: Option<&NSDictionary<NSString, Object>>,
-            store: &NSPersistentStore,
-        );
+    #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "removePersistentStore:error:", throws)]
+    pub unsafe fn removePersistentStore_error(
+        &self,
+        store: &NSPersistentStore,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSPersistentStore",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other metadataForPersistentStore:)]
-        pub unsafe fn metadataForPersistentStore(
-            &self,
-            store: &NSPersistentStore,
-        ) -> Id<NSDictionary<NSString, Object>>;
+    #[cfg(all(
+        feature = "CoreData_NSPersistentStore",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "setMetadata:forPersistentStore:")]
+    pub unsafe fn setMetadata_forPersistentStore(
+        &self,
+        metadata: Option<&NSDictionary<NSString, Object>>,
+        store: &NSPersistentStore,
+    );
 
-        #[cfg(all(feature = "CoreData_NSManagedObjectID", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other managedObjectIDForURIRepresentation:)]
-        pub unsafe fn managedObjectIDForURIRepresentation(
-            &self,
-            url: &NSURL,
-        ) -> Option<Id<NSManagedObjectID>>;
+    #[cfg(all(
+        feature = "CoreData_NSPersistentStore",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "metadataForPersistentStore:", managed = "Other")]
+    pub unsafe fn metadataForPersistentStore(
+        &self,
+        store: &NSPersistentStore,
+    ) -> Id<NSDictionary<NSString, Object>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSManagedObjectContext",
-            feature = "CoreData_NSPersistentStoreRequest",
-            feature = "Foundation_NSError"
-        ))]
-        #[method_id(@__retain_semantics Other executeRequest:withContext:error:_)]
-        pub unsafe fn executeRequest_withContext_error(
-            &self,
-            request: &NSPersistentStoreRequest,
-            context: &NSManagedObjectContext,
-        ) -> Result<Id<Object>, Id<NSError>>;
+    #[cfg(all(feature = "CoreData_NSManagedObjectID", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "managedObjectIDForURIRepresentation:", managed = "Other")]
+    pub unsafe fn managedObjectIDForURIRepresentation(
+        &self,
+        url: &NSURL,
+    ) -> Option<Id<NSManagedObjectID>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSValue"
-        ))]
-        #[method_id(@__retain_semantics Other registeredStoreTypes)]
-        pub unsafe fn registeredStoreTypes() -> Id<NSDictionary<NSString, NSValue>>;
+    #[cfg(all(
+        feature = "CoreData_NSManagedObjectContext",
+        feature = "CoreData_NSPersistentStoreRequest",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "executeRequest:withContext:error:", managed = "Other", throws)]
+    pub unsafe fn executeRequest_withContext_error(
+        &self,
+        request: &NSPersistentStoreRequest,
+        context: &NSManagedObjectContext,
+    ) -> Result<Id<Object>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(registerStoreClass:forStoreType:)]
-        pub unsafe fn registerStoreClass_forStoreType(
-            store_class: Option<&Class>,
-            store_type: &NSString,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSValue"
+    ))]
+    #[objc2::method(sel = "registeredStoreTypes", managed = "Other")]
+    pub unsafe fn registeredStoreTypes() -> Id<NSDictionary<NSString, NSValue>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other metadataForPersistentStoreOfType:URL:options:error:_)]
-        pub unsafe fn metadataForPersistentStoreOfType_URL_options_error(
-            store_type: &NSString,
-            url: &NSURL,
-            options: Option<&NSDictionary>,
-        ) -> Result<Id<NSDictionary<NSString, Object>>, Id<NSError>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "registerStoreClass:forStoreType:")]
+    pub unsafe fn registerStoreClass_forStoreType(
+        store_class: Option<&Class>,
+        store_type: &NSString,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(setMetadata:forPersistentStoreOfType:URL:options:error:_)]
-        pub unsafe fn setMetadata_forPersistentStoreOfType_URL_options_error(
-            metadata: Option<&NSDictionary<NSString, Object>>,
-            store_type: &NSString,
-            url: &NSURL,
-            options: Option<&NSDictionary>,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "metadataForPersistentStoreOfType:URL:options:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn metadataForPersistentStoreOfType_URL_options_error(
+        store_type: &NSString,
+        url: &NSURL,
+        options: Option<&NSDictionary>,
+    ) -> Result<Id<NSDictionary<NSString, Object>>, Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSURL"))]
-        #[deprecated = "Spotlight integration is deprecated. Use CoreSpotlight integration instead."]
-        #[method_id(@__retain_semantics Other elementsDerivedFromExternalRecordURL:)]
-        pub unsafe fn elementsDerivedFromExternalRecordURL(file_url: &NSURL) -> Id<NSDictionary>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "setMetadata:forPersistentStoreOfType:URL:options:error:",
+        throws
+    )]
+    pub unsafe fn setMetadata_forPersistentStoreOfType_URL_options_error(
+        metadata: Option<&NSDictionary<NSString, Object>>,
+        store_type: &NSString,
+        url: &NSURL,
+        options: Option<&NSDictionary>,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSPersistentStore",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[deprecated = "Spotlight integration is deprecated. Use CoreSpotlight integration instead."]
-        #[method_id(@__retain_semantics Other importStoreWithIdentifier:fromExternalRecordsDirectory:toURL:options:withType:error:_)]
-        pub unsafe fn importStoreWithIdentifier_fromExternalRecordsDirectory_toURL_options_withType_error(
-            &self,
-            store_identifier: Option<&NSString>,
-            external_records_url: &NSURL,
-            destination_url: &NSURL,
-            options: Option<&NSDictionary>,
-            store_type: &NSString,
-        ) -> Result<Id<NSPersistentStore>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSURL"))]
+    #[deprecated = "Spotlight integration is deprecated. Use CoreSpotlight integration instead."]
+    #[objc2::method(sel = "elementsDerivedFromExternalRecordURL:", managed = "Other")]
+    pub unsafe fn elementsDerivedFromExternalRecordURL(file_url: &NSURL) -> Id<NSDictionary>;
 
-        #[cfg(all(
-            feature = "CoreData_NSPersistentStore",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other migratePersistentStore:toURL:options:withType:error:_)]
-        pub unsafe fn migratePersistentStore_toURL_options_withType_error(
-            &self,
-            store: &NSPersistentStore,
-            url: &NSURL,
-            options: Option<&NSDictionary>,
-            store_type: &NSString,
-        ) -> Result<Id<NSPersistentStore>, Id<NSError>>;
+    #[cfg(all(
+        feature = "CoreData_NSPersistentStore",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[deprecated = "Spotlight integration is deprecated. Use CoreSpotlight integration instead."]
+    #[objc2::method(
+        sel = "importStoreWithIdentifier:fromExternalRecordsDirectory:toURL:options:withType:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn importStoreWithIdentifier_fromExternalRecordsDirectory_toURL_options_withType_error(
+        &self,
+        store_identifier: Option<&NSString>,
+        external_records_url: &NSURL,
+        destination_url: &NSURL,
+        options: Option<&NSDictionary>,
+        store_type: &NSString,
+    ) -> Result<Id<NSPersistentStore>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(destroyPersistentStoreAtURL:withType:options:error:_)]
-        pub unsafe fn destroyPersistentStoreAtURL_withType_options_error(
-            &self,
-            url: &NSURL,
-            store_type: &NSString,
-            options: Option<&NSDictionary>,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "CoreData_NSPersistentStore",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "migratePersistentStore:toURL:options:withType:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn migratePersistentStore_toURL_options_withType_error(
+        &self,
+        store: &NSPersistentStore,
+        url: &NSURL,
+        options: Option<&NSDictionary>,
+        store_type: &NSString,
+    ) -> Result<Id<NSPersistentStore>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(replacePersistentStoreAtURL:destinationOptions:withPersistentStoreFromURL:sourceOptions:storeType:error:_)]
-        pub unsafe fn replacePersistentStoreAtURL_destinationOptions_withPersistentStoreFromURL_sourceOptions_storeType_error(
-            &self,
-            destination_url: &NSURL,
-            destination_options: Option<&NSDictionary>,
-            source_url: &NSURL,
-            source_options: Option<&NSDictionary>,
-            store_type: &NSString,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "destroyPersistentStoreAtURL:withType:options:error:", throws)]
+    pub unsafe fn destroyPersistentStoreAtURL_withType_options_error(
+        &self,
+        url: &NSURL,
+        store_type: &NSString,
+        options: Option<&NSDictionary>,
+    ) -> Result<(), Id<NSError>>;
 
-        #[method(performBlock:)]
-        pub unsafe fn performBlock(&self, block: &Block<(), ()>);
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "replacePersistentStoreAtURL:destinationOptions:withPersistentStoreFromURL:sourceOptions:storeType:error:",
+        throws
+    )]
+    pub unsafe fn replacePersistentStoreAtURL_destinationOptions_withPersistentStoreFromURL_sourceOptions_storeType_error(
+        &self,
+        destination_url: &NSURL,
+        destination_options: Option<&NSDictionary>,
+        source_url: &NSURL,
+        source_options: Option<&NSDictionary>,
+        store_type: &NSString,
+    ) -> Result<(), Id<NSError>>;
 
-        #[method(performBlockAndWait:)]
-        pub unsafe fn performBlockAndWait(&self, block: &Block<(), ()>);
+    #[objc2::method(sel = "performBlock:")]
+    pub unsafe fn performBlock(&self, block: &Block<(), ()>);
 
-        #[cfg(all(
-            feature = "CoreData_NSPersistentHistoryToken",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other currentPersistentHistoryTokenFromStores:)]
-        pub unsafe fn currentPersistentHistoryTokenFromStores(
-            &self,
-            stores: Option<&NSArray>,
-        ) -> Option<Id<NSPersistentHistoryToken>>;
+    #[objc2::method(sel = "performBlockAndWait:")]
+    pub unsafe fn performBlockAndWait(&self, block: &Block<(), ()>);
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[deprecated = "Use -metadataForPersistentStoreOfType:URL:options:error: and pass in an options dictionary matching addPersistentStoreWithType"]
-        #[method_id(@__retain_semantics Other metadataForPersistentStoreWithURL:error:_)]
-        pub unsafe fn metadataForPersistentStoreWithURL_error(
-            url: &NSURL,
-        ) -> Result<Id<NSDictionary>, Id<NSError>>;
+    #[cfg(all(
+        feature = "CoreData_NSPersistentHistoryToken",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "currentPersistentHistoryTokenFromStores:", managed = "Other")]
+    pub unsafe fn currentPersistentHistoryTokenFromStores(
+        &self,
+        stores: Option<&NSArray>,
+    ) -> Option<Id<NSPersistentHistoryToken>>;
 
-        #[deprecated = "Use -performBlockAndWait: instead"]
-        #[method(lock)]
-        pub unsafe fn lock(&self);
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[deprecated = "Use -metadataForPersistentStoreOfType:URL:options:error: and pass in an options dictionary matching addPersistentStoreWithType"]
+    #[objc2::method(
+        sel = "metadataForPersistentStoreWithURL:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn metadataForPersistentStoreWithURL_error(
+        url: &NSURL,
+    ) -> Result<Id<NSDictionary>, Id<NSError>>;
 
-        #[deprecated = "Use -performBlockAndWait: instead"]
-        #[method(unlock)]
-        pub unsafe fn unlock(&self);
+    #[deprecated = "Use -performBlockAndWait: instead"]
+    #[objc2::method(sel = "lock")]
+    pub unsafe fn lock(&self);
 
-        #[deprecated = "Use -performBlock: instead"]
-        #[method(tryLock)]
-        pub unsafe fn tryLock(&self) -> bool;
+    #[deprecated = "Use -performBlockAndWait: instead"]
+    #[objc2::method(sel = "unlock")]
+    pub unsafe fn unlock(&self);
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[deprecated = "Use -metadataForPersistentStoreOfType:URL:options:error: and pass in an options dictionary matching addPersistentStoreWithType"]
-        #[method_id(@__retain_semantics Other metadataForPersistentStoreOfType:URL:error:_)]
-        pub unsafe fn metadataForPersistentStoreOfType_URL_error(
-            store_type: Option<&NSString>,
-            url: &NSURL,
-        ) -> Result<Id<NSDictionary<NSString, Object>>, Id<NSError>>;
+    #[deprecated = "Use -performBlock: instead"]
+    #[objc2::method(sel = "tryLock")]
+    pub unsafe fn tryLock(&self) -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[deprecated = "Use  -setMetadata:forPersistentStoreOfType:URL:options:error: and pass in an options dictionary matching addPersistentStoreWithType"]
-        #[method(setMetadata:forPersistentStoreOfType:URL:error:_)]
-        pub unsafe fn setMetadata_forPersistentStoreOfType_URL_error(
-            metadata: Option<&NSDictionary<NSString, Object>>,
-            store_type: Option<&NSString>,
-            url: &NSURL,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[deprecated = "Use -metadataForPersistentStoreOfType:URL:options:error: and pass in an options dictionary matching addPersistentStoreWithType"]
+    #[objc2::method(
+        sel = "metadataForPersistentStoreOfType:URL:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn metadataForPersistentStoreOfType_URL_error(
+        store_type: Option<&NSString>,
+        url: &NSURL,
+    ) -> Result<Id<NSDictionary<NSString, Object>>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[deprecated = "Please see the release notes and Core Data documentation."]
-        #[method(removeUbiquitousContentAndPersistentStoreAtURL:options:error:_)]
-        pub unsafe fn removeUbiquitousContentAndPersistentStoreAtURL_options_error(
-            store_url: &NSURL,
-            options: Option<&NSDictionary>,
-        ) -> Result<(), Id<NSError>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[deprecated = "Use  -setMetadata:forPersistentStoreOfType:URL:options:error: and pass in an options dictionary matching addPersistentStoreWithType"]
+    #[objc2::method(sel = "setMetadata:forPersistentStoreOfType:URL:error:", throws)]
+    pub unsafe fn setMetadata_forPersistentStoreOfType_URL_error(
+        metadata: Option<&NSDictionary<NSString, Object>>,
+        store_type: Option<&NSString>,
+        url: &NSURL,
+    ) -> Result<(), Id<NSError>>;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
     #[deprecated = "Please see the release notes and Core Data documentation."]
-    pub enum NSPersistentStoreUbiquitousTransitionType {
-        #[deprecated = "Please see the release notes and Core Data documentation."]
-        NSPersistentStoreUbiquitousTransitionTypeAccountAdded = 1,
-        #[deprecated = "Please see the release notes and Core Data documentation."]
-        NSPersistentStoreUbiquitousTransitionTypeAccountRemoved = 2,
-        #[deprecated = "Please see the release notes and Core Data documentation."]
-        NSPersistentStoreUbiquitousTransitionTypeContentRemoved = 3,
-        #[deprecated = "Please see the release notes and Core Data documentation."]
-        NSPersistentStoreUbiquitousTransitionTypeInitialImportCompleted = 4,
-    }
-);
+    #[objc2::method(
+        sel = "removeUbiquitousContentAndPersistentStoreAtURL:options:error:",
+        throws
+    )]
+    pub unsafe fn removeUbiquitousContentAndPersistentStoreAtURL_options_error(
+        store_url: &NSURL,
+        options: Option<&NSDictionary>,
+    ) -> Result<(), Id<NSError>>;
+}
+
+#[ns_enum]
+#[underlying(NSUInteger)]
+#[deprecated = "Please see the release notes and Core Data documentation."]
+pub enum NSPersistentStoreUbiquitousTransitionType {
+    #[deprecated = "Please see the release notes and Core Data documentation."]
+    NSPersistentStoreUbiquitousTransitionTypeAccountAdded = 1,
+    #[deprecated = "Please see the release notes and Core Data documentation."]
+    NSPersistentStoreUbiquitousTransitionTypeAccountRemoved = 2,
+    #[deprecated = "Please see the release notes and Core Data documentation."]
+    NSPersistentStoreUbiquitousTransitionTypeContentRemoved = 3,
+    #[deprecated = "Please see the release notes and Core Data documentation."]
+    NSPersistentStoreUbiquitousTransitionTypeInitialImportCompleted = 4,
+}
 
 extern_static!(NSPersistentStoreUbiquitousContentNameKey: &'static NSString);
 

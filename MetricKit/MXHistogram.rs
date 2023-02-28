@@ -4,21 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-__inner_extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXHistogramBucket")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXHistogramBucket")]
-    pub struct MXHistogramBucket<UnitType: Message = Object, UnitTypeOwnership: Ownership = Shared> {
-        _inner0: PhantomData<*mut (UnitType, UnitTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "MetricKit_MXHistogramBucket")]
-    unsafe impl<UnitType: Message, UnitTypeOwnership: Ownership> ClassType
-        for MXHistogramBucket<UnitType, UnitTypeOwnership>
-    {
-        type Super = NSObject;
-    }
-);
+    pub type MXHistogramBucket<UnitType: Message = Object, UnitTypeOwnership: Ownership = Shared>;
+}
 
 #[cfg(feature = "MetricKit_MXHistogramBucket")]
 unsafe impl<UnitType: Message, UnitTypeOwnership: Ownership> NSCoding
@@ -38,39 +33,35 @@ unsafe impl<UnitType: Message, UnitTypeOwnership: Ownership> NSSecureCoding
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXHistogramBucket")]
-    unsafe impl<UnitType: Message, UnitTypeOwnership: Ownership>
-        MXHistogramBucket<UnitType, UnitTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSMeasurement")]
-        #[method_id(@__retain_semantics Other bucketStart)]
-        pub unsafe fn bucketStart(&self) -> Id<NSMeasurement<UnitType>>;
+    pub type MXHistogramBucket<UnitType: Message = Object, UnitTypeOwnership: Ownership = Shared>;
 
-        #[cfg(feature = "Foundation_NSMeasurement")]
-        #[method_id(@__retain_semantics Other bucketEnd)]
-        pub unsafe fn bucketEnd(&self) -> Id<NSMeasurement<UnitType>>;
+    #[cfg(feature = "Foundation_NSMeasurement")]
+    #[objc2::method(sel = "bucketStart", managed = "Other")]
+    pub unsafe fn bucketStart(&self) -> Id<NSMeasurement<UnitType>>;
 
-        #[method(bucketCount)]
-        pub unsafe fn bucketCount(&self) -> NSUInteger;
-    }
-);
+    #[cfg(feature = "Foundation_NSMeasurement")]
+    #[objc2::method(sel = "bucketEnd", managed = "Other")]
+    pub unsafe fn bucketEnd(&self) -> Id<NSMeasurement<UnitType>>;
 
-__inner_extern_class!(
+    #[objc2::method(sel = "bucketCount")]
+    pub unsafe fn bucketCount(&self) -> NSUInteger;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXHistogram")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXHistogram")]
-    pub struct MXHistogram<UnitType: Message = Object, UnitTypeOwnership: Ownership = Shared> {
-        _inner0: PhantomData<*mut (UnitType, UnitTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "MetricKit_MXHistogram")]
-    unsafe impl<UnitType: Message, UnitTypeOwnership: Ownership> ClassType
-        for MXHistogram<UnitType, UnitTypeOwnership>
-    {
-        type Super = NSObject;
-    }
-);
+    pub type MXHistogram<UnitType: Message = Object, UnitTypeOwnership: Ownership = Shared>;
+}
 
 #[cfg(feature = "MetricKit_MXHistogram")]
 unsafe impl<UnitType: Message, UnitTypeOwnership: Ownership> NSCoding
@@ -90,19 +81,20 @@ unsafe impl<UnitType: Message, UnitTypeOwnership: Ownership> NSSecureCoding
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXHistogram")]
-    unsafe impl<UnitType: Message, UnitTypeOwnership: Ownership>
-        MXHistogram<UnitType, UnitTypeOwnership>
-    {
-        #[method(totalBucketCount)]
-        pub unsafe fn totalBucketCount(&self) -> NSUInteger;
+    pub type MXHistogram<UnitType: Message = Object, UnitTypeOwnership: Ownership = Shared>;
 
-        #[cfg(all(
-            feature = "Foundation_NSEnumerator",
-            feature = "MetricKit_MXHistogramBucket"
-        ))]
-        #[method_id(@__retain_semantics Other bucketEnumerator)]
-        pub unsafe fn bucketEnumerator(&self) -> Id<NSEnumerator<MXHistogramBucket<UnitType>>>;
-    }
-);
+    #[objc2::method(sel = "totalBucketCount")]
+    pub unsafe fn totalBucketCount(&self) -> NSUInteger;
+
+    #[cfg(all(
+        feature = "Foundation_NSEnumerator",
+        feature = "MetricKit_MXHistogramBucket"
+    ))]
+    #[objc2::method(sel = "bucketEnumerator", managed = "Other")]
+    pub unsafe fn bucketEnumerator(&self) -> Id<NSEnumerator<MXHistogramBucket<UnitType>>>;
+}

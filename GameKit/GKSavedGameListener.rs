@@ -5,26 +5,21 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-extern_protocol!(
-    pub unsafe trait GKSavedGameListener: NSObjectProtocol {
-        #[cfg(all(feature = "GameKit_GKPlayer", feature = "GameKit_GKSavedGame"))]
-        #[optional]
-        #[method(player:didModifySavedGame:)]
-        unsafe fn player_didModifySavedGame(&self, player: &GKPlayer, saved_game: &GKSavedGame);
+#[objc2::protocol]
+pub unsafe trait GKSavedGameListener: NSObjectProtocol {
+    #[cfg(all(feature = "GameKit_GKPlayer", feature = "GameKit_GKSavedGame"))]
+    #[objc2::method(optional, sel = "player:didModifySavedGame:")]
+    unsafe fn player_didModifySavedGame(&self, player: &GKPlayer, saved_game: &GKSavedGame);
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "GameKit_GKPlayer",
-            feature = "GameKit_GKSavedGame"
-        ))]
-        #[optional]
-        #[method(player:hasConflictingSavedGames:)]
-        unsafe fn player_hasConflictingSavedGames(
-            &self,
-            player: &GKPlayer,
-            saved_games: &NSArray<GKSavedGame>,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn GKSavedGameListener {}
-);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "GameKit_GKPlayer",
+        feature = "GameKit_GKSavedGame"
+    ))]
+    #[objc2::method(optional, sel = "player:hasConflictingSavedGames:")]
+    unsafe fn player_hasConflictingSavedGames(
+        &self,
+        player: &GKPlayer,
+        saved_games: &NSArray<GKSavedGame>,
+    );
+}

@@ -5,41 +5,34 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_methods!(
-    /// NSScripting
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSDocument")]
-    unsafe impl NSDocument {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other lastComponentOfFileName)]
-        pub unsafe fn lastComponentOfFileName(&self) -> Id<NSString>;
+    pub type NSDocument;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLastComponentOfFileName:)]
-        pub unsafe fn setLastComponentOfFileName(&self, last_component_of_file_name: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "lastComponentOfFileName", managed = "Other")]
+    pub unsafe fn lastComponentOfFileName(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSScriptCommand")]
-        #[method_id(@__retain_semantics Other handleSaveScriptCommand:)]
-        pub unsafe fn handleSaveScriptCommand(
-            &self,
-            command: &NSScriptCommand,
-        ) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLastComponentOfFileName:")]
+    pub unsafe fn setLastComponentOfFileName(&self, last_component_of_file_name: &NSString);
 
-        #[cfg(feature = "Foundation_NSCloseCommand")]
-        #[method_id(@__retain_semantics Other handleCloseScriptCommand:)]
-        pub unsafe fn handleCloseScriptCommand(
-            &self,
-            command: &NSCloseCommand,
-        ) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSScriptCommand")]
+    #[objc2::method(sel = "handleSaveScriptCommand:", managed = "Other")]
+    pub unsafe fn handleSaveScriptCommand(&self, command: &NSScriptCommand) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSScriptCommand")]
-        #[method_id(@__retain_semantics Other handlePrintScriptCommand:)]
-        pub unsafe fn handlePrintScriptCommand(
-            &self,
-            command: &NSScriptCommand,
-        ) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSCloseCommand")]
+    #[objc2::method(sel = "handleCloseScriptCommand:", managed = "Other")]
+    pub unsafe fn handleCloseScriptCommand(&self, command: &NSCloseCommand) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
-        #[method_id(@__retain_semantics Other objectSpecifier)]
-        pub unsafe fn objectSpecifier(&self) -> Id<NSScriptObjectSpecifier>;
-    }
-);
+    #[cfg(feature = "Foundation_NSScriptCommand")]
+    #[objc2::method(sel = "handlePrintScriptCommand:", managed = "Other")]
+    pub unsafe fn handlePrintScriptCommand(&self, command: &NSScriptCommand) -> Option<Id<Object>>;
+
+    #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
+    #[objc2::method(sel = "objectSpecifier", managed = "Other")]
+    pub unsafe fn objectSpecifier(&self) -> Id<NSScriptObjectSpecifier>;
+}

@@ -6,69 +6,72 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSeriesBuilder,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKWorkoutRouteBuilder")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKWorkoutRouteBuilder")]
-    pub struct HKWorkoutRouteBuilder;
-
-    #[cfg(feature = "HealthKit_HKWorkoutRouteBuilder")]
-    unsafe impl ClassType for HKWorkoutRouteBuilder {
-        #[inherits(NSObject)]
-        type Super = HKSeriesBuilder;
-    }
-);
+    pub type HKWorkoutRouteBuilder;
+}
 
 #[cfg(feature = "HealthKit_HKWorkoutRouteBuilder")]
 unsafe impl NSObjectProtocol for HKWorkoutRouteBuilder {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKWorkoutRouteBuilder")]
-    unsafe impl HKWorkoutRouteBuilder {
-        #[cfg(all(feature = "HealthKit_HKDevice", feature = "HealthKit_HKHealthStore"))]
-        #[method_id(@__retain_semantics Init initWithHealthStore:device:)]
-        pub unsafe fn initWithHealthStore_device(
-            this: Option<Allocated<Self>>,
-            health_store: &HKHealthStore,
-            device: Option<&HKDevice>,
-        ) -> Id<Self>;
+    pub type HKWorkoutRouteBuilder;
 
-        #[cfg(all(
-            feature = "CoreLocation_CLLocation",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(insertRouteData:completion:)]
-        pub unsafe fn insertRouteData_completion(
-            &self,
-            route_data: &NSArray<CLLocation>,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "HealthKit_HKDevice", feature = "HealthKit_HKHealthStore"))]
+    #[objc2::method(sel = "initWithHealthStore:device:", managed = "Init")]
+    pub unsafe fn initWithHealthStore_device(
+        this: Option<Allocated<Self>>,
+        health_store: &HKHealthStore,
+        device: Option<&HKDevice>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(addMetadata:completion:)]
-        pub unsafe fn addMetadata_completion(
-            &self,
-            metadata: &NSDictionary<NSString, Object>,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "CoreLocation_CLLocation",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "insertRouteData:completion:")]
+    pub unsafe fn insertRouteData_completion(
+        &self,
+        route_data: &NSArray<CLLocation>,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "HealthKit_HKWorkout",
-            feature = "HealthKit_HKWorkoutRoute"
-        ))]
-        #[method(finishRouteWithWorkout:metadata:completion:)]
-        pub unsafe fn finishRouteWithWorkout_metadata_completion(
-            &self,
-            workout: &HKWorkout,
-            metadata: Option<&NSDictionary<NSString, Object>>,
-            completion: &Block<(*mut HKWorkoutRoute, *mut NSError), ()>,
-        );
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "addMetadata:completion:")]
+    pub unsafe fn addMetadata_completion(
+        &self,
+        metadata: &NSDictionary<NSString, Object>,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
+
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "HealthKit_HKWorkout",
+        feature = "HealthKit_HKWorkoutRoute"
+    ))]
+    #[objc2::method(sel = "finishRouteWithWorkout:metadata:completion:")]
+    pub unsafe fn finishRouteWithWorkout_metadata_completion(
+        &self,
+        workout: &HKWorkout,
+        metadata: Option<&NSDictionary<NSString, Object>>,
+        completion: &Block<(*mut HKWorkoutRoute, *mut NSError), ()>,
+    );
+}

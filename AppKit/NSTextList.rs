@@ -5,12 +5,11 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSTextListOptions {
-        NSTextListPrependEnclosingMarker = 1 << 0,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSTextListOptions {
+    NSTextListPrependEnclosingMarker = 1 << 0,
+}
 
 typed_extensible_enum!(
     pub type NSTextListMarkerFormat = NSString;
@@ -50,16 +49,16 @@ extern_static!(NSTextListMarkerUppercaseRoman: &'static NSTextListMarkerFormat);
 
 extern_static!(NSTextListMarkerDecimal: &'static NSTextListMarkerFormat);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextList")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextList")]
-    pub struct NSTextList;
-
-    #[cfg(feature = "AppKit_NSTextList")]
-    unsafe impl ClassType for NSTextList {
-        type Super = NSObject;
-    }
-);
+    pub type NSTextList;
+}
 
 #[cfg(feature = "AppKit_NSTextList")]
 unsafe impl NSCoding for NSTextList {}
@@ -70,48 +69,52 @@ unsafe impl NSObjectProtocol for NSTextList {}
 #[cfg(feature = "AppKit_NSTextList")]
 unsafe impl NSSecureCoding for NSTextList {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextList")]
-    unsafe impl NSTextList {
-        #[method_id(@__retain_semantics Init initWithMarkerFormat:options:startingItemNumber:)]
-        pub unsafe fn initWithMarkerFormat_options_startingItemNumber(
-            this: Option<Allocated<Self>>,
-            marker_format: &NSTextListMarkerFormat,
-            options: NSTextListOptions,
-            starting_item_number: NSInteger,
-        ) -> Id<Self>;
+    pub type NSTextList;
 
-        #[method_id(@__retain_semantics Init initWithMarkerFormat:options:)]
-        pub unsafe fn initWithMarkerFormat_options(
-            this: Option<Allocated<Self>>,
-            marker_format: &NSTextListMarkerFormat,
-            options: NSUInteger,
-        ) -> Id<Self>;
+    #[objc2::method(
+        sel = "initWithMarkerFormat:options:startingItemNumber:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithMarkerFormat_options_startingItemNumber(
+        this: Option<Allocated<Self>>,
+        marker_format: &NSTextListMarkerFormat,
+        options: NSTextListOptions,
+        starting_item_number: NSInteger,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "initWithMarkerFormat:options:", managed = "Init")]
+    pub unsafe fn initWithMarkerFormat_options(
+        this: Option<Allocated<Self>>,
+        marker_format: &NSTextListMarkerFormat,
+        options: NSUInteger,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other markerFormat)]
-        pub unsafe fn markerFormat(&self) -> Id<NSTextListMarkerFormat>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[method(listOptions)]
-        pub unsafe fn listOptions(&self) -> NSTextListOptions;
+    #[objc2::method(sel = "markerFormat", managed = "Other")]
+    pub unsafe fn markerFormat(&self) -> Id<NSTextListMarkerFormat>;
 
-        #[method(startingItemNumber)]
-        pub unsafe fn startingItemNumber(&self) -> NSInteger;
+    #[objc2::method(sel = "listOptions")]
+    pub unsafe fn listOptions(&self) -> NSTextListOptions;
 
-        #[method(setStartingItemNumber:)]
-        pub unsafe fn setStartingItemNumber(&self, starting_item_number: NSInteger);
+    #[objc2::method(sel = "startingItemNumber")]
+    pub unsafe fn startingItemNumber(&self) -> NSInteger;
 
-        #[method(isOrdered)]
-        pub unsafe fn isOrdered(&self) -> bool;
+    #[objc2::method(sel = "setStartingItemNumber:")]
+    pub unsafe fn setStartingItemNumber(&self, starting_item_number: NSInteger);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other markerForItemNumber:)]
-        pub unsafe fn markerForItemNumber(&self, item_number: NSInteger) -> Id<NSString>;
-    }
-);
+    #[objc2::method(sel = "isOrdered")]
+    pub unsafe fn isOrdered(&self) -> bool;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "markerForItemNumber:", managed = "Other")]
+    pub unsafe fn markerForItemNumber(&self, item_number: NSInteger) -> Id<NSString>;
+}

@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLMenuElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLMenuElement;
-
     #[cfg(feature = "WebKit_DOMHTMLMenuElement")]
-    unsafe impl ClassType for DOMHTMLMenuElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLMenuElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLMenuElement")]
 unsafe impl DOMEventTarget for DOMHTMLMenuElement {}
@@ -24,13 +28,17 @@ unsafe impl DOMEventTarget for DOMHTMLMenuElement {}
 #[cfg(feature = "WebKit_DOMHTMLMenuElement")]
 unsafe impl NSObjectProtocol for DOMHTMLMenuElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLMenuElement")]
-    unsafe impl DOMHTMLMenuElement {
-        #[method(compact)]
-        pub unsafe fn compact(&self) -> bool;
+    #[deprecated]
+    pub type DOMHTMLMenuElement;
 
-        #[method(setCompact:)]
-        pub unsafe fn setCompact(&self, compact: bool);
-    }
-);
+    #[objc2::method(sel = "compact")]
+    pub unsafe fn compact(&self) -> bool;
+
+    #[objc2::method(sel = "setCompact:")]
+    pub unsafe fn setCompact(&self, compact: bool);
+}

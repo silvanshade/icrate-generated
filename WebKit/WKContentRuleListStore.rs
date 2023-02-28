@@ -5,68 +5,73 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKContentRuleListStore")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKContentRuleListStore")]
-    pub struct WKContentRuleListStore;
-
-    #[cfg(feature = "WebKit_WKContentRuleListStore")]
-    unsafe impl ClassType for WKContentRuleListStore {
-        type Super = NSObject;
-    }
-);
+    pub type WKContentRuleListStore;
+}
 
 #[cfg(feature = "WebKit_WKContentRuleListStore")]
 unsafe impl NSObjectProtocol for WKContentRuleListStore {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKContentRuleListStore")]
-    unsafe impl WKContentRuleListStore {
-        #[method_id(@__retain_semantics Other defaultStore)]
-        pub unsafe fn defaultStore() -> Option<Id<Self>>;
+    pub type WKContentRuleListStore;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other storeWithURL:)]
-        pub unsafe fn storeWithURL(url: Option<&NSURL>) -> Option<Id<Self>>;
+    #[objc2::method(sel = "defaultStore", managed = "Other")]
+    pub unsafe fn defaultStore() -> Option<Id<Self>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "WebKit_WKContentRuleList"
-        ))]
-        #[method(compileContentRuleListForIdentifier:encodedContentRuleList:completionHandler:)]
-        pub unsafe fn compileContentRuleListForIdentifier_encodedContentRuleList_completionHandler(
-            &self,
-            identifier: Option<&NSString>,
-            encoded_content_rule_list: Option<&NSString>,
-            completion_handler: Option<&Block<(*mut WKContentRuleList, *mut NSError), ()>>,
-        );
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "storeWithURL:", managed = "Other")]
+    pub unsafe fn storeWithURL(url: Option<&NSURL>) -> Option<Id<Self>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "WebKit_WKContentRuleList"
-        ))]
-        #[method(lookUpContentRuleListForIdentifier:completionHandler:)]
-        pub unsafe fn lookUpContentRuleListForIdentifier_completionHandler(
-            &self,
-            identifier: Option<&NSString>,
-            completion_handler: Option<&Block<(*mut WKContentRuleList, *mut NSError), ()>>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "WebKit_WKContentRuleList"
+    ))]
+    #[objc2::method(
+        sel = "compileContentRuleListForIdentifier:encodedContentRuleList:completionHandler:"
+    )]
+    pub unsafe fn compileContentRuleListForIdentifier_encodedContentRuleList_completionHandler(
+        &self,
+        identifier: Option<&NSString>,
+        encoded_content_rule_list: Option<&NSString>,
+        completion_handler: Option<&Block<(*mut WKContentRuleList, *mut NSError), ()>>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(removeContentRuleListForIdentifier:completionHandler:)]
-        pub unsafe fn removeContentRuleListForIdentifier_completionHandler(
-            &self,
-            identifier: Option<&NSString>,
-            completion_handler: Option<&Block<(*mut NSError,), ()>>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "WebKit_WKContentRuleList"
+    ))]
+    #[objc2::method(sel = "lookUpContentRuleListForIdentifier:completionHandler:")]
+    pub unsafe fn lookUpContentRuleListForIdentifier_completionHandler(
+        &self,
+        identifier: Option<&NSString>,
+        completion_handler: Option<&Block<(*mut WKContentRuleList, *mut NSError), ()>>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method(getAvailableContentRuleListIdentifiers:)]
-        pub unsafe fn getAvailableContentRuleListIdentifiers(
-            &self,
-            completion_handler: Option<&Block<(*mut NSArray<NSString>,), ()>>,
-        );
-    }
-);
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "removeContentRuleListForIdentifier:completionHandler:")]
+    pub unsafe fn removeContentRuleListForIdentifier_completionHandler(
+        &self,
+        identifier: Option<&NSString>,
+        completion_handler: Option<&Block<(*mut NSError,), ()>>,
+    );
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "getAvailableContentRuleListIdentifiers:")]
+    pub unsafe fn getAvailableContentRuleListIdentifiers(
+        &self,
+        completion_handler: Option<&Block<(*mut NSArray<NSString>,), ()>>,
+    );
+}

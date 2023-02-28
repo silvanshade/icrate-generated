@@ -7,44 +7,53 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKOverlayRenderer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKTileOverlayRenderer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKTileOverlayRenderer")]
-    pub struct MKTileOverlayRenderer;
-
-    #[cfg(feature = "MapKit_MKTileOverlayRenderer")]
-    unsafe impl ClassType for MKTileOverlayRenderer {
-        #[inherits(NSObject)]
-        type Super = MKOverlayRenderer;
-    }
-);
+    pub type MKTileOverlayRenderer;
+}
 
 #[cfg(feature = "MapKit_MKTileOverlayRenderer")]
 unsafe impl NSObjectProtocol for MKTileOverlayRenderer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKTileOverlayRenderer")]
-    unsafe impl MKTileOverlayRenderer {
-        #[cfg(feature = "MapKit_MKTileOverlay")]
-        #[method_id(@__retain_semantics Init initWithTileOverlay:)]
-        pub unsafe fn initWithTileOverlay(
-            this: Option<Allocated<Self>>,
-            overlay: &MKTileOverlay,
-        ) -> Id<Self>;
+    pub type MKTileOverlayRenderer;
 
-        #[method(reloadData)]
-        pub unsafe fn reloadData(&self);
-    }
-);
+    #[cfg(feature = "MapKit_MKTileOverlay")]
+    #[objc2::method(sel = "initWithTileOverlay:", managed = "Init")]
+    pub unsafe fn initWithTileOverlay(
+        this: Option<Allocated<Self>>,
+        overlay: &MKTileOverlay,
+    ) -> Id<Self>;
 
-extern_methods!(
-    /// Methods declared on superclass `MKOverlayRenderer`
+    #[objc2::method(sel = "reloadData")]
+    pub unsafe fn reloadData(&self);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `MKOverlayRenderer`
     #[cfg(feature = "MapKit_MKTileOverlayRenderer")]
-    unsafe impl MKTileOverlayRenderer {
-        #[method_id(@__retain_semantics Init initWithOverlay:)]
-        pub unsafe fn initWithOverlay(
-            this: Option<Allocated<Self>>,
-            overlay: &ProtocolObject<dyn MKOverlay>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKTileOverlayRenderer")]
+    pub type MKTileOverlayRenderer;
+
+    #[objc2::method(sel = "initWithOverlay:", managed = "Init")]
+    pub unsafe fn initWithOverlay(
+        this: Option<Allocated<Self>>,
+        overlay: &ProtocolObject<dyn MKOverlay>,
+    ) -> Id<Self>;
+}

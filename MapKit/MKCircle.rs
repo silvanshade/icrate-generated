@@ -7,17 +7,17 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKShape,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKCircle")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKCircle")]
-    pub struct MKCircle;
-
-    #[cfg(feature = "MapKit_MKCircle")]
-    unsafe impl ClassType for MKCircle {
-        #[inherits(NSObject)]
-        type Super = MKShape;
-    }
-);
+    pub type MKCircle;
+}
 
 #[cfg(feature = "MapKit_MKCircle")]
 unsafe impl MKAnnotation for MKCircle {}
@@ -28,25 +28,28 @@ unsafe impl MKOverlay for MKCircle {}
 #[cfg(feature = "MapKit_MKCircle")]
 unsafe impl NSObjectProtocol for MKCircle {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKCircle")]
-    unsafe impl MKCircle {
-        #[method_id(@__retain_semantics Other circleWithCenterCoordinate:radius:)]
-        pub unsafe fn circleWithCenterCoordinate_radius(
-            coord: CLLocationCoordinate2D,
-            radius: CLLocationDistance,
-        ) -> Id<Self>;
+    pub type MKCircle;
 
-        #[method_id(@__retain_semantics Other circleWithMapRect:)]
-        pub unsafe fn circleWithMapRect(map_rect: MKMapRect) -> Id<Self>;
+    #[objc2::method(sel = "circleWithCenterCoordinate:radius:", managed = "Other")]
+    pub unsafe fn circleWithCenterCoordinate_radius(
+        coord: CLLocationCoordinate2D,
+        radius: CLLocationDistance,
+    ) -> Id<Self>;
 
-        #[method(coordinate)]
-        pub unsafe fn coordinate(&self) -> CLLocationCoordinate2D;
+    #[objc2::method(sel = "circleWithMapRect:", managed = "Other")]
+    pub unsafe fn circleWithMapRect(map_rect: MKMapRect) -> Id<Self>;
 
-        #[method(radius)]
-        pub unsafe fn radius(&self) -> CLLocationDistance;
+    #[objc2::method(sel = "coordinate")]
+    pub unsafe fn coordinate(&self) -> CLLocationCoordinate2D;
 
-        #[method(boundingMapRect)]
-        pub unsafe fn boundingMapRect(&self) -> MKMapRect;
-    }
-);
+    #[objc2::method(sel = "radius")]
+    pub unsafe fn radius(&self) -> CLLocationDistance;
+
+    #[objc2::method(sel = "boundingMapRect")]
+    pub unsafe fn boundingMapRect(&self) -> MKMapRect;
+}

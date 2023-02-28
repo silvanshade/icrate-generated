@@ -4,76 +4,77 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionAuthorizationResult")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionAuthorizationResult")]
-    pub struct ASAuthorizationProviderExtensionAuthorizationResult;
-
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionAuthorizationResult")]
-    unsafe impl ClassType for ASAuthorizationProviderExtensionAuthorizationResult {
-        type Super = NSObject;
-    }
-);
+    pub type ASAuthorizationProviderExtensionAuthorizationResult;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionAuthorizationResult")]
 unsafe impl NSObjectProtocol for ASAuthorizationProviderExtensionAuthorizationResult {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionAuthorizationResult")]
-    unsafe impl ASAuthorizationProviderExtensionAuthorizationResult {
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithHTTPAuthorizationHeaders:)]
-        pub unsafe fn initWithHTTPAuthorizationHeaders(
-            this: Option<Allocated<Self>>,
-            http_authorization_headers: &NSDictionary<NSString, NSString>,
-        ) -> Id<Self>;
+    pub type ASAuthorizationProviderExtensionAuthorizationResult;
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSHTTPURLResponse"
-        ))]
-        #[method_id(@__retain_semantics Init initWithHTTPResponse:httpBody:)]
-        pub unsafe fn initWithHTTPResponse_httpBody(
-            this: Option<Allocated<Self>>,
-            http_response: &NSHTTPURLResponse,
-            http_body: Option<&NSData>,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithHTTPAuthorizationHeaders:", managed = "Init")]
+    pub unsafe fn initWithHTTPAuthorizationHeaders(
+        this: Option<Allocated<Self>>,
+        http_authorization_headers: &NSDictionary<NSString, NSString>,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other httpAuthorizationHeaders)]
-        pub unsafe fn httpAuthorizationHeaders(
-            &self,
-        ) -> Option<Id<NSDictionary<NSString, NSString>>>;
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSHTTPURLResponse"
+    ))]
+    #[objc2::method(sel = "initWithHTTPResponse:httpBody:", managed = "Init")]
+    pub unsafe fn initWithHTTPResponse_httpBody(
+        this: Option<Allocated<Self>>,
+        http_response: &NSHTTPURLResponse,
+        http_body: Option<&NSData>,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(setHttpAuthorizationHeaders:)]
-        pub unsafe fn setHttpAuthorizationHeaders(
-            &self,
-            http_authorization_headers: Option<&NSDictionary<NSString, NSString>>,
-        );
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "httpAuthorizationHeaders", managed = "Other")]
+    pub unsafe fn httpAuthorizationHeaders(&self) -> Option<Id<NSDictionary<NSString, NSString>>>;
 
-        #[cfg(feature = "Foundation_NSHTTPURLResponse")]
-        #[method_id(@__retain_semantics Other httpResponse)]
-        pub unsafe fn httpResponse(&self) -> Option<Id<NSHTTPURLResponse>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setHttpAuthorizationHeaders:")]
+    pub unsafe fn setHttpAuthorizationHeaders(
+        &self,
+        http_authorization_headers: Option<&NSDictionary<NSString, NSString>>,
+    );
 
-        #[cfg(feature = "Foundation_NSHTTPURLResponse")]
-        #[method(setHttpResponse:)]
-        pub unsafe fn setHttpResponse(&self, http_response: Option<&NSHTTPURLResponse>);
+    #[cfg(feature = "Foundation_NSHTTPURLResponse")]
+    #[objc2::method(sel = "httpResponse", managed = "Other")]
+    pub unsafe fn httpResponse(&self) -> Option<Id<NSHTTPURLResponse>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other httpBody)]
-        pub unsafe fn httpBody(&self) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSHTTPURLResponse")]
+    #[objc2::method(sel = "setHttpResponse:")]
+    pub unsafe fn setHttpResponse(&self, http_response: Option<&NSHTTPURLResponse>);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(setHttpBody:)]
-        pub unsafe fn setHttpBody(&self, http_body: Option<&NSData>);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "httpBody", managed = "Other")]
+    pub unsafe fn httpBody(&self) -> Option<Id<NSData>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other privateKeys)]
-        pub unsafe fn privateKeys(&self) -> Id<NSArray>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "setHttpBody:")]
+    pub unsafe fn setHttpBody(&self, http_body: Option<&NSData>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setPrivateKeys:)]
-        pub unsafe fn setPrivateKeys(&self, private_keys: &NSArray);
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "privateKeys", managed = "Other")]
+    pub unsafe fn privateKeys(&self) -> Id<NSArray>;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setPrivateKeys:")]
+    pub unsafe fn setPrivateKeys(&self, private_keys: &NSArray);
+}

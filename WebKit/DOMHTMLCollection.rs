@@ -5,38 +5,43 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLCollection")]
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLCollection;
-
     #[cfg(feature = "WebKit_DOMHTMLCollection")]
-    unsafe impl ClassType for DOMHTMLCollection {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLCollection;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLCollection")]
 unsafe impl NSObjectProtocol for DOMHTMLCollection {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLCollection")]
-    unsafe impl DOMHTMLCollection {
-        #[method(length)]
-        pub unsafe fn length(&self) -> c_uint;
+    #[deprecated]
+    pub type DOMHTMLCollection;
 
-        #[cfg(feature = "WebKit_DOMNode")]
-        #[method_id(@__retain_semantics Other item:)]
-        pub unsafe fn item(&self, index: c_uint) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "length")]
+    pub unsafe fn length(&self) -> c_uint;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNode"))]
-        #[method_id(@__retain_semantics Other namedItem:)]
-        pub unsafe fn namedItem(&self, name: Option<&NSString>) -> Option<Id<DOMNode>>;
+    #[cfg(feature = "WebKit_DOMNode")]
+    #[objc2::method(sel = "item:", managed = "Other")]
+    pub unsafe fn item(&self, index: c_uint) -> Option<Id<DOMNode>>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNodeList"))]
-        #[method_id(@__retain_semantics Other tags:)]
-        pub unsafe fn tags(&self, name: Option<&NSString>) -> Option<Id<DOMNodeList>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNode"))]
+    #[objc2::method(sel = "namedItem:", managed = "Other")]
+    pub unsafe fn namedItem(&self, name: Option<&NSString>) -> Option<Id<DOMNode>>;
+
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNodeList"))]
+    #[objc2::method(sel = "tags:", managed = "Other")]
+    pub unsafe fn tags(&self, name: Option<&NSString>) -> Option<Id<DOMNodeList>>;
+}

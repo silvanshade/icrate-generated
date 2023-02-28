@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPMediaQuerySection")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPMediaQuerySection")]
-    pub struct MPMediaQuerySection;
-
-    #[cfg(feature = "MediaPlayer_MPMediaQuerySection")]
-    unsafe impl ClassType for MPMediaQuerySection {
-        type Super = NSObject;
-    }
-);
+    pub type MPMediaQuerySection;
+}
 
 #[cfg(feature = "MediaPlayer_MPMediaQuerySection")]
 unsafe impl NSCoding for MPMediaQuerySection {}
@@ -25,14 +25,17 @@ unsafe impl NSObjectProtocol for MPMediaQuerySection {}
 #[cfg(feature = "MediaPlayer_MPMediaQuerySection")]
 unsafe impl NSSecureCoding for MPMediaQuerySection {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPMediaQuerySection")]
-    unsafe impl MPMediaQuerySection {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    pub type MPMediaQuerySection;
 
-        #[method(range)]
-        pub unsafe fn range(&self) -> NSRange;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
+
+    #[objc2::method(sel = "range")]
+    pub unsafe fn range(&self) -> NSRange;
+}

@@ -6,41 +6,44 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHPersistentChange")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHPersistentChange")]
-    pub struct PHPersistentChange;
-
-    #[cfg(feature = "PhotoKit_PHPersistentChange")]
-    unsafe impl ClassType for PHPersistentChange {
-        type Super = NSObject;
-    }
-);
+    pub type PHPersistentChange;
+}
 
 #[cfg(feature = "PhotoKit_PHPersistentChange")]
 unsafe impl NSObjectProtocol for PHPersistentChange {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHPersistentChange")]
-    unsafe impl PHPersistentChange {
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    pub type PHPersistentChange;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "PhotoKit_PHPersistentChangeToken")]
-        #[method_id(@__retain_semantics Other changeToken)]
-        pub unsafe fn changeToken(&self) -> Id<PHPersistentChangeToken>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "PhotoKit_PHPersistentObjectChangeDetails"
-        ))]
-        #[method_id(@__retain_semantics Other changeDetailsForObjectType:error:_)]
-        pub unsafe fn changeDetailsForObjectType_error(
-            &self,
-            object_type: PHObjectType,
-        ) -> Result<Id<PHPersistentObjectChangeDetails>, Id<NSError>>;
-    }
-);
+    #[cfg(feature = "PhotoKit_PHPersistentChangeToken")]
+    #[objc2::method(sel = "changeToken", managed = "Other")]
+    pub unsafe fn changeToken(&self) -> Id<PHPersistentChangeToken>;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "PhotoKit_PHPersistentObjectChangeDetails"
+    ))]
+    #[objc2::method(sel = "changeDetailsForObjectType:error:", managed = "Other", throws)]
+    pub unsafe fn changeDetailsForObjectType_error(
+        &self,
+        object_type: PHObjectType,
+    ) -> Result<Id<PHPersistentObjectChangeDetails>, Id<NSError>>;
+}

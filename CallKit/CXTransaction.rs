@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::CallKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CallKit_CXTransaction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CallKit_CXTransaction")]
-    pub struct CXTransaction;
-
-    #[cfg(feature = "CallKit_CXTransaction")]
-    unsafe impl ClassType for CXTransaction {
-        type Super = NSObject;
-    }
-);
+    pub type CXTransaction;
+}
 
 #[cfg(feature = "CallKit_CXTransaction")]
 unsafe impl NSCoding for CXTransaction {}
@@ -24,33 +24,36 @@ unsafe impl NSObjectProtocol for CXTransaction {}
 #[cfg(feature = "CallKit_CXTransaction")]
 unsafe impl NSSecureCoding for CXTransaction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CallKit_CXTransaction")]
-    unsafe impl CXTransaction {
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Other UUID)]
-        pub unsafe fn UUID(&self) -> Id<NSUUID>;
+    pub type CXTransaction;
 
-        #[method(isComplete)]
-        pub unsafe fn isComplete(&self) -> bool;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "UUID", managed = "Other")]
+    pub unsafe fn UUID(&self) -> Id<NSUUID>;
 
-        #[cfg(all(feature = "CallKit_CXAction", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other actions)]
-        pub unsafe fn actions(&self) -> Id<NSArray<CXAction>>;
+    #[objc2::method(sel = "isComplete")]
+    pub unsafe fn isComplete(&self) -> bool;
 
-        #[cfg(all(feature = "CallKit_CXAction", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Init initWithActions:)]
-        pub unsafe fn initWithActions(
-            this: Option<Allocated<Self>>,
-            actions: &NSArray<CXAction>,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "CallKit_CXAction", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "actions", managed = "Other")]
+    pub unsafe fn actions(&self) -> Id<NSArray<CXAction>>;
 
-        #[cfg(feature = "CallKit_CXAction")]
-        #[method_id(@__retain_semantics Init initWithAction:)]
-        pub unsafe fn initWithAction(this: Option<Allocated<Self>>, action: &CXAction) -> Id<Self>;
+    #[cfg(all(feature = "CallKit_CXAction", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "initWithActions:", managed = "Init")]
+    pub unsafe fn initWithActions(
+        this: Option<Allocated<Self>>,
+        actions: &NSArray<CXAction>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "CallKit_CXAction")]
-        #[method(addAction:)]
-        pub unsafe fn addAction(&self, action: &CXAction);
-    }
-);
+    #[cfg(feature = "CallKit_CXAction")]
+    #[objc2::method(sel = "initWithAction:", managed = "Init")]
+    pub unsafe fn initWithAction(this: Option<Allocated<Self>>, action: &CXAction) -> Id<Self>;
+
+    #[cfg(feature = "CallKit_CXAction")]
+    #[objc2::method(sel = "addAction:")]
+    pub unsafe fn addAction(&self, action: &CXAction);
+}

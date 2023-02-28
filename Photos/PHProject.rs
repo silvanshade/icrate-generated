@@ -6,29 +6,34 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = PHAssetCollection,
+    unsafe inherits = [
+        PHCollection,
+        PHObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHProject")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHProject")]
-    pub struct PHProject;
-
-    #[cfg(feature = "PhotoKit_PHProject")]
-    unsafe impl ClassType for PHProject {
-        #[inherits(PHCollection, PHObject, NSObject)]
-        type Super = PHAssetCollection;
-    }
-);
+    pub type PHProject;
+}
 
 #[cfg(feature = "PhotoKit_PHProject")]
 unsafe impl NSObjectProtocol for PHProject {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHProject")]
-    unsafe impl PHProject {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other projectExtensionData)]
-        pub unsafe fn projectExtensionData(&self) -> Id<NSData>;
+    pub type PHProject;
 
-        #[method(hasProjectPreview)]
-        pub unsafe fn hasProjectPreview(&self) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "projectExtensionData", managed = "Other")]
+    pub unsafe fn projectExtensionData(&self) -> Id<NSData>;
+
+    #[objc2::method(sel = "hasProjectPreview")]
+    pub unsafe fn hasProjectPreview(&self) -> bool;
+}

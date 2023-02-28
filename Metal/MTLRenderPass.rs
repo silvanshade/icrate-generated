@@ -25,488 +25,501 @@ inline_fn!(
     }
 );
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLLoadAction {
-        MTLLoadActionDontCare = 0,
-        MTLLoadActionLoad = 1,
-        MTLLoadActionClear = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLLoadAction {
+    MTLLoadActionDontCare = 0,
+    MTLLoadActionLoad = 1,
+    MTLLoadActionClear = 2,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLStoreAction {
-        MTLStoreActionDontCare = 0,
-        MTLStoreActionStore = 1,
-        MTLStoreActionMultisampleResolve = 2,
-        MTLStoreActionStoreAndMultisampleResolve = 3,
-        MTLStoreActionUnknown = 4,
-        MTLStoreActionCustomSampleDepthStore = 5,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLStoreAction {
+    MTLStoreActionDontCare = 0,
+    MTLStoreActionStore = 1,
+    MTLStoreActionMultisampleResolve = 2,
+    MTLStoreActionStoreAndMultisampleResolve = 3,
+    MTLStoreActionUnknown = 4,
+    MTLStoreActionCustomSampleDepthStore = 5,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum MTLStoreActionOptions {
-        MTLStoreActionOptionNone = 0,
-        MTLStoreActionOptionCustomSamplePositions = 1 << 0,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum MTLStoreActionOptions {
+    MTLStoreActionOptionNone = 0,
+    MTLStoreActionOptionCustomSamplePositions = 1 << 0,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLRenderPassAttachmentDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLRenderPassAttachmentDescriptor")]
-    pub struct MTLRenderPassAttachmentDescriptor;
-
-    #[cfg(feature = "Metal_MTLRenderPassAttachmentDescriptor")]
-    unsafe impl ClassType for MTLRenderPassAttachmentDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLRenderPassAttachmentDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLRenderPassAttachmentDescriptor")]
 unsafe impl NSObjectProtocol for MTLRenderPassAttachmentDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRenderPassAttachmentDescriptor")]
-    unsafe impl MTLRenderPassAttachmentDescriptor {
-        #[method_id(@__retain_semantics Other texture)]
-        pub fn texture(&self) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
+    pub type MTLRenderPassAttachmentDescriptor;
 
-        #[method(setTexture:)]
-        pub fn setTexture(&self, texture: Option<&ProtocolObject<dyn MTLTexture>>);
+    #[objc2::method(sel = "texture", managed = "Other")]
+    pub fn texture(&self) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
 
-        #[method(level)]
-        pub fn level(&self) -> NSUInteger;
+    #[objc2::method(sel = "setTexture:")]
+    pub fn setTexture(&self, texture: Option<&ProtocolObject<dyn MTLTexture>>);
 
-        #[method(setLevel:)]
-        pub fn setLevel(&self, level: NSUInteger);
+    #[objc2::method(sel = "level")]
+    pub fn level(&self) -> NSUInteger;
 
-        #[method(slice)]
-        pub fn slice(&self) -> NSUInteger;
+    #[objc2::method(sel = "setLevel:")]
+    pub fn setLevel(&self, level: NSUInteger);
 
-        #[method(setSlice:)]
-        pub fn setSlice(&self, slice: NSUInteger);
+    #[objc2::method(sel = "slice")]
+    pub fn slice(&self) -> NSUInteger;
 
-        #[method(depthPlane)]
-        pub fn depthPlane(&self) -> NSUInteger;
+    #[objc2::method(sel = "setSlice:")]
+    pub fn setSlice(&self, slice: NSUInteger);
 
-        #[method(setDepthPlane:)]
-        pub fn setDepthPlane(&self, depth_plane: NSUInteger);
+    #[objc2::method(sel = "depthPlane")]
+    pub fn depthPlane(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other resolveTexture)]
-        pub fn resolveTexture(&self) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
+    #[objc2::method(sel = "setDepthPlane:")]
+    pub fn setDepthPlane(&self, depth_plane: NSUInteger);
 
-        #[method(setResolveTexture:)]
-        pub fn setResolveTexture(&self, resolve_texture: Option<&ProtocolObject<dyn MTLTexture>>);
+    #[objc2::method(sel = "resolveTexture", managed = "Other")]
+    pub fn resolveTexture(&self) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
 
-        #[method(resolveLevel)]
-        pub fn resolveLevel(&self) -> NSUInteger;
+    #[objc2::method(sel = "setResolveTexture:")]
+    pub fn setResolveTexture(&self, resolve_texture: Option<&ProtocolObject<dyn MTLTexture>>);
 
-        #[method(setResolveLevel:)]
-        pub fn setResolveLevel(&self, resolve_level: NSUInteger);
+    #[objc2::method(sel = "resolveLevel")]
+    pub fn resolveLevel(&self) -> NSUInteger;
 
-        #[method(resolveSlice)]
-        pub fn resolveSlice(&self) -> NSUInteger;
+    #[objc2::method(sel = "setResolveLevel:")]
+    pub fn setResolveLevel(&self, resolve_level: NSUInteger);
 
-        #[method(setResolveSlice:)]
-        pub fn setResolveSlice(&self, resolve_slice: NSUInteger);
+    #[objc2::method(sel = "resolveSlice")]
+    pub fn resolveSlice(&self) -> NSUInteger;
 
-        #[method(resolveDepthPlane)]
-        pub fn resolveDepthPlane(&self) -> NSUInteger;
+    #[objc2::method(sel = "setResolveSlice:")]
+    pub fn setResolveSlice(&self, resolve_slice: NSUInteger);
 
-        #[method(setResolveDepthPlane:)]
-        pub fn setResolveDepthPlane(&self, resolve_depth_plane: NSUInteger);
+    #[objc2::method(sel = "resolveDepthPlane")]
+    pub fn resolveDepthPlane(&self) -> NSUInteger;
 
-        #[method(loadAction)]
-        pub fn loadAction(&self) -> MTLLoadAction;
+    #[objc2::method(sel = "setResolveDepthPlane:")]
+    pub fn setResolveDepthPlane(&self, resolve_depth_plane: NSUInteger);
 
-        #[method(setLoadAction:)]
-        pub fn setLoadAction(&self, load_action: MTLLoadAction);
+    #[objc2::method(sel = "loadAction")]
+    pub fn loadAction(&self) -> MTLLoadAction;
 
-        #[method(storeAction)]
-        pub fn storeAction(&self) -> MTLStoreAction;
+    #[objc2::method(sel = "setLoadAction:")]
+    pub fn setLoadAction(&self, load_action: MTLLoadAction);
 
-        #[method(setStoreAction:)]
-        pub fn setStoreAction(&self, store_action: MTLStoreAction);
+    #[objc2::method(sel = "storeAction")]
+    pub fn storeAction(&self) -> MTLStoreAction;
 
-        #[method(storeActionOptions)]
-        pub fn storeActionOptions(&self) -> MTLStoreActionOptions;
+    #[objc2::method(sel = "setStoreAction:")]
+    pub fn setStoreAction(&self, store_action: MTLStoreAction);
 
-        #[method(setStoreActionOptions:)]
-        pub fn setStoreActionOptions(&self, store_action_options: MTLStoreActionOptions);
-    }
-);
+    #[objc2::method(sel = "storeActionOptions")]
+    pub fn storeActionOptions(&self) -> MTLStoreActionOptions;
 
-extern_class!(
+    #[objc2::method(sel = "setStoreActionOptions:")]
+    pub fn setStoreActionOptions(&self, store_action_options: MTLStoreActionOptions);
+}
+
+#[objc2::interface(
+    unsafe super = MTLRenderPassAttachmentDescriptor,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLRenderPassColorAttachmentDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLRenderPassColorAttachmentDescriptor")]
-    pub struct MTLRenderPassColorAttachmentDescriptor;
-
-    #[cfg(feature = "Metal_MTLRenderPassColorAttachmentDescriptor")]
-    unsafe impl ClassType for MTLRenderPassColorAttachmentDescriptor {
-        #[inherits(NSObject)]
-        type Super = MTLRenderPassAttachmentDescriptor;
-    }
-);
+    pub type MTLRenderPassColorAttachmentDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLRenderPassColorAttachmentDescriptor")]
 unsafe impl NSObjectProtocol for MTLRenderPassColorAttachmentDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRenderPassColorAttachmentDescriptor")]
-    unsafe impl MTLRenderPassColorAttachmentDescriptor {
-        #[method(clearColor)]
-        pub fn clearColor(&self) -> MTLClearColor;
+    pub type MTLRenderPassColorAttachmentDescriptor;
 
-        #[method(setClearColor:)]
-        pub fn setClearColor(&self, clear_color: MTLClearColor);
-    }
-);
+    #[objc2::method(sel = "clearColor")]
+    pub fn clearColor(&self) -> MTLClearColor;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLMultisampleDepthResolveFilter {
-        MTLMultisampleDepthResolveFilterSample0 = 0,
-        MTLMultisampleDepthResolveFilterMin = 1,
-        MTLMultisampleDepthResolveFilterMax = 2,
-    }
-);
+    #[objc2::method(sel = "setClearColor:")]
+    pub fn setClearColor(&self, clear_color: MTLClearColor);
+}
 
-extern_class!(
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLMultisampleDepthResolveFilter {
+    MTLMultisampleDepthResolveFilterSample0 = 0,
+    MTLMultisampleDepthResolveFilterMin = 1,
+    MTLMultisampleDepthResolveFilterMax = 2,
+}
+
+#[objc2::interface(
+    unsafe super = MTLRenderPassAttachmentDescriptor,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLRenderPassDepthAttachmentDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLRenderPassDepthAttachmentDescriptor")]
-    pub struct MTLRenderPassDepthAttachmentDescriptor;
-
-    #[cfg(feature = "Metal_MTLRenderPassDepthAttachmentDescriptor")]
-    unsafe impl ClassType for MTLRenderPassDepthAttachmentDescriptor {
-        #[inherits(NSObject)]
-        type Super = MTLRenderPassAttachmentDescriptor;
-    }
-);
+    pub type MTLRenderPassDepthAttachmentDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLRenderPassDepthAttachmentDescriptor")]
 unsafe impl NSObjectProtocol for MTLRenderPassDepthAttachmentDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRenderPassDepthAttachmentDescriptor")]
-    unsafe impl MTLRenderPassDepthAttachmentDescriptor {
-        #[method(clearDepth)]
-        pub fn clearDepth(&self) -> c_double;
+    pub type MTLRenderPassDepthAttachmentDescriptor;
 
-        #[method(setClearDepth:)]
-        pub fn setClearDepth(&self, clear_depth: c_double);
+    #[objc2::method(sel = "clearDepth")]
+    pub fn clearDepth(&self) -> c_double;
 
-        #[method(depthResolveFilter)]
-        pub fn depthResolveFilter(&self) -> MTLMultisampleDepthResolveFilter;
+    #[objc2::method(sel = "setClearDepth:")]
+    pub fn setClearDepth(&self, clear_depth: c_double);
 
-        #[method(setDepthResolveFilter:)]
-        pub fn setDepthResolveFilter(&self, depth_resolve_filter: MTLMultisampleDepthResolveFilter);
-    }
-);
+    #[objc2::method(sel = "depthResolveFilter")]
+    pub fn depthResolveFilter(&self) -> MTLMultisampleDepthResolveFilter;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLMultisampleStencilResolveFilter {
-        MTLMultisampleStencilResolveFilterSample0 = 0,
-        MTLMultisampleStencilResolveFilterDepthResolvedSample = 1,
-    }
-);
+    #[objc2::method(sel = "setDepthResolveFilter:")]
+    pub fn setDepthResolveFilter(&self, depth_resolve_filter: MTLMultisampleDepthResolveFilter);
+}
 
-extern_class!(
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLMultisampleStencilResolveFilter {
+    MTLMultisampleStencilResolveFilterSample0 = 0,
+    MTLMultisampleStencilResolveFilterDepthResolvedSample = 1,
+}
+
+#[objc2::interface(
+    unsafe super = MTLRenderPassAttachmentDescriptor,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLRenderPassStencilAttachmentDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLRenderPassStencilAttachmentDescriptor")]
-    pub struct MTLRenderPassStencilAttachmentDescriptor;
-
-    #[cfg(feature = "Metal_MTLRenderPassStencilAttachmentDescriptor")]
-    unsafe impl ClassType for MTLRenderPassStencilAttachmentDescriptor {
-        #[inherits(NSObject)]
-        type Super = MTLRenderPassAttachmentDescriptor;
-    }
-);
+    pub type MTLRenderPassStencilAttachmentDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLRenderPassStencilAttachmentDescriptor")]
 unsafe impl NSObjectProtocol for MTLRenderPassStencilAttachmentDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRenderPassStencilAttachmentDescriptor")]
-    unsafe impl MTLRenderPassStencilAttachmentDescriptor {
-        #[method(clearStencil)]
-        pub fn clearStencil(&self) -> u32;
+    pub type MTLRenderPassStencilAttachmentDescriptor;
 
-        #[method(setClearStencil:)]
-        pub fn setClearStencil(&self, clear_stencil: u32);
+    #[objc2::method(sel = "clearStencil")]
+    pub fn clearStencil(&self) -> u32;
 
-        #[method(stencilResolveFilter)]
-        pub fn stencilResolveFilter(&self) -> MTLMultisampleStencilResolveFilter;
+    #[objc2::method(sel = "setClearStencil:")]
+    pub fn setClearStencil(&self, clear_stencil: u32);
 
-        #[method(setStencilResolveFilter:)]
-        pub fn setStencilResolveFilter(
-            &self,
-            stencil_resolve_filter: MTLMultisampleStencilResolveFilter,
-        );
-    }
-);
+    #[objc2::method(sel = "stencilResolveFilter")]
+    pub fn stencilResolveFilter(&self) -> MTLMultisampleStencilResolveFilter;
 
-extern_class!(
+    #[objc2::method(sel = "setStencilResolveFilter:")]
+    pub fn setStencilResolveFilter(
+        &self,
+        stencil_resolve_filter: MTLMultisampleStencilResolveFilter,
+    );
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLRenderPassColorAttachmentDescriptorArray")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLRenderPassColorAttachmentDescriptorArray")]
-    pub struct MTLRenderPassColorAttachmentDescriptorArray;
-
-    #[cfg(feature = "Metal_MTLRenderPassColorAttachmentDescriptorArray")]
-    unsafe impl ClassType for MTLRenderPassColorAttachmentDescriptorArray {
-        type Super = NSObject;
-    }
-);
+    pub type MTLRenderPassColorAttachmentDescriptorArray;
+}
 
 #[cfg(feature = "Metal_MTLRenderPassColorAttachmentDescriptorArray")]
 unsafe impl NSObjectProtocol for MTLRenderPassColorAttachmentDescriptorArray {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRenderPassColorAttachmentDescriptorArray")]
-    unsafe impl MTLRenderPassColorAttachmentDescriptorArray {
-        #[cfg(feature = "Metal_MTLRenderPassColorAttachmentDescriptor")]
-        #[method_id(@__retain_semantics Other objectAtIndexedSubscript:)]
-        pub unsafe fn objectAtIndexedSubscript(
-            &self,
-            attachment_index: NSUInteger,
-        ) -> Id<MTLRenderPassColorAttachmentDescriptor>;
+    pub type MTLRenderPassColorAttachmentDescriptorArray;
 
-        #[cfg(feature = "Metal_MTLRenderPassColorAttachmentDescriptor")]
-        #[method(setObject:atIndexedSubscript:)]
-        pub unsafe fn setObject_atIndexedSubscript(
-            &self,
-            attachment: Option<&MTLRenderPassColorAttachmentDescriptor>,
-            attachment_index: NSUInteger,
-        );
-    }
-);
+    #[cfg(feature = "Metal_MTLRenderPassColorAttachmentDescriptor")]
+    #[objc2::method(sel = "objectAtIndexedSubscript:", managed = "Other")]
+    pub unsafe fn objectAtIndexedSubscript(
+        &self,
+        attachment_index: NSUInteger,
+    ) -> Id<MTLRenderPassColorAttachmentDescriptor>;
 
-extern_class!(
+    #[cfg(feature = "Metal_MTLRenderPassColorAttachmentDescriptor")]
+    #[objc2::method(sel = "setObject:atIndexedSubscript:")]
+    pub unsafe fn setObject_atIndexedSubscript(
+        &self,
+        attachment: Option<&MTLRenderPassColorAttachmentDescriptor>,
+        attachment_index: NSUInteger,
+    );
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLRenderPassSampleBufferAttachmentDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLRenderPassSampleBufferAttachmentDescriptor")]
-    pub struct MTLRenderPassSampleBufferAttachmentDescriptor;
-
-    #[cfg(feature = "Metal_MTLRenderPassSampleBufferAttachmentDescriptor")]
-    unsafe impl ClassType for MTLRenderPassSampleBufferAttachmentDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLRenderPassSampleBufferAttachmentDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLRenderPassSampleBufferAttachmentDescriptor")]
 unsafe impl NSObjectProtocol for MTLRenderPassSampleBufferAttachmentDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRenderPassSampleBufferAttachmentDescriptor")]
-    unsafe impl MTLRenderPassSampleBufferAttachmentDescriptor {
-        #[method_id(@__retain_semantics Other sampleBuffer)]
-        pub fn sampleBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLCounterSampleBuffer>>>;
+    pub type MTLRenderPassSampleBufferAttachmentDescriptor;
 
-        #[method(setSampleBuffer:)]
-        pub fn setSampleBuffer(
-            &self,
-            sample_buffer: Option<&ProtocolObject<dyn MTLCounterSampleBuffer>>,
-        );
+    #[objc2::method(sel = "sampleBuffer", managed = "Other")]
+    pub fn sampleBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLCounterSampleBuffer>>>;
 
-        #[method(startOfVertexSampleIndex)]
-        pub fn startOfVertexSampleIndex(&self) -> NSUInteger;
+    #[objc2::method(sel = "setSampleBuffer:")]
+    pub fn setSampleBuffer(
+        &self,
+        sample_buffer: Option<&ProtocolObject<dyn MTLCounterSampleBuffer>>,
+    );
 
-        #[method(setStartOfVertexSampleIndex:)]
-        pub unsafe fn setStartOfVertexSampleIndex(&self, start_of_vertex_sample_index: NSUInteger);
+    #[objc2::method(sel = "startOfVertexSampleIndex")]
+    pub fn startOfVertexSampleIndex(&self) -> NSUInteger;
 
-        #[method(endOfVertexSampleIndex)]
-        pub fn endOfVertexSampleIndex(&self) -> NSUInteger;
+    #[objc2::method(sel = "setStartOfVertexSampleIndex:")]
+    pub unsafe fn setStartOfVertexSampleIndex(&self, start_of_vertex_sample_index: NSUInteger);
 
-        #[method(setEndOfVertexSampleIndex:)]
-        pub unsafe fn setEndOfVertexSampleIndex(&self, end_of_vertex_sample_index: NSUInteger);
+    #[objc2::method(sel = "endOfVertexSampleIndex")]
+    pub fn endOfVertexSampleIndex(&self) -> NSUInteger;
 
-        #[method(startOfFragmentSampleIndex)]
-        pub fn startOfFragmentSampleIndex(&self) -> NSUInteger;
+    #[objc2::method(sel = "setEndOfVertexSampleIndex:")]
+    pub unsafe fn setEndOfVertexSampleIndex(&self, end_of_vertex_sample_index: NSUInteger);
 
-        #[method(setStartOfFragmentSampleIndex:)]
-        pub unsafe fn setStartOfFragmentSampleIndex(
-            &self,
-            start_of_fragment_sample_index: NSUInteger,
-        );
+    #[objc2::method(sel = "startOfFragmentSampleIndex")]
+    pub fn startOfFragmentSampleIndex(&self) -> NSUInteger;
 
-        #[method(endOfFragmentSampleIndex)]
-        pub fn endOfFragmentSampleIndex(&self) -> NSUInteger;
+    #[objc2::method(sel = "setStartOfFragmentSampleIndex:")]
+    pub unsafe fn setStartOfFragmentSampleIndex(&self, start_of_fragment_sample_index: NSUInteger);
 
-        #[method(setEndOfFragmentSampleIndex:)]
-        pub unsafe fn setEndOfFragmentSampleIndex(&self, end_of_fragment_sample_index: NSUInteger);
-    }
-);
+    #[objc2::method(sel = "endOfFragmentSampleIndex")]
+    pub fn endOfFragmentSampleIndex(&self) -> NSUInteger;
 
-extern_class!(
+    #[objc2::method(sel = "setEndOfFragmentSampleIndex:")]
+    pub unsafe fn setEndOfFragmentSampleIndex(&self, end_of_fragment_sample_index: NSUInteger);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLRenderPassSampleBufferAttachmentDescriptorArray")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLRenderPassSampleBufferAttachmentDescriptorArray")]
-    pub struct MTLRenderPassSampleBufferAttachmentDescriptorArray;
-
-    #[cfg(feature = "Metal_MTLRenderPassSampleBufferAttachmentDescriptorArray")]
-    unsafe impl ClassType for MTLRenderPassSampleBufferAttachmentDescriptorArray {
-        type Super = NSObject;
-    }
-);
+    pub type MTLRenderPassSampleBufferAttachmentDescriptorArray;
+}
 
 #[cfg(feature = "Metal_MTLRenderPassSampleBufferAttachmentDescriptorArray")]
 unsafe impl NSObjectProtocol for MTLRenderPassSampleBufferAttachmentDescriptorArray {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRenderPassSampleBufferAttachmentDescriptorArray")]
-    unsafe impl MTLRenderPassSampleBufferAttachmentDescriptorArray {
-        #[cfg(feature = "Metal_MTLRenderPassSampleBufferAttachmentDescriptor")]
-        #[method_id(@__retain_semantics Other objectAtIndexedSubscript:)]
-        pub unsafe fn objectAtIndexedSubscript(
-            &self,
-            attachment_index: NSUInteger,
-        ) -> Id<MTLRenderPassSampleBufferAttachmentDescriptor>;
+    pub type MTLRenderPassSampleBufferAttachmentDescriptorArray;
 
-        #[cfg(feature = "Metal_MTLRenderPassSampleBufferAttachmentDescriptor")]
-        #[method(setObject:atIndexedSubscript:)]
-        pub unsafe fn setObject_atIndexedSubscript(
-            &self,
-            attachment: Option<&MTLRenderPassSampleBufferAttachmentDescriptor>,
-            attachment_index: NSUInteger,
-        );
-    }
-);
+    #[cfg(feature = "Metal_MTLRenderPassSampleBufferAttachmentDescriptor")]
+    #[objc2::method(sel = "objectAtIndexedSubscript:", managed = "Other")]
+    pub unsafe fn objectAtIndexedSubscript(
+        &self,
+        attachment_index: NSUInteger,
+    ) -> Id<MTLRenderPassSampleBufferAttachmentDescriptor>;
 
-extern_class!(
+    #[cfg(feature = "Metal_MTLRenderPassSampleBufferAttachmentDescriptor")]
+    #[objc2::method(sel = "setObject:atIndexedSubscript:")]
+    pub unsafe fn setObject_atIndexedSubscript(
+        &self,
+        attachment: Option<&MTLRenderPassSampleBufferAttachmentDescriptor>,
+        attachment_index: NSUInteger,
+    );
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLRenderPassDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLRenderPassDescriptor")]
-    pub struct MTLRenderPassDescriptor;
-
-    #[cfg(feature = "Metal_MTLRenderPassDescriptor")]
-    unsafe impl ClassType for MTLRenderPassDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLRenderPassDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLRenderPassDescriptor")]
 unsafe impl NSObjectProtocol for MTLRenderPassDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRenderPassDescriptor")]
-    unsafe impl MTLRenderPassDescriptor {
-        #[method_id(@__retain_semantics Other renderPassDescriptor)]
-        pub fn renderPassDescriptor() -> Id<MTLRenderPassDescriptor>;
+    pub type MTLRenderPassDescriptor;
 
-        #[cfg(feature = "Metal_MTLRenderPassColorAttachmentDescriptorArray")]
-        #[method_id(@__retain_semantics Other colorAttachments)]
-        pub fn colorAttachments(&self) -> Id<MTLRenderPassColorAttachmentDescriptorArray>;
+    #[objc2::method(sel = "renderPassDescriptor", managed = "Other")]
+    pub fn renderPassDescriptor() -> Id<MTLRenderPassDescriptor>;
 
-        #[cfg(feature = "Metal_MTLRenderPassDepthAttachmentDescriptor")]
-        #[method_id(@__retain_semantics Other depthAttachment)]
-        pub fn depthAttachment(&self) -> Id<MTLRenderPassDepthAttachmentDescriptor>;
+    #[cfg(feature = "Metal_MTLRenderPassColorAttachmentDescriptorArray")]
+    #[objc2::method(sel = "colorAttachments", managed = "Other")]
+    pub fn colorAttachments(&self) -> Id<MTLRenderPassColorAttachmentDescriptorArray>;
 
-        #[cfg(feature = "Metal_MTLRenderPassDepthAttachmentDescriptor")]
-        #[method(setDepthAttachment:)]
-        pub fn setDepthAttachment(
-            &self,
-            depth_attachment: Option<&MTLRenderPassDepthAttachmentDescriptor>,
-        );
+    #[cfg(feature = "Metal_MTLRenderPassDepthAttachmentDescriptor")]
+    #[objc2::method(sel = "depthAttachment", managed = "Other")]
+    pub fn depthAttachment(&self) -> Id<MTLRenderPassDepthAttachmentDescriptor>;
 
-        #[cfg(feature = "Metal_MTLRenderPassStencilAttachmentDescriptor")]
-        #[method_id(@__retain_semantics Other stencilAttachment)]
-        pub fn stencilAttachment(&self) -> Id<MTLRenderPassStencilAttachmentDescriptor>;
+    #[cfg(feature = "Metal_MTLRenderPassDepthAttachmentDescriptor")]
+    #[objc2::method(sel = "setDepthAttachment:")]
+    pub fn setDepthAttachment(
+        &self,
+        depth_attachment: Option<&MTLRenderPassDepthAttachmentDescriptor>,
+    );
 
-        #[cfg(feature = "Metal_MTLRenderPassStencilAttachmentDescriptor")]
-        #[method(setStencilAttachment:)]
-        pub fn setStencilAttachment(
-            &self,
-            stencil_attachment: Option<&MTLRenderPassStencilAttachmentDescriptor>,
-        );
+    #[cfg(feature = "Metal_MTLRenderPassStencilAttachmentDescriptor")]
+    #[objc2::method(sel = "stencilAttachment", managed = "Other")]
+    pub fn stencilAttachment(&self) -> Id<MTLRenderPassStencilAttachmentDescriptor>;
 
-        #[method_id(@__retain_semantics Other visibilityResultBuffer)]
-        pub fn visibilityResultBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+    #[cfg(feature = "Metal_MTLRenderPassStencilAttachmentDescriptor")]
+    #[objc2::method(sel = "setStencilAttachment:")]
+    pub fn setStencilAttachment(
+        &self,
+        stencil_attachment: Option<&MTLRenderPassStencilAttachmentDescriptor>,
+    );
 
-        #[method(setVisibilityResultBuffer:)]
-        pub fn setVisibilityResultBuffer(
-            &self,
-            visibility_result_buffer: Option<&ProtocolObject<dyn MTLBuffer>>,
-        );
+    #[objc2::method(sel = "visibilityResultBuffer", managed = "Other")]
+    pub fn visibilityResultBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
 
-        #[method(renderTargetArrayLength)]
-        pub fn renderTargetArrayLength(&self) -> NSUInteger;
+    #[objc2::method(sel = "setVisibilityResultBuffer:")]
+    pub fn setVisibilityResultBuffer(
+        &self,
+        visibility_result_buffer: Option<&ProtocolObject<dyn MTLBuffer>>,
+    );
 
-        #[method(setRenderTargetArrayLength:)]
-        pub unsafe fn setRenderTargetArrayLength(&self, render_target_array_length: NSUInteger);
+    #[objc2::method(sel = "renderTargetArrayLength")]
+    pub fn renderTargetArrayLength(&self) -> NSUInteger;
 
-        #[method(imageblockSampleLength)]
-        pub fn imageblockSampleLength(&self) -> NSUInteger;
+    #[objc2::method(sel = "setRenderTargetArrayLength:")]
+    pub unsafe fn setRenderTargetArrayLength(&self, render_target_array_length: NSUInteger);
 
-        #[method(setImageblockSampleLength:)]
-        pub unsafe fn setImageblockSampleLength(&self, imageblock_sample_length: NSUInteger);
+    #[objc2::method(sel = "imageblockSampleLength")]
+    pub fn imageblockSampleLength(&self) -> NSUInteger;
 
-        #[method(threadgroupMemoryLength)]
-        pub fn threadgroupMemoryLength(&self) -> NSUInteger;
+    #[objc2::method(sel = "setImageblockSampleLength:")]
+    pub unsafe fn setImageblockSampleLength(&self, imageblock_sample_length: NSUInteger);
 
-        #[method(setThreadgroupMemoryLength:)]
-        pub unsafe fn setThreadgroupMemoryLength(&self, threadgroup_memory_length: NSUInteger);
+    #[objc2::method(sel = "threadgroupMemoryLength")]
+    pub fn threadgroupMemoryLength(&self) -> NSUInteger;
 
-        #[method(tileWidth)]
-        pub fn tileWidth(&self) -> NSUInteger;
+    #[objc2::method(sel = "setThreadgroupMemoryLength:")]
+    pub unsafe fn setThreadgroupMemoryLength(&self, threadgroup_memory_length: NSUInteger);
 
-        #[method(setTileWidth:)]
-        pub fn setTileWidth(&self, tile_width: NSUInteger);
+    #[objc2::method(sel = "tileWidth")]
+    pub fn tileWidth(&self) -> NSUInteger;
 
-        #[method(tileHeight)]
-        pub fn tileHeight(&self) -> NSUInteger;
+    #[objc2::method(sel = "setTileWidth:")]
+    pub fn setTileWidth(&self, tile_width: NSUInteger);
 
-        #[method(setTileHeight:)]
-        pub fn setTileHeight(&self, tile_height: NSUInteger);
+    #[objc2::method(sel = "tileHeight")]
+    pub fn tileHeight(&self) -> NSUInteger;
 
-        #[method(defaultRasterSampleCount)]
-        pub fn defaultRasterSampleCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "setTileHeight:")]
+    pub fn setTileHeight(&self, tile_height: NSUInteger);
 
-        #[method(setDefaultRasterSampleCount:)]
-        pub fn setDefaultRasterSampleCount(&self, default_raster_sample_count: NSUInteger);
+    #[objc2::method(sel = "defaultRasterSampleCount")]
+    pub fn defaultRasterSampleCount(&self) -> NSUInteger;
 
-        #[method(renderTargetWidth)]
-        pub fn renderTargetWidth(&self) -> NSUInteger;
+    #[objc2::method(sel = "setDefaultRasterSampleCount:")]
+    pub fn setDefaultRasterSampleCount(&self, default_raster_sample_count: NSUInteger);
 
-        #[method(setRenderTargetWidth:)]
-        pub fn setRenderTargetWidth(&self, render_target_width: NSUInteger);
+    #[objc2::method(sel = "renderTargetWidth")]
+    pub fn renderTargetWidth(&self) -> NSUInteger;
 
-        #[method(renderTargetHeight)]
-        pub fn renderTargetHeight(&self) -> NSUInteger;
+    #[objc2::method(sel = "setRenderTargetWidth:")]
+    pub fn setRenderTargetWidth(&self, render_target_width: NSUInteger);
 
-        #[method(setRenderTargetHeight:)]
-        pub fn setRenderTargetHeight(&self, render_target_height: NSUInteger);
+    #[objc2::method(sel = "renderTargetHeight")]
+    pub fn renderTargetHeight(&self) -> NSUInteger;
 
-        #[method(setSamplePositions:count:)]
-        pub unsafe fn setSamplePositions_count(
-            &self,
-            positions: *mut MTLSamplePosition,
-            count: NSUInteger,
-        );
+    #[objc2::method(sel = "setRenderTargetHeight:")]
+    pub fn setRenderTargetHeight(&self, render_target_height: NSUInteger);
 
-        #[method(getSamplePositions:count:)]
-        pub unsafe fn getSamplePositions_count(
-            &self,
-            positions: *mut MTLSamplePosition,
-            count: NSUInteger,
-        ) -> NSUInteger;
+    #[objc2::method(sel = "setSamplePositions:count:")]
+    pub unsafe fn setSamplePositions_count(
+        &self,
+        positions: *mut MTLSamplePosition,
+        count: NSUInteger,
+    );
 
-        #[method_id(@__retain_semantics Other rasterizationRateMap)]
-        pub fn rasterizationRateMap(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn MTLRasterizationRateMap>>>;
+    #[objc2::method(sel = "getSamplePositions:count:")]
+    pub unsafe fn getSamplePositions_count(
+        &self,
+        positions: *mut MTLSamplePosition,
+        count: NSUInteger,
+    ) -> NSUInteger;
 
-        #[method(setRasterizationRateMap:)]
-        pub fn setRasterizationRateMap(
-            &self,
-            rasterization_rate_map: Option<&ProtocolObject<dyn MTLRasterizationRateMap>>,
-        );
+    #[objc2::method(sel = "rasterizationRateMap", managed = "Other")]
+    pub fn rasterizationRateMap(&self) -> Option<Id<ProtocolObject<dyn MTLRasterizationRateMap>>>;
 
-        #[cfg(feature = "Metal_MTLRenderPassSampleBufferAttachmentDescriptorArray")]
-        #[method_id(@__retain_semantics Other sampleBufferAttachments)]
-        pub fn sampleBufferAttachments(
-            &self,
-        ) -> Id<MTLRenderPassSampleBufferAttachmentDescriptorArray>;
-    }
-);
+    #[objc2::method(sel = "setRasterizationRateMap:")]
+    pub fn setRasterizationRateMap(
+        &self,
+        rasterization_rate_map: Option<&ProtocolObject<dyn MTLRasterizationRateMap>>,
+    );
+
+    #[cfg(feature = "Metal_MTLRenderPassSampleBufferAttachmentDescriptorArray")]
+    #[objc2::method(sel = "sampleBufferAttachments", managed = "Other")]
+    pub fn sampleBufferAttachments(&self)
+        -> Id<MTLRenderPassSampleBufferAttachmentDescriptorArray>;
+}
 
 inline_fn!(
     pub unsafe fn MTLClearColorMake(

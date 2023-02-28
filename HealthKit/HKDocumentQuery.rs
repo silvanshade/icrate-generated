@@ -6,62 +6,68 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKQuery,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKDocumentQuery")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKDocumentQuery")]
-    pub struct HKDocumentQuery;
-
-    #[cfg(feature = "HealthKit_HKDocumentQuery")]
-    unsafe impl ClassType for HKDocumentQuery {
-        #[inherits(NSObject)]
-        type Super = HKQuery;
-    }
-);
+    pub type HKDocumentQuery;
+}
 
 #[cfg(feature = "HealthKit_HKDocumentQuery")]
 unsafe impl NSObjectProtocol for HKDocumentQuery {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKDocumentQuery")]
-    unsafe impl HKDocumentQuery {
-        #[method(limit)]
-        pub unsafe fn limit(&self) -> NSUInteger;
+    pub type HKDocumentQuery;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSSortDescriptor"
-        ))]
-        #[method_id(@__retain_semantics Other sortDescriptors)]
-        pub unsafe fn sortDescriptors(&self) -> Option<Id<NSArray<NSSortDescriptor>>>;
+    #[objc2::method(sel = "limit")]
+    pub unsafe fn limit(&self) -> NSUInteger;
 
-        #[method(includeDocumentData)]
-        pub unsafe fn includeDocumentData(&self) -> bool;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSSortDescriptor"
+    ))]
+    #[objc2::method(sel = "sortDescriptors", managed = "Other")]
+    pub unsafe fn sortDescriptors(&self) -> Option<Id<NSArray<NSSortDescriptor>>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSPredicate",
-            feature = "Foundation_NSSortDescriptor",
-            feature = "HealthKit_HKDocumentSample",
-            feature = "HealthKit_HKDocumentType"
-        ))]
-        #[method_id(@__retain_semantics Init initWithDocumentType:predicate:limit:sortDescriptors:includeDocumentData:resultsHandler:)]
-        pub unsafe fn initWithDocumentType_predicate_limit_sortDescriptors_includeDocumentData_resultsHandler(
-            this: Option<Allocated<Self>>,
-            document_type: &HKDocumentType,
-            predicate: Option<&NSPredicate>,
-            limit: NSUInteger,
-            sort_descriptors: Option<&NSArray<NSSortDescriptor>>,
-            include_document_data: bool,
-            results_handler: &Block<
-                (
-                    NonNull<HKDocumentQuery>,
-                    *mut NSArray<HKDocumentSample>,
-                    Bool,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "includeDocumentData")]
+    pub unsafe fn includeDocumentData(&self) -> bool;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSPredicate",
+        feature = "Foundation_NSSortDescriptor",
+        feature = "HealthKit_HKDocumentSample",
+        feature = "HealthKit_HKDocumentType"
+    ))]
+    #[objc2::method(
+        sel = "initWithDocumentType:predicate:limit:sortDescriptors:includeDocumentData:resultsHandler:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithDocumentType_predicate_limit_sortDescriptors_includeDocumentData_resultsHandler(
+        this: Option<Allocated<Self>>,
+        document_type: &HKDocumentType,
+        predicate: Option<&NSPredicate>,
+        limit: NSUInteger,
+        sort_descriptors: Option<&NSArray<NSSortDescriptor>>,
+        include_document_data: bool,
+        results_handler: &Block<
+            (
+                NonNull<HKDocumentQuery>,
+                *mut NSArray<HKDocumentSample>,
+                Bool,
+                *mut NSError,
+            ),
+            (),
+        >,
+    ) -> Id<Self>;
+}

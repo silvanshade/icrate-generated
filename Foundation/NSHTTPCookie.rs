@@ -43,109 +43,110 @@ extern_static!(NSHTTPCookieSameSiteLax: &'static NSHTTPCookieStringPolicy);
 
 extern_static!(NSHTTPCookieSameSiteStrict: &'static NSHTTPCookieStringPolicy);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSHTTPCookie")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSHTTPCookie")]
-    pub struct NSHTTPCookie;
-
-    #[cfg(feature = "Foundation_NSHTTPCookie")]
-    unsafe impl ClassType for NSHTTPCookie {
-        type Super = NSObject;
-    }
-);
+    pub type NSHTTPCookie;
+}
 
 #[cfg(feature = "Foundation_NSHTTPCookie")]
 unsafe impl NSObjectProtocol for NSHTTPCookie {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSHTTPCookie")]
-    unsafe impl NSHTTPCookie {
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Init initWithProperties:)]
-        pub unsafe fn initWithProperties(
-            this: Option<Allocated<Self>>,
-            properties: &NSDictionary<NSHTTPCookiePropertyKey, Object>,
-        ) -> Option<Id<Self>>;
+    pub type NSHTTPCookie;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other cookieWithProperties:)]
-        pub unsafe fn cookieWithProperties(
-            properties: &NSDictionary<NSHTTPCookiePropertyKey, Object>,
-        ) -> Option<Id<NSHTTPCookie>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "initWithProperties:", managed = "Init")]
+    pub unsafe fn initWithProperties(
+        this: Option<Allocated<Self>>,
+        properties: &NSDictionary<NSHTTPCookiePropertyKey, Object>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other requestHeaderFieldsWithCookies:)]
-        pub unsafe fn requestHeaderFieldsWithCookies(
-            cookies: &NSArray<NSHTTPCookie>,
-        ) -> Id<NSDictionary<NSString, NSString>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "cookieWithProperties:", managed = "Other")]
+    pub unsafe fn cookieWithProperties(
+        properties: &NSDictionary<NSHTTPCookiePropertyKey, Object>,
+    ) -> Option<Id<NSHTTPCookie>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other cookiesWithResponseHeaderFields:forURL:)]
-        pub unsafe fn cookiesWithResponseHeaderFields_forURL(
-            header_fields: &NSDictionary<NSString, NSString>,
-            url: &NSURL,
-        ) -> Id<NSArray<NSHTTPCookie>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "requestHeaderFieldsWithCookies:", managed = "Other")]
+    pub unsafe fn requestHeaderFieldsWithCookies(
+        cookies: &NSArray<NSHTTPCookie>,
+    ) -> Id<NSDictionary<NSString, NSString>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other properties)]
-        pub unsafe fn properties(
-            &self,
-        ) -> Option<Id<NSDictionary<NSHTTPCookiePropertyKey, Object>>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "cookiesWithResponseHeaderFields:forURL:", managed = "Other")]
+    pub unsafe fn cookiesWithResponseHeaderFields_forURL(
+        header_fields: &NSDictionary<NSString, NSString>,
+        url: &NSURL,
+    ) -> Id<NSArray<NSHTTPCookie>>;
 
-        #[method(version)]
-        pub unsafe fn version(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "properties", managed = "Other")]
+    pub unsafe fn properties(&self) -> Option<Id<NSDictionary<NSHTTPCookiePropertyKey, Object>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[objc2::method(sel = "version")]
+    pub unsafe fn version(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other value)]
-        pub unsafe fn value(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other expiresDate)]
-        pub unsafe fn expiresDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "value", managed = "Other")]
+    pub unsafe fn value(&self) -> Id<NSString>;
 
-        #[method(isSessionOnly)]
-        pub unsafe fn isSessionOnly(&self) -> bool;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "expiresDate", managed = "Other")]
+    pub unsafe fn expiresDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other domain)]
-        pub unsafe fn domain(&self) -> Id<NSString>;
+    #[objc2::method(sel = "isSessionOnly")]
+    pub unsafe fn isSessionOnly(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other path)]
-        pub unsafe fn path(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "domain", managed = "Other")]
+    pub unsafe fn domain(&self) -> Id<NSString>;
 
-        #[method(isSecure)]
-        pub unsafe fn isSecure(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "path", managed = "Other")]
+    pub unsafe fn path(&self) -> Id<NSString>;
 
-        #[method(isHTTPOnly)]
-        pub unsafe fn isHTTPOnly(&self) -> bool;
+    #[objc2::method(sel = "isSecure")]
+    pub unsafe fn isSecure(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other comment)]
-        pub unsafe fn comment(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "isHTTPOnly")]
+    pub unsafe fn isHTTPOnly(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other commentURL)]
-        pub unsafe fn commentURL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "comment", managed = "Other")]
+    pub unsafe fn comment(&self) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other portList)]
-        pub unsafe fn portList(&self) -> Option<Id<NSArray<NSNumber>>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "commentURL", managed = "Other")]
+    pub unsafe fn commentURL(&self) -> Option<Id<NSURL>>;
 
-        #[method_id(@__retain_semantics Other sameSitePolicy)]
-        pub unsafe fn sameSitePolicy(&self) -> Option<Id<NSHTTPCookieStringPolicy>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "portList", managed = "Other")]
+    pub unsafe fn portList(&self) -> Option<Id<NSArray<NSNumber>>>;
+
+    #[objc2::method(sel = "sameSitePolicy", managed = "Other")]
+    pub unsafe fn sameSitePolicy(&self) -> Option<Id<NSHTTPCookieStringPolicy>>;
+}

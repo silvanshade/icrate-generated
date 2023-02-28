@@ -5,27 +5,30 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKOpenPanelParameters")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKOpenPanelParameters")]
-    pub struct WKOpenPanelParameters;
-
-    #[cfg(feature = "WebKit_WKOpenPanelParameters")]
-    unsafe impl ClassType for WKOpenPanelParameters {
-        type Super = NSObject;
-    }
-);
+    pub type WKOpenPanelParameters;
+}
 
 #[cfg(feature = "WebKit_WKOpenPanelParameters")]
 unsafe impl NSObjectProtocol for WKOpenPanelParameters {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKOpenPanelParameters")]
-    unsafe impl WKOpenPanelParameters {
-        #[method(allowsMultipleSelection)]
-        pub unsafe fn allowsMultipleSelection(&self) -> bool;
+    pub type WKOpenPanelParameters;
 
-        #[method(allowsDirectories)]
-        pub unsafe fn allowsDirectories(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "allowsMultipleSelection")]
+    pub unsafe fn allowsMultipleSelection(&self) -> bool;
+
+    #[objc2::method(sel = "allowsDirectories")]
+    pub unsafe fn allowsDirectories(&self) -> bool;
+}

@@ -5,41 +5,42 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_methods!(
-    /// NSNibLoading
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSBundle")]
-    unsafe impl NSBundle {}
-);
+    pub type NSBundle;
+}
 
-extern_methods!(
-    /// NSNibLoadingDeprecated
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSBundle")]
-    unsafe impl NSBundle {
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[deprecated]
-        #[method(loadNibFile:externalNameTable:withZone:)]
-        pub unsafe fn loadNibFile_externalNameTable_withZone_class(
-            file_name: Option<&NSString>,
-            context: Option<&NSDictionary>,
-            zone: *mut NSZone,
-        ) -> bool;
+    pub type NSBundle;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(loadNibNamed:owner:)]
-        pub unsafe fn loadNibNamed_owner(
-            nib_name: Option<&NSString>,
-            owner: Option<&Object>,
-        ) -> bool;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[deprecated]
+    #[objc2::method(sel = "loadNibFile:externalNameTable:withZone:")]
+    pub unsafe fn loadNibFile_externalNameTable_withZone_class(
+        file_name: Option<&NSString>,
+        context: Option<&NSDictionary>,
+        zone: *mut NSZone,
+    ) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[deprecated]
-        #[method(loadNibFile:externalNameTable:withZone:)]
-        pub unsafe fn loadNibFile_externalNameTable_withZone(
-            &self,
-            file_name: Option<&NSString>,
-            context: Option<&NSDictionary>,
-            zone: *mut NSZone,
-        ) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "loadNibNamed:owner:")]
+    pub unsafe fn loadNibNamed_owner(nib_name: Option<&NSString>, owner: Option<&Object>) -> bool;
+
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[deprecated]
+    #[objc2::method(sel = "loadNibFile:externalNameTable:withZone:")]
+    pub unsafe fn loadNibFile_externalNameTable_withZone(
+        &self,
+        file_name: Option<&NSString>,
+        context: Option<&NSDictionary>,
+        zone: *mut NSZone,
+    ) -> bool;
+}

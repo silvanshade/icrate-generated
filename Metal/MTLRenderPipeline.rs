@@ -4,1034 +4,1025 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLBlendFactor {
-        MTLBlendFactorZero = 0,
-        MTLBlendFactorOne = 1,
-        MTLBlendFactorSourceColor = 2,
-        MTLBlendFactorOneMinusSourceColor = 3,
-        MTLBlendFactorSourceAlpha = 4,
-        MTLBlendFactorOneMinusSourceAlpha = 5,
-        MTLBlendFactorDestinationColor = 6,
-        MTLBlendFactorOneMinusDestinationColor = 7,
-        MTLBlendFactorDestinationAlpha = 8,
-        MTLBlendFactorOneMinusDestinationAlpha = 9,
-        MTLBlendFactorSourceAlphaSaturated = 10,
-        MTLBlendFactorBlendColor = 11,
-        MTLBlendFactorOneMinusBlendColor = 12,
-        MTLBlendFactorBlendAlpha = 13,
-        MTLBlendFactorOneMinusBlendAlpha = 14,
-        MTLBlendFactorSource1Color = 15,
-        MTLBlendFactorOneMinusSource1Color = 16,
-        MTLBlendFactorSource1Alpha = 17,
-        MTLBlendFactorOneMinusSource1Alpha = 18,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLBlendFactor {
+    MTLBlendFactorZero = 0,
+    MTLBlendFactorOne = 1,
+    MTLBlendFactorSourceColor = 2,
+    MTLBlendFactorOneMinusSourceColor = 3,
+    MTLBlendFactorSourceAlpha = 4,
+    MTLBlendFactorOneMinusSourceAlpha = 5,
+    MTLBlendFactorDestinationColor = 6,
+    MTLBlendFactorOneMinusDestinationColor = 7,
+    MTLBlendFactorDestinationAlpha = 8,
+    MTLBlendFactorOneMinusDestinationAlpha = 9,
+    MTLBlendFactorSourceAlphaSaturated = 10,
+    MTLBlendFactorBlendColor = 11,
+    MTLBlendFactorOneMinusBlendColor = 12,
+    MTLBlendFactorBlendAlpha = 13,
+    MTLBlendFactorOneMinusBlendAlpha = 14,
+    MTLBlendFactorSource1Color = 15,
+    MTLBlendFactorOneMinusSource1Color = 16,
+    MTLBlendFactorSource1Alpha = 17,
+    MTLBlendFactorOneMinusSource1Alpha = 18,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLBlendOperation {
-        MTLBlendOperationAdd = 0,
-        MTLBlendOperationSubtract = 1,
-        MTLBlendOperationReverseSubtract = 2,
-        MTLBlendOperationMin = 3,
-        MTLBlendOperationMax = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLBlendOperation {
+    MTLBlendOperationAdd = 0,
+    MTLBlendOperationSubtract = 1,
+    MTLBlendOperationReverseSubtract = 2,
+    MTLBlendOperationMin = 3,
+    MTLBlendOperationMax = 4,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum MTLColorWriteMask {
-        MTLColorWriteMaskNone = 0,
-        MTLColorWriteMaskRed = 0x1 << 3,
-        MTLColorWriteMaskGreen = 0x1 << 2,
-        MTLColorWriteMaskBlue = 0x1 << 1,
-        MTLColorWriteMaskAlpha = 0x1 << 0,
-        MTLColorWriteMaskAll = 0xf,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum MTLColorWriteMask {
+    MTLColorWriteMaskNone = 0,
+    MTLColorWriteMaskRed = 0x1 << 3,
+    MTLColorWriteMaskGreen = 0x1 << 2,
+    MTLColorWriteMaskBlue = 0x1 << 1,
+    MTLColorWriteMaskAlpha = 0x1 << 0,
+    MTLColorWriteMaskAll = 0xf,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLPrimitiveTopologyClass {
-        MTLPrimitiveTopologyClassUnspecified = 0,
-        MTLPrimitiveTopologyClassPoint = 1,
-        MTLPrimitiveTopologyClassLine = 2,
-        MTLPrimitiveTopologyClassTriangle = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLPrimitiveTopologyClass {
+    MTLPrimitiveTopologyClassUnspecified = 0,
+    MTLPrimitiveTopologyClassPoint = 1,
+    MTLPrimitiveTopologyClassLine = 2,
+    MTLPrimitiveTopologyClassTriangle = 3,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLTessellationPartitionMode {
-        MTLTessellationPartitionModePow2 = 0,
-        MTLTessellationPartitionModeInteger = 1,
-        MTLTessellationPartitionModeFractionalOdd = 2,
-        MTLTessellationPartitionModeFractionalEven = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLTessellationPartitionMode {
+    MTLTessellationPartitionModePow2 = 0,
+    MTLTessellationPartitionModeInteger = 1,
+    MTLTessellationPartitionModeFractionalOdd = 2,
+    MTLTessellationPartitionModeFractionalEven = 3,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLTessellationFactorStepFunction {
-        MTLTessellationFactorStepFunctionConstant = 0,
-        MTLTessellationFactorStepFunctionPerPatch = 1,
-        MTLTessellationFactorStepFunctionPerInstance = 2,
-        MTLTessellationFactorStepFunctionPerPatchAndPerInstance = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLTessellationFactorStepFunction {
+    MTLTessellationFactorStepFunctionConstant = 0,
+    MTLTessellationFactorStepFunctionPerPatch = 1,
+    MTLTessellationFactorStepFunctionPerInstance = 2,
+    MTLTessellationFactorStepFunctionPerPatchAndPerInstance = 3,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLTessellationFactorFormat {
-        MTLTessellationFactorFormatHalf = 0,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLTessellationFactorFormat {
+    MTLTessellationFactorFormatHalf = 0,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLTessellationControlPointIndexType {
-        MTLTessellationControlPointIndexTypeNone = 0,
-        MTLTessellationControlPointIndexTypeUInt16 = 1,
-        MTLTessellationControlPointIndexTypeUInt32 = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLTessellationControlPointIndexType {
+    MTLTessellationControlPointIndexTypeNone = 0,
+    MTLTessellationControlPointIndexTypeUInt16 = 1,
+    MTLTessellationControlPointIndexTypeUInt32 = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptor")]
-    pub struct MTLRenderPipelineColorAttachmentDescriptor;
-
-    #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptor")]
-    unsafe impl ClassType for MTLRenderPipelineColorAttachmentDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLRenderPipelineColorAttachmentDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptor")]
 unsafe impl NSObjectProtocol for MTLRenderPipelineColorAttachmentDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptor")]
-    unsafe impl MTLRenderPipelineColorAttachmentDescriptor {
-        #[method(pixelFormat)]
-        pub fn pixelFormat(&self) -> MTLPixelFormat;
+    pub type MTLRenderPipelineColorAttachmentDescriptor;
 
-        #[method(setPixelFormat:)]
-        pub fn setPixelFormat(&self, pixel_format: MTLPixelFormat);
+    #[objc2::method(sel = "pixelFormat")]
+    pub fn pixelFormat(&self) -> MTLPixelFormat;
 
-        #[method(isBlendingEnabled)]
-        pub fn isBlendingEnabled(&self) -> bool;
+    #[objc2::method(sel = "setPixelFormat:")]
+    pub fn setPixelFormat(&self, pixel_format: MTLPixelFormat);
 
-        #[method(setBlendingEnabled:)]
-        pub fn setBlendingEnabled(&self, blending_enabled: bool);
+    #[objc2::method(sel = "isBlendingEnabled")]
+    pub fn isBlendingEnabled(&self) -> bool;
 
-        #[method(sourceRGBBlendFactor)]
-        pub fn sourceRGBBlendFactor(&self) -> MTLBlendFactor;
+    #[objc2::method(sel = "setBlendingEnabled:")]
+    pub fn setBlendingEnabled(&self, blending_enabled: bool);
 
-        #[method(setSourceRGBBlendFactor:)]
-        pub fn setSourceRGBBlendFactor(&self, source_rgb_blend_factor: MTLBlendFactor);
+    #[objc2::method(sel = "sourceRGBBlendFactor")]
+    pub fn sourceRGBBlendFactor(&self) -> MTLBlendFactor;
 
-        #[method(destinationRGBBlendFactor)]
-        pub fn destinationRGBBlendFactor(&self) -> MTLBlendFactor;
+    #[objc2::method(sel = "setSourceRGBBlendFactor:")]
+    pub fn setSourceRGBBlendFactor(&self, source_rgb_blend_factor: MTLBlendFactor);
 
-        #[method(setDestinationRGBBlendFactor:)]
-        pub fn setDestinationRGBBlendFactor(&self, destination_rgb_blend_factor: MTLBlendFactor);
+    #[objc2::method(sel = "destinationRGBBlendFactor")]
+    pub fn destinationRGBBlendFactor(&self) -> MTLBlendFactor;
 
-        #[method(rgbBlendOperation)]
-        pub fn rgbBlendOperation(&self) -> MTLBlendOperation;
+    #[objc2::method(sel = "setDestinationRGBBlendFactor:")]
+    pub fn setDestinationRGBBlendFactor(&self, destination_rgb_blend_factor: MTLBlendFactor);
 
-        #[method(setRgbBlendOperation:)]
-        pub fn setRgbBlendOperation(&self, rgb_blend_operation: MTLBlendOperation);
+    #[objc2::method(sel = "rgbBlendOperation")]
+    pub fn rgbBlendOperation(&self) -> MTLBlendOperation;
 
-        #[method(sourceAlphaBlendFactor)]
-        pub fn sourceAlphaBlendFactor(&self) -> MTLBlendFactor;
+    #[objc2::method(sel = "setRgbBlendOperation:")]
+    pub fn setRgbBlendOperation(&self, rgb_blend_operation: MTLBlendOperation);
 
-        #[method(setSourceAlphaBlendFactor:)]
-        pub fn setSourceAlphaBlendFactor(&self, source_alpha_blend_factor: MTLBlendFactor);
+    #[objc2::method(sel = "sourceAlphaBlendFactor")]
+    pub fn sourceAlphaBlendFactor(&self) -> MTLBlendFactor;
 
-        #[method(destinationAlphaBlendFactor)]
-        pub fn destinationAlphaBlendFactor(&self) -> MTLBlendFactor;
+    #[objc2::method(sel = "setSourceAlphaBlendFactor:")]
+    pub fn setSourceAlphaBlendFactor(&self, source_alpha_blend_factor: MTLBlendFactor);
 
-        #[method(setDestinationAlphaBlendFactor:)]
-        pub fn setDestinationAlphaBlendFactor(
-            &self,
-            destination_alpha_blend_factor: MTLBlendFactor,
-        );
+    #[objc2::method(sel = "destinationAlphaBlendFactor")]
+    pub fn destinationAlphaBlendFactor(&self) -> MTLBlendFactor;
 
-        #[method(alphaBlendOperation)]
-        pub fn alphaBlendOperation(&self) -> MTLBlendOperation;
+    #[objc2::method(sel = "setDestinationAlphaBlendFactor:")]
+    pub fn setDestinationAlphaBlendFactor(&self, destination_alpha_blend_factor: MTLBlendFactor);
 
-        #[method(setAlphaBlendOperation:)]
-        pub fn setAlphaBlendOperation(&self, alpha_blend_operation: MTLBlendOperation);
+    #[objc2::method(sel = "alphaBlendOperation")]
+    pub fn alphaBlendOperation(&self) -> MTLBlendOperation;
 
-        #[method(writeMask)]
-        pub fn writeMask(&self) -> MTLColorWriteMask;
+    #[objc2::method(sel = "setAlphaBlendOperation:")]
+    pub fn setAlphaBlendOperation(&self, alpha_blend_operation: MTLBlendOperation);
 
-        #[method(setWriteMask:)]
-        pub fn setWriteMask(&self, write_mask: MTLColorWriteMask);
-    }
-);
+    #[objc2::method(sel = "writeMask")]
+    pub fn writeMask(&self) -> MTLColorWriteMask;
 
-extern_class!(
+    #[objc2::method(sel = "setWriteMask:")]
+    pub fn setWriteMask(&self, write_mask: MTLColorWriteMask);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLRenderPipelineReflection")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLRenderPipelineReflection")]
-    pub struct MTLRenderPipelineReflection;
-
-    #[cfg(feature = "Metal_MTLRenderPipelineReflection")]
-    unsafe impl ClassType for MTLRenderPipelineReflection {
-        type Super = NSObject;
-    }
-);
+    pub type MTLRenderPipelineReflection;
+}
 
 #[cfg(feature = "Metal_MTLRenderPipelineReflection")]
 unsafe impl NSObjectProtocol for MTLRenderPipelineReflection {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRenderPipelineReflection")]
-    unsafe impl MTLRenderPipelineReflection {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other vertexBindings)]
-        pub unsafe fn vertexBindings(&self) -> Id<NSArray<ProtocolObject<dyn MTLBinding>>>;
+    pub type MTLRenderPipelineReflection;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other fragmentBindings)]
-        pub unsafe fn fragmentBindings(&self) -> Id<NSArray<ProtocolObject<dyn MTLBinding>>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "vertexBindings", managed = "Other")]
+    pub unsafe fn vertexBindings(&self) -> Id<NSArray<ProtocolObject<dyn MTLBinding>>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other tileBindings)]
-        pub unsafe fn tileBindings(&self) -> Id<NSArray<ProtocolObject<dyn MTLBinding>>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "fragmentBindings", managed = "Other")]
+    pub unsafe fn fragmentBindings(&self) -> Id<NSArray<ProtocolObject<dyn MTLBinding>>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other objectBindings)]
-        pub unsafe fn objectBindings(&self) -> Id<NSArray<ProtocolObject<dyn MTLBinding>>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "tileBindings", managed = "Other")]
+    pub unsafe fn tileBindings(&self) -> Id<NSArray<ProtocolObject<dyn MTLBinding>>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other meshBindings)]
-        pub unsafe fn meshBindings(&self) -> Id<NSArray<ProtocolObject<dyn MTLBinding>>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "objectBindings", managed = "Other")]
+    pub unsafe fn objectBindings(&self) -> Id<NSArray<ProtocolObject<dyn MTLBinding>>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Metal_MTLArgument"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other vertexArguments)]
-        pub fn vertexArguments(&self) -> Option<Id<NSArray<MTLArgument>>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "meshBindings", managed = "Other")]
+    pub unsafe fn meshBindings(&self) -> Id<NSArray<ProtocolObject<dyn MTLBinding>>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Metal_MTLArgument"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other fragmentArguments)]
-        pub fn fragmentArguments(&self) -> Option<Id<NSArray<MTLArgument>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Metal_MTLArgument"))]
+    #[deprecated]
+    #[objc2::method(sel = "vertexArguments", managed = "Other")]
+    pub fn vertexArguments(&self) -> Option<Id<NSArray<MTLArgument>>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Metal_MTLArgument"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other tileArguments)]
-        pub fn tileArguments(&self) -> Option<Id<NSArray<MTLArgument>>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Metal_MTLArgument"))]
+    #[deprecated]
+    #[objc2::method(sel = "fragmentArguments", managed = "Other")]
+    pub fn fragmentArguments(&self) -> Option<Id<NSArray<MTLArgument>>>;
 
-extern_class!(
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Metal_MTLArgument"))]
+    #[deprecated]
+    #[objc2::method(sel = "tileArguments", managed = "Other")]
+    pub fn tileArguments(&self) -> Option<Id<NSArray<MTLArgument>>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLRenderPipelineDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLRenderPipelineDescriptor")]
-    pub struct MTLRenderPipelineDescriptor;
-
-    #[cfg(feature = "Metal_MTLRenderPipelineDescriptor")]
-    unsafe impl ClassType for MTLRenderPipelineDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLRenderPipelineDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLRenderPipelineDescriptor")]
 unsafe impl NSObjectProtocol for MTLRenderPipelineDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRenderPipelineDescriptor")]
-    unsafe impl MTLRenderPipelineDescriptor {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        pub fn label(&self) -> Option<Id<NSString>>;
+    pub type MTLRenderPipelineDescriptor;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        pub fn setLabel(&self, label: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    pub fn label(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other vertexFunction)]
-        pub fn vertexFunction(&self) -> Option<Id<ProtocolObject<dyn MTLFunction>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    pub fn setLabel(&self, label: Option<&NSString>);
 
-        #[method(setVertexFunction:)]
-        pub fn setVertexFunction(&self, vertex_function: Option<&ProtocolObject<dyn MTLFunction>>);
+    #[objc2::method(sel = "vertexFunction", managed = "Other")]
+    pub fn vertexFunction(&self) -> Option<Id<ProtocolObject<dyn MTLFunction>>>;
 
-        #[method_id(@__retain_semantics Other fragmentFunction)]
-        pub fn fragmentFunction(&self) -> Option<Id<ProtocolObject<dyn MTLFunction>>>;
+    #[objc2::method(sel = "setVertexFunction:")]
+    pub fn setVertexFunction(&self, vertex_function: Option<&ProtocolObject<dyn MTLFunction>>);
 
-        #[method(setFragmentFunction:)]
-        pub fn setFragmentFunction(
-            &self,
-            fragment_function: Option<&ProtocolObject<dyn MTLFunction>>,
-        );
+    #[objc2::method(sel = "fragmentFunction", managed = "Other")]
+    pub fn fragmentFunction(&self) -> Option<Id<ProtocolObject<dyn MTLFunction>>>;
 
-        #[cfg(feature = "Metal_MTLVertexDescriptor")]
-        #[method_id(@__retain_semantics Other vertexDescriptor)]
-        pub fn vertexDescriptor(&self) -> Option<Id<MTLVertexDescriptor>>;
+    #[objc2::method(sel = "setFragmentFunction:")]
+    pub fn setFragmentFunction(&self, fragment_function: Option<&ProtocolObject<dyn MTLFunction>>);
 
-        #[cfg(feature = "Metal_MTLVertexDescriptor")]
-        #[method(setVertexDescriptor:)]
-        pub fn setVertexDescriptor(&self, vertex_descriptor: Option<&MTLVertexDescriptor>);
+    #[cfg(feature = "Metal_MTLVertexDescriptor")]
+    #[objc2::method(sel = "vertexDescriptor", managed = "Other")]
+    pub fn vertexDescriptor(&self) -> Option<Id<MTLVertexDescriptor>>;
 
-        #[deprecated]
-        #[method(sampleCount)]
-        pub fn sampleCount(&self) -> NSUInteger;
+    #[cfg(feature = "Metal_MTLVertexDescriptor")]
+    #[objc2::method(sel = "setVertexDescriptor:")]
+    pub fn setVertexDescriptor(&self, vertex_descriptor: Option<&MTLVertexDescriptor>);
 
-        #[deprecated]
-        #[method(setSampleCount:)]
-        pub fn setSampleCount(&self, sample_count: NSUInteger);
+    #[deprecated]
+    #[objc2::method(sel = "sampleCount")]
+    pub fn sampleCount(&self) -> NSUInteger;
 
-        #[method(rasterSampleCount)]
-        pub fn rasterSampleCount(&self) -> NSUInteger;
+    #[deprecated]
+    #[objc2::method(sel = "setSampleCount:")]
+    pub fn setSampleCount(&self, sample_count: NSUInteger);
 
-        #[method(setRasterSampleCount:)]
-        pub fn setRasterSampleCount(&self, raster_sample_count: NSUInteger);
+    #[objc2::method(sel = "rasterSampleCount")]
+    pub fn rasterSampleCount(&self) -> NSUInteger;
 
-        #[method(isAlphaToCoverageEnabled)]
-        pub fn isAlphaToCoverageEnabled(&self) -> bool;
+    #[objc2::method(sel = "setRasterSampleCount:")]
+    pub fn setRasterSampleCount(&self, raster_sample_count: NSUInteger);
 
-        #[method(setAlphaToCoverageEnabled:)]
-        pub fn setAlphaToCoverageEnabled(&self, alpha_to_coverage_enabled: bool);
+    #[objc2::method(sel = "isAlphaToCoverageEnabled")]
+    pub fn isAlphaToCoverageEnabled(&self) -> bool;
 
-        #[method(isAlphaToOneEnabled)]
-        pub fn isAlphaToOneEnabled(&self) -> bool;
+    #[objc2::method(sel = "setAlphaToCoverageEnabled:")]
+    pub fn setAlphaToCoverageEnabled(&self, alpha_to_coverage_enabled: bool);
 
-        #[method(setAlphaToOneEnabled:)]
-        pub fn setAlphaToOneEnabled(&self, alpha_to_one_enabled: bool);
+    #[objc2::method(sel = "isAlphaToOneEnabled")]
+    pub fn isAlphaToOneEnabled(&self) -> bool;
 
-        #[method(isRasterizationEnabled)]
-        pub fn isRasterizationEnabled(&self) -> bool;
+    #[objc2::method(sel = "setAlphaToOneEnabled:")]
+    pub fn setAlphaToOneEnabled(&self, alpha_to_one_enabled: bool);
 
-        #[method(setRasterizationEnabled:)]
-        pub fn setRasterizationEnabled(&self, rasterization_enabled: bool);
+    #[objc2::method(sel = "isRasterizationEnabled")]
+    pub fn isRasterizationEnabled(&self) -> bool;
 
-        #[method(maxVertexAmplificationCount)]
-        pub fn maxVertexAmplificationCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "setRasterizationEnabled:")]
+    pub fn setRasterizationEnabled(&self, rasterization_enabled: bool);
 
-        #[method(setMaxVertexAmplificationCount:)]
-        pub unsafe fn setMaxVertexAmplificationCount(
-            &self,
-            max_vertex_amplification_count: NSUInteger,
-        );
+    #[objc2::method(sel = "maxVertexAmplificationCount")]
+    pub fn maxVertexAmplificationCount(&self) -> NSUInteger;
 
-        #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptorArray")]
-        #[method_id(@__retain_semantics Other colorAttachments)]
-        pub fn colorAttachments(&self) -> Id<MTLRenderPipelineColorAttachmentDescriptorArray>;
+    #[objc2::method(sel = "setMaxVertexAmplificationCount:")]
+    pub unsafe fn setMaxVertexAmplificationCount(&self, max_vertex_amplification_count: NSUInteger);
 
-        #[method(depthAttachmentPixelFormat)]
-        pub fn depthAttachmentPixelFormat(&self) -> MTLPixelFormat;
+    #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptorArray")]
+    #[objc2::method(sel = "colorAttachments", managed = "Other")]
+    pub fn colorAttachments(&self) -> Id<MTLRenderPipelineColorAttachmentDescriptorArray>;
 
-        #[method(setDepthAttachmentPixelFormat:)]
-        pub fn setDepthAttachmentPixelFormat(&self, depth_attachment_pixel_format: MTLPixelFormat);
+    #[objc2::method(sel = "depthAttachmentPixelFormat")]
+    pub fn depthAttachmentPixelFormat(&self) -> MTLPixelFormat;
 
-        #[method(stencilAttachmentPixelFormat)]
-        pub fn stencilAttachmentPixelFormat(&self) -> MTLPixelFormat;
+    #[objc2::method(sel = "setDepthAttachmentPixelFormat:")]
+    pub fn setDepthAttachmentPixelFormat(&self, depth_attachment_pixel_format: MTLPixelFormat);
 
-        #[method(setStencilAttachmentPixelFormat:)]
-        pub fn setStencilAttachmentPixelFormat(
-            &self,
-            stencil_attachment_pixel_format: MTLPixelFormat,
-        );
+    #[objc2::method(sel = "stencilAttachmentPixelFormat")]
+    pub fn stencilAttachmentPixelFormat(&self) -> MTLPixelFormat;
 
-        #[method(inputPrimitiveTopology)]
-        pub fn inputPrimitiveTopology(&self) -> MTLPrimitiveTopologyClass;
-
-        #[method(setInputPrimitiveTopology:)]
-        pub unsafe fn setInputPrimitiveTopology(
-            &self,
-            input_primitive_topology: MTLPrimitiveTopologyClass,
-        );
-
-        #[method(tessellationPartitionMode)]
-        pub fn tessellationPartitionMode(&self) -> MTLTessellationPartitionMode;
-
-        #[method(setTessellationPartitionMode:)]
-        pub unsafe fn setTessellationPartitionMode(
-            &self,
-            tessellation_partition_mode: MTLTessellationPartitionMode,
-        );
-
-        #[method(maxTessellationFactor)]
-        pub fn maxTessellationFactor(&self) -> NSUInteger;
-
-        #[method(setMaxTessellationFactor:)]
-        pub unsafe fn setMaxTessellationFactor(&self, max_tessellation_factor: NSUInteger);
-
-        #[method(isTessellationFactorScaleEnabled)]
-        pub fn isTessellationFactorScaleEnabled(&self) -> bool;
-
-        #[method(setTessellationFactorScaleEnabled:)]
-        pub fn setTessellationFactorScaleEnabled(&self, tessellation_factor_scale_enabled: bool);
-
-        #[method(tessellationFactorFormat)]
-        pub fn tessellationFactorFormat(&self) -> MTLTessellationFactorFormat;
-
-        #[method(setTessellationFactorFormat:)]
-        pub fn setTessellationFactorFormat(
-            &self,
-            tessellation_factor_format: MTLTessellationFactorFormat,
-        );
-
-        #[method(tessellationControlPointIndexType)]
-        pub fn tessellationControlPointIndexType(&self) -> MTLTessellationControlPointIndexType;
-
-        #[method(setTessellationControlPointIndexType:)]
-        pub unsafe fn setTessellationControlPointIndexType(
-            &self,
-            tessellation_control_point_index_type: MTLTessellationControlPointIndexType,
-        );
-
-        #[method(tessellationFactorStepFunction)]
-        pub fn tessellationFactorStepFunction(&self) -> MTLTessellationFactorStepFunction;
-
-        #[method(setTessellationFactorStepFunction:)]
-        pub fn setTessellationFactorStepFunction(
-            &self,
-            tessellation_factor_step_function: MTLTessellationFactorStepFunction,
-        );
-
-        #[method(tessellationOutputWindingOrder)]
-        pub fn tessellationOutputWindingOrder(&self) -> MTLWinding;
-
-        #[method(setTessellationOutputWindingOrder:)]
-        pub fn setTessellationOutputWindingOrder(
-            &self,
-            tessellation_output_winding_order: MTLWinding,
-        );
-
-        #[cfg(feature = "Metal_MTLPipelineBufferDescriptorArray")]
-        #[method_id(@__retain_semantics Other vertexBuffers)]
-        pub fn vertexBuffers(&self) -> Id<MTLPipelineBufferDescriptorArray>;
-
-        #[cfg(feature = "Metal_MTLPipelineBufferDescriptorArray")]
-        #[method_id(@__retain_semantics Other fragmentBuffers)]
-        pub fn fragmentBuffers(&self) -> Id<MTLPipelineBufferDescriptorArray>;
-
-        #[method(supportIndirectCommandBuffers)]
-        pub fn supportIndirectCommandBuffers(&self) -> bool;
-
-        #[method(setSupportIndirectCommandBuffers:)]
-        pub fn setSupportIndirectCommandBuffers(&self, support_indirect_command_buffers: bool);
-
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other binaryArchives)]
-        pub fn binaryArchives(&self) -> Option<Id<NSArray<ProtocolObject<dyn MTLBinaryArchive>>>>;
-
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setBinaryArchives:)]
-        pub fn setBinaryArchives(
-            &self,
-            binary_archives: Option<&NSArray<ProtocolObject<dyn MTLBinaryArchive>>>,
-        );
-
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other vertexPreloadedLibraries)]
-        pub fn vertexPreloadedLibraries(
-            &self,
-        ) -> Id<NSArray<ProtocolObject<dyn MTLDynamicLibrary>>>;
-
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setVertexPreloadedLibraries:)]
-        pub fn setVertexPreloadedLibraries(
-            &self,
-            vertex_preloaded_libraries: &NSArray<ProtocolObject<dyn MTLDynamicLibrary>>,
-        );
-
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other fragmentPreloadedLibraries)]
-        pub fn fragmentPreloadedLibraries(
-            &self,
-        ) -> Id<NSArray<ProtocolObject<dyn MTLDynamicLibrary>>>;
-
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setFragmentPreloadedLibraries:)]
-        pub fn setFragmentPreloadedLibraries(
-            &self,
-            fragment_preloaded_libraries: &NSArray<ProtocolObject<dyn MTLDynamicLibrary>>,
-        );
-
-        #[cfg(feature = "Metal_MTLLinkedFunctions")]
-        #[method_id(@__retain_semantics Other vertexLinkedFunctions)]
-        pub fn vertexLinkedFunctions(&self) -> Id<MTLLinkedFunctions>;
-
-        #[cfg(feature = "Metal_MTLLinkedFunctions")]
-        #[method(setVertexLinkedFunctions:)]
-        pub fn setVertexLinkedFunctions(
-            &self,
-            vertex_linked_functions: Option<&MTLLinkedFunctions>,
-        );
-
-        #[cfg(feature = "Metal_MTLLinkedFunctions")]
-        #[method_id(@__retain_semantics Other fragmentLinkedFunctions)]
-        pub fn fragmentLinkedFunctions(&self) -> Id<MTLLinkedFunctions>;
-
-        #[cfg(feature = "Metal_MTLLinkedFunctions")]
-        #[method(setFragmentLinkedFunctions:)]
-        pub fn setFragmentLinkedFunctions(
-            &self,
-            fragment_linked_functions: Option<&MTLLinkedFunctions>,
-        );
-
-        #[method(supportAddingVertexBinaryFunctions)]
-        pub fn supportAddingVertexBinaryFunctions(&self) -> bool;
-
-        #[method(setSupportAddingVertexBinaryFunctions:)]
-        pub fn setSupportAddingVertexBinaryFunctions(
-            &self,
-            support_adding_vertex_binary_functions: bool,
-        );
-
-        #[method(supportAddingFragmentBinaryFunctions)]
-        pub fn supportAddingFragmentBinaryFunctions(&self) -> bool;
-
-        #[method(setSupportAddingFragmentBinaryFunctions:)]
-        pub fn setSupportAddingFragmentBinaryFunctions(
-            &self,
-            support_adding_fragment_binary_functions: bool,
-        );
-
-        #[method(maxVertexCallStackDepth)]
-        pub fn maxVertexCallStackDepth(&self) -> NSUInteger;
-
-        #[method(setMaxVertexCallStackDepth:)]
-        pub fn setMaxVertexCallStackDepth(&self, max_vertex_call_stack_depth: NSUInteger);
-
-        #[method(maxFragmentCallStackDepth)]
-        pub fn maxFragmentCallStackDepth(&self) -> NSUInteger;
-
-        #[method(setMaxFragmentCallStackDepth:)]
-        pub fn setMaxFragmentCallStackDepth(&self, max_fragment_call_stack_depth: NSUInteger);
-
-        #[method(reset)]
-        pub fn reset(&self);
-    }
-);
-
-extern_class!(
+    #[objc2::method(sel = "setStencilAttachmentPixelFormat:")]
+    pub fn setStencilAttachmentPixelFormat(&self, stencil_attachment_pixel_format: MTLPixelFormat);
+
+    #[objc2::method(sel = "inputPrimitiveTopology")]
+    pub fn inputPrimitiveTopology(&self) -> MTLPrimitiveTopologyClass;
+
+    #[objc2::method(sel = "setInputPrimitiveTopology:")]
+    pub unsafe fn setInputPrimitiveTopology(
+        &self,
+        input_primitive_topology: MTLPrimitiveTopologyClass,
+    );
+
+    #[objc2::method(sel = "tessellationPartitionMode")]
+    pub fn tessellationPartitionMode(&self) -> MTLTessellationPartitionMode;
+
+    #[objc2::method(sel = "setTessellationPartitionMode:")]
+    pub unsafe fn setTessellationPartitionMode(
+        &self,
+        tessellation_partition_mode: MTLTessellationPartitionMode,
+    );
+
+    #[objc2::method(sel = "maxTessellationFactor")]
+    pub fn maxTessellationFactor(&self) -> NSUInteger;
+
+    #[objc2::method(sel = "setMaxTessellationFactor:")]
+    pub unsafe fn setMaxTessellationFactor(&self, max_tessellation_factor: NSUInteger);
+
+    #[objc2::method(sel = "isTessellationFactorScaleEnabled")]
+    pub fn isTessellationFactorScaleEnabled(&self) -> bool;
+
+    #[objc2::method(sel = "setTessellationFactorScaleEnabled:")]
+    pub fn setTessellationFactorScaleEnabled(&self, tessellation_factor_scale_enabled: bool);
+
+    #[objc2::method(sel = "tessellationFactorFormat")]
+    pub fn tessellationFactorFormat(&self) -> MTLTessellationFactorFormat;
+
+    #[objc2::method(sel = "setTessellationFactorFormat:")]
+    pub fn setTessellationFactorFormat(
+        &self,
+        tessellation_factor_format: MTLTessellationFactorFormat,
+    );
+
+    #[objc2::method(sel = "tessellationControlPointIndexType")]
+    pub fn tessellationControlPointIndexType(&self) -> MTLTessellationControlPointIndexType;
+
+    #[objc2::method(sel = "setTessellationControlPointIndexType:")]
+    pub unsafe fn setTessellationControlPointIndexType(
+        &self,
+        tessellation_control_point_index_type: MTLTessellationControlPointIndexType,
+    );
+
+    #[objc2::method(sel = "tessellationFactorStepFunction")]
+    pub fn tessellationFactorStepFunction(&self) -> MTLTessellationFactorStepFunction;
+
+    #[objc2::method(sel = "setTessellationFactorStepFunction:")]
+    pub fn setTessellationFactorStepFunction(
+        &self,
+        tessellation_factor_step_function: MTLTessellationFactorStepFunction,
+    );
+
+    #[objc2::method(sel = "tessellationOutputWindingOrder")]
+    pub fn tessellationOutputWindingOrder(&self) -> MTLWinding;
+
+    #[objc2::method(sel = "setTessellationOutputWindingOrder:")]
+    pub fn setTessellationOutputWindingOrder(&self, tessellation_output_winding_order: MTLWinding);
+
+    #[cfg(feature = "Metal_MTLPipelineBufferDescriptorArray")]
+    #[objc2::method(sel = "vertexBuffers", managed = "Other")]
+    pub fn vertexBuffers(&self) -> Id<MTLPipelineBufferDescriptorArray>;
+
+    #[cfg(feature = "Metal_MTLPipelineBufferDescriptorArray")]
+    #[objc2::method(sel = "fragmentBuffers", managed = "Other")]
+    pub fn fragmentBuffers(&self) -> Id<MTLPipelineBufferDescriptorArray>;
+
+    #[objc2::method(sel = "supportIndirectCommandBuffers")]
+    pub fn supportIndirectCommandBuffers(&self) -> bool;
+
+    #[objc2::method(sel = "setSupportIndirectCommandBuffers:")]
+    pub fn setSupportIndirectCommandBuffers(&self, support_indirect_command_buffers: bool);
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "binaryArchives", managed = "Other")]
+    pub fn binaryArchives(&self) -> Option<Id<NSArray<ProtocolObject<dyn MTLBinaryArchive>>>>;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setBinaryArchives:")]
+    pub fn setBinaryArchives(
+        &self,
+        binary_archives: Option<&NSArray<ProtocolObject<dyn MTLBinaryArchive>>>,
+    );
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "vertexPreloadedLibraries", managed = "Other")]
+    pub fn vertexPreloadedLibraries(&self) -> Id<NSArray<ProtocolObject<dyn MTLDynamicLibrary>>>;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setVertexPreloadedLibraries:")]
+    pub fn setVertexPreloadedLibraries(
+        &self,
+        vertex_preloaded_libraries: &NSArray<ProtocolObject<dyn MTLDynamicLibrary>>,
+    );
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "fragmentPreloadedLibraries", managed = "Other")]
+    pub fn fragmentPreloadedLibraries(&self) -> Id<NSArray<ProtocolObject<dyn MTLDynamicLibrary>>>;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setFragmentPreloadedLibraries:")]
+    pub fn setFragmentPreloadedLibraries(
+        &self,
+        fragment_preloaded_libraries: &NSArray<ProtocolObject<dyn MTLDynamicLibrary>>,
+    );
+
+    #[cfg(feature = "Metal_MTLLinkedFunctions")]
+    #[objc2::method(sel = "vertexLinkedFunctions", managed = "Other")]
+    pub fn vertexLinkedFunctions(&self) -> Id<MTLLinkedFunctions>;
+
+    #[cfg(feature = "Metal_MTLLinkedFunctions")]
+    #[objc2::method(sel = "setVertexLinkedFunctions:")]
+    pub fn setVertexLinkedFunctions(&self, vertex_linked_functions: Option<&MTLLinkedFunctions>);
+
+    #[cfg(feature = "Metal_MTLLinkedFunctions")]
+    #[objc2::method(sel = "fragmentLinkedFunctions", managed = "Other")]
+    pub fn fragmentLinkedFunctions(&self) -> Id<MTLLinkedFunctions>;
+
+    #[cfg(feature = "Metal_MTLLinkedFunctions")]
+    #[objc2::method(sel = "setFragmentLinkedFunctions:")]
+    pub fn setFragmentLinkedFunctions(
+        &self,
+        fragment_linked_functions: Option<&MTLLinkedFunctions>,
+    );
+
+    #[objc2::method(sel = "supportAddingVertexBinaryFunctions")]
+    pub fn supportAddingVertexBinaryFunctions(&self) -> bool;
+
+    #[objc2::method(sel = "setSupportAddingVertexBinaryFunctions:")]
+    pub fn setSupportAddingVertexBinaryFunctions(
+        &self,
+        support_adding_vertex_binary_functions: bool,
+    );
+
+    #[objc2::method(sel = "supportAddingFragmentBinaryFunctions")]
+    pub fn supportAddingFragmentBinaryFunctions(&self) -> bool;
+
+    #[objc2::method(sel = "setSupportAddingFragmentBinaryFunctions:")]
+    pub fn setSupportAddingFragmentBinaryFunctions(
+        &self,
+        support_adding_fragment_binary_functions: bool,
+    );
+
+    #[objc2::method(sel = "maxVertexCallStackDepth")]
+    pub fn maxVertexCallStackDepth(&self) -> NSUInteger;
+
+    #[objc2::method(sel = "setMaxVertexCallStackDepth:")]
+    pub fn setMaxVertexCallStackDepth(&self, max_vertex_call_stack_depth: NSUInteger);
+
+    #[objc2::method(sel = "maxFragmentCallStackDepth")]
+    pub fn maxFragmentCallStackDepth(&self) -> NSUInteger;
+
+    #[objc2::method(sel = "setMaxFragmentCallStackDepth:")]
+    pub fn setMaxFragmentCallStackDepth(&self, max_fragment_call_stack_depth: NSUInteger);
+
+    #[objc2::method(sel = "reset")]
+    pub fn reset(&self);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLRenderPipelineFunctionsDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLRenderPipelineFunctionsDescriptor")]
-    pub struct MTLRenderPipelineFunctionsDescriptor;
-
-    #[cfg(feature = "Metal_MTLRenderPipelineFunctionsDescriptor")]
-    unsafe impl ClassType for MTLRenderPipelineFunctionsDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLRenderPipelineFunctionsDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLRenderPipelineFunctionsDescriptor")]
 unsafe impl NSObjectProtocol for MTLRenderPipelineFunctionsDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRenderPipelineFunctionsDescriptor")]
-    unsafe impl MTLRenderPipelineFunctionsDescriptor {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other vertexAdditionalBinaryFunctions)]
-        pub unsafe fn vertexAdditionalBinaryFunctions(
-            &self,
-        ) -> Option<Id<NSArray<ProtocolObject<dyn MTLFunction>>>>;
+    pub type MTLRenderPipelineFunctionsDescriptor;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setVertexAdditionalBinaryFunctions:)]
-        pub unsafe fn setVertexAdditionalBinaryFunctions(
-            &self,
-            vertex_additional_binary_functions: Option<&NSArray<ProtocolObject<dyn MTLFunction>>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "vertexAdditionalBinaryFunctions", managed = "Other")]
+    pub unsafe fn vertexAdditionalBinaryFunctions(
+        &self,
+    ) -> Option<Id<NSArray<ProtocolObject<dyn MTLFunction>>>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other fragmentAdditionalBinaryFunctions)]
-        pub unsafe fn fragmentAdditionalBinaryFunctions(
-            &self,
-        ) -> Option<Id<NSArray<ProtocolObject<dyn MTLFunction>>>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setVertexAdditionalBinaryFunctions:")]
+    pub unsafe fn setVertexAdditionalBinaryFunctions(
+        &self,
+        vertex_additional_binary_functions: Option<&NSArray<ProtocolObject<dyn MTLFunction>>>,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setFragmentAdditionalBinaryFunctions:)]
-        pub unsafe fn setFragmentAdditionalBinaryFunctions(
-            &self,
-            fragment_additional_binary_functions: Option<&NSArray<ProtocolObject<dyn MTLFunction>>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "fragmentAdditionalBinaryFunctions", managed = "Other")]
+    pub unsafe fn fragmentAdditionalBinaryFunctions(
+        &self,
+    ) -> Option<Id<NSArray<ProtocolObject<dyn MTLFunction>>>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other tileAdditionalBinaryFunctions)]
-        pub unsafe fn tileAdditionalBinaryFunctions(
-            &self,
-        ) -> Option<Id<NSArray<ProtocolObject<dyn MTLFunction>>>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setFragmentAdditionalBinaryFunctions:")]
+    pub unsafe fn setFragmentAdditionalBinaryFunctions(
+        &self,
+        fragment_additional_binary_functions: Option<&NSArray<ProtocolObject<dyn MTLFunction>>>,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setTileAdditionalBinaryFunctions:)]
-        pub unsafe fn setTileAdditionalBinaryFunctions(
-            &self,
-            tile_additional_binary_functions: Option<&NSArray<ProtocolObject<dyn MTLFunction>>>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "tileAdditionalBinaryFunctions", managed = "Other")]
+    pub unsafe fn tileAdditionalBinaryFunctions(
+        &self,
+    ) -> Option<Id<NSArray<ProtocolObject<dyn MTLFunction>>>>;
 
-extern_protocol!(
-    pub unsafe trait MTLRenderPipelineState: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        unsafe fn label(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setTileAdditionalBinaryFunctions:")]
+    pub unsafe fn setTileAdditionalBinaryFunctions(
+        &self,
+        tile_additional_binary_functions: Option<&NSArray<ProtocolObject<dyn MTLFunction>>>,
+    );
+}
 
-        #[method_id(@__retain_semantics Other device)]
-        unsafe fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
+#[objc2::protocol]
+pub unsafe trait MTLRenderPipelineState: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    unsafe fn label(&self) -> Option<Id<NSString>>;
 
-        #[method(maxTotalThreadsPerThreadgroup)]
-        unsafe fn maxTotalThreadsPerThreadgroup(&self) -> NSUInteger;
+    #[objc2::method(sel = "device", managed = "Other")]
+    unsafe fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
 
-        #[method(threadgroupSizeMatchesTileSize)]
-        unsafe fn threadgroupSizeMatchesTileSize(&self) -> bool;
+    #[objc2::method(sel = "maxTotalThreadsPerThreadgroup")]
+    unsafe fn maxTotalThreadsPerThreadgroup(&self) -> NSUInteger;
 
-        #[method(imageblockSampleLength)]
-        unsafe fn imageblockSampleLength(&self) -> NSUInteger;
+    #[objc2::method(sel = "threadgroupSizeMatchesTileSize")]
+    unsafe fn threadgroupSizeMatchesTileSize(&self) -> bool;
 
-        #[method(imageblockMemoryLengthForDimensions:)]
-        unsafe fn imageblockMemoryLengthForDimensions(
-            &self,
-            imageblock_dimensions: MTLSize,
-        ) -> NSUInteger;
+    #[objc2::method(sel = "imageblockSampleLength")]
+    unsafe fn imageblockSampleLength(&self) -> NSUInteger;
 
-        #[method(supportIndirectCommandBuffers)]
-        unsafe fn supportIndirectCommandBuffers(&self) -> bool;
+    #[objc2::method(sel = "imageblockMemoryLengthForDimensions:")]
+    unsafe fn imageblockMemoryLengthForDimensions(
+        &self,
+        imageblock_dimensions: MTLSize,
+    ) -> NSUInteger;
 
-        #[method(maxTotalThreadsPerObjectThreadgroup)]
-        unsafe fn maxTotalThreadsPerObjectThreadgroup(&self) -> NSUInteger;
+    #[objc2::method(sel = "supportIndirectCommandBuffers")]
+    unsafe fn supportIndirectCommandBuffers(&self) -> bool;
 
-        #[method(maxTotalThreadsPerMeshThreadgroup)]
-        unsafe fn maxTotalThreadsPerMeshThreadgroup(&self) -> NSUInteger;
+    #[objc2::method(sel = "maxTotalThreadsPerObjectThreadgroup")]
+    unsafe fn maxTotalThreadsPerObjectThreadgroup(&self) -> NSUInteger;
 
-        #[method(objectThreadExecutionWidth)]
-        unsafe fn objectThreadExecutionWidth(&self) -> NSUInteger;
+    #[objc2::method(sel = "maxTotalThreadsPerMeshThreadgroup")]
+    unsafe fn maxTotalThreadsPerMeshThreadgroup(&self) -> NSUInteger;
 
-        #[method(meshThreadExecutionWidth)]
-        unsafe fn meshThreadExecutionWidth(&self) -> NSUInteger;
+    #[objc2::method(sel = "objectThreadExecutionWidth")]
+    unsafe fn objectThreadExecutionWidth(&self) -> NSUInteger;
 
-        #[method(maxTotalThreadgroupsPerMeshGrid)]
-        unsafe fn maxTotalThreadgroupsPerMeshGrid(&self) -> NSUInteger;
+    #[objc2::method(sel = "meshThreadExecutionWidth")]
+    unsafe fn meshThreadExecutionWidth(&self) -> NSUInteger;
 
-        #[method(gpuResourceID)]
-        unsafe fn gpuResourceID(&self) -> MTLResourceID;
+    #[objc2::method(sel = "maxTotalThreadgroupsPerMeshGrid")]
+    unsafe fn maxTotalThreadgroupsPerMeshGrid(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other functionHandleWithFunction:stage:)]
-        unsafe fn functionHandleWithFunction_stage(
-            &self,
-            function: &ProtocolObject<dyn MTLFunction>,
-            stage: MTLRenderStages,
-        ) -> Option<Id<ProtocolObject<dyn MTLFunctionHandle>>>;
+    #[objc2::method(sel = "gpuResourceID")]
+    unsafe fn gpuResourceID(&self) -> MTLResourceID;
 
-        #[cfg(feature = "Metal_MTLVisibleFunctionTableDescriptor")]
-        #[method_id(@__retain_semantics New newVisibleFunctionTableWithDescriptor:stage:)]
-        unsafe fn newVisibleFunctionTableWithDescriptor_stage(
-            &self,
-            descriptor: &MTLVisibleFunctionTableDescriptor,
-            stage: MTLRenderStages,
-        ) -> Option<Id<ProtocolObject<dyn MTLVisibleFunctionTable>>>;
+    #[objc2::method(sel = "functionHandleWithFunction:stage:", managed = "Other")]
+    unsafe fn functionHandleWithFunction_stage(
+        &self,
+        function: &ProtocolObject<dyn MTLFunction>,
+        stage: MTLRenderStages,
+    ) -> Option<Id<ProtocolObject<dyn MTLFunctionHandle>>>;
 
-        #[cfg(feature = "Metal_MTLIntersectionFunctionTableDescriptor")]
-        #[method_id(@__retain_semantics New newIntersectionFunctionTableWithDescriptor:stage:)]
-        unsafe fn newIntersectionFunctionTableWithDescriptor_stage(
-            &self,
-            descriptor: &MTLIntersectionFunctionTableDescriptor,
-            stage: MTLRenderStages,
-        ) -> Option<Id<ProtocolObject<dyn MTLIntersectionFunctionTable>>>;
+    #[cfg(feature = "Metal_MTLVisibleFunctionTableDescriptor")]
+    #[objc2::method(sel = "newVisibleFunctionTableWithDescriptor:stage:", managed = "New")]
+    unsafe fn newVisibleFunctionTableWithDescriptor_stage(
+        &self,
+        descriptor: &MTLVisibleFunctionTableDescriptor,
+        stage: MTLRenderStages,
+    ) -> Option<Id<ProtocolObject<dyn MTLVisibleFunctionTable>>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Metal_MTLRenderPipelineFunctionsDescriptor"
-        ))]
-        #[method_id(@__retain_semantics New newRenderPipelineStateWithAdditionalBinaryFunctions:error:_)]
-        unsafe fn newRenderPipelineStateWithAdditionalBinaryFunctions_error(
-            &self,
-            additional_binary_functions: &MTLRenderPipelineFunctionsDescriptor,
-        ) -> Result<Id<ProtocolObject<dyn MTLRenderPipelineState>>, Id<NSError>>;
-    }
+    #[cfg(feature = "Metal_MTLIntersectionFunctionTableDescriptor")]
+    #[objc2::method(
+        sel = "newIntersectionFunctionTableWithDescriptor:stage:",
+        managed = "New"
+    )]
+    unsafe fn newIntersectionFunctionTableWithDescriptor_stage(
+        &self,
+        descriptor: &MTLIntersectionFunctionTableDescriptor,
+        stage: MTLRenderStages,
+    ) -> Option<Id<ProtocolObject<dyn MTLIntersectionFunctionTable>>>;
 
-    unsafe impl ProtocolType for dyn MTLRenderPipelineState {}
-);
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Metal_MTLRenderPipelineFunctionsDescriptor"
+    ))]
+    #[objc2::method(
+        sel = "newRenderPipelineStateWithAdditionalBinaryFunctions:error:",
+        managed = "New",
+        throws
+    )]
+    unsafe fn newRenderPipelineStateWithAdditionalBinaryFunctions_error(
+        &self,
+        additional_binary_functions: &MTLRenderPipelineFunctionsDescriptor,
+    ) -> Result<Id<ProtocolObject<dyn MTLRenderPipelineState>>, Id<NSError>>;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptorArray")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptorArray")]
-    pub struct MTLRenderPipelineColorAttachmentDescriptorArray;
-
-    #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptorArray")]
-    unsafe impl ClassType for MTLRenderPipelineColorAttachmentDescriptorArray {
-        type Super = NSObject;
-    }
-);
+    pub type MTLRenderPipelineColorAttachmentDescriptorArray;
+}
 
 #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptorArray")]
 unsafe impl NSObjectProtocol for MTLRenderPipelineColorAttachmentDescriptorArray {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptorArray")]
-    unsafe impl MTLRenderPipelineColorAttachmentDescriptorArray {
-        #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptor")]
-        #[method_id(@__retain_semantics Other objectAtIndexedSubscript:)]
-        pub unsafe fn objectAtIndexedSubscript(
-            &self,
-            attachment_index: NSUInteger,
-        ) -> Id<MTLRenderPipelineColorAttachmentDescriptor>;
+    pub type MTLRenderPipelineColorAttachmentDescriptorArray;
 
-        #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptor")]
-        #[method(setObject:atIndexedSubscript:)]
-        pub unsafe fn setObject_atIndexedSubscript(
-            &self,
-            attachment: Option<&MTLRenderPipelineColorAttachmentDescriptor>,
-            attachment_index: NSUInteger,
-        );
-    }
-);
+    #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptor")]
+    #[objc2::method(sel = "objectAtIndexedSubscript:", managed = "Other")]
+    pub unsafe fn objectAtIndexedSubscript(
+        &self,
+        attachment_index: NSUInteger,
+    ) -> Id<MTLRenderPipelineColorAttachmentDescriptor>;
 
-extern_class!(
+    #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptor")]
+    #[objc2::method(sel = "setObject:atIndexedSubscript:")]
+    pub unsafe fn setObject_atIndexedSubscript(
+        &self,
+        attachment: Option<&MTLRenderPipelineColorAttachmentDescriptor>,
+        attachment_index: NSUInteger,
+    );
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLTileRenderPipelineColorAttachmentDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLTileRenderPipelineColorAttachmentDescriptor")]
-    pub struct MTLTileRenderPipelineColorAttachmentDescriptor;
-
-    #[cfg(feature = "Metal_MTLTileRenderPipelineColorAttachmentDescriptor")]
-    unsafe impl ClassType for MTLTileRenderPipelineColorAttachmentDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLTileRenderPipelineColorAttachmentDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLTileRenderPipelineColorAttachmentDescriptor")]
 unsafe impl NSObjectProtocol for MTLTileRenderPipelineColorAttachmentDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLTileRenderPipelineColorAttachmentDescriptor")]
-    unsafe impl MTLTileRenderPipelineColorAttachmentDescriptor {
-        #[method(pixelFormat)]
-        pub unsafe fn pixelFormat(&self) -> MTLPixelFormat;
+    pub type MTLTileRenderPipelineColorAttachmentDescriptor;
 
-        #[method(setPixelFormat:)]
-        pub unsafe fn setPixelFormat(&self, pixel_format: MTLPixelFormat);
-    }
-);
+    #[objc2::method(sel = "pixelFormat")]
+    pub unsafe fn pixelFormat(&self) -> MTLPixelFormat;
 
-extern_class!(
+    #[objc2::method(sel = "setPixelFormat:")]
+    pub unsafe fn setPixelFormat(&self, pixel_format: MTLPixelFormat);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLTileRenderPipelineColorAttachmentDescriptorArray")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLTileRenderPipelineColorAttachmentDescriptorArray")]
-    pub struct MTLTileRenderPipelineColorAttachmentDescriptorArray;
-
-    #[cfg(feature = "Metal_MTLTileRenderPipelineColorAttachmentDescriptorArray")]
-    unsafe impl ClassType for MTLTileRenderPipelineColorAttachmentDescriptorArray {
-        type Super = NSObject;
-    }
-);
+    pub type MTLTileRenderPipelineColorAttachmentDescriptorArray;
+}
 
 #[cfg(feature = "Metal_MTLTileRenderPipelineColorAttachmentDescriptorArray")]
 unsafe impl NSObjectProtocol for MTLTileRenderPipelineColorAttachmentDescriptorArray {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLTileRenderPipelineColorAttachmentDescriptorArray")]
-    unsafe impl MTLTileRenderPipelineColorAttachmentDescriptorArray {
-        #[cfg(feature = "Metal_MTLTileRenderPipelineColorAttachmentDescriptor")]
-        #[method_id(@__retain_semantics Other objectAtIndexedSubscript:)]
-        pub unsafe fn objectAtIndexedSubscript(
-            &self,
-            attachment_index: NSUInteger,
-        ) -> Id<MTLTileRenderPipelineColorAttachmentDescriptor>;
+    pub type MTLTileRenderPipelineColorAttachmentDescriptorArray;
 
-        #[cfg(feature = "Metal_MTLTileRenderPipelineColorAttachmentDescriptor")]
-        #[method(setObject:atIndexedSubscript:)]
-        pub unsafe fn setObject_atIndexedSubscript(
-            &self,
-            attachment: &MTLTileRenderPipelineColorAttachmentDescriptor,
-            attachment_index: NSUInteger,
-        );
-    }
-);
+    #[cfg(feature = "Metal_MTLTileRenderPipelineColorAttachmentDescriptor")]
+    #[objc2::method(sel = "objectAtIndexedSubscript:", managed = "Other")]
+    pub unsafe fn objectAtIndexedSubscript(
+        &self,
+        attachment_index: NSUInteger,
+    ) -> Id<MTLTileRenderPipelineColorAttachmentDescriptor>;
 
-extern_class!(
+    #[cfg(feature = "Metal_MTLTileRenderPipelineColorAttachmentDescriptor")]
+    #[objc2::method(sel = "setObject:atIndexedSubscript:")]
+    pub unsafe fn setObject_atIndexedSubscript(
+        &self,
+        attachment: &MTLTileRenderPipelineColorAttachmentDescriptor,
+        attachment_index: NSUInteger,
+    );
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLTileRenderPipelineDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLTileRenderPipelineDescriptor")]
-    pub struct MTLTileRenderPipelineDescriptor;
-
-    #[cfg(feature = "Metal_MTLTileRenderPipelineDescriptor")]
-    unsafe impl ClassType for MTLTileRenderPipelineDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLTileRenderPipelineDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLTileRenderPipelineDescriptor")]
 unsafe impl NSObjectProtocol for MTLTileRenderPipelineDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLTileRenderPipelineDescriptor")]
-    unsafe impl MTLTileRenderPipelineDescriptor {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        pub unsafe fn label(&self) -> Option<Id<NSString>>;
+    pub type MTLTileRenderPipelineDescriptor;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        pub unsafe fn setLabel(&self, label: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    pub unsafe fn label(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other tileFunction)]
-        pub unsafe fn tileFunction(&self) -> Id<ProtocolObject<dyn MTLFunction>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    pub unsafe fn setLabel(&self, label: Option<&NSString>);
 
-        #[method(setTileFunction:)]
-        pub unsafe fn setTileFunction(&self, tile_function: &ProtocolObject<dyn MTLFunction>);
+    #[objc2::method(sel = "tileFunction", managed = "Other")]
+    pub unsafe fn tileFunction(&self) -> Id<ProtocolObject<dyn MTLFunction>>;
 
-        #[method(rasterSampleCount)]
-        pub unsafe fn rasterSampleCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "setTileFunction:")]
+    pub unsafe fn setTileFunction(&self, tile_function: &ProtocolObject<dyn MTLFunction>);
 
-        #[method(setRasterSampleCount:)]
-        pub unsafe fn setRasterSampleCount(&self, raster_sample_count: NSUInteger);
+    #[objc2::method(sel = "rasterSampleCount")]
+    pub unsafe fn rasterSampleCount(&self) -> NSUInteger;
 
-        #[cfg(feature = "Metal_MTLTileRenderPipelineColorAttachmentDescriptorArray")]
-        #[method_id(@__retain_semantics Other colorAttachments)]
-        pub unsafe fn colorAttachments(
-            &self,
-        ) -> Id<MTLTileRenderPipelineColorAttachmentDescriptorArray>;
+    #[objc2::method(sel = "setRasterSampleCount:")]
+    pub unsafe fn setRasterSampleCount(&self, raster_sample_count: NSUInteger);
 
-        #[method(threadgroupSizeMatchesTileSize)]
-        pub unsafe fn threadgroupSizeMatchesTileSize(&self) -> bool;
+    #[cfg(feature = "Metal_MTLTileRenderPipelineColorAttachmentDescriptorArray")]
+    #[objc2::method(sel = "colorAttachments", managed = "Other")]
+    pub unsafe fn colorAttachments(
+        &self,
+    ) -> Id<MTLTileRenderPipelineColorAttachmentDescriptorArray>;
 
-        #[method(setThreadgroupSizeMatchesTileSize:)]
-        pub unsafe fn setThreadgroupSizeMatchesTileSize(
-            &self,
-            threadgroup_size_matches_tile_size: bool,
-        );
+    #[objc2::method(sel = "threadgroupSizeMatchesTileSize")]
+    pub unsafe fn threadgroupSizeMatchesTileSize(&self) -> bool;
 
-        #[cfg(feature = "Metal_MTLPipelineBufferDescriptorArray")]
-        #[method_id(@__retain_semantics Other tileBuffers)]
-        pub unsafe fn tileBuffers(&self) -> Id<MTLPipelineBufferDescriptorArray>;
+    #[objc2::method(sel = "setThreadgroupSizeMatchesTileSize:")]
+    pub unsafe fn setThreadgroupSizeMatchesTileSize(
+        &self,
+        threadgroup_size_matches_tile_size: bool,
+    );
 
-        #[method(maxTotalThreadsPerThreadgroup)]
-        pub unsafe fn maxTotalThreadsPerThreadgroup(&self) -> NSUInteger;
+    #[cfg(feature = "Metal_MTLPipelineBufferDescriptorArray")]
+    #[objc2::method(sel = "tileBuffers", managed = "Other")]
+    pub unsafe fn tileBuffers(&self) -> Id<MTLPipelineBufferDescriptorArray>;
 
-        #[method(setMaxTotalThreadsPerThreadgroup:)]
-        pub unsafe fn setMaxTotalThreadsPerThreadgroup(
-            &self,
-            max_total_threads_per_threadgroup: NSUInteger,
-        );
+    #[objc2::method(sel = "maxTotalThreadsPerThreadgroup")]
+    pub unsafe fn maxTotalThreadsPerThreadgroup(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other binaryArchives)]
-        pub unsafe fn binaryArchives(
-            &self,
-        ) -> Option<Id<NSArray<ProtocolObject<dyn MTLBinaryArchive>>>>;
+    #[objc2::method(sel = "setMaxTotalThreadsPerThreadgroup:")]
+    pub unsafe fn setMaxTotalThreadsPerThreadgroup(
+        &self,
+        max_total_threads_per_threadgroup: NSUInteger,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setBinaryArchives:)]
-        pub unsafe fn setBinaryArchives(
-            &self,
-            binary_archives: Option<&NSArray<ProtocolObject<dyn MTLBinaryArchive>>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "binaryArchives", managed = "Other")]
+    pub unsafe fn binaryArchives(
+        &self,
+    ) -> Option<Id<NSArray<ProtocolObject<dyn MTLBinaryArchive>>>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other preloadedLibraries)]
-        pub unsafe fn preloadedLibraries(
-            &self,
-        ) -> Id<NSArray<ProtocolObject<dyn MTLDynamicLibrary>>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setBinaryArchives:")]
+    pub unsafe fn setBinaryArchives(
+        &self,
+        binary_archives: Option<&NSArray<ProtocolObject<dyn MTLBinaryArchive>>>,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setPreloadedLibraries:)]
-        pub unsafe fn setPreloadedLibraries(
-            &self,
-            preloaded_libraries: &NSArray<ProtocolObject<dyn MTLDynamicLibrary>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "preloadedLibraries", managed = "Other")]
+    pub unsafe fn preloadedLibraries(&self) -> Id<NSArray<ProtocolObject<dyn MTLDynamicLibrary>>>;
 
-        #[cfg(feature = "Metal_MTLLinkedFunctions")]
-        #[method_id(@__retain_semantics Other linkedFunctions)]
-        pub unsafe fn linkedFunctions(&self) -> Id<MTLLinkedFunctions>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setPreloadedLibraries:")]
+    pub unsafe fn setPreloadedLibraries(
+        &self,
+        preloaded_libraries: &NSArray<ProtocolObject<dyn MTLDynamicLibrary>>,
+    );
 
-        #[cfg(feature = "Metal_MTLLinkedFunctions")]
-        #[method(setLinkedFunctions:)]
-        pub unsafe fn setLinkedFunctions(&self, linked_functions: Option<&MTLLinkedFunctions>);
+    #[cfg(feature = "Metal_MTLLinkedFunctions")]
+    #[objc2::method(sel = "linkedFunctions", managed = "Other")]
+    pub unsafe fn linkedFunctions(&self) -> Id<MTLLinkedFunctions>;
 
-        #[method(supportAddingBinaryFunctions)]
-        pub unsafe fn supportAddingBinaryFunctions(&self) -> bool;
+    #[cfg(feature = "Metal_MTLLinkedFunctions")]
+    #[objc2::method(sel = "setLinkedFunctions:")]
+    pub unsafe fn setLinkedFunctions(&self, linked_functions: Option<&MTLLinkedFunctions>);
 
-        #[method(setSupportAddingBinaryFunctions:)]
-        pub unsafe fn setSupportAddingBinaryFunctions(&self, support_adding_binary_functions: bool);
+    #[objc2::method(sel = "supportAddingBinaryFunctions")]
+    pub unsafe fn supportAddingBinaryFunctions(&self) -> bool;
 
-        #[method(maxCallStackDepth)]
-        pub unsafe fn maxCallStackDepth(&self) -> NSUInteger;
+    #[objc2::method(sel = "setSupportAddingBinaryFunctions:")]
+    pub unsafe fn setSupportAddingBinaryFunctions(&self, support_adding_binary_functions: bool);
 
-        #[method(setMaxCallStackDepth:)]
-        pub unsafe fn setMaxCallStackDepth(&self, max_call_stack_depth: NSUInteger);
+    #[objc2::method(sel = "maxCallStackDepth")]
+    pub unsafe fn maxCallStackDepth(&self) -> NSUInteger;
 
-        #[method(reset)]
-        pub unsafe fn reset(&self);
-    }
-);
+    #[objc2::method(sel = "setMaxCallStackDepth:")]
+    pub unsafe fn setMaxCallStackDepth(&self, max_call_stack_depth: NSUInteger);
 
-extern_class!(
+    #[objc2::method(sel = "reset")]
+    pub unsafe fn reset(&self);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLMeshRenderPipelineDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLMeshRenderPipelineDescriptor")]
-    pub struct MTLMeshRenderPipelineDescriptor;
-
-    #[cfg(feature = "Metal_MTLMeshRenderPipelineDescriptor")]
-    unsafe impl ClassType for MTLMeshRenderPipelineDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLMeshRenderPipelineDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLMeshRenderPipelineDescriptor")]
 unsafe impl NSObjectProtocol for MTLMeshRenderPipelineDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLMeshRenderPipelineDescriptor")]
-    unsafe impl MTLMeshRenderPipelineDescriptor {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        pub unsafe fn label(&self) -> Option<Id<NSString>>;
+    pub type MTLMeshRenderPipelineDescriptor;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        pub unsafe fn setLabel(&self, label: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    pub unsafe fn label(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other objectFunction)]
-        pub unsafe fn objectFunction(&self) -> Option<Id<ProtocolObject<dyn MTLFunction>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    pub unsafe fn setLabel(&self, label: Option<&NSString>);
 
-        #[method(setObjectFunction:)]
-        pub unsafe fn setObjectFunction(
-            &self,
-            object_function: Option<&ProtocolObject<dyn MTLFunction>>,
-        );
+    #[objc2::method(sel = "objectFunction", managed = "Other")]
+    pub unsafe fn objectFunction(&self) -> Option<Id<ProtocolObject<dyn MTLFunction>>>;
 
-        #[method_id(@__retain_semantics Other meshFunction)]
-        pub unsafe fn meshFunction(&self) -> Option<Id<ProtocolObject<dyn MTLFunction>>>;
+    #[objc2::method(sel = "setObjectFunction:")]
+    pub unsafe fn setObjectFunction(
+        &self,
+        object_function: Option<&ProtocolObject<dyn MTLFunction>>,
+    );
 
-        #[method(setMeshFunction:)]
-        pub unsafe fn setMeshFunction(
-            &self,
-            mesh_function: Option<&ProtocolObject<dyn MTLFunction>>,
-        );
+    #[objc2::method(sel = "meshFunction", managed = "Other")]
+    pub unsafe fn meshFunction(&self) -> Option<Id<ProtocolObject<dyn MTLFunction>>>;
 
-        #[method_id(@__retain_semantics Other fragmentFunction)]
-        pub unsafe fn fragmentFunction(&self) -> Option<Id<ProtocolObject<dyn MTLFunction>>>;
+    #[objc2::method(sel = "setMeshFunction:")]
+    pub unsafe fn setMeshFunction(&self, mesh_function: Option<&ProtocolObject<dyn MTLFunction>>);
 
-        #[method(setFragmentFunction:)]
-        pub unsafe fn setFragmentFunction(
-            &self,
-            fragment_function: Option<&ProtocolObject<dyn MTLFunction>>,
-        );
+    #[objc2::method(sel = "fragmentFunction", managed = "Other")]
+    pub unsafe fn fragmentFunction(&self) -> Option<Id<ProtocolObject<dyn MTLFunction>>>;
 
-        #[method(maxTotalThreadsPerObjectThreadgroup)]
-        pub unsafe fn maxTotalThreadsPerObjectThreadgroup(&self) -> NSUInteger;
+    #[objc2::method(sel = "setFragmentFunction:")]
+    pub unsafe fn setFragmentFunction(
+        &self,
+        fragment_function: Option<&ProtocolObject<dyn MTLFunction>>,
+    );
 
-        #[method(setMaxTotalThreadsPerObjectThreadgroup:)]
-        pub unsafe fn setMaxTotalThreadsPerObjectThreadgroup(
-            &self,
-            max_total_threads_per_object_threadgroup: NSUInteger,
-        );
+    #[objc2::method(sel = "maxTotalThreadsPerObjectThreadgroup")]
+    pub unsafe fn maxTotalThreadsPerObjectThreadgroup(&self) -> NSUInteger;
 
-        #[method(maxTotalThreadsPerMeshThreadgroup)]
-        pub unsafe fn maxTotalThreadsPerMeshThreadgroup(&self) -> NSUInteger;
+    #[objc2::method(sel = "setMaxTotalThreadsPerObjectThreadgroup:")]
+    pub unsafe fn setMaxTotalThreadsPerObjectThreadgroup(
+        &self,
+        max_total_threads_per_object_threadgroup: NSUInteger,
+    );
 
-        #[method(setMaxTotalThreadsPerMeshThreadgroup:)]
-        pub unsafe fn setMaxTotalThreadsPerMeshThreadgroup(
-            &self,
-            max_total_threads_per_mesh_threadgroup: NSUInteger,
-        );
+    #[objc2::method(sel = "maxTotalThreadsPerMeshThreadgroup")]
+    pub unsafe fn maxTotalThreadsPerMeshThreadgroup(&self) -> NSUInteger;
 
-        #[method(objectThreadgroupSizeIsMultipleOfThreadExecutionWidth)]
-        pub unsafe fn objectThreadgroupSizeIsMultipleOfThreadExecutionWidth(&self) -> bool;
+    #[objc2::method(sel = "setMaxTotalThreadsPerMeshThreadgroup:")]
+    pub unsafe fn setMaxTotalThreadsPerMeshThreadgroup(
+        &self,
+        max_total_threads_per_mesh_threadgroup: NSUInteger,
+    );
 
-        #[method(setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth:)]
-        pub unsafe fn setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth(
-            &self,
-            object_threadgroup_size_is_multiple_of_thread_execution_width: bool,
-        );
+    #[objc2::method(sel = "objectThreadgroupSizeIsMultipleOfThreadExecutionWidth")]
+    pub unsafe fn objectThreadgroupSizeIsMultipleOfThreadExecutionWidth(&self) -> bool;
 
-        #[method(meshThreadgroupSizeIsMultipleOfThreadExecutionWidth)]
-        pub unsafe fn meshThreadgroupSizeIsMultipleOfThreadExecutionWidth(&self) -> bool;
+    #[objc2::method(sel = "setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth:")]
+    pub unsafe fn setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth(
+        &self,
+        object_threadgroup_size_is_multiple_of_thread_execution_width: bool,
+    );
 
-        #[method(setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth:)]
-        pub unsafe fn setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth(
-            &self,
-            mesh_threadgroup_size_is_multiple_of_thread_execution_width: bool,
-        );
+    #[objc2::method(sel = "meshThreadgroupSizeIsMultipleOfThreadExecutionWidth")]
+    pub unsafe fn meshThreadgroupSizeIsMultipleOfThreadExecutionWidth(&self) -> bool;
 
-        #[method(payloadMemoryLength)]
-        pub unsafe fn payloadMemoryLength(&self) -> NSUInteger;
+    #[objc2::method(sel = "setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth:")]
+    pub unsafe fn setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth(
+        &self,
+        mesh_threadgroup_size_is_multiple_of_thread_execution_width: bool,
+    );
 
-        #[method(setPayloadMemoryLength:)]
-        pub unsafe fn setPayloadMemoryLength(&self, payload_memory_length: NSUInteger);
+    #[objc2::method(sel = "payloadMemoryLength")]
+    pub unsafe fn payloadMemoryLength(&self) -> NSUInteger;
 
-        #[method(maxTotalThreadgroupsPerMeshGrid)]
-        pub unsafe fn maxTotalThreadgroupsPerMeshGrid(&self) -> NSUInteger;
+    #[objc2::method(sel = "setPayloadMemoryLength:")]
+    pub unsafe fn setPayloadMemoryLength(&self, payload_memory_length: NSUInteger);
 
-        #[method(setMaxTotalThreadgroupsPerMeshGrid:)]
-        pub unsafe fn setMaxTotalThreadgroupsPerMeshGrid(
-            &self,
-            max_total_threadgroups_per_mesh_grid: NSUInteger,
-        );
+    #[objc2::method(sel = "maxTotalThreadgroupsPerMeshGrid")]
+    pub unsafe fn maxTotalThreadgroupsPerMeshGrid(&self) -> NSUInteger;
 
-        #[cfg(feature = "Metal_MTLPipelineBufferDescriptorArray")]
-        #[method_id(@__retain_semantics Other objectBuffers)]
-        pub unsafe fn objectBuffers(&self) -> Id<MTLPipelineBufferDescriptorArray>;
+    #[objc2::method(sel = "setMaxTotalThreadgroupsPerMeshGrid:")]
+    pub unsafe fn setMaxTotalThreadgroupsPerMeshGrid(
+        &self,
+        max_total_threadgroups_per_mesh_grid: NSUInteger,
+    );
 
-        #[cfg(feature = "Metal_MTLPipelineBufferDescriptorArray")]
-        #[method_id(@__retain_semantics Other meshBuffers)]
-        pub unsafe fn meshBuffers(&self) -> Id<MTLPipelineBufferDescriptorArray>;
+    #[cfg(feature = "Metal_MTLPipelineBufferDescriptorArray")]
+    #[objc2::method(sel = "objectBuffers", managed = "Other")]
+    pub unsafe fn objectBuffers(&self) -> Id<MTLPipelineBufferDescriptorArray>;
 
-        #[cfg(feature = "Metal_MTLPipelineBufferDescriptorArray")]
-        #[method_id(@__retain_semantics Other fragmentBuffers)]
-        pub unsafe fn fragmentBuffers(&self) -> Id<MTLPipelineBufferDescriptorArray>;
+    #[cfg(feature = "Metal_MTLPipelineBufferDescriptorArray")]
+    #[objc2::method(sel = "meshBuffers", managed = "Other")]
+    pub unsafe fn meshBuffers(&self) -> Id<MTLPipelineBufferDescriptorArray>;
 
-        #[method(rasterSampleCount)]
-        pub unsafe fn rasterSampleCount(&self) -> NSUInteger;
+    #[cfg(feature = "Metal_MTLPipelineBufferDescriptorArray")]
+    #[objc2::method(sel = "fragmentBuffers", managed = "Other")]
+    pub unsafe fn fragmentBuffers(&self) -> Id<MTLPipelineBufferDescriptorArray>;
 
-        #[method(setRasterSampleCount:)]
-        pub unsafe fn setRasterSampleCount(&self, raster_sample_count: NSUInteger);
+    #[objc2::method(sel = "rasterSampleCount")]
+    pub unsafe fn rasterSampleCount(&self) -> NSUInteger;
 
-        #[method(isAlphaToCoverageEnabled)]
-        pub unsafe fn isAlphaToCoverageEnabled(&self) -> bool;
+    #[objc2::method(sel = "setRasterSampleCount:")]
+    pub unsafe fn setRasterSampleCount(&self, raster_sample_count: NSUInteger);
 
-        #[method(setAlphaToCoverageEnabled:)]
-        pub unsafe fn setAlphaToCoverageEnabled(&self, alpha_to_coverage_enabled: bool);
+    #[objc2::method(sel = "isAlphaToCoverageEnabled")]
+    pub unsafe fn isAlphaToCoverageEnabled(&self) -> bool;
 
-        #[method(isAlphaToOneEnabled)]
-        pub unsafe fn isAlphaToOneEnabled(&self) -> bool;
+    #[objc2::method(sel = "setAlphaToCoverageEnabled:")]
+    pub unsafe fn setAlphaToCoverageEnabled(&self, alpha_to_coverage_enabled: bool);
 
-        #[method(setAlphaToOneEnabled:)]
-        pub unsafe fn setAlphaToOneEnabled(&self, alpha_to_one_enabled: bool);
+    #[objc2::method(sel = "isAlphaToOneEnabled")]
+    pub unsafe fn isAlphaToOneEnabled(&self) -> bool;
 
-        #[method(isRasterizationEnabled)]
-        pub unsafe fn isRasterizationEnabled(&self) -> bool;
+    #[objc2::method(sel = "setAlphaToOneEnabled:")]
+    pub unsafe fn setAlphaToOneEnabled(&self, alpha_to_one_enabled: bool);
 
-        #[method(setRasterizationEnabled:)]
-        pub unsafe fn setRasterizationEnabled(&self, rasterization_enabled: bool);
+    #[objc2::method(sel = "isRasterizationEnabled")]
+    pub unsafe fn isRasterizationEnabled(&self) -> bool;
 
-        #[method(maxVertexAmplificationCount)]
-        pub unsafe fn maxVertexAmplificationCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "setRasterizationEnabled:")]
+    pub unsafe fn setRasterizationEnabled(&self, rasterization_enabled: bool);
 
-        #[method(setMaxVertexAmplificationCount:)]
-        pub unsafe fn setMaxVertexAmplificationCount(
-            &self,
-            max_vertex_amplification_count: NSUInteger,
-        );
+    #[objc2::method(sel = "maxVertexAmplificationCount")]
+    pub unsafe fn maxVertexAmplificationCount(&self) -> NSUInteger;
 
-        #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptorArray")]
-        #[method_id(@__retain_semantics Other colorAttachments)]
-        pub unsafe fn colorAttachments(
-            &self,
-        ) -> Id<MTLRenderPipelineColorAttachmentDescriptorArray>;
+    #[objc2::method(sel = "setMaxVertexAmplificationCount:")]
+    pub unsafe fn setMaxVertexAmplificationCount(&self, max_vertex_amplification_count: NSUInteger);
 
-        #[method(depthAttachmentPixelFormat)]
-        pub unsafe fn depthAttachmentPixelFormat(&self) -> MTLPixelFormat;
+    #[cfg(feature = "Metal_MTLRenderPipelineColorAttachmentDescriptorArray")]
+    #[objc2::method(sel = "colorAttachments", managed = "Other")]
+    pub unsafe fn colorAttachments(&self) -> Id<MTLRenderPipelineColorAttachmentDescriptorArray>;
 
-        #[method(setDepthAttachmentPixelFormat:)]
-        pub unsafe fn setDepthAttachmentPixelFormat(
-            &self,
-            depth_attachment_pixel_format: MTLPixelFormat,
-        );
+    #[objc2::method(sel = "depthAttachmentPixelFormat")]
+    pub unsafe fn depthAttachmentPixelFormat(&self) -> MTLPixelFormat;
 
-        #[method(stencilAttachmentPixelFormat)]
-        pub unsafe fn stencilAttachmentPixelFormat(&self) -> MTLPixelFormat;
+    #[objc2::method(sel = "setDepthAttachmentPixelFormat:")]
+    pub unsafe fn setDepthAttachmentPixelFormat(
+        &self,
+        depth_attachment_pixel_format: MTLPixelFormat,
+    );
 
-        #[method(setStencilAttachmentPixelFormat:)]
-        pub unsafe fn setStencilAttachmentPixelFormat(
-            &self,
-            stencil_attachment_pixel_format: MTLPixelFormat,
-        );
+    #[objc2::method(sel = "stencilAttachmentPixelFormat")]
+    pub unsafe fn stencilAttachmentPixelFormat(&self) -> MTLPixelFormat;
 
-        #[method(reset)]
-        pub unsafe fn reset(&self);
-    }
-);
+    #[objc2::method(sel = "setStencilAttachmentPixelFormat:")]
+    pub unsafe fn setStencilAttachmentPixelFormat(
+        &self,
+        stencil_attachment_pixel_format: MTLPixelFormat,
+    );
+
+    #[objc2::method(sel = "reset")]
+    pub unsafe fn reset(&self);
+}

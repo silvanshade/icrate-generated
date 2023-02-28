@@ -5,41 +5,44 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKSnapshotConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKSnapshotConfiguration")]
-    pub struct WKSnapshotConfiguration;
-
-    #[cfg(feature = "WebKit_WKSnapshotConfiguration")]
-    unsafe impl ClassType for WKSnapshotConfiguration {
-        type Super = NSObject;
-    }
-);
+    pub type WKSnapshotConfiguration;
+}
 
 #[cfg(feature = "WebKit_WKSnapshotConfiguration")]
 unsafe impl NSObjectProtocol for WKSnapshotConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKSnapshotConfiguration")]
-    unsafe impl WKSnapshotConfiguration {
-        #[method(rect)]
-        pub unsafe fn rect(&self) -> CGRect;
+    pub type WKSnapshotConfiguration;
 
-        #[method(setRect:)]
-        pub unsafe fn setRect(&self, rect: CGRect);
+    #[objc2::method(sel = "rect")]
+    pub unsafe fn rect(&self) -> CGRect;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other snapshotWidth)]
-        pub unsafe fn snapshotWidth(&self) -> Option<Id<NSNumber>>;
+    #[objc2::method(sel = "setRect:")]
+    pub unsafe fn setRect(&self, rect: CGRect);
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method(setSnapshotWidth:)]
-        pub unsafe fn setSnapshotWidth(&self, snapshot_width: Option<&NSNumber>);
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "snapshotWidth", managed = "Other")]
+    pub unsafe fn snapshotWidth(&self) -> Option<Id<NSNumber>>;
 
-        #[method(afterScreenUpdates)]
-        pub unsafe fn afterScreenUpdates(&self) -> bool;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "setSnapshotWidth:")]
+    pub unsafe fn setSnapshotWidth(&self, snapshot_width: Option<&NSNumber>);
 
-        #[method(setAfterScreenUpdates:)]
-        pub unsafe fn setAfterScreenUpdates(&self, after_screen_updates: bool);
-    }
-);
+    #[objc2::method(sel = "afterScreenUpdates")]
+    pub unsafe fn afterScreenUpdates(&self) -> bool;
+
+    #[objc2::method(sel = "setAfterScreenUpdates:")]
+    pub unsafe fn setAfterScreenUpdates(&self, after_screen_updates: bool);
+}

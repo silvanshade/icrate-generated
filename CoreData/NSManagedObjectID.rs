@@ -4,36 +4,39 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSManagedObjectID")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSManagedObjectID")]
-    pub struct NSManagedObjectID;
-
-    #[cfg(feature = "CoreData_NSManagedObjectID")]
-    unsafe impl ClassType for NSManagedObjectID {
-        type Super = NSObject;
-    }
-);
+    pub type NSManagedObjectID;
+}
 
 #[cfg(feature = "CoreData_NSManagedObjectID")]
 unsafe impl NSObjectProtocol for NSManagedObjectID {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSManagedObjectID")]
-    unsafe impl NSManagedObjectID {
-        #[cfg(feature = "CoreData_NSEntityDescription")]
-        #[method_id(@__retain_semantics Other entity)]
-        pub unsafe fn entity(&self) -> Id<NSEntityDescription>;
+    pub type NSManagedObjectID;
 
-        #[cfg(feature = "CoreData_NSPersistentStore")]
-        #[method_id(@__retain_semantics Other persistentStore)]
-        pub unsafe fn persistentStore(&self) -> Option<Id<NSPersistentStore>>;
+    #[cfg(feature = "CoreData_NSEntityDescription")]
+    #[objc2::method(sel = "entity", managed = "Other")]
+    pub unsafe fn entity(&self) -> Id<NSEntityDescription>;
 
-        #[method(isTemporaryID)]
-        pub unsafe fn isTemporaryID(&self) -> bool;
+    #[cfg(feature = "CoreData_NSPersistentStore")]
+    #[objc2::method(sel = "persistentStore", managed = "Other")]
+    pub unsafe fn persistentStore(&self) -> Option<Id<NSPersistentStore>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URIRepresentation)]
-        pub unsafe fn URIRepresentation(&self) -> Id<NSURL>;
-    }
-);
+    #[objc2::method(sel = "isTemporaryID")]
+    pub unsafe fn isTemporaryID(&self) -> bool;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URIRepresentation", managed = "Other")]
+    pub unsafe fn URIRepresentation(&self) -> Id<NSURL>;
+}

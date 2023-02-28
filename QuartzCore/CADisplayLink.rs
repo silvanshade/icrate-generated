@@ -4,78 +4,75 @@ use crate::common::*;
 use crate::CoreAnimation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CADisplayLink")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CADisplayLink")]
-    pub struct CADisplayLink;
-
-    #[cfg(feature = "CoreAnimation_CADisplayLink")]
-    unsafe impl ClassType for CADisplayLink {
-        type Super = NSObject;
-    }
-);
+    pub type CADisplayLink;
+}
 
 #[cfg(feature = "CoreAnimation_CADisplayLink")]
 unsafe impl NSObjectProtocol for CADisplayLink {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CADisplayLink")]
-    unsafe impl CADisplayLink {
-        #[method_id(@__retain_semantics Other displayLinkWithTarget:selector:)]
-        pub unsafe fn displayLinkWithTarget_selector(
-            target: &Object,
-            sel: Sel,
-        ) -> Id<CADisplayLink>;
+    pub type CADisplayLink;
 
-        #[cfg(feature = "Foundation_NSRunLoop")]
-        #[method(addToRunLoop:forMode:)]
-        pub unsafe fn addToRunLoop_forMode(&self, runloop: &NSRunLoop, mode: &NSRunLoopMode);
+    #[objc2::method(sel = "displayLinkWithTarget:selector:", managed = "Other")]
+    pub unsafe fn displayLinkWithTarget_selector(target: &Object, sel: Sel) -> Id<CADisplayLink>;
 
-        #[cfg(feature = "Foundation_NSRunLoop")]
-        #[method(removeFromRunLoop:forMode:)]
-        pub unsafe fn removeFromRunLoop_forMode(&self, runloop: &NSRunLoop, mode: &NSRunLoopMode);
+    #[cfg(feature = "Foundation_NSRunLoop")]
+    #[objc2::method(sel = "addToRunLoop:forMode:")]
+    pub unsafe fn addToRunLoop_forMode(&self, runloop: &NSRunLoop, mode: &NSRunLoopMode);
 
-        #[method(invalidate)]
-        pub unsafe fn invalidate(&self);
+    #[cfg(feature = "Foundation_NSRunLoop")]
+    #[objc2::method(sel = "removeFromRunLoop:forMode:")]
+    pub unsafe fn removeFromRunLoop_forMode(&self, runloop: &NSRunLoop, mode: &NSRunLoopMode);
 
-        #[method(timestamp)]
-        pub unsafe fn timestamp(&self) -> CFTimeInterval;
+    #[objc2::method(sel = "invalidate")]
+    pub unsafe fn invalidate(&self);
 
-        #[method(duration)]
-        pub unsafe fn duration(&self) -> CFTimeInterval;
+    #[objc2::method(sel = "timestamp")]
+    pub unsafe fn timestamp(&self) -> CFTimeInterval;
 
-        #[method(targetTimestamp)]
-        pub unsafe fn targetTimestamp(&self) -> CFTimeInterval;
+    #[objc2::method(sel = "duration")]
+    pub unsafe fn duration(&self) -> CFTimeInterval;
 
-        #[method(isPaused)]
-        pub unsafe fn isPaused(&self) -> bool;
+    #[objc2::method(sel = "targetTimestamp")]
+    pub unsafe fn targetTimestamp(&self) -> CFTimeInterval;
 
-        #[method(setPaused:)]
-        pub unsafe fn setPaused(&self, paused: bool);
+    #[objc2::method(sel = "isPaused")]
+    pub unsafe fn isPaused(&self) -> bool;
 
-        #[deprecated = "preferredFramesPerSecond"]
-        #[method(frameInterval)]
-        pub unsafe fn frameInterval(&self) -> NSInteger;
+    #[objc2::method(sel = "setPaused:")]
+    pub unsafe fn setPaused(&self, paused: bool);
 
-        #[deprecated = "preferredFramesPerSecond"]
-        #[method(setFrameInterval:)]
-        pub unsafe fn setFrameInterval(&self, frame_interval: NSInteger);
+    #[deprecated = "preferredFramesPerSecond"]
+    #[objc2::method(sel = "frameInterval")]
+    pub unsafe fn frameInterval(&self) -> NSInteger;
 
-        #[deprecated]
-        #[method(preferredFramesPerSecond)]
-        pub unsafe fn preferredFramesPerSecond(&self) -> NSInteger;
+    #[deprecated = "preferredFramesPerSecond"]
+    #[objc2::method(sel = "setFrameInterval:")]
+    pub unsafe fn setFrameInterval(&self, frame_interval: NSInteger);
 
-        #[deprecated]
-        #[method(setPreferredFramesPerSecond:)]
-        pub unsafe fn setPreferredFramesPerSecond(&self, preferred_frames_per_second: NSInteger);
+    #[deprecated]
+    #[objc2::method(sel = "preferredFramesPerSecond")]
+    pub unsafe fn preferredFramesPerSecond(&self) -> NSInteger;
 
-        #[method(preferredFrameRateRange)]
-        pub unsafe fn preferredFrameRateRange(&self) -> CAFrameRateRange;
+    #[deprecated]
+    #[objc2::method(sel = "setPreferredFramesPerSecond:")]
+    pub unsafe fn setPreferredFramesPerSecond(&self, preferred_frames_per_second: NSInteger);
 
-        #[method(setPreferredFrameRateRange:)]
-        pub unsafe fn setPreferredFrameRateRange(
-            &self,
-            preferred_frame_rate_range: CAFrameRateRange,
-        );
-    }
-);
+    #[objc2::method(sel = "preferredFrameRateRange")]
+    pub unsafe fn preferredFrameRateRange(&self) -> CAFrameRateRange;
+
+    #[objc2::method(sel = "setPreferredFrameRateRange:")]
+    pub unsafe fn setPreferredFrameRateRange(&self, preferred_frame_rate_range: CAFrameRateRange);
+}

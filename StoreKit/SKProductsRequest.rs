@@ -5,82 +5,85 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::StoreKit::*;
 
-extern_protocol!(
-    pub unsafe trait SKProductsRequestDelegate: SKRequestDelegate {
-        #[cfg(all(
-            feature = "StoreKit_SKProductsRequest",
-            feature = "StoreKit_SKProductsResponse"
-        ))]
-        #[method(productsRequest:didReceiveResponse:)]
-        unsafe fn productsRequest_didReceiveResponse(
-            &self,
-            request: &SKProductsRequest,
-            response: &SKProductsResponse,
-        );
-    }
+#[objc2::protocol]
+pub unsafe trait SKProductsRequestDelegate: SKRequestDelegate {
+    #[cfg(all(
+        feature = "StoreKit_SKProductsRequest",
+        feature = "StoreKit_SKProductsResponse"
+    ))]
+    #[objc2::method(sel = "productsRequest:didReceiveResponse:")]
+    unsafe fn productsRequest_didReceiveResponse(
+        &self,
+        request: &SKProductsRequest,
+        response: &SKProductsResponse,
+    );
+}
 
-    unsafe impl ProtocolType for dyn SKProductsRequestDelegate {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = SKRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKProductsRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKProductsRequest")]
-    pub struct SKProductsRequest;
-
-    #[cfg(feature = "StoreKit_SKProductsRequest")]
-    unsafe impl ClassType for SKProductsRequest {
-        #[inherits(NSObject)]
-        type Super = SKRequest;
-    }
-);
+    pub type SKProductsRequest;
+}
 
 #[cfg(feature = "StoreKit_SKProductsRequest")]
 unsafe impl NSObjectProtocol for SKProductsRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKProductsRequest")]
-    unsafe impl SKProductsRequest {
-        #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithProductIdentifiers:)]
-        pub unsafe fn initWithProductIdentifiers(
-            this: Option<Allocated<Self>>,
-            product_identifiers: &NSSet<NSString>,
-        ) -> Id<Self>;
+    pub type SKProductsRequest;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn SKProductsRequestDelegate>>>;
+    #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithProductIdentifiers:", managed = "Init")]
+    pub unsafe fn initWithProductIdentifiers(
+        this: Option<Allocated<Self>>,
+        product_identifiers: &NSSet<NSString>,
+    ) -> Id<Self>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn SKProductsRequestDelegate>>,
-        );
-    }
-);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn SKProductsRequestDelegate>>>;
 
-extern_class!(
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn SKProductsRequestDelegate>>,
+    );
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKProductsResponse")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKProductsResponse")]
-    pub struct SKProductsResponse;
-
-    #[cfg(feature = "StoreKit_SKProductsResponse")]
-    unsafe impl ClassType for SKProductsResponse {
-        type Super = NSObject;
-    }
-);
+    pub type SKProductsResponse;
+}
 
 #[cfg(feature = "StoreKit_SKProductsResponse")]
 unsafe impl NSObjectProtocol for SKProductsResponse {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKProductsResponse")]
-    unsafe impl SKProductsResponse {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "StoreKit_SKProduct"))]
-        #[method_id(@__retain_semantics Other products)]
-        pub unsafe fn products(&self) -> Id<NSArray<SKProduct>>;
+    pub type SKProductsResponse;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other invalidProductIdentifiers)]
-        pub unsafe fn invalidProductIdentifiers(&self) -> Id<NSArray<NSString>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "StoreKit_SKProduct"))]
+    #[objc2::method(sel = "products", managed = "Other")]
+    pub unsafe fn products(&self) -> Id<NSArray<SKProduct>>;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "invalidProductIdentifiers", managed = "Other")]
+    pub unsafe fn invalidProductIdentifiers(&self) -> Id<NSArray<NSString>>;
+}

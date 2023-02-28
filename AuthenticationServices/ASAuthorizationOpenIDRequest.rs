@@ -16,17 +16,17 @@ extern_static!(ASAuthorizationOperationRefresh: &'static ASAuthorizationOpenIDOp
 
 extern_static!(ASAuthorizationOperationLogout: &'static ASAuthorizationOpenIDOperation);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = ASAuthorizationRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationOpenIDRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationOpenIDRequest")]
-    pub struct ASAuthorizationOpenIDRequest;
-
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationOpenIDRequest")]
-    unsafe impl ClassType for ASAuthorizationOpenIDRequest {
-        #[inherits(NSObject)]
-        type Super = ASAuthorizationRequest;
-    }
-);
+    pub type ASAuthorizationOpenIDRequest;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationOpenIDRequest")]
 unsafe impl NSCoding for ASAuthorizationOpenIDRequest {}
@@ -37,43 +37,46 @@ unsafe impl NSObjectProtocol for ASAuthorizationOpenIDRequest {}
 #[cfg(feature = "AuthenticationServices_ASAuthorizationOpenIDRequest")]
 unsafe impl NSSecureCoding for ASAuthorizationOpenIDRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAuthorizationOpenIDRequest")]
-    unsafe impl ASAuthorizationOpenIDRequest {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other requestedScopes)]
-        pub unsafe fn requestedScopes(&self) -> Option<Id<NSArray<ASAuthorizationScope>>>;
+    pub type ASAuthorizationOpenIDRequest;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setRequestedScopes:)]
-        pub unsafe fn setRequestedScopes(
-            &self,
-            requested_scopes: Option<&NSArray<ASAuthorizationScope>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "requestedScopes", managed = "Other")]
+    pub unsafe fn requestedScopes(&self) -> Option<Id<NSArray<ASAuthorizationScope>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other state)]
-        pub unsafe fn state(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setRequestedScopes:")]
+    pub unsafe fn setRequestedScopes(
+        &self,
+        requested_scopes: Option<&NSArray<ASAuthorizationScope>>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setState:)]
-        pub unsafe fn setState(&self, state: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "state", managed = "Other")]
+    pub unsafe fn state(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other nonce)]
-        pub unsafe fn nonce(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setState:")]
+    pub unsafe fn setState(&self, state: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setNonce:)]
-        pub unsafe fn setNonce(&self, nonce: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "nonce", managed = "Other")]
+    pub unsafe fn nonce(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other requestedOperation)]
-        pub unsafe fn requestedOperation(&self) -> Id<ASAuthorizationOpenIDOperation>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setNonce:")]
+    pub unsafe fn setNonce(&self, nonce: Option<&NSString>);
 
-        #[method(setRequestedOperation:)]
-        pub unsafe fn setRequestedOperation(
-            &self,
-            requested_operation: &ASAuthorizationOpenIDOperation,
-        );
-    }
-);
+    #[objc2::method(sel = "requestedOperation", managed = "Other")]
+    pub unsafe fn requestedOperation(&self) -> Id<ASAuthorizationOpenIDOperation>;
+
+    #[objc2::method(sel = "setRequestedOperation:")]
+    pub unsafe fn setRequestedOperation(
+        &self,
+        requested_operation: &ASAuthorizationOpenIDOperation,
+    );
+}

@@ -3,33 +3,32 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSAppleEventSendOptions {
-        NSAppleEventSendNoReply = 1,
-        NSAppleEventSendQueueReply = 2,
-        NSAppleEventSendWaitForReply = 3,
-        NSAppleEventSendNeverInteract = 16,
-        NSAppleEventSendCanInteract = 32,
-        NSAppleEventSendAlwaysInteract = 48,
-        NSAppleEventSendCanSwitchLayer = 64,
-        NSAppleEventSendDontRecord = 4096,
-        NSAppleEventSendDontExecute = 8192,
-        NSAppleEventSendDontAnnotate = 65536,
-        NSAppleEventSendDefaultOptions = 35,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSAppleEventSendOptions {
+    NSAppleEventSendNoReply = 1,
+    NSAppleEventSendQueueReply = 2,
+    NSAppleEventSendWaitForReply = 3,
+    NSAppleEventSendNeverInteract = 16,
+    NSAppleEventSendCanInteract = 32,
+    NSAppleEventSendAlwaysInteract = 48,
+    NSAppleEventSendCanSwitchLayer = 64,
+    NSAppleEventSendDontRecord = 4096,
+    NSAppleEventSendDontExecute = 8192,
+    NSAppleEventSendDontAnnotate = 65536,
+    NSAppleEventSendDefaultOptions = 35,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
-    pub struct NSAppleEventDescriptor;
-
-    #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
-    unsafe impl ClassType for NSAppleEventDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type NSAppleEventDescriptor;
+}
 
 #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
 unsafe impl NSCoding for NSAppleEventDescriptor {}
@@ -40,117 +39,117 @@ unsafe impl NSObjectProtocol for NSAppleEventDescriptor {}
 #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
 unsafe impl NSSecureCoding for NSAppleEventDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
-    unsafe impl NSAppleEventDescriptor {
-        #[method_id(@__retain_semantics Other nullDescriptor)]
-        pub unsafe fn nullDescriptor() -> Id<NSAppleEventDescriptor>;
+    pub type NSAppleEventDescriptor;
 
-        #[method_id(@__retain_semantics Other descriptorWithBoolean:)]
-        pub unsafe fn descriptorWithBoolean(boolean: Boolean) -> Id<NSAppleEventDescriptor>;
+    #[objc2::method(sel = "nullDescriptor", managed = "Other")]
+    pub unsafe fn nullDescriptor() -> Id<NSAppleEventDescriptor>;
 
-        #[method_id(@__retain_semantics Other descriptorWithEnumCode:)]
-        pub unsafe fn descriptorWithEnumCode(enumerator: OSType) -> Id<NSAppleEventDescriptor>;
+    #[objc2::method(sel = "descriptorWithBoolean:", managed = "Other")]
+    pub unsafe fn descriptorWithBoolean(boolean: Boolean) -> Id<NSAppleEventDescriptor>;
 
-        #[method_id(@__retain_semantics Other descriptorWithInt32:)]
-        pub unsafe fn descriptorWithInt32(signed_int: i32) -> Id<NSAppleEventDescriptor>;
+    #[objc2::method(sel = "descriptorWithEnumCode:", managed = "Other")]
+    pub unsafe fn descriptorWithEnumCode(enumerator: OSType) -> Id<NSAppleEventDescriptor>;
 
-        #[method_id(@__retain_semantics Other descriptorWithDouble:)]
-        pub unsafe fn descriptorWithDouble(double_value: c_double) -> Id<NSAppleEventDescriptor>;
+    #[objc2::method(sel = "descriptorWithInt32:", managed = "Other")]
+    pub unsafe fn descriptorWithInt32(signed_int: i32) -> Id<NSAppleEventDescriptor>;
 
-        #[method_id(@__retain_semantics Other descriptorWithTypeCode:)]
-        pub unsafe fn descriptorWithTypeCode(type_code: OSType) -> Id<NSAppleEventDescriptor>;
+    #[objc2::method(sel = "descriptorWithDouble:", managed = "Other")]
+    pub unsafe fn descriptorWithDouble(double_value: c_double) -> Id<NSAppleEventDescriptor>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other descriptorWithString:)]
-        pub unsafe fn descriptorWithString(string: &NSString) -> Id<NSAppleEventDescriptor>;
+    #[objc2::method(sel = "descriptorWithTypeCode:", managed = "Other")]
+    pub unsafe fn descriptorWithTypeCode(type_code: OSType) -> Id<NSAppleEventDescriptor>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other descriptorWithDate:)]
-        pub unsafe fn descriptorWithDate(date: &NSDate) -> Id<NSAppleEventDescriptor>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "descriptorWithString:", managed = "Other")]
+    pub unsafe fn descriptorWithString(string: &NSString) -> Id<NSAppleEventDescriptor>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other descriptorWithFileURL:)]
-        pub unsafe fn descriptorWithFileURL(file_url: &NSURL) -> Id<NSAppleEventDescriptor>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "descriptorWithDate:", managed = "Other")]
+    pub unsafe fn descriptorWithDate(date: &NSDate) -> Id<NSAppleEventDescriptor>;
 
-        #[method_id(@__retain_semantics Other listDescriptor)]
-        pub unsafe fn listDescriptor() -> Id<NSAppleEventDescriptor>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "descriptorWithFileURL:", managed = "Other")]
+    pub unsafe fn descriptorWithFileURL(file_url: &NSURL) -> Id<NSAppleEventDescriptor>;
 
-        #[method_id(@__retain_semantics Other recordDescriptor)]
-        pub unsafe fn recordDescriptor() -> Id<NSAppleEventDescriptor>;
+    #[objc2::method(sel = "listDescriptor", managed = "Other")]
+    pub unsafe fn listDescriptor() -> Id<NSAppleEventDescriptor>;
 
-        #[method_id(@__retain_semantics Other currentProcessDescriptor)]
-        pub unsafe fn currentProcessDescriptor() -> Id<NSAppleEventDescriptor>;
+    #[objc2::method(sel = "recordDescriptor", managed = "Other")]
+    pub unsafe fn recordDescriptor() -> Id<NSAppleEventDescriptor>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other descriptorWithBundleIdentifier:)]
-        pub unsafe fn descriptorWithBundleIdentifier(
-            bundle_identifier: &NSString,
-        ) -> Id<NSAppleEventDescriptor>;
+    #[objc2::method(sel = "currentProcessDescriptor", managed = "Other")]
+    pub unsafe fn currentProcessDescriptor() -> Id<NSAppleEventDescriptor>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other descriptorWithApplicationURL:)]
-        pub unsafe fn descriptorWithApplicationURL(
-            application_url: &NSURL,
-        ) -> Id<NSAppleEventDescriptor>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "descriptorWithBundleIdentifier:", managed = "Other")]
+    pub unsafe fn descriptorWithBundleIdentifier(
+        bundle_identifier: &NSString,
+    ) -> Id<NSAppleEventDescriptor>;
 
-        #[method_id(@__retain_semantics Init initListDescriptor)]
-        pub unsafe fn initListDescriptor(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "descriptorWithApplicationURL:", managed = "Other")]
+    pub unsafe fn descriptorWithApplicationURL(
+        application_url: &NSURL,
+    ) -> Id<NSAppleEventDescriptor>;
 
-        #[method_id(@__retain_semantics Init initRecordDescriptor)]
-        pub unsafe fn initRecordDescriptor(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "initListDescriptor", managed = "Init")]
+    pub unsafe fn initListDescriptor(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other data)]
-        pub unsafe fn data(&self) -> Id<NSData>;
+    #[objc2::method(sel = "initRecordDescriptor", managed = "Init")]
+    pub unsafe fn initRecordDescriptor(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(booleanValue)]
-        pub unsafe fn booleanValue(&self) -> Boolean;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "data", managed = "Other")]
+    pub unsafe fn data(&self) -> Id<NSData>;
 
-        #[method(enumCodeValue)]
-        pub unsafe fn enumCodeValue(&self) -> OSType;
+    #[objc2::method(sel = "booleanValue")]
+    pub unsafe fn booleanValue(&self) -> Boolean;
 
-        #[method(int32Value)]
-        pub unsafe fn int32Value(&self) -> i32;
+    #[objc2::method(sel = "enumCodeValue")]
+    pub unsafe fn enumCodeValue(&self) -> OSType;
 
-        #[method(doubleValue)]
-        pub unsafe fn doubleValue(&self) -> c_double;
+    #[objc2::method(sel = "int32Value")]
+    pub unsafe fn int32Value(&self) -> i32;
 
-        #[method(typeCodeValue)]
-        pub unsafe fn typeCodeValue(&self) -> OSType;
+    #[objc2::method(sel = "doubleValue")]
+    pub unsafe fn doubleValue(&self) -> c_double;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringValue)]
-        pub unsafe fn stringValue(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "typeCodeValue")]
+    pub unsafe fn typeCodeValue(&self) -> OSType;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other dateValue)]
-        pub unsafe fn dateValue(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringValue", managed = "Other")]
+    pub unsafe fn stringValue(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other fileURLValue)]
-        pub unsafe fn fileURLValue(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "dateValue", managed = "Other")]
+    pub unsafe fn dateValue(&self) -> Option<Id<NSDate>>;
 
-        #[method(isRecordDescriptor)]
-        pub unsafe fn isRecordDescriptor(&self) -> bool;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "fileURLValue", managed = "Other")]
+    pub unsafe fn fileURLValue(&self) -> Option<Id<NSURL>>;
 
-        #[method(numberOfItems)]
-        pub unsafe fn numberOfItems(&self) -> NSInteger;
+    #[objc2::method(sel = "isRecordDescriptor")]
+    pub unsafe fn isRecordDescriptor(&self) -> bool;
 
-        #[method(insertDescriptor:atIndex:)]
-        pub unsafe fn insertDescriptor_atIndex(
-            &self,
-            descriptor: &NSAppleEventDescriptor,
-            index: NSInteger,
-        );
+    #[objc2::method(sel = "numberOfItems")]
+    pub unsafe fn numberOfItems(&self) -> NSInteger;
 
-        #[method_id(@__retain_semantics Other descriptorAtIndex:)]
-        pub unsafe fn descriptorAtIndex(
-            &self,
-            index: NSInteger,
-        ) -> Option<Id<NSAppleEventDescriptor>>;
+    #[objc2::method(sel = "insertDescriptor:atIndex:")]
+    pub unsafe fn insertDescriptor_atIndex(
+        &self,
+        descriptor: &NSAppleEventDescriptor,
+        index: NSInteger,
+    );
 
-        #[method(removeDescriptorAtIndex:)]
-        pub unsafe fn removeDescriptorAtIndex(&self, index: NSInteger);
-    }
-);
+    #[objc2::method(sel = "descriptorAtIndex:", managed = "Other")]
+    pub unsafe fn descriptorAtIndex(&self, index: NSInteger) -> Option<Id<NSAppleEventDescriptor>>;
+
+    #[objc2::method(sel = "removeDescriptorAtIndex:")]
+    pub unsafe fn removeDescriptorAtIndex(&self, index: NSInteger);
+}

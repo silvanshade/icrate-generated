@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MailKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MailKit_MEEmailAddress")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MailKit_MEEmailAddress")]
-    pub struct MEEmailAddress;
-
-    #[cfg(feature = "MailKit_MEEmailAddress")]
-    unsafe impl ClassType for MEEmailAddress {
-        type Super = NSObject;
-    }
-);
+    pub type MEEmailAddress;
+}
 
 #[cfg(feature = "MailKit_MEEmailAddress")]
 unsafe impl NSCoding for MEEmailAddress {}
@@ -25,28 +25,31 @@ unsafe impl NSObjectProtocol for MEEmailAddress {}
 #[cfg(feature = "MailKit_MEEmailAddress")]
 unsafe impl NSSecureCoding for MEEmailAddress {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MailKit_MEEmailAddress")]
-    unsafe impl MEEmailAddress {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other rawString)]
-        pub unsafe fn rawString(&self) -> Id<NSString>;
+    pub type MEEmailAddress;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other addressString)]
-        pub unsafe fn addressString(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "rawString", managed = "Other")]
+    pub unsafe fn rawString(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "addressString", managed = "Other")]
+    pub unsafe fn addressString(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithRawString:)]
-        pub unsafe fn initWithRawString(
-            this: Option<Allocated<Self>>,
-            raw_string: &NSString,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithRawString:", managed = "Init")]
+    pub unsafe fn initWithRawString(
+        this: Option<Allocated<Self>>,
+        raw_string: &NSString,
+    ) -> Id<Self>;
+}

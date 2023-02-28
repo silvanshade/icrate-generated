@@ -7,12 +7,11 @@ use crate::Foundation::*;
 
 extern_static!(CLLocationPushServiceErrorDomain: Option<&'static NSErrorDomain>);
 
-ns_error_enum!(
-    #[underlying(NSInteger)]
-    pub enum CLLocationPushServiceError {
-        CLLocationPushServiceErrorUnknown = 0,
-        CLLocationPushServiceErrorMissingPushExtension = 1,
-        CLLocationPushServiceErrorMissingPushServerEnvironment = 2,
-        CLLocationPushServiceErrorMissingEntitlement = 3,
-    }
-);
+#[ns_error_enum]
+#[underlying(NSInteger)]
+pub enum CLLocationPushServiceError {
+    CLLocationPushServiceErrorUnknown = 0,
+    CLLocationPushServiceErrorMissingPushExtension = 1,
+    CLLocationPushServiceErrorMissingPushServerEnvironment = 2,
+    CLLocationPushServiceErrorMissingEntitlement = 3,
+}

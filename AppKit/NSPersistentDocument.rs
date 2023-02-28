@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSDocument,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPersistentDocument")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPersistentDocument")]
-    pub struct NSPersistentDocument;
-
-    #[cfg(feature = "AppKit_NSPersistentDocument")]
-    unsafe impl ClassType for NSPersistentDocument {
-        #[inherits(NSObject)]
-        type Super = NSDocument;
-    }
-);
+    pub type NSPersistentDocument;
+}
 
 #[cfg(feature = "AppKit_NSPersistentDocument")]
 unsafe impl NSEditorRegistration for NSPersistentDocument {}
@@ -32,162 +32,192 @@ unsafe impl NSObjectProtocol for NSPersistentDocument {}
 #[cfg(feature = "AppKit_NSPersistentDocument")]
 unsafe impl NSUserInterfaceValidations for NSPersistentDocument {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPersistentDocument")]
-    unsafe impl NSPersistentDocument {
-        #[cfg(feature = "CoreData_NSManagedObjectContext")]
-        #[method_id(@__retain_semantics Other managedObjectContext)]
-        pub unsafe fn managedObjectContext(&self) -> Option<Id<NSManagedObjectContext>>;
+    pub type NSPersistentDocument;
 
-        #[cfg(feature = "CoreData_NSManagedObjectContext")]
-        #[method(setManagedObjectContext:)]
-        pub unsafe fn setManagedObjectContext(
-            &self,
-            managed_object_context: Option<&NSManagedObjectContext>,
-        );
+    #[cfg(feature = "CoreData_NSManagedObjectContext")]
+    #[objc2::method(sel = "managedObjectContext", managed = "Other")]
+    pub unsafe fn managedObjectContext(&self) -> Option<Id<NSManagedObjectContext>>;
 
-        #[cfg(feature = "CoreData_NSManagedObjectModel")]
-        #[method_id(@__retain_semantics Other managedObjectModel)]
-        pub unsafe fn managedObjectModel(&self) -> Option<Id<NSManagedObjectModel>>;
+    #[cfg(feature = "CoreData_NSManagedObjectContext")]
+    #[objc2::method(sel = "setManagedObjectContext:")]
+    pub unsafe fn setManagedObjectContext(
+        &self,
+        managed_object_context: Option<&NSManagedObjectContext>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(configurePersistentStoreCoordinatorForURL:ofType:modelConfiguration:storeOptions:error:_)]
-        pub unsafe fn configurePersistentStoreCoordinatorForURL_ofType_modelConfiguration_storeOptions_error(
-            &self,
-            url: &NSURL,
-            file_type: &NSString,
-            configuration: Option<&NSString>,
-            store_options: Option<&NSDictionary<NSString, Object>>,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "CoreData_NSManagedObjectModel")]
+    #[objc2::method(sel = "managedObjectModel", managed = "Other")]
+    pub unsafe fn managedObjectModel(&self) -> Option<Id<NSManagedObjectModel>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other persistentStoreTypeForFileType:)]
-        pub unsafe fn persistentStoreTypeForFileType(&self, file_type: &NSString) -> Id<NSString>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "configurePersistentStoreCoordinatorForURL:ofType:modelConfiguration:storeOptions:error:",
+        throws
+    )]
+    pub unsafe fn configurePersistentStoreCoordinatorForURL_ofType_modelConfiguration_storeOptions_error(
+        &self,
+        url: &NSURL,
+        file_type: &NSString,
+        configuration: Option<&NSString>,
+        store_options: Option<&NSDictionary<NSString, Object>>,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(writeToURL:ofType:forSaveOperation:originalContentsURL:error:_)]
-        pub unsafe fn writeToURL_ofType_forSaveOperation_originalContentsURL_error(
-            &self,
-            absolute_url: &NSURL,
-            type_name: &NSString,
-            save_operation: NSSaveOperationType,
-            absolute_original_contents_url: Option<&NSURL>,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "persistentStoreTypeForFileType:", managed = "Other")]
+    pub unsafe fn persistentStoreTypeForFileType(&self, file_type: &NSString) -> Id<NSString>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(readFromURL:ofType:error:_)]
-        pub unsafe fn readFromURL_ofType_error(
-            &self,
-            absolute_url: &NSURL,
-            type_name: &NSString,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "writeToURL:ofType:forSaveOperation:originalContentsURL:error:",
+        throws
+    )]
+    pub unsafe fn writeToURL_ofType_forSaveOperation_originalContentsURL_error(
+        &self,
+        absolute_url: &NSURL,
+        type_name: &NSString,
+        save_operation: NSSaveOperationType,
+        absolute_original_contents_url: Option<&NSURL>,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(revertToContentsOfURL:ofType:error:_)]
-        pub unsafe fn revertToContentsOfURL_ofType_error(
-            &self,
-            in_absolute_url: &NSURL,
-            in_type_name: &NSString,
-        ) -> Result<(), Id<NSError>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "readFromURL:ofType:error:", throws)]
+    pub unsafe fn readFromURL_ofType_error(
+        &self,
+        absolute_url: &NSURL,
+        type_name: &NSString,
+    ) -> Result<(), Id<NSError>>;
 
-extern_methods!(
-    /// NSDeprecated
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "revertToContentsOfURL:ofType:error:", throws)]
+    pub unsafe fn revertToContentsOfURL_ofType_error(
+        &self,
+        in_absolute_url: &NSURL,
+        in_type_name: &NSString,
+    ) -> Result<(), Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPersistentDocument")]
-    unsafe impl NSPersistentDocument {
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[deprecated]
-        #[method(configurePersistentStoreCoordinatorForURL:ofType:error:_)]
-        pub unsafe fn configurePersistentStoreCoordinatorForURL_ofType_error(
-            &self,
-            url: Option<&NSURL>,
-            file_type: Option<&NSString>,
-        ) -> Result<(), Id<NSError>>;
-    }
-);
+    pub type NSPersistentDocument;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDocument`
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[deprecated]
+    #[objc2::method(
+        sel = "configurePersistentStoreCoordinatorForURL:ofType:error:",
+        throws
+    )]
+    pub unsafe fn configurePersistentStoreCoordinatorForURL_ofType_error(
+        &self,
+        url: Option<&NSURL>,
+        file_type: Option<&NSString>,
+    ) -> Result<(), Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDocument`
     #[cfg(feature = "AppKit_NSPersistentDocument")]
-    unsafe impl NSPersistentDocument {
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithType:error:_)]
-        pub unsafe fn initWithType_error(
-            this: Option<Allocated<Self>>,
-            type_name: &NSString,
-        ) -> Result<Id<Self>, Id<NSError>>;
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:ofType:error:_)]
-        pub unsafe fn initWithContentsOfURL_ofType_error(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            type_name: &NSString,
-        ) -> Result<Id<Self>, Id<NSError>>;
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Init initForURL:withContentsOfURL:ofType:error:_)]
-        pub unsafe fn initForURL_withContentsOfURL_ofType_error(
-            this: Option<Allocated<Self>>,
-            url_or_nil: Option<&NSURL>,
-            contents_url: &NSURL,
-            type_name: &NSString,
-        ) -> Result<Id<Self>, Id<NSError>>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSDocument`
-    ///
-    /// NSDeprecated
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPersistentDocument")]
-    unsafe impl NSPersistentDocument {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithContentsOfFile:ofType:)]
-        pub unsafe fn initWithContentsOfFile_ofType(
-            this: Option<Allocated<Self>>,
-            absolute_path: &NSString,
-            type_name: &NSString,
-        ) -> Option<Id<Self>>;
+    pub type NSPersistentDocument;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:ofType:)]
-        pub unsafe fn initWithContentsOfURL_ofType(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            type_name: &NSString,
-        ) -> Option<Id<Self>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithType:error:", managed = "Init", throws)]
+    pub unsafe fn initWithType_error(
+        this: Option<Allocated<Self>>,
+        type_name: &NSString,
+    ) -> Result<Id<Self>, Id<NSError>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "initWithContentsOfURL:ofType:error:", managed = "Init", throws)]
+    pub unsafe fn initWithContentsOfURL_ofType_error(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        type_name: &NSString,
+    ) -> Result<Id<Self>, Id<NSError>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "initForURL:withContentsOfURL:ofType:error:",
+        managed = "Init",
+        throws
+    )]
+    pub unsafe fn initForURL_withContentsOfURL_ofType_error(
+        this: Option<Allocated<Self>>,
+        url_or_nil: Option<&NSURL>,
+        contents_url: &NSURL,
+        type_name: &NSString,
+    ) -> Result<Id<Self>, Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDocument`
+        ///
+        /// NSDeprecated
+    #[cfg(feature = "AppKit_NSPersistentDocument")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPersistentDocument")]
+    pub type NSPersistentDocument;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "initWithContentsOfFile:ofType:", managed = "Init")]
+    pub unsafe fn initWithContentsOfFile_ofType(
+        this: Option<Allocated<Self>>,
+        absolute_path: &NSString,
+        type_name: &NSString,
+    ) -> Option<Id<Self>>;
+
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
+    #[deprecated]
+    #[objc2::method(sel = "initWithContentsOfURL:ofType:", managed = "Init")]
+    pub unsafe fn initWithContentsOfURL_ofType(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        type_name: &NSString,
+    ) -> Option<Id<Self>>;
+}

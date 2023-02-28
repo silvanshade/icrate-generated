@@ -5,42 +5,46 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = GCExtendedGamepad,
+    unsafe inherits = [
+        GCPhysicalInputProfile,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCDualSenseGamepad")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCDualSenseGamepad")]
-    pub struct GCDualSenseGamepad;
-
-    #[cfg(feature = "GameController_GCDualSenseGamepad")]
-    unsafe impl ClassType for GCDualSenseGamepad {
-        #[inherits(GCPhysicalInputProfile, NSObject)]
-        type Super = GCExtendedGamepad;
-    }
-);
+    pub type GCDualSenseGamepad;
+}
 
 #[cfg(feature = "GameController_GCDualSenseGamepad")]
 unsafe impl NSObjectProtocol for GCDualSenseGamepad {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCDualSenseGamepad")]
-    unsafe impl GCDualSenseGamepad {
-        #[cfg(feature = "GameController_GCControllerButtonInput")]
-        #[method_id(@__retain_semantics Other touchpadButton)]
-        pub unsafe fn touchpadButton(&self) -> Id<GCControllerButtonInput>;
+    pub type GCDualSenseGamepad;
 
-        #[cfg(feature = "GameController_GCControllerDirectionPad")]
-        #[method_id(@__retain_semantics Other touchpadPrimary)]
-        pub unsafe fn touchpadPrimary(&self) -> Id<GCControllerDirectionPad>;
+    #[cfg(feature = "GameController_GCControllerButtonInput")]
+    #[objc2::method(sel = "touchpadButton", managed = "Other")]
+    pub unsafe fn touchpadButton(&self) -> Id<GCControllerButtonInput>;
 
-        #[cfg(feature = "GameController_GCControllerDirectionPad")]
-        #[method_id(@__retain_semantics Other touchpadSecondary)]
-        pub unsafe fn touchpadSecondary(&self) -> Id<GCControllerDirectionPad>;
+    #[cfg(feature = "GameController_GCControllerDirectionPad")]
+    #[objc2::method(sel = "touchpadPrimary", managed = "Other")]
+    pub unsafe fn touchpadPrimary(&self) -> Id<GCControllerDirectionPad>;
 
-        #[cfg(feature = "GameController_GCDualSenseAdaptiveTrigger")]
-        #[method_id(@__retain_semantics Other leftTrigger)]
-        pub unsafe fn leftTrigger(&self) -> Id<GCDualSenseAdaptiveTrigger>;
+    #[cfg(feature = "GameController_GCControllerDirectionPad")]
+    #[objc2::method(sel = "touchpadSecondary", managed = "Other")]
+    pub unsafe fn touchpadSecondary(&self) -> Id<GCControllerDirectionPad>;
 
-        #[cfg(feature = "GameController_GCDualSenseAdaptiveTrigger")]
-        #[method_id(@__retain_semantics Other rightTrigger)]
-        pub unsafe fn rightTrigger(&self) -> Id<GCDualSenseAdaptiveTrigger>;
-    }
-);
+    #[cfg(feature = "GameController_GCDualSenseAdaptiveTrigger")]
+    #[objc2::method(sel = "leftTrigger", managed = "Other")]
+    pub unsafe fn leftTrigger(&self) -> Id<GCDualSenseAdaptiveTrigger>;
+
+    #[cfg(feature = "GameController_GCDualSenseAdaptiveTrigger")]
+    #[objc2::method(sel = "rightTrigger", managed = "Other")]
+    pub unsafe fn rightTrigger(&self) -> Id<GCDualSenseAdaptiveTrigger>;
+}

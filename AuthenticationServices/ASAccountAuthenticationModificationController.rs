@@ -4,113 +4,114 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait ASAccountAuthenticationModificationControllerDelegate:
-        NSObjectProtocol
-    {
-        #[cfg(all(
-            feature = "AuthenticationServices_ASAccountAuthenticationModificationController",
-            feature = "AuthenticationServices_ASAccountAuthenticationModificationRequest",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[optional]
-        #[method(accountAuthenticationModificationController:didSuccessfullyCompleteRequest:withUserInfo:)]
-        unsafe fn accountAuthenticationModificationController_didSuccessfullyCompleteRequest_withUserInfo(
-            &self,
-            controller: &ASAccountAuthenticationModificationController,
-            request: &ASAccountAuthenticationModificationRequest,
-            user_info: Option<&NSDictionary>,
-        );
+#[objc2::protocol]
+pub unsafe trait ASAccountAuthenticationModificationControllerDelegate:
+    NSObjectProtocol
+{
+    #[cfg(all(
+        feature = "AuthenticationServices_ASAccountAuthenticationModificationController",
+        feature = "AuthenticationServices_ASAccountAuthenticationModificationRequest",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "accountAuthenticationModificationController:didSuccessfullyCompleteRequest:withUserInfo:"
+    )]
+    unsafe fn accountAuthenticationModificationController_didSuccessfullyCompleteRequest_withUserInfo(
+        &self,
+        controller: &ASAccountAuthenticationModificationController,
+        request: &ASAccountAuthenticationModificationRequest,
+        user_info: Option<&NSDictionary>,
+    );
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASAccountAuthenticationModificationController",
-            feature = "AuthenticationServices_ASAccountAuthenticationModificationRequest",
-            feature = "Foundation_NSError"
-        ))]
-        #[optional]
-        #[method(accountAuthenticationModificationController:didFailRequest:withError:)]
-        unsafe fn accountAuthenticationModificationController_didFailRequest_withError(
-            &self,
-            controller: &ASAccountAuthenticationModificationController,
-            request: &ASAccountAuthenticationModificationRequest,
-            error: &NSError,
-        );
-    }
+    #[cfg(all(
+        feature = "AuthenticationServices_ASAccountAuthenticationModificationController",
+        feature = "AuthenticationServices_ASAccountAuthenticationModificationRequest",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "accountAuthenticationModificationController:didFailRequest:withError:"
+    )]
+    unsafe fn accountAuthenticationModificationController_didFailRequest_withError(
+        &self,
+        controller: &ASAccountAuthenticationModificationController,
+        request: &ASAccountAuthenticationModificationRequest,
+        error: &NSError,
+    );
+}
 
-    unsafe impl ProtocolType for dyn ASAccountAuthenticationModificationControllerDelegate {}
-);
+#[objc2::protocol]
+pub unsafe trait ASAccountAuthenticationModificationControllerPresentationContextProviding:
+    NSObjectProtocol
+{
+    #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationController")]
+    #[objc2::method(
+        sel = "presentationAnchorForAccountAuthenticationModificationController:",
+        managed = "Other"
+    )]
+    unsafe fn presentationAnchorForAccountAuthenticationModificationController(
+        &self,
+        controller: &ASAccountAuthenticationModificationController,
+    ) -> Id<ASPresentationAnchor>;
+}
 
-extern_protocol!(
-    pub unsafe trait ASAccountAuthenticationModificationControllerPresentationContextProviding:
-        NSObjectProtocol
-    {
-        #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationController")]
-        #[method_id(@__retain_semantics Other presentationAnchorForAccountAuthenticationModificationController:)]
-        unsafe fn presentationAnchorForAccountAuthenticationModificationController(
-            &self,
-            controller: &ASAccountAuthenticationModificationController,
-        ) -> Id<ASPresentationAnchor>;
-    }
-
-    unsafe impl ProtocolType
-        for dyn ASAccountAuthenticationModificationControllerPresentationContextProviding
-    {
-    }
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationController")]
-    pub struct ASAccountAuthenticationModificationController;
-
-    #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationController")]
-    unsafe impl ClassType for ASAccountAuthenticationModificationController {
-        type Super = NSObject;
-    }
-);
+    pub type ASAccountAuthenticationModificationController;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationController")]
 unsafe impl NSObjectProtocol for ASAccountAuthenticationModificationController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationController")]
-    unsafe impl ASAccountAuthenticationModificationController {
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn ASAccountAuthenticationModificationControllerDelegate>>>;
+    pub type ASAccountAuthenticationModificationController;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<
-                &ProtocolObject<dyn ASAccountAuthenticationModificationControllerDelegate>,
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn ASAccountAuthenticationModificationControllerDelegate>>>;
+
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<
+            &ProtocolObject<dyn ASAccountAuthenticationModificationControllerDelegate>,
+        >,
+    );
+
+    #[objc2::method(sel = "presentationContextProvider", managed = "Other")]
+    pub unsafe fn presentationContextProvider(
+        &self,
+    ) -> Option<
+        Id<
+            ProtocolObject<
+                dyn ASAccountAuthenticationModificationControllerPresentationContextProviding,
             >,
-        );
+        >,
+    >;
 
-        #[method_id(@__retain_semantics Other presentationContextProvider)]
-        pub unsafe fn presentationContextProvider(
-            &self,
-        ) -> Option<
-            Id<
-                ProtocolObject<
-                    dyn ASAccountAuthenticationModificationControllerPresentationContextProviding,
-                >,
+    #[objc2::method(sel = "setPresentationContextProvider:")]
+    pub unsafe fn setPresentationContextProvider(
+        &self,
+        presentation_context_provider: Option<
+            &ProtocolObject<
+                dyn ASAccountAuthenticationModificationControllerPresentationContextProviding,
             >,
-        >;
+        >,
+    );
 
-        #[method(setPresentationContextProvider:)]
-        pub unsafe fn setPresentationContextProvider(
-            &self,
-            presentation_context_provider: Option<
-                &ProtocolObject<
-                    dyn ASAccountAuthenticationModificationControllerPresentationContextProviding,
-                >,
-            >,
-        );
-
-        #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationRequest")]
-        #[method(performRequest:)]
-        pub unsafe fn performRequest(&self, request: &ASAccountAuthenticationModificationRequest);
-    }
-);
+    #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationRequest")]
+    #[objc2::method(sel = "performRequest:")]
+    pub unsafe fn performRequest(&self, request: &ASAccountAuthenticationModificationRequest);
+}

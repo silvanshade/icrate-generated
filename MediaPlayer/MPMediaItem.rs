@@ -5,24 +5,23 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum MPMediaType {
-        MPMediaTypeMusic = 1 << 0,
-        MPMediaTypePodcast = 1 << 1,
-        MPMediaTypeAudioBook = 1 << 2,
-        MPMediaTypeAudioITunesU = 1 << 3,
-        MPMediaTypeAnyAudio = 0x00ff,
-        MPMediaTypeMovie = 1 << 8,
-        MPMediaTypeTVShow = 1 << 9,
-        MPMediaTypeVideoPodcast = 1 << 10,
-        MPMediaTypeMusicVideo = 1 << 11,
-        MPMediaTypeVideoITunesU = 1 << 12,
-        MPMediaTypeHomeVideo = 1 << 13,
-        MPMediaTypeAnyVideo = 0xff00,
-        MPMediaTypeAny = !0,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum MPMediaType {
+    MPMediaTypeMusic = 1 << 0,
+    MPMediaTypePodcast = 1 << 1,
+    MPMediaTypeAudioBook = 1 << 2,
+    MPMediaTypeAudioITunesU = 1 << 3,
+    MPMediaTypeAnyAudio = 0x00ff,
+    MPMediaTypeMovie = 1 << 8,
+    MPMediaTypeTVShow = 1 << 9,
+    MPMediaTypeVideoPodcast = 1 << 10,
+    MPMediaTypeMusicVideo = 1 << 11,
+    MPMediaTypeVideoITunesU = 1 << 12,
+    MPMediaTypeHomeVideo = 1 << 13,
+    MPMediaTypeAnyVideo = 0xff00,
+    MPMediaTypeAny = !0,
+}
 
 extern_static!(MPMediaItemPropertyPersistentID: &'static NSString);
 
@@ -102,17 +101,17 @@ extern_static!(MPMediaItemPropertyPlaybackStoreID: &'static NSString);
 
 extern_static!(MPMediaItemPropertyIsPreorder: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MPMediaEntity,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPMediaItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPMediaItem")]
-    pub struct MPMediaItem;
-
-    #[cfg(feature = "MediaPlayer_MPMediaItem")]
-    unsafe impl ClassType for MPMediaItem {
-        #[inherits(NSObject)]
-        type Super = MPMediaEntity;
-    }
-);
+    pub type MPMediaItem;
+}
 
 #[cfg(feature = "MediaPlayer_MPMediaItem")]
 unsafe impl NSCoding for MPMediaItem {}
@@ -123,184 +122,190 @@ unsafe impl NSObjectProtocol for MPMediaItem {}
 #[cfg(feature = "MediaPlayer_MPMediaItem")]
 unsafe impl NSSecureCoding for MPMediaItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPMediaItem")]
-    unsafe impl MPMediaItem {
-        #[method(persistentID)]
-        pub unsafe fn persistentID(&self) -> MPMediaEntityPersistentID;
+    pub type MPMediaItem;
 
-        #[method(mediaType)]
-        pub unsafe fn mediaType(&self) -> MPMediaType;
+    #[objc2::method(sel = "persistentID")]
+    pub unsafe fn persistentID(&self) -> MPMediaEntityPersistentID;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "mediaType")]
+    pub unsafe fn mediaType(&self) -> MPMediaType;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other albumTitle)]
-        pub unsafe fn albumTitle(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Option<Id<NSString>>;
 
-        #[method(albumPersistentID)]
-        pub unsafe fn albumPersistentID(&self) -> MPMediaEntityPersistentID;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "albumTitle", managed = "Other")]
+    pub unsafe fn albumTitle(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other artist)]
-        pub unsafe fn artist(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "albumPersistentID")]
+    pub unsafe fn albumPersistentID(&self) -> MPMediaEntityPersistentID;
 
-        #[method(artistPersistentID)]
-        pub unsafe fn artistPersistentID(&self) -> MPMediaEntityPersistentID;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "artist", managed = "Other")]
+    pub unsafe fn artist(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other albumArtist)]
-        pub unsafe fn albumArtist(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "artistPersistentID")]
+    pub unsafe fn artistPersistentID(&self) -> MPMediaEntityPersistentID;
 
-        #[method(albumArtistPersistentID)]
-        pub unsafe fn albumArtistPersistentID(&self) -> MPMediaEntityPersistentID;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "albumArtist", managed = "Other")]
+    pub unsafe fn albumArtist(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other genre)]
-        pub unsafe fn genre(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "albumArtistPersistentID")]
+    pub unsafe fn albumArtistPersistentID(&self) -> MPMediaEntityPersistentID;
 
-        #[method(genrePersistentID)]
-        pub unsafe fn genrePersistentID(&self) -> MPMediaEntityPersistentID;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "genre", managed = "Other")]
+    pub unsafe fn genre(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other composer)]
-        pub unsafe fn composer(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "genrePersistentID")]
+    pub unsafe fn genrePersistentID(&self) -> MPMediaEntityPersistentID;
 
-        #[method(composerPersistentID)]
-        pub unsafe fn composerPersistentID(&self) -> MPMediaEntityPersistentID;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "composer", managed = "Other")]
+    pub unsafe fn composer(&self) -> Option<Id<NSString>>;
 
-        #[method(playbackDuration)]
-        pub unsafe fn playbackDuration(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "composerPersistentID")]
+    pub unsafe fn composerPersistentID(&self) -> MPMediaEntityPersistentID;
 
-        #[method(albumTrackNumber)]
-        pub unsafe fn albumTrackNumber(&self) -> NSUInteger;
+    #[objc2::method(sel = "playbackDuration")]
+    pub unsafe fn playbackDuration(&self) -> NSTimeInterval;
 
-        #[method(albumTrackCount)]
-        pub unsafe fn albumTrackCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "albumTrackNumber")]
+    pub unsafe fn albumTrackNumber(&self) -> NSUInteger;
 
-        #[method(discNumber)]
-        pub unsafe fn discNumber(&self) -> NSUInteger;
+    #[objc2::method(sel = "albumTrackCount")]
+    pub unsafe fn albumTrackCount(&self) -> NSUInteger;
 
-        #[method(discCount)]
-        pub unsafe fn discCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "discNumber")]
+    pub unsafe fn discNumber(&self) -> NSUInteger;
 
-        #[cfg(feature = "MediaPlayer_MPMediaItemArtwork")]
-        #[method_id(@__retain_semantics Other artwork)]
-        pub unsafe fn artwork(&self) -> Option<Id<MPMediaItemArtwork>>;
+    #[objc2::method(sel = "discCount")]
+    pub unsafe fn discCount(&self) -> NSUInteger;
 
-        #[method(isExplicitItem)]
-        pub unsafe fn isExplicitItem(&self) -> bool;
+    #[cfg(feature = "MediaPlayer_MPMediaItemArtwork")]
+    #[objc2::method(sel = "artwork", managed = "Other")]
+    pub unsafe fn artwork(&self) -> Option<Id<MPMediaItemArtwork>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other lyrics)]
-        pub unsafe fn lyrics(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "isExplicitItem")]
+    pub unsafe fn isExplicitItem(&self) -> bool;
 
-        #[method(isCompilation)]
-        pub unsafe fn isCompilation(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "lyrics", managed = "Other")]
+    pub unsafe fn lyrics(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other releaseDate)]
-        pub unsafe fn releaseDate(&self) -> Option<Id<NSDate>>;
+    #[objc2::method(sel = "isCompilation")]
+    pub unsafe fn isCompilation(&self) -> bool;
 
-        #[method(beatsPerMinute)]
-        pub unsafe fn beatsPerMinute(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "releaseDate", managed = "Other")]
+    pub unsafe fn releaseDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other comments)]
-        pub unsafe fn comments(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "beatsPerMinute")]
+    pub unsafe fn beatsPerMinute(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other assetURL)]
-        pub unsafe fn assetURL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "comments", managed = "Other")]
+    pub unsafe fn comments(&self) -> Option<Id<NSString>>;
 
-        #[method(isCloudItem)]
-        pub unsafe fn isCloudItem(&self) -> bool;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "assetURL", managed = "Other")]
+    pub unsafe fn assetURL(&self) -> Option<Id<NSURL>>;
 
-        #[method(hasProtectedAsset)]
-        pub unsafe fn hasProtectedAsset(&self) -> bool;
+    #[objc2::method(sel = "isCloudItem")]
+    pub unsafe fn isCloudItem(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other podcastTitle)]
-        pub unsafe fn podcastTitle(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "hasProtectedAsset")]
+    pub unsafe fn hasProtectedAsset(&self) -> bool;
 
-        #[method(podcastPersistentID)]
-        pub unsafe fn podcastPersistentID(&self) -> MPMediaEntityPersistentID;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "podcastTitle", managed = "Other")]
+    pub unsafe fn podcastTitle(&self) -> Option<Id<NSString>>;
 
-        #[method(playCount)]
-        pub unsafe fn playCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "podcastPersistentID")]
+    pub unsafe fn podcastPersistentID(&self) -> MPMediaEntityPersistentID;
 
-        #[method(skipCount)]
-        pub unsafe fn skipCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "playCount")]
+    pub unsafe fn playCount(&self) -> NSUInteger;
 
-        #[method(rating)]
-        pub unsafe fn rating(&self) -> NSUInteger;
+    #[objc2::method(sel = "skipCount")]
+    pub unsafe fn skipCount(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other lastPlayedDate)]
-        pub unsafe fn lastPlayedDate(&self) -> Option<Id<NSDate>>;
+    #[objc2::method(sel = "rating")]
+    pub unsafe fn rating(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other userGrouping)]
-        pub unsafe fn userGrouping(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "lastPlayedDate", managed = "Other")]
+    pub unsafe fn lastPlayedDate(&self) -> Option<Id<NSDate>>;
 
-        #[method(bookmarkTime)]
-        pub unsafe fn bookmarkTime(&self) -> NSTimeInterval;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "userGrouping", managed = "Other")]
+    pub unsafe fn userGrouping(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other dateAdded)]
-        pub unsafe fn dateAdded(&self) -> Id<NSDate>;
+    #[objc2::method(sel = "bookmarkTime")]
+    pub unsafe fn bookmarkTime(&self) -> NSTimeInterval;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other playbackStoreID)]
-        pub unsafe fn playbackStoreID(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "dateAdded", managed = "Other")]
+    pub unsafe fn dateAdded(&self) -> Id<NSDate>;
 
-        #[method(isPreorder)]
-        pub unsafe fn isPreorder(&self) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "playbackStoreID", managed = "Other")]
+    pub unsafe fn playbackStoreID(&self) -> Id<NSString>;
 
-extern_class!(
+    #[objc2::method(sel = "isPreorder")]
+    pub unsafe fn isPreorder(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPMediaItemArtwork")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPMediaItemArtwork")]
-    pub struct MPMediaItemArtwork;
-
-    #[cfg(feature = "MediaPlayer_MPMediaItemArtwork")]
-    unsafe impl ClassType for MPMediaItemArtwork {
-        type Super = NSObject;
-    }
-);
+    pub type MPMediaItemArtwork;
+}
 
 #[cfg(feature = "MediaPlayer_MPMediaItemArtwork")]
 unsafe impl NSObjectProtocol for MPMediaItemArtwork {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPMediaItemArtwork")]
-    unsafe impl MPMediaItemArtwork {
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    pub type MPMediaItemArtwork;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Init initWithBoundsSize:requestHandler:)]
-        pub unsafe fn initWithBoundsSize_requestHandler(
-            this: Option<Allocated<Self>>,
-            bounds_size: CGSize,
-            request_handler: &Block<(CGSize,), NonNull<NSImage>>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other imageWithSize:)]
-        pub unsafe fn imageWithSize(&self, size: CGSize) -> Option<Id<NSImage>>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "initWithBoundsSize:requestHandler:", managed = "Init")]
+    pub unsafe fn initWithBoundsSize_requestHandler(
+        this: Option<Allocated<Self>>,
+        bounds_size: CGSize,
+        request_handler: &Block<(CGSize,), NonNull<NSImage>>,
+    ) -> Id<Self>;
 
-        #[method(bounds)]
-        pub unsafe fn bounds(&self) -> CGRect;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "imageWithSize:", managed = "Other")]
+    pub unsafe fn imageWithSize(&self, size: CGSize) -> Option<Id<NSImage>>;
 
-        #[deprecated = "cropRect is no longer used"]
-        #[method(imageCropRect)]
-        pub unsafe fn imageCropRect(&self) -> CGRect;
-    }
-);
+    #[objc2::method(sel = "bounds")]
+    pub unsafe fn bounds(&self) -> CGRect;
+
+    #[deprecated = "cropRect is no longer used"]
+    #[objc2::method(sel = "imageCropRect")]
+    pub unsafe fn imageCropRect(&self) -> CGRect;
+}

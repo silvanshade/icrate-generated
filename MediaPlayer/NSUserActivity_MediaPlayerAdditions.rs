@@ -5,19 +5,21 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-extern_methods!(
-    /// MediaPlayerAdditions
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUserActivity")]
-    unsafe impl NSUserActivity {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other externalMediaContentIdentifier)]
-        pub unsafe fn externalMediaContentIdentifier(&self) -> Option<Id<NSString>>;
+    pub type NSUserActivity;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setExternalMediaContentIdentifier:)]
-        pub unsafe fn setExternalMediaContentIdentifier(
-            &self,
-            external_media_content_identifier: Option<&NSString>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "externalMediaContentIdentifier", managed = "Other")]
+    pub unsafe fn externalMediaContentIdentifier(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setExternalMediaContentIdentifier:")]
+    pub unsafe fn setExternalMediaContentIdentifier(
+        &self,
+        external_media_content_identifier: Option<&NSString>,
+    );
+}

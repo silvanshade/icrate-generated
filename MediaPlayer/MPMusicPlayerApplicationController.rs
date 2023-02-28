@@ -5,81 +5,87 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPMusicPlayerControllerQueue")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPMusicPlayerControllerQueue")]
-    pub struct MPMusicPlayerControllerQueue;
-
-    #[cfg(feature = "MediaPlayer_MPMusicPlayerControllerQueue")]
-    unsafe impl ClassType for MPMusicPlayerControllerQueue {
-        type Super = NSObject;
-    }
-);
+    pub type MPMusicPlayerControllerQueue;
+}
 
 #[cfg(feature = "MediaPlayer_MPMusicPlayerControllerQueue")]
 unsafe impl NSObjectProtocol for MPMusicPlayerControllerQueue {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPMusicPlayerControllerQueue")]
-    unsafe impl MPMusicPlayerControllerQueue {
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    pub type MPMusicPlayerControllerQueue;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MediaPlayer_MPMediaItem"))]
-        #[method_id(@__retain_semantics Other items)]
-        pub unsafe fn items(&self) -> Id<NSArray<MPMediaItem>>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-extern_class!(
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MediaPlayer_MPMediaItem"))]
+    #[objc2::method(sel = "items", managed = "Other")]
+    pub unsafe fn items(&self) -> Id<NSArray<MPMediaItem>>;
+}
+
+#[objc2::interface(
+    unsafe super = MPMusicPlayerControllerQueue,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPMusicPlayerControllerMutableQueue")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPMusicPlayerControllerMutableQueue")]
-    pub struct MPMusicPlayerControllerMutableQueue;
-
-    #[cfg(feature = "MediaPlayer_MPMusicPlayerControllerMutableQueue")]
-    unsafe impl ClassType for MPMusicPlayerControllerMutableQueue {
-        #[inherits(NSObject)]
-        type Super = MPMusicPlayerControllerQueue;
-    }
-);
+    pub type MPMusicPlayerControllerMutableQueue;
+}
 
 #[cfg(feature = "MediaPlayer_MPMusicPlayerControllerMutableQueue")]
 unsafe impl NSObjectProtocol for MPMusicPlayerControllerMutableQueue {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPMusicPlayerControllerMutableQueue")]
-    unsafe impl MPMusicPlayerControllerMutableQueue {
-        #[cfg(all(
-            feature = "MediaPlayer_MPMediaItem",
-            feature = "MediaPlayer_MPMusicPlayerQueueDescriptor"
-        ))]
-        #[method(insertQueueDescriptor:afterItem:)]
-        pub unsafe fn insertQueueDescriptor_afterItem(
-            &self,
-            queue_descriptor: &MPMusicPlayerQueueDescriptor,
-            after_item: Option<&MPMediaItem>,
-        );
+    pub type MPMusicPlayerControllerMutableQueue;
 
-        #[cfg(feature = "MediaPlayer_MPMediaItem")]
-        #[method(removeItem:)]
-        pub unsafe fn removeItem(&self, item: &MPMediaItem);
-    }
-);
+    #[cfg(all(
+        feature = "MediaPlayer_MPMediaItem",
+        feature = "MediaPlayer_MPMusicPlayerQueueDescriptor"
+    ))]
+    #[objc2::method(sel = "insertQueueDescriptor:afterItem:")]
+    pub unsafe fn insertQueueDescriptor_afterItem(
+        &self,
+        queue_descriptor: &MPMusicPlayerQueueDescriptor,
+        after_item: Option<&MPMediaItem>,
+    );
 
-extern_class!(
+    #[cfg(feature = "MediaPlayer_MPMediaItem")]
+    #[objc2::method(sel = "removeItem:")]
+    pub unsafe fn removeItem(&self, item: &MPMediaItem);
+}
+
+#[objc2::interface(
+    unsafe super = MPMusicPlayerController,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPMusicPlayerApplicationController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPMusicPlayerApplicationController")]
-    pub struct MPMusicPlayerApplicationController;
-
-    #[cfg(feature = "MediaPlayer_MPMusicPlayerApplicationController")]
-    unsafe impl ClassType for MPMusicPlayerApplicationController {
-        #[inherits(NSObject)]
-        type Super = MPMusicPlayerController;
-    }
-);
+    pub type MPMusicPlayerApplicationController;
+}
 
 #[cfg(feature = "MediaPlayer_MPMusicPlayerApplicationController")]
 unsafe impl MPMediaPlayback for MPMusicPlayerApplicationController {}
@@ -87,21 +93,24 @@ unsafe impl MPMediaPlayback for MPMusicPlayerApplicationController {}
 #[cfg(feature = "MediaPlayer_MPMusicPlayerApplicationController")]
 unsafe impl NSObjectProtocol for MPMusicPlayerApplicationController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPMusicPlayerApplicationController")]
-    unsafe impl MPMusicPlayerApplicationController {
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "MediaPlayer_MPMusicPlayerControllerMutableQueue",
-            feature = "MediaPlayer_MPMusicPlayerControllerQueue"
-        ))]
-        #[method(performQueueTransaction:completionHandler:)]
-        pub unsafe fn performQueueTransaction_completionHandler(
-            &self,
-            queue_transaction: &Block<(NonNull<MPMusicPlayerControllerMutableQueue>,), ()>,
-            completion_handler: &Block<(NonNull<MPMusicPlayerControllerQueue>, *mut NSError), ()>,
-        );
-    }
-);
+    pub type MPMusicPlayerApplicationController;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "MediaPlayer_MPMusicPlayerControllerMutableQueue",
+        feature = "MediaPlayer_MPMusicPlayerControllerQueue"
+    ))]
+    #[objc2::method(sel = "performQueueTransaction:completionHandler:")]
+    pub unsafe fn performQueueTransaction_completionHandler(
+        &self,
+        queue_transaction: &Block<(NonNull<MPMusicPlayerControllerMutableQueue>,), ()>,
+        completion_handler: &Block<(NonNull<MPMusicPlayerControllerQueue>, *mut NSError), ()>,
+    );
+}
 
 extern_static!(MPMusicPlayerControllerQueueDidChangeNotification: &'static NSString);

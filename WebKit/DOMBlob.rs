@@ -5,26 +5,31 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMBlob")]
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMBlob;
-
     #[cfg(feature = "WebKit_DOMBlob")]
-    unsafe impl ClassType for DOMBlob {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMBlob;
+}
 
 #[cfg(feature = "WebKit_DOMBlob")]
 unsafe impl NSObjectProtocol for DOMBlob {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMBlob")]
-    unsafe impl DOMBlob {
-        #[method(size)]
-        pub unsafe fn size(&self) -> c_ulonglong;
-    }
-);
+    #[deprecated]
+    pub type DOMBlob;
+
+    #[objc2::method(sel = "size")]
+    pub unsafe fn size(&self) -> c_ulonglong;
+}

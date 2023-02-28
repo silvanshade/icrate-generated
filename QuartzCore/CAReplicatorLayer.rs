@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::CoreAnimation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CALayer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAReplicatorLayer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CAReplicatorLayer")]
-    pub struct CAReplicatorLayer;
-
-    #[cfg(feature = "CoreAnimation_CAReplicatorLayer")]
-    unsafe impl ClassType for CAReplicatorLayer {
-        #[inherits(NSObject)]
-        type Super = CALayer;
-    }
-);
+    pub type CAReplicatorLayer;
+}
 
 #[cfg(feature = "CoreAnimation_CAReplicatorLayer")]
 unsafe impl CAMediaTiming for CAReplicatorLayer {}
@@ -28,67 +28,76 @@ unsafe impl NSObjectProtocol for CAReplicatorLayer {}
 #[cfg(feature = "CoreAnimation_CAReplicatorLayer")]
 unsafe impl NSSecureCoding for CAReplicatorLayer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CAReplicatorLayer")]
-    unsafe impl CAReplicatorLayer {
-        #[method(instanceCount)]
-        pub unsafe fn instanceCount(&self) -> NSInteger;
+    pub type CAReplicatorLayer;
 
-        #[method(setInstanceCount:)]
-        pub unsafe fn setInstanceCount(&self, instance_count: NSInteger);
+    #[objc2::method(sel = "instanceCount")]
+    pub unsafe fn instanceCount(&self) -> NSInteger;
 
-        #[method(preservesDepth)]
-        pub unsafe fn preservesDepth(&self) -> bool;
+    #[objc2::method(sel = "setInstanceCount:")]
+    pub unsafe fn setInstanceCount(&self, instance_count: NSInteger);
 
-        #[method(setPreservesDepth:)]
-        pub unsafe fn setPreservesDepth(&self, preserves_depth: bool);
+    #[objc2::method(sel = "preservesDepth")]
+    pub unsafe fn preservesDepth(&self) -> bool;
 
-        #[method(instanceDelay)]
-        pub unsafe fn instanceDelay(&self) -> CFTimeInterval;
+    #[objc2::method(sel = "setPreservesDepth:")]
+    pub unsafe fn setPreservesDepth(&self, preserves_depth: bool);
 
-        #[method(setInstanceDelay:)]
-        pub unsafe fn setInstanceDelay(&self, instance_delay: CFTimeInterval);
+    #[objc2::method(sel = "instanceDelay")]
+    pub unsafe fn instanceDelay(&self) -> CFTimeInterval;
 
-        #[method(instanceTransform)]
-        pub unsafe fn instanceTransform(&self) -> CATransform3D;
+    #[objc2::method(sel = "setInstanceDelay:")]
+    pub unsafe fn setInstanceDelay(&self, instance_delay: CFTimeInterval);
 
-        #[method(setInstanceTransform:)]
-        pub unsafe fn setInstanceTransform(&self, instance_transform: CATransform3D);
+    #[objc2::method(sel = "instanceTransform")]
+    pub unsafe fn instanceTransform(&self) -> CATransform3D;
 
-        #[method(instanceRedOffset)]
-        pub unsafe fn instanceRedOffset(&self) -> c_float;
+    #[objc2::method(sel = "setInstanceTransform:")]
+    pub unsafe fn setInstanceTransform(&self, instance_transform: CATransform3D);
 
-        #[method(setInstanceRedOffset:)]
-        pub unsafe fn setInstanceRedOffset(&self, instance_red_offset: c_float);
+    #[objc2::method(sel = "instanceRedOffset")]
+    pub unsafe fn instanceRedOffset(&self) -> c_float;
 
-        #[method(instanceGreenOffset)]
-        pub unsafe fn instanceGreenOffset(&self) -> c_float;
+    #[objc2::method(sel = "setInstanceRedOffset:")]
+    pub unsafe fn setInstanceRedOffset(&self, instance_red_offset: c_float);
 
-        #[method(setInstanceGreenOffset:)]
-        pub unsafe fn setInstanceGreenOffset(&self, instance_green_offset: c_float);
+    #[objc2::method(sel = "instanceGreenOffset")]
+    pub unsafe fn instanceGreenOffset(&self) -> c_float;
 
-        #[method(instanceBlueOffset)]
-        pub unsafe fn instanceBlueOffset(&self) -> c_float;
+    #[objc2::method(sel = "setInstanceGreenOffset:")]
+    pub unsafe fn setInstanceGreenOffset(&self, instance_green_offset: c_float);
 
-        #[method(setInstanceBlueOffset:)]
-        pub unsafe fn setInstanceBlueOffset(&self, instance_blue_offset: c_float);
+    #[objc2::method(sel = "instanceBlueOffset")]
+    pub unsafe fn instanceBlueOffset(&self) -> c_float;
 
-        #[method(instanceAlphaOffset)]
-        pub unsafe fn instanceAlphaOffset(&self) -> c_float;
+    #[objc2::method(sel = "setInstanceBlueOffset:")]
+    pub unsafe fn setInstanceBlueOffset(&self, instance_blue_offset: c_float);
 
-        #[method(setInstanceAlphaOffset:)]
-        pub unsafe fn setInstanceAlphaOffset(&self, instance_alpha_offset: c_float);
-    }
-);
+    #[objc2::method(sel = "instanceAlphaOffset")]
+    pub unsafe fn instanceAlphaOffset(&self) -> c_float;
 
-extern_methods!(
-    /// Methods declared on superclass `CALayer`
+    #[objc2::method(sel = "setInstanceAlphaOffset:")]
+    pub unsafe fn setInstanceAlphaOffset(&self, instance_alpha_offset: c_float);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CALayer`
     #[cfg(feature = "CoreAnimation_CAReplicatorLayer")]
-    unsafe impl CAReplicatorLayer {
-        #[method_id(@__retain_semantics Other layer)]
-        pub unsafe fn layer() -> Id<Self>;
-
-        #[method_id(@__retain_semantics Init initWithLayer:)]
-        pub unsafe fn initWithLayer(this: Option<Allocated<Self>>, layer: &Object) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAReplicatorLayer")]
+    pub type CAReplicatorLayer;
+
+    #[objc2::method(sel = "layer", managed = "Other")]
+    pub unsafe fn layer() -> Id<Self>;
+
+    #[objc2::method(sel = "initWithLayer:", managed = "Init")]
+    pub unsafe fn initWithLayer(this: Option<Allocated<Self>>, layer: &Object) -> Id<Self>;
+}

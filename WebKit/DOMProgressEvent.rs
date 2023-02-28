@@ -5,32 +5,38 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMProgressEvent")]
+#[objc2::interface(
+    unsafe super = DOMEvent,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMProgressEvent;
-
     #[cfg(feature = "WebKit_DOMProgressEvent")]
-    unsafe impl ClassType for DOMProgressEvent {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMEvent;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMProgressEvent;
+}
 
 #[cfg(feature = "WebKit_DOMProgressEvent")]
 unsafe impl NSObjectProtocol for DOMProgressEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMProgressEvent")]
-    unsafe impl DOMProgressEvent {
-        #[method(lengthComputable)]
-        pub unsafe fn lengthComputable(&self) -> bool;
+    #[deprecated]
+    pub type DOMProgressEvent;
 
-        #[method(loaded)]
-        pub unsafe fn loaded(&self) -> c_ulonglong;
+    #[objc2::method(sel = "lengthComputable")]
+    pub unsafe fn lengthComputable(&self) -> bool;
 
-        #[method(total)]
-        pub unsafe fn total(&self) -> c_ulonglong;
-    }
-);
+    #[objc2::method(sel = "loaded")]
+    pub unsafe fn loaded(&self) -> c_ulonglong;
+
+    #[objc2::method(sel = "total")]
+    pub unsafe fn total(&self) -> c_ulonglong;
+}

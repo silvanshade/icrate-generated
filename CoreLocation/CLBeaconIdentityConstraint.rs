@@ -9,16 +9,16 @@ pub type CLBeaconMajorValue = u16;
 
 pub type CLBeaconMinorValue = u16;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreLocation_CLBeaconIdentityConstraint")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreLocation_CLBeaconIdentityConstraint")]
-    pub struct CLBeaconIdentityConstraint;
-
-    #[cfg(feature = "CoreLocation_CLBeaconIdentityConstraint")]
-    unsafe impl ClassType for CLBeaconIdentityConstraint {
-        type Super = NSObject;
-    }
-);
+    pub type CLBeaconIdentityConstraint;
+}
 
 #[cfg(feature = "CoreLocation_CLBeaconIdentityConstraint")]
 unsafe impl NSCoding for CLBeaconIdentityConstraint {}
@@ -29,40 +29,43 @@ unsafe impl NSObjectProtocol for CLBeaconIdentityConstraint {}
 #[cfg(feature = "CoreLocation_CLBeaconIdentityConstraint")]
 unsafe impl NSSecureCoding for CLBeaconIdentityConstraint {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreLocation_CLBeaconIdentityConstraint")]
-    unsafe impl CLBeaconIdentityConstraint {
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Other UUID)]
-        pub unsafe fn UUID(&self) -> Id<NSUUID>;
+    pub type CLBeaconIdentityConstraint;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other major)]
-        pub unsafe fn major(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "UUID", managed = "Other")]
+    pub unsafe fn UUID(&self) -> Id<NSUUID>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other minor)]
-        pub unsafe fn minor(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "major", managed = "Other")]
+    pub unsafe fn major(&self) -> Option<Id<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Init initWithUUID:)]
-        pub unsafe fn initWithUUID(this: Option<Allocated<Self>>, uuid: &NSUUID) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "minor", managed = "Other")]
+    pub unsafe fn minor(&self) -> Option<Id<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Init initWithUUID:major:)]
-        pub unsafe fn initWithUUID_major(
-            this: Option<Allocated<Self>>,
-            uuid: &NSUUID,
-            major: CLBeaconMajorValue,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "initWithUUID:", managed = "Init")]
+    pub unsafe fn initWithUUID(this: Option<Allocated<Self>>, uuid: &NSUUID) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Init initWithUUID:major:minor:)]
-        pub unsafe fn initWithUUID_major_minor(
-            this: Option<Allocated<Self>>,
-            uuid: &NSUUID,
-            major: CLBeaconMajorValue,
-            minor: CLBeaconMinorValue,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "initWithUUID:major:", managed = "Init")]
+    pub unsafe fn initWithUUID_major(
+        this: Option<Allocated<Self>>,
+        uuid: &NSUUID,
+        major: CLBeaconMajorValue,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "initWithUUID:major:minor:", managed = "Init")]
+    pub unsafe fn initWithUUID_major_minor(
+        this: Option<Allocated<Self>>,
+        uuid: &NSUUID,
+        major: CLBeaconMajorValue,
+        minor: CLBeaconMinorValue,
+    ) -> Id<Self>;
+}

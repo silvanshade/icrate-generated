@@ -6,14 +6,13 @@ use crate::Foundation::*;
 
 extern_static!(ASExtensionErrorDomain: Option<&'static NSErrorDomain>);
 
-ns_error_enum!(
-    #[underlying(NSInteger)]
-    pub enum ASExtensionErrorCode {
-        ASExtensionErrorCodeFailed = 0,
-        ASExtensionErrorCodeUserCanceled = 1,
-        ASExtensionErrorCodeUserInteractionRequired = 100,
-        ASExtensionErrorCodeCredentialIdentityNotFound = 101,
-    }
-);
+#[ns_error_enum]
+#[underlying(NSInteger)]
+pub enum ASExtensionErrorCode {
+    ASExtensionErrorCodeFailed = 0,
+    ASExtensionErrorCodeUserCanceled = 1,
+    ASExtensionErrorCodeUserInteractionRequired = 100,
+    ASExtensionErrorCodeCredentialIdentityNotFound = 101,
+}
 
 extern_static!(ASExtensionLocalizedFailureReasonErrorKey: Option<&'static NSErrorUserInfoKey>);

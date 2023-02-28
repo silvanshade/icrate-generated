@@ -5,30 +5,35 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMNodeList")]
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMNodeList;
-
     #[cfg(feature = "WebKit_DOMNodeList")]
-    unsafe impl ClassType for DOMNodeList {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMNodeList;
+}
 
 #[cfg(feature = "WebKit_DOMNodeList")]
 unsafe impl NSObjectProtocol for DOMNodeList {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMNodeList")]
-    unsafe impl DOMNodeList {
-        #[method(length)]
-        pub unsafe fn length(&self) -> c_uint;
+    #[deprecated]
+    pub type DOMNodeList;
 
-        #[cfg(feature = "WebKit_DOMNode")]
-        #[method_id(@__retain_semantics Other item:)]
-        pub unsafe fn item(&self, index: c_uint) -> Option<Id<DOMNode>>;
-    }
-);
+    #[objc2::method(sel = "length")]
+    pub unsafe fn length(&self) -> c_uint;
+
+    #[cfg(feature = "WebKit_DOMNode")]
+    #[objc2::method(sel = "item:", managed = "Other")]
+    pub unsafe fn item(&self, index: c_uint) -> Option<Id<DOMNode>>;
+}

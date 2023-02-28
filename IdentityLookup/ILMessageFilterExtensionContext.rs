@@ -4,32 +4,35 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::IdentityLookup::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSExtensionContext,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "IdentityLookup_ILMessageFilterExtensionContext")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "IdentityLookup_ILMessageFilterExtensionContext")]
-    pub struct ILMessageFilterExtensionContext;
-
-    #[cfg(feature = "IdentityLookup_ILMessageFilterExtensionContext")]
-    unsafe impl ClassType for ILMessageFilterExtensionContext {
-        #[inherits(NSObject)]
-        type Super = NSExtensionContext;
-    }
-);
+    pub type ILMessageFilterExtensionContext;
+}
 
 #[cfg(feature = "IdentityLookup_ILMessageFilterExtensionContext")]
 unsafe impl NSObjectProtocol for ILMessageFilterExtensionContext {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "IdentityLookup_ILMessageFilterExtensionContext")]
-    unsafe impl ILMessageFilterExtensionContext {
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "IdentityLookup_ILNetworkResponse"
-        ))]
-        #[method(deferQueryRequestToNetworkWithCompletion:)]
-        pub unsafe fn deferQueryRequestToNetworkWithCompletion(
-            &self,
-            completion: &Block<(*mut ILNetworkResponse, *mut NSError), ()>,
-        );
-    }
-);
+    pub type ILMessageFilterExtensionContext;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "IdentityLookup_ILNetworkResponse"
+    ))]
+    #[objc2::method(sel = "deferQueryRequestToNetworkWithCompletion:")]
+    pub unsafe fn deferQueryRequestToNetworkWithCompletion(
+        &self,
+        completion: &Block<(*mut ILNetworkResponse, *mut NSError), ()>,
+    );
+}

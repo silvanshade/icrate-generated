@@ -6,22 +6,21 @@ use crate::Foundation::*;
 
 extern_static!(CLSErrorCodeDomain: Option<&'static NSString>);
 
-ns_error_enum!(
-    #[underlying(NSInteger)]
-    pub enum CLSErrorCode {
-        CLSErrorCodeNone = 0,
-        CLSErrorCodeClassKitUnavailable = 1,
-        CLSErrorCodeInvalidArgument = 2,
-        CLSErrorCodeInvalidModification = 3,
-        CLSErrorCodeAuthorizationDenied = 4,
-        CLSErrorCodeDatabaseInaccessible = 5,
-        CLSErrorCodeLimits = 6,
-        CLSErrorCodeInvalidCreate = 7,
-        CLSErrorCodeInvalidUpdate = 8,
-        CLSErrorCodePartialFailure = 9,
-        CLSErrorCodeInvalidAccountCredentials = 10,
-    }
-);
+#[ns_error_enum]
+#[underlying(NSInteger)]
+pub enum CLSErrorCode {
+    CLSErrorCodeNone = 0,
+    CLSErrorCodeClassKitUnavailable = 1,
+    CLSErrorCodeInvalidArgument = 2,
+    CLSErrorCodeInvalidModification = 3,
+    CLSErrorCodeAuthorizationDenied = 4,
+    CLSErrorCodeDatabaseInaccessible = 5,
+    CLSErrorCodeLimits = 6,
+    CLSErrorCodeInvalidCreate = 7,
+    CLSErrorCodeInvalidUpdate = 8,
+    CLSErrorCodePartialFailure = 9,
+    CLSErrorCodeInvalidAccountCredentials = 10,
+}
 
 typed_extensible_enum!(
     pub type CLSErrorUserInfoKey = NSString;

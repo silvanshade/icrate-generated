@@ -9,38 +9,41 @@ extern_static!(NSVariableStatusItemLength: CGFloat = -1.0);
 
 extern_static!(NSSquareStatusItemLength: CGFloat = -2.0);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSStatusBar")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSStatusBar")]
-    pub struct NSStatusBar;
-
-    #[cfg(feature = "AppKit_NSStatusBar")]
-    unsafe impl ClassType for NSStatusBar {
-        type Super = NSObject;
-    }
-);
+    pub type NSStatusBar;
+}
 
 #[cfg(feature = "AppKit_NSStatusBar")]
 unsafe impl NSObjectProtocol for NSStatusBar {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSStatusBar")]
-    unsafe impl NSStatusBar {
-        #[method_id(@__retain_semantics Other systemStatusBar)]
-        pub unsafe fn systemStatusBar() -> Id<NSStatusBar>;
+    pub type NSStatusBar;
 
-        #[cfg(feature = "AppKit_NSStatusItem")]
-        #[method_id(@__retain_semantics Other statusItemWithLength:)]
-        pub unsafe fn statusItemWithLength(&self, length: CGFloat) -> Id<NSStatusItem>;
+    #[objc2::method(sel = "systemStatusBar", managed = "Other")]
+    pub unsafe fn systemStatusBar() -> Id<NSStatusBar>;
 
-        #[cfg(feature = "AppKit_NSStatusItem")]
-        #[method(removeStatusItem:)]
-        pub unsafe fn removeStatusItem(&self, item: &NSStatusItem);
+    #[cfg(feature = "AppKit_NSStatusItem")]
+    #[objc2::method(sel = "statusItemWithLength:", managed = "Other")]
+    pub unsafe fn statusItemWithLength(&self, length: CGFloat) -> Id<NSStatusItem>;
 
-        #[method(isVertical)]
-        pub unsafe fn isVertical(&self) -> bool;
+    #[cfg(feature = "AppKit_NSStatusItem")]
+    #[objc2::method(sel = "removeStatusItem:")]
+    pub unsafe fn removeStatusItem(&self, item: &NSStatusItem);
 
-        #[method(thickness)]
-        pub unsafe fn thickness(&self) -> CGFloat;
-    }
-);
+    #[objc2::method(sel = "isVertical")]
+    pub unsafe fn isVertical(&self) -> bool;
+
+    #[objc2::method(sel = "thickness")]
+    pub unsafe fn thickness(&self) -> CGFloat;
+}

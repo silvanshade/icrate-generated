@@ -5,58 +5,55 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSUserInterfaceItemSearching: NSObjectProtocol {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method(searchForItemsWithSearchString:resultLimit:matchedItemHandler:)]
-        unsafe fn searchForItemsWithSearchString_resultLimit_matchedItemHandler(
-            &self,
-            search_string: &NSString,
-            result_limit: NSInteger,
-            handle_matched_items: &Block<(NonNull<NSArray>,), ()>,
-        );
+#[objc2::protocol]
+pub unsafe trait NSUserInterfaceItemSearching: NSObjectProtocol {
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "searchForItemsWithSearchString:resultLimit:matchedItemHandler:")]
+    unsafe fn searchForItemsWithSearchString_resultLimit_matchedItemHandler(
+        &self,
+        search_string: &NSString,
+        result_limit: NSInteger,
+        handle_matched_items: &Block<(NonNull<NSArray>,), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other localizedTitlesForItem:)]
-        unsafe fn localizedTitlesForItem(&self, item: &Object) -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "localizedTitlesForItem:", managed = "Other")]
+    unsafe fn localizedTitlesForItem(&self, item: &Object) -> Id<NSArray<NSString>>;
 
-        #[optional]
-        #[method(performActionForItem:)]
-        unsafe fn performActionForItem(&self, item: &Object);
+    #[objc2::method(optional, sel = "performActionForItem:")]
+    unsafe fn performActionForItem(&self, item: &Object);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[optional]
-        #[method(showAllHelpTopicsForSearchString:)]
-        unsafe fn showAllHelpTopicsForSearchString(&self, search_string: &NSString);
-    }
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(optional, sel = "showAllHelpTopicsForSearchString:")]
+    unsafe fn showAllHelpTopicsForSearchString(&self, search_string: &NSString);
+}
 
-    unsafe impl ProtocolType for dyn NSUserInterfaceItemSearching {}
-);
-
-extern_methods!(
-    /// NSUserInterfaceItemSearching
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[method(registerUserInterfaceItemSearchHandler:)]
-        pub unsafe fn registerUserInterfaceItemSearchHandler(
-            &self,
-            handler: &ProtocolObject<dyn NSUserInterfaceItemSearching>,
-        );
+    pub type NSApplication;
 
-        #[method(unregisterUserInterfaceItemSearchHandler:)]
-        pub unsafe fn unregisterUserInterfaceItemSearchHandler(
-            &self,
-            handler: &ProtocolObject<dyn NSUserInterfaceItemSearching>,
-        );
+    #[objc2::method(sel = "registerUserInterfaceItemSearchHandler:")]
+    pub unsafe fn registerUserInterfaceItemSearchHandler(
+        &self,
+        handler: &ProtocolObject<dyn NSUserInterfaceItemSearching>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(searchString:inUserInterfaceItemString:searchRange:foundRange:)]
-        pub unsafe fn searchString_inUserInterfaceItemString_searchRange_foundRange(
-            &self,
-            search_string: &NSString,
-            string_to_search: &NSString,
-            search_range: NSRange,
-            found_range: *mut NSRange,
-        ) -> bool;
-    }
-);
+    #[objc2::method(sel = "unregisterUserInterfaceItemSearchHandler:")]
+    pub unsafe fn unregisterUserInterfaceItemSearchHandler(
+        &self,
+        handler: &ProtocolObject<dyn NSUserInterfaceItemSearching>,
+    );
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "searchString:inUserInterfaceItemString:searchRange:foundRange:")]
+    pub unsafe fn searchString_inUserInterfaceItemString_searchRange_foundRange(
+        &self,
+        search_string: &NSString,
+        string_to_search: &NSString,
+        search_range: NSRange,
+        found_range: *mut NSRange,
+    ) -> bool;
+}

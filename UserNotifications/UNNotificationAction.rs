@@ -5,27 +5,26 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::UserNotifications::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum UNNotificationActionOptions {
-        UNNotificationActionOptionAuthenticationRequired = 1 << 0,
-        UNNotificationActionOptionDestructive = 1 << 1,
-        UNNotificationActionOptionForeground = 1 << 2,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum UNNotificationActionOptions {
+    UNNotificationActionOptionAuthenticationRequired = 1 << 0,
+    UNNotificationActionOptionDestructive = 1 << 1,
+    UNNotificationActionOptionForeground = 1 << 2,
+}
 
 extern_static!(UNNotificationActionOptionNone: UNNotificationActionOptions = 0);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNNotificationAction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "UserNotifications_UNNotificationAction")]
-    pub struct UNNotificationAction;
-
-    #[cfg(feature = "UserNotifications_UNNotificationAction")]
-    unsafe impl ClassType for UNNotificationAction {
-        type Super = NSObject;
-    }
-);
+    pub type UNNotificationAction;
+}
 
 #[cfg(feature = "UserNotifications_UNNotificationAction")]
 unsafe impl NSCoding for UNNotificationAction {}
@@ -36,60 +35,63 @@ unsafe impl NSObjectProtocol for UNNotificationAction {}
 #[cfg(feature = "UserNotifications_UNNotificationAction")]
 unsafe impl NSSecureCoding for UNNotificationAction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "UserNotifications_UNNotificationAction")]
-    unsafe impl UNNotificationAction {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    pub type UNNotificationAction;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
 
-        #[method(options)]
-        pub unsafe fn options(&self) -> UNNotificationActionOptions;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "UserNotifications_UNNotificationActionIcon")]
-        #[method_id(@__retain_semantics Other icon)]
-        pub unsafe fn icon(&self) -> Option<Id<UNNotificationActionIcon>>;
+    #[objc2::method(sel = "options")]
+    pub unsafe fn options(&self) -> UNNotificationActionOptions;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other actionWithIdentifier:title:options:)]
-        pub unsafe fn actionWithIdentifier_title_options(
-            identifier: &NSString,
-            title: &NSString,
-            options: UNNotificationActionOptions,
-        ) -> Id<Self>;
+    #[cfg(feature = "UserNotifications_UNNotificationActionIcon")]
+    #[objc2::method(sel = "icon", managed = "Other")]
+    pub unsafe fn icon(&self) -> Option<Id<UNNotificationActionIcon>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "UserNotifications_UNNotificationActionIcon"
-        ))]
-        #[method_id(@__retain_semantics Other actionWithIdentifier:title:options:icon:)]
-        pub unsafe fn actionWithIdentifier_title_options_icon(
-            identifier: &NSString,
-            title: &NSString,
-            options: UNNotificationActionOptions,
-            icon: Option<&UNNotificationActionIcon>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "actionWithIdentifier:title:options:", managed = "Other")]
+    pub unsafe fn actionWithIdentifier_title_options(
+        identifier: &NSString,
+        title: &NSString,
+        options: UNNotificationActionOptions,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "UserNotifications_UNNotificationActionIcon"
+    ))]
+    #[objc2::method(sel = "actionWithIdentifier:title:options:icon:", managed = "Other")]
+    pub unsafe fn actionWithIdentifier_title_options_icon(
+        identifier: &NSString,
+        title: &NSString,
+        options: UNNotificationActionOptions,
+        icon: Option<&UNNotificationActionIcon>,
+    ) -> Id<Self>;
 
-extern_class!(
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = UNNotificationAction,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNTextInputNotificationAction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "UserNotifications_UNTextInputNotificationAction")]
-    pub struct UNTextInputNotificationAction;
-
-    #[cfg(feature = "UserNotifications_UNTextInputNotificationAction")]
-    unsafe impl ClassType for UNTextInputNotificationAction {
-        #[inherits(NSObject)]
-        type Super = UNNotificationAction;
-    }
-);
+    pub type UNTextInputNotificationAction;
+}
 
 #[cfg(feature = "UserNotifications_UNTextInputNotificationAction")]
 unsafe impl NSCoding for UNTextInputNotificationAction {}
@@ -100,65 +102,80 @@ unsafe impl NSObjectProtocol for UNTextInputNotificationAction {}
 #[cfg(feature = "UserNotifications_UNTextInputNotificationAction")]
 unsafe impl NSSecureCoding for UNTextInputNotificationAction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "UserNotifications_UNTextInputNotificationAction")]
-    unsafe impl UNTextInputNotificationAction {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other actionWithIdentifier:title:options:textInputButtonTitle:textInputPlaceholder:)]
-        pub unsafe fn actionWithIdentifier_title_options_textInputButtonTitle_textInputPlaceholder(
-            identifier: &NSString,
-            title: &NSString,
-            options: UNNotificationActionOptions,
-            text_input_button_title: &NSString,
-            text_input_placeholder: &NSString,
-        ) -> Id<Self>;
+    pub type UNTextInputNotificationAction;
 
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "UserNotifications_UNNotificationActionIcon"
-        ))]
-        #[method_id(@__retain_semantics Other actionWithIdentifier:title:options:icon:textInputButtonTitle:textInputPlaceholder:)]
-        pub unsafe fn actionWithIdentifier_title_options_icon_textInputButtonTitle_textInputPlaceholder(
-            identifier: &NSString,
-            title: &NSString,
-            options: UNNotificationActionOptions,
-            icon: Option<&UNNotificationActionIcon>,
-            text_input_button_title: &NSString,
-            text_input_placeholder: &NSString,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "actionWithIdentifier:title:options:textInputButtonTitle:textInputPlaceholder:",
+        managed = "Other"
+    )]
+    pub unsafe fn actionWithIdentifier_title_options_textInputButtonTitle_textInputPlaceholder(
+        identifier: &NSString,
+        title: &NSString,
+        options: UNNotificationActionOptions,
+        text_input_button_title: &NSString,
+        text_input_placeholder: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other textInputButtonTitle)]
-        pub unsafe fn textInputButtonTitle(&self) -> Id<NSString>;
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "UserNotifications_UNNotificationActionIcon"
+    ))]
+    #[objc2::method(
+        sel = "actionWithIdentifier:title:options:icon:textInputButtonTitle:textInputPlaceholder:",
+        managed = "Other"
+    )]
+    pub unsafe fn actionWithIdentifier_title_options_icon_textInputButtonTitle_textInputPlaceholder(
+        identifier: &NSString,
+        title: &NSString,
+        options: UNNotificationActionOptions,
+        icon: Option<&UNNotificationActionIcon>,
+        text_input_button_title: &NSString,
+        text_input_placeholder: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other textInputPlaceholder)]
-        pub unsafe fn textInputPlaceholder(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "textInputButtonTitle", managed = "Other")]
+    pub unsafe fn textInputButtonTitle(&self) -> Id<NSString>;
 
-extern_methods!(
-    /// Methods declared on superclass `UNNotificationAction`
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "textInputPlaceholder", managed = "Other")]
+    pub unsafe fn textInputPlaceholder(&self) -> Id<NSString>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `UNNotificationAction`
     #[cfg(feature = "UserNotifications_UNTextInputNotificationAction")]
-    unsafe impl UNTextInputNotificationAction {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other actionWithIdentifier:title:options:)]
-        pub unsafe fn actionWithIdentifier_title_options(
-            identifier: &NSString,
-            title: &NSString,
-            options: UNNotificationActionOptions,
-        ) -> Id<Self>;
-
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "UserNotifications_UNNotificationActionIcon"
-        ))]
-        #[method_id(@__retain_semantics Other actionWithIdentifier:title:options:icon:)]
-        pub unsafe fn actionWithIdentifier_title_options_icon(
-            identifier: &NSString,
-            title: &NSString,
-            options: UNNotificationActionOptions,
-            icon: Option<&UNNotificationActionIcon>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNTextInputNotificationAction")]
+    pub type UNTextInputNotificationAction;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "actionWithIdentifier:title:options:", managed = "Other")]
+    pub unsafe fn actionWithIdentifier_title_options(
+        identifier: &NSString,
+        title: &NSString,
+        options: UNNotificationActionOptions,
+    ) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "UserNotifications_UNNotificationActionIcon"
+    ))]
+    #[objc2::method(sel = "actionWithIdentifier:title:options:icon:", managed = "Other")]
+    pub unsafe fn actionWithIdentifier_title_options_icon(
+        identifier: &NSString,
+        title: &NSString,
+        options: UNNotificationActionOptions,
+        icon: Option<&UNNotificationActionIcon>,
+    ) -> Id<Self>;
+}

@@ -5,49 +5,52 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPathControlItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPathControlItem")]
-    pub struct NSPathControlItem;
-
-    #[cfg(feature = "AppKit_NSPathControlItem")]
-    unsafe impl ClassType for NSPathControlItem {
-        type Super = NSObject;
-    }
-);
+    pub type NSPathControlItem;
+}
 
 #[cfg(feature = "AppKit_NSPathControlItem")]
 unsafe impl NSObjectProtocol for NSPathControlItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPathControlItem")]
-    unsafe impl NSPathControlItem {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    pub type NSPathControlItem;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other attributedTitle)]
-        pub unsafe fn attributedTitle(&self) -> Id<NSAttributedString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(setAttributedTitle:)]
-        pub unsafe fn setAttributedTitle(&self, attributed_title: &NSAttributedString);
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "attributedTitle", managed = "Other")]
+    pub unsafe fn attributedTitle(&self) -> Id<NSAttributedString>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "setAttributedTitle:")]
+    pub unsafe fn setAttributedTitle(&self, attributed_title: &NSAttributedString);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setImage:)]
-        pub unsafe fn setImage(&self, image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Option<Id<NSImage>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
-    }
-);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setImage:")]
+    pub unsafe fn setImage(&self, image: Option<&NSImage>);
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
+}

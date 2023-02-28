@@ -5,17 +5,19 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSControl,
+    unsafe inherits = [
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSwitch")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSSwitch")]
-    pub struct NSSwitch;
-
-    #[cfg(feature = "AppKit_NSSwitch")]
-    unsafe impl ClassType for NSSwitch {
-        #[inherits(NSView, NSResponder, NSObject)]
-        type Super = NSControl;
-    }
-);
+    pub type NSSwitch;
+}
 
 #[cfg(feature = "AppKit_NSSwitch")]
 unsafe impl NSAccessibility for NSSwitch {}
@@ -47,22 +49,31 @@ unsafe impl NSObjectProtocol for NSSwitch {}
 #[cfg(feature = "AppKit_NSSwitch")]
 unsafe impl NSUserInterfaceItemIdentification for NSSwitch {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSwitch")]
-    unsafe impl NSSwitch {
-        #[method(state)]
-        pub unsafe fn state(&self) -> NSControlStateValue;
+    pub type NSSwitch;
 
-        #[method(setState:)]
-        pub unsafe fn setState(&self, state: NSControlStateValue);
-    }
-);
+    #[objc2::method(sel = "state")]
+    pub unsafe fn state(&self) -> NSControlStateValue;
 
-extern_methods!(
-    /// Methods declared on superclass `NSControl`
+    #[objc2::method(sel = "setState:")]
+    pub unsafe fn setState(&self, state: NSControlStateValue);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSControl`
     #[cfg(feature = "AppKit_NSSwitch")]
-    unsafe impl NSSwitch {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSwitch")]
+    pub type NSSwitch;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

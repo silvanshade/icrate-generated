@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLHeadElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLHeadElement;
-
     #[cfg(feature = "WebKit_DOMHTMLHeadElement")]
-    unsafe impl ClassType for DOMHTMLHeadElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLHeadElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLHeadElement")]
 unsafe impl DOMEventTarget for DOMHTMLHeadElement {}
@@ -24,15 +28,19 @@ unsafe impl DOMEventTarget for DOMHTMLHeadElement {}
 #[cfg(feature = "WebKit_DOMHTMLHeadElement")]
 unsafe impl NSObjectProtocol for DOMHTMLHeadElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLHeadElement")]
-    unsafe impl DOMHTMLHeadElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other profile)]
-        pub unsafe fn profile(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMHTMLHeadElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setProfile:)]
-        pub unsafe fn setProfile(&self, profile: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "profile", managed = "Other")]
+    pub unsafe fn profile(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setProfile:")]
+    pub unsafe fn setProfile(&self, profile: Option<&NSString>);
+}

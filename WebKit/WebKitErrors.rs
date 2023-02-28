@@ -13,30 +13,28 @@ extern_static!(WebKitErrorPlugInNameKey: Option<&'static NSString>);
 
 extern_static!(WebKitErrorPlugInPageURLStringKey: Option<&'static NSString>);
 
-extern_enum!(
-    #[underlying(c_uint)]
+#[extern_enum]
+#[underlying(c_uint)]
+#[deprecated]
+pub enum __anonymous__ {
     #[deprecated]
-    pub enum __anonymous__ {
-        #[deprecated]
-        WebKitErrorCannotShowMIMEType = 100,
-        #[deprecated]
-        WebKitErrorCannotShowURL = 101,
-        #[deprecated]
-        WebKitErrorFrameLoadInterruptedByPolicyChange = 102,
-    }
-);
+    WebKitErrorCannotShowMIMEType = 100,
+    #[deprecated]
+    WebKitErrorCannotShowURL = 101,
+    #[deprecated]
+    WebKitErrorFrameLoadInterruptedByPolicyChange = 102,
+}
 
-extern_enum!(
-    #[underlying(c_uint)]
+#[extern_enum]
+#[underlying(c_uint)]
+#[deprecated]
+pub enum __anonymous__ {
     #[deprecated]
-    pub enum __anonymous__ {
-        #[deprecated]
-        WebKitErrorCannotFindPlugIn = 200,
-        #[deprecated]
-        WebKitErrorCannotLoadPlugIn = 201,
-        #[deprecated]
-        WebKitErrorJavaUnavailable = 202,
-        #[deprecated]
-        WebKitErrorBlockedPlugInVersion = 203,
-    }
-);
+    WebKitErrorCannotFindPlugIn = 200,
+    #[deprecated]
+    WebKitErrorCannotLoadPlugIn = 201,
+    #[deprecated]
+    WebKitErrorJavaUnavailable = 202,
+    #[deprecated]
+    WebKitErrorBlockedPlugInVersion = 203,
+}

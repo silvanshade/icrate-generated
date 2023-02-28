@@ -7,17 +7,17 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKShape,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKMultiPolygon")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKMultiPolygon")]
-    pub struct MKMultiPolygon;
-
-    #[cfg(feature = "MapKit_MKMultiPolygon")]
-    unsafe impl ClassType for MKMultiPolygon {
-        #[inherits(NSObject)]
-        type Super = MKShape;
-    }
-);
+    pub type MKMultiPolygon;
+}
 
 #[cfg(feature = "MapKit_MKMultiPolygon")]
 unsafe impl MKAnnotation for MKMultiPolygon {}
@@ -28,18 +28,21 @@ unsafe impl MKOverlay for MKMultiPolygon {}
 #[cfg(feature = "MapKit_MKMultiPolygon")]
 unsafe impl NSObjectProtocol for MKMultiPolygon {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMultiPolygon")]
-    unsafe impl MKMultiPolygon {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MapKit_MKPolygon"))]
-        #[method_id(@__retain_semantics Init initWithPolygons:)]
-        pub unsafe fn initWithPolygons(
-            this: Option<Allocated<Self>>,
-            polygons: &NSArray<MKPolygon>,
-        ) -> Id<Self>;
+    pub type MKMultiPolygon;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MapKit_MKPolygon"))]
-        #[method_id(@__retain_semantics Other polygons)]
-        pub unsafe fn polygons(&self) -> Id<NSArray<MKPolygon>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MapKit_MKPolygon"))]
+    #[objc2::method(sel = "initWithPolygons:", managed = "Init")]
+    pub unsafe fn initWithPolygons(
+        this: Option<Allocated<Self>>,
+        polygons: &NSArray<MKPolygon>,
+    ) -> Id<Self>;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MapKit_MKPolygon"))]
+    #[objc2::method(sel = "polygons", managed = "Other")]
+    pub unsafe fn polygons(&self) -> Id<NSArray<MKPolygon>>;
+}

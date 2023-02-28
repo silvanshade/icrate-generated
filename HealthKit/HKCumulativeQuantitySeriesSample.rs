@@ -6,18 +6,21 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKCumulativeQuantitySeriesSample")]
+#[objc2::interface(
+    unsafe super = HKCumulativeQuantitySample,
+    unsafe inherits = [
+        HKQuantitySample,
+        HKSample,
+        HKObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct HKCumulativeQuantitySeriesSample;
-
     #[cfg(feature = "HealthKit_HKCumulativeQuantitySeriesSample")]
-    unsafe impl ClassType for HKCumulativeQuantitySeriesSample {
-        #[inherits(HKQuantitySample, HKSample, HKObject, NSObject)]
-        type Super = HKCumulativeQuantitySample;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type HKCumulativeQuantitySeriesSample;
+}
 
 #[cfg(feature = "HealthKit_HKCumulativeQuantitySeriesSample")]
 unsafe impl NSCoding for HKCumulativeQuantitySeriesSample {}
@@ -28,64 +31,83 @@ unsafe impl NSObjectProtocol for HKCumulativeQuantitySeriesSample {}
 #[cfg(feature = "HealthKit_HKCumulativeQuantitySeriesSample")]
 unsafe impl NSSecureCoding for HKCumulativeQuantitySeriesSample {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKCumulativeQuantitySeriesSample")]
-    unsafe impl HKCumulativeQuantitySeriesSample {
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other sum)]
-        pub unsafe fn sum(&self) -> Id<HKQuantity>;
-    }
-);
+    #[deprecated]
+    pub type HKCumulativeQuantitySeriesSample;
 
-extern_methods!(
-    /// Methods declared on superclass `HKQuantitySample`
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "sum", managed = "Other")]
+    pub unsafe fn sum(&self) -> Id<HKQuantity>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `HKQuantitySample`
     #[cfg(feature = "HealthKit_HKCumulativeQuantitySeriesSample")]
-    unsafe impl HKCumulativeQuantitySeriesSample {
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "HealthKit_HKQuantity",
-            feature = "HealthKit_HKQuantityType"
-        ))]
-        #[method_id(@__retain_semantics Other quantitySampleWithType:quantity:startDate:endDate:)]
-        pub unsafe fn quantitySampleWithType_quantity_startDate_endDate(
-            quantity_type: &HKQuantityType,
-            quantity: &HKQuantity,
-            start_date: &NSDate,
-            end_date: &NSDate,
-        ) -> Id<Self>;
-
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "HealthKit_HKQuantity",
-            feature = "HealthKit_HKQuantityType"
-        ))]
-        #[method_id(@__retain_semantics Other quantitySampleWithType:quantity:startDate:endDate:metadata:)]
-        pub unsafe fn quantitySampleWithType_quantity_startDate_endDate_metadata(
-            quantity_type: &HKQuantityType,
-            quantity: &HKQuantity,
-            start_date: &NSDate,
-            end_date: &NSDate,
-            metadata: Option<&NSDictionary<NSString, Object>>,
-        ) -> Id<Self>;
-
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "HealthKit_HKDevice",
-            feature = "HealthKit_HKQuantity",
-            feature = "HealthKit_HKQuantityType"
-        ))]
-        #[method_id(@__retain_semantics Other quantitySampleWithType:quantity:startDate:endDate:device:metadata:)]
-        pub unsafe fn quantitySampleWithType_quantity_startDate_endDate_device_metadata(
-            quantity_type: &HKQuantityType,
-            quantity: &HKQuantity,
-            start_date: &NSDate,
-            end_date: &NSDate,
-            device: Option<&HKDevice>,
-            metadata: Option<&NSDictionary<NSString, Object>>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKCumulativeQuantitySeriesSample")]
+    pub type HKCumulativeQuantitySeriesSample;
+
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "HealthKit_HKQuantity",
+        feature = "HealthKit_HKQuantityType"
+    ))]
+    #[objc2::method(
+        sel = "quantitySampleWithType:quantity:startDate:endDate:",
+        managed = "Other"
+    )]
+    pub unsafe fn quantitySampleWithType_quantity_startDate_endDate(
+        quantity_type: &HKQuantityType,
+        quantity: &HKQuantity,
+        start_date: &NSDate,
+        end_date: &NSDate,
+    ) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "HealthKit_HKQuantity",
+        feature = "HealthKit_HKQuantityType"
+    ))]
+    #[objc2::method(
+        sel = "quantitySampleWithType:quantity:startDate:endDate:metadata:",
+        managed = "Other"
+    )]
+    pub unsafe fn quantitySampleWithType_quantity_startDate_endDate_metadata(
+        quantity_type: &HKQuantityType,
+        quantity: &HKQuantity,
+        start_date: &NSDate,
+        end_date: &NSDate,
+        metadata: Option<&NSDictionary<NSString, Object>>,
+    ) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "HealthKit_HKDevice",
+        feature = "HealthKit_HKQuantity",
+        feature = "HealthKit_HKQuantityType"
+    ))]
+    #[objc2::method(
+        sel = "quantitySampleWithType:quantity:startDate:endDate:device:metadata:",
+        managed = "Other"
+    )]
+    pub unsafe fn quantitySampleWithType_quantity_startDate_endDate_device_metadata(
+        quantity_type: &HKQuantityType,
+        quantity: &HKQuantity,
+        start_date: &NSDate,
+        end_date: &NSDate,
+        device: Option<&HKDevice>,
+        metadata: Option<&NSDictionary<NSString, Object>>,
+    ) -> Id<Self>;
+}

@@ -5,24 +5,22 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSAnimationCurve {
-        NSAnimationEaseInOut = 0,
-        NSAnimationEaseIn = 1,
-        NSAnimationEaseOut = 2,
-        NSAnimationLinear = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSAnimationCurve {
+    NSAnimationEaseInOut = 0,
+    NSAnimationEaseIn = 1,
+    NSAnimationEaseOut = 2,
+    NSAnimationLinear = 3,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSAnimationBlockingMode {
-        NSAnimationBlocking = 0,
-        NSAnimationNonblocking = 1,
-        NSAnimationNonblockingThreaded = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSAnimationBlockingMode {
+    NSAnimationBlocking = 0,
+    NSAnimationNonblocking = 1,
+    NSAnimationNonblockingThreaded = 2,
+}
 
 pub type NSAnimationProgress = c_float;
 
@@ -30,16 +28,16 @@ extern_static!(NSAnimationProgressMarkNotification: &'static NSNotificationName)
 
 extern_static!(NSAnimationProgressMark: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSAnimation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSAnimation")]
-    pub struct NSAnimation;
-
-    #[cfg(feature = "AppKit_NSAnimation")]
-    unsafe impl ClassType for NSAnimation {
-        type Super = NSObject;
-    }
-);
+    pub type NSAnimation;
+}
 
 #[cfg(feature = "AppKit_NSAnimation")]
 unsafe impl NSCoding for NSAnimation {}
@@ -47,155 +45,142 @@ unsafe impl NSCoding for NSAnimation {}
 #[cfg(feature = "AppKit_NSAnimation")]
 unsafe impl NSObjectProtocol for NSAnimation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSAnimation")]
-    unsafe impl NSAnimation {
-        #[method_id(@__retain_semantics Init initWithDuration:animationCurve:)]
-        pub unsafe fn initWithDuration_animationCurve(
-            this: Option<Allocated<Self>>,
-            duration: NSTimeInterval,
-            animation_curve: NSAnimationCurve,
-        ) -> Id<Self>;
+    pub type NSAnimation;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "initWithDuration:animationCurve:", managed = "Init")]
+    pub unsafe fn initWithDuration_animationCurve(
+        this: Option<Allocated<Self>>,
+        duration: NSTimeInterval,
+        animation_curve: NSAnimationCurve,
+    ) -> Id<Self>;
 
-        #[method(startAnimation)]
-        pub unsafe fn startAnimation(&self);
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[method(stopAnimation)]
-        pub unsafe fn stopAnimation(&self);
+    #[objc2::method(sel = "startAnimation")]
+    pub unsafe fn startAnimation(&self);
 
-        #[method(isAnimating)]
-        pub unsafe fn isAnimating(&self) -> bool;
+    #[objc2::method(sel = "stopAnimation")]
+    pub unsafe fn stopAnimation(&self);
 
-        #[method(currentProgress)]
-        pub unsafe fn currentProgress(&self) -> NSAnimationProgress;
+    #[objc2::method(sel = "isAnimating")]
+    pub unsafe fn isAnimating(&self) -> bool;
 
-        #[method(setCurrentProgress:)]
-        pub unsafe fn setCurrentProgress(&self, current_progress: NSAnimationProgress);
+    #[objc2::method(sel = "currentProgress")]
+    pub unsafe fn currentProgress(&self) -> NSAnimationProgress;
 
-        #[method(duration)]
-        pub unsafe fn duration(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "setCurrentProgress:")]
+    pub unsafe fn setCurrentProgress(&self, current_progress: NSAnimationProgress);
 
-        #[method(setDuration:)]
-        pub unsafe fn setDuration(&self, duration: NSTimeInterval);
+    #[objc2::method(sel = "duration")]
+    pub unsafe fn duration(&self) -> NSTimeInterval;
 
-        #[method(animationBlockingMode)]
-        pub unsafe fn animationBlockingMode(&self) -> NSAnimationBlockingMode;
+    #[objc2::method(sel = "setDuration:")]
+    pub unsafe fn setDuration(&self, duration: NSTimeInterval);
 
-        #[method(setAnimationBlockingMode:)]
-        pub unsafe fn setAnimationBlockingMode(
-            &self,
-            animation_blocking_mode: NSAnimationBlockingMode,
-        );
+    #[objc2::method(sel = "animationBlockingMode")]
+    pub unsafe fn animationBlockingMode(&self) -> NSAnimationBlockingMode;
 
-        #[method(frameRate)]
-        pub unsafe fn frameRate(&self) -> c_float;
+    #[objc2::method(sel = "setAnimationBlockingMode:")]
+    pub unsafe fn setAnimationBlockingMode(&self, animation_blocking_mode: NSAnimationBlockingMode);
 
-        #[method(setFrameRate:)]
-        pub unsafe fn setFrameRate(&self, frame_rate: c_float);
+    #[objc2::method(sel = "frameRate")]
+    pub unsafe fn frameRate(&self) -> c_float;
 
-        #[method(animationCurve)]
-        pub unsafe fn animationCurve(&self) -> NSAnimationCurve;
+    #[objc2::method(sel = "setFrameRate:")]
+    pub unsafe fn setFrameRate(&self, frame_rate: c_float);
 
-        #[method(setAnimationCurve:)]
-        pub unsafe fn setAnimationCurve(&self, animation_curve: NSAnimationCurve);
+    #[objc2::method(sel = "animationCurve")]
+    pub unsafe fn animationCurve(&self) -> NSAnimationCurve;
 
-        #[method(currentValue)]
-        pub unsafe fn currentValue(&self) -> c_float;
+    #[objc2::method(sel = "setAnimationCurve:")]
+    pub unsafe fn setAnimationCurve(&self, animation_curve: NSAnimationCurve);
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSAnimationDelegate>>>;
+    #[objc2::method(sel = "currentValue")]
+    pub unsafe fn currentValue(&self) -> c_float;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSAnimationDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSAnimationDelegate>>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other progressMarks)]
-        pub unsafe fn progressMarks(&self) -> Id<NSArray<NSNumber>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSAnimationDelegate>>);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method(setProgressMarks:)]
-        pub unsafe fn setProgressMarks(&self, progress_marks: &NSArray<NSNumber>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "progressMarks", managed = "Other")]
+    pub unsafe fn progressMarks(&self) -> Id<NSArray<NSNumber>>;
 
-        #[method(addProgressMark:)]
-        pub unsafe fn addProgressMark(&self, progress_mark: NSAnimationProgress);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "setProgressMarks:")]
+    pub unsafe fn setProgressMarks(&self, progress_marks: &NSArray<NSNumber>);
 
-        #[method(removeProgressMark:)]
-        pub unsafe fn removeProgressMark(&self, progress_mark: NSAnimationProgress);
+    #[objc2::method(sel = "addProgressMark:")]
+    pub unsafe fn addProgressMark(&self, progress_mark: NSAnimationProgress);
 
-        #[method(startWhenAnimation:reachesProgress:)]
-        pub unsafe fn startWhenAnimation_reachesProgress(
-            &self,
-            animation: &NSAnimation,
-            start_progress: NSAnimationProgress,
-        );
+    #[objc2::method(sel = "removeProgressMark:")]
+    pub unsafe fn removeProgressMark(&self, progress_mark: NSAnimationProgress);
 
-        #[method(stopWhenAnimation:reachesProgress:)]
-        pub unsafe fn stopWhenAnimation_reachesProgress(
-            &self,
-            animation: &NSAnimation,
-            stop_progress: NSAnimationProgress,
-        );
+    #[objc2::method(sel = "startWhenAnimation:reachesProgress:")]
+    pub unsafe fn startWhenAnimation_reachesProgress(
+        &self,
+        animation: &NSAnimation,
+        start_progress: NSAnimationProgress,
+    );
 
-        #[method(clearStartAnimation)]
-        pub unsafe fn clearStartAnimation(&self);
+    #[objc2::method(sel = "stopWhenAnimation:reachesProgress:")]
+    pub unsafe fn stopWhenAnimation_reachesProgress(
+        &self,
+        animation: &NSAnimation,
+        stop_progress: NSAnimationProgress,
+    );
 
-        #[method(clearStopAnimation)]
-        pub unsafe fn clearStopAnimation(&self);
+    #[objc2::method(sel = "clearStartAnimation")]
+    pub unsafe fn clearStartAnimation(&self);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other runLoopModesForAnimating)]
-        pub unsafe fn runLoopModesForAnimating(&self) -> Option<Id<NSArray<NSRunLoopMode>>>;
-    }
-);
+    #[objc2::method(sel = "clearStopAnimation")]
+    pub unsafe fn clearStopAnimation(&self);
 
-extern_protocol!(
-    pub unsafe trait NSAnimationDelegate: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSAnimation")]
-        #[optional]
-        #[method(animationShouldStart:)]
-        unsafe fn animationShouldStart(&self, animation: &NSAnimation) -> bool;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "runLoopModesForAnimating", managed = "Other")]
+    pub unsafe fn runLoopModesForAnimating(&self) -> Option<Id<NSArray<NSRunLoopMode>>>;
+}
 
-        #[cfg(feature = "AppKit_NSAnimation")]
-        #[optional]
-        #[method(animationDidStop:)]
-        unsafe fn animationDidStop(&self, animation: &NSAnimation);
+#[objc2::protocol]
+pub unsafe trait NSAnimationDelegate: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSAnimation")]
+    #[objc2::method(optional, sel = "animationShouldStart:")]
+    unsafe fn animationShouldStart(&self, animation: &NSAnimation) -> bool;
 
-        #[cfg(feature = "AppKit_NSAnimation")]
-        #[optional]
-        #[method(animationDidEnd:)]
-        unsafe fn animationDidEnd(&self, animation: &NSAnimation);
+    #[cfg(feature = "AppKit_NSAnimation")]
+    #[objc2::method(optional, sel = "animationDidStop:")]
+    unsafe fn animationDidStop(&self, animation: &NSAnimation);
 
-        #[cfg(feature = "AppKit_NSAnimation")]
-        #[optional]
-        #[method(animation:valueForProgress:)]
-        unsafe fn animation_valueForProgress(
-            &self,
-            animation: &NSAnimation,
-            progress: NSAnimationProgress,
-        ) -> c_float;
+    #[cfg(feature = "AppKit_NSAnimation")]
+    #[objc2::method(optional, sel = "animationDidEnd:")]
+    unsafe fn animationDidEnd(&self, animation: &NSAnimation);
 
-        #[cfg(feature = "AppKit_NSAnimation")]
-        #[optional]
-        #[method(animation:didReachProgressMark:)]
-        unsafe fn animation_didReachProgressMark(
-            &self,
-            animation: &NSAnimation,
-            progress: NSAnimationProgress,
-        );
-    }
+    #[cfg(feature = "AppKit_NSAnimation")]
+    #[objc2::method(optional, sel = "animation:valueForProgress:")]
+    unsafe fn animation_valueForProgress(
+        &self,
+        animation: &NSAnimation,
+        progress: NSAnimationProgress,
+    ) -> c_float;
 
-    unsafe impl ProtocolType for dyn NSAnimationDelegate {}
-);
+    #[cfg(feature = "AppKit_NSAnimation")]
+    #[objc2::method(optional, sel = "animation:didReachProgressMark:")]
+    unsafe fn animation_didReachProgressMark(
+        &self,
+        animation: &NSAnimation,
+        progress: NSAnimationProgress,
+    );
+}
 
 typed_enum!(
     pub type NSViewAnimationKey = NSString;
@@ -217,17 +202,17 @@ extern_static!(NSViewAnimationFadeInEffect: &'static NSViewAnimationEffectName);
 
 extern_static!(NSViewAnimationFadeOutEffect: &'static NSViewAnimationEffectName);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSAnimation,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSViewAnimation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSViewAnimation")]
-    pub struct NSViewAnimation;
-
-    #[cfg(feature = "AppKit_NSViewAnimation")]
-    unsafe impl ClassType for NSViewAnimation {
-        #[inherits(NSObject)]
-        type Super = NSAnimation;
-    }
-);
+    pub type NSViewAnimation;
+}
 
 #[cfg(feature = "AppKit_NSViewAnimation")]
 unsafe impl NSCoding for NSViewAnimation {}
@@ -235,69 +220,73 @@ unsafe impl NSCoding for NSViewAnimation {}
 #[cfg(feature = "AppKit_NSViewAnimation")]
 unsafe impl NSObjectProtocol for NSViewAnimation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSViewAnimation")]
-    unsafe impl NSViewAnimation {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSDictionary"))]
-        #[method_id(@__retain_semantics Init initWithViewAnimations:)]
-        pub unsafe fn initWithViewAnimations(
-            this: Option<Allocated<Self>>,
-            view_animations: &NSArray<NSDictionary<NSViewAnimationKey, Object>>,
-        ) -> Id<Self>;
+    pub type NSViewAnimation;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSDictionary"))]
-        #[method_id(@__retain_semantics Other viewAnimations)]
-        pub unsafe fn viewAnimations(
-            &self,
-        ) -> Id<NSArray<NSDictionary<NSViewAnimationKey, Object>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSDictionary"))]
+    #[objc2::method(sel = "initWithViewAnimations:", managed = "Init")]
+    pub unsafe fn initWithViewAnimations(
+        this: Option<Allocated<Self>>,
+        view_animations: &NSArray<NSDictionary<NSViewAnimationKey, Object>>,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSDictionary"))]
-        #[method(setViewAnimations:)]
-        pub unsafe fn setViewAnimations(
-            &self,
-            view_animations: &NSArray<NSDictionary<NSViewAnimationKey, Object>>,
-        );
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSDictionary"))]
+    #[objc2::method(sel = "viewAnimations", managed = "Other")]
+    pub unsafe fn viewAnimations(&self) -> Id<NSArray<NSDictionary<NSViewAnimationKey, Object>>>;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSDictionary"))]
+    #[objc2::method(sel = "setViewAnimations:")]
+    pub unsafe fn setViewAnimations(
+        &self,
+        view_animations: &NSArray<NSDictionary<NSViewAnimationKey, Object>>,
+    );
+}
 
 pub type NSAnimatablePropertyKey = NSString;
 
-extern_protocol!(
-    pub unsafe trait NSAnimatablePropertyContainer {
-        #[method_id(@__retain_semantics Other animator)]
-        unsafe fn animator(&self) -> Id<Self>;
+#[objc2::protocol]
+pub unsafe trait NSAnimatablePropertyContainer {
+    #[objc2::method(sel = "animator", managed = "Other")]
+    unsafe fn animator(&self) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other animations)]
-        unsafe fn animations(&self) -> Id<NSDictionary<NSAnimatablePropertyKey, Object>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "animations", managed = "Other")]
+    unsafe fn animations(&self) -> Id<NSDictionary<NSAnimatablePropertyKey, Object>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(setAnimations:)]
-        unsafe fn setAnimations(&self, animations: &NSDictionary<NSAnimatablePropertyKey, Object>);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "setAnimations:")]
+    unsafe fn setAnimations(&self, animations: &NSDictionary<NSAnimatablePropertyKey, Object>);
 
-        #[method_id(@__retain_semantics Other animationForKey:)]
-        unsafe fn animationForKey(&self, key: &NSAnimatablePropertyKey) -> Option<Id<Object>>;
+    #[objc2::method(sel = "animationForKey:", managed = "Other")]
+    unsafe fn animationForKey(&self, key: &NSAnimatablePropertyKey) -> Option<Id<Object>>;
 
-        #[method_id(@__retain_semantics Other defaultAnimationForKey:)]
-        unsafe fn defaultAnimationForKey(key: &NSAnimatablePropertyKey) -> Option<Id<Object>>;
-    }
-
-    unsafe impl ProtocolType for dyn NSAnimatablePropertyContainer {}
-);
+    #[objc2::method(sel = "defaultAnimationForKey:", managed = "Other")]
+    unsafe fn defaultAnimationForKey(key: &NSAnimatablePropertyKey) -> Option<Id<Object>>;
+}
 
 extern_static!(NSAnimationTriggerOrderIn: &'static NSAnimatablePropertyKey);
 
 extern_static!(NSAnimationTriggerOrderOut: &'static NSAnimatablePropertyKey);
 
-extern_methods!(
-    /// Methods declared on superclass `NSAnimation`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSAnimation`
     #[cfg(feature = "AppKit_NSViewAnimation")]
-    unsafe impl NSViewAnimation {
-        #[method_id(@__retain_semantics Init initWithDuration:animationCurve:)]
-        pub unsafe fn initWithDuration_animationCurve(
-            this: Option<Allocated<Self>>,
-            duration: NSTimeInterval,
-            animation_curve: NSAnimationCurve,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSViewAnimation")]
+    pub type NSViewAnimation;
+
+    #[objc2::method(sel = "initWithDuration:animationCurve:", managed = "Init")]
+    pub unsafe fn initWithDuration_animationCurve(
+        this: Option<Allocated<Self>>,
+        duration: NSTimeInterval,
+        animation_curve: NSAnimationCurve,
+    ) -> Id<Self>;
+}

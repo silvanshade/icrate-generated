@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MailKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MailKit_MEMessageEncodingResult")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MailKit_MEMessageEncodingResult")]
-    pub struct MEMessageEncodingResult;
-
-    #[cfg(feature = "MailKit_MEMessageEncodingResult")]
-    unsafe impl ClassType for MEMessageEncodingResult {
-        type Super = NSObject;
-    }
-);
+    pub type MEMessageEncodingResult;
+}
 
 #[cfg(feature = "MailKit_MEMessageEncodingResult")]
 unsafe impl NSCoding for MEMessageEncodingResult {}
@@ -25,37 +25,43 @@ unsafe impl NSObjectProtocol for MEMessageEncodingResult {}
 #[cfg(feature = "MailKit_MEMessageEncodingResult")]
 unsafe impl NSSecureCoding for MEMessageEncodingResult {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MailKit_MEMessageEncodingResult")]
-    unsafe impl MEMessageEncodingResult {
-        #[cfg(feature = "MailKit_MEEncodedOutgoingMessage")]
-        #[method_id(@__retain_semantics Other encodedMessage)]
-        pub unsafe fn encodedMessage(&self) -> Option<Id<MEEncodedOutgoingMessage>>;
+    pub type MEMessageEncodingResult;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other signingError)]
-        pub unsafe fn signingError(&self) -> Option<Id<NSError>>;
+    #[cfg(feature = "MailKit_MEEncodedOutgoingMessage")]
+    #[objc2::method(sel = "encodedMessage", managed = "Other")]
+    pub unsafe fn encodedMessage(&self) -> Option<Id<MEEncodedOutgoingMessage>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other encryptionError)]
-        pub unsafe fn encryptionError(&self) -> Option<Id<NSError>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "signingError", managed = "Other")]
+    pub unsafe fn signingError(&self) -> Option<Id<NSError>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "encryptionError", managed = "Other")]
+    pub unsafe fn encryptionError(&self) -> Option<Id<NSError>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "MailKit_MEEncodedOutgoingMessage"
-        ))]
-        #[method_id(@__retain_semantics Init initWithEncodedMessage:signingError:encryptionError:)]
-        pub unsafe fn initWithEncodedMessage_signingError_encryptionError(
-            this: Option<Allocated<Self>>,
-            encoded_message: Option<&MEEncodedOutgoingMessage>,
-            signing_error: Option<&NSError>,
-            encryption_error: Option<&NSError>,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "MailKit_MEEncodedOutgoingMessage"
+    ))]
+    #[objc2::method(
+        sel = "initWithEncodedMessage:signingError:encryptionError:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithEncodedMessage_signingError_encryptionError(
+        this: Option<Allocated<Self>>,
+        encoded_message: Option<&MEEncodedOutgoingMessage>,
+        signing_error: Option<&NSError>,
+        encryption_error: Option<&NSError>,
+    ) -> Id<Self>;
+}

@@ -5,14 +5,13 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum GCTouchState {
-        GCTouchStateUp = 0,
-        GCTouchStateDown = 1,
-        GCTouchStateMoving = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum GCTouchState {
+    GCTouchStateUp = 0,
+    GCTouchStateDown = 1,
+    GCTouchStateMoving = 2,
+}
 
 pub type GCControllerTouchpadHandler = *mut Block<
     (
@@ -25,69 +24,72 @@ pub type GCControllerTouchpadHandler = *mut Block<
     (),
 >;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = GCControllerElement,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCControllerTouchpad")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCControllerTouchpad")]
-    pub struct GCControllerTouchpad;
-
-    #[cfg(feature = "GameController_GCControllerTouchpad")]
-    unsafe impl ClassType for GCControllerTouchpad {
-        #[inherits(NSObject)]
-        type Super = GCControllerElement;
-    }
-);
+    pub type GCControllerTouchpad;
+}
 
 #[cfg(feature = "GameController_GCControllerTouchpad")]
 unsafe impl NSObjectProtocol for GCControllerTouchpad {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCControllerTouchpad")]
-    unsafe impl GCControllerTouchpad {
-        #[cfg(feature = "GameController_GCControllerButtonInput")]
-        #[method_id(@__retain_semantics Other button)]
-        pub unsafe fn button(&self) -> Id<GCControllerButtonInput>;
+    pub type GCControllerTouchpad;
 
-        #[method(touchDown)]
-        pub unsafe fn touchDown(&self) -> GCControllerTouchpadHandler;
+    #[cfg(feature = "GameController_GCControllerButtonInput")]
+    #[objc2::method(sel = "button", managed = "Other")]
+    pub unsafe fn button(&self) -> Id<GCControllerButtonInput>;
 
-        #[method(setTouchDown:)]
-        pub unsafe fn setTouchDown(&self, touch_down: GCControllerTouchpadHandler);
+    #[objc2::method(sel = "touchDown")]
+    pub unsafe fn touchDown(&self) -> GCControllerTouchpadHandler;
 
-        #[method(touchMoved)]
-        pub unsafe fn touchMoved(&self) -> GCControllerTouchpadHandler;
+    #[objc2::method(sel = "setTouchDown:")]
+    pub unsafe fn setTouchDown(&self, touch_down: GCControllerTouchpadHandler);
 
-        #[method(setTouchMoved:)]
-        pub unsafe fn setTouchMoved(&self, touch_moved: GCControllerTouchpadHandler);
+    #[objc2::method(sel = "touchMoved")]
+    pub unsafe fn touchMoved(&self) -> GCControllerTouchpadHandler;
 
-        #[method(touchUp)]
-        pub unsafe fn touchUp(&self) -> GCControllerTouchpadHandler;
+    #[objc2::method(sel = "setTouchMoved:")]
+    pub unsafe fn setTouchMoved(&self, touch_moved: GCControllerTouchpadHandler);
 
-        #[method(setTouchUp:)]
-        pub unsafe fn setTouchUp(&self, touch_up: GCControllerTouchpadHandler);
+    #[objc2::method(sel = "touchUp")]
+    pub unsafe fn touchUp(&self) -> GCControllerTouchpadHandler;
 
-        #[cfg(feature = "GameController_GCControllerDirectionPad")]
-        #[method_id(@__retain_semantics Other touchSurface)]
-        pub unsafe fn touchSurface(&self) -> Id<GCControllerDirectionPad>;
+    #[objc2::method(sel = "setTouchUp:")]
+    pub unsafe fn setTouchUp(&self, touch_up: GCControllerTouchpadHandler);
 
-        #[method(touchState)]
-        pub unsafe fn touchState(&self) -> GCTouchState;
+    #[cfg(feature = "GameController_GCControllerDirectionPad")]
+    #[objc2::method(sel = "touchSurface", managed = "Other")]
+    pub unsafe fn touchSurface(&self) -> Id<GCControllerDirectionPad>;
 
-        #[method(reportsAbsoluteTouchSurfaceValues)]
-        pub unsafe fn reportsAbsoluteTouchSurfaceValues(&self) -> bool;
+    #[objc2::method(sel = "touchState")]
+    pub unsafe fn touchState(&self) -> GCTouchState;
 
-        #[method(setReportsAbsoluteTouchSurfaceValues:)]
-        pub unsafe fn setReportsAbsoluteTouchSurfaceValues(
-            &self,
-            reports_absolute_touch_surface_values: bool,
-        );
+    #[objc2::method(sel = "reportsAbsoluteTouchSurfaceValues")]
+    pub unsafe fn reportsAbsoluteTouchSurfaceValues(&self) -> bool;
 
-        #[method(setValueForXAxis:yAxis:touchDown:buttonValue:)]
-        pub unsafe fn setValueForXAxis_yAxis_touchDown_buttonValue(
-            &self,
-            x_axis: c_float,
-            y_axis: c_float,
-            touch_down: bool,
-            button_value: c_float,
-        );
-    }
-);
+    #[objc2::method(sel = "setReportsAbsoluteTouchSurfaceValues:")]
+    pub unsafe fn setReportsAbsoluteTouchSurfaceValues(
+        &self,
+        reports_absolute_touch_surface_values: bool,
+    );
+
+    #[objc2::method(sel = "setValueForXAxis:yAxis:touchDown:buttonValue:")]
+    pub unsafe fn setValueForXAxis_yAxis_touchDown_buttonValue(
+        &self,
+        x_axis: c_float,
+        y_axis: c_float,
+        touch_down: bool,
+        button_value: c_float,
+    );
+}

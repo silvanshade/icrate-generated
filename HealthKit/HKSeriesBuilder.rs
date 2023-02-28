@@ -6,27 +6,30 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKSeriesBuilder")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKSeriesBuilder")]
-    pub struct HKSeriesBuilder;
-
-    #[cfg(feature = "HealthKit_HKSeriesBuilder")]
-    unsafe impl ClassType for HKSeriesBuilder {
-        type Super = NSObject;
-    }
-);
+    pub type HKSeriesBuilder;
+}
 
 #[cfg(feature = "HealthKit_HKSeriesBuilder")]
 unsafe impl NSObjectProtocol for HKSeriesBuilder {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKSeriesBuilder")]
-    unsafe impl HKSeriesBuilder {
-        #[method(discard)]
-        pub unsafe fn discard(&self);
+    pub type HKSeriesBuilder;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "discard")]
+    pub unsafe fn discard(&self);
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

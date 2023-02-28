@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::CoreAnimation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAEmitterCell")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CAEmitterCell")]
-    pub struct CAEmitterCell;
-
-    #[cfg(feature = "CoreAnimation_CAEmitterCell")]
-    unsafe impl ClassType for CAEmitterCell {
-        type Super = NSObject;
-    }
-);
+    pub type CAEmitterCell;
+}
 
 #[cfg(feature = "CoreAnimation_CAEmitterCell")]
 unsafe impl CAMediaTiming for CAEmitterCell {}
@@ -27,232 +27,235 @@ unsafe impl NSObjectProtocol for CAEmitterCell {}
 #[cfg(feature = "CoreAnimation_CAEmitterCell")]
 unsafe impl NSSecureCoding for CAEmitterCell {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CAEmitterCell")]
-    unsafe impl CAEmitterCell {
-        #[method_id(@__retain_semantics Other emitterCell)]
-        pub unsafe fn emitterCell() -> Id<Self>;
+    pub type CAEmitterCell;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other defaultValueForKey:)]
-        pub unsafe fn defaultValueForKey(key: &NSString) -> Option<Id<Object>>;
+    #[objc2::method(sel = "emitterCell", managed = "Other")]
+    pub unsafe fn emitterCell() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(shouldArchiveValueForKey:)]
-        pub unsafe fn shouldArchiveValueForKey(&self, key: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "defaultValueForKey:", managed = "Other")]
+    pub unsafe fn defaultValueForKey(key: &NSString) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "shouldArchiveValueForKey:")]
+    pub unsafe fn shouldArchiveValueForKey(&self, key: &NSString) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSString>>;
 
-        #[method(isEnabled)]
-        pub unsafe fn isEnabled(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
 
-        #[method(setEnabled:)]
-        pub unsafe fn setEnabled(&self, enabled: bool);
+    #[objc2::method(sel = "isEnabled")]
+    pub unsafe fn isEnabled(&self) -> bool;
 
-        #[method(birthRate)]
-        pub unsafe fn birthRate(&self) -> c_float;
+    #[objc2::method(sel = "setEnabled:")]
+    pub unsafe fn setEnabled(&self, enabled: bool);
 
-        #[method(setBirthRate:)]
-        pub unsafe fn setBirthRate(&self, birth_rate: c_float);
+    #[objc2::method(sel = "birthRate")]
+    pub unsafe fn birthRate(&self) -> c_float;
 
-        #[method(lifetime)]
-        pub unsafe fn lifetime(&self) -> c_float;
+    #[objc2::method(sel = "setBirthRate:")]
+    pub unsafe fn setBirthRate(&self, birth_rate: c_float);
 
-        #[method(setLifetime:)]
-        pub unsafe fn setLifetime(&self, lifetime: c_float);
+    #[objc2::method(sel = "lifetime")]
+    pub unsafe fn lifetime(&self) -> c_float;
 
-        #[method(lifetimeRange)]
-        pub unsafe fn lifetimeRange(&self) -> c_float;
+    #[objc2::method(sel = "setLifetime:")]
+    pub unsafe fn setLifetime(&self, lifetime: c_float);
 
-        #[method(setLifetimeRange:)]
-        pub unsafe fn setLifetimeRange(&self, lifetime_range: c_float);
+    #[objc2::method(sel = "lifetimeRange")]
+    pub unsafe fn lifetimeRange(&self) -> c_float;
 
-        #[method(emissionLatitude)]
-        pub unsafe fn emissionLatitude(&self) -> CGFloat;
+    #[objc2::method(sel = "setLifetimeRange:")]
+    pub unsafe fn setLifetimeRange(&self, lifetime_range: c_float);
 
-        #[method(setEmissionLatitude:)]
-        pub unsafe fn setEmissionLatitude(&self, emission_latitude: CGFloat);
+    #[objc2::method(sel = "emissionLatitude")]
+    pub unsafe fn emissionLatitude(&self) -> CGFloat;
 
-        #[method(emissionLongitude)]
-        pub unsafe fn emissionLongitude(&self) -> CGFloat;
+    #[objc2::method(sel = "setEmissionLatitude:")]
+    pub unsafe fn setEmissionLatitude(&self, emission_latitude: CGFloat);
 
-        #[method(setEmissionLongitude:)]
-        pub unsafe fn setEmissionLongitude(&self, emission_longitude: CGFloat);
+    #[objc2::method(sel = "emissionLongitude")]
+    pub unsafe fn emissionLongitude(&self) -> CGFloat;
 
-        #[method(emissionRange)]
-        pub unsafe fn emissionRange(&self) -> CGFloat;
+    #[objc2::method(sel = "setEmissionLongitude:")]
+    pub unsafe fn setEmissionLongitude(&self, emission_longitude: CGFloat);
 
-        #[method(setEmissionRange:)]
-        pub unsafe fn setEmissionRange(&self, emission_range: CGFloat);
+    #[objc2::method(sel = "emissionRange")]
+    pub unsafe fn emissionRange(&self) -> CGFloat;
 
-        #[method(velocity)]
-        pub unsafe fn velocity(&self) -> CGFloat;
+    #[objc2::method(sel = "setEmissionRange:")]
+    pub unsafe fn setEmissionRange(&self, emission_range: CGFloat);
 
-        #[method(setVelocity:)]
-        pub unsafe fn setVelocity(&self, velocity: CGFloat);
+    #[objc2::method(sel = "velocity")]
+    pub unsafe fn velocity(&self) -> CGFloat;
 
-        #[method(velocityRange)]
-        pub unsafe fn velocityRange(&self) -> CGFloat;
+    #[objc2::method(sel = "setVelocity:")]
+    pub unsafe fn setVelocity(&self, velocity: CGFloat);
 
-        #[method(setVelocityRange:)]
-        pub unsafe fn setVelocityRange(&self, velocity_range: CGFloat);
+    #[objc2::method(sel = "velocityRange")]
+    pub unsafe fn velocityRange(&self) -> CGFloat;
 
-        #[method(xAcceleration)]
-        pub unsafe fn xAcceleration(&self) -> CGFloat;
+    #[objc2::method(sel = "setVelocityRange:")]
+    pub unsafe fn setVelocityRange(&self, velocity_range: CGFloat);
 
-        #[method(setXAcceleration:)]
-        pub unsafe fn setXAcceleration(&self, x_acceleration: CGFloat);
+    #[objc2::method(sel = "xAcceleration")]
+    pub unsafe fn xAcceleration(&self) -> CGFloat;
 
-        #[method(yAcceleration)]
-        pub unsafe fn yAcceleration(&self) -> CGFloat;
+    #[objc2::method(sel = "setXAcceleration:")]
+    pub unsafe fn setXAcceleration(&self, x_acceleration: CGFloat);
 
-        #[method(setYAcceleration:)]
-        pub unsafe fn setYAcceleration(&self, y_acceleration: CGFloat);
+    #[objc2::method(sel = "yAcceleration")]
+    pub unsafe fn yAcceleration(&self) -> CGFloat;
 
-        #[method(zAcceleration)]
-        pub unsafe fn zAcceleration(&self) -> CGFloat;
+    #[objc2::method(sel = "setYAcceleration:")]
+    pub unsafe fn setYAcceleration(&self, y_acceleration: CGFloat);
 
-        #[method(setZAcceleration:)]
-        pub unsafe fn setZAcceleration(&self, z_acceleration: CGFloat);
+    #[objc2::method(sel = "zAcceleration")]
+    pub unsafe fn zAcceleration(&self) -> CGFloat;
 
-        #[method(scale)]
-        pub unsafe fn scale(&self) -> CGFloat;
+    #[objc2::method(sel = "setZAcceleration:")]
+    pub unsafe fn setZAcceleration(&self, z_acceleration: CGFloat);
 
-        #[method(setScale:)]
-        pub unsafe fn setScale(&self, scale: CGFloat);
+    #[objc2::method(sel = "scale")]
+    pub unsafe fn scale(&self) -> CGFloat;
 
-        #[method(scaleRange)]
-        pub unsafe fn scaleRange(&self) -> CGFloat;
+    #[objc2::method(sel = "setScale:")]
+    pub unsafe fn setScale(&self, scale: CGFloat);
 
-        #[method(setScaleRange:)]
-        pub unsafe fn setScaleRange(&self, scale_range: CGFloat);
+    #[objc2::method(sel = "scaleRange")]
+    pub unsafe fn scaleRange(&self) -> CGFloat;
 
-        #[method(scaleSpeed)]
-        pub unsafe fn scaleSpeed(&self) -> CGFloat;
+    #[objc2::method(sel = "setScaleRange:")]
+    pub unsafe fn setScaleRange(&self, scale_range: CGFloat);
 
-        #[method(setScaleSpeed:)]
-        pub unsafe fn setScaleSpeed(&self, scale_speed: CGFloat);
+    #[objc2::method(sel = "scaleSpeed")]
+    pub unsafe fn scaleSpeed(&self) -> CGFloat;
 
-        #[method(spin)]
-        pub unsafe fn spin(&self) -> CGFloat;
+    #[objc2::method(sel = "setScaleSpeed:")]
+    pub unsafe fn setScaleSpeed(&self, scale_speed: CGFloat);
 
-        #[method(setSpin:)]
-        pub unsafe fn setSpin(&self, spin: CGFloat);
+    #[objc2::method(sel = "spin")]
+    pub unsafe fn spin(&self) -> CGFloat;
 
-        #[method(spinRange)]
-        pub unsafe fn spinRange(&self) -> CGFloat;
+    #[objc2::method(sel = "setSpin:")]
+    pub unsafe fn setSpin(&self, spin: CGFloat);
 
-        #[method(setSpinRange:)]
-        pub unsafe fn setSpinRange(&self, spin_range: CGFloat);
+    #[objc2::method(sel = "spinRange")]
+    pub unsafe fn spinRange(&self) -> CGFloat;
 
-        #[method(redRange)]
-        pub unsafe fn redRange(&self) -> c_float;
+    #[objc2::method(sel = "setSpinRange:")]
+    pub unsafe fn setSpinRange(&self, spin_range: CGFloat);
 
-        #[method(setRedRange:)]
-        pub unsafe fn setRedRange(&self, red_range: c_float);
+    #[objc2::method(sel = "redRange")]
+    pub unsafe fn redRange(&self) -> c_float;
 
-        #[method(greenRange)]
-        pub unsafe fn greenRange(&self) -> c_float;
+    #[objc2::method(sel = "setRedRange:")]
+    pub unsafe fn setRedRange(&self, red_range: c_float);
 
-        #[method(setGreenRange:)]
-        pub unsafe fn setGreenRange(&self, green_range: c_float);
+    #[objc2::method(sel = "greenRange")]
+    pub unsafe fn greenRange(&self) -> c_float;
 
-        #[method(blueRange)]
-        pub unsafe fn blueRange(&self) -> c_float;
+    #[objc2::method(sel = "setGreenRange:")]
+    pub unsafe fn setGreenRange(&self, green_range: c_float);
 
-        #[method(setBlueRange:)]
-        pub unsafe fn setBlueRange(&self, blue_range: c_float);
+    #[objc2::method(sel = "blueRange")]
+    pub unsafe fn blueRange(&self) -> c_float;
 
-        #[method(alphaRange)]
-        pub unsafe fn alphaRange(&self) -> c_float;
+    #[objc2::method(sel = "setBlueRange:")]
+    pub unsafe fn setBlueRange(&self, blue_range: c_float);
 
-        #[method(setAlphaRange:)]
-        pub unsafe fn setAlphaRange(&self, alpha_range: c_float);
+    #[objc2::method(sel = "alphaRange")]
+    pub unsafe fn alphaRange(&self) -> c_float;
 
-        #[method(redSpeed)]
-        pub unsafe fn redSpeed(&self) -> c_float;
+    #[objc2::method(sel = "setAlphaRange:")]
+    pub unsafe fn setAlphaRange(&self, alpha_range: c_float);
 
-        #[method(setRedSpeed:)]
-        pub unsafe fn setRedSpeed(&self, red_speed: c_float);
+    #[objc2::method(sel = "redSpeed")]
+    pub unsafe fn redSpeed(&self) -> c_float;
 
-        #[method(greenSpeed)]
-        pub unsafe fn greenSpeed(&self) -> c_float;
+    #[objc2::method(sel = "setRedSpeed:")]
+    pub unsafe fn setRedSpeed(&self, red_speed: c_float);
 
-        #[method(setGreenSpeed:)]
-        pub unsafe fn setGreenSpeed(&self, green_speed: c_float);
+    #[objc2::method(sel = "greenSpeed")]
+    pub unsafe fn greenSpeed(&self) -> c_float;
 
-        #[method(blueSpeed)]
-        pub unsafe fn blueSpeed(&self) -> c_float;
+    #[objc2::method(sel = "setGreenSpeed:")]
+    pub unsafe fn setGreenSpeed(&self, green_speed: c_float);
 
-        #[method(setBlueSpeed:)]
-        pub unsafe fn setBlueSpeed(&self, blue_speed: c_float);
+    #[objc2::method(sel = "blueSpeed")]
+    pub unsafe fn blueSpeed(&self) -> c_float;
 
-        #[method(alphaSpeed)]
-        pub unsafe fn alphaSpeed(&self) -> c_float;
+    #[objc2::method(sel = "setBlueSpeed:")]
+    pub unsafe fn setBlueSpeed(&self, blue_speed: c_float);
 
-        #[method(setAlphaSpeed:)]
-        pub unsafe fn setAlphaSpeed(&self, alpha_speed: c_float);
+    #[objc2::method(sel = "alphaSpeed")]
+    pub unsafe fn alphaSpeed(&self) -> c_float;
 
-        #[method_id(@__retain_semantics Other contents)]
-        pub unsafe fn contents(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setAlphaSpeed:")]
+    pub unsafe fn setAlphaSpeed(&self, alpha_speed: c_float);
 
-        #[method(setContents:)]
-        pub unsafe fn setContents(&self, contents: Option<&Object>);
+    #[objc2::method(sel = "contents", managed = "Other")]
+    pub unsafe fn contents(&self) -> Option<Id<Object>>;
 
-        #[method(contentsRect)]
-        pub unsafe fn contentsRect(&self) -> CGRect;
+    #[objc2::method(sel = "setContents:")]
+    pub unsafe fn setContents(&self, contents: Option<&Object>);
 
-        #[method(setContentsRect:)]
-        pub unsafe fn setContentsRect(&self, contents_rect: CGRect);
+    #[objc2::method(sel = "contentsRect")]
+    pub unsafe fn contentsRect(&self) -> CGRect;
 
-        #[method(contentsScale)]
-        pub unsafe fn contentsScale(&self) -> CGFloat;
+    #[objc2::method(sel = "setContentsRect:")]
+    pub unsafe fn setContentsRect(&self, contents_rect: CGRect);
 
-        #[method(setContentsScale:)]
-        pub unsafe fn setContentsScale(&self, contents_scale: CGFloat);
+    #[objc2::method(sel = "contentsScale")]
+    pub unsafe fn contentsScale(&self) -> CGFloat;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other minificationFilter)]
-        pub unsafe fn minificationFilter(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setContentsScale:")]
+    pub unsafe fn setContentsScale(&self, contents_scale: CGFloat);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMinificationFilter:)]
-        pub unsafe fn setMinificationFilter(&self, minification_filter: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "minificationFilter", managed = "Other")]
+    pub unsafe fn minificationFilter(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other magnificationFilter)]
-        pub unsafe fn magnificationFilter(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMinificationFilter:")]
+    pub unsafe fn setMinificationFilter(&self, minification_filter: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMagnificationFilter:)]
-        pub unsafe fn setMagnificationFilter(&self, magnification_filter: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "magnificationFilter", managed = "Other")]
+    pub unsafe fn magnificationFilter(&self) -> Id<NSString>;
 
-        #[method(minificationFilterBias)]
-        pub unsafe fn minificationFilterBias(&self) -> c_float;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMagnificationFilter:")]
+    pub unsafe fn setMagnificationFilter(&self, magnification_filter: &NSString);
 
-        #[method(setMinificationFilterBias:)]
-        pub unsafe fn setMinificationFilterBias(&self, minification_filter_bias: c_float);
+    #[objc2::method(sel = "minificationFilterBias")]
+    pub unsafe fn minificationFilterBias(&self) -> c_float;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other emitterCells)]
-        pub unsafe fn emitterCells(&self) -> Option<Id<NSArray<CAEmitterCell>>>;
+    #[objc2::method(sel = "setMinificationFilterBias:")]
+    pub unsafe fn setMinificationFilterBias(&self, minification_filter_bias: c_float);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setEmitterCells:)]
-        pub unsafe fn setEmitterCells(&self, emitter_cells: Option<&NSArray<CAEmitterCell>>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "emitterCells", managed = "Other")]
+    pub unsafe fn emitterCells(&self) -> Option<Id<NSArray<CAEmitterCell>>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other style)]
-        pub unsafe fn style(&self) -> Option<Id<NSDictionary>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setEmitterCells:")]
+    pub unsafe fn setEmitterCells(&self, emitter_cells: Option<&NSArray<CAEmitterCell>>);
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(setStyle:)]
-        pub unsafe fn setStyle(&self, style: Option<&NSDictionary>);
-    }
-);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "style", managed = "Other")]
+    pub unsafe fn style(&self) -> Option<Id<NSDictionary>>;
+
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "setStyle:")]
+    pub unsafe fn setStyle(&self, style: Option<&NSDictionary>);
+}

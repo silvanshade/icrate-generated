@@ -7,45 +7,55 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKOverlayPathRenderer,
+    unsafe inherits = [
+        MKOverlayRenderer,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKMultiPolylineRenderer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKMultiPolylineRenderer")]
-    pub struct MKMultiPolylineRenderer;
-
-    #[cfg(feature = "MapKit_MKMultiPolylineRenderer")]
-    unsafe impl ClassType for MKMultiPolylineRenderer {
-        #[inherits(MKOverlayRenderer, NSObject)]
-        type Super = MKOverlayPathRenderer;
-    }
-);
+    pub type MKMultiPolylineRenderer;
+}
 
 #[cfg(feature = "MapKit_MKMultiPolylineRenderer")]
 unsafe impl NSObjectProtocol for MKMultiPolylineRenderer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMultiPolylineRenderer")]
-    unsafe impl MKMultiPolylineRenderer {
-        #[cfg(feature = "MapKit_MKMultiPolyline")]
-        #[method_id(@__retain_semantics Init initWithMultiPolyline:)]
-        pub unsafe fn initWithMultiPolyline(
-            this: Option<Allocated<Self>>,
-            multi_polyline: &MKMultiPolyline,
-        ) -> Id<Self>;
+    pub type MKMultiPolylineRenderer;
 
-        #[cfg(feature = "MapKit_MKMultiPolyline")]
-        #[method_id(@__retain_semantics Other multiPolyline)]
-        pub unsafe fn multiPolyline(&self) -> Id<MKMultiPolyline>;
-    }
-);
+    #[cfg(feature = "MapKit_MKMultiPolyline")]
+    #[objc2::method(sel = "initWithMultiPolyline:", managed = "Init")]
+    pub unsafe fn initWithMultiPolyline(
+        this: Option<Allocated<Self>>,
+        multi_polyline: &MKMultiPolyline,
+    ) -> Id<Self>;
 
-extern_methods!(
-    /// Methods declared on superclass `MKOverlayRenderer`
+    #[cfg(feature = "MapKit_MKMultiPolyline")]
+    #[objc2::method(sel = "multiPolyline", managed = "Other")]
+    pub unsafe fn multiPolyline(&self) -> Id<MKMultiPolyline>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `MKOverlayRenderer`
     #[cfg(feature = "MapKit_MKMultiPolylineRenderer")]
-    unsafe impl MKMultiPolylineRenderer {
-        #[method_id(@__retain_semantics Init initWithOverlay:)]
-        pub unsafe fn initWithOverlay(
-            this: Option<Allocated<Self>>,
-            overlay: &ProtocolObject<dyn MKOverlay>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKMultiPolylineRenderer")]
+    pub type MKMultiPolylineRenderer;
+
+    #[objc2::method(sel = "initWithOverlay:", managed = "Init")]
+    pub unsafe fn initWithOverlay(
+        this: Option<Allocated<Self>>,
+        overlay: &ProtocolObject<dyn MKOverlay>,
+    ) -> Id<Self>;
+}

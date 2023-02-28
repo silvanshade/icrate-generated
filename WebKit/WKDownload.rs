@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKDownload")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKDownload")]
-    pub struct WKDownload;
-
-    #[cfg(feature = "WebKit_WKDownload")]
-    unsafe impl ClassType for WKDownload {
-        type Super = NSObject;
-    }
-);
+    pub type WKDownload;
+}
 
 #[cfg(feature = "WebKit_WKDownload")]
 unsafe impl NSObjectProtocol for WKDownload {}
@@ -22,25 +22,28 @@ unsafe impl NSObjectProtocol for WKDownload {}
 #[cfg(feature = "WebKit_WKDownload")]
 unsafe impl NSProgressReporting for WKDownload {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKDownload")]
-    unsafe impl WKDownload {
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[method_id(@__retain_semantics Other originalRequest)]
-        pub unsafe fn originalRequest(&self) -> Option<Id<NSURLRequest>>;
+    pub type WKDownload;
 
-        #[cfg(feature = "WebKit_WKWebView")]
-        #[method_id(@__retain_semantics Other webView)]
-        pub unsafe fn webView(&self) -> Option<Id<WKWebView>>;
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[objc2::method(sel = "originalRequest", managed = "Other")]
+    pub unsafe fn originalRequest(&self) -> Option<Id<NSURLRequest>>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn WKDownloadDelegate>>>;
+    #[cfg(feature = "WebKit_WKWebView")]
+    #[objc2::method(sel = "webView", managed = "Other")]
+    pub unsafe fn webView(&self) -> Option<Id<WKWebView>>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn WKDownloadDelegate>>);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn WKDownloadDelegate>>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(cancel:)]
-        pub unsafe fn cancel(&self, completion_handler: Option<&Block<(*mut NSData,), ()>>);
-    }
-);
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn WKDownloadDelegate>>);
+
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "cancel:")]
+    pub unsafe fn cancel(&self, completion_handler: Option<&Block<(*mut NSData,), ()>>);
+}

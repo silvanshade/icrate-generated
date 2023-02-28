@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MXMetric,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXGPUMetric")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXGPUMetric")]
-    pub struct MXGPUMetric;
-
-    #[cfg(feature = "MetricKit_MXGPUMetric")]
-    unsafe impl ClassType for MXGPUMetric {
-        #[inherits(NSObject)]
-        type Super = MXMetric;
-    }
-);
+    pub type MXGPUMetric;
+}
 
 #[cfg(feature = "MetricKit_MXGPUMetric")]
 unsafe impl NSCoding for MXGPUMetric {}
@@ -25,14 +25,17 @@ unsafe impl NSObjectProtocol for MXGPUMetric {}
 #[cfg(feature = "MetricKit_MXGPUMetric")]
 unsafe impl NSSecureCoding for MXGPUMetric {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXGPUMetric")]
-    unsafe impl MXGPUMetric {
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitDuration"
-        ))]
-        #[method_id(@__retain_semantics Other cumulativeGPUTime)]
-        pub unsafe fn cumulativeGPUTime(&self) -> Id<NSMeasurement<NSUnitDuration>>;
-    }
-);
+    pub type MXGPUMetric;
+
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitDuration"
+    ))]
+    #[objc2::method(sel = "cumulativeGPUTime", managed = "Other")]
+    pub unsafe fn cumulativeGPUTime(&self) -> Id<NSMeasurement<NSUnitDuration>>;
+}

@@ -5,17 +5,18 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTableCellView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTableCellView")]
-    pub struct NSTableCellView;
-
-    #[cfg(feature = "AppKit_NSTableCellView")]
-    unsafe impl ClassType for NSTableCellView {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type NSTableCellView;
+}
 
 #[cfg(feature = "AppKit_NSTableCellView")]
 unsafe impl NSAccessibility for NSTableCellView {}
@@ -41,57 +42,66 @@ unsafe impl NSObjectProtocol for NSTableCellView {}
 #[cfg(feature = "AppKit_NSTableCellView")]
 unsafe impl NSUserInterfaceItemIdentification for NSTableCellView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTableCellView")]
-    unsafe impl NSTableCellView {
-        #[method_id(@__retain_semantics Other objectValue)]
-        pub unsafe fn objectValue(&self) -> Option<Id<Object>>;
+    pub type NSTableCellView;
 
-        #[method(setObjectValue:)]
-        pub unsafe fn setObjectValue(&self, object_value: Option<&Object>);
+    #[objc2::method(sel = "objectValue", managed = "Other")]
+    pub unsafe fn objectValue(&self) -> Option<Id<Object>>;
 
-        #[cfg(feature = "AppKit_NSTextField")]
-        #[method_id(@__retain_semantics Other textField)]
-        pub unsafe fn textField(&self) -> Option<Id<NSTextField>>;
+    #[objc2::method(sel = "setObjectValue:")]
+    pub unsafe fn setObjectValue(&self, object_value: Option<&Object>);
 
-        #[cfg(feature = "AppKit_NSTextField")]
-        #[method(setTextField:)]
-        pub unsafe fn setTextField(&self, text_field: Option<&NSTextField>);
+    #[cfg(feature = "AppKit_NSTextField")]
+    #[objc2::method(sel = "textField", managed = "Other")]
+    pub unsafe fn textField(&self) -> Option<Id<NSTextField>>;
 
-        #[cfg(feature = "AppKit_NSImageView")]
-        #[method_id(@__retain_semantics Other imageView)]
-        pub unsafe fn imageView(&self) -> Option<Id<NSImageView>>;
+    #[cfg(feature = "AppKit_NSTextField")]
+    #[objc2::method(sel = "setTextField:")]
+    pub unsafe fn setTextField(&self, text_field: Option<&NSTextField>);
 
-        #[cfg(feature = "AppKit_NSImageView")]
-        #[method(setImageView:)]
-        pub unsafe fn setImageView(&self, image_view: Option<&NSImageView>);
+    #[cfg(feature = "AppKit_NSImageView")]
+    #[objc2::method(sel = "imageView", managed = "Other")]
+    pub unsafe fn imageView(&self) -> Option<Id<NSImageView>>;
 
-        #[method(backgroundStyle)]
-        pub unsafe fn backgroundStyle(&self) -> NSBackgroundStyle;
+    #[cfg(feature = "AppKit_NSImageView")]
+    #[objc2::method(sel = "setImageView:")]
+    pub unsafe fn setImageView(&self, image_view: Option<&NSImageView>);
 
-        #[method(setBackgroundStyle:)]
-        pub unsafe fn setBackgroundStyle(&self, background_style: NSBackgroundStyle);
+    #[objc2::method(sel = "backgroundStyle")]
+    pub unsafe fn backgroundStyle(&self) -> NSBackgroundStyle;
 
-        #[method(rowSizeStyle)]
-        pub unsafe fn rowSizeStyle(&self) -> NSTableViewRowSizeStyle;
+    #[objc2::method(sel = "setBackgroundStyle:")]
+    pub unsafe fn setBackgroundStyle(&self, background_style: NSBackgroundStyle);
 
-        #[method(setRowSizeStyle:)]
-        pub unsafe fn setRowSizeStyle(&self, row_size_style: NSTableViewRowSizeStyle);
+    #[objc2::method(sel = "rowSizeStyle")]
+    pub unsafe fn rowSizeStyle(&self) -> NSTableViewRowSizeStyle;
 
-        #[cfg(all(
-            feature = "AppKit_NSDraggingImageComponent",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other draggingImageComponents)]
-        pub unsafe fn draggingImageComponents(&self) -> Id<NSArray<NSDraggingImageComponent>>;
-    }
-);
+    #[objc2::method(sel = "setRowSizeStyle:")]
+    pub unsafe fn setRowSizeStyle(&self, row_size_style: NSTableViewRowSizeStyle);
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[cfg(all(
+        feature = "AppKit_NSDraggingImageComponent",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "draggingImageComponents", managed = "Other")]
+    pub unsafe fn draggingImageComponents(&self) -> Id<NSArray<NSDraggingImageComponent>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "AppKit_NSTableCellView")]
-    unsafe impl NSTableCellView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTableCellView")]
+    pub type NSTableCellView;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

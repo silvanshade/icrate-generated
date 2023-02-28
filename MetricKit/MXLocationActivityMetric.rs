@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MXMetric,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXLocationActivityMetric")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXLocationActivityMetric")]
-    pub struct MXLocationActivityMetric;
-
-    #[cfg(feature = "MetricKit_MXLocationActivityMetric")]
-    unsafe impl ClassType for MXLocationActivityMetric {
-        #[inherits(NSObject)]
-        type Super = MXMetric;
-    }
-);
+    pub type MXLocationActivityMetric;
+}
 
 #[cfg(feature = "MetricKit_MXLocationActivityMetric")]
 unsafe impl NSCoding for MXLocationActivityMetric {}
@@ -25,57 +25,57 @@ unsafe impl NSObjectProtocol for MXLocationActivityMetric {}
 #[cfg(feature = "MetricKit_MXLocationActivityMetric")]
 unsafe impl NSSecureCoding for MXLocationActivityMetric {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXLocationActivityMetric")]
-    unsafe impl MXLocationActivityMetric {
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitDuration"
-        ))]
-        #[method_id(@__retain_semantics Other cumulativeBestAccuracyTime)]
-        pub unsafe fn cumulativeBestAccuracyTime(&self) -> Id<NSMeasurement<NSUnitDuration>>;
+    pub type MXLocationActivityMetric;
 
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitDuration"
-        ))]
-        #[method_id(@__retain_semantics Other cumulativeBestAccuracyForNavigationTime)]
-        pub unsafe fn cumulativeBestAccuracyForNavigationTime(
-            &self,
-        ) -> Id<NSMeasurement<NSUnitDuration>>;
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitDuration"
+    ))]
+    #[objc2::method(sel = "cumulativeBestAccuracyTime", managed = "Other")]
+    pub unsafe fn cumulativeBestAccuracyTime(&self) -> Id<NSMeasurement<NSUnitDuration>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitDuration"
-        ))]
-        #[method_id(@__retain_semantics Other cumulativeNearestTenMetersAccuracyTime)]
-        pub unsafe fn cumulativeNearestTenMetersAccuracyTime(
-            &self,
-        ) -> Id<NSMeasurement<NSUnitDuration>>;
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitDuration"
+    ))]
+    #[objc2::method(sel = "cumulativeBestAccuracyForNavigationTime", managed = "Other")]
+    pub unsafe fn cumulativeBestAccuracyForNavigationTime(
+        &self,
+    ) -> Id<NSMeasurement<NSUnitDuration>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitDuration"
-        ))]
-        #[method_id(@__retain_semantics Other cumulativeHundredMetersAccuracyTime)]
-        pub unsafe fn cumulativeHundredMetersAccuracyTime(
-            &self,
-        ) -> Id<NSMeasurement<NSUnitDuration>>;
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitDuration"
+    ))]
+    #[objc2::method(sel = "cumulativeNearestTenMetersAccuracyTime", managed = "Other")]
+    pub unsafe fn cumulativeNearestTenMetersAccuracyTime(
+        &self,
+    ) -> Id<NSMeasurement<NSUnitDuration>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitDuration"
-        ))]
-        #[method_id(@__retain_semantics Other cumulativeKilometerAccuracyTime)]
-        pub unsafe fn cumulativeKilometerAccuracyTime(&self) -> Id<NSMeasurement<NSUnitDuration>>;
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitDuration"
+    ))]
+    #[objc2::method(sel = "cumulativeHundredMetersAccuracyTime", managed = "Other")]
+    pub unsafe fn cumulativeHundredMetersAccuracyTime(&self) -> Id<NSMeasurement<NSUnitDuration>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitDuration"
-        ))]
-        #[method_id(@__retain_semantics Other cumulativeThreeKilometersAccuracyTime)]
-        pub unsafe fn cumulativeThreeKilometersAccuracyTime(
-            &self,
-        ) -> Id<NSMeasurement<NSUnitDuration>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitDuration"
+    ))]
+    #[objc2::method(sel = "cumulativeKilometerAccuracyTime", managed = "Other")]
+    pub unsafe fn cumulativeKilometerAccuracyTime(&self) -> Id<NSMeasurement<NSUnitDuration>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitDuration"
+    ))]
+    #[objc2::method(sel = "cumulativeThreeKilometersAccuracyTime", managed = "Other")]
+    pub unsafe fn cumulativeThreeKilometersAccuracyTime(&self)
+        -> Id<NSMeasurement<NSUnitDuration>>;
+}

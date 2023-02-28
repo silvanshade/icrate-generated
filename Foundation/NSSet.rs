@@ -3,21 +3,16 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-__inner_extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSSet")]
     #[derive(PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSSet")]
-    pub struct NSSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared> {
-        _inner0: PhantomData<*mut (ObjectType, ObjectTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "Foundation_NSSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> ClassType
-        for NSSet<ObjectType, ObjectTypeOwnership>
-    {
-        type Super = NSObject;
-    }
-);
+    pub type NSSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
+}
 
 #[cfg(feature = "Foundation_NSSet")]
 unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSCoding
@@ -43,193 +38,182 @@ unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSSecureCoding
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[method(count)]
-        pub fn count(&self) -> NSUInteger;
+    pub type NSSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[method_id(@__retain_semantics Other member:)]
-        pub unsafe fn member(
-            &self,
-            object: &ObjectType,
-        ) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
+    #[objc2::method(sel = "count")]
+    pub fn count(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSEnumerator")]
-        #[method_id(@__retain_semantics Other objectEnumerator)]
-        pub unsafe fn objectEnumerator(&self) -> Id<NSEnumerator<ObjectType>>;
+    #[objc2::method(sel = "member:", managed = "Other")]
+    pub unsafe fn member(&self, object: &ObjectType)
+        -> Option<Id<ObjectType, ObjectTypeOwnership>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSEnumerator")]
+    #[objc2::method(sel = "objectEnumerator", managed = "Other")]
+    pub unsafe fn objectEnumerator(&self) -> Id<NSEnumerator<ObjectType>>;
 
-        #[method_id(@__retain_semantics Init initWithObjects:count:)]
-        pub unsafe fn initWithObjects_count(
-            this: Option<Allocated<Self>>,
-            objects: *mut NonNull<ObjectType>,
-            cnt: NSUInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
-    }
-);
+    #[objc2::method(sel = "initWithObjects:count:", managed = "Init")]
+    pub unsafe fn initWithObjects_count(
+        this: Option<Allocated<Self>>,
+        objects: *mut NonNull<ObjectType>,
+        cnt: NSUInteger,
+    ) -> Id<Self>;
 
-extern_methods!(
-    /// NSExtendedSet
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other allObjects)]
-        pub unsafe fn allObjects(&self) -> Id<NSArray<ObjectType>>;
+    pub type NSSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[method_id(@__retain_semantics Other anyObject)]
-        pub unsafe fn anyObject(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "allObjects", managed = "Other")]
+    pub unsafe fn allObjects(&self) -> Id<NSArray<ObjectType>>;
 
-        #[method(containsObject:)]
-        pub unsafe fn containsObject(&self, an_object: &ObjectType) -> bool;
+    #[objc2::method(sel = "anyObject", managed = "Other")]
+    pub unsafe fn anyObject(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other description)]
-        pub unsafe fn description(&self) -> Id<NSString>;
+    #[objc2::method(sel = "containsObject:")]
+    pub unsafe fn containsObject(&self, an_object: &ObjectType) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other descriptionWithLocale:)]
-        pub unsafe fn descriptionWithLocale(&self, locale: Option<&Object>) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "description", managed = "Other")]
+    pub unsafe fn description(&self) -> Id<NSString>;
 
-        #[method(intersectsSet:)]
-        pub unsafe fn intersectsSet(&self, other_set: &NSSet<ObjectType>) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "descriptionWithLocale:", managed = "Other")]
+    pub unsafe fn descriptionWithLocale(&self, locale: Option<&Object>) -> Id<NSString>;
 
-        #[method(isEqualToSet:)]
-        pub unsafe fn isEqualToSet(&self, other_set: &NSSet<ObjectType>) -> bool;
+    #[objc2::method(sel = "intersectsSet:")]
+    pub unsafe fn intersectsSet(&self, other_set: &NSSet<ObjectType>) -> bool;
 
-        #[method(isSubsetOfSet:)]
-        pub unsafe fn isSubsetOfSet(&self, other_set: &NSSet<ObjectType>) -> bool;
+    #[objc2::method(sel = "isEqualToSet:")]
+    pub unsafe fn isEqualToSet(&self, other_set: &NSSet<ObjectType>) -> bool;
 
-        #[method(makeObjectsPerformSelector:)]
-        pub unsafe fn makeObjectsPerformSelector(&self, a_selector: Sel);
+    #[objc2::method(sel = "isSubsetOfSet:")]
+    pub unsafe fn isSubsetOfSet(&self, other_set: &NSSet<ObjectType>) -> bool;
 
-        #[method(makeObjectsPerformSelector:withObject:)]
-        pub unsafe fn makeObjectsPerformSelector_withObject(
-            &self,
-            a_selector: Sel,
-            argument: Option<&Object>,
-        );
+    #[objc2::method(sel = "makeObjectsPerformSelector:")]
+    pub unsafe fn makeObjectsPerformSelector(&self, a_selector: Sel);
 
-        #[method_id(@__retain_semantics Other setByAddingObject:)]
-        pub unsafe fn setByAddingObject(&self, an_object: &ObjectType) -> Id<NSSet<ObjectType>>;
+    #[objc2::method(sel = "makeObjectsPerformSelector:withObject:")]
+    pub unsafe fn makeObjectsPerformSelector_withObject(
+        &self,
+        a_selector: Sel,
+        argument: Option<&Object>,
+    );
 
-        #[method_id(@__retain_semantics Other setByAddingObjectsFromSet:)]
-        pub unsafe fn setByAddingObjectsFromSet(
-            &self,
-            other: &NSSet<ObjectType>,
-        ) -> Id<NSSet<ObjectType>>;
+    #[objc2::method(sel = "setByAddingObject:", managed = "Other")]
+    pub unsafe fn setByAddingObject(&self, an_object: &ObjectType) -> Id<NSSet<ObjectType>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other setByAddingObjectsFromArray:)]
-        pub unsafe fn setByAddingObjectsFromArray(
-            &self,
-            other: &NSArray<ObjectType>,
-        ) -> Id<NSSet<ObjectType>>;
+    #[objc2::method(sel = "setByAddingObjectsFromSet:", managed = "Other")]
+    pub unsafe fn setByAddingObjectsFromSet(
+        &self,
+        other: &NSSet<ObjectType>,
+    ) -> Id<NSSet<ObjectType>>;
 
-        #[method(enumerateObjectsUsingBlock:)]
-        pub unsafe fn enumerateObjectsUsingBlock(
-            &self,
-            block: &Block<(NonNull<ObjectType>, NonNull<Bool>), ()>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setByAddingObjectsFromArray:", managed = "Other")]
+    pub unsafe fn setByAddingObjectsFromArray(
+        &self,
+        other: &NSArray<ObjectType>,
+    ) -> Id<NSSet<ObjectType>>;
 
-        #[method(enumerateObjectsWithOptions:usingBlock:)]
-        pub unsafe fn enumerateObjectsWithOptions_usingBlock(
-            &self,
-            opts: NSEnumerationOptions,
-            block: &Block<(NonNull<ObjectType>, NonNull<Bool>), ()>,
-        );
+    #[objc2::method(sel = "enumerateObjectsUsingBlock:")]
+    pub unsafe fn enumerateObjectsUsingBlock(
+        &self,
+        block: &Block<(NonNull<ObjectType>, NonNull<Bool>), ()>,
+    );
 
-        #[method_id(@__retain_semantics Other objectsPassingTest:)]
-        pub unsafe fn objectsPassingTest(
-            &self,
-            predicate: &Block<(NonNull<ObjectType>, NonNull<Bool>), Bool>,
-        ) -> Id<NSSet<ObjectType>>;
+    #[objc2::method(sel = "enumerateObjectsWithOptions:usingBlock:")]
+    pub unsafe fn enumerateObjectsWithOptions_usingBlock(
+        &self,
+        opts: NSEnumerationOptions,
+        block: &Block<(NonNull<ObjectType>, NonNull<Bool>), ()>,
+    );
 
-        #[method_id(@__retain_semantics Other objectsWithOptions:passingTest:)]
-        pub unsafe fn objectsWithOptions_passingTest(
-            &self,
-            opts: NSEnumerationOptions,
-            predicate: &Block<(NonNull<ObjectType>, NonNull<Bool>), Bool>,
-        ) -> Id<NSSet<ObjectType>>;
-    }
-);
+    #[objc2::method(sel = "objectsPassingTest:", managed = "Other")]
+    pub unsafe fn objectsPassingTest(
+        &self,
+        predicate: &Block<(NonNull<ObjectType>, NonNull<Bool>), Bool>,
+    ) -> Id<NSSet<ObjectType>>;
 
-extern_methods!(
-    /// NSSetCreation
+    #[objc2::method(sel = "objectsWithOptions:passingTest:", managed = "Other")]
+    pub unsafe fn objectsWithOptions_passingTest(
+        &self,
+        opts: NSEnumerationOptions,
+        predicate: &Block<(NonNull<ObjectType>, NonNull<Bool>), Bool>,
+    ) -> Id<NSSet<ObjectType>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Other set)]
-        pub unsafe fn set() -> Id<Self>;
+    pub type NSSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[method_id(@__retain_semantics Other setWithObject:)]
-        pub unsafe fn setWithObject(object: &ObjectType) -> Id<Self>;
+    #[objc2::method(sel = "set", managed = "Other")]
+    pub unsafe fn set() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other setWithObjects:count:)]
-        pub unsafe fn setWithObjects_count(
-            objects: NonNull<NonNull<ObjectType>>,
-            cnt: NSUInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "setWithObject:", managed = "Other")]
+    pub unsafe fn setWithObject(object: &ObjectType) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other setWithSet:)]
-        pub unsafe fn setWithSet(set: &NSSet<ObjectType>) -> Id<Self>;
+    #[objc2::method(sel = "setWithObjects:count:", managed = "Other")]
+    pub unsafe fn setWithObjects_count(
+        objects: NonNull<NonNull<ObjectType>>,
+        cnt: NSUInteger,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other setWithArray:)]
-        pub unsafe fn setWithArray(array: &NSArray<ObjectType>) -> Id<Self>;
+    #[objc2::method(sel = "setWithSet:", managed = "Other")]
+    pub unsafe fn setWithSet(set: &NSSet<ObjectType>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithSet:)]
-        pub unsafe fn initWithSet(
-            this: Option<Allocated<Self>>,
-            set: &NSSet<ObjectType>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setWithArray:", managed = "Other")]
+    pub unsafe fn setWithArray(array: &NSArray<ObjectType>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithSet:copyItems:)]
-        pub unsafe fn initWithSet_copyItems(
-            this: Option<Allocated<Self>>,
-            set: &NSSet<ObjectType>,
-            flag: bool,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithSet:", managed = "Init")]
+    pub unsafe fn initWithSet(this: Option<Allocated<Self>>, set: &NSSet<ObjectType>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Init initWithArray:)]
-        pub unsafe fn initWithArray(
-            this: Option<Allocated<Self>>,
-            array: &NSArray<ObjectType>,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "initWithSet:copyItems:", managed = "Init")]
+    pub unsafe fn initWithSet_copyItems(
+        this: Option<Allocated<Self>>,
+        set: &NSSet<ObjectType>,
+        flag: bool,
+    ) -> Id<Self>;
 
-__inner_extern_class!(
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "initWithArray:", managed = "Init")]
+    pub unsafe fn initWithArray(
+        this: Option<Allocated<Self>>,
+        array: &NSArray<ObjectType>,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = NSSet<ObjectType, ObjectTypeOwnership, >,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMutableSet")]
     #[derive(PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSMutableSet")]
-    pub struct NSMutableSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared> {
-        _inner0: PhantomData<*mut (ObjectType, ObjectTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "Foundation_NSMutableSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> ClassType
-        for NSMutableSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[inherits(NSObject)]
-        type Super = NSSet<ObjectType, ObjectTypeOwnership>;
-    }
-);
+    pub type NSMutableSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
+}
 
 #[cfg(feature = "Foundation_NSMutableSet")]
 unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSCoding
@@ -255,93 +239,90 @@ unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSSecureCoding
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSMutableSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[method(addObject:)]
-        pub unsafe fn addObject(&mut self, object: &ObjectType);
+    pub type NSMutableSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[method(removeObject:)]
-        pub unsafe fn removeObject(&self, object: &ObjectType);
+    #[objc2::method(sel = "addObject:")]
+    pub unsafe fn addObject(&mut self, object: &ObjectType);
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self, Owned>>;
+    #[objc2::method(sel = "removeObject:")]
+    pub unsafe fn removeObject(&self, object: &ObjectType);
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self, Owned>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(
+        this: Option<Allocated<Self>>,
+        coder: &NSCoder,
+    ) -> Option<Id<Self, Owned>>;
 
-        #[method_id(@__retain_semantics Init initWithCapacity:)]
-        pub unsafe fn initWithCapacity(
-            this: Option<Allocated<Self>>,
-            num_items: NSUInteger,
-        ) -> Id<Self, Owned>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self, Owned>;
 
-extern_methods!(
-    /// NSExtendedMutableSet
+    #[objc2::method(sel = "initWithCapacity:", managed = "Init")]
+    pub unsafe fn initWithCapacity(
+        this: Option<Allocated<Self>>,
+        num_items: NSUInteger,
+    ) -> Id<Self, Owned>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSMutableSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(addObjectsFromArray:)]
-        pub unsafe fn addObjectsFromArray(&self, array: &NSArray<ObjectType>);
+    pub type NSMutableSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[cfg(feature = "Foundation_NSSet")]
-        #[method(intersectSet:)]
-        pub unsafe fn intersectSet(&self, other_set: &NSSet<ObjectType>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "addObjectsFromArray:")]
+    pub unsafe fn addObjectsFromArray(&self, array: &NSArray<ObjectType>);
 
-        #[cfg(feature = "Foundation_NSSet")]
-        #[method(minusSet:)]
-        pub unsafe fn minusSet(&self, other_set: &NSSet<ObjectType>);
+    #[cfg(feature = "Foundation_NSSet")]
+    #[objc2::method(sel = "intersectSet:")]
+    pub unsafe fn intersectSet(&self, other_set: &NSSet<ObjectType>);
 
-        #[method(removeAllObjects)]
-        pub fn removeAllObjects(&mut self);
+    #[cfg(feature = "Foundation_NSSet")]
+    #[objc2::method(sel = "minusSet:")]
+    pub unsafe fn minusSet(&self, other_set: &NSSet<ObjectType>);
 
-        #[cfg(feature = "Foundation_NSSet")]
-        #[method(unionSet:)]
-        pub unsafe fn unionSet(&self, other_set: &NSSet<ObjectType>);
+    #[objc2::method(sel = "removeAllObjects")]
+    pub fn removeAllObjects(&mut self);
 
-        #[cfg(feature = "Foundation_NSSet")]
-        #[method(setSet:)]
-        pub unsafe fn setSet(&self, other_set: &NSSet<ObjectType>);
-    }
-);
+    #[cfg(feature = "Foundation_NSSet")]
+    #[objc2::method(sel = "unionSet:")]
+    pub unsafe fn unionSet(&self, other_set: &NSSet<ObjectType>);
 
-extern_methods!(
-    /// NSMutableSetCreation
+    #[cfg(feature = "Foundation_NSSet")]
+    #[objc2::method(sel = "setSet:")]
+    pub unsafe fn setSet(&self, other_set: &NSSet<ObjectType>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSMutableSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Other setWithCapacity:)]
-        pub unsafe fn setWithCapacity(num_items: NSUInteger) -> Id<Self, Owned>;
-    }
-);
+    pub type NSMutableSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-__inner_extern_class!(
+    #[objc2::method(sel = "setWithCapacity:", managed = "Other")]
+    pub unsafe fn setWithCapacity(num_items: NSUInteger) -> Id<Self, Owned>;
+}
+
+#[objc2::interface(
+    unsafe super = NSMutableSet<ObjectType, ObjectTypeOwnership, >,
+    unsafe inherits = [
+        NSSet<ObjectType, ObjectTypeOwnership, >,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSCountedSet")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSCountedSet")]
-    pub struct NSCountedSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared> {
-        _inner0: PhantomData<*mut (ObjectType, ObjectTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "Foundation_NSCountedSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> ClassType
-        for NSCountedSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[inherits(NSSet<ObjectType, ObjectTypeOwnership, >, NSObject)]
-        type Super = NSMutableSet<ObjectType, ObjectTypeOwnership>;
-    }
-);
+    pub type NSCountedSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
+}
 
 #[cfg(feature = "Foundation_NSCountedSet")]
 unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSCoding
@@ -367,209 +348,233 @@ unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSSecureCoding
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCountedSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSCountedSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Init initWithCapacity:)]
-        pub unsafe fn initWithCapacity(
-            this: Option<Allocated<Self>>,
-            num_items: NSUInteger,
-        ) -> Id<Self>;
+    pub type NSCountedSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Init initWithArray:)]
-        pub unsafe fn initWithArray(
-            this: Option<Allocated<Self>>,
-            array: &NSArray<ObjectType>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithCapacity:", managed = "Init")]
+    pub unsafe fn initWithCapacity(
+        this: Option<Allocated<Self>>,
+        num_items: NSUInteger,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithSet:)]
-        pub unsafe fn initWithSet(
-            this: Option<Allocated<Self>>,
-            set: &NSSet<ObjectType>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "initWithArray:", managed = "Init")]
+    pub unsafe fn initWithArray(
+        this: Option<Allocated<Self>>,
+        array: &NSArray<ObjectType>,
+    ) -> Id<Self>;
 
-        #[method(countForObject:)]
-        pub unsafe fn countForObject(&self, object: &ObjectType) -> NSUInteger;
+    #[objc2::method(sel = "initWithSet:", managed = "Init")]
+    pub unsafe fn initWithSet(this: Option<Allocated<Self>>, set: &NSSet<ObjectType>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSEnumerator")]
-        #[method_id(@__retain_semantics Other objectEnumerator)]
-        pub unsafe fn objectEnumerator(&self) -> Id<NSEnumerator<ObjectType>>;
+    #[objc2::method(sel = "countForObject:")]
+    pub unsafe fn countForObject(&self, object: &ObjectType) -> NSUInteger;
 
-        #[method(addObject:)]
-        pub unsafe fn addObject(&self, object: &ObjectType);
+    #[cfg(feature = "Foundation_NSEnumerator")]
+    #[objc2::method(sel = "objectEnumerator", managed = "Other")]
+    pub unsafe fn objectEnumerator(&self) -> Id<NSEnumerator<ObjectType>>;
 
-        #[method(removeObject:)]
-        pub unsafe fn removeObject(&self, object: &ObjectType);
-    }
-);
+    #[objc2::method(sel = "addObject:")]
+    pub unsafe fn addObject(&self, object: &ObjectType);
 
-extern_methods!(
-    /// Methods declared on superclass `NSSet`
-    ///
-    /// NSCollectionViewAdditions
+    #[objc2::method(sel = "removeObject:")]
+    pub unsafe fn removeObject(&self, object: &ObjectType);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSSet`
+        ///
+        /// NSCollectionViewAdditions
     #[cfg(feature = "Foundation_NSMutableSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSMutableSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSIndexPath")]
-        #[method_id(@__retain_semantics Other setWithCollectionViewIndexPath:)]
-        pub unsafe fn setWithCollectionViewIndexPath(index_path: &NSIndexPath) -> Id<Self, Owned>;
-
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSIndexPath"))]
-        #[method_id(@__retain_semantics Other setWithCollectionViewIndexPaths:)]
-        pub unsafe fn setWithCollectionViewIndexPaths(
-            index_paths: &NSArray<NSIndexPath>,
-        ) -> Id<Self, Owned>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSSet`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSMutableSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Init initWithObjects:count:)]
-        pub unsafe fn initWithObjects_count(
-            this: Option<Allocated<Self>>,
-            objects: *mut NonNull<ObjectType>,
-            cnt: NSUInteger,
-        ) -> Id<Self, Owned>;
-    }
-);
+    pub type NSMutableSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSSet`
-    ///
-    /// NSSetCreation
+    #[cfg(feature = "Foundation_NSIndexPath")]
+    #[objc2::method(sel = "setWithCollectionViewIndexPath:", managed = "Other")]
+    pub unsafe fn setWithCollectionViewIndexPath(index_path: &NSIndexPath) -> Id<Self, Owned>;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSIndexPath"))]
+    #[objc2::method(sel = "setWithCollectionViewIndexPaths:", managed = "Other")]
+    pub unsafe fn setWithCollectionViewIndexPaths(
+        index_paths: &NSArray<NSIndexPath>,
+    ) -> Id<Self, Owned>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSSet`
     #[cfg(feature = "Foundation_NSMutableSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSMutableSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Other set)]
-        pub unsafe fn set() -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Other setWithObject:)]
-        pub unsafe fn setWithObject(object: &ObjectType) -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Other setWithObjects:count:)]
-        pub unsafe fn setWithObjects_count(
-            objects: NonNull<NonNull<ObjectType>>,
-            cnt: NSUInteger,
-        ) -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Other setWithSet:)]
-        pub unsafe fn setWithSet(set: &NSSet<ObjectType>) -> Id<Self, Owned>;
-
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other setWithArray:)]
-        pub unsafe fn setWithArray(array: &NSArray<ObjectType>) -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Init initWithSet:)]
-        pub unsafe fn initWithSet(
-            this: Option<Allocated<Self>>,
-            set: &NSSet<ObjectType>,
-        ) -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Init initWithSet:copyItems:)]
-        pub unsafe fn initWithSet_copyItems(
-            this: Option<Allocated<Self>>,
-            set: &NSSet<ObjectType>,
-            flag: bool,
-        ) -> Id<Self, Owned>;
-
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Init initWithArray:)]
-        pub unsafe fn initWithArray(
-            this: Option<Allocated<Self>>,
-            array: &NSArray<ObjectType>,
-        ) -> Id<Self, Owned>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMutableSet")]
+    pub type NSMutableSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSMutableSet`
-    ///
-    /// NSMutableSetCreation
+    #[objc2::method(sel = "initWithObjects:count:", managed = "Init")]
+    pub unsafe fn initWithObjects_count(
+        this: Option<Allocated<Self>>,
+        objects: *mut NonNull<ObjectType>,
+        cnt: NSUInteger,
+    ) -> Id<Self, Owned>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSSet`
+        ///
+        /// NSSetCreation
+    #[cfg(feature = "Foundation_NSMutableSet")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMutableSet")]
+    pub type NSMutableSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
+
+    #[objc2::method(sel = "set", managed = "Other")]
+    pub unsafe fn set() -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "setWithObject:", managed = "Other")]
+    pub unsafe fn setWithObject(object: &ObjectType) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "setWithObjects:count:", managed = "Other")]
+    pub unsafe fn setWithObjects_count(
+        objects: NonNull<NonNull<ObjectType>>,
+        cnt: NSUInteger,
+    ) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "setWithSet:", managed = "Other")]
+    pub unsafe fn setWithSet(set: &NSSet<ObjectType>) -> Id<Self, Owned>;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setWithArray:", managed = "Other")]
+    pub unsafe fn setWithArray(array: &NSArray<ObjectType>) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "initWithSet:", managed = "Init")]
+    pub unsafe fn initWithSet(
+        this: Option<Allocated<Self>>,
+        set: &NSSet<ObjectType>,
+    ) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "initWithSet:copyItems:", managed = "Init")]
+    pub unsafe fn initWithSet_copyItems(
+        this: Option<Allocated<Self>>,
+        set: &NSSet<ObjectType>,
+        flag: bool,
+    ) -> Id<Self, Owned>;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "initWithArray:", managed = "Init")]
+    pub unsafe fn initWithArray(
+        this: Option<Allocated<Self>>,
+        array: &NSArray<ObjectType>,
+    ) -> Id<Self, Owned>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSMutableSet`
+        ///
+        /// NSMutableSetCreation
     #[cfg(feature = "Foundation_NSCountedSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSCountedSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Other setWithCapacity:)]
-        pub unsafe fn setWithCapacity(num_items: NSUInteger) -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSSet`
-    ///
-    /// NSCollectionViewAdditions
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCountedSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSCountedSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSIndexPath")]
-        #[method_id(@__retain_semantics Other setWithCollectionViewIndexPath:)]
-        pub unsafe fn setWithCollectionViewIndexPath(index_path: &NSIndexPath) -> Id<Self>;
+    pub type NSCountedSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSIndexPath"))]
-        #[method_id(@__retain_semantics Other setWithCollectionViewIndexPaths:)]
-        pub unsafe fn setWithCollectionViewIndexPaths(
-            index_paths: &NSArray<NSIndexPath>,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "setWithCapacity:", managed = "Other")]
+    pub unsafe fn setWithCapacity(num_items: NSUInteger) -> Id<Self>;
+}
 
-extern_methods!(
-    /// Methods declared on superclass `NSSet`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSSet`
+        ///
+        /// NSCollectionViewAdditions
     #[cfg(feature = "Foundation_NSCountedSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSCountedSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Init initWithObjects:count:)]
-        pub unsafe fn initWithObjects_count(
-            this: Option<Allocated<Self>>,
-            objects: *mut NonNull<ObjectType>,
-            cnt: NSUInteger,
-        ) -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSSet`
-    ///
-    /// NSSetCreation
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCountedSet")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSCountedSet<ObjectType, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Other set)]
-        pub unsafe fn set() -> Id<Self>;
+    pub type NSCountedSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[method_id(@__retain_semantics Other setWithObject:)]
-        pub unsafe fn setWithObject(object: &ObjectType) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSIndexPath")]
+    #[objc2::method(sel = "setWithCollectionViewIndexPath:", managed = "Other")]
+    pub unsafe fn setWithCollectionViewIndexPath(index_path: &NSIndexPath) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other setWithObjects:count:)]
-        pub unsafe fn setWithObjects_count(
-            objects: NonNull<NonNull<ObjectType>>,
-            cnt: NSUInteger,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSIndexPath"))]
+    #[objc2::method(sel = "setWithCollectionViewIndexPaths:", managed = "Other")]
+    pub unsafe fn setWithCollectionViewIndexPaths(index_paths: &NSArray<NSIndexPath>) -> Id<Self>;
+}
 
-        #[method_id(@__retain_semantics Other setWithSet:)]
-        pub unsafe fn setWithSet(set: &NSSet<ObjectType>) -> Id<Self>;
-
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other setWithArray:)]
-        pub unsafe fn setWithArray(array: &NSArray<ObjectType>) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Init initWithSet:copyItems:)]
-        pub unsafe fn initWithSet_copyItems(
-            this: Option<Allocated<Self>>,
-            set: &NSSet<ObjectType>,
-            flag: bool,
-        ) -> Id<Self>;
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSSet`
+    #[cfg(feature = "Foundation_NSCountedSet")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSCountedSet")]
+    pub type NSCountedSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
+
+    #[objc2::method(sel = "initWithObjects:count:", managed = "Init")]
+    pub unsafe fn initWithObjects_count(
+        this: Option<Allocated<Self>>,
+        objects: *mut NonNull<ObjectType>,
+        cnt: NSUInteger,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSSet`
+        ///
+        /// NSSetCreation
+    #[cfg(feature = "Foundation_NSCountedSet")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSCountedSet")]
+    pub type NSCountedSet<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
+
+    #[objc2::method(sel = "set", managed = "Other")]
+    pub unsafe fn set() -> Id<Self>;
+
+    #[objc2::method(sel = "setWithObject:", managed = "Other")]
+    pub unsafe fn setWithObject(object: &ObjectType) -> Id<Self>;
+
+    #[objc2::method(sel = "setWithObjects:count:", managed = "Other")]
+    pub unsafe fn setWithObjects_count(
+        objects: NonNull<NonNull<ObjectType>>,
+        cnt: NSUInteger,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "setWithSet:", managed = "Other")]
+    pub unsafe fn setWithSet(set: &NSSet<ObjectType>) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setWithArray:", managed = "Other")]
+    pub unsafe fn setWithArray(array: &NSArray<ObjectType>) -> Id<Self>;
+
+    #[objc2::method(sel = "initWithSet:copyItems:", managed = "Init")]
+    pub unsafe fn initWithSet_copyItems(
+        this: Option<Allocated<Self>>,
+        set: &NSSet<ObjectType>,
+        flag: bool,
+    ) -> Id<Self>;
+}

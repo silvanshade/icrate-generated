@@ -4,52 +4,49 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait ASAuthorizationPublicKeyCredentialAssertionRequest:
-        NSObjectProtocol + NSSecureCoding
-    {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other challenge)]
-        unsafe fn challenge(&self) -> Id<NSData>;
+#[objc2::protocol]
+pub unsafe trait ASAuthorizationPublicKeyCredentialAssertionRequest:
+    NSObjectProtocol + NSSecureCoding
+{
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "challenge", managed = "Other")]
+    unsafe fn challenge(&self) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(setChallenge:)]
-        unsafe fn setChallenge(&self, challenge: &NSData);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "setChallenge:")]
+    unsafe fn setChallenge(&self, challenge: &NSData);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other relyingPartyIdentifier)]
-        unsafe fn relyingPartyIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "relyingPartyIdentifier", managed = "Other")]
+    unsafe fn relyingPartyIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setRelyingPartyIdentifier:)]
-        unsafe fn setRelyingPartyIdentifier(&self, relying_party_identifier: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setRelyingPartyIdentifier:")]
+    unsafe fn setRelyingPartyIdentifier(&self, relying_party_identifier: &NSString);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other allowedCredentials)]
-        unsafe fn allowedCredentials(
-            &self,
-        ) -> Id<NSArray<ProtocolObject<dyn ASAuthorizationPublicKeyCredentialDescriptor>>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "allowedCredentials", managed = "Other")]
+    unsafe fn allowedCredentials(
+        &self,
+    ) -> Id<NSArray<ProtocolObject<dyn ASAuthorizationPublicKeyCredentialDescriptor>>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setAllowedCredentials:)]
-        unsafe fn setAllowedCredentials(
-            &self,
-            allowed_credentials: &NSArray<
-                ProtocolObject<dyn ASAuthorizationPublicKeyCredentialDescriptor>,
-            >,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setAllowedCredentials:")]
+    unsafe fn setAllowedCredentials(
+        &self,
+        allowed_credentials: &NSArray<
+            ProtocolObject<dyn ASAuthorizationPublicKeyCredentialDescriptor>,
+        >,
+    );
 
-        #[method_id(@__retain_semantics Other userVerificationPreference)]
-        unsafe fn userVerificationPreference(
-            &self,
-        ) -> Id<ASAuthorizationPublicKeyCredentialUserVerificationPreference>;
+    #[objc2::method(sel = "userVerificationPreference", managed = "Other")]
+    unsafe fn userVerificationPreference(
+        &self,
+    ) -> Id<ASAuthorizationPublicKeyCredentialUserVerificationPreference>;
 
-        #[method(setUserVerificationPreference:)]
-        unsafe fn setUserVerificationPreference(
-            &self,
-            user_verification_preference: &ASAuthorizationPublicKeyCredentialUserVerificationPreference,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn ASAuthorizationPublicKeyCredentialAssertionRequest {}
-);
+    #[objc2::method(sel = "setUserVerificationPreference:")]
+    unsafe fn setUserVerificationPreference(
+        &self,
+        user_verification_preference: &ASAuthorizationPublicKeyCredentialUserVerificationPreference,
+    );
+}

@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MailKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MailKit_MEMessageActionDecision")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MailKit_MEMessageActionDecision")]
-    pub struct MEMessageActionDecision;
-
-    #[cfg(feature = "MailKit_MEMessageActionDecision")]
-    unsafe impl ClassType for MEMessageActionDecision {
-        type Super = NSObject;
-    }
-);
+    pub type MEMessageActionDecision;
+}
 
 #[cfg(feature = "MailKit_MEMessageActionDecision")]
 unsafe impl NSCoding for MEMessageActionDecision {}
@@ -25,24 +25,27 @@ unsafe impl NSObjectProtocol for MEMessageActionDecision {}
 #[cfg(feature = "MailKit_MEMessageActionDecision")]
 unsafe impl NSSecureCoding for MEMessageActionDecision {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MailKit_MEMessageActionDecision")]
-    unsafe impl MEMessageActionDecision {
-        #[method_id(@__retain_semantics Other invokeAgainWithBody)]
-        pub unsafe fn invokeAgainWithBody() -> Id<MEMessageActionDecision>;
+    pub type MEMessageActionDecision;
 
-        #[cfg(feature = "MailKit_MEMessageAction")]
-        #[method_id(@__retain_semantics Other decisionApplyingAction:)]
-        pub unsafe fn decisionApplyingAction(action: &MEMessageAction) -> Id<Self>;
+    #[objc2::method(sel = "invokeAgainWithBody", managed = "Other")]
+    pub unsafe fn invokeAgainWithBody() -> Id<MEMessageActionDecision>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEMessageAction"))]
-        #[method_id(@__retain_semantics Other decisionApplyingActions:)]
-        pub unsafe fn decisionApplyingActions(actions: &NSArray<MEMessageAction>) -> Id<Self>;
+    #[cfg(feature = "MailKit_MEMessageAction")]
+    #[objc2::method(sel = "decisionApplyingAction:", managed = "Other")]
+    pub unsafe fn decisionApplyingAction(action: &MEMessageAction) -> Id<Self>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEMessageAction"))]
+    #[objc2::method(sel = "decisionApplyingActions:", managed = "Other")]
+    pub unsafe fn decisionApplyingActions(actions: &NSArray<MEMessageAction>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

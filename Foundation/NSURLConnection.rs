@@ -3,307 +3,305 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSURLConnection")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSURLConnection")]
-    pub struct NSURLConnection;
-
-    #[cfg(feature = "Foundation_NSURLConnection")]
-    unsafe impl ClassType for NSURLConnection {
-        type Super = NSObject;
-    }
-);
+    pub type NSURLConnection;
+}
 
 #[cfg(feature = "Foundation_NSURLConnection")]
 unsafe impl NSObjectProtocol for NSURLConnection {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLConnection")]
-    unsafe impl NSURLConnection {
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[deprecated = "Use NSURLSession (see NSURLSession.h)"]
-        #[method_id(@__retain_semantics Init initWithRequest:delegate:startImmediately:)]
-        pub unsafe fn initWithRequest_delegate_startImmediately(
-            this: Option<Allocated<Self>>,
-            request: &NSURLRequest,
-            delegate: Option<&Object>,
-            start_immediately: bool,
-        ) -> Option<Id<Self>>;
+    pub type NSURLConnection;
 
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[deprecated = "Use NSURLSession (see NSURLSession.h)"]
-        #[method_id(@__retain_semantics Init initWithRequest:delegate:)]
-        pub unsafe fn initWithRequest_delegate(
-            this: Option<Allocated<Self>>,
-            request: &NSURLRequest,
-            delegate: Option<&Object>,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[deprecated = "Use NSURLSession (see NSURLSession.h)"]
+    #[objc2::method(sel = "initWithRequest:delegate:startImmediately:", managed = "Init")]
+    pub unsafe fn initWithRequest_delegate_startImmediately(
+        this: Option<Allocated<Self>>,
+        request: &NSURLRequest,
+        delegate: Option<&Object>,
+        start_immediately: bool,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[deprecated = "Use NSURLSession (see NSURLSession.h)"]
-        #[method_id(@__retain_semantics Other connectionWithRequest:delegate:)]
-        pub unsafe fn connectionWithRequest_delegate(
-            request: &NSURLRequest,
-            delegate: Option<&Object>,
-        ) -> Option<Id<NSURLConnection>>;
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[deprecated = "Use NSURLSession (see NSURLSession.h)"]
+    #[objc2::method(sel = "initWithRequest:delegate:", managed = "Init")]
+    pub unsafe fn initWithRequest_delegate(
+        this: Option<Allocated<Self>>,
+        request: &NSURLRequest,
+        delegate: Option<&Object>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[method_id(@__retain_semantics Other originalRequest)]
-        pub unsafe fn originalRequest(&self) -> Id<NSURLRequest>;
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[deprecated = "Use NSURLSession (see NSURLSession.h)"]
+    #[objc2::method(sel = "connectionWithRequest:delegate:", managed = "Other")]
+    pub unsafe fn connectionWithRequest_delegate(
+        request: &NSURLRequest,
+        delegate: Option<&Object>,
+    ) -> Option<Id<NSURLConnection>>;
 
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[method_id(@__retain_semantics Other currentRequest)]
-        pub unsafe fn currentRequest(&self) -> Id<NSURLRequest>;
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[objc2::method(sel = "originalRequest", managed = "Other")]
+    pub unsafe fn originalRequest(&self) -> Id<NSURLRequest>;
 
-        #[method(start)]
-        pub unsafe fn start(&self);
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[objc2::method(sel = "currentRequest", managed = "Other")]
+    pub unsafe fn currentRequest(&self) -> Id<NSURLRequest>;
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
+    #[objc2::method(sel = "start")]
+    pub unsafe fn start(&self);
 
-        #[cfg(feature = "Foundation_NSRunLoop")]
-        #[method(scheduleInRunLoop:forMode:)]
-        pub unsafe fn scheduleInRunLoop_forMode(
-            &self,
-            a_run_loop: &NSRunLoop,
-            mode: &NSRunLoopMode,
-        );
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
 
-        #[cfg(feature = "Foundation_NSRunLoop")]
-        #[method(unscheduleFromRunLoop:forMode:)]
-        pub unsafe fn unscheduleFromRunLoop_forMode(
-            &self,
-            a_run_loop: &NSRunLoop,
-            mode: &NSRunLoopMode,
-        );
+    #[cfg(feature = "Foundation_NSRunLoop")]
+    #[objc2::method(sel = "scheduleInRunLoop:forMode:")]
+    pub unsafe fn scheduleInRunLoop_forMode(&self, a_run_loop: &NSRunLoop, mode: &NSRunLoopMode);
 
-        #[cfg(feature = "Foundation_NSOperationQueue")]
-        #[method(setDelegateQueue:)]
-        pub unsafe fn setDelegateQueue(&self, queue: Option<&NSOperationQueue>);
+    #[cfg(feature = "Foundation_NSRunLoop")]
+    #[objc2::method(sel = "unscheduleFromRunLoop:forMode:")]
+    pub unsafe fn unscheduleFromRunLoop_forMode(
+        &self,
+        a_run_loop: &NSRunLoop,
+        mode: &NSRunLoopMode,
+    );
 
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[method(canHandleRequest:)]
-        pub unsafe fn canHandleRequest(request: &NSURLRequest) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSOperationQueue")]
+    #[objc2::method(sel = "setDelegateQueue:")]
+    pub unsafe fn setDelegateQueue(&self, queue: Option<&NSOperationQueue>);
 
-extern_protocol!(
-    pub unsafe trait NSURLConnectionDelegate: NSObjectProtocol {
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURLConnection"))]
-        #[optional]
-        #[method(connection:didFailWithError:)]
-        unsafe fn connection_didFailWithError(&self, connection: &NSURLConnection, error: &NSError);
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[objc2::method(sel = "canHandleRequest:")]
+    pub unsafe fn canHandleRequest(request: &NSURLRequest) -> bool;
+}
 
-        #[cfg(feature = "Foundation_NSURLConnection")]
-        #[optional]
-        #[method(connectionShouldUseCredentialStorage:)]
-        unsafe fn connectionShouldUseCredentialStorage(&self, connection: &NSURLConnection)
-            -> bool;
+#[objc2::protocol]
+pub unsafe trait NSURLConnectionDelegate: NSObjectProtocol {
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURLConnection"))]
+    #[objc2::method(optional, sel = "connection:didFailWithError:")]
+    unsafe fn connection_didFailWithError(&self, connection: &NSURLConnection, error: &NSError);
 
-        #[cfg(all(
-            feature = "Foundation_NSURLAuthenticationChallenge",
-            feature = "Foundation_NSURLConnection"
-        ))]
-        #[optional]
-        #[method(connection:willSendRequestForAuthenticationChallenge:)]
-        unsafe fn connection_willSendRequestForAuthenticationChallenge(
-            &self,
-            connection: &NSURLConnection,
-            challenge: &NSURLAuthenticationChallenge,
-        );
-
-        #[cfg(all(
-            feature = "Foundation_NSURLConnection",
-            feature = "Foundation_NSURLProtectionSpace"
-        ))]
-        #[deprecated = "Use -connection:willSendRequestForAuthenticationChallenge: instead."]
-        #[optional]
-        #[method(connection:canAuthenticateAgainstProtectionSpace:)]
-        unsafe fn connection_canAuthenticateAgainstProtectionSpace(
-            &self,
-            connection: &NSURLConnection,
-            protection_space: &NSURLProtectionSpace,
-        ) -> bool;
-
-        #[cfg(all(
-            feature = "Foundation_NSURLAuthenticationChallenge",
-            feature = "Foundation_NSURLConnection"
-        ))]
-        #[deprecated = "Use -connection:willSendRequestForAuthenticationChallenge: instead."]
-        #[optional]
-        #[method(connection:didReceiveAuthenticationChallenge:)]
-        unsafe fn connection_didReceiveAuthenticationChallenge(
-            &self,
-            connection: &NSURLConnection,
-            challenge: &NSURLAuthenticationChallenge,
-        );
-
-        #[cfg(all(
-            feature = "Foundation_NSURLAuthenticationChallenge",
-            feature = "Foundation_NSURLConnection"
-        ))]
-        #[deprecated = "Use -connection:willSendRequestForAuthenticationChallenge: instead."]
-        #[optional]
-        #[method(connection:didCancelAuthenticationChallenge:)]
-        unsafe fn connection_didCancelAuthenticationChallenge(
-            &self,
-            connection: &NSURLConnection,
-            challenge: &NSURLAuthenticationChallenge,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn NSURLConnectionDelegate {}
-);
-
-extern_protocol!(
-    pub unsafe trait NSURLConnectionDataDelegate: NSURLConnectionDelegate {
-        #[cfg(all(
-            feature = "Foundation_NSURLConnection",
-            feature = "Foundation_NSURLRequest",
-            feature = "Foundation_NSURLResponse"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other connection:willSendRequest:redirectResponse:)]
-        unsafe fn connection_willSendRequest_redirectResponse(
-            &self,
-            connection: &NSURLConnection,
-            request: &NSURLRequest,
-            response: Option<&NSURLResponse>,
-        ) -> Option<Id<NSURLRequest>>;
-
-        #[cfg(all(
-            feature = "Foundation_NSURLConnection",
-            feature = "Foundation_NSURLResponse"
-        ))]
-        #[optional]
-        #[method(connection:didReceiveResponse:)]
-        unsafe fn connection_didReceiveResponse(
-            &self,
-            connection: &NSURLConnection,
-            response: &NSURLResponse,
-        );
-
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSURLConnection"))]
-        #[optional]
-        #[method(connection:didReceiveData:)]
-        unsafe fn connection_didReceiveData(&self, connection: &NSURLConnection, data: &NSData);
-
-        #[cfg(all(
-            feature = "Foundation_NSInputStream",
-            feature = "Foundation_NSURLConnection",
-            feature = "Foundation_NSURLRequest"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other connection:needNewBodyStream:)]
-        unsafe fn connection_needNewBodyStream(
-            &self,
-            connection: &NSURLConnection,
-            request: &NSURLRequest,
-        ) -> Option<Id<NSInputStream>>;
-
-        #[cfg(feature = "Foundation_NSURLConnection")]
-        #[optional]
-        #[method(connection:didSendBodyData:totalBytesWritten:totalBytesExpectedToWrite:)]
-        unsafe fn connection_didSendBodyData_totalBytesWritten_totalBytesExpectedToWrite(
-            &self,
-            connection: &NSURLConnection,
-            bytes_written: NSInteger,
-            total_bytes_written: NSInteger,
-            total_bytes_expected_to_write: NSInteger,
-        );
-
-        #[cfg(all(
-            feature = "Foundation_NSCachedURLResponse",
-            feature = "Foundation_NSURLConnection"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other connection:willCacheResponse:)]
-        unsafe fn connection_willCacheResponse(
-            &self,
-            connection: &NSURLConnection,
-            cached_response: &NSCachedURLResponse,
-        ) -> Option<Id<NSCachedURLResponse>>;
-
-        #[cfg(feature = "Foundation_NSURLConnection")]
-        #[optional]
-        #[method(connectionDidFinishLoading:)]
-        unsafe fn connectionDidFinishLoading(&self, connection: &NSURLConnection);
-    }
-
-    unsafe impl ProtocolType for dyn NSURLConnectionDataDelegate {}
-);
-
-extern_protocol!(
-    pub unsafe trait NSURLConnectionDownloadDelegate: NSURLConnectionDelegate {
-        #[cfg(feature = "Foundation_NSURLConnection")]
-        #[optional]
-        #[method(connection:didWriteData:totalBytesWritten:expectedTotalBytes:)]
-        unsafe fn connection_didWriteData_totalBytesWritten_expectedTotalBytes(
-            &self,
-            connection: &NSURLConnection,
-            bytes_written: c_longlong,
-            total_bytes_written: c_longlong,
-            expected_total_bytes: c_longlong,
-        );
-
-        #[cfg(feature = "Foundation_NSURLConnection")]
-        #[optional]
-        #[method(connectionDidResumeDownloading:totalBytesWritten:expectedTotalBytes:)]
-        unsafe fn connectionDidResumeDownloading_totalBytesWritten_expectedTotalBytes(
-            &self,
-            connection: &NSURLConnection,
-            total_bytes_written: c_longlong,
-            expected_total_bytes: c_longlong,
-        );
-
-        #[cfg(all(feature = "Foundation_NSURL", feature = "Foundation_NSURLConnection"))]
-        #[method(connectionDidFinishDownloading:destinationURL:)]
-        unsafe fn connectionDidFinishDownloading_destinationURL(
-            &self,
-            connection: &NSURLConnection,
-            destination_url: &NSURL,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn NSURLConnectionDownloadDelegate {}
-);
-
-extern_methods!(
-    /// NSURLConnectionSynchronousLoading
     #[cfg(feature = "Foundation_NSURLConnection")]
-    unsafe impl NSURLConnection {
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURLRequest",
-            feature = "Foundation_NSURLResponse"
-        ))]
-        #[deprecated = "Use [NSURLSession dataTaskWithRequest:completionHandler:] (see NSURLSession.h"]
-        #[method_id(@__retain_semantics Other sendSynchronousRequest:returningResponse:error:_)]
-        pub unsafe fn sendSynchronousRequest_returningResponse_error(
-            request: &NSURLRequest,
-            response: Option<&mut Option<Id<NSURLResponse>>>,
-        ) -> Result<Id<NSData>, Id<NSError>>;
-    }
-);
+    #[objc2::method(optional, sel = "connectionShouldUseCredentialStorage:")]
+    unsafe fn connectionShouldUseCredentialStorage(&self, connection: &NSURLConnection) -> bool;
 
-extern_methods!(
-    /// NSURLConnectionQueuedLoading
+    #[cfg(all(
+        feature = "Foundation_NSURLAuthenticationChallenge",
+        feature = "Foundation_NSURLConnection"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "connection:willSendRequestForAuthenticationChallenge:"
+    )]
+    unsafe fn connection_willSendRequestForAuthenticationChallenge(
+        &self,
+        connection: &NSURLConnection,
+        challenge: &NSURLAuthenticationChallenge,
+    );
+
+    #[cfg(all(
+        feature = "Foundation_NSURLConnection",
+        feature = "Foundation_NSURLProtectionSpace"
+    ))]
+    #[deprecated = "Use -connection:willSendRequestForAuthenticationChallenge: instead."]
+    #[objc2::method(optional, sel = "connection:canAuthenticateAgainstProtectionSpace:")]
+    unsafe fn connection_canAuthenticateAgainstProtectionSpace(
+        &self,
+        connection: &NSURLConnection,
+        protection_space: &NSURLProtectionSpace,
+    ) -> bool;
+
+    #[cfg(all(
+        feature = "Foundation_NSURLAuthenticationChallenge",
+        feature = "Foundation_NSURLConnection"
+    ))]
+    #[deprecated = "Use -connection:willSendRequestForAuthenticationChallenge: instead."]
+    #[objc2::method(optional, sel = "connection:didReceiveAuthenticationChallenge:")]
+    unsafe fn connection_didReceiveAuthenticationChallenge(
+        &self,
+        connection: &NSURLConnection,
+        challenge: &NSURLAuthenticationChallenge,
+    );
+
+    #[cfg(all(
+        feature = "Foundation_NSURLAuthenticationChallenge",
+        feature = "Foundation_NSURLConnection"
+    ))]
+    #[deprecated = "Use -connection:willSendRequestForAuthenticationChallenge: instead."]
+    #[objc2::method(optional, sel = "connection:didCancelAuthenticationChallenge:")]
+    unsafe fn connection_didCancelAuthenticationChallenge(
+        &self,
+        connection: &NSURLConnection,
+        challenge: &NSURLAuthenticationChallenge,
+    );
+}
+
+#[objc2::protocol]
+pub unsafe trait NSURLConnectionDataDelegate: NSURLConnectionDelegate {
+    #[cfg(all(
+        feature = "Foundation_NSURLConnection",
+        feature = "Foundation_NSURLRequest",
+        feature = "Foundation_NSURLResponse"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "connection:willSendRequest:redirectResponse:",
+        managed = "Other"
+    )]
+    unsafe fn connection_willSendRequest_redirectResponse(
+        &self,
+        connection: &NSURLConnection,
+        request: &NSURLRequest,
+        response: Option<&NSURLResponse>,
+    ) -> Option<Id<NSURLRequest>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSURLConnection",
+        feature = "Foundation_NSURLResponse"
+    ))]
+    #[objc2::method(optional, sel = "connection:didReceiveResponse:")]
+    unsafe fn connection_didReceiveResponse(
+        &self,
+        connection: &NSURLConnection,
+        response: &NSURLResponse,
+    );
+
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSURLConnection"))]
+    #[objc2::method(optional, sel = "connection:didReceiveData:")]
+    unsafe fn connection_didReceiveData(&self, connection: &NSURLConnection, data: &NSData);
+
+    #[cfg(all(
+        feature = "Foundation_NSInputStream",
+        feature = "Foundation_NSURLConnection",
+        feature = "Foundation_NSURLRequest"
+    ))]
+    #[objc2::method(optional, sel = "connection:needNewBodyStream:", managed = "Other")]
+    unsafe fn connection_needNewBodyStream(
+        &self,
+        connection: &NSURLConnection,
+        request: &NSURLRequest,
+    ) -> Option<Id<NSInputStream>>;
+
     #[cfg(feature = "Foundation_NSURLConnection")]
-    unsafe impl NSURLConnection {
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSOperationQueue",
-            feature = "Foundation_NSURLRequest",
-            feature = "Foundation_NSURLResponse"
-        ))]
-        #[deprecated = "Use [NSURLSession dataTaskWithRequest:completionHandler:] (see NSURLSession.h"]
-        #[method(sendAsynchronousRequest:queue:completionHandler:)]
-        pub unsafe fn sendAsynchronousRequest_queue_completionHandler(
-            request: &NSURLRequest,
-            queue: &NSOperationQueue,
-            handler: &Block<(*mut NSURLResponse, *mut NSData, *mut NSError), ()>,
-        );
-    }
-);
+    #[objc2::method(
+        optional,
+        sel = "connection:didSendBodyData:totalBytesWritten:totalBytesExpectedToWrite:"
+    )]
+    unsafe fn connection_didSendBodyData_totalBytesWritten_totalBytesExpectedToWrite(
+        &self,
+        connection: &NSURLConnection,
+        bytes_written: NSInteger,
+        total_bytes_written: NSInteger,
+        total_bytes_expected_to_write: NSInteger,
+    );
+
+    #[cfg(all(
+        feature = "Foundation_NSCachedURLResponse",
+        feature = "Foundation_NSURLConnection"
+    ))]
+    #[objc2::method(optional, sel = "connection:willCacheResponse:", managed = "Other")]
+    unsafe fn connection_willCacheResponse(
+        &self,
+        connection: &NSURLConnection,
+        cached_response: &NSCachedURLResponse,
+    ) -> Option<Id<NSCachedURLResponse>>;
+
+    #[cfg(feature = "Foundation_NSURLConnection")]
+    #[objc2::method(optional, sel = "connectionDidFinishLoading:")]
+    unsafe fn connectionDidFinishLoading(&self, connection: &NSURLConnection);
+}
+
+#[objc2::protocol]
+pub unsafe trait NSURLConnectionDownloadDelegate: NSURLConnectionDelegate {
+    #[cfg(feature = "Foundation_NSURLConnection")]
+    #[objc2::method(
+        optional,
+        sel = "connection:didWriteData:totalBytesWritten:expectedTotalBytes:"
+    )]
+    unsafe fn connection_didWriteData_totalBytesWritten_expectedTotalBytes(
+        &self,
+        connection: &NSURLConnection,
+        bytes_written: c_longlong,
+        total_bytes_written: c_longlong,
+        expected_total_bytes: c_longlong,
+    );
+
+    #[cfg(feature = "Foundation_NSURLConnection")]
+    #[objc2::method(
+        optional,
+        sel = "connectionDidResumeDownloading:totalBytesWritten:expectedTotalBytes:"
+    )]
+    unsafe fn connectionDidResumeDownloading_totalBytesWritten_expectedTotalBytes(
+        &self,
+        connection: &NSURLConnection,
+        total_bytes_written: c_longlong,
+        expected_total_bytes: c_longlong,
+    );
+
+    #[cfg(all(feature = "Foundation_NSURL", feature = "Foundation_NSURLConnection"))]
+    #[objc2::method(sel = "connectionDidFinishDownloading:destinationURL:")]
+    unsafe fn connectionDidFinishDownloading_destinationURL(
+        &self,
+        connection: &NSURLConnection,
+        destination_url: &NSURL,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSURLConnection")]
+    pub type NSURLConnection;
+
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURLRequest",
+        feature = "Foundation_NSURLResponse"
+    ))]
+    #[deprecated = "Use [NSURLSession dataTaskWithRequest:completionHandler:] (see NSURLSession.h"]
+    #[objc2::method(
+        sel = "sendSynchronousRequest:returningResponse:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn sendSynchronousRequest_returningResponse_error(
+        request: &NSURLRequest,
+        response: Option<&mut Option<Id<NSURLResponse>>>,
+    ) -> Result<Id<NSData>, Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSURLConnection")]
+    pub type NSURLConnection;
+
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSOperationQueue",
+        feature = "Foundation_NSURLRequest",
+        feature = "Foundation_NSURLResponse"
+    ))]
+    #[deprecated = "Use [NSURLSession dataTaskWithRequest:completionHandler:] (see NSURLSession.h"]
+    #[objc2::method(sel = "sendAsynchronousRequest:queue:completionHandler:")]
+    pub unsafe fn sendAsynchronousRequest_queue_completionHandler(
+        request: &NSURLRequest,
+        queue: &NSOperationQueue,
+        handler: &Block<(*mut NSURLResponse, *mut NSData, *mut NSError), ()>,
+    );
+}

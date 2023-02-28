@@ -3,26 +3,24 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSRoundingMode {
-        NSRoundPlain = 0,
-        NSRoundDown = 1,
-        NSRoundUp = 2,
-        NSRoundBankers = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSRoundingMode {
+    NSRoundPlain = 0,
+    NSRoundDown = 1,
+    NSRoundUp = 2,
+    NSRoundBankers = 3,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSCalculationError {
-        NSCalculationNoError = 0,
-        NSCalculationLossOfPrecision = 1,
-        NSCalculationUnderflow = 2,
-        NSCalculationOverflow = 3,
-        NSCalculationDivideByZero = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSCalculationError {
+    NSCalculationNoError = 0,
+    NSCalculationLossOfPrecision = 1,
+    NSCalculationUnderflow = 2,
+    NSCalculationOverflow = 3,
+    NSCalculationDivideByZero = 4,
+}
 
 inline_fn!(
     pub unsafe fn NSDecimalIsNotANumber(dcm: NonNull<NSDecimal>) -> Bool {

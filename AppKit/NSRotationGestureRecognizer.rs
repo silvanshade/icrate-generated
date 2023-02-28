@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSGestureRecognizer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSRotationGestureRecognizer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSRotationGestureRecognizer")]
-    pub struct NSRotationGestureRecognizer;
-
-    #[cfg(feature = "AppKit_NSRotationGestureRecognizer")]
-    unsafe impl ClassType for NSRotationGestureRecognizer {
-        #[inherits(NSObject)]
-        type Super = NSGestureRecognizer;
-    }
-);
+    pub type NSRotationGestureRecognizer;
+}
 
 #[cfg(feature = "AppKit_NSRotationGestureRecognizer")]
 unsafe impl NSCoding for NSRotationGestureRecognizer {}
@@ -23,32 +23,41 @@ unsafe impl NSCoding for NSRotationGestureRecognizer {}
 #[cfg(feature = "AppKit_NSRotationGestureRecognizer")]
 unsafe impl NSObjectProtocol for NSRotationGestureRecognizer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSRotationGestureRecognizer")]
-    unsafe impl NSRotationGestureRecognizer {
-        #[method(rotation)]
-        pub unsafe fn rotation(&self) -> CGFloat;
+    pub type NSRotationGestureRecognizer;
 
-        #[method(setRotation:)]
-        pub unsafe fn setRotation(&self, rotation: CGFloat);
+    #[objc2::method(sel = "rotation")]
+    pub unsafe fn rotation(&self) -> CGFloat;
 
-        #[method(rotationInDegrees)]
-        pub unsafe fn rotationInDegrees(&self) -> CGFloat;
+    #[objc2::method(sel = "setRotation:")]
+    pub unsafe fn setRotation(&self, rotation: CGFloat);
 
-        #[method(setRotationInDegrees:)]
-        pub unsafe fn setRotationInDegrees(&self, rotation_in_degrees: CGFloat);
-    }
-);
+    #[objc2::method(sel = "rotationInDegrees")]
+    pub unsafe fn rotationInDegrees(&self) -> CGFloat;
 
-extern_methods!(
-    /// Methods declared on superclass `NSGestureRecognizer`
+    #[objc2::method(sel = "setRotationInDegrees:")]
+    pub unsafe fn setRotationInDegrees(&self, rotation_in_degrees: CGFloat);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSGestureRecognizer`
     #[cfg(feature = "AppKit_NSRotationGestureRecognizer")]
-    unsafe impl NSRotationGestureRecognizer {
-        #[method_id(@__retain_semantics Init initWithTarget:action:)]
-        pub unsafe fn initWithTarget_action(
-            this: Option<Allocated<Self>>,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSRotationGestureRecognizer")]
+    pub type NSRotationGestureRecognizer;
+
+    #[objc2::method(sel = "initWithTarget:action:", managed = "Init")]
+    pub unsafe fn initWithTarget_action(
+        this: Option<Allocated<Self>>,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
+}

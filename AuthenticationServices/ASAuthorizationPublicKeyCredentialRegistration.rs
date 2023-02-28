@@ -4,14 +4,11 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait ASAuthorizationPublicKeyCredentialRegistration:
-        ASPublicKeyCredential
-    {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other rawAttestationObject)]
-        unsafe fn rawAttestationObject(&self) -> Option<Id<NSData>>;
-    }
-
-    unsafe impl ProtocolType for dyn ASAuthorizationPublicKeyCredentialRegistration {}
-);
+#[objc2::protocol]
+pub unsafe trait ASAuthorizationPublicKeyCredentialRegistration:
+    ASPublicKeyCredential
+{
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "rawAttestationObject", managed = "Other")]
+    unsafe fn rawAttestationObject(&self) -> Option<Id<NSData>>;
+}

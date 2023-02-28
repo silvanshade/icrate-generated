@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLDirectoryElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLDirectoryElement;
-
     #[cfg(feature = "WebKit_DOMHTMLDirectoryElement")]
-    unsafe impl ClassType for DOMHTMLDirectoryElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLDirectoryElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLDirectoryElement")]
 unsafe impl DOMEventTarget for DOMHTMLDirectoryElement {}
@@ -24,13 +28,17 @@ unsafe impl DOMEventTarget for DOMHTMLDirectoryElement {}
 #[cfg(feature = "WebKit_DOMHTMLDirectoryElement")]
 unsafe impl NSObjectProtocol for DOMHTMLDirectoryElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLDirectoryElement")]
-    unsafe impl DOMHTMLDirectoryElement {
-        #[method(compact)]
-        pub unsafe fn compact(&self) -> bool;
+    #[deprecated]
+    pub type DOMHTMLDirectoryElement;
 
-        #[method(setCompact:)]
-        pub unsafe fn setCompact(&self, compact: bool);
-    }
-);
+    #[objc2::method(sel = "compact")]
+    pub unsafe fn compact(&self) -> bool;
+
+    #[objc2::method(sel = "setCompact:")]
+    pub unsafe fn setCompact(&self, compact: bool);
+}

@@ -5,30 +5,35 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMStyleSheetList")]
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMStyleSheetList;
-
     #[cfg(feature = "WebKit_DOMStyleSheetList")]
-    unsafe impl ClassType for DOMStyleSheetList {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMStyleSheetList;
+}
 
 #[cfg(feature = "WebKit_DOMStyleSheetList")]
 unsafe impl NSObjectProtocol for DOMStyleSheetList {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMStyleSheetList")]
-    unsafe impl DOMStyleSheetList {
-        #[method(length)]
-        pub unsafe fn length(&self) -> c_uint;
+    #[deprecated]
+    pub type DOMStyleSheetList;
 
-        #[cfg(feature = "WebKit_DOMStyleSheet")]
-        #[method_id(@__retain_semantics Other item:)]
-        pub unsafe fn item(&self, index: c_uint) -> Option<Id<DOMStyleSheet>>;
-    }
-);
+    #[objc2::method(sel = "length")]
+    pub unsafe fn length(&self) -> c_uint;
+
+    #[cfg(feature = "WebKit_DOMStyleSheet")]
+    #[objc2::method(sel = "item:", managed = "Other")]
+    pub unsafe fn item(&self, index: c_uint) -> Option<Id<DOMStyleSheet>>;
+}

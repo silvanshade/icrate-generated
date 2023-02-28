@@ -3,45 +3,43 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSDateComponentsFormatterUnitsStyle {
-        NSDateComponentsFormatterUnitsStylePositional = 0,
-        NSDateComponentsFormatterUnitsStyleAbbreviated = 1,
-        NSDateComponentsFormatterUnitsStyleShort = 2,
-        NSDateComponentsFormatterUnitsStyleFull = 3,
-        NSDateComponentsFormatterUnitsStyleSpellOut = 4,
-        NSDateComponentsFormatterUnitsStyleBrief = 5,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSDateComponentsFormatterUnitsStyle {
+    NSDateComponentsFormatterUnitsStylePositional = 0,
+    NSDateComponentsFormatterUnitsStyleAbbreviated = 1,
+    NSDateComponentsFormatterUnitsStyleShort = 2,
+    NSDateComponentsFormatterUnitsStyleFull = 3,
+    NSDateComponentsFormatterUnitsStyleSpellOut = 4,
+    NSDateComponentsFormatterUnitsStyleBrief = 5,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSDateComponentsFormatterZeroFormattingBehavior {
-        NSDateComponentsFormatterZeroFormattingBehaviorNone = 0,
-        NSDateComponentsFormatterZeroFormattingBehaviorDefault = 1 << 0,
-        NSDateComponentsFormatterZeroFormattingBehaviorDropLeading = 1 << 1,
-        NSDateComponentsFormatterZeroFormattingBehaviorDropMiddle = 1 << 2,
-        NSDateComponentsFormatterZeroFormattingBehaviorDropTrailing = 1 << 3,
-        NSDateComponentsFormatterZeroFormattingBehaviorDropAll =
-            NSDateComponentsFormatterZeroFormattingBehaviorDropLeading
-                | NSDateComponentsFormatterZeroFormattingBehaviorDropMiddle
-                | NSDateComponentsFormatterZeroFormattingBehaviorDropTrailing,
-        NSDateComponentsFormatterZeroFormattingBehaviorPad = 1 << 16,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSDateComponentsFormatterZeroFormattingBehavior {
+    NSDateComponentsFormatterZeroFormattingBehaviorNone = 0,
+    NSDateComponentsFormatterZeroFormattingBehaviorDefault = 1 << 0,
+    NSDateComponentsFormatterZeroFormattingBehaviorDropLeading = 1 << 1,
+    NSDateComponentsFormatterZeroFormattingBehaviorDropMiddle = 1 << 2,
+    NSDateComponentsFormatterZeroFormattingBehaviorDropTrailing = 1 << 3,
+    NSDateComponentsFormatterZeroFormattingBehaviorDropAll =
+        NSDateComponentsFormatterZeroFormattingBehaviorDropLeading
+            | NSDateComponentsFormatterZeroFormattingBehaviorDropMiddle
+            | NSDateComponentsFormatterZeroFormattingBehaviorDropTrailing,
+    NSDateComponentsFormatterZeroFormattingBehaviorPad = 1 << 16,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSFormatter,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSDateComponentsFormatter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSDateComponentsFormatter")]
-    pub struct NSDateComponentsFormatter;
-
-    #[cfg(feature = "Foundation_NSDateComponentsFormatter")]
-    unsafe impl ClassType for NSDateComponentsFormatter {
-        #[inherits(NSObject)]
-        type Super = NSFormatter;
-    }
-);
+    pub type NSDateComponentsFormatter;
+}
 
 #[cfg(feature = "Foundation_NSDateComponentsFormatter")]
 unsafe impl NSCoding for NSDateComponentsFormatter {}
@@ -49,127 +47,131 @@ unsafe impl NSCoding for NSDateComponentsFormatter {}
 #[cfg(feature = "Foundation_NSDateComponentsFormatter")]
 unsafe impl NSObjectProtocol for NSDateComponentsFormatter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSDateComponentsFormatter")]
-    unsafe impl NSDateComponentsFormatter {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringForObjectValue:)]
-        pub unsafe fn stringForObjectValue(&self, obj: Option<&Object>) -> Option<Id<NSString>>;
+    pub type NSDateComponentsFormatter;
 
-        #[cfg(all(
-            feature = "Foundation_NSDateComponents",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other stringFromDateComponents:)]
-        pub unsafe fn stringFromDateComponents(
-            &self,
-            components: &NSDateComponents,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringForObjectValue:", managed = "Other")]
+    pub unsafe fn stringForObjectValue(&self, obj: Option<&Object>) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other stringFromDate:toDate:)]
-        pub unsafe fn stringFromDate_toDate(
-            &self,
-            start_date: &NSDate,
-            end_date: &NSDate,
-        ) -> Option<Id<NSString>>;
+    #[cfg(all(
+        feature = "Foundation_NSDateComponents",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "stringFromDateComponents:", managed = "Other")]
+    pub unsafe fn stringFromDateComponents(
+        &self,
+        components: &NSDateComponents,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringFromTimeInterval:)]
-        pub unsafe fn stringFromTimeInterval(&self, ti: NSTimeInterval) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "stringFromDate:toDate:", managed = "Other")]
+    pub unsafe fn stringFromDate_toDate(
+        &self,
+        start_date: &NSDate,
+        end_date: &NSDate,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDateComponents",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other localizedStringFromDateComponents:unitsStyle:)]
-        pub unsafe fn localizedStringFromDateComponents_unitsStyle(
-            components: &NSDateComponents,
-            units_style: NSDateComponentsFormatterUnitsStyle,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringFromTimeInterval:", managed = "Other")]
+    pub unsafe fn stringFromTimeInterval(&self, ti: NSTimeInterval) -> Option<Id<NSString>>;
 
-        #[method(unitsStyle)]
-        pub unsafe fn unitsStyle(&self) -> NSDateComponentsFormatterUnitsStyle;
+    #[cfg(all(
+        feature = "Foundation_NSDateComponents",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "localizedStringFromDateComponents:unitsStyle:",
+        managed = "Other"
+    )]
+    pub unsafe fn localizedStringFromDateComponents_unitsStyle(
+        components: &NSDateComponents,
+        units_style: NSDateComponentsFormatterUnitsStyle,
+    ) -> Option<Id<NSString>>;
 
-        #[method(setUnitsStyle:)]
-        pub unsafe fn setUnitsStyle(&self, units_style: NSDateComponentsFormatterUnitsStyle);
+    #[objc2::method(sel = "unitsStyle")]
+    pub unsafe fn unitsStyle(&self) -> NSDateComponentsFormatterUnitsStyle;
 
-        #[method(allowedUnits)]
-        pub unsafe fn allowedUnits(&self) -> NSCalendarUnit;
+    #[objc2::method(sel = "setUnitsStyle:")]
+    pub unsafe fn setUnitsStyle(&self, units_style: NSDateComponentsFormatterUnitsStyle);
 
-        #[method(setAllowedUnits:)]
-        pub unsafe fn setAllowedUnits(&self, allowed_units: NSCalendarUnit);
+    #[objc2::method(sel = "allowedUnits")]
+    pub unsafe fn allowedUnits(&self) -> NSCalendarUnit;
 
-        #[method(zeroFormattingBehavior)]
-        pub unsafe fn zeroFormattingBehavior(
-            &self,
-        ) -> NSDateComponentsFormatterZeroFormattingBehavior;
+    #[objc2::method(sel = "setAllowedUnits:")]
+    pub unsafe fn setAllowedUnits(&self, allowed_units: NSCalendarUnit);
 
-        #[method(setZeroFormattingBehavior:)]
-        pub unsafe fn setZeroFormattingBehavior(
-            &self,
-            zero_formatting_behavior: NSDateComponentsFormatterZeroFormattingBehavior,
-        );
+    #[objc2::method(sel = "zeroFormattingBehavior")]
+    pub unsafe fn zeroFormattingBehavior(&self) -> NSDateComponentsFormatterZeroFormattingBehavior;
 
-        #[cfg(feature = "Foundation_NSCalendar")]
-        #[method_id(@__retain_semantics Other calendar)]
-        pub unsafe fn calendar(&self) -> Option<Id<NSCalendar>>;
+    #[objc2::method(sel = "setZeroFormattingBehavior:")]
+    pub unsafe fn setZeroFormattingBehavior(
+        &self,
+        zero_formatting_behavior: NSDateComponentsFormatterZeroFormattingBehavior,
+    );
 
-        #[cfg(feature = "Foundation_NSCalendar")]
-        #[method(setCalendar:)]
-        pub unsafe fn setCalendar(&self, calendar: Option<&NSCalendar>);
+    #[cfg(feature = "Foundation_NSCalendar")]
+    #[objc2::method(sel = "calendar", managed = "Other")]
+    pub unsafe fn calendar(&self) -> Option<Id<NSCalendar>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other referenceDate)]
-        pub unsafe fn referenceDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSCalendar")]
+    #[objc2::method(sel = "setCalendar:")]
+    pub unsafe fn setCalendar(&self, calendar: Option<&NSCalendar>);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(setReferenceDate:)]
-        pub unsafe fn setReferenceDate(&self, reference_date: Option<&NSDate>);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "referenceDate", managed = "Other")]
+    pub unsafe fn referenceDate(&self) -> Option<Id<NSDate>>;
 
-        #[method(allowsFractionalUnits)]
-        pub unsafe fn allowsFractionalUnits(&self) -> bool;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "setReferenceDate:")]
+    pub unsafe fn setReferenceDate(&self, reference_date: Option<&NSDate>);
 
-        #[method(setAllowsFractionalUnits:)]
-        pub unsafe fn setAllowsFractionalUnits(&self, allows_fractional_units: bool);
+    #[objc2::method(sel = "allowsFractionalUnits")]
+    pub unsafe fn allowsFractionalUnits(&self) -> bool;
 
-        #[method(maximumUnitCount)]
-        pub unsafe fn maximumUnitCount(&self) -> NSInteger;
+    #[objc2::method(sel = "setAllowsFractionalUnits:")]
+    pub unsafe fn setAllowsFractionalUnits(&self, allows_fractional_units: bool);
 
-        #[method(setMaximumUnitCount:)]
-        pub unsafe fn setMaximumUnitCount(&self, maximum_unit_count: NSInteger);
+    #[objc2::method(sel = "maximumUnitCount")]
+    pub unsafe fn maximumUnitCount(&self) -> NSInteger;
 
-        #[method(collapsesLargestUnit)]
-        pub unsafe fn collapsesLargestUnit(&self) -> bool;
+    #[objc2::method(sel = "setMaximumUnitCount:")]
+    pub unsafe fn setMaximumUnitCount(&self, maximum_unit_count: NSInteger);
 
-        #[method(setCollapsesLargestUnit:)]
-        pub unsafe fn setCollapsesLargestUnit(&self, collapses_largest_unit: bool);
+    #[objc2::method(sel = "collapsesLargestUnit")]
+    pub unsafe fn collapsesLargestUnit(&self) -> bool;
 
-        #[method(includesApproximationPhrase)]
-        pub unsafe fn includesApproximationPhrase(&self) -> bool;
+    #[objc2::method(sel = "setCollapsesLargestUnit:")]
+    pub unsafe fn setCollapsesLargestUnit(&self, collapses_largest_unit: bool);
 
-        #[method(setIncludesApproximationPhrase:)]
-        pub unsafe fn setIncludesApproximationPhrase(&self, includes_approximation_phrase: bool);
+    #[objc2::method(sel = "includesApproximationPhrase")]
+    pub unsafe fn includesApproximationPhrase(&self) -> bool;
 
-        #[method(includesTimeRemainingPhrase)]
-        pub unsafe fn includesTimeRemainingPhrase(&self) -> bool;
+    #[objc2::method(sel = "setIncludesApproximationPhrase:")]
+    pub unsafe fn setIncludesApproximationPhrase(&self, includes_approximation_phrase: bool);
 
-        #[method(setIncludesTimeRemainingPhrase:)]
-        pub unsafe fn setIncludesTimeRemainingPhrase(&self, includes_time_remaining_phrase: bool);
+    #[objc2::method(sel = "includesTimeRemainingPhrase")]
+    pub unsafe fn includesTimeRemainingPhrase(&self) -> bool;
 
-        #[method(formattingContext)]
-        pub unsafe fn formattingContext(&self) -> NSFormattingContext;
+    #[objc2::method(sel = "setIncludesTimeRemainingPhrase:")]
+    pub unsafe fn setIncludesTimeRemainingPhrase(&self, includes_time_remaining_phrase: bool);
 
-        #[method(setFormattingContext:)]
-        pub unsafe fn setFormattingContext(&self, formatting_context: NSFormattingContext);
+    #[objc2::method(sel = "formattingContext")]
+    pub unsafe fn formattingContext(&self) -> NSFormattingContext;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(getObjectValue:forString:errorDescription:)]
-        pub unsafe fn getObjectValue_forString_errorDescription(
-            &self,
-            obj: Option<&mut Option<Id<Object>>>,
-            string: &NSString,
-            error: Option<&mut Option<Id<NSString>>>,
-        ) -> bool;
-    }
-);
+    #[objc2::method(sel = "setFormattingContext:")]
+    pub unsafe fn setFormattingContext(&self, formatting_context: NSFormattingContext);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "getObjectValue:forString:errorDescription:")]
+    pub unsafe fn getObjectValue_forString_errorDescription(
+        &self,
+        obj: Option<&mut Option<Id<Object>>>,
+        string: &NSString,
+        error: Option<&mut Option<Id<NSString>>>,
+    ) -> bool;
+}

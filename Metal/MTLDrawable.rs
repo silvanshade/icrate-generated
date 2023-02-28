@@ -6,26 +6,23 @@ use crate::Metal::*;
 
 pub type MTLDrawablePresentedHandler = *mut Block<(NonNull<ProtocolObject<dyn MTLDrawable>>,), ()>;
 
-extern_protocol!(
-    pub unsafe trait MTLDrawable: NSObjectProtocol {
-        #[method(present)]
-        fn present(&self);
+#[objc2::protocol]
+pub unsafe trait MTLDrawable: NSObjectProtocol {
+    #[objc2::method(sel = "present")]
+    fn present(&self);
 
-        #[method(presentAtTime:)]
-        unsafe fn presentAtTime(&self, presentation_time: CFTimeInterval);
+    #[objc2::method(sel = "presentAtTime:")]
+    unsafe fn presentAtTime(&self, presentation_time: CFTimeInterval);
 
-        #[method(presentAfterMinimumDuration:)]
-        unsafe fn presentAfterMinimumDuration(&self, duration: CFTimeInterval);
+    #[objc2::method(sel = "presentAfterMinimumDuration:")]
+    unsafe fn presentAfterMinimumDuration(&self, duration: CFTimeInterval);
 
-        #[method(addPresentedHandler:)]
-        unsafe fn addPresentedHandler(&self, block: MTLDrawablePresentedHandler);
+    #[objc2::method(sel = "addPresentedHandler:")]
+    unsafe fn addPresentedHandler(&self, block: MTLDrawablePresentedHandler);
 
-        #[method(presentedTime)]
-        unsafe fn presentedTime(&self) -> CFTimeInterval;
+    #[objc2::method(sel = "presentedTime")]
+    unsafe fn presentedTime(&self) -> CFTimeInterval;
 
-        #[method(drawableID)]
-        fn drawableID(&self) -> NSUInteger;
-    }
-
-    unsafe impl ProtocolType for dyn MTLDrawable {}
-);
+    #[objc2::method(sel = "drawableID")]
+    fn drawableID(&self) -> NSUInteger;
+}

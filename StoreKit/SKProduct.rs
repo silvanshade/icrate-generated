@@ -5,120 +5,125 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::StoreKit::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum SKProductPeriodUnit {
-        SKProductPeriodUnitDay = 0,
-        SKProductPeriodUnitWeek = 1,
-        SKProductPeriodUnitMonth = 2,
-        SKProductPeriodUnitYear = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum SKProductPeriodUnit {
+    SKProductPeriodUnitDay = 0,
+    SKProductPeriodUnitWeek = 1,
+    SKProductPeriodUnitMonth = 2,
+    SKProductPeriodUnitYear = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKProductSubscriptionPeriod")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKProductSubscriptionPeriod")]
-    pub struct SKProductSubscriptionPeriod;
-
-    #[cfg(feature = "StoreKit_SKProductSubscriptionPeriod")]
-    unsafe impl ClassType for SKProductSubscriptionPeriod {
-        type Super = NSObject;
-    }
-);
+    pub type SKProductSubscriptionPeriod;
+}
 
 #[cfg(feature = "StoreKit_SKProductSubscriptionPeriod")]
 unsafe impl NSObjectProtocol for SKProductSubscriptionPeriod {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKProductSubscriptionPeriod")]
-    unsafe impl SKProductSubscriptionPeriod {
-        #[method(numberOfUnits)]
-        pub unsafe fn numberOfUnits(&self) -> NSUInteger;
+    pub type SKProductSubscriptionPeriod;
 
-        #[method(unit)]
-        pub unsafe fn unit(&self) -> SKProductPeriodUnit;
-    }
-);
+    #[objc2::method(sel = "numberOfUnits")]
+    pub unsafe fn numberOfUnits(&self) -> NSUInteger;
 
-extern_class!(
+    #[objc2::method(sel = "unit")]
+    pub unsafe fn unit(&self) -> SKProductPeriodUnit;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKProduct")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKProduct")]
-    pub struct SKProduct;
-
-    #[cfg(feature = "StoreKit_SKProduct")]
-    unsafe impl ClassType for SKProduct {
-        type Super = NSObject;
-    }
-);
+    pub type SKProduct;
+}
 
 #[cfg(feature = "StoreKit_SKProduct")]
 unsafe impl NSObjectProtocol for SKProduct {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKProduct")]
-    unsafe impl SKProduct {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedDescription)]
-        pub unsafe fn localizedDescription(&self) -> Id<NSString>;
+    pub type SKProduct;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedTitle)]
-        pub unsafe fn localizedTitle(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedDescription", managed = "Other")]
+    pub unsafe fn localizedDescription(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSDecimalNumber")]
-        #[method_id(@__retain_semantics Other price)]
-        pub unsafe fn price(&self) -> Id<NSDecimalNumber>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedTitle", managed = "Other")]
+    pub unsafe fn localizedTitle(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSLocale")]
-        #[method_id(@__retain_semantics Other priceLocale)]
-        pub unsafe fn priceLocale(&self) -> Id<NSLocale>;
+    #[cfg(feature = "Foundation_NSDecimalNumber")]
+    #[objc2::method(sel = "price", managed = "Other")]
+    pub unsafe fn price(&self) -> Id<NSDecimalNumber>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other productIdentifier)]
-        pub unsafe fn productIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSLocale")]
+    #[objc2::method(sel = "priceLocale", managed = "Other")]
+    pub unsafe fn priceLocale(&self) -> Id<NSLocale>;
 
-        #[method(isDownloadable)]
-        pub unsafe fn isDownloadable(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "productIdentifier", managed = "Other")]
+    pub unsafe fn productIdentifier(&self) -> Id<NSString>;
 
-        #[deprecated]
-        #[method(downloadable)]
-        pub unsafe fn downloadable(&self) -> bool;
+    #[objc2::method(sel = "isDownloadable")]
+    pub unsafe fn isDownloadable(&self) -> bool;
 
-        #[method(isFamilyShareable)]
-        pub unsafe fn isFamilyShareable(&self) -> bool;
+    #[deprecated]
+    #[objc2::method(sel = "downloadable")]
+    pub unsafe fn downloadable(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other contentLengths)]
-        pub unsafe fn contentLengths(&self) -> Id<NSArray<NSNumber>>;
+    #[objc2::method(sel = "isFamilyShareable")]
+    pub unsafe fn isFamilyShareable(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other downloadContentLengths)]
-        pub unsafe fn downloadContentLengths(&self) -> Id<NSArray<NSNumber>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[deprecated]
+    #[objc2::method(sel = "contentLengths", managed = "Other")]
+    pub unsafe fn contentLengths(&self) -> Id<NSArray<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other contentVersion)]
-        pub unsafe fn contentVersion(&self) -> Id<NSString>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "downloadContentLengths", managed = "Other")]
+    pub unsafe fn downloadContentLengths(&self) -> Id<NSArray<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other downloadContentVersion)]
-        pub unsafe fn downloadContentVersion(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "contentVersion", managed = "Other")]
+    pub unsafe fn contentVersion(&self) -> Id<NSString>;
 
-        #[cfg(feature = "StoreKit_SKProductSubscriptionPeriod")]
-        #[method_id(@__retain_semantics Other subscriptionPeriod)]
-        pub unsafe fn subscriptionPeriod(&self) -> Option<Id<SKProductSubscriptionPeriod>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "downloadContentVersion", managed = "Other")]
+    pub unsafe fn downloadContentVersion(&self) -> Id<NSString>;
 
-        #[cfg(feature = "StoreKit_SKProductDiscount")]
-        #[method_id(@__retain_semantics Other introductoryPrice)]
-        pub unsafe fn introductoryPrice(&self) -> Option<Id<SKProductDiscount>>;
+    #[cfg(feature = "StoreKit_SKProductSubscriptionPeriod")]
+    #[objc2::method(sel = "subscriptionPeriod", managed = "Other")]
+    pub unsafe fn subscriptionPeriod(&self) -> Option<Id<SKProductSubscriptionPeriod>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subscriptionGroupIdentifier)]
-        pub unsafe fn subscriptionGroupIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "StoreKit_SKProductDiscount")]
+    #[objc2::method(sel = "introductoryPrice", managed = "Other")]
+    pub unsafe fn introductoryPrice(&self) -> Option<Id<SKProductDiscount>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "StoreKit_SKProductDiscount"))]
-        #[method_id(@__retain_semantics Other discounts)]
-        pub unsafe fn discounts(&self) -> Id<NSArray<SKProductDiscount>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subscriptionGroupIdentifier", managed = "Other")]
+    pub unsafe fn subscriptionGroupIdentifier(&self) -> Option<Id<NSString>>;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "StoreKit_SKProductDiscount"))]
+    #[objc2::method(sel = "discounts", managed = "Other")]
+    pub unsafe fn discounts(&self) -> Id<NSArray<SKProductDiscount>>;
+}

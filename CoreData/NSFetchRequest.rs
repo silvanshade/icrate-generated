@@ -4,74 +4,73 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSFetchRequestResultType {
-        NSManagedObjectResultType = 0x00,
-        NSManagedObjectIDResultType = 0x01,
-        NSDictionaryResultType = 0x02,
-        NSCountResultType = 0x04,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSFetchRequestResultType {
+    NSManagedObjectResultType = 0x00,
+    NSManagedObjectIDResultType = 0x01,
+    NSDictionaryResultType = 0x02,
+    NSCountResultType = 0x04,
+}
 
-extern_protocol!(
-    pub unsafe trait NSFetchRequestResult: NSObjectProtocol {}
+#[objc2::protocol]
+pub unsafe trait NSFetchRequestResult: NSObjectProtocol {}
 
-    unsafe impl ProtocolType for dyn NSFetchRequestResult {}
-);
-
-extern_methods!(
-    /// NSFetchedResultSupport
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSNumber")]
-    unsafe impl NSNumber {}
-);
+    pub type NSNumber;
+}
 
 #[cfg(feature = "Foundation_NSNumber")]
 unsafe impl NSFetchRequestResult for NSNumber {}
 
-extern_methods!(
-    /// NSFetchedResultSupport
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSDictionary")]
-    unsafe impl NSDictionary {}
-);
+    pub type NSDictionary;
+}
 
 #[cfg(feature = "Foundation_NSDictionary")]
 unsafe impl NSFetchRequestResult for NSDictionary {}
 
-extern_methods!(
-    /// NSFetchedResultSupport
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSManagedObject")]
-    unsafe impl NSManagedObject {}
-);
+    pub type NSManagedObject;
+}
 
 #[cfg(feature = "CoreData_NSManagedObject")]
 unsafe impl NSFetchRequestResult for NSManagedObject {}
 
-extern_methods!(
-    /// NSFetchedResultSupport
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSManagedObjectID")]
-    unsafe impl NSManagedObjectID {}
-);
+    pub type NSManagedObjectID;
+}
 
 #[cfg(feature = "CoreData_NSManagedObjectID")]
 unsafe impl NSFetchRequestResult for NSManagedObjectID {}
 
-__inner_extern_class!(
+#[objc2::interface(
+    unsafe super = NSPersistentStoreRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSFetchRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSFetchRequest")]
-    pub struct NSFetchRequest<ResultType: Message = Object, ResultTypeOwnership: Ownership = Shared> {
-        _inner0: PhantomData<*mut (ResultType, ResultTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "CoreData_NSFetchRequest")]
-    unsafe impl<ResultType: Message, ResultTypeOwnership: Ownership> ClassType
-        for NSFetchRequest<ResultType, ResultTypeOwnership>
-    {
-        #[inherits(NSObject)]
-        type Super = NSPersistentStoreRequest;
-    }
-);
+    pub type NSFetchRequest<ResultType: Message = Object, ResultTypeOwnership: Ownership = Shared>;
+}
 
 #[cfg(feature = "CoreData_NSFetchRequest")]
 unsafe impl<ResultType: Message, ResultTypeOwnership: Ownership> NSCoding
@@ -85,199 +84,186 @@ unsafe impl<ResultType: Message, ResultTypeOwnership: Ownership> NSObjectProtoco
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSFetchRequest")]
-    unsafe impl<ResultType: Message, ResultTypeOwnership: Ownership>
-        NSFetchRequest<ResultType, ResultTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fetchRequestWithEntityName:)]
-        pub unsafe fn fetchRequestWithEntityName(entity_name: &NSString) -> Id<Self>;
+    pub type NSFetchRequest<ResultType: Message = Object, ResultTypeOwnership: Ownership = Shared>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fetchRequestWithEntityName:", managed = "Other")]
+    pub unsafe fn fetchRequestWithEntityName(entity_name: &NSString) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithEntityName:)]
-        pub unsafe fn initWithEntityName(
-            this: Option<Allocated<Self>>,
-            entity_name: &NSString,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
-        #[method_id(@__retain_semantics Other execute:_)]
-        pub unsafe fn execute(&self) -> Result<Id<NSArray<ResultType>>, Id<NSError>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithEntityName:", managed = "Init")]
+    pub unsafe fn initWithEntityName(
+        this: Option<Allocated<Self>>,
+        entity_name: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "CoreData_NSEntityDescription")]
-        #[method_id(@__retain_semantics Other entity)]
-        pub unsafe fn entity(&self) -> Option<Id<NSEntityDescription>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "execute:", managed = "Other", throws)]
+    pub unsafe fn execute(&self) -> Result<Id<NSArray<ResultType>>, Id<NSError>>;
 
-        #[cfg(feature = "CoreData_NSEntityDescription")]
-        #[method(setEntity:)]
-        pub unsafe fn setEntity(&self, entity: Option<&NSEntityDescription>);
+    #[cfg(feature = "CoreData_NSEntityDescription")]
+    #[objc2::method(sel = "entity", managed = "Other")]
+    pub unsafe fn entity(&self) -> Option<Id<NSEntityDescription>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other entityName)]
-        pub unsafe fn entityName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "CoreData_NSEntityDescription")]
+    #[objc2::method(sel = "setEntity:")]
+    pub unsafe fn setEntity(&self, entity: Option<&NSEntityDescription>);
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicate)]
-        pub unsafe fn predicate(&self) -> Option<Id<NSPredicate>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "entityName", managed = "Other")]
+    pub unsafe fn entityName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method(setPredicate:)]
-        pub unsafe fn setPredicate(&self, predicate: Option<&NSPredicate>);
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "predicate", managed = "Other")]
+    pub unsafe fn predicate(&self) -> Option<Id<NSPredicate>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSSortDescriptor"
-        ))]
-        #[method_id(@__retain_semantics Other sortDescriptors)]
-        pub unsafe fn sortDescriptors(&self) -> Option<Id<NSArray<NSSortDescriptor>>>;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "setPredicate:")]
+    pub unsafe fn setPredicate(&self, predicate: Option<&NSPredicate>);
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSSortDescriptor"
-        ))]
-        #[method(setSortDescriptors:)]
-        pub unsafe fn setSortDescriptors(
-            &self,
-            sort_descriptors: Option<&NSArray<NSSortDescriptor>>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSSortDescriptor"
+    ))]
+    #[objc2::method(sel = "sortDescriptors", managed = "Other")]
+    pub unsafe fn sortDescriptors(&self) -> Option<Id<NSArray<NSSortDescriptor>>>;
 
-        #[method(fetchLimit)]
-        pub unsafe fn fetchLimit(&self) -> NSUInteger;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSSortDescriptor"
+    ))]
+    #[objc2::method(sel = "setSortDescriptors:")]
+    pub unsafe fn setSortDescriptors(&self, sort_descriptors: Option<&NSArray<NSSortDescriptor>>);
 
-        #[method(setFetchLimit:)]
-        pub unsafe fn setFetchLimit(&self, fetch_limit: NSUInteger);
+    #[objc2::method(sel = "fetchLimit")]
+    pub unsafe fn fetchLimit(&self) -> NSUInteger;
 
-        #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other affectedStores)]
-        pub unsafe fn affectedStores(&self) -> Option<Id<NSArray<NSPersistentStore>>>;
+    #[objc2::method(sel = "setFetchLimit:")]
+    pub unsafe fn setFetchLimit(&self, fetch_limit: NSUInteger);
 
-        #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSArray"))]
-        #[method(setAffectedStores:)]
-        pub unsafe fn setAffectedStores(
-            &self,
-            affected_stores: Option<&NSArray<NSPersistentStore>>,
-        );
+    #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "affectedStores", managed = "Other")]
+    pub unsafe fn affectedStores(&self) -> Option<Id<NSArray<NSPersistentStore>>>;
 
-        #[method(resultType)]
-        pub unsafe fn resultType(&self) -> NSFetchRequestResultType;
+    #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setAffectedStores:")]
+    pub unsafe fn setAffectedStores(&self, affected_stores: Option<&NSArray<NSPersistentStore>>);
 
-        #[method(setResultType:)]
-        pub unsafe fn setResultType(&self, result_type: NSFetchRequestResultType);
+    #[objc2::method(sel = "resultType")]
+    pub unsafe fn resultType(&self) -> NSFetchRequestResultType;
 
-        #[method(includesSubentities)]
-        pub unsafe fn includesSubentities(&self) -> bool;
+    #[objc2::method(sel = "setResultType:")]
+    pub unsafe fn setResultType(&self, result_type: NSFetchRequestResultType);
 
-        #[method(setIncludesSubentities:)]
-        pub unsafe fn setIncludesSubentities(&self, includes_subentities: bool);
+    #[objc2::method(sel = "includesSubentities")]
+    pub unsafe fn includesSubentities(&self) -> bool;
 
-        #[method(includesPropertyValues)]
-        pub unsafe fn includesPropertyValues(&self) -> bool;
+    #[objc2::method(sel = "setIncludesSubentities:")]
+    pub unsafe fn setIncludesSubentities(&self, includes_subentities: bool);
 
-        #[method(setIncludesPropertyValues:)]
-        pub unsafe fn setIncludesPropertyValues(&self, includes_property_values: bool);
+    #[objc2::method(sel = "includesPropertyValues")]
+    pub unsafe fn includesPropertyValues(&self) -> bool;
 
-        #[method(returnsObjectsAsFaults)]
-        pub unsafe fn returnsObjectsAsFaults(&self) -> bool;
+    #[objc2::method(sel = "setIncludesPropertyValues:")]
+    pub unsafe fn setIncludesPropertyValues(&self, includes_property_values: bool);
 
-        #[method(setReturnsObjectsAsFaults:)]
-        pub unsafe fn setReturnsObjectsAsFaults(&self, returns_objects_as_faults: bool);
+    #[objc2::method(sel = "returnsObjectsAsFaults")]
+    pub unsafe fn returnsObjectsAsFaults(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other relationshipKeyPathsForPrefetching)]
-        pub unsafe fn relationshipKeyPathsForPrefetching(&self) -> Option<Id<NSArray<NSString>>>;
+    #[objc2::method(sel = "setReturnsObjectsAsFaults:")]
+    pub unsafe fn setReturnsObjectsAsFaults(&self, returns_objects_as_faults: bool);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method(setRelationshipKeyPathsForPrefetching:)]
-        pub unsafe fn setRelationshipKeyPathsForPrefetching(
-            &self,
-            relationship_key_paths_for_prefetching: Option<&NSArray<NSString>>,
-        );
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "relationshipKeyPathsForPrefetching", managed = "Other")]
+    pub unsafe fn relationshipKeyPathsForPrefetching(&self) -> Option<Id<NSArray<NSString>>>;
 
-        #[method(includesPendingChanges)]
-        pub unsafe fn includesPendingChanges(&self) -> bool;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setRelationshipKeyPathsForPrefetching:")]
+    pub unsafe fn setRelationshipKeyPathsForPrefetching(
+        &self,
+        relationship_key_paths_for_prefetching: Option<&NSArray<NSString>>,
+    );
 
-        #[method(setIncludesPendingChanges:)]
-        pub unsafe fn setIncludesPendingChanges(&self, includes_pending_changes: bool);
+    #[objc2::method(sel = "includesPendingChanges")]
+    pub unsafe fn includesPendingChanges(&self) -> bool;
 
-        #[method(returnsDistinctResults)]
-        pub unsafe fn returnsDistinctResults(&self) -> bool;
+    #[objc2::method(sel = "setIncludesPendingChanges:")]
+    pub unsafe fn setIncludesPendingChanges(&self, includes_pending_changes: bool);
 
-        #[method(setReturnsDistinctResults:)]
-        pub unsafe fn setReturnsDistinctResults(&self, returns_distinct_results: bool);
+    #[objc2::method(sel = "returnsDistinctResults")]
+    pub unsafe fn returnsDistinctResults(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other propertiesToFetch)]
-        pub unsafe fn propertiesToFetch(&self) -> Option<Id<NSArray>>;
+    #[objc2::method(sel = "setReturnsDistinctResults:")]
+    pub unsafe fn setReturnsDistinctResults(&self, returns_distinct_results: bool);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setPropertiesToFetch:)]
-        pub unsafe fn setPropertiesToFetch(&self, properties_to_fetch: Option<&NSArray>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "propertiesToFetch", managed = "Other")]
+    pub unsafe fn propertiesToFetch(&self) -> Option<Id<NSArray>>;
 
-        #[method(fetchOffset)]
-        pub unsafe fn fetchOffset(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setPropertiesToFetch:")]
+    pub unsafe fn setPropertiesToFetch(&self, properties_to_fetch: Option<&NSArray>);
 
-        #[method(setFetchOffset:)]
-        pub unsafe fn setFetchOffset(&self, fetch_offset: NSUInteger);
+    #[objc2::method(sel = "fetchOffset")]
+    pub unsafe fn fetchOffset(&self) -> NSUInteger;
 
-        #[method(fetchBatchSize)]
-        pub unsafe fn fetchBatchSize(&self) -> NSUInteger;
+    #[objc2::method(sel = "setFetchOffset:")]
+    pub unsafe fn setFetchOffset(&self, fetch_offset: NSUInteger);
 
-        #[method(setFetchBatchSize:)]
-        pub unsafe fn setFetchBatchSize(&self, fetch_batch_size: NSUInteger);
+    #[objc2::method(sel = "fetchBatchSize")]
+    pub unsafe fn fetchBatchSize(&self) -> NSUInteger;
 
-        #[method(shouldRefreshRefetchedObjects)]
-        pub unsafe fn shouldRefreshRefetchedObjects(&self) -> bool;
+    #[objc2::method(sel = "setFetchBatchSize:")]
+    pub unsafe fn setFetchBatchSize(&self, fetch_batch_size: NSUInteger);
 
-        #[method(setShouldRefreshRefetchedObjects:)]
-        pub unsafe fn setShouldRefreshRefetchedObjects(
-            &self,
-            should_refresh_refetched_objects: bool,
-        );
+    #[objc2::method(sel = "shouldRefreshRefetchedObjects")]
+    pub unsafe fn shouldRefreshRefetchedObjects(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other propertiesToGroupBy)]
-        pub unsafe fn propertiesToGroupBy(&self) -> Option<Id<NSArray>>;
+    #[objc2::method(sel = "setShouldRefreshRefetchedObjects:")]
+    pub unsafe fn setShouldRefreshRefetchedObjects(&self, should_refresh_refetched_objects: bool);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setPropertiesToGroupBy:)]
-        pub unsafe fn setPropertiesToGroupBy(&self, properties_to_group_by: Option<&NSArray>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "propertiesToGroupBy", managed = "Other")]
+    pub unsafe fn propertiesToGroupBy(&self) -> Option<Id<NSArray>>;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other havingPredicate)]
-        pub unsafe fn havingPredicate(&self) -> Option<Id<NSPredicate>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setPropertiesToGroupBy:")]
+    pub unsafe fn setPropertiesToGroupBy(&self, properties_to_group_by: Option<&NSArray>);
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method(setHavingPredicate:)]
-        pub unsafe fn setHavingPredicate(&self, having_predicate: Option<&NSPredicate>);
-    }
-);
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "havingPredicate", managed = "Other")]
+    pub unsafe fn havingPredicate(&self) -> Option<Id<NSPredicate>>;
+
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "setHavingPredicate:")]
+    pub unsafe fn setHavingPredicate(&self, having_predicate: Option<&NSPredicate>);
+}
 
 pub type NSPersistentStoreAsynchronousFetchResultCompletionBlock =
     *mut Block<(NonNull<NSAsynchronousFetchResult>,), ()>;
 
-__inner_extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
+#[objc2::interface(
+    unsafe super = NSPersistentStoreRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSAsynchronousFetchRequest")]
-    pub struct NSAsynchronousFetchRequest<
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type NSAsynchronousFetchRequest<
         ResultType: Message = Object,
         ResultTypeOwnership: Ownership = Shared,
-    > {
-        _inner0: PhantomData<*mut (ResultType, ResultTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "CoreData_NSAsynchronousFetchRequest")]
-    unsafe impl<ResultType: Message, ResultTypeOwnership: Ownership> ClassType
-        for NSAsynchronousFetchRequest<ResultType, ResultTypeOwnership>
-    {
-        #[inherits(NSObject)]
-        type Super = NSPersistentStoreRequest;
-    }
-);
+    >;
+}
 
 #[cfg(feature = "CoreData_NSAsynchronousFetchRequest")]
 unsafe impl<ResultType: Message, ResultTypeOwnership: Ownership> NSObjectProtocol
@@ -285,35 +271,38 @@ unsafe impl<ResultType: Message, ResultTypeOwnership: Ownership> NSObjectProtoco
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSAsynchronousFetchRequest")]
-    unsafe impl<ResultType: Message, ResultTypeOwnership: Ownership>
-        NSAsynchronousFetchRequest<ResultType, ResultTypeOwnership>
-    {
-        #[cfg(feature = "CoreData_NSFetchRequest")]
-        #[method_id(@__retain_semantics Other fetchRequest)]
-        pub unsafe fn fetchRequest(&self) -> Id<NSFetchRequest<ResultType>>;
+    pub type NSAsynchronousFetchRequest<
+        ResultType: Message = Object,
+        ResultTypeOwnership: Ownership = Shared,
+    >;
 
-        #[method(completionBlock)]
-        pub unsafe fn completionBlock(
-            &self,
-        ) -> NSPersistentStoreAsynchronousFetchResultCompletionBlock;
+    #[cfg(feature = "CoreData_NSFetchRequest")]
+    #[objc2::method(sel = "fetchRequest", managed = "Other")]
+    pub unsafe fn fetchRequest(&self) -> Id<NSFetchRequest<ResultType>>;
 
-        #[method(estimatedResultCount)]
-        pub unsafe fn estimatedResultCount(&self) -> NSInteger;
+    #[objc2::method(sel = "completionBlock")]
+    pub unsafe fn completionBlock(&self)
+        -> NSPersistentStoreAsynchronousFetchResultCompletionBlock;
 
-        #[method(setEstimatedResultCount:)]
-        pub unsafe fn setEstimatedResultCount(&self, estimated_result_count: NSInteger);
+    #[objc2::method(sel = "estimatedResultCount")]
+    pub unsafe fn estimatedResultCount(&self) -> NSInteger;
 
-        #[cfg(all(
-            feature = "CoreData_NSAsynchronousFetchResult",
-            feature = "CoreData_NSFetchRequest"
-        ))]
-        #[method_id(@__retain_semantics Init initWithFetchRequest:completionBlock:)]
-        pub unsafe fn initWithFetchRequest_completionBlock(
-            this: Option<Allocated<Self>>,
-            request: &NSFetchRequest<ResultType>,
-            blk: Option<&Block<(NonNull<NSAsynchronousFetchResult<ResultType>>,), ()>>,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "setEstimatedResultCount:")]
+    pub unsafe fn setEstimatedResultCount(&self, estimated_result_count: NSInteger);
+
+    #[cfg(all(
+        feature = "CoreData_NSAsynchronousFetchResult",
+        feature = "CoreData_NSFetchRequest"
+    ))]
+    #[objc2::method(sel = "initWithFetchRequest:completionBlock:", managed = "Init")]
+    pub unsafe fn initWithFetchRequest_completionBlock(
+        this: Option<Allocated<Self>>,
+        request: &NSFetchRequest<ResultType>,
+        blk: Option<&Block<(NonNull<NSAsynchronousFetchResult<ResultType>>,), ()>>,
+    ) -> Id<Self>;
+}

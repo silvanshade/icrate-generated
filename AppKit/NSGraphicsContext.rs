@@ -23,158 +23,163 @@ extern_static!(NSGraphicsContextPSFormat: &'static NSGraphicsContextRepresentati
 
 extern_static!(NSGraphicsContextPDFFormat: &'static NSGraphicsContextRepresentationFormatName);
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSImageInterpolation {
-        NSImageInterpolationDefault = 0,
-        NSImageInterpolationNone = 1,
-        NSImageInterpolationLow = 2,
-        NSImageInterpolationMedium = 4,
-        NSImageInterpolationHigh = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSImageInterpolation {
+    NSImageInterpolationDefault = 0,
+    NSImageInterpolationNone = 1,
+    NSImageInterpolationLow = 2,
+    NSImageInterpolationMedium = 4,
+    NSImageInterpolationHigh = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSGraphicsContext")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSGraphicsContext")]
-    pub struct NSGraphicsContext;
-
-    #[cfg(feature = "AppKit_NSGraphicsContext")]
-    unsafe impl ClassType for NSGraphicsContext {
-        type Super = NSObject;
-    }
-);
+    pub type NSGraphicsContext;
+}
 
 #[cfg(feature = "AppKit_NSGraphicsContext")]
 unsafe impl NSObjectProtocol for NSGraphicsContext {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSGraphicsContext")]
-    unsafe impl NSGraphicsContext {
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other graphicsContextWithAttributes:)]
-        pub unsafe fn graphicsContextWithAttributes(
-            attributes: &NSDictionary<NSGraphicsContextAttributeKey, Object>,
-        ) -> Option<Id<NSGraphicsContext>>;
+    pub type NSGraphicsContext;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method_id(@__retain_semantics Other graphicsContextWithWindow:)]
-        pub unsafe fn graphicsContextWithWindow(window: &NSWindow) -> Id<NSGraphicsContext>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "graphicsContextWithAttributes:", managed = "Other")]
+    pub unsafe fn graphicsContextWithAttributes(
+        attributes: &NSDictionary<NSGraphicsContextAttributeKey, Object>,
+    ) -> Option<Id<NSGraphicsContext>>;
 
-        #[cfg(feature = "AppKit_NSBitmapImageRep")]
-        #[method_id(@__retain_semantics Other graphicsContextWithBitmapImageRep:)]
-        pub unsafe fn graphicsContextWithBitmapImageRep(
-            bitmap_rep: &NSBitmapImageRep,
-        ) -> Option<Id<NSGraphicsContext>>;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "graphicsContextWithWindow:", managed = "Other")]
+    pub unsafe fn graphicsContextWithWindow(window: &NSWindow) -> Id<NSGraphicsContext>;
 
-        #[method_id(@__retain_semantics Other currentContext)]
-        pub unsafe fn currentContext() -> Option<Id<NSGraphicsContext>>;
+    #[cfg(feature = "AppKit_NSBitmapImageRep")]
+    #[objc2::method(sel = "graphicsContextWithBitmapImageRep:", managed = "Other")]
+    pub unsafe fn graphicsContextWithBitmapImageRep(
+        bitmap_rep: &NSBitmapImageRep,
+    ) -> Option<Id<NSGraphicsContext>>;
 
-        #[method(setCurrentContext:)]
-        pub unsafe fn setCurrentContext(current_context: Option<&NSGraphicsContext>);
+    #[objc2::method(sel = "currentContext", managed = "Other")]
+    pub unsafe fn currentContext() -> Option<Id<NSGraphicsContext>>;
 
-        #[method(currentContextDrawingToScreen)]
-        pub unsafe fn currentContextDrawingToScreen() -> bool;
+    #[objc2::method(sel = "setCurrentContext:")]
+    pub unsafe fn setCurrentContext(current_context: Option<&NSGraphicsContext>);
 
-        #[method(saveGraphicsState)]
-        pub unsafe fn saveGraphicsState_class();
+    #[objc2::method(sel = "currentContextDrawingToScreen")]
+    pub unsafe fn currentContextDrawingToScreen() -> bool;
 
-        #[method(restoreGraphicsState)]
-        pub unsafe fn restoreGraphicsState_class();
+    #[objc2::method(sel = "saveGraphicsState")]
+    pub unsafe fn saveGraphicsState_class();
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other attributes)]
-        pub unsafe fn attributes(
-            &self,
-        ) -> Option<Id<NSDictionary<NSGraphicsContextAttributeKey, Object>>>;
+    #[objc2::method(sel = "restoreGraphicsState")]
+    pub unsafe fn restoreGraphicsState_class();
 
-        #[method(isDrawingToScreen)]
-        pub unsafe fn isDrawingToScreen(&self) -> bool;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "attributes", managed = "Other")]
+    pub unsafe fn attributes(
+        &self,
+    ) -> Option<Id<NSDictionary<NSGraphicsContextAttributeKey, Object>>>;
 
-        #[method(saveGraphicsState)]
-        pub unsafe fn saveGraphicsState(&self);
+    #[objc2::method(sel = "isDrawingToScreen")]
+    pub unsafe fn isDrawingToScreen(&self) -> bool;
 
-        #[method(restoreGraphicsState)]
-        pub unsafe fn restoreGraphicsState(&self);
+    #[objc2::method(sel = "saveGraphicsState")]
+    pub unsafe fn saveGraphicsState(&self);
 
-        #[method(flushGraphics)]
-        pub unsafe fn flushGraphics(&self);
+    #[objc2::method(sel = "restoreGraphicsState")]
+    pub unsafe fn restoreGraphicsState(&self);
 
-        #[method(isFlipped)]
-        pub unsafe fn isFlipped(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "flushGraphics")]
+    pub unsafe fn flushGraphics(&self);
 
-extern_methods!(
-    /// NSGraphicsContext_RenderingOptions
+    #[objc2::method(sel = "isFlipped")]
+    pub unsafe fn isFlipped(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSGraphicsContext")]
-    unsafe impl NSGraphicsContext {
-        #[method(shouldAntialias)]
-        pub unsafe fn shouldAntialias(&self) -> bool;
+    pub type NSGraphicsContext;
 
-        #[method(setShouldAntialias:)]
-        pub unsafe fn setShouldAntialias(&self, should_antialias: bool);
+    #[objc2::method(sel = "shouldAntialias")]
+    pub unsafe fn shouldAntialias(&self) -> bool;
 
-        #[method(imageInterpolation)]
-        pub unsafe fn imageInterpolation(&self) -> NSImageInterpolation;
+    #[objc2::method(sel = "setShouldAntialias:")]
+    pub unsafe fn setShouldAntialias(&self, should_antialias: bool);
 
-        #[method(setImageInterpolation:)]
-        pub unsafe fn setImageInterpolation(&self, image_interpolation: NSImageInterpolation);
+    #[objc2::method(sel = "imageInterpolation")]
+    pub unsafe fn imageInterpolation(&self) -> NSImageInterpolation;
 
-        #[method(patternPhase)]
-        pub unsafe fn patternPhase(&self) -> NSPoint;
+    #[objc2::method(sel = "setImageInterpolation:")]
+    pub unsafe fn setImageInterpolation(&self, image_interpolation: NSImageInterpolation);
 
-        #[method(setPatternPhase:)]
-        pub unsafe fn setPatternPhase(&self, pattern_phase: NSPoint);
+    #[objc2::method(sel = "patternPhase")]
+    pub unsafe fn patternPhase(&self) -> NSPoint;
 
-        #[method(compositingOperation)]
-        pub unsafe fn compositingOperation(&self) -> NSCompositingOperation;
+    #[objc2::method(sel = "setPatternPhase:")]
+    pub unsafe fn setPatternPhase(&self, pattern_phase: NSPoint);
 
-        #[method(setCompositingOperation:)]
-        pub unsafe fn setCompositingOperation(&self, compositing_operation: NSCompositingOperation);
+    #[objc2::method(sel = "compositingOperation")]
+    pub unsafe fn compositingOperation(&self) -> NSCompositingOperation;
 
-        #[method(colorRenderingIntent)]
-        pub unsafe fn colorRenderingIntent(&self) -> NSColorRenderingIntent;
+    #[objc2::method(sel = "setCompositingOperation:")]
+    pub unsafe fn setCompositingOperation(&self, compositing_operation: NSCompositingOperation);
 
-        #[method(setColorRenderingIntent:)]
-        pub unsafe fn setColorRenderingIntent(
-            &self,
-            color_rendering_intent: NSColorRenderingIntent,
-        );
-    }
-);
+    #[objc2::method(sel = "colorRenderingIntent")]
+    pub unsafe fn colorRenderingIntent(&self) -> NSColorRenderingIntent;
 
-extern_methods!(
-    /// NSQuartzCoreAdditions
+    #[objc2::method(sel = "setColorRenderingIntent:")]
+    pub unsafe fn setColorRenderingIntent(&self, color_rendering_intent: NSColorRenderingIntent);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSGraphicsContext")]
-    unsafe impl NSGraphicsContext {}
-);
+    pub type NSGraphicsContext;
+}
 
-extern_methods!(
-    /// NSGraphicsContextDeprecated
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSGraphicsContext")]
-    unsafe impl NSGraphicsContext {
-        #[deprecated = "This method has no effect"]
-        #[method(setGraphicsState:)]
-        pub unsafe fn setGraphicsState(g_state: NSInteger);
+    pub type NSGraphicsContext;
 
-        #[deprecated]
-        #[method_id(@__retain_semantics Other focusStack)]
-        pub unsafe fn focusStack(&self) -> Option<Id<Object>>;
+    #[deprecated = "This method has no effect"]
+    #[objc2::method(sel = "setGraphicsState:")]
+    pub unsafe fn setGraphicsState(g_state: NSInteger);
 
-        #[deprecated]
-        #[method(setFocusStack:)]
-        pub unsafe fn setFocusStack(&self, stack: Option<&Object>);
+    #[deprecated]
+    #[objc2::method(sel = "focusStack", managed = "Other")]
+    pub unsafe fn focusStack(&self) -> Option<Id<Object>>;
 
-        #[deprecated]
-        #[method_id(@__retain_semantics Other graphicsContextWithGraphicsPort:flipped:)]
-        pub unsafe fn graphicsContextWithGraphicsPort_flipped(
-            graphics_port: NonNull<c_void>,
-            initial_flipped_state: bool,
-        ) -> Id<NSGraphicsContext>;
+    #[deprecated]
+    #[objc2::method(sel = "setFocusStack:")]
+    pub unsafe fn setFocusStack(&self, stack: Option<&Object>);
 
-        #[deprecated]
-        #[method(graphicsPort)]
-        pub unsafe fn graphicsPort(&self) -> NonNull<c_void>;
-    }
-);
+    #[deprecated]
+    #[objc2::method(sel = "graphicsContextWithGraphicsPort:flipped:", managed = "Other")]
+    pub unsafe fn graphicsContextWithGraphicsPort_flipped(
+        graphics_port: NonNull<c_void>,
+        initial_flipped_state: bool,
+    ) -> Id<NSGraphicsContext>;
+
+    #[deprecated]
+    #[objc2::method(sel = "graphicsPort")]
+    pub unsafe fn graphicsPort(&self) -> NonNull<c_void>;
+}

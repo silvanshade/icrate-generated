@@ -5,17 +5,19 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSTextFieldCell,
+    unsafe inherits = [
+        NSActionCell,
+        NSCell,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTableHeaderCell")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTableHeaderCell")]
-    pub struct NSTableHeaderCell;
-
-    #[cfg(feature = "AppKit_NSTableHeaderCell")]
-    unsafe impl ClassType for NSTableHeaderCell {
-        #[inherits(NSActionCell, NSCell, NSObject)]
-        type Super = NSTextFieldCell;
-    }
-);
+    pub type NSTableHeaderCell;
+}
 
 #[cfg(feature = "AppKit_NSTableHeaderCell")]
 unsafe impl NSAccessibility for NSTableHeaderCell {}
@@ -32,37 +34,44 @@ unsafe impl NSObjectProtocol for NSTableHeaderCell {}
 #[cfg(feature = "AppKit_NSTableHeaderCell")]
 unsafe impl NSUserInterfaceItemIdentification for NSTableHeaderCell {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTableHeaderCell")]
-    unsafe impl NSTableHeaderCell {
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(drawSortIndicatorWithFrame:inView:ascending:priority:)]
-        pub unsafe fn drawSortIndicatorWithFrame_inView_ascending_priority(
-            &self,
-            cell_frame: NSRect,
-            control_view: &NSView,
-            ascending: bool,
-            priority: NSInteger,
-        );
+    pub type NSTableHeaderCell;
 
-        #[method(sortIndicatorRectForBounds:)]
-        pub unsafe fn sortIndicatorRectForBounds(&self, rect: NSRect) -> NSRect;
-    }
-);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "drawSortIndicatorWithFrame:inView:ascending:priority:")]
+    pub unsafe fn drawSortIndicatorWithFrame_inView_ascending_priority(
+        &self,
+        cell_frame: NSRect,
+        control_view: &NSView,
+        ascending: bool,
+        priority: NSInteger,
+    );
 
-extern_methods!(
-    /// Methods declared on superclass `NSTextFieldCell`
+    #[objc2::method(sel = "sortIndicatorRectForBounds:")]
+    pub unsafe fn sortIndicatorRectForBounds(&self, rect: NSRect) -> NSRect;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSTextFieldCell`
     #[cfg(feature = "AppKit_NSTableHeaderCell")]
-    unsafe impl NSTableHeaderCell {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initTextCell:)]
-        pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Init initImageCell:)]
-        pub unsafe fn initImageCell(
-            this: Option<Allocated<Self>>,
-            image: Option<&NSImage>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTableHeaderCell")]
+    pub type NSTableHeaderCell;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initTextCell:", managed = "Init")]
+    pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "initImageCell:", managed = "Init")]
+    pub unsafe fn initImageCell(this: Option<Allocated<Self>>, image: Option<&NSImage>)
+        -> Id<Self>;
+}

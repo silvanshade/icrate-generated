@@ -4,45 +4,54 @@ use crate::common::*;
 use crate::CoreAnimation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAEDRMetadata")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CAEDRMetadata")]
-    pub struct CAEDRMetadata;
-
-    #[cfg(feature = "CoreAnimation_CAEDRMetadata")]
-    unsafe impl ClassType for CAEDRMetadata {
-        type Super = NSObject;
-    }
-);
+    pub type CAEDRMetadata;
+}
 
 #[cfg(feature = "CoreAnimation_CAEDRMetadata")]
 unsafe impl NSObjectProtocol for CAEDRMetadata {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CAEDRMetadata")]
-    unsafe impl CAEDRMetadata {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CAEDRMetadata;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other HDR10MetadataWithDisplayInfo:contentInfo:opticalOutputScale:)]
-        pub unsafe fn HDR10MetadataWithDisplayInfo_contentInfo_opticalOutputScale(
-            display_data: Option<&NSData>,
-            content_data: Option<&NSData>,
-            scale: c_float,
-        ) -> Id<CAEDRMetadata>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other HDR10MetadataWithMinLuminance:maxLuminance:opticalOutputScale:)]
-        pub unsafe fn HDR10MetadataWithMinLuminance_maxLuminance_opticalOutputScale(
-            min_nits: c_float,
-            max_nits: c_float,
-            scale: c_float,
-        ) -> Id<CAEDRMetadata>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(
+        sel = "HDR10MetadataWithDisplayInfo:contentInfo:opticalOutputScale:",
+        managed = "Other"
+    )]
+    pub unsafe fn HDR10MetadataWithDisplayInfo_contentInfo_opticalOutputScale(
+        display_data: Option<&NSData>,
+        content_data: Option<&NSData>,
+        scale: c_float,
+    ) -> Id<CAEDRMetadata>;
 
-        #[method_id(@__retain_semantics Other HLGMetadata)]
-        pub unsafe fn HLGMetadata() -> Id<CAEDRMetadata>;
+    #[objc2::method(
+        sel = "HDR10MetadataWithMinLuminance:maxLuminance:opticalOutputScale:",
+        managed = "Other"
+    )]
+    pub unsafe fn HDR10MetadataWithMinLuminance_maxLuminance_opticalOutputScale(
+        min_nits: c_float,
+        max_nits: c_float,
+        scale: c_float,
+    ) -> Id<CAEDRMetadata>;
 
-        #[method(isAvailable)]
-        pub unsafe fn isAvailable() -> bool;
-    }
-);
+    #[objc2::method(sel = "HLGMetadata", managed = "Other")]
+    pub unsafe fn HLGMetadata() -> Id<CAEDRMetadata>;
+
+    #[objc2::method(sel = "isAvailable")]
+    pub unsafe fn isAvailable() -> bool;
+}

@@ -5,50 +5,55 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPressureConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPressureConfiguration")]
-    pub struct NSPressureConfiguration;
-
-    #[cfg(feature = "AppKit_NSPressureConfiguration")]
-    unsafe impl ClassType for NSPressureConfiguration {
-        type Super = NSObject;
-    }
-);
+    pub type NSPressureConfiguration;
+}
 
 #[cfg(feature = "AppKit_NSPressureConfiguration")]
 unsafe impl NSObjectProtocol for NSPressureConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPressureConfiguration")]
-    unsafe impl NSPressureConfiguration {
-        #[method(pressureBehavior)]
-        pub unsafe fn pressureBehavior(&self) -> NSPressureBehavior;
+    pub type NSPressureConfiguration;
 
-        #[method_id(@__retain_semantics Init initWithPressureBehavior:)]
-        pub unsafe fn initWithPressureBehavior(
-            this: Option<Allocated<Self>>,
-            pressure_behavior: NSPressureBehavior,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "pressureBehavior")]
+    pub unsafe fn pressureBehavior(&self) -> NSPressureBehavior;
 
-        #[method(set)]
-        pub unsafe fn set(&self);
-    }
-);
+    #[objc2::method(sel = "initWithPressureBehavior:", managed = "Init")]
+    pub unsafe fn initWithPressureBehavior(
+        this: Option<Allocated<Self>>,
+        pressure_behavior: NSPressureBehavior,
+    ) -> Id<Self>;
 
-extern_methods!(
-    /// NSPressureConfiguration
+    #[objc2::method(sel = "set")]
+    pub unsafe fn set(&self);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSView")]
-    unsafe impl NSView {
-        #[cfg(feature = "AppKit_NSPressureConfiguration")]
-        #[method_id(@__retain_semantics Other pressureConfiguration)]
-        pub unsafe fn pressureConfiguration(&self) -> Option<Id<NSPressureConfiguration>>;
+    pub type NSView;
 
-        #[cfg(feature = "AppKit_NSPressureConfiguration")]
-        #[method(setPressureConfiguration:)]
-        pub unsafe fn setPressureConfiguration(
-            &self,
-            pressure_configuration: Option<&NSPressureConfiguration>,
-        );
-    }
-);
+    #[cfg(feature = "AppKit_NSPressureConfiguration")]
+    #[objc2::method(sel = "pressureConfiguration", managed = "Other")]
+    pub unsafe fn pressureConfiguration(&self) -> Option<Id<NSPressureConfiguration>>;
+
+    #[cfg(feature = "AppKit_NSPressureConfiguration")]
+    #[objc2::method(sel = "setPressureConfiguration:")]
+    pub unsafe fn setPressureConfiguration(
+        &self,
+        pressure_configuration: Option<&NSPressureConfiguration>,
+    );
+}

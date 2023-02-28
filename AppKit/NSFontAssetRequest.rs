@@ -5,23 +5,22 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSFontAssetRequestOptions {
-        NSFontAssetRequestOptionUsesStandardUI = 1 << 0,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSFontAssetRequestOptions {
+    NSFontAssetRequestOptionUsesStandardUI = 1 << 0,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSFontAssetRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSFontAssetRequest")]
-    pub struct NSFontAssetRequest;
-
-    #[cfg(feature = "AppKit_NSFontAssetRequest")]
-    unsafe impl ClassType for NSFontAssetRequest {
-        type Super = NSObject;
-    }
-);
+    pub type NSFontAssetRequest;
+}
 
 #[cfg(feature = "AppKit_NSFontAssetRequest")]
 unsafe impl NSObjectProtocol for NSFontAssetRequest {}
@@ -29,33 +28,36 @@ unsafe impl NSObjectProtocol for NSFontAssetRequest {}
 #[cfg(feature = "AppKit_NSFontAssetRequest")]
 unsafe impl NSProgressReporting for NSFontAssetRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSFontAssetRequest")]
-    unsafe impl NSFontAssetRequest {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSFontAssetRequest;
 
-        #[cfg(all(feature = "AppKit_NSFontDescriptor", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Init initWithFontDescriptors:options:)]
-        pub unsafe fn initWithFontDescriptors_options(
-            this: Option<Allocated<Self>>,
-            font_descriptors: &NSArray<NSFontDescriptor>,
-            options: NSFontAssetRequestOptions,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(feature = "AppKit_NSFontDescriptor", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other downloadedFontDescriptors)]
-        pub unsafe fn downloadedFontDescriptors(&self) -> Id<NSArray<NSFontDescriptor>>;
+    #[cfg(all(feature = "AppKit_NSFontDescriptor", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "initWithFontDescriptors:options:", managed = "Init")]
+    pub unsafe fn initWithFontDescriptors_options(
+        this: Option<Allocated<Self>>,
+        font_descriptors: &NSArray<NSFontDescriptor>,
+        options: NSFontAssetRequestOptions,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSProgress")]
-        #[method_id(@__retain_semantics Other progress)]
-        pub unsafe fn progress(&self) -> Id<NSProgress>;
+    #[cfg(all(feature = "AppKit_NSFontDescriptor", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "downloadedFontDescriptors", managed = "Other")]
+    pub unsafe fn downloadedFontDescriptors(&self) -> Id<NSArray<NSFontDescriptor>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(downloadFontAssetsWithCompletionHandler:)]
-        pub unsafe fn downloadFontAssetsWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(*mut NSError,), Bool>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSProgress")]
+    #[objc2::method(sel = "progress", managed = "Other")]
+    pub unsafe fn progress(&self) -> Id<NSProgress>;
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "downloadFontAssetsWithCompletionHandler:")]
+    pub unsafe fn downloadFontAssetsWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(*mut NSError,), Bool>,
+    );
+}

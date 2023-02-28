@@ -15,70 +15,75 @@ extern_static!(SKAdNetworkCoarseConversionValueMedium: &'static SKAdNetworkCoars
 
 extern_static!(SKAdNetworkCoarseConversionValueLow: &'static SKAdNetworkCoarseConversionValue);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKAdNetwork")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKAdNetwork")]
-    pub struct SKAdNetwork;
-
-    #[cfg(feature = "StoreKit_SKAdNetwork")]
-    unsafe impl ClassType for SKAdNetwork {
-        type Super = NSObject;
-    }
-);
+    pub type SKAdNetwork;
+}
 
 #[cfg(feature = "StoreKit_SKAdNetwork")]
 unsafe impl NSObjectProtocol for SKAdNetwork {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKAdNetwork")]
-    unsafe impl SKAdNetwork {
-        #[cfg(all(feature = "Foundation_NSError", feature = "StoreKit_SKAdImpression"))]
-        #[method(startImpression:completionHandler:)]
-        pub unsafe fn startImpression_completionHandler(
-            impression: &SKAdImpression,
-            completion: Option<&Block<(*mut NSError,), ()>>,
-        );
+    pub type SKAdNetwork;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "StoreKit_SKAdImpression"))]
-        #[method(endImpression:completionHandler:)]
-        pub unsafe fn endImpression_completionHandler(
-            impression: &SKAdImpression,
-            completion: Option<&Block<(*mut NSError,), ()>>,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "StoreKit_SKAdImpression"))]
+    #[objc2::method(sel = "startImpression:completionHandler:")]
+    pub unsafe fn startImpression_completionHandler(
+        impression: &SKAdImpression,
+        completion: Option<&Block<(*mut NSError,), ()>>,
+    );
 
-        #[deprecated = "Use updatePostbackConversionValue:completionHandler: instead"]
-        #[method(registerAppForAdNetworkAttribution)]
-        pub unsafe fn registerAppForAdNetworkAttribution();
+    #[cfg(all(feature = "Foundation_NSError", feature = "StoreKit_SKAdImpression"))]
+    #[objc2::method(sel = "endImpression:completionHandler:")]
+    pub unsafe fn endImpression_completionHandler(
+        impression: &SKAdImpression,
+        completion: Option<&Block<(*mut NSError,), ()>>,
+    );
 
-        #[deprecated = "Use updatePostbackConversionValue:completionHandler: instead"]
-        #[method(updateConversionValue:)]
-        pub unsafe fn updateConversionValue(conversion_value: NSInteger);
+    #[deprecated = "Use updatePostbackConversionValue:completionHandler: instead"]
+    #[objc2::method(sel = "registerAppForAdNetworkAttribution")]
+    pub unsafe fn registerAppForAdNetworkAttribution();
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(updatePostbackConversionValue:completionHandler:)]
-        pub unsafe fn updatePostbackConversionValue_completionHandler(
-            conversion_value: NSInteger,
-            completion: Option<&Block<(*mut NSError,), ()>>,
-        );
+    #[deprecated = "Use updatePostbackConversionValue:completionHandler: instead"]
+    #[objc2::method(sel = "updateConversionValue:")]
+    pub unsafe fn updateConversionValue(conversion_value: NSInteger);
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(updatePostbackConversionValue:coarseValue:completionHandler:)]
-        pub unsafe fn updatePostbackConversionValue_coarseValue_completionHandler(
-            fine_value: NSInteger,
-            coarse_value: &SKAdNetworkCoarseConversionValue,
-            completion: Option<&Block<(*mut NSError,), ()>>,
-        );
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "updatePostbackConversionValue:completionHandler:")]
+    pub unsafe fn updatePostbackConversionValue_completionHandler(
+        conversion_value: NSInteger,
+        completion: Option<&Block<(*mut NSError,), ()>>,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(updatePostbackConversionValue:coarseValue:lockWindow:completionHandler:)]
-        pub unsafe fn updatePostbackConversionValue_coarseValue_lockWindow_completionHandler(
-            fine_value: NSInteger,
-            coarse_value: &SKAdNetworkCoarseConversionValue,
-            lock_window: bool,
-            completion: Option<&Block<(*mut NSError,), ()>>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "updatePostbackConversionValue:coarseValue:completionHandler:")]
+    pub unsafe fn updatePostbackConversionValue_coarseValue_completionHandler(
+        fine_value: NSInteger,
+        coarse_value: &SKAdNetworkCoarseConversionValue,
+        completion: Option<&Block<(*mut NSError,), ()>>,
+    );
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(
+        sel = "updatePostbackConversionValue:coarseValue:lockWindow:completionHandler:"
+    )]
+    pub unsafe fn updatePostbackConversionValue_coarseValue_lockWindow_completionHandler(
+        fine_value: NSInteger,
+        coarse_value: &SKAdNetworkCoarseConversionValue,
+        lock_window: bool,
+        completion: Option<&Block<(*mut NSError,), ()>>,
+    );
+}
 
 extern_static!(SKStoreProductParameterAdNetworkAttributionSignature: &'static NSString);
 

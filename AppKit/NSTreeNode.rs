@@ -5,69 +5,72 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTreeNode")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTreeNode")]
-    pub struct NSTreeNode;
-
-    #[cfg(feature = "AppKit_NSTreeNode")]
-    unsafe impl ClassType for NSTreeNode {
-        type Super = NSObject;
-    }
-);
+    pub type NSTreeNode;
+}
 
 #[cfg(feature = "AppKit_NSTreeNode")]
 unsafe impl NSObjectProtocol for NSTreeNode {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTreeNode")]
-    unsafe impl NSTreeNode {
-        #[method_id(@__retain_semantics Other treeNodeWithRepresentedObject:)]
-        pub unsafe fn treeNodeWithRepresentedObject(model_object: Option<&Object>) -> Id<Self>;
+    pub type NSTreeNode;
 
-        #[method_id(@__retain_semantics Init initWithRepresentedObject:)]
-        pub unsafe fn initWithRepresentedObject(
-            this: Option<Allocated<Self>>,
-            model_object: Option<&Object>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "treeNodeWithRepresentedObject:", managed = "Other")]
+    pub unsafe fn treeNodeWithRepresentedObject(model_object: Option<&Object>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other representedObject)]
-        pub unsafe fn representedObject(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "initWithRepresentedObject:", managed = "Init")]
+    pub unsafe fn initWithRepresentedObject(
+        this: Option<Allocated<Self>>,
+        model_object: Option<&Object>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSIndexPath")]
-        #[method_id(@__retain_semantics Other indexPath)]
-        pub unsafe fn indexPath(&self) -> Id<NSIndexPath>;
+    #[objc2::method(sel = "representedObject", managed = "Other")]
+    pub unsafe fn representedObject(&self) -> Option<Id<Object>>;
 
-        #[method(isLeaf)]
-        pub unsafe fn isLeaf(&self) -> bool;
+    #[cfg(feature = "Foundation_NSIndexPath")]
+    #[objc2::method(sel = "indexPath", managed = "Other")]
+    pub unsafe fn indexPath(&self) -> Id<NSIndexPath>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other childNodes)]
-        pub unsafe fn childNodes(&self) -> Option<Id<NSArray<NSTreeNode>>>;
+    #[objc2::method(sel = "isLeaf")]
+    pub unsafe fn isLeaf(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSMutableArray")]
-        #[method_id(@__retain_semantics Other mutableChildNodes)]
-        pub unsafe fn mutableChildNodes(&self) -> Id<NSMutableArray<NSTreeNode>, Owned>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "childNodes", managed = "Other")]
+    pub unsafe fn childNodes(&self) -> Option<Id<NSArray<NSTreeNode>>>;
 
-        #[cfg(feature = "Foundation_NSIndexPath")]
-        #[method_id(@__retain_semantics Other descendantNodeAtIndexPath:)]
-        pub unsafe fn descendantNodeAtIndexPath(
-            &self,
-            index_path: &NSIndexPath,
-        ) -> Option<Id<NSTreeNode>>;
+    #[cfg(feature = "Foundation_NSMutableArray")]
+    #[objc2::method(sel = "mutableChildNodes", managed = "Other")]
+    pub unsafe fn mutableChildNodes(&self) -> Id<NSMutableArray<NSTreeNode>, Owned>;
 
-        #[method_id(@__retain_semantics Other parentNode)]
-        pub unsafe fn parentNode(&self) -> Option<Id<NSTreeNode>>;
+    #[cfg(feature = "Foundation_NSIndexPath")]
+    #[objc2::method(sel = "descendantNodeAtIndexPath:", managed = "Other")]
+    pub unsafe fn descendantNodeAtIndexPath(
+        &self,
+        index_path: &NSIndexPath,
+    ) -> Option<Id<NSTreeNode>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSSortDescriptor"
-        ))]
-        #[method(sortWithSortDescriptors:recursively:)]
-        pub unsafe fn sortWithSortDescriptors_recursively(
-            &self,
-            sort_descriptors: &NSArray<NSSortDescriptor>,
-            recursively: bool,
-        );
-    }
-);
+    #[objc2::method(sel = "parentNode", managed = "Other")]
+    pub unsafe fn parentNode(&self) -> Option<Id<NSTreeNode>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSSortDescriptor"
+    ))]
+    #[objc2::method(sel = "sortWithSortDescriptors:recursively:")]
+    pub unsafe fn sortWithSortDescriptors_recursively(
+        &self,
+        sort_descriptors: &NSArray<NSSortDescriptor>,
+        recursively: bool,
+    );
+}

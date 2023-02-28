@@ -5,15 +5,9 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MailKit::*;
 
-extern_protocol!(
-    pub unsafe trait MEMessageDecoder: NSObjectProtocol {
-        #[cfg(all(feature = "Foundation_NSData", feature = "MailKit_MEDecodedMessage"))]
-        #[method_id(@__retain_semantics Other decodedMessageForMessageData:)]
-        unsafe fn decodedMessageForMessageData(
-            &self,
-            data: &NSData,
-        ) -> Option<Id<MEDecodedMessage>>;
-    }
-
-    unsafe impl ProtocolType for dyn MEMessageDecoder {}
-);
+#[objc2::protocol]
+pub unsafe trait MEMessageDecoder: NSObjectProtocol {
+    #[cfg(all(feature = "Foundation_NSData", feature = "MailKit_MEDecodedMessage"))]
+    #[objc2::method(sel = "decodedMessageForMessageData:", managed = "Other")]
+    unsafe fn decodedMessageForMessageData(&self, data: &NSData) -> Option<Id<MEDecodedMessage>>;
+}

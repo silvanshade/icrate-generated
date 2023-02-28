@@ -5,27 +5,30 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKPDFConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKPDFConfiguration")]
-    pub struct WKPDFConfiguration;
-
-    #[cfg(feature = "WebKit_WKPDFConfiguration")]
-    unsafe impl ClassType for WKPDFConfiguration {
-        type Super = NSObject;
-    }
-);
+    pub type WKPDFConfiguration;
+}
 
 #[cfg(feature = "WebKit_WKPDFConfiguration")]
 unsafe impl NSObjectProtocol for WKPDFConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKPDFConfiguration")]
-    unsafe impl WKPDFConfiguration {
-        #[method(rect)]
-        pub unsafe fn rect(&self) -> CGRect;
+    pub type WKPDFConfiguration;
 
-        #[method(setRect:)]
-        pub unsafe fn setRect(&self, rect: CGRect);
-    }
-);
+    #[objc2::method(sel = "rect")]
+    pub unsafe fn rect(&self) -> CGRect;
+
+    #[objc2::method(sel = "setRect:")]
+    pub unsafe fn setRect(&self, rect: CGRect);
+}

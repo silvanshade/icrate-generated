@@ -6,17 +6,18 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSample,
+    unsafe inherits = [
+        HKObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKQuantitySample")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKQuantitySample")]
-    pub struct HKQuantitySample;
-
-    #[cfg(feature = "HealthKit_HKQuantitySample")]
-    unsafe impl ClassType for HKQuantitySample {
-        #[inherits(HKObject, NSObject)]
-        type Super = HKSample;
-    }
-);
+    pub type HKQuantitySample;
+}
 
 #[cfg(feature = "HealthKit_HKQuantitySample")]
 unsafe impl NSCoding for HKQuantitySample {}
@@ -27,68 +28,80 @@ unsafe impl NSObjectProtocol for HKQuantitySample {}
 #[cfg(feature = "HealthKit_HKQuantitySample")]
 unsafe impl NSSecureCoding for HKQuantitySample {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQuantitySample")]
-    unsafe impl HKQuantitySample {
-        #[cfg(feature = "HealthKit_HKQuantityType")]
-        #[method_id(@__retain_semantics Other quantityType)]
-        pub unsafe fn quantityType(&self) -> Id<HKQuantityType>;
+    pub type HKQuantitySample;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other quantity)]
-        pub unsafe fn quantity(&self) -> Id<HKQuantity>;
+    #[cfg(feature = "HealthKit_HKQuantityType")]
+    #[objc2::method(sel = "quantityType", managed = "Other")]
+    pub unsafe fn quantityType(&self) -> Id<HKQuantityType>;
 
-        #[method(count)]
-        pub unsafe fn count(&self) -> NSInteger;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "quantity", managed = "Other")]
+    pub unsafe fn quantity(&self) -> Id<HKQuantity>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "HealthKit_HKQuantity",
-            feature = "HealthKit_HKQuantityType"
-        ))]
-        #[method_id(@__retain_semantics Other quantitySampleWithType:quantity:startDate:endDate:)]
-        pub unsafe fn quantitySampleWithType_quantity_startDate_endDate(
-            quantity_type: &HKQuantityType,
-            quantity: &HKQuantity,
-            start_date: &NSDate,
-            end_date: &NSDate,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "count")]
+    pub unsafe fn count(&self) -> NSInteger;
 
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "HealthKit_HKQuantity",
-            feature = "HealthKit_HKQuantityType"
-        ))]
-        #[method_id(@__retain_semantics Other quantitySampleWithType:quantity:startDate:endDate:metadata:)]
-        pub unsafe fn quantitySampleWithType_quantity_startDate_endDate_metadata(
-            quantity_type: &HKQuantityType,
-            quantity: &HKQuantity,
-            start_date: &NSDate,
-            end_date: &NSDate,
-            metadata: Option<&NSDictionary<NSString, Object>>,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "HealthKit_HKQuantity",
+        feature = "HealthKit_HKQuantityType"
+    ))]
+    #[objc2::method(
+        sel = "quantitySampleWithType:quantity:startDate:endDate:",
+        managed = "Other"
+    )]
+    pub unsafe fn quantitySampleWithType_quantity_startDate_endDate(
+        quantity_type: &HKQuantityType,
+        quantity: &HKQuantity,
+        start_date: &NSDate,
+        end_date: &NSDate,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "HealthKit_HKDevice",
-            feature = "HealthKit_HKQuantity",
-            feature = "HealthKit_HKQuantityType"
-        ))]
-        #[method_id(@__retain_semantics Other quantitySampleWithType:quantity:startDate:endDate:device:metadata:)]
-        pub unsafe fn quantitySampleWithType_quantity_startDate_endDate_device_metadata(
-            quantity_type: &HKQuantityType,
-            quantity: &HKQuantity,
-            start_date: &NSDate,
-            end_date: &NSDate,
-            device: Option<&HKDevice>,
-            metadata: Option<&NSDictionary<NSString, Object>>,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "HealthKit_HKQuantity",
+        feature = "HealthKit_HKQuantityType"
+    ))]
+    #[objc2::method(
+        sel = "quantitySampleWithType:quantity:startDate:endDate:metadata:",
+        managed = "Other"
+    )]
+    pub unsafe fn quantitySampleWithType_quantity_startDate_endDate_metadata(
+        quantity_type: &HKQuantityType,
+        quantity: &HKQuantity,
+        start_date: &NSDate,
+        end_date: &NSDate,
+        metadata: Option<&NSDictionary<NSString, Object>>,
+    ) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "HealthKit_HKDevice",
+        feature = "HealthKit_HKQuantity",
+        feature = "HealthKit_HKQuantityType"
+    ))]
+    #[objc2::method(
+        sel = "quantitySampleWithType:quantity:startDate:endDate:device:metadata:",
+        managed = "Other"
+    )]
+    pub unsafe fn quantitySampleWithType_quantity_startDate_endDate_device_metadata(
+        quantity_type: &HKQuantityType,
+        quantity: &HKQuantity,
+        start_date: &NSDate,
+        end_date: &NSDate,
+        device: Option<&HKDevice>,
+        metadata: Option<&NSDictionary<NSString, Object>>,
+    ) -> Id<Self>;
+}
 
 extern_static!(HKPredicateKeyPathQuantity: &'static NSString);
 

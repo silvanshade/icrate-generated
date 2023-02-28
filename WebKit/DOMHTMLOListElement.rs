@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLOListElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLOListElement;
-
     #[cfg(feature = "WebKit_DOMHTMLOListElement")]
-    unsafe impl ClassType for DOMHTMLOListElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLOListElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLOListElement")]
 unsafe impl DOMEventTarget for DOMHTMLOListElement {}
@@ -24,27 +28,31 @@ unsafe impl DOMEventTarget for DOMHTMLOListElement {}
 #[cfg(feature = "WebKit_DOMHTMLOListElement")]
 unsafe impl NSObjectProtocol for DOMHTMLOListElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLOListElement")]
-    unsafe impl DOMHTMLOListElement {
-        #[method(compact)]
-        pub unsafe fn compact(&self) -> bool;
+    #[deprecated]
+    pub type DOMHTMLOListElement;
 
-        #[method(setCompact:)]
-        pub unsafe fn setCompact(&self, compact: bool);
+    #[objc2::method(sel = "compact")]
+    pub unsafe fn compact(&self) -> bool;
 
-        #[method(start)]
-        pub unsafe fn start(&self) -> c_int;
+    #[objc2::method(sel = "setCompact:")]
+    pub unsafe fn setCompact(&self, compact: bool);
 
-        #[method(setStart:)]
-        pub unsafe fn setStart(&self, start: c_int);
+    #[objc2::method(sel = "start")]
+    pub unsafe fn start(&self) -> c_int;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other type)]
-        pub unsafe fn r#type(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setStart:")]
+    pub unsafe fn setStart(&self, start: c_int);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setType:)]
-        pub unsafe fn setType(&self, r#type: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "type", managed = "Other")]
+    pub unsafe fn r#type(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setType:")]
+    pub unsafe fn setType(&self, r#type: Option<&NSString>);
+}

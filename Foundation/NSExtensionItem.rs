@@ -3,16 +3,16 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSExtensionItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSExtensionItem")]
-    pub struct NSExtensionItem;
-
-    #[cfg(feature = "Foundation_NSExtensionItem")]
-    unsafe impl ClassType for NSExtensionItem {
-        type Super = NSObject;
-    }
-);
+    pub type NSExtensionItem;
+}
 
 #[cfg(feature = "Foundation_NSExtensionItem")]
 unsafe impl NSCoding for NSExtensionItem {}
@@ -23,45 +23,48 @@ unsafe impl NSObjectProtocol for NSExtensionItem {}
 #[cfg(feature = "Foundation_NSExtensionItem")]
 unsafe impl NSSecureCoding for NSExtensionItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSExtensionItem")]
-    unsafe impl NSExtensionItem {
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other attributedTitle)]
-        pub unsafe fn attributedTitle(&self) -> Option<Id<NSAttributedString>>;
+    pub type NSExtensionItem;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(setAttributedTitle:)]
-        pub unsafe fn setAttributedTitle(&self, attributed_title: Option<&NSAttributedString>);
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "attributedTitle", managed = "Other")]
+    pub unsafe fn attributedTitle(&self) -> Option<Id<NSAttributedString>>;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other attributedContentText)]
-        pub unsafe fn attributedContentText(&self) -> Option<Id<NSAttributedString>>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "setAttributedTitle:")]
+    pub unsafe fn setAttributedTitle(&self, attributed_title: Option<&NSAttributedString>);
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(setAttributedContentText:)]
-        pub unsafe fn setAttributedContentText(
-            &self,
-            attributed_content_text: Option<&NSAttributedString>,
-        );
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "attributedContentText", managed = "Other")]
+    pub unsafe fn attributedContentText(&self) -> Option<Id<NSAttributedString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSItemProvider"))]
-        #[method_id(@__retain_semantics Other attachments)]
-        pub unsafe fn attachments(&self) -> Option<Id<NSArray<NSItemProvider>>>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "setAttributedContentText:")]
+    pub unsafe fn setAttributedContentText(
+        &self,
+        attributed_content_text: Option<&NSAttributedString>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSItemProvider"))]
-        #[method(setAttachments:)]
-        pub unsafe fn setAttachments(&self, attachments: Option<&NSArray<NSItemProvider>>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSItemProvider"))]
+    #[objc2::method(sel = "attachments", managed = "Other")]
+    pub unsafe fn attachments(&self) -> Option<Id<NSArray<NSItemProvider>>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other userInfo)]
-        pub unsafe fn userInfo(&self) -> Option<Id<NSDictionary>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSItemProvider"))]
+    #[objc2::method(sel = "setAttachments:")]
+    pub unsafe fn setAttachments(&self, attachments: Option<&NSArray<NSItemProvider>>);
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(setUserInfo:)]
-        pub unsafe fn setUserInfo(&self, user_info: Option<&NSDictionary>);
-    }
-);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "userInfo", managed = "Other")]
+    pub unsafe fn userInfo(&self) -> Option<Id<NSDictionary>>;
+
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "setUserInfo:")]
+    pub unsafe fn setUserInfo(&self, user_info: Option<&NSDictionary>);
+}
 
 extern_static!(NSExtensionItemAttributedTitleKey: Option<&'static NSString>);
 

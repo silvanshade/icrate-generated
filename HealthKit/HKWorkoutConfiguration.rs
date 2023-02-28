@@ -6,25 +6,24 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKWorkoutSessionLocationType {
-        HKWorkoutSessionLocationTypeUnknown = 1,
-        HKWorkoutSessionLocationTypeIndoor = 2,
-        HKWorkoutSessionLocationTypeOutdoor = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKWorkoutSessionLocationType {
+    HKWorkoutSessionLocationTypeUnknown = 1,
+    HKWorkoutSessionLocationTypeIndoor = 2,
+    HKWorkoutSessionLocationTypeOutdoor = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKWorkoutConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKWorkoutConfiguration")]
-    pub struct HKWorkoutConfiguration;
-
-    #[cfg(feature = "HealthKit_HKWorkoutConfiguration")]
-    unsafe impl ClassType for HKWorkoutConfiguration {
-        type Super = NSObject;
-    }
-);
+    pub type HKWorkoutConfiguration;
+}
 
 #[cfg(feature = "HealthKit_HKWorkoutConfiguration")]
 unsafe impl NSCoding for HKWorkoutConfiguration {}
@@ -35,36 +34,39 @@ unsafe impl NSObjectProtocol for HKWorkoutConfiguration {}
 #[cfg(feature = "HealthKit_HKWorkoutConfiguration")]
 unsafe impl NSSecureCoding for HKWorkoutConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKWorkoutConfiguration")]
-    unsafe impl HKWorkoutConfiguration {
-        #[method(activityType)]
-        pub unsafe fn activityType(&self) -> HKWorkoutActivityType;
+    pub type HKWorkoutConfiguration;
 
-        #[method(setActivityType:)]
-        pub unsafe fn setActivityType(&self, activity_type: HKWorkoutActivityType);
+    #[objc2::method(sel = "activityType")]
+    pub unsafe fn activityType(&self) -> HKWorkoutActivityType;
 
-        #[method(locationType)]
-        pub unsafe fn locationType(&self) -> HKWorkoutSessionLocationType;
+    #[objc2::method(sel = "setActivityType:")]
+    pub unsafe fn setActivityType(&self, activity_type: HKWorkoutActivityType);
 
-        #[method(setLocationType:)]
-        pub unsafe fn setLocationType(&self, location_type: HKWorkoutSessionLocationType);
+    #[objc2::method(sel = "locationType")]
+    pub unsafe fn locationType(&self) -> HKWorkoutSessionLocationType;
 
-        #[method(swimmingLocationType)]
-        pub unsafe fn swimmingLocationType(&self) -> HKWorkoutSwimmingLocationType;
+    #[objc2::method(sel = "setLocationType:")]
+    pub unsafe fn setLocationType(&self, location_type: HKWorkoutSessionLocationType);
 
-        #[method(setSwimmingLocationType:)]
-        pub unsafe fn setSwimmingLocationType(
-            &self,
-            swimming_location_type: HKWorkoutSwimmingLocationType,
-        );
+    #[objc2::method(sel = "swimmingLocationType")]
+    pub unsafe fn swimmingLocationType(&self) -> HKWorkoutSwimmingLocationType;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other lapLength)]
-        pub unsafe fn lapLength(&self) -> Option<Id<HKQuantity>>;
+    #[objc2::method(sel = "setSwimmingLocationType:")]
+    pub unsafe fn setSwimmingLocationType(
+        &self,
+        swimming_location_type: HKWorkoutSwimmingLocationType,
+    );
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method(setLapLength:)]
-        pub unsafe fn setLapLength(&self, lap_length: Option<&HKQuantity>);
-    }
-);
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "lapLength", managed = "Other")]
+    pub unsafe fn lapLength(&self) -> Option<Id<HKQuantity>>;
+
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "setLapLength:")]
+    pub unsafe fn setLapLength(&self, lap_length: Option<&HKQuantity>);
+}

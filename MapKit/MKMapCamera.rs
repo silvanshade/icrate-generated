@@ -7,16 +7,16 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKMapCamera")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKMapCamera")]
-    pub struct MKMapCamera;
-
-    #[cfg(feature = "MapKit_MKMapCamera")]
-    unsafe impl ClassType for MKMapCamera {
-        type Super = NSObject;
-    }
-);
+    pub type MKMapCamera;
+}
 
 #[cfg(feature = "MapKit_MKMapCamera")]
 unsafe impl NSCoding for MKMapCamera {}
@@ -27,68 +27,80 @@ unsafe impl NSObjectProtocol for MKMapCamera {}
 #[cfg(feature = "MapKit_MKMapCamera")]
 unsafe impl NSSecureCoding for MKMapCamera {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMapCamera")]
-    unsafe impl MKMapCamera {
-        #[method(centerCoordinate)]
-        pub unsafe fn centerCoordinate(&self) -> CLLocationCoordinate2D;
+    pub type MKMapCamera;
 
-        #[method(setCenterCoordinate:)]
-        pub unsafe fn setCenterCoordinate(&self, center_coordinate: CLLocationCoordinate2D);
+    #[objc2::method(sel = "centerCoordinate")]
+    pub unsafe fn centerCoordinate(&self) -> CLLocationCoordinate2D;
 
-        #[method(centerCoordinateDistance)]
-        pub unsafe fn centerCoordinateDistance(&self) -> CLLocationDistance;
+    #[objc2::method(sel = "setCenterCoordinate:")]
+    pub unsafe fn setCenterCoordinate(&self, center_coordinate: CLLocationCoordinate2D);
 
-        #[method(setCenterCoordinateDistance:)]
-        pub unsafe fn setCenterCoordinateDistance(
-            &self,
-            center_coordinate_distance: CLLocationDistance,
-        );
+    #[objc2::method(sel = "centerCoordinateDistance")]
+    pub unsafe fn centerCoordinateDistance(&self) -> CLLocationDistance;
 
-        #[method(heading)]
-        pub unsafe fn heading(&self) -> CLLocationDirection;
+    #[objc2::method(sel = "setCenterCoordinateDistance:")]
+    pub unsafe fn setCenterCoordinateDistance(
+        &self,
+        center_coordinate_distance: CLLocationDistance,
+    );
 
-        #[method(setHeading:)]
-        pub unsafe fn setHeading(&self, heading: CLLocationDirection);
+    #[objc2::method(sel = "heading")]
+    pub unsafe fn heading(&self) -> CLLocationDirection;
 
-        #[method(pitch)]
-        pub unsafe fn pitch(&self) -> CGFloat;
+    #[objc2::method(sel = "setHeading:")]
+    pub unsafe fn setHeading(&self, heading: CLLocationDirection);
 
-        #[method(setPitch:)]
-        pub unsafe fn setPitch(&self, pitch: CGFloat);
+    #[objc2::method(sel = "pitch")]
+    pub unsafe fn pitch(&self) -> CGFloat;
 
-        #[deprecated = "Use centerCoordinateDistance"]
-        #[method(altitude)]
-        pub unsafe fn altitude(&self) -> CLLocationDistance;
+    #[objc2::method(sel = "setPitch:")]
+    pub unsafe fn setPitch(&self, pitch: CGFloat);
 
-        #[deprecated = "Use centerCoordinateDistance"]
-        #[method(setAltitude:)]
-        pub unsafe fn setAltitude(&self, altitude: CLLocationDistance);
+    #[deprecated = "Use centerCoordinateDistance"]
+    #[objc2::method(sel = "altitude")]
+    pub unsafe fn altitude(&self) -> CLLocationDistance;
 
-        #[method_id(@__retain_semantics Other camera)]
-        pub unsafe fn camera() -> Id<Self>;
+    #[deprecated = "Use centerCoordinateDistance"]
+    #[objc2::method(sel = "setAltitude:")]
+    pub unsafe fn setAltitude(&self, altitude: CLLocationDistance);
 
-        #[method_id(@__retain_semantics Other cameraLookingAtCenterCoordinate:fromEyeCoordinate:eyeAltitude:)]
-        pub unsafe fn cameraLookingAtCenterCoordinate_fromEyeCoordinate_eyeAltitude(
-            center_coordinate: CLLocationCoordinate2D,
-            eye_coordinate: CLLocationCoordinate2D,
-            eye_altitude: CLLocationDistance,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "camera", managed = "Other")]
+    pub unsafe fn camera() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other cameraLookingAtCenterCoordinate:fromDistance:pitch:heading:)]
-        pub unsafe fn cameraLookingAtCenterCoordinate_fromDistance_pitch_heading(
-            center_coordinate: CLLocationCoordinate2D,
-            distance: CLLocationDistance,
-            pitch: CGFloat,
-            heading: CLLocationDirection,
-        ) -> Id<Self>;
+    #[objc2::method(
+        sel = "cameraLookingAtCenterCoordinate:fromEyeCoordinate:eyeAltitude:",
+        managed = "Other"
+    )]
+    pub unsafe fn cameraLookingAtCenterCoordinate_fromEyeCoordinate_eyeAltitude(
+        center_coordinate: CLLocationCoordinate2D,
+        eye_coordinate: CLLocationCoordinate2D,
+        eye_altitude: CLLocationDistance,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "MapKit_MKMapItem")]
-        #[method_id(@__retain_semantics Other cameraLookingAtMapItem:forViewSize:allowPitch:)]
-        pub unsafe fn cameraLookingAtMapItem_forViewSize_allowPitch(
-            map_item: &MKMapItem,
-            view_size: CGSize,
-            allow_pitch: bool,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(
+        sel = "cameraLookingAtCenterCoordinate:fromDistance:pitch:heading:",
+        managed = "Other"
+    )]
+    pub unsafe fn cameraLookingAtCenterCoordinate_fromDistance_pitch_heading(
+        center_coordinate: CLLocationCoordinate2D,
+        distance: CLLocationDistance,
+        pitch: CGFloat,
+        heading: CLLocationDirection,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "MapKit_MKMapItem")]
+    #[objc2::method(
+        sel = "cameraLookingAtMapItem:forViewSize:allowPitch:",
+        managed = "Other"
+    )]
+    pub unsafe fn cameraLookingAtMapItem_forViewSize_allowPitch(
+        map_item: &MKMapItem,
+        view_size: CGSize,
+        allow_pitch: bool,
+    ) -> Id<Self>;
+}

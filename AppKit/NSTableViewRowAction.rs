@@ -5,64 +5,66 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSTableViewRowActionStyle {
-        NSTableViewRowActionStyleRegular = 0,
-        NSTableViewRowActionStyleDestructive = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSTableViewRowActionStyle {
+    NSTableViewRowActionStyleRegular = 0,
+    NSTableViewRowActionStyleDestructive = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTableViewRowAction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTableViewRowAction")]
-    pub struct NSTableViewRowAction;
-
-    #[cfg(feature = "AppKit_NSTableViewRowAction")]
-    unsafe impl ClassType for NSTableViewRowAction {
-        type Super = NSObject;
-    }
-);
+    pub type NSTableViewRowAction;
+}
 
 #[cfg(feature = "AppKit_NSTableViewRowAction")]
 unsafe impl NSObjectProtocol for NSTableViewRowAction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTableViewRowAction")]
-    unsafe impl NSTableViewRowAction {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other rowActionWithStyle:title:handler:)]
-        pub unsafe fn rowActionWithStyle_title_handler(
-            style: NSTableViewRowActionStyle,
-            title: &NSString,
-            handler: &Block<(NonNull<NSTableViewRowAction>, NSInteger), ()>,
-        ) -> Id<Self>;
+    pub type NSTableViewRowAction;
 
-        #[method(style)]
-        pub unsafe fn style(&self) -> NSTableViewRowActionStyle;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "rowActionWithStyle:title:handler:", managed = "Other")]
+    pub unsafe fn rowActionWithStyle_title_handler(
+        style: NSTableViewRowActionStyle,
+        title: &NSString,
+        handler: &Block<(NonNull<NSTableViewRowAction>, NSInteger), ()>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[objc2::method(sel = "style")]
+    pub unsafe fn style(&self) -> NSTableViewRowActionStyle;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other backgroundColor)]
-        pub unsafe fn backgroundColor(&self) -> Id<NSColor>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setBackgroundColor:)]
-        pub unsafe fn setBackgroundColor(&self, background_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "backgroundColor", managed = "Other")]
+    pub unsafe fn backgroundColor(&self) -> Id<NSColor>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setBackgroundColor:")]
+    pub unsafe fn setBackgroundColor(&self, background_color: Option<&NSColor>);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setImage:)]
-        pub unsafe fn setImage(&self, image: Option<&NSImage>);
-    }
-);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Option<Id<NSImage>>;
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setImage:")]
+    pub unsafe fn setImage(&self, image: Option<&NSImage>);
+}

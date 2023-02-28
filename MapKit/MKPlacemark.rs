@@ -7,17 +7,17 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CLPlacemark,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKPlacemark")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKPlacemark")]
-    pub struct MKPlacemark;
-
-    #[cfg(feature = "MapKit_MKPlacemark")]
-    unsafe impl ClassType for MKPlacemark {
-        #[inherits(NSObject)]
-        type Super = CLPlacemark;
-    }
-);
+    pub type MKPlacemark;
+}
 
 #[cfg(feature = "MapKit_MKPlacemark")]
 unsafe impl MKAnnotation for MKPlacemark {}
@@ -31,45 +31,54 @@ unsafe impl NSObjectProtocol for MKPlacemark {}
 #[cfg(feature = "MapKit_MKPlacemark")]
 unsafe impl NSSecureCoding for MKPlacemark {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKPlacemark")]
-    unsafe impl MKPlacemark {
-        #[method_id(@__retain_semantics Init initWithCoordinate:)]
-        pub unsafe fn initWithCoordinate(
-            this: Option<Allocated<Self>>,
-            coordinate: CLLocationCoordinate2D,
-        ) -> Id<Self>;
+    pub type MKPlacemark;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithCoordinate:addressDictionary:)]
-        pub unsafe fn initWithCoordinate_addressDictionary(
-            this: Option<Allocated<Self>>,
-            coordinate: CLLocationCoordinate2D,
-            address_dictionary: Option<&NSDictionary<NSString, Object>>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithCoordinate:", managed = "Init")]
+    pub unsafe fn initWithCoordinate(
+        this: Option<Allocated<Self>>,
+        coordinate: CLLocationCoordinate2D,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Contacts_CNPostalAddress")]
-        #[method_id(@__retain_semantics Init initWithCoordinate:postalAddress:)]
-        pub unsafe fn initWithCoordinate_postalAddress(
-            this: Option<Allocated<Self>>,
-            coordinate: CLLocationCoordinate2D,
-            postal_address: &CNPostalAddress,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithCoordinate:addressDictionary:", managed = "Init")]
+    pub unsafe fn initWithCoordinate_addressDictionary(
+        this: Option<Allocated<Self>>,
+        coordinate: CLLocationCoordinate2D,
+        address_dictionary: Option<&NSDictionary<NSString, Object>>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other countryCode)]
-        pub unsafe fn countryCode(&self) -> Option<Id<NSString>>;
-    }
-);
+    #[cfg(feature = "Contacts_CNPostalAddress")]
+    #[objc2::method(sel = "initWithCoordinate:postalAddress:", managed = "Init")]
+    pub unsafe fn initWithCoordinate_postalAddress(
+        this: Option<Allocated<Self>>,
+        coordinate: CLLocationCoordinate2D,
+        postal_address: &CNPostalAddress,
+    ) -> Id<Self>;
 
-extern_methods!(
-    /// Methods declared on superclass `CLPlacemark`
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "countryCode", managed = "Other")]
+    pub unsafe fn countryCode(&self) -> Option<Id<NSString>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CLPlacemark`
     #[cfg(feature = "MapKit_MKPlacemark")]
-    unsafe impl MKPlacemark {
-        #[method_id(@__retain_semantics Init initWithPlacemark:)]
-        pub unsafe fn initWithPlacemark(
-            this: Option<Allocated<Self>>,
-            placemark: &CLPlacemark,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKPlacemark")]
+    pub type MKPlacemark;
+
+    #[objc2::method(sel = "initWithPlacemark:", managed = "Init")]
+    pub unsafe fn initWithPlacemark(
+        this: Option<Allocated<Self>>,
+        placemark: &CLPlacemark,
+    ) -> Id<Self>;
+}

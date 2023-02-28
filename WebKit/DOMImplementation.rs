@@ -5,116 +5,120 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMImplementation")]
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMImplementation;
-
     #[cfg(feature = "WebKit_DOMImplementation")]
-    unsafe impl ClassType for DOMImplementation {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMImplementation;
+}
 
 #[cfg(feature = "WebKit_DOMImplementation")]
 unsafe impl NSObjectProtocol for DOMImplementation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMImplementation")]
-    unsafe impl DOMImplementation {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(hasFeature:version:)]
-        pub unsafe fn hasFeature_version(
-            &self,
-            feature: Option<&NSString>,
-            version: Option<&NSString>,
-        ) -> bool;
+    #[deprecated]
+    pub type DOMImplementation;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMDocumentType"))]
-        #[method_id(@__retain_semantics Other createDocumentType:publicId:systemId:)]
-        pub unsafe fn createDocumentType_publicId_systemId(
-            &self,
-            qualified_name: Option<&NSString>,
-            public_id: Option<&NSString>,
-            system_id: Option<&NSString>,
-        ) -> Option<Id<DOMDocumentType>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "hasFeature:version:")]
+    pub unsafe fn hasFeature_version(
+        &self,
+        feature: Option<&NSString>,
+        version: Option<&NSString>,
+    ) -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "WebKit_DOMDocument",
-            feature = "WebKit_DOMDocumentType"
-        ))]
-        #[method_id(@__retain_semantics Other createDocument:qualifiedName:doctype:)]
-        pub unsafe fn createDocument_qualifiedName_doctype(
-            &self,
-            namespace_uri: Option<&NSString>,
-            qualified_name: Option<&NSString>,
-            doctype: Option<&DOMDocumentType>,
-        ) -> Option<Id<DOMDocument>>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMDocumentType"))]
+    #[objc2::method(sel = "createDocumentType:publicId:systemId:", managed = "Other")]
+    pub unsafe fn createDocumentType_publicId_systemId(
+        &self,
+        qualified_name: Option<&NSString>,
+        public_id: Option<&NSString>,
+        system_id: Option<&NSString>,
+    ) -> Option<Id<DOMDocumentType>>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMCSSStyleSheet"))]
-        #[method_id(@__retain_semantics Other createCSSStyleSheet:media:)]
-        pub unsafe fn createCSSStyleSheet_media(
-            &self,
-            title: Option<&NSString>,
-            media: Option<&NSString>,
-        ) -> Option<Id<DOMCSSStyleSheet>>;
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "WebKit_DOMDocument",
+        feature = "WebKit_DOMDocumentType"
+    ))]
+    #[objc2::method(sel = "createDocument:qualifiedName:doctype:", managed = "Other")]
+    pub unsafe fn createDocument_qualifiedName_doctype(
+        &self,
+        namespace_uri: Option<&NSString>,
+        qualified_name: Option<&NSString>,
+        doctype: Option<&DOMDocumentType>,
+    ) -> Option<Id<DOMDocument>>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMHTMLDocument"))]
-        #[method_id(@__retain_semantics Other createHTMLDocument:)]
-        pub unsafe fn createHTMLDocument(
-            &self,
-            title: Option<&NSString>,
-        ) -> Option<Id<DOMHTMLDocument>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMCSSStyleSheet"))]
+    #[objc2::method(sel = "createCSSStyleSheet:media:", managed = "Other")]
+    pub unsafe fn createCSSStyleSheet_media(
+        &self,
+        title: Option<&NSString>,
+        media: Option<&NSString>,
+    ) -> Option<Id<DOMCSSStyleSheet>>;
 
-extern_methods!(
-    /// DOMImplementationDeprecated
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMHTMLDocument"))]
+    #[objc2::method(sel = "createHTMLDocument:", managed = "Other")]
+    pub unsafe fn createHTMLDocument(
+        &self,
+        title: Option<&NSString>,
+    ) -> Option<Id<DOMHTMLDocument>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMImplementation")]
-    unsafe impl DOMImplementation {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(hasFeature::)]
-        pub unsafe fn hasFeature(
-            &self,
-            feature: Option<&NSString>,
-            version: Option<&NSString>,
-        ) -> bool;
+    pub type DOMImplementation;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMDocumentType"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other createDocumentType:::)]
-        pub unsafe fn createDocumentType(
-            &self,
-            qualified_name: Option<&NSString>,
-            public_id: Option<&NSString>,
-            system_id: Option<&NSString>,
-        ) -> Option<Id<DOMDocumentType>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "hasFeature::")]
+    pub unsafe fn hasFeature(&self, feature: Option<&NSString>, version: Option<&NSString>)
+        -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "WebKit_DOMDocument",
-            feature = "WebKit_DOMDocumentType"
-        ))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other createDocument:::)]
-        pub unsafe fn createDocument(
-            &self,
-            namespace_uri: Option<&NSString>,
-            qualified_name: Option<&NSString>,
-            doctype: Option<&DOMDocumentType>,
-        ) -> Option<Id<DOMDocument>>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMDocumentType"))]
+    #[deprecated]
+    #[objc2::method(sel = "createDocumentType:::", managed = "Other")]
+    pub unsafe fn createDocumentType(
+        &self,
+        qualified_name: Option<&NSString>,
+        public_id: Option<&NSString>,
+        system_id: Option<&NSString>,
+    ) -> Option<Id<DOMDocumentType>>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMCSSStyleSheet"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other createCSSStyleSheet::)]
-        pub unsafe fn createCSSStyleSheet(
-            &self,
-            title: Option<&NSString>,
-            media: Option<&NSString>,
-        ) -> Option<Id<DOMCSSStyleSheet>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "WebKit_DOMDocument",
+        feature = "WebKit_DOMDocumentType"
+    ))]
+    #[deprecated]
+    #[objc2::method(sel = "createDocument:::", managed = "Other")]
+    pub unsafe fn createDocument(
+        &self,
+        namespace_uri: Option<&NSString>,
+        qualified_name: Option<&NSString>,
+        doctype: Option<&DOMDocumentType>,
+    ) -> Option<Id<DOMDocument>>;
+
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMCSSStyleSheet"))]
+    #[deprecated]
+    #[objc2::method(sel = "createCSSStyleSheet::", managed = "Other")]
+    pub unsafe fn createCSSStyleSheet(
+        &self,
+        title: Option<&NSString>,
+        media: Option<&NSString>,
+    ) -> Option<Id<DOMCSSStyleSheet>>;
+}

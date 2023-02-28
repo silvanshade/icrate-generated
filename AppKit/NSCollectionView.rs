@@ -5,116 +5,102 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSCollectionViewDropOperation {
-        NSCollectionViewDropOn = 0,
-        NSCollectionViewDropBefore = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSCollectionViewDropOperation {
+    NSCollectionViewDropOn = 0,
+    NSCollectionViewDropBefore = 1,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSCollectionViewItemHighlightState {
-        NSCollectionViewItemHighlightNone = 0,
-        NSCollectionViewItemHighlightForSelection = 1,
-        NSCollectionViewItemHighlightForDeselection = 2,
-        NSCollectionViewItemHighlightAsDropTarget = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSCollectionViewItemHighlightState {
+    NSCollectionViewItemHighlightNone = 0,
+    NSCollectionViewItemHighlightForSelection = 1,
+    NSCollectionViewItemHighlightForDeselection = 2,
+    NSCollectionViewItemHighlightAsDropTarget = 3,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSCollectionViewScrollPosition {
-        NSCollectionViewScrollPositionNone = 0,
-        NSCollectionViewScrollPositionTop = 1 << 0,
-        NSCollectionViewScrollPositionCenteredVertically = 1 << 1,
-        NSCollectionViewScrollPositionBottom = 1 << 2,
-        NSCollectionViewScrollPositionNearestHorizontalEdge = 1 << 9,
-        NSCollectionViewScrollPositionLeft = 1 << 3,
-        NSCollectionViewScrollPositionCenteredHorizontally = 1 << 4,
-        NSCollectionViewScrollPositionRight = 1 << 5,
-        NSCollectionViewScrollPositionLeadingEdge = 1 << 6,
-        NSCollectionViewScrollPositionTrailingEdge = 1 << 7,
-        NSCollectionViewScrollPositionNearestVerticalEdge = 1 << 8,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSCollectionViewScrollPosition {
+    NSCollectionViewScrollPositionNone = 0,
+    NSCollectionViewScrollPositionTop = 1 << 0,
+    NSCollectionViewScrollPositionCenteredVertically = 1 << 1,
+    NSCollectionViewScrollPositionBottom = 1 << 2,
+    NSCollectionViewScrollPositionNearestHorizontalEdge = 1 << 9,
+    NSCollectionViewScrollPositionLeft = 1 << 3,
+    NSCollectionViewScrollPositionCenteredHorizontally = 1 << 4,
+    NSCollectionViewScrollPositionRight = 1 << 5,
+    NSCollectionViewScrollPositionLeadingEdge = 1 << 6,
+    NSCollectionViewScrollPositionTrailingEdge = 1 << 7,
+    NSCollectionViewScrollPositionNearestVerticalEdge = 1 << 8,
+}
 
 pub type NSCollectionViewSupplementaryElementKind = NSString;
 
-extern_protocol!(
-    pub unsafe trait NSCollectionViewElement:
-        NSObjectProtocol + NSUserInterfaceItemIdentification
-    {
-        #[optional]
-        #[method(prepareForReuse)]
-        unsafe fn prepareForReuse(&self);
+#[objc2::protocol]
+pub unsafe trait NSCollectionViewElement:
+    NSObjectProtocol + NSUserInterfaceItemIdentification
+{
+    #[objc2::method(optional, sel = "prepareForReuse")]
+    unsafe fn prepareForReuse(&self);
 
-        #[cfg(feature = "AppKit_NSCollectionViewLayoutAttributes")]
-        #[optional]
-        #[method(applyLayoutAttributes:)]
-        unsafe fn applyLayoutAttributes(
-            &self,
-            layout_attributes: &NSCollectionViewLayoutAttributes,
-        );
+    #[cfg(feature = "AppKit_NSCollectionViewLayoutAttributes")]
+    #[objc2::method(optional, sel = "applyLayoutAttributes:")]
+    unsafe fn applyLayoutAttributes(&self, layout_attributes: &NSCollectionViewLayoutAttributes);
 
-        #[cfg(feature = "AppKit_NSCollectionViewLayout")]
-        #[optional]
-        #[method(willTransitionFromLayout:toLayout:)]
-        unsafe fn willTransitionFromLayout_toLayout(
-            &self,
-            old_layout: &NSCollectionViewLayout,
-            new_layout: &NSCollectionViewLayout,
-        );
+    #[cfg(feature = "AppKit_NSCollectionViewLayout")]
+    #[objc2::method(optional, sel = "willTransitionFromLayout:toLayout:")]
+    unsafe fn willTransitionFromLayout_toLayout(
+        &self,
+        old_layout: &NSCollectionViewLayout,
+        new_layout: &NSCollectionViewLayout,
+    );
 
-        #[cfg(feature = "AppKit_NSCollectionViewLayout")]
-        #[optional]
-        #[method(didTransitionFromLayout:toLayout:)]
-        unsafe fn didTransitionFromLayout_toLayout(
-            &self,
-            old_layout: &NSCollectionViewLayout,
-            new_layout: &NSCollectionViewLayout,
-        );
+    #[cfg(feature = "AppKit_NSCollectionViewLayout")]
+    #[objc2::method(optional, sel = "didTransitionFromLayout:toLayout:")]
+    unsafe fn didTransitionFromLayout_toLayout(
+        &self,
+        old_layout: &NSCollectionViewLayout,
+        new_layout: &NSCollectionViewLayout,
+    );
 
-        #[cfg(feature = "AppKit_NSCollectionViewLayoutAttributes")]
-        #[optional]
-        #[method_id(@__retain_semantics Other preferredLayoutAttributesFittingAttributes:)]
-        unsafe fn preferredLayoutAttributesFittingAttributes(
-            &self,
-            layout_attributes: &NSCollectionViewLayoutAttributes,
-        ) -> Id<NSCollectionViewLayoutAttributes>;
-    }
+    #[cfg(feature = "AppKit_NSCollectionViewLayoutAttributes")]
+    #[objc2::method(
+        optional,
+        sel = "preferredLayoutAttributesFittingAttributes:",
+        managed = "Other"
+    )]
+    unsafe fn preferredLayoutAttributesFittingAttributes(
+        &self,
+        layout_attributes: &NSCollectionViewLayoutAttributes,
+    ) -> Id<NSCollectionViewLayoutAttributes>;
+}
 
-    unsafe impl ProtocolType for dyn NSCollectionViewElement {}
-);
+#[objc2::protocol]
+pub unsafe trait NSCollectionViewSectionHeaderView: NSCollectionViewElement {
+    #[cfg(feature = "AppKit_NSButton")]
+    #[objc2::method(optional, sel = "sectionCollapseButton", managed = "Other")]
+    unsafe fn sectionCollapseButton(&self) -> Option<Id<NSButton>>;
 
-extern_protocol!(
-    pub unsafe trait NSCollectionViewSectionHeaderView: NSCollectionViewElement {
-        #[cfg(feature = "AppKit_NSButton")]
-        #[optional]
-        #[method_id(@__retain_semantics Other sectionCollapseButton)]
-        unsafe fn sectionCollapseButton(&self) -> Option<Id<NSButton>>;
+    #[cfg(feature = "AppKit_NSButton")]
+    #[objc2::method(optional, sel = "setSectionCollapseButton:")]
+    unsafe fn setSectionCollapseButton(&self, section_collapse_button: Option<&NSButton>);
+}
 
-        #[cfg(feature = "AppKit_NSButton")]
-        #[optional]
-        #[method(setSectionCollapseButton:)]
-        unsafe fn setSectionCollapseButton(&self, section_collapse_button: Option<&NSButton>);
-    }
-
-    unsafe impl ProtocolType for dyn NSCollectionViewSectionHeaderView {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSViewController,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSCollectionViewItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSCollectionViewItem")]
-    pub struct NSCollectionViewItem;
-
-    #[cfg(feature = "AppKit_NSCollectionViewItem")]
-    unsafe impl ClassType for NSCollectionViewItem {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSViewController;
-    }
-);
+    pub type NSCollectionViewItem;
+}
 
 #[cfg(feature = "AppKit_NSCollectionViewItem")]
 unsafe impl NSCoding for NSCollectionViewItem {}
@@ -134,61 +120,65 @@ unsafe impl NSSeguePerforming for NSCollectionViewItem {}
 #[cfg(feature = "AppKit_NSCollectionViewItem")]
 unsafe impl NSUserInterfaceItemIdentification for NSCollectionViewItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSCollectionViewItem")]
-    unsafe impl NSCollectionViewItem {
-        #[cfg(feature = "AppKit_NSCollectionView")]
-        #[method_id(@__retain_semantics Other collectionView)]
-        pub unsafe fn collectionView(&self) -> Option<Id<NSCollectionView>>;
+    pub type NSCollectionViewItem;
 
-        #[method(isSelected)]
-        pub unsafe fn isSelected(&self) -> bool;
+    #[cfg(feature = "AppKit_NSCollectionView")]
+    #[objc2::method(sel = "collectionView", managed = "Other")]
+    pub unsafe fn collectionView(&self) -> Option<Id<NSCollectionView>>;
 
-        #[method(setSelected:)]
-        pub unsafe fn setSelected(&self, selected: bool);
+    #[objc2::method(sel = "isSelected")]
+    pub unsafe fn isSelected(&self) -> bool;
 
-        #[method(highlightState)]
-        pub unsafe fn highlightState(&self) -> NSCollectionViewItemHighlightState;
+    #[objc2::method(sel = "setSelected:")]
+    pub unsafe fn setSelected(&self, selected: bool);
 
-        #[method(setHighlightState:)]
-        pub unsafe fn setHighlightState(&self, highlight_state: NSCollectionViewItemHighlightState);
+    #[objc2::method(sel = "highlightState")]
+    pub unsafe fn highlightState(&self) -> NSCollectionViewItemHighlightState;
 
-        #[cfg(feature = "AppKit_NSImageView")]
-        #[method_id(@__retain_semantics Other imageView)]
-        pub unsafe fn imageView(&self) -> Option<Id<NSImageView>>;
+    #[objc2::method(sel = "setHighlightState:")]
+    pub unsafe fn setHighlightState(&self, highlight_state: NSCollectionViewItemHighlightState);
 
-        #[cfg(feature = "AppKit_NSImageView")]
-        #[method(setImageView:)]
-        pub unsafe fn setImageView(&self, image_view: Option<&NSImageView>);
+    #[cfg(feature = "AppKit_NSImageView")]
+    #[objc2::method(sel = "imageView", managed = "Other")]
+    pub unsafe fn imageView(&self) -> Option<Id<NSImageView>>;
 
-        #[cfg(feature = "AppKit_NSTextField")]
-        #[method_id(@__retain_semantics Other textField)]
-        pub unsafe fn textField(&self) -> Option<Id<NSTextField>>;
+    #[cfg(feature = "AppKit_NSImageView")]
+    #[objc2::method(sel = "setImageView:")]
+    pub unsafe fn setImageView(&self, image_view: Option<&NSImageView>);
 
-        #[cfg(feature = "AppKit_NSTextField")]
-        #[method(setTextField:)]
-        pub unsafe fn setTextField(&self, text_field: Option<&NSTextField>);
+    #[cfg(feature = "AppKit_NSTextField")]
+    #[objc2::method(sel = "textField", managed = "Other")]
+    pub unsafe fn textField(&self) -> Option<Id<NSTextField>>;
 
-        #[cfg(all(
-            feature = "AppKit_NSDraggingImageComponent",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other draggingImageComponents)]
-        pub unsafe fn draggingImageComponents(&self) -> Id<NSArray<NSDraggingImageComponent>>;
-    }
-);
+    #[cfg(feature = "AppKit_NSTextField")]
+    #[objc2::method(sel = "setTextField:")]
+    pub unsafe fn setTextField(&self, text_field: Option<&NSTextField>);
 
-extern_class!(
+    #[cfg(all(
+        feature = "AppKit_NSDraggingImageComponent",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "draggingImageComponents", managed = "Other")]
+    pub unsafe fn draggingImageComponents(&self) -> Id<NSArray<NSDraggingImageComponent>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSCollectionView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSCollectionView")]
-    pub struct NSCollectionView;
-
-    #[cfg(feature = "AppKit_NSCollectionView")]
-    unsafe impl ClassType for NSCollectionView {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type NSCollectionView;
+}
 
 #[cfg(feature = "AppKit_NSCollectionView")]
 unsafe impl NSAccessibility for NSCollectionView {}
@@ -217,986 +207,1054 @@ unsafe impl NSObjectProtocol for NSCollectionView {}
 #[cfg(feature = "AppKit_NSCollectionView")]
 unsafe impl NSUserInterfaceItemIdentification for NSCollectionView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSCollectionView")]
-    unsafe impl NSCollectionView {
-        #[method_id(@__retain_semantics Other dataSource)]
-        pub unsafe fn dataSource(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn NSCollectionViewDataSource>>>;
-
-        #[method(setDataSource:)]
-        pub unsafe fn setDataSource(
-            &self,
-            data_source: Option<&ProtocolObject<dyn NSCollectionViewDataSource>>,
-        );
-
-        #[method_id(@__retain_semantics Other prefetchDataSource)]
-        pub unsafe fn prefetchDataSource(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn NSCollectionViewPrefetching>>>;
-
-        #[method(setPrefetchDataSource:)]
-        pub unsafe fn setPrefetchDataSource(
-            &self,
-            prefetch_data_source: Option<&ProtocolObject<dyn NSCollectionViewPrefetching>>,
-        );
-
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other content)]
-        pub unsafe fn content(&self) -> Id<NSArray<Object>>;
-
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setContent:)]
-        pub unsafe fn setContent(&self, content: &NSArray<Object>);
-
-        #[method(reloadData)]
-        pub unsafe fn reloadData(&self);
-
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSCollectionViewDelegate>>>;
-
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSCollectionViewDelegate>>,
-        );
-
-        #[method_id(@__retain_semantics Other backgroundView)]
-        pub unsafe fn backgroundView(&self) -> Option<Id<NSView>>;
-
-        #[method(setBackgroundView:)]
-        pub unsafe fn setBackgroundView(&self, background_view: Option<&NSView>);
-
-        #[method(backgroundViewScrollsWithContent)]
-        pub unsafe fn backgroundViewScrollsWithContent(&self) -> bool;
-
-        #[method(setBackgroundViewScrollsWithContent:)]
-        pub unsafe fn setBackgroundViewScrollsWithContent(
-            &self,
-            background_view_scrolls_with_content: bool,
-        );
-
-        #[cfg(feature = "AppKit_NSCollectionViewLayout")]
-        #[method_id(@__retain_semantics Other collectionViewLayout)]
-        pub unsafe fn collectionViewLayout(&self) -> Option<Id<NSCollectionViewLayout>>;
-
-        #[cfg(feature = "AppKit_NSCollectionViewLayout")]
-        #[method(setCollectionViewLayout:)]
-        pub unsafe fn setCollectionViewLayout(
-            &self,
-            collection_view_layout: Option<&NSCollectionViewLayout>,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionViewLayoutAttributes",
-            feature = "Foundation_NSIndexPath"
-        ))]
-        #[method_id(@__retain_semantics Other layoutAttributesForItemAtIndexPath:)]
-        pub unsafe fn layoutAttributesForItemAtIndexPath(
-            &self,
-            index_path: &NSIndexPath,
-        ) -> Option<Id<NSCollectionViewLayoutAttributes>>;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionViewLayoutAttributes",
-            feature = "Foundation_NSIndexPath"
-        ))]
-        #[method_id(@__retain_semantics Other layoutAttributesForSupplementaryElementOfKind:atIndexPath:)]
-        pub unsafe fn layoutAttributesForSupplementaryElementOfKind_atIndexPath(
-            &self,
-            kind: &NSCollectionViewSupplementaryElementKind,
-            index_path: &NSIndexPath,
-        ) -> Option<Id<NSCollectionViewLayoutAttributes>>;
-
-        #[method(frameForItemAtIndex:)]
-        pub unsafe fn frameForItemAtIndex(&self, index: NSUInteger) -> NSRect;
-
-        #[method(frameForItemAtIndex:withNumberOfItems:)]
-        pub unsafe fn frameForItemAtIndex_withNumberOfItems(
-            &self,
-            index: NSUInteger,
-            number_of_items: NSUInteger,
-        ) -> NSRect;
-
-        #[cfg(all(feature = "AppKit_NSColor", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other backgroundColors)]
-        pub unsafe fn backgroundColors(&self) -> Id<NSArray<NSColor>>;
-
-        #[cfg(all(feature = "AppKit_NSColor", feature = "Foundation_NSArray"))]
-        #[method(setBackgroundColors:)]
-        pub unsafe fn setBackgroundColors(&self, background_colors: Option<&NSArray<NSColor>>);
-
-        #[method(numberOfSections)]
-        pub unsafe fn numberOfSections(&self) -> NSInteger;
-
-        #[method(numberOfItemsInSection:)]
-        pub unsafe fn numberOfItemsInSection(&self, section: NSInteger) -> NSInteger;
-
-        #[method(isFirstResponder)]
-        pub unsafe fn isFirstResponder(&self) -> bool;
-
-        #[method(isSelectable)]
-        pub unsafe fn isSelectable(&self) -> bool;
-
-        #[method(setSelectable:)]
-        pub unsafe fn setSelectable(&self, selectable: bool);
-
-        #[method(allowsEmptySelection)]
-        pub unsafe fn allowsEmptySelection(&self) -> bool;
-
-        #[method(setAllowsEmptySelection:)]
-        pub unsafe fn setAllowsEmptySelection(&self, allows_empty_selection: bool);
-
-        #[method(allowsMultipleSelection)]
-        pub unsafe fn allowsMultipleSelection(&self) -> bool;
-
-        #[method(setAllowsMultipleSelection:)]
-        pub unsafe fn setAllowsMultipleSelection(&self, allows_multiple_selection: bool);
-
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method_id(@__retain_semantics Other selectionIndexes)]
-        pub unsafe fn selectionIndexes(&self) -> Id<NSIndexSet>;
-
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(setSelectionIndexes:)]
-        pub unsafe fn setSelectionIndexes(&self, selection_indexes: &NSIndexSet);
-
-        #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
-        #[method_id(@__retain_semantics Other selectionIndexPaths)]
-        pub unsafe fn selectionIndexPaths(&self) -> Id<NSSet<NSIndexPath>>;
-
-        #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
-        #[method(setSelectionIndexPaths:)]
-        pub unsafe fn setSelectionIndexPaths(&self, selection_index_paths: &NSSet<NSIndexPath>);
-
-        #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
-        #[method(selectItemsAtIndexPaths:scrollPosition:)]
-        pub unsafe fn selectItemsAtIndexPaths_scrollPosition(
-            &self,
-            index_paths: &NSSet<NSIndexPath>,
-            scroll_position: NSCollectionViewScrollPosition,
-        );
-
-        #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
-        #[method(deselectItemsAtIndexPaths:)]
-        pub unsafe fn deselectItemsAtIndexPaths(&self, index_paths: &NSSet<NSIndexPath>);
-
-        #[method(selectAll:)]
-        pub unsafe fn selectAll(&self, sender: Option<&Object>);
-
-        #[method(deselectAll:)]
-        pub unsafe fn deselectAll(&self, sender: Option<&Object>);
-
-        #[method(registerClass:forItemWithIdentifier:)]
-        pub unsafe fn registerClass_forItemWithIdentifier(
-            &self,
-            item_class: Option<&Class>,
-            identifier: &NSUserInterfaceItemIdentifier,
-        );
-
-        #[cfg(feature = "AppKit_NSNib")]
-        #[method(registerNib:forItemWithIdentifier:)]
-        pub unsafe fn registerNib_forItemWithIdentifier(
-            &self,
-            nib: Option<&NSNib>,
-            identifier: &NSUserInterfaceItemIdentifier,
-        );
-
-        #[method(registerClass:forSupplementaryViewOfKind:withIdentifier:)]
-        pub unsafe fn registerClass_forSupplementaryViewOfKind_withIdentifier(
-            &self,
-            view_class: Option<&Class>,
-            kind: &NSCollectionViewSupplementaryElementKind,
-            identifier: &NSUserInterfaceItemIdentifier,
-        );
-
-        #[cfg(feature = "AppKit_NSNib")]
-        #[method(registerNib:forSupplementaryViewOfKind:withIdentifier:)]
-        pub unsafe fn registerNib_forSupplementaryViewOfKind_withIdentifier(
-            &self,
-            nib: Option<&NSNib>,
-            kind: &NSCollectionViewSupplementaryElementKind,
-            identifier: &NSUserInterfaceItemIdentifier,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionViewItem",
-            feature = "Foundation_NSIndexPath"
-        ))]
-        #[method_id(@__retain_semantics Other makeItemWithIdentifier:forIndexPath:)]
-        pub unsafe fn makeItemWithIdentifier_forIndexPath(
-            &self,
-            identifier: &NSUserInterfaceItemIdentifier,
-            index_path: &NSIndexPath,
-        ) -> Id<NSCollectionViewItem>;
-
-        #[cfg(feature = "Foundation_NSIndexPath")]
-        #[method_id(@__retain_semantics Other makeSupplementaryViewOfKind:withIdentifier:forIndexPath:)]
-        pub unsafe fn makeSupplementaryViewOfKind_withIdentifier_forIndexPath(
-            &self,
-            element_kind: &NSCollectionViewSupplementaryElementKind,
-            identifier: &NSUserInterfaceItemIdentifier,
-            index_path: &NSIndexPath,
-        ) -> Id<NSView>;
-
-        #[cfg(feature = "AppKit_NSCollectionViewItem")]
-        #[method_id(@__retain_semantics Other itemAtIndex:)]
-        pub unsafe fn itemAtIndex(&self, index: NSUInteger) -> Option<Id<NSCollectionViewItem>>;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionViewItem",
-            feature = "Foundation_NSIndexPath"
-        ))]
-        #[method_id(@__retain_semantics Other itemAtIndexPath:)]
-        pub unsafe fn itemAtIndexPath(
-            &self,
-            index_path: &NSIndexPath,
-        ) -> Option<Id<NSCollectionViewItem>>;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionViewItem",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other visibleItems)]
-        pub unsafe fn visibleItems(&self) -> Id<NSArray<NSCollectionViewItem>>;
-
-        #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
-        #[method_id(@__retain_semantics Other indexPathsForVisibleItems)]
-        pub unsafe fn indexPathsForVisibleItems(&self) -> Id<NSSet<NSIndexPath>>;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionViewItem",
-            feature = "Foundation_NSIndexPath"
-        ))]
-        #[method_id(@__retain_semantics Other indexPathForItem:)]
-        pub unsafe fn indexPathForItem(
-            &self,
-            item: &NSCollectionViewItem,
-        ) -> Option<Id<NSIndexPath>>;
-
-        #[cfg(feature = "Foundation_NSIndexPath")]
-        #[method_id(@__retain_semantics Other indexPathForItemAtPoint:)]
-        pub unsafe fn indexPathForItemAtPoint(&self, point: NSPoint) -> Option<Id<NSIndexPath>>;
-
-        #[cfg(feature = "Foundation_NSIndexPath")]
-        #[method_id(@__retain_semantics Other supplementaryViewForElementKind:atIndexPath:)]
-        pub unsafe fn supplementaryViewForElementKind_atIndexPath(
-            &self,
-            element_kind: &NSCollectionViewSupplementaryElementKind,
-            index_path: &NSIndexPath,
-        ) -> Option<Id<NSView>>;
-
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other visibleSupplementaryViewsOfKind:)]
-        pub unsafe fn visibleSupplementaryViewsOfKind(
-            &self,
-            element_kind: &NSCollectionViewSupplementaryElementKind,
-        ) -> Id<NSArray<NSView>>;
-
-        #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
-        #[method_id(@__retain_semantics Other indexPathsForVisibleSupplementaryElementsOfKind:)]
-        pub unsafe fn indexPathsForVisibleSupplementaryElementsOfKind(
-            &self,
-            element_kind: &NSCollectionViewSupplementaryElementKind,
-        ) -> Id<NSSet<NSIndexPath>>;
-
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(insertSections:)]
-        pub unsafe fn insertSections(&self, sections: &NSIndexSet);
-
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(deleteSections:)]
-        pub unsafe fn deleteSections(&self, sections: &NSIndexSet);
-
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(reloadSections:)]
-        pub unsafe fn reloadSections(&self, sections: &NSIndexSet);
-
-        #[method(moveSection:toSection:)]
-        pub unsafe fn moveSection_toSection(&self, section: NSInteger, new_section: NSInteger);
-
-        #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
-        #[method(insertItemsAtIndexPaths:)]
-        pub unsafe fn insertItemsAtIndexPaths(&self, index_paths: &NSSet<NSIndexPath>);
-
-        #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
-        #[method(deleteItemsAtIndexPaths:)]
-        pub unsafe fn deleteItemsAtIndexPaths(&self, index_paths: &NSSet<NSIndexPath>);
-
-        #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
-        #[method(reloadItemsAtIndexPaths:)]
-        pub unsafe fn reloadItemsAtIndexPaths(&self, index_paths: &NSSet<NSIndexPath>);
-
-        #[cfg(feature = "Foundation_NSIndexPath")]
-        #[method(moveItemAtIndexPath:toIndexPath:)]
-        pub unsafe fn moveItemAtIndexPath_toIndexPath(
-            &self,
-            index_path: &NSIndexPath,
-            new_index_path: &NSIndexPath,
-        );
-
-        #[method(performBatchUpdates:completionHandler:)]
-        pub unsafe fn performBatchUpdates_completionHandler(
-            &self,
-            updates: Option<&Block<(), ()>>,
-            completion_handler: Option<&Block<(Bool,), ()>>,
-        );
-
-        #[method(toggleSectionCollapse:)]
-        pub unsafe fn toggleSectionCollapse(&self, sender: &Object);
-
-        #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
-        #[method(scrollToItemsAtIndexPaths:scrollPosition:)]
-        pub unsafe fn scrollToItemsAtIndexPaths_scrollPosition(
-            &self,
-            index_paths: &NSSet<NSIndexPath>,
-            scroll_position: NSCollectionViewScrollPosition,
-        );
-
-        #[method(setDraggingSourceOperationMask:forLocal:)]
-        pub unsafe fn setDraggingSourceOperationMask_forLocal(
-            &self,
-            drag_operation_mask: NSDragOperation,
-            local_destination: bool,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSEvent",
-            feature = "AppKit_NSImage",
-            feature = "Foundation_NSIndexPath",
-            feature = "Foundation_NSSet"
-        ))]
-        #[method_id(@__retain_semantics Other draggingImageForItemsAtIndexPaths:withEvent:offset:)]
-        pub unsafe fn draggingImageForItemsAtIndexPaths_withEvent_offset(
-            &self,
-            index_paths: &NSSet<NSIndexPath>,
-            event: &NSEvent,
-            drag_image_offset: NSPointPointer,
-        ) -> Id<NSImage>;
-
-        #[cfg(all(
-            feature = "AppKit_NSEvent",
-            feature = "AppKit_NSImage",
-            feature = "Foundation_NSIndexSet"
-        ))]
-        #[method_id(@__retain_semantics Other draggingImageForItemsAtIndexes:withEvent:offset:)]
-        pub unsafe fn draggingImageForItemsAtIndexes_withEvent_offset(
-            &self,
-            indexes: &NSIndexSet,
-            event: &NSEvent,
-            drag_image_offset: NSPointPointer,
-        ) -> Id<NSImage>;
-    }
-);
-
-extern_protocol!(
-    pub unsafe trait NSCollectionViewDataSource: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSCollectionView")]
-        #[method(collectionView:numberOfItemsInSection:)]
-        unsafe fn collectionView_numberOfItemsInSection(
-            &self,
-            collection_view: &NSCollectionView,
-            section: NSInteger,
-        ) -> NSInteger;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "AppKit_NSCollectionViewItem",
-            feature = "Foundation_NSIndexPath"
-        ))]
-        #[method_id(@__retain_semantics Other collectionView:itemForRepresentedObjectAtIndexPath:)]
-        unsafe fn collectionView_itemForRepresentedObjectAtIndexPath(
-            &self,
-            collection_view: &NSCollectionView,
-            index_path: &NSIndexPath,
-        ) -> Id<NSCollectionViewItem>;
-
-        #[cfg(feature = "AppKit_NSCollectionView")]
-        #[optional]
-        #[method(numberOfSectionsInCollectionView:)]
-        unsafe fn numberOfSectionsInCollectionView(
-            &self,
-            collection_view: &NSCollectionView,
-        ) -> NSInteger;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "AppKit_NSView",
-            feature = "Foundation_NSIndexPath"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other collectionView:viewForSupplementaryElementOfKind:atIndexPath:)]
-        unsafe fn collectionView_viewForSupplementaryElementOfKind_atIndexPath(
-            &self,
-            collection_view: &NSCollectionView,
-            kind: &NSCollectionViewSupplementaryElementKind,
-            index_path: &NSIndexPath,
-        ) -> Id<NSView>;
-    }
-
-    unsafe impl ProtocolType for dyn NSCollectionViewDataSource {}
-);
-
-extern_protocol!(
-    pub unsafe trait NSCollectionViewPrefetching: NSObjectProtocol {
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSIndexPath"
-        ))]
-        #[method(collectionView:prefetchItemsAtIndexPaths:)]
-        unsafe fn collectionView_prefetchItemsAtIndexPaths(
-            &self,
-            collection_view: &NSCollectionView,
-            index_paths: &NSArray<NSIndexPath>,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSIndexPath"
-        ))]
-        #[optional]
-        #[method(collectionView:cancelPrefetchingForItemsAtIndexPaths:)]
-        unsafe fn collectionView_cancelPrefetchingForItemsAtIndexPaths(
-            &self,
-            collection_view: &NSCollectionView,
-            index_paths: &NSArray<NSIndexPath>,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn NSCollectionViewPrefetching {}
-);
-
-extern_protocol!(
-    pub unsafe trait NSCollectionViewDelegate: NSObjectProtocol {
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "AppKit_NSEvent",
-            feature = "Foundation_NSIndexPath",
-            feature = "Foundation_NSSet"
-        ))]
-        #[optional]
-        #[method(collectionView:canDragItemsAtIndexPaths:withEvent:)]
-        unsafe fn collectionView_canDragItemsAtIndexPaths_withEvent(
-            &self,
-            collection_view: &NSCollectionView,
-            index_paths: &NSSet<NSIndexPath>,
-            event: &NSEvent,
-        ) -> bool;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "AppKit_NSEvent",
-            feature = "Foundation_NSIndexSet"
-        ))]
-        #[optional]
-        #[method(collectionView:canDragItemsAtIndexes:withEvent:)]
-        unsafe fn collectionView_canDragItemsAtIndexes_withEvent(
-            &self,
-            collection_view: &NSCollectionView,
-            indexes: &NSIndexSet,
-            event: &NSEvent,
-        ) -> bool;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "AppKit_NSPasteboard",
-            feature = "Foundation_NSIndexPath",
-            feature = "Foundation_NSSet"
-        ))]
-        #[deprecated = "Use -collectionView:pasteboardWriterForItemAtIndexPath: instead"]
-        #[optional]
-        #[method(collectionView:writeItemsAtIndexPaths:toPasteboard:)]
-        unsafe fn collectionView_writeItemsAtIndexPaths_toPasteboard(
-            &self,
-            collection_view: &NSCollectionView,
-            index_paths: &NSSet<NSIndexPath>,
-            pasteboard: &NSPasteboard,
-        ) -> bool;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "AppKit_NSPasteboard",
-            feature = "Foundation_NSIndexSet"
-        ))]
-        #[deprecated = "Use -collectionView:pasteboardWriterForItemAtIndexPath: instead"]
-        #[optional]
-        #[method(collectionView:writeItemsAtIndexes:toPasteboard:)]
-        unsafe fn collectionView_writeItemsAtIndexes_toPasteboard(
-            &self,
-            collection_view: &NSCollectionView,
-            indexes: &NSIndexSet,
-            pasteboard: &NSPasteboard,
-        ) -> bool;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSIndexPath",
-            feature = "Foundation_NSSet",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[deprecated = "Use NSFilePromiseReceiver objects instead"]
-        #[optional]
-        #[method_id(@__retain_semantics Other collectionView:namesOfPromisedFilesDroppedAtDestination:forDraggedItemsAtIndexPaths:)]
-        unsafe fn collectionView_namesOfPromisedFilesDroppedAtDestination_forDraggedItemsAtIndexPaths(
-            &self,
-            collection_view: &NSCollectionView,
-            drop_url: &NSURL,
-            index_paths: &NSSet<NSIndexPath>,
-        ) -> Id<NSArray<NSString>>;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSIndexSet",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[deprecated = "Use NSFilePromiseReceiver objects instead"]
-        #[optional]
-        #[method_id(@__retain_semantics Other collectionView:namesOfPromisedFilesDroppedAtDestination:forDraggedItemsAtIndexes:)]
-        unsafe fn collectionView_namesOfPromisedFilesDroppedAtDestination_forDraggedItemsAtIndexes(
-            &self,
-            collection_view: &NSCollectionView,
-            drop_url: &NSURL,
-            indexes: &NSIndexSet,
-        ) -> Id<NSArray<NSString>>;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "AppKit_NSEvent",
-            feature = "AppKit_NSImage",
-            feature = "Foundation_NSIndexPath",
-            feature = "Foundation_NSSet"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other collectionView:draggingImageForItemsAtIndexPaths:withEvent:offset:)]
-        unsafe fn collectionView_draggingImageForItemsAtIndexPaths_withEvent_offset(
-            &self,
-            collection_view: &NSCollectionView,
-            index_paths: &NSSet<NSIndexPath>,
-            event: &NSEvent,
-            drag_image_offset: NSPointPointer,
-        ) -> Id<NSImage>;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "AppKit_NSEvent",
-            feature = "AppKit_NSImage",
-            feature = "Foundation_NSIndexSet"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other collectionView:draggingImageForItemsAtIndexes:withEvent:offset:)]
-        unsafe fn collectionView_draggingImageForItemsAtIndexes_withEvent_offset(
-            &self,
-            collection_view: &NSCollectionView,
-            indexes: &NSIndexSet,
-            event: &NSEvent,
-            drag_image_offset: NSPointPointer,
-        ) -> Id<NSImage>;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "Foundation_NSIndexPath"
-        ))]
-        #[optional]
-        #[method(collectionView:validateDrop:proposedIndexPath:dropOperation:)]
-        unsafe fn collectionView_validateDrop_proposedIndexPath_dropOperation(
-            &self,
-            collection_view: &NSCollectionView,
-            dragging_info: &ProtocolObject<dyn NSDraggingInfo>,
-            proposed_drop_index_path: &mut Id<NSIndexPath>,
-            proposed_drop_operation: NonNull<NSCollectionViewDropOperation>,
-        ) -> NSDragOperation;
-
-        #[cfg(feature = "AppKit_NSCollectionView")]
-        #[optional]
-        #[method(collectionView:validateDrop:proposedIndex:dropOperation:)]
-        unsafe fn collectionView_validateDrop_proposedIndex_dropOperation(
-            &self,
-            collection_view: &NSCollectionView,
-            dragging_info: &ProtocolObject<dyn NSDraggingInfo>,
-            proposed_drop_index: NonNull<NSInteger>,
-            proposed_drop_operation: NonNull<NSCollectionViewDropOperation>,
-        ) -> NSDragOperation;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "Foundation_NSIndexPath"
-        ))]
-        #[optional]
-        #[method(collectionView:acceptDrop:indexPath:dropOperation:)]
-        unsafe fn collectionView_acceptDrop_indexPath_dropOperation(
-            &self,
-            collection_view: &NSCollectionView,
-            dragging_info: &ProtocolObject<dyn NSDraggingInfo>,
-            index_path: &NSIndexPath,
-            drop_operation: NSCollectionViewDropOperation,
-        ) -> bool;
-
-        #[cfg(feature = "AppKit_NSCollectionView")]
-        #[optional]
-        #[method(collectionView:acceptDrop:index:dropOperation:)]
-        unsafe fn collectionView_acceptDrop_index_dropOperation(
-            &self,
-            collection_view: &NSCollectionView,
-            dragging_info: &ProtocolObject<dyn NSDraggingInfo>,
-            index: NSInteger,
-            drop_operation: NSCollectionViewDropOperation,
-        ) -> bool;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "Foundation_NSIndexPath"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other collectionView:pasteboardWriterForItemAtIndexPath:)]
-        unsafe fn collectionView_pasteboardWriterForItemAtIndexPath(
-            &self,
-            collection_view: &NSCollectionView,
-            index_path: &NSIndexPath,
-        ) -> Option<Id<ProtocolObject<dyn NSPasteboardWriting>>>;
-
-        #[cfg(feature = "AppKit_NSCollectionView")]
-        #[optional]
-        #[method_id(@__retain_semantics Other collectionView:pasteboardWriterForItemAtIndex:)]
-        unsafe fn collectionView_pasteboardWriterForItemAtIndex(
-            &self,
-            collection_view: &NSCollectionView,
-            index: NSUInteger,
-        ) -> Option<Id<ProtocolObject<dyn NSPasteboardWriting>>>;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "AppKit_NSDraggingSession",
-            feature = "Foundation_NSIndexPath",
-            feature = "Foundation_NSSet"
-        ))]
-        #[optional]
-        #[method(collectionView:draggingSession:willBeginAtPoint:forItemsAtIndexPaths:)]
-        unsafe fn collectionView_draggingSession_willBeginAtPoint_forItemsAtIndexPaths(
-            &self,
-            collection_view: &NSCollectionView,
-            session: &NSDraggingSession,
-            screen_point: NSPoint,
-            index_paths: &NSSet<NSIndexPath>,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "AppKit_NSDraggingSession",
-            feature = "Foundation_NSIndexSet"
-        ))]
-        #[optional]
-        #[method(collectionView:draggingSession:willBeginAtPoint:forItemsAtIndexes:)]
-        unsafe fn collectionView_draggingSession_willBeginAtPoint_forItemsAtIndexes(
-            &self,
-            collection_view: &NSCollectionView,
-            session: &NSDraggingSession,
-            screen_point: NSPoint,
-            indexes: &NSIndexSet,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "AppKit_NSDraggingSession"
-        ))]
-        #[optional]
-        #[method(collectionView:draggingSession:endedAtPoint:dragOperation:)]
-        unsafe fn collectionView_draggingSession_endedAtPoint_dragOperation(
-            &self,
-            collection_view: &NSCollectionView,
-            session: &NSDraggingSession,
-            screen_point: NSPoint,
-            operation: NSDragOperation,
-        );
-
-        #[cfg(feature = "AppKit_NSCollectionView")]
-        #[optional]
-        #[method(collectionView:updateDraggingItemsForDrag:)]
-        unsafe fn collectionView_updateDraggingItemsForDrag(
-            &self,
-            collection_view: &NSCollectionView,
-            dragging_info: &ProtocolObject<dyn NSDraggingInfo>,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "Foundation_NSIndexPath",
-            feature = "Foundation_NSSet"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other collectionView:shouldChangeItemsAtIndexPaths:toHighlightState:)]
-        unsafe fn collectionView_shouldChangeItemsAtIndexPaths_toHighlightState(
-            &self,
-            collection_view: &NSCollectionView,
-            index_paths: &NSSet<NSIndexPath>,
-            highlight_state: NSCollectionViewItemHighlightState,
-        ) -> Id<NSSet<NSIndexPath>>;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "Foundation_NSIndexPath",
-            feature = "Foundation_NSSet"
-        ))]
-        #[optional]
-        #[method(collectionView:didChangeItemsAtIndexPaths:toHighlightState:)]
-        unsafe fn collectionView_didChangeItemsAtIndexPaths_toHighlightState(
-            &self,
-            collection_view: &NSCollectionView,
-            index_paths: &NSSet<NSIndexPath>,
-            highlight_state: NSCollectionViewItemHighlightState,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "Foundation_NSIndexPath",
-            feature = "Foundation_NSSet"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other collectionView:shouldSelectItemsAtIndexPaths:)]
-        unsafe fn collectionView_shouldSelectItemsAtIndexPaths(
-            &self,
-            collection_view: &NSCollectionView,
-            index_paths: &NSSet<NSIndexPath>,
-        ) -> Id<NSSet<NSIndexPath>>;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "Foundation_NSIndexPath",
-            feature = "Foundation_NSSet"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other collectionView:shouldDeselectItemsAtIndexPaths:)]
-        unsafe fn collectionView_shouldDeselectItemsAtIndexPaths(
-            &self,
-            collection_view: &NSCollectionView,
-            index_paths: &NSSet<NSIndexPath>,
-        ) -> Id<NSSet<NSIndexPath>>;
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "Foundation_NSIndexPath",
-            feature = "Foundation_NSSet"
-        ))]
-        #[optional]
-        #[method(collectionView:didSelectItemsAtIndexPaths:)]
-        unsafe fn collectionView_didSelectItemsAtIndexPaths(
-            &self,
-            collection_view: &NSCollectionView,
-            index_paths: &NSSet<NSIndexPath>,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "Foundation_NSIndexPath",
-            feature = "Foundation_NSSet"
-        ))]
-        #[optional]
-        #[method(collectionView:didDeselectItemsAtIndexPaths:)]
-        unsafe fn collectionView_didDeselectItemsAtIndexPaths(
-            &self,
-            collection_view: &NSCollectionView,
-            index_paths: &NSSet<NSIndexPath>,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "AppKit_NSCollectionViewItem",
-            feature = "Foundation_NSIndexPath"
-        ))]
-        #[optional]
-        #[method(collectionView:willDisplayItem:forRepresentedObjectAtIndexPath:)]
-        unsafe fn collectionView_willDisplayItem_forRepresentedObjectAtIndexPath(
-            &self,
-            collection_view: &NSCollectionView,
-            item: &NSCollectionViewItem,
-            index_path: &NSIndexPath,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "AppKit_NSView",
-            feature = "Foundation_NSIndexPath"
-        ))]
-        #[optional]
-        #[method(collectionView:willDisplaySupplementaryView:forElementKind:atIndexPath:)]
-        unsafe fn collectionView_willDisplaySupplementaryView_forElementKind_atIndexPath(
-            &self,
-            collection_view: &NSCollectionView,
-            view: &NSView,
-            element_kind: &NSCollectionViewSupplementaryElementKind,
-            index_path: &NSIndexPath,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "AppKit_NSCollectionViewItem",
-            feature = "Foundation_NSIndexPath"
-        ))]
-        #[optional]
-        #[method(collectionView:didEndDisplayingItem:forRepresentedObjectAtIndexPath:)]
-        unsafe fn collectionView_didEndDisplayingItem_forRepresentedObjectAtIndexPath(
-            &self,
-            collection_view: &NSCollectionView,
-            item: &NSCollectionViewItem,
-            index_path: &NSIndexPath,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "AppKit_NSView",
-            feature = "Foundation_NSIndexPath"
-        ))]
-        #[optional]
-        #[method(collectionView:didEndDisplayingSupplementaryView:forElementOfKind:atIndexPath:)]
-        unsafe fn collectionView_didEndDisplayingSupplementaryView_forElementOfKind_atIndexPath(
-            &self,
-            collection_view: &NSCollectionView,
-            view: &NSView,
-            element_kind: &NSCollectionViewSupplementaryElementKind,
-            index_path: &NSIndexPath,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSCollectionView",
-            feature = "AppKit_NSCollectionViewLayout",
-            feature = "AppKit_NSCollectionViewTransitionLayout"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other collectionView:transitionLayoutForOldLayout:newLayout:)]
-        unsafe fn collectionView_transitionLayoutForOldLayout_newLayout(
-            &self,
-            collection_view: &NSCollectionView,
-            from_layout: &NSCollectionViewLayout,
-            to_layout: &NSCollectionViewLayout,
-        ) -> Id<NSCollectionViewTransitionLayout>;
-    }
-
-    unsafe impl ProtocolType for dyn NSCollectionViewDelegate {}
-);
-
-extern_methods!(
-    /// NSCollectionViewAdditions
+    pub type NSCollectionView;
+
+    #[objc2::method(sel = "dataSource", managed = "Other")]
+    pub unsafe fn dataSource(&self) -> Option<Id<ProtocolObject<dyn NSCollectionViewDataSource>>>;
+
+    #[objc2::method(sel = "setDataSource:")]
+    pub unsafe fn setDataSource(
+        &self,
+        data_source: Option<&ProtocolObject<dyn NSCollectionViewDataSource>>,
+    );
+
+    #[objc2::method(sel = "prefetchDataSource", managed = "Other")]
+    pub unsafe fn prefetchDataSource(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn NSCollectionViewPrefetching>>>;
+
+    #[objc2::method(sel = "setPrefetchDataSource:")]
+    pub unsafe fn setPrefetchDataSource(
+        &self,
+        prefetch_data_source: Option<&ProtocolObject<dyn NSCollectionViewPrefetching>>,
+    );
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "content", managed = "Other")]
+    pub unsafe fn content(&self) -> Id<NSArray<Object>>;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setContent:")]
+    pub unsafe fn setContent(&self, content: &NSArray<Object>);
+
+    #[objc2::method(sel = "reloadData")]
+    pub unsafe fn reloadData(&self);
+
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSCollectionViewDelegate>>>;
+
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn NSCollectionViewDelegate>>,
+    );
+
+    #[objc2::method(sel = "backgroundView", managed = "Other")]
+    pub unsafe fn backgroundView(&self) -> Option<Id<NSView>>;
+
+    #[objc2::method(sel = "setBackgroundView:")]
+    pub unsafe fn setBackgroundView(&self, background_view: Option<&NSView>);
+
+    #[objc2::method(sel = "backgroundViewScrollsWithContent")]
+    pub unsafe fn backgroundViewScrollsWithContent(&self) -> bool;
+
+    #[objc2::method(sel = "setBackgroundViewScrollsWithContent:")]
+    pub unsafe fn setBackgroundViewScrollsWithContent(
+        &self,
+        background_view_scrolls_with_content: bool,
+    );
+
+    #[cfg(feature = "AppKit_NSCollectionViewLayout")]
+    #[objc2::method(sel = "collectionViewLayout", managed = "Other")]
+    pub unsafe fn collectionViewLayout(&self) -> Option<Id<NSCollectionViewLayout>>;
+
+    #[cfg(feature = "AppKit_NSCollectionViewLayout")]
+    #[objc2::method(sel = "setCollectionViewLayout:")]
+    pub unsafe fn setCollectionViewLayout(
+        &self,
+        collection_view_layout: Option<&NSCollectionViewLayout>,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionViewLayoutAttributes",
+        feature = "Foundation_NSIndexPath"
+    ))]
+    #[objc2::method(sel = "layoutAttributesForItemAtIndexPath:", managed = "Other")]
+    pub unsafe fn layoutAttributesForItemAtIndexPath(
+        &self,
+        index_path: &NSIndexPath,
+    ) -> Option<Id<NSCollectionViewLayoutAttributes>>;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionViewLayoutAttributes",
+        feature = "Foundation_NSIndexPath"
+    ))]
+    #[objc2::method(
+        sel = "layoutAttributesForSupplementaryElementOfKind:atIndexPath:",
+        managed = "Other"
+    )]
+    pub unsafe fn layoutAttributesForSupplementaryElementOfKind_atIndexPath(
+        &self,
+        kind: &NSCollectionViewSupplementaryElementKind,
+        index_path: &NSIndexPath,
+    ) -> Option<Id<NSCollectionViewLayoutAttributes>>;
+
+    #[objc2::method(sel = "frameForItemAtIndex:")]
+    pub unsafe fn frameForItemAtIndex(&self, index: NSUInteger) -> NSRect;
+
+    #[objc2::method(sel = "frameForItemAtIndex:withNumberOfItems:")]
+    pub unsafe fn frameForItemAtIndex_withNumberOfItems(
+        &self,
+        index: NSUInteger,
+        number_of_items: NSUInteger,
+    ) -> NSRect;
+
+    #[cfg(all(feature = "AppKit_NSColor", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "backgroundColors", managed = "Other")]
+    pub unsafe fn backgroundColors(&self) -> Id<NSArray<NSColor>>;
+
+    #[cfg(all(feature = "AppKit_NSColor", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setBackgroundColors:")]
+    pub unsafe fn setBackgroundColors(&self, background_colors: Option<&NSArray<NSColor>>);
+
+    #[objc2::method(sel = "numberOfSections")]
+    pub unsafe fn numberOfSections(&self) -> NSInteger;
+
+    #[objc2::method(sel = "numberOfItemsInSection:")]
+    pub unsafe fn numberOfItemsInSection(&self, section: NSInteger) -> NSInteger;
+
+    #[objc2::method(sel = "isFirstResponder")]
+    pub unsafe fn isFirstResponder(&self) -> bool;
+
+    #[objc2::method(sel = "isSelectable")]
+    pub unsafe fn isSelectable(&self) -> bool;
+
+    #[objc2::method(sel = "setSelectable:")]
+    pub unsafe fn setSelectable(&self, selectable: bool);
+
+    #[objc2::method(sel = "allowsEmptySelection")]
+    pub unsafe fn allowsEmptySelection(&self) -> bool;
+
+    #[objc2::method(sel = "setAllowsEmptySelection:")]
+    pub unsafe fn setAllowsEmptySelection(&self, allows_empty_selection: bool);
+
+    #[objc2::method(sel = "allowsMultipleSelection")]
+    pub unsafe fn allowsMultipleSelection(&self) -> bool;
+
+    #[objc2::method(sel = "setAllowsMultipleSelection:")]
+    pub unsafe fn setAllowsMultipleSelection(&self, allows_multiple_selection: bool);
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "selectionIndexes", managed = "Other")]
+    pub unsafe fn selectionIndexes(&self) -> Id<NSIndexSet>;
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "setSelectionIndexes:")]
+    pub unsafe fn setSelectionIndexes(&self, selection_indexes: &NSIndexSet);
+
+    #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "selectionIndexPaths", managed = "Other")]
+    pub unsafe fn selectionIndexPaths(&self) -> Id<NSSet<NSIndexPath>>;
+
+    #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "setSelectionIndexPaths:")]
+    pub unsafe fn setSelectionIndexPaths(&self, selection_index_paths: &NSSet<NSIndexPath>);
+
+    #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "selectItemsAtIndexPaths:scrollPosition:")]
+    pub unsafe fn selectItemsAtIndexPaths_scrollPosition(
+        &self,
+        index_paths: &NSSet<NSIndexPath>,
+        scroll_position: NSCollectionViewScrollPosition,
+    );
+
+    #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "deselectItemsAtIndexPaths:")]
+    pub unsafe fn deselectItemsAtIndexPaths(&self, index_paths: &NSSet<NSIndexPath>);
+
+    #[objc2::method(sel = "selectAll:")]
+    pub unsafe fn selectAll(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "deselectAll:")]
+    pub unsafe fn deselectAll(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "registerClass:forItemWithIdentifier:")]
+    pub unsafe fn registerClass_forItemWithIdentifier(
+        &self,
+        item_class: Option<&Class>,
+        identifier: &NSUserInterfaceItemIdentifier,
+    );
+
+    #[cfg(feature = "AppKit_NSNib")]
+    #[objc2::method(sel = "registerNib:forItemWithIdentifier:")]
+    pub unsafe fn registerNib_forItemWithIdentifier(
+        &self,
+        nib: Option<&NSNib>,
+        identifier: &NSUserInterfaceItemIdentifier,
+    );
+
+    #[objc2::method(sel = "registerClass:forSupplementaryViewOfKind:withIdentifier:")]
+    pub unsafe fn registerClass_forSupplementaryViewOfKind_withIdentifier(
+        &self,
+        view_class: Option<&Class>,
+        kind: &NSCollectionViewSupplementaryElementKind,
+        identifier: &NSUserInterfaceItemIdentifier,
+    );
+
+    #[cfg(feature = "AppKit_NSNib")]
+    #[objc2::method(sel = "registerNib:forSupplementaryViewOfKind:withIdentifier:")]
+    pub unsafe fn registerNib_forSupplementaryViewOfKind_withIdentifier(
+        &self,
+        nib: Option<&NSNib>,
+        kind: &NSCollectionViewSupplementaryElementKind,
+        identifier: &NSUserInterfaceItemIdentifier,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionViewItem",
+        feature = "Foundation_NSIndexPath"
+    ))]
+    #[objc2::method(sel = "makeItemWithIdentifier:forIndexPath:", managed = "Other")]
+    pub unsafe fn makeItemWithIdentifier_forIndexPath(
+        &self,
+        identifier: &NSUserInterfaceItemIdentifier,
+        index_path: &NSIndexPath,
+    ) -> Id<NSCollectionViewItem>;
+
     #[cfg(feature = "Foundation_NSIndexPath")]
-    unsafe impl NSIndexPath {
-        #[method_id(@__retain_semantics Other indexPathForItem:inSection:)]
-        pub unsafe fn indexPathForItem_inSection(
-            item: NSInteger,
-            section: NSInteger,
-        ) -> Id<NSIndexPath>;
+    #[objc2::method(
+        sel = "makeSupplementaryViewOfKind:withIdentifier:forIndexPath:",
+        managed = "Other"
+    )]
+    pub unsafe fn makeSupplementaryViewOfKind_withIdentifier_forIndexPath(
+        &self,
+        element_kind: &NSCollectionViewSupplementaryElementKind,
+        identifier: &NSUserInterfaceItemIdentifier,
+        index_path: &NSIndexPath,
+    ) -> Id<NSView>;
 
-        #[method(item)]
-        pub unsafe fn item(&self) -> NSInteger;
-
-        #[method(section)]
-        pub unsafe fn section(&self) -> NSInteger;
-    }
-);
-
-extern_methods!(
-    /// NSCollectionViewAdditions
-    #[cfg(feature = "Foundation_NSSet")]
-    unsafe impl NSSet {
-        #[cfg(feature = "Foundation_NSIndexPath")]
-        #[method_id(@__retain_semantics Other setWithCollectionViewIndexPath:)]
-        pub unsafe fn setWithCollectionViewIndexPath(index_path: &NSIndexPath) -> Id<Self>;
-
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSIndexPath"))]
-        #[method_id(@__retain_semantics Other setWithCollectionViewIndexPaths:)]
-        pub unsafe fn setWithCollectionViewIndexPaths(
-            index_paths: &NSArray<NSIndexPath>,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "Foundation_NSIndexPath")]
-        #[method(enumerateIndexPathsWithOptions:usingBlock:)]
-        pub unsafe fn enumerateIndexPathsWithOptions_usingBlock(
-            &self,
-            opts: NSEnumerationOptions,
-            block: &Block<(NonNull<NSIndexPath>, NonNull<Bool>), ()>,
-        );
-    }
-);
-
-extern_methods!(
-    /// NSDeprecated
-    #[cfg(feature = "AppKit_NSCollectionView")]
-    unsafe impl NSCollectionView {
-        #[cfg(feature = "AppKit_NSCollectionViewItem")]
-        #[deprecated = "Use -[NSCollectionViewDataSource collectionView:itemForRepresentedObjectAtIndexPath:] instead"]
-        #[method_id(@__retain_semantics New newItemForRepresentedObject:)]
-        pub unsafe fn newItemForRepresentedObject(
-            &self,
-            object: &Object,
-        ) -> Id<NSCollectionViewItem>;
-
-        #[cfg(feature = "AppKit_NSCollectionViewItem")]
-        #[deprecated = "Use -registerNib:forItemWithIdentifier: or -registerClass:forItemWithIdentifier: instead."]
-        #[method_id(@__retain_semantics Other itemPrototype)]
-        pub unsafe fn itemPrototype(&self) -> Option<Id<NSCollectionViewItem>>;
-
-        #[cfg(feature = "AppKit_NSCollectionViewItem")]
-        #[deprecated = "Use -registerNib:forItemWithIdentifier: or -registerClass:forItemWithIdentifier: instead."]
-        #[method(setItemPrototype:)]
-        pub unsafe fn setItemPrototype(&self, item_prototype: Option<&NSCollectionViewItem>);
-
-        #[deprecated = "Use NSCollectionViewGridLayout as the receiver's collectionViewLayout, setting its maximumNumberOfRows instead"]
-        #[method(maxNumberOfRows)]
-        pub unsafe fn maxNumberOfRows(&self) -> NSUInteger;
-
-        #[deprecated = "Use NSCollectionViewGridLayout as the receiver's collectionViewLayout, setting its maximumNumberOfRows instead"]
-        #[method(setMaxNumberOfRows:)]
-        pub unsafe fn setMaxNumberOfRows(&self, max_number_of_rows: NSUInteger);
-
-        #[deprecated = "Use NSCollectionViewGridLayout as the receiver's collectionViewLayout, setting its maximumNumberOfColumns instead"]
-        #[method(maxNumberOfColumns)]
-        pub unsafe fn maxNumberOfColumns(&self) -> NSUInteger;
-
-        #[deprecated = "Use NSCollectionViewGridLayout as the receiver's collectionViewLayout, setting its maximumNumberOfColumns instead"]
-        #[method(setMaxNumberOfColumns:)]
-        pub unsafe fn setMaxNumberOfColumns(&self, max_number_of_columns: NSUInteger);
-
-        #[deprecated = "Use NSCollectionViewGridLayout as the receiver's collectionViewLayout, setting its minimumItemSize instead"]
-        #[method(minItemSize)]
-        pub unsafe fn minItemSize(&self) -> NSSize;
-
-        #[deprecated = "Use NSCollectionViewGridLayout as the receiver's collectionViewLayout, setting its minimumItemSize instead"]
-        #[method(setMinItemSize:)]
-        pub unsafe fn setMinItemSize(&self, min_item_size: NSSize);
-
-        #[deprecated = "Use NSCollectionViewGridLayout as the receiver's collectionViewLayout, setting its maximumItemSize instead"]
-        #[method(maxItemSize)]
-        pub unsafe fn maxItemSize(&self) -> NSSize;
-
-        #[deprecated = "Use NSCollectionViewGridLayout as the receiver's collectionViewLayout, setting its maximumItemSize instead"]
-        #[method(setMaxItemSize:)]
-        pub unsafe fn setMaxItemSize(&self, max_item_size: NSSize);
-    }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSViewController`
     #[cfg(feature = "AppKit_NSCollectionViewItem")]
-    unsafe impl NSCollectionViewItem {
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Init initWithNibName:bundle:)]
-        pub unsafe fn initWithNibName_bundle(
-            this: Option<Allocated<Self>>,
-            nib_name_or_nil: Option<&NSNibName>,
-            nib_bundle_or_nil: Option<&NSBundle>,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "itemAtIndex:", managed = "Other")]
+    pub unsafe fn itemAtIndex(&self, index: NSUInteger) -> Option<Id<NSCollectionViewItem>>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[cfg(all(
+        feature = "AppKit_NSCollectionViewItem",
+        feature = "Foundation_NSIndexPath"
+    ))]
+    #[objc2::method(sel = "itemAtIndexPath:", managed = "Other")]
+    pub unsafe fn itemAtIndexPath(
+        &self,
+        index_path: &NSIndexPath,
+    ) -> Option<Id<NSCollectionViewItem>>;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionViewItem",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "visibleItems", managed = "Other")]
+    pub unsafe fn visibleItems(&self) -> Id<NSArray<NSCollectionViewItem>>;
+
+    #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "indexPathsForVisibleItems", managed = "Other")]
+    pub unsafe fn indexPathsForVisibleItems(&self) -> Id<NSSet<NSIndexPath>>;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionViewItem",
+        feature = "Foundation_NSIndexPath"
+    ))]
+    #[objc2::method(sel = "indexPathForItem:", managed = "Other")]
+    pub unsafe fn indexPathForItem(&self, item: &NSCollectionViewItem) -> Option<Id<NSIndexPath>>;
+
+    #[cfg(feature = "Foundation_NSIndexPath")]
+    #[objc2::method(sel = "indexPathForItemAtPoint:", managed = "Other")]
+    pub unsafe fn indexPathForItemAtPoint(&self, point: NSPoint) -> Option<Id<NSIndexPath>>;
+
+    #[cfg(feature = "Foundation_NSIndexPath")]
+    #[objc2::method(
+        sel = "supplementaryViewForElementKind:atIndexPath:",
+        managed = "Other"
+    )]
+    pub unsafe fn supplementaryViewForElementKind_atIndexPath(
+        &self,
+        element_kind: &NSCollectionViewSupplementaryElementKind,
+        index_path: &NSIndexPath,
+    ) -> Option<Id<NSView>>;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "visibleSupplementaryViewsOfKind:", managed = "Other")]
+    pub unsafe fn visibleSupplementaryViewsOfKind(
+        &self,
+        element_kind: &NSCollectionViewSupplementaryElementKind,
+    ) -> Id<NSArray<NSView>>;
+
+    #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
+    #[objc2::method(
+        sel = "indexPathsForVisibleSupplementaryElementsOfKind:",
+        managed = "Other"
+    )]
+    pub unsafe fn indexPathsForVisibleSupplementaryElementsOfKind(
+        &self,
+        element_kind: &NSCollectionViewSupplementaryElementKind,
+    ) -> Id<NSSet<NSIndexPath>>;
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "insertSections:")]
+    pub unsafe fn insertSections(&self, sections: &NSIndexSet);
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "deleteSections:")]
+    pub unsafe fn deleteSections(&self, sections: &NSIndexSet);
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "reloadSections:")]
+    pub unsafe fn reloadSections(&self, sections: &NSIndexSet);
+
+    #[objc2::method(sel = "moveSection:toSection:")]
+    pub unsafe fn moveSection_toSection(&self, section: NSInteger, new_section: NSInteger);
+
+    #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "insertItemsAtIndexPaths:")]
+    pub unsafe fn insertItemsAtIndexPaths(&self, index_paths: &NSSet<NSIndexPath>);
+
+    #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "deleteItemsAtIndexPaths:")]
+    pub unsafe fn deleteItemsAtIndexPaths(&self, index_paths: &NSSet<NSIndexPath>);
+
+    #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "reloadItemsAtIndexPaths:")]
+    pub unsafe fn reloadItemsAtIndexPaths(&self, index_paths: &NSSet<NSIndexPath>);
+
+    #[cfg(feature = "Foundation_NSIndexPath")]
+    #[objc2::method(sel = "moveItemAtIndexPath:toIndexPath:")]
+    pub unsafe fn moveItemAtIndexPath_toIndexPath(
+        &self,
+        index_path: &NSIndexPath,
+        new_index_path: &NSIndexPath,
+    );
+
+    #[objc2::method(sel = "performBatchUpdates:completionHandler:")]
+    pub unsafe fn performBatchUpdates_completionHandler(
+        &self,
+        updates: Option<&Block<(), ()>>,
+        completion_handler: Option<&Block<(Bool,), ()>>,
+    );
+
+    #[objc2::method(sel = "toggleSectionCollapse:")]
+    pub unsafe fn toggleSectionCollapse(&self, sender: &Object);
+
+    #[cfg(all(feature = "Foundation_NSIndexPath", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "scrollToItemsAtIndexPaths:scrollPosition:")]
+    pub unsafe fn scrollToItemsAtIndexPaths_scrollPosition(
+        &self,
+        index_paths: &NSSet<NSIndexPath>,
+        scroll_position: NSCollectionViewScrollPosition,
+    );
+
+    #[objc2::method(sel = "setDraggingSourceOperationMask:forLocal:")]
+    pub unsafe fn setDraggingSourceOperationMask_forLocal(
+        &self,
+        drag_operation_mask: NSDragOperation,
+        local_destination: bool,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSEvent",
+        feature = "AppKit_NSImage",
+        feature = "Foundation_NSIndexPath",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(
+        sel = "draggingImageForItemsAtIndexPaths:withEvent:offset:",
+        managed = "Other"
+    )]
+    pub unsafe fn draggingImageForItemsAtIndexPaths_withEvent_offset(
+        &self,
+        index_paths: &NSSet<NSIndexPath>,
+        event: &NSEvent,
+        drag_image_offset: NSPointPointer,
+    ) -> Id<NSImage>;
+
+    #[cfg(all(
+        feature = "AppKit_NSEvent",
+        feature = "AppKit_NSImage",
+        feature = "Foundation_NSIndexSet"
+    ))]
+    #[objc2::method(
+        sel = "draggingImageForItemsAtIndexes:withEvent:offset:",
+        managed = "Other"
+    )]
+    pub unsafe fn draggingImageForItemsAtIndexes_withEvent_offset(
+        &self,
+        indexes: &NSIndexSet,
+        event: &NSEvent,
+        drag_image_offset: NSPointPointer,
+    ) -> Id<NSImage>;
+}
+
+#[objc2::protocol]
+pub unsafe trait NSCollectionViewDataSource: NSObjectProtocol {
     #[cfg(feature = "AppKit_NSCollectionView")]
-    unsafe impl NSCollectionView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+    #[objc2::method(sel = "collectionView:numberOfItemsInSection:")]
+    unsafe fn collectionView_numberOfItemsInSection(
+        &self,
+        collection_view: &NSCollectionView,
+        section: NSInteger,
+    ) -> NSInteger;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "AppKit_NSCollectionViewItem",
+        feature = "Foundation_NSIndexPath"
+    ))]
+    #[objc2::method(
+        sel = "collectionView:itemForRepresentedObjectAtIndexPath:",
+        managed = "Other"
+    )]
+    unsafe fn collectionView_itemForRepresentedObjectAtIndexPath(
+        &self,
+        collection_view: &NSCollectionView,
+        index_path: &NSIndexPath,
+    ) -> Id<NSCollectionViewItem>;
+
+    #[cfg(feature = "AppKit_NSCollectionView")]
+    #[objc2::method(optional, sel = "numberOfSectionsInCollectionView:")]
+    unsafe fn numberOfSectionsInCollectionView(
+        &self,
+        collection_view: &NSCollectionView,
+    ) -> NSInteger;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "AppKit_NSView",
+        feature = "Foundation_NSIndexPath"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:viewForSupplementaryElementOfKind:atIndexPath:",
+        managed = "Other"
+    )]
+    unsafe fn collectionView_viewForSupplementaryElementOfKind_atIndexPath(
+        &self,
+        collection_view: &NSCollectionView,
+        kind: &NSCollectionViewSupplementaryElementKind,
+        index_path: &NSIndexPath,
+    ) -> Id<NSView>;
+}
+
+#[objc2::protocol]
+pub unsafe trait NSCollectionViewPrefetching: NSObjectProtocol {
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSIndexPath"
+    ))]
+    #[objc2::method(sel = "collectionView:prefetchItemsAtIndexPaths:")]
+    unsafe fn collectionView_prefetchItemsAtIndexPaths(
+        &self,
+        collection_view: &NSCollectionView,
+        index_paths: &NSArray<NSIndexPath>,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSIndexPath"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:cancelPrefetchingForItemsAtIndexPaths:"
+    )]
+    unsafe fn collectionView_cancelPrefetchingForItemsAtIndexPaths(
+        &self,
+        collection_view: &NSCollectionView,
+        index_paths: &NSArray<NSIndexPath>,
+    );
+}
+
+#[objc2::protocol]
+pub unsafe trait NSCollectionViewDelegate: NSObjectProtocol {
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "AppKit_NSEvent",
+        feature = "Foundation_NSIndexPath",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(optional, sel = "collectionView:canDragItemsAtIndexPaths:withEvent:")]
+    unsafe fn collectionView_canDragItemsAtIndexPaths_withEvent(
+        &self,
+        collection_view: &NSCollectionView,
+        index_paths: &NSSet<NSIndexPath>,
+        event: &NSEvent,
+    ) -> bool;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "AppKit_NSEvent",
+        feature = "Foundation_NSIndexSet"
+    ))]
+    #[objc2::method(optional, sel = "collectionView:canDragItemsAtIndexes:withEvent:")]
+    unsafe fn collectionView_canDragItemsAtIndexes_withEvent(
+        &self,
+        collection_view: &NSCollectionView,
+        indexes: &NSIndexSet,
+        event: &NSEvent,
+    ) -> bool;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "AppKit_NSPasteboard",
+        feature = "Foundation_NSIndexPath",
+        feature = "Foundation_NSSet"
+    ))]
+    #[deprecated = "Use -collectionView:pasteboardWriterForItemAtIndexPath: instead"]
+    #[objc2::method(optional, sel = "collectionView:writeItemsAtIndexPaths:toPasteboard:")]
+    unsafe fn collectionView_writeItemsAtIndexPaths_toPasteboard(
+        &self,
+        collection_view: &NSCollectionView,
+        index_paths: &NSSet<NSIndexPath>,
+        pasteboard: &NSPasteboard,
+    ) -> bool;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "AppKit_NSPasteboard",
+        feature = "Foundation_NSIndexSet"
+    ))]
+    #[deprecated = "Use -collectionView:pasteboardWriterForItemAtIndexPath: instead"]
+    #[objc2::method(optional, sel = "collectionView:writeItemsAtIndexes:toPasteboard:")]
+    unsafe fn collectionView_writeItemsAtIndexes_toPasteboard(
+        &self,
+        collection_view: &NSCollectionView,
+        indexes: &NSIndexSet,
+        pasteboard: &NSPasteboard,
+    ) -> bool;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSIndexPath",
+        feature = "Foundation_NSSet",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[deprecated = "Use NSFilePromiseReceiver objects instead"]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:namesOfPromisedFilesDroppedAtDestination:forDraggedItemsAtIndexPaths:",
+        managed = "Other"
+    )]
+    unsafe fn collectionView_namesOfPromisedFilesDroppedAtDestination_forDraggedItemsAtIndexPaths(
+        &self,
+        collection_view: &NSCollectionView,
+        drop_url: &NSURL,
+        index_paths: &NSSet<NSIndexPath>,
+    ) -> Id<NSArray<NSString>>;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSIndexSet",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[deprecated = "Use NSFilePromiseReceiver objects instead"]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:namesOfPromisedFilesDroppedAtDestination:forDraggedItemsAtIndexes:",
+        managed = "Other"
+    )]
+    unsafe fn collectionView_namesOfPromisedFilesDroppedAtDestination_forDraggedItemsAtIndexes(
+        &self,
+        collection_view: &NSCollectionView,
+        drop_url: &NSURL,
+        indexes: &NSIndexSet,
+    ) -> Id<NSArray<NSString>>;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "AppKit_NSEvent",
+        feature = "AppKit_NSImage",
+        feature = "Foundation_NSIndexPath",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:draggingImageForItemsAtIndexPaths:withEvent:offset:",
+        managed = "Other"
+    )]
+    unsafe fn collectionView_draggingImageForItemsAtIndexPaths_withEvent_offset(
+        &self,
+        collection_view: &NSCollectionView,
+        index_paths: &NSSet<NSIndexPath>,
+        event: &NSEvent,
+        drag_image_offset: NSPointPointer,
+    ) -> Id<NSImage>;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "AppKit_NSEvent",
+        feature = "AppKit_NSImage",
+        feature = "Foundation_NSIndexSet"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:draggingImageForItemsAtIndexes:withEvent:offset:",
+        managed = "Other"
+    )]
+    unsafe fn collectionView_draggingImageForItemsAtIndexes_withEvent_offset(
+        &self,
+        collection_view: &NSCollectionView,
+        indexes: &NSIndexSet,
+        event: &NSEvent,
+        drag_image_offset: NSPointPointer,
+    ) -> Id<NSImage>;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "Foundation_NSIndexPath"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:validateDrop:proposedIndexPath:dropOperation:"
+    )]
+    unsafe fn collectionView_validateDrop_proposedIndexPath_dropOperation(
+        &self,
+        collection_view: &NSCollectionView,
+        dragging_info: &ProtocolObject<dyn NSDraggingInfo>,
+        proposed_drop_index_path: &mut Id<NSIndexPath>,
+        proposed_drop_operation: NonNull<NSCollectionViewDropOperation>,
+    ) -> NSDragOperation;
+
+    #[cfg(feature = "AppKit_NSCollectionView")]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:validateDrop:proposedIndex:dropOperation:"
+    )]
+    unsafe fn collectionView_validateDrop_proposedIndex_dropOperation(
+        &self,
+        collection_view: &NSCollectionView,
+        dragging_info: &ProtocolObject<dyn NSDraggingInfo>,
+        proposed_drop_index: NonNull<NSInteger>,
+        proposed_drop_operation: NonNull<NSCollectionViewDropOperation>,
+    ) -> NSDragOperation;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "Foundation_NSIndexPath"
+    ))]
+    #[objc2::method(optional, sel = "collectionView:acceptDrop:indexPath:dropOperation:")]
+    unsafe fn collectionView_acceptDrop_indexPath_dropOperation(
+        &self,
+        collection_view: &NSCollectionView,
+        dragging_info: &ProtocolObject<dyn NSDraggingInfo>,
+        index_path: &NSIndexPath,
+        drop_operation: NSCollectionViewDropOperation,
+    ) -> bool;
+
+    #[cfg(feature = "AppKit_NSCollectionView")]
+    #[objc2::method(optional, sel = "collectionView:acceptDrop:index:dropOperation:")]
+    unsafe fn collectionView_acceptDrop_index_dropOperation(
+        &self,
+        collection_view: &NSCollectionView,
+        dragging_info: &ProtocolObject<dyn NSDraggingInfo>,
+        index: NSInteger,
+        drop_operation: NSCollectionViewDropOperation,
+    ) -> bool;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "Foundation_NSIndexPath"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:pasteboardWriterForItemAtIndexPath:",
+        managed = "Other"
+    )]
+    unsafe fn collectionView_pasteboardWriterForItemAtIndexPath(
+        &self,
+        collection_view: &NSCollectionView,
+        index_path: &NSIndexPath,
+    ) -> Option<Id<ProtocolObject<dyn NSPasteboardWriting>>>;
+
+    #[cfg(feature = "AppKit_NSCollectionView")]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:pasteboardWriterForItemAtIndex:",
+        managed = "Other"
+    )]
+    unsafe fn collectionView_pasteboardWriterForItemAtIndex(
+        &self,
+        collection_view: &NSCollectionView,
+        index: NSUInteger,
+    ) -> Option<Id<ProtocolObject<dyn NSPasteboardWriting>>>;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "AppKit_NSDraggingSession",
+        feature = "Foundation_NSIndexPath",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:draggingSession:willBeginAtPoint:forItemsAtIndexPaths:"
+    )]
+    unsafe fn collectionView_draggingSession_willBeginAtPoint_forItemsAtIndexPaths(
+        &self,
+        collection_view: &NSCollectionView,
+        session: &NSDraggingSession,
+        screen_point: NSPoint,
+        index_paths: &NSSet<NSIndexPath>,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "AppKit_NSDraggingSession",
+        feature = "Foundation_NSIndexSet"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:draggingSession:willBeginAtPoint:forItemsAtIndexes:"
+    )]
+    unsafe fn collectionView_draggingSession_willBeginAtPoint_forItemsAtIndexes(
+        &self,
+        collection_view: &NSCollectionView,
+        session: &NSDraggingSession,
+        screen_point: NSPoint,
+        indexes: &NSIndexSet,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "AppKit_NSDraggingSession"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:draggingSession:endedAtPoint:dragOperation:"
+    )]
+    unsafe fn collectionView_draggingSession_endedAtPoint_dragOperation(
+        &self,
+        collection_view: &NSCollectionView,
+        session: &NSDraggingSession,
+        screen_point: NSPoint,
+        operation: NSDragOperation,
+    );
+
+    #[cfg(feature = "AppKit_NSCollectionView")]
+    #[objc2::method(optional, sel = "collectionView:updateDraggingItemsForDrag:")]
+    unsafe fn collectionView_updateDraggingItemsForDrag(
+        &self,
+        collection_view: &NSCollectionView,
+        dragging_info: &ProtocolObject<dyn NSDraggingInfo>,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "Foundation_NSIndexPath",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:shouldChangeItemsAtIndexPaths:toHighlightState:",
+        managed = "Other"
+    )]
+    unsafe fn collectionView_shouldChangeItemsAtIndexPaths_toHighlightState(
+        &self,
+        collection_view: &NSCollectionView,
+        index_paths: &NSSet<NSIndexPath>,
+        highlight_state: NSCollectionViewItemHighlightState,
+    ) -> Id<NSSet<NSIndexPath>>;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "Foundation_NSIndexPath",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:didChangeItemsAtIndexPaths:toHighlightState:"
+    )]
+    unsafe fn collectionView_didChangeItemsAtIndexPaths_toHighlightState(
+        &self,
+        collection_view: &NSCollectionView,
+        index_paths: &NSSet<NSIndexPath>,
+        highlight_state: NSCollectionViewItemHighlightState,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "Foundation_NSIndexPath",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:shouldSelectItemsAtIndexPaths:",
+        managed = "Other"
+    )]
+    unsafe fn collectionView_shouldSelectItemsAtIndexPaths(
+        &self,
+        collection_view: &NSCollectionView,
+        index_paths: &NSSet<NSIndexPath>,
+    ) -> Id<NSSet<NSIndexPath>>;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "Foundation_NSIndexPath",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:shouldDeselectItemsAtIndexPaths:",
+        managed = "Other"
+    )]
+    unsafe fn collectionView_shouldDeselectItemsAtIndexPaths(
+        &self,
+        collection_view: &NSCollectionView,
+        index_paths: &NSSet<NSIndexPath>,
+    ) -> Id<NSSet<NSIndexPath>>;
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "Foundation_NSIndexPath",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(optional, sel = "collectionView:didSelectItemsAtIndexPaths:")]
+    unsafe fn collectionView_didSelectItemsAtIndexPaths(
+        &self,
+        collection_view: &NSCollectionView,
+        index_paths: &NSSet<NSIndexPath>,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "Foundation_NSIndexPath",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(optional, sel = "collectionView:didDeselectItemsAtIndexPaths:")]
+    unsafe fn collectionView_didDeselectItemsAtIndexPaths(
+        &self,
+        collection_view: &NSCollectionView,
+        index_paths: &NSSet<NSIndexPath>,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "AppKit_NSCollectionViewItem",
+        feature = "Foundation_NSIndexPath"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:willDisplayItem:forRepresentedObjectAtIndexPath:"
+    )]
+    unsafe fn collectionView_willDisplayItem_forRepresentedObjectAtIndexPath(
+        &self,
+        collection_view: &NSCollectionView,
+        item: &NSCollectionViewItem,
+        index_path: &NSIndexPath,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "AppKit_NSView",
+        feature = "Foundation_NSIndexPath"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:willDisplaySupplementaryView:forElementKind:atIndexPath:"
+    )]
+    unsafe fn collectionView_willDisplaySupplementaryView_forElementKind_atIndexPath(
+        &self,
+        collection_view: &NSCollectionView,
+        view: &NSView,
+        element_kind: &NSCollectionViewSupplementaryElementKind,
+        index_path: &NSIndexPath,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "AppKit_NSCollectionViewItem",
+        feature = "Foundation_NSIndexPath"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:didEndDisplayingItem:forRepresentedObjectAtIndexPath:"
+    )]
+    unsafe fn collectionView_didEndDisplayingItem_forRepresentedObjectAtIndexPath(
+        &self,
+        collection_view: &NSCollectionView,
+        item: &NSCollectionViewItem,
+        index_path: &NSIndexPath,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "AppKit_NSView",
+        feature = "Foundation_NSIndexPath"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:didEndDisplayingSupplementaryView:forElementOfKind:atIndexPath:"
+    )]
+    unsafe fn collectionView_didEndDisplayingSupplementaryView_forElementOfKind_atIndexPath(
+        &self,
+        collection_view: &NSCollectionView,
+        view: &NSView,
+        element_kind: &NSCollectionViewSupplementaryElementKind,
+        index_path: &NSIndexPath,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSCollectionView",
+        feature = "AppKit_NSCollectionViewLayout",
+        feature = "AppKit_NSCollectionViewTransitionLayout"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "collectionView:transitionLayoutForOldLayout:newLayout:",
+        managed = "Other"
+    )]
+    unsafe fn collectionView_transitionLayoutForOldLayout_newLayout(
+        &self,
+        collection_view: &NSCollectionView,
+        from_layout: &NSCollectionViewLayout,
+        to_layout: &NSCollectionViewLayout,
+    ) -> Id<NSCollectionViewTransitionLayout>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSIndexPath")]
+    pub type NSIndexPath;
+
+    #[objc2::method(sel = "indexPathForItem:inSection:", managed = "Other")]
+    pub unsafe fn indexPathForItem_inSection(
+        item: NSInteger,
+        section: NSInteger,
+    ) -> Id<NSIndexPath>;
+
+    #[objc2::method(sel = "item")]
+    pub unsafe fn item(&self) -> NSInteger;
+
+    #[objc2::method(sel = "section")]
+    pub unsafe fn section(&self) -> NSInteger;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSSet")]
+    pub type NSSet;
+
+    #[cfg(feature = "Foundation_NSIndexPath")]
+    #[objc2::method(sel = "setWithCollectionViewIndexPath:", managed = "Other")]
+    pub unsafe fn setWithCollectionViewIndexPath(index_path: &NSIndexPath) -> Id<Self>;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSIndexPath"))]
+    #[objc2::method(sel = "setWithCollectionViewIndexPaths:", managed = "Other")]
+    pub unsafe fn setWithCollectionViewIndexPaths(index_paths: &NSArray<NSIndexPath>) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSIndexPath")]
+    #[objc2::method(sel = "enumerateIndexPathsWithOptions:usingBlock:")]
+    pub unsafe fn enumerateIndexPathsWithOptions_usingBlock(
+        &self,
+        opts: NSEnumerationOptions,
+        block: &Block<(NonNull<NSIndexPath>, NonNull<Bool>), ()>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSCollectionView")]
+    pub type NSCollectionView;
+
+    #[cfg(feature = "AppKit_NSCollectionViewItem")]
+    #[deprecated = "Use -[NSCollectionViewDataSource collectionView:itemForRepresentedObjectAtIndexPath:] instead"]
+    #[objc2::method(sel = "newItemForRepresentedObject:", managed = "New")]
+    pub unsafe fn newItemForRepresentedObject(&self, object: &Object) -> Id<NSCollectionViewItem>;
+
+    #[cfg(feature = "AppKit_NSCollectionViewItem")]
+    #[deprecated = "Use -registerNib:forItemWithIdentifier: or -registerClass:forItemWithIdentifier: instead."]
+    #[objc2::method(sel = "itemPrototype", managed = "Other")]
+    pub unsafe fn itemPrototype(&self) -> Option<Id<NSCollectionViewItem>>;
+
+    #[cfg(feature = "AppKit_NSCollectionViewItem")]
+    #[deprecated = "Use -registerNib:forItemWithIdentifier: or -registerClass:forItemWithIdentifier: instead."]
+    #[objc2::method(sel = "setItemPrototype:")]
+    pub unsafe fn setItemPrototype(&self, item_prototype: Option<&NSCollectionViewItem>);
+
+    #[deprecated = "Use NSCollectionViewGridLayout as the receiver's collectionViewLayout, setting its maximumNumberOfRows instead"]
+    #[objc2::method(sel = "maxNumberOfRows")]
+    pub unsafe fn maxNumberOfRows(&self) -> NSUInteger;
+
+    #[deprecated = "Use NSCollectionViewGridLayout as the receiver's collectionViewLayout, setting its maximumNumberOfRows instead"]
+    #[objc2::method(sel = "setMaxNumberOfRows:")]
+    pub unsafe fn setMaxNumberOfRows(&self, max_number_of_rows: NSUInteger);
+
+    #[deprecated = "Use NSCollectionViewGridLayout as the receiver's collectionViewLayout, setting its maximumNumberOfColumns instead"]
+    #[objc2::method(sel = "maxNumberOfColumns")]
+    pub unsafe fn maxNumberOfColumns(&self) -> NSUInteger;
+
+    #[deprecated = "Use NSCollectionViewGridLayout as the receiver's collectionViewLayout, setting its maximumNumberOfColumns instead"]
+    #[objc2::method(sel = "setMaxNumberOfColumns:")]
+    pub unsafe fn setMaxNumberOfColumns(&self, max_number_of_columns: NSUInteger);
+
+    #[deprecated = "Use NSCollectionViewGridLayout as the receiver's collectionViewLayout, setting its minimumItemSize instead"]
+    #[objc2::method(sel = "minItemSize")]
+    pub unsafe fn minItemSize(&self) -> NSSize;
+
+    #[deprecated = "Use NSCollectionViewGridLayout as the receiver's collectionViewLayout, setting its minimumItemSize instead"]
+    #[objc2::method(sel = "setMinItemSize:")]
+    pub unsafe fn setMinItemSize(&self, min_item_size: NSSize);
+
+    #[deprecated = "Use NSCollectionViewGridLayout as the receiver's collectionViewLayout, setting its maximumItemSize instead"]
+    #[objc2::method(sel = "maxItemSize")]
+    pub unsafe fn maxItemSize(&self) -> NSSize;
+
+    #[deprecated = "Use NSCollectionViewGridLayout as the receiver's collectionViewLayout, setting its maximumItemSize instead"]
+    #[objc2::method(sel = "setMaxItemSize:")]
+    pub unsafe fn setMaxItemSize(&self, max_item_size: NSSize);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSViewController`
+    #[cfg(feature = "AppKit_NSCollectionViewItem")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSCollectionViewItem")]
+    pub type NSCollectionViewItem;
+
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "initWithNibName:bundle:", managed = "Init")]
+    pub unsafe fn initWithNibName_bundle(
+        this: Option<Allocated<Self>>,
+        nib_name_or_nil: Option<&NSNibName>,
+        nib_bundle_or_nil: Option<&NSBundle>,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
+    #[cfg(feature = "AppKit_NSCollectionView")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSCollectionView")]
+    pub type NSCollectionView;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

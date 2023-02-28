@@ -5,52 +5,51 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSButtonType {
-        NSButtonTypeMomentaryLight = 0,
-        NSButtonTypePushOnPushOff = 1,
-        NSButtonTypeToggle = 2,
-        NSButtonTypeSwitch = 3,
-        NSButtonTypeRadio = 4,
-        NSButtonTypeMomentaryChange = 5,
-        NSButtonTypeOnOff = 6,
-        NSButtonTypeMomentaryPushIn = 7,
-        NSButtonTypeAccelerator = 8,
-        NSButtonTypeMultiLevelAccelerator = 9,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSButtonType {
+    NSButtonTypeMomentaryLight = 0,
+    NSButtonTypePushOnPushOff = 1,
+    NSButtonTypeToggle = 2,
+    NSButtonTypeSwitch = 3,
+    NSButtonTypeRadio = 4,
+    NSButtonTypeMomentaryChange = 5,
+    NSButtonTypeOnOff = 6,
+    NSButtonTypeMomentaryPushIn = 7,
+    NSButtonTypeAccelerator = 8,
+    NSButtonTypeMultiLevelAccelerator = 9,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSBezelStyle {
-        NSBezelStyleRounded = 1,
-        NSBezelStyleRegularSquare = 2,
-        NSBezelStyleDisclosure = 5,
-        NSBezelStyleShadowlessSquare = 6,
-        NSBezelStyleCircular = 7,
-        NSBezelStyleTexturedSquare = 8,
-        NSBezelStyleHelpButton = 9,
-        NSBezelStyleSmallSquare = 10,
-        NSBezelStyleTexturedRounded = 11,
-        NSBezelStyleRoundRect = 12,
-        NSBezelStyleRecessed = 13,
-        NSBezelStyleRoundedDisclosure = 14,
-        NSBezelStyleInline = 15,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSBezelStyle {
+    NSBezelStyleRounded = 1,
+    NSBezelStyleRegularSquare = 2,
+    NSBezelStyleDisclosure = 5,
+    NSBezelStyleShadowlessSquare = 6,
+    NSBezelStyleCircular = 7,
+    NSBezelStyleTexturedSquare = 8,
+    NSBezelStyleHelpButton = 9,
+    NSBezelStyleSmallSquare = 10,
+    NSBezelStyleTexturedRounded = 11,
+    NSBezelStyleRoundRect = 12,
+    NSBezelStyleRecessed = 13,
+    NSBezelStyleRoundedDisclosure = 14,
+    NSBezelStyleInline = 15,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSActionCell,
+    unsafe inherits = [
+        NSCell,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSButtonCell")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSButtonCell")]
-    pub struct NSButtonCell;
-
-    #[cfg(feature = "AppKit_NSButtonCell")]
-    unsafe impl ClassType for NSButtonCell {
-        #[inherits(NSCell, NSObject)]
-        type Super = NSActionCell;
-    }
-);
+    pub type NSButtonCell;
+}
 
 #[cfg(feature = "AppKit_NSButtonCell")]
 unsafe impl NSAccessibility for NSButtonCell {}
@@ -67,213 +66,213 @@ unsafe impl NSObjectProtocol for NSButtonCell {}
 #[cfg(feature = "AppKit_NSButtonCell")]
 unsafe impl NSUserInterfaceItemIdentification for NSButtonCell {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSButtonCell")]
-    unsafe impl NSButtonCell {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initTextCell:)]
-        pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
+    pub type NSButtonCell;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Init initImageCell:)]
-        pub unsafe fn initImageCell(
-            this: Option<Allocated<Self>>,
-            image: Option<&NSImage>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initTextCell:", managed = "Init")]
+    pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "initImageCell:", managed = "Init")]
+    pub unsafe fn initImageCell(this: Option<Allocated<Self>>, image: Option<&NSImage>)
+        -> Id<Self>;
 
-        #[method(bezelStyle)]
-        pub unsafe fn bezelStyle(&self) -> NSBezelStyle;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
 
-        #[method(setBezelStyle:)]
-        pub unsafe fn setBezelStyle(&self, bezel_style: NSBezelStyle);
+    #[objc2::method(sel = "bezelStyle")]
+    pub unsafe fn bezelStyle(&self) -> NSBezelStyle;
 
-        #[method(setButtonType:)]
-        pub unsafe fn setButtonType(&self, r#type: NSButtonType);
+    #[objc2::method(sel = "setBezelStyle:")]
+    pub unsafe fn setBezelStyle(&self, bezel_style: NSBezelStyle);
 
-        #[method(highlightsBy)]
-        pub unsafe fn highlightsBy(&self) -> NSCellStyleMask;
+    #[objc2::method(sel = "setButtonType:")]
+    pub unsafe fn setButtonType(&self, r#type: NSButtonType);
 
-        #[method(setHighlightsBy:)]
-        pub unsafe fn setHighlightsBy(&self, highlights_by: NSCellStyleMask);
+    #[objc2::method(sel = "highlightsBy")]
+    pub unsafe fn highlightsBy(&self) -> NSCellStyleMask;
 
-        #[method(showsStateBy)]
-        pub unsafe fn showsStateBy(&self) -> NSCellStyleMask;
+    #[objc2::method(sel = "setHighlightsBy:")]
+    pub unsafe fn setHighlightsBy(&self, highlights_by: NSCellStyleMask);
 
-        #[method(setShowsStateBy:)]
-        pub unsafe fn setShowsStateBy(&self, shows_state_by: NSCellStyleMask);
+    #[objc2::method(sel = "showsStateBy")]
+    pub unsafe fn showsStateBy(&self) -> NSCellStyleMask;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setShowsStateBy:")]
+    pub unsafe fn setShowsStateBy(&self, shows_state_by: NSCellStyleMask);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other attributedTitle)]
-        pub unsafe fn attributedTitle(&self) -> Id<NSAttributedString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(setAttributedTitle:)]
-        pub unsafe fn setAttributedTitle(&self, attributed_title: &NSAttributedString);
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "attributedTitle", managed = "Other")]
+    pub unsafe fn attributedTitle(&self) -> Id<NSAttributedString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other alternateTitle)]
-        pub unsafe fn alternateTitle(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "setAttributedTitle:")]
+    pub unsafe fn setAttributedTitle(&self, attributed_title: &NSAttributedString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAlternateTitle:)]
-        pub unsafe fn setAlternateTitle(&self, alternate_title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "alternateTitle", managed = "Other")]
+    pub unsafe fn alternateTitle(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other attributedAlternateTitle)]
-        pub unsafe fn attributedAlternateTitle(&self) -> Id<NSAttributedString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAlternateTitle:")]
+    pub unsafe fn setAlternateTitle(&self, alternate_title: &NSString);
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(setAttributedAlternateTitle:)]
-        pub unsafe fn setAttributedAlternateTitle(
-            &self,
-            attributed_alternate_title: &NSAttributedString,
-        );
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "attributedAlternateTitle", managed = "Other")]
+    pub unsafe fn attributedAlternateTitle(&self) -> Id<NSAttributedString>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other alternateImage)]
-        pub unsafe fn alternateImage(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "setAttributedAlternateTitle:")]
+    pub unsafe fn setAttributedAlternateTitle(
+        &self,
+        attributed_alternate_title: &NSAttributedString,
+    );
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setAlternateImage:)]
-        pub unsafe fn setAlternateImage(&self, alternate_image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "alternateImage", managed = "Other")]
+    pub unsafe fn alternateImage(&self) -> Option<Id<NSImage>>;
 
-        #[method(imagePosition)]
-        pub unsafe fn imagePosition(&self) -> NSCellImagePosition;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setAlternateImage:")]
+    pub unsafe fn setAlternateImage(&self, alternate_image: Option<&NSImage>);
 
-        #[method(setImagePosition:)]
-        pub unsafe fn setImagePosition(&self, image_position: NSCellImagePosition);
+    #[objc2::method(sel = "imagePosition")]
+    pub unsafe fn imagePosition(&self) -> NSCellImagePosition;
 
-        #[method(imageScaling)]
-        pub unsafe fn imageScaling(&self) -> NSImageScaling;
+    #[objc2::method(sel = "setImagePosition:")]
+    pub unsafe fn setImagePosition(&self, image_position: NSCellImagePosition);
 
-        #[method(setImageScaling:)]
-        pub unsafe fn setImageScaling(&self, image_scaling: NSImageScaling);
+    #[objc2::method(sel = "imageScaling")]
+    pub unsafe fn imageScaling(&self) -> NSImageScaling;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other keyEquivalent)]
-        pub unsafe fn keyEquivalent(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setImageScaling:")]
+    pub unsafe fn setImageScaling(&self, image_scaling: NSImageScaling);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setKeyEquivalent:)]
-        pub unsafe fn setKeyEquivalent(&self, key_equivalent: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "keyEquivalent", managed = "Other")]
+    pub unsafe fn keyEquivalent(&self) -> Id<NSString>;
 
-        #[method(keyEquivalentModifierMask)]
-        pub unsafe fn keyEquivalentModifierMask(&self) -> NSEventModifierFlags;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setKeyEquivalent:")]
+    pub unsafe fn setKeyEquivalent(&self, key_equivalent: &NSString);
 
-        #[method(setKeyEquivalentModifierMask:)]
-        pub unsafe fn setKeyEquivalentModifierMask(
-            &self,
-            key_equivalent_modifier_mask: NSEventModifierFlags,
-        );
+    #[objc2::method(sel = "keyEquivalentModifierMask")]
+    pub unsafe fn keyEquivalentModifierMask(&self) -> NSEventModifierFlags;
 
-        #[method(isTransparent)]
-        pub unsafe fn isTransparent(&self) -> bool;
+    #[objc2::method(sel = "setKeyEquivalentModifierMask:")]
+    pub unsafe fn setKeyEquivalentModifierMask(
+        &self,
+        key_equivalent_modifier_mask: NSEventModifierFlags,
+    );
 
-        #[method(setTransparent:)]
-        pub unsafe fn setTransparent(&self, transparent: bool);
+    #[objc2::method(sel = "isTransparent")]
+    pub unsafe fn isTransparent(&self) -> bool;
 
-        #[method(isOpaque)]
-        pub unsafe fn isOpaque(&self) -> bool;
+    #[objc2::method(sel = "setTransparent:")]
+    pub unsafe fn setTransparent(&self, transparent: bool);
 
-        #[method(imageDimsWhenDisabled)]
-        pub unsafe fn imageDimsWhenDisabled(&self) -> bool;
+    #[objc2::method(sel = "isOpaque")]
+    pub unsafe fn isOpaque(&self) -> bool;
 
-        #[method(setImageDimsWhenDisabled:)]
-        pub unsafe fn setImageDimsWhenDisabled(&self, image_dims_when_disabled: bool);
+    #[objc2::method(sel = "imageDimsWhenDisabled")]
+    pub unsafe fn imageDimsWhenDisabled(&self) -> bool;
 
-        #[method(showsBorderOnlyWhileMouseInside)]
-        pub unsafe fn showsBorderOnlyWhileMouseInside(&self) -> bool;
+    #[objc2::method(sel = "setImageDimsWhenDisabled:")]
+    pub unsafe fn setImageDimsWhenDisabled(&self, image_dims_when_disabled: bool);
 
-        #[method(setShowsBorderOnlyWhileMouseInside:)]
-        pub unsafe fn setShowsBorderOnlyWhileMouseInside(
-            &self,
-            shows_border_only_while_mouse_inside: bool,
-        );
+    #[objc2::method(sel = "showsBorderOnlyWhileMouseInside")]
+    pub unsafe fn showsBorderOnlyWhileMouseInside(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSSound")]
-        #[method_id(@__retain_semantics Other sound)]
-        pub unsafe fn sound(&self) -> Option<Id<NSSound>>;
+    #[objc2::method(sel = "setShowsBorderOnlyWhileMouseInside:")]
+    pub unsafe fn setShowsBorderOnlyWhileMouseInside(
+        &self,
+        shows_border_only_while_mouse_inside: bool,
+    );
 
-        #[cfg(feature = "AppKit_NSSound")]
-        #[method(setSound:)]
-        pub unsafe fn setSound(&self, sound: Option<&NSSound>);
+    #[cfg(feature = "AppKit_NSSound")]
+    #[objc2::method(sel = "sound", managed = "Other")]
+    pub unsafe fn sound(&self) -> Option<Id<NSSound>>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other backgroundColor)]
-        pub unsafe fn backgroundColor(&self) -> Option<Id<NSColor>>;
+    #[cfg(feature = "AppKit_NSSound")]
+    #[objc2::method(sel = "setSound:")]
+    pub unsafe fn setSound(&self, sound: Option<&NSSound>);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setBackgroundColor:)]
-        pub unsafe fn setBackgroundColor(&self, background_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "backgroundColor", managed = "Other")]
+    pub unsafe fn backgroundColor(&self) -> Option<Id<NSColor>>;
 
-        #[method(setPeriodicDelay:interval:)]
-        pub unsafe fn setPeriodicDelay_interval(&self, delay: c_float, interval: c_float);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setBackgroundColor:")]
+    pub unsafe fn setBackgroundColor(&self, background_color: Option<&NSColor>);
 
-        #[method(getPeriodicDelay:interval:)]
-        pub unsafe fn getPeriodicDelay_interval(
-            &self,
-            delay: NonNull<c_float>,
-            interval: NonNull<c_float>,
-        );
+    #[objc2::method(sel = "setPeriodicDelay:interval:")]
+    pub unsafe fn setPeriodicDelay_interval(&self, delay: c_float, interval: c_float);
 
-        #[method(performClick:)]
-        pub unsafe fn performClick(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "getPeriodicDelay:interval:")]
+    pub unsafe fn getPeriodicDelay_interval(
+        &self,
+        delay: NonNull<c_float>,
+        interval: NonNull<c_float>,
+    );
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(mouseEntered:)]
-        pub unsafe fn mouseEntered(&self, event: &NSEvent);
+    #[objc2::method(sel = "performClick:")]
+    pub unsafe fn performClick(&self, sender: Option<&Object>);
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(mouseExited:)]
-        pub unsafe fn mouseExited(&self, event: &NSEvent);
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "mouseEntered:")]
+    pub unsafe fn mouseEntered(&self, event: &NSEvent);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(drawBezelWithFrame:inView:)]
-        pub unsafe fn drawBezelWithFrame_inView(&self, frame: NSRect, control_view: &NSView);
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "mouseExited:")]
+    pub unsafe fn mouseExited(&self, event: &NSEvent);
 
-        #[cfg(all(feature = "AppKit_NSImage", feature = "AppKit_NSView"))]
-        #[method(drawImage:withFrame:inView:)]
-        pub unsafe fn drawImage_withFrame_inView(
-            &self,
-            image: &NSImage,
-            frame: NSRect,
-            control_view: &NSView,
-        );
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "drawBezelWithFrame:inView:")]
+    pub unsafe fn drawBezelWithFrame_inView(&self, frame: NSRect, control_view: &NSView);
 
-        #[cfg(all(feature = "AppKit_NSView", feature = "Foundation_NSAttributedString"))]
-        #[method(drawTitle:withFrame:inView:)]
-        pub unsafe fn drawTitle_withFrame_inView(
-            &self,
-            title: &NSAttributedString,
-            frame: NSRect,
-            control_view: &NSView,
-        ) -> NSRect;
-    }
-);
+    #[cfg(all(feature = "AppKit_NSImage", feature = "AppKit_NSView"))]
+    #[objc2::method(sel = "drawImage:withFrame:inView:")]
+    pub unsafe fn drawImage_withFrame_inView(
+        &self,
+        image: &NSImage,
+        frame: NSRect,
+        control_view: &NSView,
+    );
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    #[deprecated]
-    pub enum NSGradientType {
-        NSGradientNone = 0,
-        NSGradientConcaveWeak = 1,
-        NSGradientConcaveStrong = 2,
-        NSGradientConvexWeak = 3,
-        NSGradientConvexStrong = 4,
-    }
-);
+    #[cfg(all(feature = "AppKit_NSView", feature = "Foundation_NSAttributedString"))]
+    #[objc2::method(sel = "drawTitle:withFrame:inView:")]
+    pub unsafe fn drawTitle_withFrame_inView(
+        &self,
+        title: &NSAttributedString,
+        frame: NSRect,
+        control_view: &NSView,
+    ) -> NSRect;
+}
+
+#[ns_enum]
+#[underlying(NSUInteger)]
+#[deprecated]
+pub enum NSGradientType {
+    NSGradientNone = 0,
+    NSGradientConcaveWeak = 1,
+    NSGradientConcaveStrong = 2,
+    NSGradientConvexWeak = 3,
+    NSGradientConvexStrong = 4,
+}
 
 extern_static!(NSMomentaryLightButton: NSButtonType = NSButtonTypeMomentaryLight);
 
@@ -331,57 +330,56 @@ extern_static!(NSThickSquareBezelStyle: NSBezelStyle = 3);
 
 extern_static!(NSThickerSquareBezelStyle: NSBezelStyle = 4);
 
-extern_methods!(
-    /// NSDeprecated
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSButtonCell")]
-    unsafe impl NSButtonCell {
-        #[deprecated = "The gradientType property is unused, and setting it has no effect."]
-        #[method(gradientType)]
-        pub unsafe fn gradientType(&self) -> NSGradientType;
+    pub type NSButtonCell;
 
-        #[deprecated = "The gradientType property is unused, and setting it has no effect."]
-        #[method(setGradientType:)]
-        pub unsafe fn setGradientType(&self, gradient_type: NSGradientType);
+    #[deprecated = "The gradientType property is unused, and setting it has no effect."]
+    #[objc2::method(sel = "gradientType")]
+    pub unsafe fn gradientType(&self) -> NSGradientType;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Mnemonics are not used on macOS. Set the title property directly instead."]
-        #[method(setTitleWithMnemonic:)]
-        pub unsafe fn setTitleWithMnemonic(&self, string_with_ampersand: Option<&NSString>);
+    #[deprecated = "The gradientType property is unused, and setting it has no effect."]
+    #[objc2::method(sel = "setGradientType:")]
+    pub unsafe fn setGradientType(&self, gradient_type: NSGradientType);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Mnemonics are not used on macOS. Set the alternateTitle property directly instead."]
-        #[method(setAlternateTitleWithMnemonic:)]
-        pub unsafe fn setAlternateTitleWithMnemonic(
-            &self,
-            string_with_ampersand: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Mnemonics are not used on macOS. Set the title property directly instead."]
+    #[objc2::method(sel = "setTitleWithMnemonic:")]
+    pub unsafe fn setTitleWithMnemonic(&self, string_with_ampersand: Option<&NSString>);
 
-        #[deprecated = "Mnemonics are not used on macOS. Calling this method has no effect."]
-        #[method(setAlternateMnemonicLocation:)]
-        pub unsafe fn setAlternateMnemonicLocation(&self, location: NSUInteger);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Mnemonics are not used on macOS. Set the alternateTitle property directly instead."]
+    #[objc2::method(sel = "setAlternateTitleWithMnemonic:")]
+    pub unsafe fn setAlternateTitleWithMnemonic(&self, string_with_ampersand: Option<&NSString>);
 
-        #[deprecated = "Mnemonics are not used on macOS. This property always returns NSNotFound."]
-        #[method(alternateMnemonicLocation)]
-        pub unsafe fn alternateMnemonicLocation(&self) -> NSUInteger;
+    #[deprecated = "Mnemonics are not used on macOS. Calling this method has no effect."]
+    #[objc2::method(sel = "setAlternateMnemonicLocation:")]
+    pub unsafe fn setAlternateMnemonicLocation(&self, location: NSUInteger);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Mnemonics are not used on macOS. This property always returns an empty string."]
-        #[method_id(@__retain_semantics Other alternateMnemonic)]
-        pub unsafe fn alternateMnemonic(&self) -> Option<Id<NSString>>;
+    #[deprecated = "Mnemonics are not used on macOS. This property always returns NSNotFound."]
+    #[objc2::method(sel = "alternateMnemonicLocation")]
+    pub unsafe fn alternateMnemonicLocation(&self) -> NSUInteger;
 
-        #[cfg(feature = "AppKit_NSFont")]
-        #[deprecated = "The keyEquivalentFont property is no longer used. It always returns the NSButtonCell's font, and setting it has no effect."]
-        #[method_id(@__retain_semantics Other keyEquivalentFont)]
-        pub unsafe fn keyEquivalentFont(&self) -> Option<Id<NSFont>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Mnemonics are not used on macOS. This property always returns an empty string."]
+    #[objc2::method(sel = "alternateMnemonic", managed = "Other")]
+    pub unsafe fn alternateMnemonic(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "AppKit_NSFont")]
-        #[deprecated = "The keyEquivalentFont property is no longer used. It always returns the NSButtonCell's font, and setting it has no effect."]
-        #[method(setKeyEquivalentFont:)]
-        pub unsafe fn setKeyEquivalentFont(&self, key_equivalent_font: Option<&NSFont>);
+    #[cfg(feature = "AppKit_NSFont")]
+    #[deprecated = "The keyEquivalentFont property is no longer used. It always returns the NSButtonCell's font, and setting it has no effect."]
+    #[objc2::method(sel = "keyEquivalentFont", managed = "Other")]
+    pub unsafe fn keyEquivalentFont(&self) -> Option<Id<NSFont>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "The keyEquivalentFont property is no longer used. Setting it has no effect."]
-        #[method(setKeyEquivalentFont:size:)]
-        pub unsafe fn setKeyEquivalentFont_size(&self, font_name: &NSString, font_size: CGFloat);
-    }
-);
+    #[cfg(feature = "AppKit_NSFont")]
+    #[deprecated = "The keyEquivalentFont property is no longer used. It always returns the NSButtonCell's font, and setting it has no effect."]
+    #[objc2::method(sel = "setKeyEquivalentFont:")]
+    pub unsafe fn setKeyEquivalentFont(&self, key_equivalent_font: Option<&NSFont>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "The keyEquivalentFont property is no longer used. Setting it has no effect."]
+    #[objc2::method(sel = "setKeyEquivalentFont:size:")]
+    pub unsafe fn setKeyEquivalentFont_size(&self, font_name: &NSString, font_size: CGFloat);
+}

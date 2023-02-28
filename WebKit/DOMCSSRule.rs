@@ -5,76 +5,80 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_enum!(
-    #[underlying(c_uint)]
+#[extern_enum]
+#[underlying(c_uint)]
+#[deprecated]
+pub enum __anonymous__ {
     #[deprecated]
-    pub enum __anonymous__ {
-        #[deprecated]
-        DOM_UNKNOWN_RULE = 0,
-        #[deprecated]
-        DOM_STYLE_RULE = 1,
-        #[deprecated]
-        DOM_CHARSET_RULE = 2,
-        #[deprecated]
-        DOM_IMPORT_RULE = 3,
-        #[deprecated]
-        DOM_MEDIA_RULE = 4,
-        #[deprecated]
-        DOM_FONT_FACE_RULE = 5,
-        #[deprecated]
-        DOM_PAGE_RULE = 6,
-        #[deprecated]
-        DOM_KEYFRAMES_RULE = 7,
-        #[deprecated]
-        DOM_KEYFRAME_RULE = 8,
-        #[deprecated]
-        DOM_NAMESPACE_RULE = 10,
-        #[deprecated]
-        DOM_SUPPORTS_RULE = 12,
-        #[deprecated]
-        DOM_WEBKIT_REGION_RULE = 16,
-        #[deprecated]
-        DOM_WEBKIT_KEYFRAMES_RULE = 7,
-        #[deprecated]
-        DOM_WEBKIT_KEYFRAME_RULE = 8,
-    }
-);
+    DOM_UNKNOWN_RULE = 0,
+    #[deprecated]
+    DOM_STYLE_RULE = 1,
+    #[deprecated]
+    DOM_CHARSET_RULE = 2,
+    #[deprecated]
+    DOM_IMPORT_RULE = 3,
+    #[deprecated]
+    DOM_MEDIA_RULE = 4,
+    #[deprecated]
+    DOM_FONT_FACE_RULE = 5,
+    #[deprecated]
+    DOM_PAGE_RULE = 6,
+    #[deprecated]
+    DOM_KEYFRAMES_RULE = 7,
+    #[deprecated]
+    DOM_KEYFRAME_RULE = 8,
+    #[deprecated]
+    DOM_NAMESPACE_RULE = 10,
+    #[deprecated]
+    DOM_SUPPORTS_RULE = 12,
+    #[deprecated]
+    DOM_WEBKIT_REGION_RULE = 16,
+    #[deprecated]
+    DOM_WEBKIT_KEYFRAMES_RULE = 7,
+    #[deprecated]
+    DOM_WEBKIT_KEYFRAME_RULE = 8,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[deprecated]
+    #[cfg(feature = "WebKit_DOMCSSRule")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMCSSRule")]
-    #[deprecated]
-    pub struct DOMCSSRule;
-
-    #[cfg(feature = "WebKit_DOMCSSRule")]
-    unsafe impl ClassType for DOMCSSRule {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    pub type DOMCSSRule;
+}
 
 #[cfg(feature = "WebKit_DOMCSSRule")]
 unsafe impl NSObjectProtocol for DOMCSSRule {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCSSRule")]
-    unsafe impl DOMCSSRule {
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> c_ushort;
+    #[deprecated]
+    pub type DOMCSSRule;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other cssText)]
-        pub unsafe fn cssText(&self) -> Id<NSString>;
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> c_ushort;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCssText:)]
-        pub unsafe fn setCssText(&self, css_text: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "cssText", managed = "Other")]
+    pub unsafe fn cssText(&self) -> Id<NSString>;
 
-        #[cfg(feature = "WebKit_DOMCSSStyleSheet")]
-        #[method_id(@__retain_semantics Other parentStyleSheet)]
-        pub unsafe fn parentStyleSheet(&self) -> Option<Id<DOMCSSStyleSheet>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCssText:")]
+    pub unsafe fn setCssText(&self, css_text: Option<&NSString>);
 
-        #[method_id(@__retain_semantics Other parentRule)]
-        pub unsafe fn parentRule(&self) -> Option<Id<DOMCSSRule>>;
-    }
-);
+    #[cfg(feature = "WebKit_DOMCSSStyleSheet")]
+    #[objc2::method(sel = "parentStyleSheet", managed = "Other")]
+    pub unsafe fn parentStyleSheet(&self) -> Option<Id<DOMCSSStyleSheet>>;
+
+    #[objc2::method(sel = "parentRule", managed = "Other")]
+    pub unsafe fn parentRule(&self) -> Option<Id<DOMCSSRule>>;
+}

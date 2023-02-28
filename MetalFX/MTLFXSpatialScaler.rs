@@ -4,153 +4,149 @@ use crate::common::*;
 use crate::Metal::*;
 use crate::MetalFX::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MTLFXSpatialScalerColorProcessingMode {
-        MTLFXSpatialScalerColorProcessingModePerceptual = 0,
-        MTLFXSpatialScalerColorProcessingModeLinear = 1,
-        MTLFXSpatialScalerColorProcessingModeHDR = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MTLFXSpatialScalerColorProcessingMode {
+    MTLFXSpatialScalerColorProcessingModePerceptual = 0,
+    MTLFXSpatialScalerColorProcessingModeLinear = 1,
+    MTLFXSpatialScalerColorProcessingModeHDR = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetalFX_MTLFXSpatialScalerDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetalFX_MTLFXSpatialScalerDescriptor")]
-    pub struct MTLFXSpatialScalerDescriptor;
-
-    #[cfg(feature = "MetalFX_MTLFXSpatialScalerDescriptor")]
-    unsafe impl ClassType for MTLFXSpatialScalerDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLFXSpatialScalerDescriptor;
+}
 
 #[cfg(feature = "MetalFX_MTLFXSpatialScalerDescriptor")]
 unsafe impl NSObjectProtocol for MTLFXSpatialScalerDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetalFX_MTLFXSpatialScalerDescriptor")]
-    unsafe impl MTLFXSpatialScalerDescriptor {
-        #[method(colorTextureFormat)]
-        pub unsafe fn colorTextureFormat(&self) -> MTLPixelFormat;
+    pub type MTLFXSpatialScalerDescriptor;
 
-        #[method(setColorTextureFormat:)]
-        pub unsafe fn setColorTextureFormat(&self, color_texture_format: MTLPixelFormat);
+    #[objc2::method(sel = "colorTextureFormat")]
+    pub unsafe fn colorTextureFormat(&self) -> MTLPixelFormat;
 
-        #[method(outputTextureFormat)]
-        pub unsafe fn outputTextureFormat(&self) -> MTLPixelFormat;
+    #[objc2::method(sel = "setColorTextureFormat:")]
+    pub unsafe fn setColorTextureFormat(&self, color_texture_format: MTLPixelFormat);
 
-        #[method(setOutputTextureFormat:)]
-        pub unsafe fn setOutputTextureFormat(&self, output_texture_format: MTLPixelFormat);
+    #[objc2::method(sel = "outputTextureFormat")]
+    pub unsafe fn outputTextureFormat(&self) -> MTLPixelFormat;
 
-        #[method(inputWidth)]
-        pub unsafe fn inputWidth(&self) -> NSUInteger;
+    #[objc2::method(sel = "setOutputTextureFormat:")]
+    pub unsafe fn setOutputTextureFormat(&self, output_texture_format: MTLPixelFormat);
 
-        #[method(setInputWidth:)]
-        pub unsafe fn setInputWidth(&self, input_width: NSUInteger);
+    #[objc2::method(sel = "inputWidth")]
+    pub unsafe fn inputWidth(&self) -> NSUInteger;
 
-        #[method(inputHeight)]
-        pub unsafe fn inputHeight(&self) -> NSUInteger;
+    #[objc2::method(sel = "setInputWidth:")]
+    pub unsafe fn setInputWidth(&self, input_width: NSUInteger);
 
-        #[method(setInputHeight:)]
-        pub unsafe fn setInputHeight(&self, input_height: NSUInteger);
+    #[objc2::method(sel = "inputHeight")]
+    pub unsafe fn inputHeight(&self) -> NSUInteger;
 
-        #[method(outputWidth)]
-        pub unsafe fn outputWidth(&self) -> NSUInteger;
+    #[objc2::method(sel = "setInputHeight:")]
+    pub unsafe fn setInputHeight(&self, input_height: NSUInteger);
 
-        #[method(setOutputWidth:)]
-        pub unsafe fn setOutputWidth(&self, output_width: NSUInteger);
+    #[objc2::method(sel = "outputWidth")]
+    pub unsafe fn outputWidth(&self) -> NSUInteger;
 
-        #[method(outputHeight)]
-        pub unsafe fn outputHeight(&self) -> NSUInteger;
+    #[objc2::method(sel = "setOutputWidth:")]
+    pub unsafe fn setOutputWidth(&self, output_width: NSUInteger);
 
-        #[method(setOutputHeight:)]
-        pub unsafe fn setOutputHeight(&self, output_height: NSUInteger);
+    #[objc2::method(sel = "outputHeight")]
+    pub unsafe fn outputHeight(&self) -> NSUInteger;
 
-        #[method(colorProcessingMode)]
-        pub unsafe fn colorProcessingMode(&self) -> MTLFXSpatialScalerColorProcessingMode;
+    #[objc2::method(sel = "setOutputHeight:")]
+    pub unsafe fn setOutputHeight(&self, output_height: NSUInteger);
 
-        #[method(setColorProcessingMode:)]
-        pub unsafe fn setColorProcessingMode(
-            &self,
-            color_processing_mode: MTLFXSpatialScalerColorProcessingMode,
-        );
+    #[objc2::method(sel = "colorProcessingMode")]
+    pub unsafe fn colorProcessingMode(&self) -> MTLFXSpatialScalerColorProcessingMode;
 
-        #[method_id(@__retain_semantics New newSpatialScalerWithDevice:)]
-        pub unsafe fn newSpatialScalerWithDevice(
-            &self,
-            device: &ProtocolObject<dyn MTLDevice>,
-        ) -> Option<Id<ProtocolObject<dyn MTLFXSpatialScaler>>>;
+    #[objc2::method(sel = "setColorProcessingMode:")]
+    pub unsafe fn setColorProcessingMode(
+        &self,
+        color_processing_mode: MTLFXSpatialScalerColorProcessingMode,
+    );
 
-        #[method(supportsDevice:)]
-        pub unsafe fn supportsDevice(device: &ProtocolObject<dyn MTLDevice>) -> bool;
-    }
-);
+    #[objc2::method(sel = "newSpatialScalerWithDevice:", managed = "New")]
+    pub unsafe fn newSpatialScalerWithDevice(
+        &self,
+        device: &ProtocolObject<dyn MTLDevice>,
+    ) -> Option<Id<ProtocolObject<dyn MTLFXSpatialScaler>>>;
 
-extern_protocol!(
-    pub unsafe trait MTLFXSpatialScaler: NSObjectProtocol {
-        #[method(colorTextureUsage)]
-        unsafe fn colorTextureUsage(&self) -> MTLTextureUsage;
+    #[objc2::method(sel = "supportsDevice:")]
+    pub unsafe fn supportsDevice(device: &ProtocolObject<dyn MTLDevice>) -> bool;
+}
 
-        #[method(outputTextureUsage)]
-        unsafe fn outputTextureUsage(&self) -> MTLTextureUsage;
+#[objc2::protocol]
+pub unsafe trait MTLFXSpatialScaler: NSObjectProtocol {
+    #[objc2::method(sel = "colorTextureUsage")]
+    unsafe fn colorTextureUsage(&self) -> MTLTextureUsage;
 
-        #[method(inputContentWidth)]
-        unsafe fn inputContentWidth(&self) -> NSUInteger;
+    #[objc2::method(sel = "outputTextureUsage")]
+    unsafe fn outputTextureUsage(&self) -> MTLTextureUsage;
 
-        #[method(setInputContentWidth:)]
-        unsafe fn setInputContentWidth(&self, input_content_width: NSUInteger);
+    #[objc2::method(sel = "inputContentWidth")]
+    unsafe fn inputContentWidth(&self) -> NSUInteger;
 
-        #[method(inputContentHeight)]
-        unsafe fn inputContentHeight(&self) -> NSUInteger;
+    #[objc2::method(sel = "setInputContentWidth:")]
+    unsafe fn setInputContentWidth(&self, input_content_width: NSUInteger);
 
-        #[method(setInputContentHeight:)]
-        unsafe fn setInputContentHeight(&self, input_content_height: NSUInteger);
+    #[objc2::method(sel = "inputContentHeight")]
+    unsafe fn inputContentHeight(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other colorTexture)]
-        unsafe fn colorTexture(&self) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
+    #[objc2::method(sel = "setInputContentHeight:")]
+    unsafe fn setInputContentHeight(&self, input_content_height: NSUInteger);
 
-        #[method(setColorTexture:)]
-        unsafe fn setColorTexture(&self, color_texture: Option<&ProtocolObject<dyn MTLTexture>>);
+    #[objc2::method(sel = "colorTexture", managed = "Other")]
+    unsafe fn colorTexture(&self) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
 
-        #[method_id(@__retain_semantics Other outputTexture)]
-        unsafe fn outputTexture(&self) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
+    #[objc2::method(sel = "setColorTexture:")]
+    unsafe fn setColorTexture(&self, color_texture: Option<&ProtocolObject<dyn MTLTexture>>);
 
-        #[method(setOutputTexture:)]
-        unsafe fn setOutputTexture(&self, output_texture: Option<&ProtocolObject<dyn MTLTexture>>);
+    #[objc2::method(sel = "outputTexture", managed = "Other")]
+    unsafe fn outputTexture(&self) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
 
-        #[method(colorTextureFormat)]
-        unsafe fn colorTextureFormat(&self) -> MTLPixelFormat;
+    #[objc2::method(sel = "setOutputTexture:")]
+    unsafe fn setOutputTexture(&self, output_texture: Option<&ProtocolObject<dyn MTLTexture>>);
 
-        #[method(outputTextureFormat)]
-        unsafe fn outputTextureFormat(&self) -> MTLPixelFormat;
+    #[objc2::method(sel = "colorTextureFormat")]
+    unsafe fn colorTextureFormat(&self) -> MTLPixelFormat;
 
-        #[method(inputWidth)]
-        unsafe fn inputWidth(&self) -> NSUInteger;
+    #[objc2::method(sel = "outputTextureFormat")]
+    unsafe fn outputTextureFormat(&self) -> MTLPixelFormat;
 
-        #[method(inputHeight)]
-        unsafe fn inputHeight(&self) -> NSUInteger;
+    #[objc2::method(sel = "inputWidth")]
+    unsafe fn inputWidth(&self) -> NSUInteger;
 
-        #[method(outputWidth)]
-        unsafe fn outputWidth(&self) -> NSUInteger;
+    #[objc2::method(sel = "inputHeight")]
+    unsafe fn inputHeight(&self) -> NSUInteger;
 
-        #[method(outputHeight)]
-        unsafe fn outputHeight(&self) -> NSUInteger;
+    #[objc2::method(sel = "outputWidth")]
+    unsafe fn outputWidth(&self) -> NSUInteger;
 
-        #[method(colorProcessingMode)]
-        unsafe fn colorProcessingMode(&self) -> MTLFXSpatialScalerColorProcessingMode;
+    #[objc2::method(sel = "outputHeight")]
+    unsafe fn outputHeight(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other fence)]
-        unsafe fn fence(&self) -> Option<Id<ProtocolObject<dyn MTLFence>>>;
+    #[objc2::method(sel = "colorProcessingMode")]
+    unsafe fn colorProcessingMode(&self) -> MTLFXSpatialScalerColorProcessingMode;
 
-        #[method(setFence:)]
-        unsafe fn setFence(&self, fence: Option<&ProtocolObject<dyn MTLFence>>);
+    #[objc2::method(sel = "fence", managed = "Other")]
+    unsafe fn fence(&self) -> Option<Id<ProtocolObject<dyn MTLFence>>>;
 
-        #[method(encodeToCommandBuffer:)]
-        unsafe fn encodeToCommandBuffer(
-            &self,
-            command_buffer: &ProtocolObject<dyn MTLCommandBuffer>,
-        );
-    }
+    #[objc2::method(sel = "setFence:")]
+    unsafe fn setFence(&self, fence: Option<&ProtocolObject<dyn MTLFence>>);
 
-    unsafe impl ProtocolType for dyn MTLFXSpatialScaler {}
-);
+    #[objc2::method(sel = "encodeToCommandBuffer:")]
+    unsafe fn encodeToCommandBuffer(&self, command_buffer: &ProtocolObject<dyn MTLCommandBuffer>);
+}

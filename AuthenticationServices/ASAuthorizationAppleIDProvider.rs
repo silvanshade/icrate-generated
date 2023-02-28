@@ -4,30 +4,29 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum ASAuthorizationAppleIDProviderCredentialState {
-        ASAuthorizationAppleIDProviderCredentialRevoked = 0,
-        ASAuthorizationAppleIDProviderCredentialAuthorized = 1,
-        ASAuthorizationAppleIDProviderCredentialNotFound = 2,
-        ASAuthorizationAppleIDProviderCredentialTransferred = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum ASAuthorizationAppleIDProviderCredentialState {
+    ASAuthorizationAppleIDProviderCredentialRevoked = 0,
+    ASAuthorizationAppleIDProviderCredentialAuthorized = 1,
+    ASAuthorizationAppleIDProviderCredentialNotFound = 2,
+    ASAuthorizationAppleIDProviderCredentialTransferred = 3,
+}
 
 extern_static!(
     ASAuthorizationAppleIDProviderCredentialRevokedNotification: &'static NSNotificationName
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationAppleIDProvider")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationAppleIDProvider")]
-    pub struct ASAuthorizationAppleIDProvider;
-
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationAppleIDProvider")]
-    unsafe impl ClassType for ASAuthorizationAppleIDProvider {
-        type Super = NSObject;
-    }
-);
+    pub type ASAuthorizationAppleIDProvider;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationAppleIDProvider")]
 unsafe impl ASAuthorizationProvider for ASAuthorizationAppleIDProvider {}
@@ -35,19 +34,22 @@ unsafe impl ASAuthorizationProvider for ASAuthorizationAppleIDProvider {}
 #[cfg(feature = "AuthenticationServices_ASAuthorizationAppleIDProvider")]
 unsafe impl NSObjectProtocol for ASAuthorizationAppleIDProvider {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAuthorizationAppleIDProvider")]
-    unsafe impl ASAuthorizationAppleIDProvider {
-        #[cfg(feature = "AuthenticationServices_ASAuthorizationAppleIDRequest")]
-        #[method_id(@__retain_semantics Other createRequest)]
-        pub unsafe fn createRequest(&self) -> Id<ASAuthorizationAppleIDRequest>;
+    pub type ASAuthorizationAppleIDProvider;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(getCredentialStateForUserID:completion:)]
-        pub unsafe fn getCredentialStateForUserID_completion(
-            &self,
-            user_id: &NSString,
-            completion: &Block<(ASAuthorizationAppleIDProviderCredentialState, *mut NSError), ()>,
-        );
-    }
-);
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationAppleIDRequest")]
+    #[objc2::method(sel = "createRequest", managed = "Other")]
+    pub unsafe fn createRequest(&self) -> Id<ASAuthorizationAppleIDRequest>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "getCredentialStateForUserID:completion:")]
+    pub unsafe fn getCredentialStateForUserID_completion(
+        &self,
+        user_id: &NSString,
+        completion: &Block<(ASAuthorizationAppleIDProviderCredentialState, *mut NSError), ()>,
+    );
+}

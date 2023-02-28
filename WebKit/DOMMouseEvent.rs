@@ -5,122 +5,133 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMMouseEvent")]
+#[objc2::interface(
+    unsafe super = DOMUIEvent,
+    unsafe inherits = [
+        DOMEvent,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMMouseEvent;
-
     #[cfg(feature = "WebKit_DOMMouseEvent")]
-    unsafe impl ClassType for DOMMouseEvent {
-        #[inherits(DOMEvent, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMUIEvent;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMMouseEvent;
+}
 
 #[cfg(feature = "WebKit_DOMMouseEvent")]
 unsafe impl NSObjectProtocol for DOMMouseEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMMouseEvent")]
-    unsafe impl DOMMouseEvent {
-        #[method(screenX)]
-        pub unsafe fn screenX(&self) -> c_int;
+    #[deprecated]
+    pub type DOMMouseEvent;
 
-        #[method(screenY)]
-        pub unsafe fn screenY(&self) -> c_int;
+    #[objc2::method(sel = "screenX")]
+    pub unsafe fn screenX(&self) -> c_int;
 
-        #[method(clientX)]
-        pub unsafe fn clientX(&self) -> c_int;
+    #[objc2::method(sel = "screenY")]
+    pub unsafe fn screenY(&self) -> c_int;
 
-        #[method(clientY)]
-        pub unsafe fn clientY(&self) -> c_int;
+    #[objc2::method(sel = "clientX")]
+    pub unsafe fn clientX(&self) -> c_int;
 
-        #[method(ctrlKey)]
-        pub unsafe fn ctrlKey(&self) -> bool;
+    #[objc2::method(sel = "clientY")]
+    pub unsafe fn clientY(&self) -> c_int;
 
-        #[method(shiftKey)]
-        pub unsafe fn shiftKey(&self) -> bool;
+    #[objc2::method(sel = "ctrlKey")]
+    pub unsafe fn ctrlKey(&self) -> bool;
 
-        #[method(altKey)]
-        pub unsafe fn altKey(&self) -> bool;
+    #[objc2::method(sel = "shiftKey")]
+    pub unsafe fn shiftKey(&self) -> bool;
 
-        #[method(metaKey)]
-        pub unsafe fn metaKey(&self) -> bool;
+    #[objc2::method(sel = "altKey")]
+    pub unsafe fn altKey(&self) -> bool;
 
-        #[method(button)]
-        pub unsafe fn button(&self) -> c_short;
+    #[objc2::method(sel = "metaKey")]
+    pub unsafe fn metaKey(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other relatedTarget)]
-        pub unsafe fn relatedTarget(&self) -> Option<Id<ProtocolObject<dyn DOMEventTarget>>>;
+    #[objc2::method(sel = "button")]
+    pub unsafe fn button(&self) -> c_short;
 
-        #[method(offsetX)]
-        pub unsafe fn offsetX(&self) -> c_int;
+    #[objc2::method(sel = "relatedTarget", managed = "Other")]
+    pub unsafe fn relatedTarget(&self) -> Option<Id<ProtocolObject<dyn DOMEventTarget>>>;
 
-        #[method(offsetY)]
-        pub unsafe fn offsetY(&self) -> c_int;
+    #[objc2::method(sel = "offsetX")]
+    pub unsafe fn offsetX(&self) -> c_int;
 
-        #[method(x)]
-        pub unsafe fn x(&self) -> c_int;
+    #[objc2::method(sel = "offsetY")]
+    pub unsafe fn offsetY(&self) -> c_int;
 
-        #[method(y)]
-        pub unsafe fn y(&self) -> c_int;
+    #[objc2::method(sel = "x")]
+    pub unsafe fn x(&self) -> c_int;
 
-        #[cfg(feature = "WebKit_DOMNode")]
-        #[method_id(@__retain_semantics Other fromElement)]
-        pub unsafe fn fromElement(&self) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "y")]
+    pub unsafe fn y(&self) -> c_int;
 
-        #[cfg(feature = "WebKit_DOMNode")]
-        #[method_id(@__retain_semantics Other toElement)]
-        pub unsafe fn toElement(&self) -> Option<Id<DOMNode>>;
+    #[cfg(feature = "WebKit_DOMNode")]
+    #[objc2::method(sel = "fromElement", managed = "Other")]
+    pub unsafe fn fromElement(&self) -> Option<Id<DOMNode>>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMAbstractView"))]
-        #[method(initMouseEvent:canBubble:cancelable:view:detail:screenX:screenY:clientX:clientY:ctrlKey:altKey:shiftKey:metaKey:button:relatedTarget:)]
-        pub unsafe fn initMouseEvent_canBubble_cancelable_view_detail_screenX_screenY_clientX_clientY_ctrlKey_altKey_shiftKey_metaKey_button_relatedTarget(
-            &self,
-            r#type: Option<&NSString>,
-            can_bubble: bool,
-            cancelable: bool,
-            view: Option<&DOMAbstractView>,
-            detail: c_int,
-            screen_x: c_int,
-            screen_y: c_int,
-            client_x: c_int,
-            client_y: c_int,
-            ctrl_key: bool,
-            alt_key: bool,
-            shift_key: bool,
-            meta_key: bool,
-            button: c_ushort,
-            related_target: Option<&ProtocolObject<dyn DOMEventTarget>>,
-        );
-    }
-);
+    #[cfg(feature = "WebKit_DOMNode")]
+    #[objc2::method(sel = "toElement", managed = "Other")]
+    pub unsafe fn toElement(&self) -> Option<Id<DOMNode>>;
 
-extern_methods!(
-    /// DOMMouseEventDeprecated
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMAbstractView"))]
+    #[objc2::method(
+        sel = "initMouseEvent:canBubble:cancelable:view:detail:screenX:screenY:clientX:clientY:ctrlKey:altKey:shiftKey:metaKey:button:relatedTarget:"
+    )]
+    pub unsafe fn initMouseEvent_canBubble_cancelable_view_detail_screenX_screenY_clientX_clientY_ctrlKey_altKey_shiftKey_metaKey_button_relatedTarget(
+        &self,
+        r#type: Option<&NSString>,
+        can_bubble: bool,
+        cancelable: bool,
+        view: Option<&DOMAbstractView>,
+        detail: c_int,
+        screen_x: c_int,
+        screen_y: c_int,
+        client_x: c_int,
+        client_y: c_int,
+        ctrl_key: bool,
+        alt_key: bool,
+        shift_key: bool,
+        meta_key: bool,
+        button: c_ushort,
+        related_target: Option<&ProtocolObject<dyn DOMEventTarget>>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMMouseEvent")]
-    unsafe impl DOMMouseEvent {
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMAbstractView"))]
-        #[deprecated]
-        #[method(initMouseEvent:::::::::::::::)]
-        pub unsafe fn initMouseEvent(
-            &self,
-            r#type: Option<&NSString>,
-            can_bubble: bool,
-            cancelable: bool,
-            view: Option<&DOMAbstractView>,
-            detail: c_int,
-            screen_x: c_int,
-            screen_y: c_int,
-            client_x: c_int,
-            client_y: c_int,
-            ctrl_key: bool,
-            alt_key: bool,
-            shift_key: bool,
-            meta_key: bool,
-            button: c_ushort,
-            related_target: Option<&ProtocolObject<dyn DOMEventTarget>>,
-        );
-    }
-);
+    pub type DOMMouseEvent;
+
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMAbstractView"))]
+    #[deprecated]
+    #[objc2::method(sel = "initMouseEvent:::::::::::::::")]
+    pub unsafe fn initMouseEvent(
+        &self,
+        r#type: Option<&NSString>,
+        can_bubble: bool,
+        cancelable: bool,
+        view: Option<&DOMAbstractView>,
+        detail: c_int,
+        screen_x: c_int,
+        screen_y: c_int,
+        client_x: c_int,
+        client_y: c_int,
+        ctrl_key: bool,
+        alt_key: bool,
+        shift_key: bool,
+        meta_key: bool,
+        button: c_ushort,
+        related_target: Option<&ProtocolObject<dyn DOMEventTarget>>,
+    );
+}

@@ -5,29 +5,32 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::StoreKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKStorefront")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKStorefront")]
-    pub struct SKStorefront;
-
-    #[cfg(feature = "StoreKit_SKStorefront")]
-    unsafe impl ClassType for SKStorefront {
-        type Super = NSObject;
-    }
-);
+    pub type SKStorefront;
+}
 
 #[cfg(feature = "StoreKit_SKStorefront")]
 unsafe impl NSObjectProtocol for SKStorefront {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKStorefront")]
-    unsafe impl SKStorefront {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other countryCode)]
-        pub unsafe fn countryCode(&self) -> Id<NSString>;
+    pub type SKStorefront;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "countryCode", managed = "Other")]
+    pub unsafe fn countryCode(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
+}

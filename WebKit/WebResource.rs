@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WebResource")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WebResource")]
-    pub struct WebResource;
-
-    #[cfg(feature = "WebKit_WebResource")]
-    unsafe impl ClassType for WebResource {
-        type Super = NSObject;
-    }
-);
+    pub type WebResource;
+}
 
 #[cfg(feature = "WebKit_WebResource")]
 unsafe impl NSCoding for WebResource {}
@@ -22,42 +22,48 @@ unsafe impl NSCoding for WebResource {}
 #[cfg(feature = "WebKit_WebResource")]
 unsafe impl NSObjectProtocol for WebResource {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WebResource")]
-    unsafe impl WebResource {
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Init initWithData:URL:MIMEType:textEncodingName:frameName:)]
-        pub unsafe fn initWithData_URL_MIMEType_textEncodingName_frameName(
-            this: Option<Allocated<Self>>,
-            data: Option<&NSData>,
-            url: Option<&NSURL>,
-            mime_type: Option<&NSString>,
-            text_encoding_name: Option<&NSString>,
-            frame_name: Option<&NSString>,
-        ) -> Option<Id<Self>>;
+    pub type WebResource;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other data)]
-        pub unsafe fn data(&self) -> Id<NSData>;
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "initWithData:URL:MIMEType:textEncodingName:frameName:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithData_URL_MIMEType_textEncodingName_frameName(
+        this: Option<Allocated<Self>>,
+        data: Option<&NSData>,
+        url: Option<&NSURL>,
+        mime_type: Option<&NSString>,
+        text_encoding_name: Option<&NSString>,
+        frame_name: Option<&NSString>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "data", managed = "Other")]
+    pub unsafe fn data(&self) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other MIMEType)]
-        pub unsafe fn MIMEType(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other textEncodingName)]
-        pub unsafe fn textEncodingName(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "MIMEType", managed = "Other")]
+    pub unsafe fn MIMEType(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other frameName)]
-        pub unsafe fn frameName(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "textEncodingName", managed = "Other")]
+    pub unsafe fn textEncodingName(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "frameName", managed = "Other")]
+    pub unsafe fn frameName(&self) -> Id<NSString>;
+}

@@ -4,61 +4,67 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::LocalAuthentication::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "LocalAuthentication_LAAuthenticationRequirement")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "LocalAuthentication_LAAuthenticationRequirement")]
-    pub struct LAAuthenticationRequirement;
-
-    #[cfg(feature = "LocalAuthentication_LAAuthenticationRequirement")]
-    unsafe impl ClassType for LAAuthenticationRequirement {
-        type Super = NSObject;
-    }
-);
+    pub type LAAuthenticationRequirement;
+}
 
 #[cfg(feature = "LocalAuthentication_LAAuthenticationRequirement")]
 unsafe impl NSObjectProtocol for LAAuthenticationRequirement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "LocalAuthentication_LAAuthenticationRequirement")]
-    unsafe impl LAAuthenticationRequirement {
-        #[method_id(@__retain_semantics Other defaultRequirement)]
-        pub unsafe fn defaultRequirement() -> Id<LAAuthenticationRequirement>;
+    pub type LAAuthenticationRequirement;
 
-        #[method_id(@__retain_semantics Other biometryRequirement)]
-        pub unsafe fn biometryRequirement() -> Id<LAAuthenticationRequirement>;
+    #[objc2::method(sel = "defaultRequirement", managed = "Other")]
+    pub unsafe fn defaultRequirement() -> Id<LAAuthenticationRequirement>;
 
-        #[method_id(@__retain_semantics Other biometryCurrentSetRequirement)]
-        pub unsafe fn biometryCurrentSetRequirement() -> Id<LAAuthenticationRequirement>;
+    #[objc2::method(sel = "biometryRequirement", managed = "Other")]
+    pub unsafe fn biometryRequirement() -> Id<LAAuthenticationRequirement>;
 
-        #[cfg(feature = "LocalAuthentication_LABiometryFallbackRequirement")]
-        #[method_id(@__retain_semantics Other biometryRequirementWithFallback:)]
-        pub unsafe fn biometryRequirementWithFallback(
-            fallback: &LABiometryFallbackRequirement,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "biometryCurrentSetRequirement", managed = "Other")]
+    pub unsafe fn biometryCurrentSetRequirement() -> Id<LAAuthenticationRequirement>;
 
-extern_class!(
+    #[cfg(feature = "LocalAuthentication_LABiometryFallbackRequirement")]
+    #[objc2::method(sel = "biometryRequirementWithFallback:", managed = "Other")]
+    pub unsafe fn biometryRequirementWithFallback(
+        fallback: &LABiometryFallbackRequirement,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "LocalAuthentication_LABiometryFallbackRequirement")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "LocalAuthentication_LABiometryFallbackRequirement")]
-    pub struct LABiometryFallbackRequirement;
-
-    #[cfg(feature = "LocalAuthentication_LABiometryFallbackRequirement")]
-    unsafe impl ClassType for LABiometryFallbackRequirement {
-        type Super = NSObject;
-    }
-);
+    pub type LABiometryFallbackRequirement;
+}
 
 #[cfg(feature = "LocalAuthentication_LABiometryFallbackRequirement")]
 unsafe impl NSObjectProtocol for LABiometryFallbackRequirement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "LocalAuthentication_LABiometryFallbackRequirement")]
-    unsafe impl LABiometryFallbackRequirement {
-        #[method_id(@__retain_semantics Other defaultRequirement)]
-        pub unsafe fn defaultRequirement() -> Id<LABiometryFallbackRequirement>;
+    pub type LABiometryFallbackRequirement;
 
-        #[method_id(@__retain_semantics Other devicePasscodeRequirement)]
-        pub unsafe fn devicePasscodeRequirement() -> Id<LABiometryFallbackRequirement>;
-    }
-);
+    #[objc2::method(sel = "defaultRequirement", managed = "Other")]
+    pub unsafe fn defaultRequirement() -> Id<LABiometryFallbackRequirement>;
+
+    #[objc2::method(sel = "devicePasscodeRequirement", managed = "Other")]
+    pub unsafe fn devicePasscodeRequirement() -> Id<LABiometryFallbackRequirement>;
+}

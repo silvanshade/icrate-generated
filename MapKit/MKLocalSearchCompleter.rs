@@ -7,174 +7,175 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
+#[ns_enum]
+#[underlying(NSInteger)]
+#[deprecated = "Use MKLocalSearchCompleterResultType"]
+pub enum MKSearchCompletionFilterType {
     #[deprecated = "Use MKLocalSearchCompleterResultType"]
-    pub enum MKSearchCompletionFilterType {
-        #[deprecated = "Use MKLocalSearchCompleterResultType"]
-        MKSearchCompletionFilterTypeLocationsAndQueries = 0,
-        #[deprecated = "Use MKLocalSearchCompleterResultType"]
-        MKSearchCompletionFilterTypeLocationsOnly = 1,
-    }
-);
+    MKSearchCompletionFilterTypeLocationsAndQueries = 0,
+    #[deprecated = "Use MKLocalSearchCompleterResultType"]
+    MKSearchCompletionFilterTypeLocationsOnly = 1,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum MKLocalSearchCompleterResultType {
-        MKLocalSearchCompleterResultTypeAddress = 1 << 0,
-        MKLocalSearchCompleterResultTypePointOfInterest = 1 << 1,
-        MKLocalSearchCompleterResultTypeQuery = 1 << 2,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum MKLocalSearchCompleterResultType {
+    MKLocalSearchCompleterResultTypeAddress = 1 << 0,
+    MKLocalSearchCompleterResultTypePointOfInterest = 1 << 1,
+    MKLocalSearchCompleterResultTypeQuery = 1 << 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKLocalSearchCompleter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKLocalSearchCompleter")]
-    pub struct MKLocalSearchCompleter;
-
-    #[cfg(feature = "MapKit_MKLocalSearchCompleter")]
-    unsafe impl ClassType for MKLocalSearchCompleter {
-        type Super = NSObject;
-    }
-);
+    pub type MKLocalSearchCompleter;
+}
 
 #[cfg(feature = "MapKit_MKLocalSearchCompleter")]
 unsafe impl NSObjectProtocol for MKLocalSearchCompleter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKLocalSearchCompleter")]
-    unsafe impl MKLocalSearchCompleter {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other queryFragment)]
-        pub unsafe fn queryFragment(&self) -> Id<NSString>;
+    pub type MKLocalSearchCompleter;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setQueryFragment:)]
-        pub unsafe fn setQueryFragment(&self, query_fragment: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "queryFragment", managed = "Other")]
+    pub unsafe fn queryFragment(&self) -> Id<NSString>;
 
-        #[method(region)]
-        pub unsafe fn region(&self) -> MKCoordinateRegion;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setQueryFragment:")]
+    pub unsafe fn setQueryFragment(&self, query_fragment: &NSString);
 
-        #[method(setRegion:)]
-        pub unsafe fn setRegion(&self, region: MKCoordinateRegion);
+    #[objc2::method(sel = "region")]
+    pub unsafe fn region(&self) -> MKCoordinateRegion;
 
-        #[deprecated = "Use resultTypes"]
-        #[method(filterType)]
-        pub unsafe fn filterType(&self) -> MKSearchCompletionFilterType;
+    #[objc2::method(sel = "setRegion:")]
+    pub unsafe fn setRegion(&self, region: MKCoordinateRegion);
 
-        #[deprecated = "Use resultTypes"]
-        #[method(setFilterType:)]
-        pub unsafe fn setFilterType(&self, filter_type: MKSearchCompletionFilterType);
+    #[deprecated = "Use resultTypes"]
+    #[objc2::method(sel = "filterType")]
+    pub unsafe fn filterType(&self) -> MKSearchCompletionFilterType;
 
-        #[method(resultTypes)]
-        pub unsafe fn resultTypes(&self) -> MKLocalSearchCompleterResultType;
+    #[deprecated = "Use resultTypes"]
+    #[objc2::method(sel = "setFilterType:")]
+    pub unsafe fn setFilterType(&self, filter_type: MKSearchCompletionFilterType);
 
-        #[method(setResultTypes:)]
-        pub unsafe fn setResultTypes(&self, result_types: MKLocalSearchCompleterResultType);
+    #[objc2::method(sel = "resultTypes")]
+    pub unsafe fn resultTypes(&self) -> MKLocalSearchCompleterResultType;
 
-        #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-        #[method_id(@__retain_semantics Other pointOfInterestFilter)]
-        pub unsafe fn pointOfInterestFilter(&self) -> Option<Id<MKPointOfInterestFilter>>;
+    #[objc2::method(sel = "setResultTypes:")]
+    pub unsafe fn setResultTypes(&self, result_types: MKLocalSearchCompleterResultType);
 
-        #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-        #[method(setPointOfInterestFilter:)]
-        pub unsafe fn setPointOfInterestFilter(
-            &self,
-            point_of_interest_filter: Option<&MKPointOfInterestFilter>,
-        );
+    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
+    #[objc2::method(sel = "pointOfInterestFilter", managed = "Other")]
+    pub unsafe fn pointOfInterestFilter(&self) -> Option<Id<MKPointOfInterestFilter>>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn MKLocalSearchCompleterDelegate>>>;
+    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
+    #[objc2::method(sel = "setPointOfInterestFilter:")]
+    pub unsafe fn setPointOfInterestFilter(
+        &self,
+        point_of_interest_filter: Option<&MKPointOfInterestFilter>,
+    );
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn MKLocalSearchCompleterDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self)
+        -> Option<Id<ProtocolObject<dyn MKLocalSearchCompleterDelegate>>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "MapKit_MKLocalSearchCompletion"
-        ))]
-        #[method_id(@__retain_semantics Other results)]
-        pub unsafe fn results(&self) -> Id<NSArray<MKLocalSearchCompletion>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn MKLocalSearchCompleterDelegate>>,
+    );
 
-        #[method(isSearching)]
-        pub unsafe fn isSearching(&self) -> bool;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "MapKit_MKLocalSearchCompletion"
+    ))]
+    #[objc2::method(sel = "results", managed = "Other")]
+    pub unsafe fn results(&self) -> Id<NSArray<MKLocalSearchCompletion>>;
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
-    }
-);
+    #[objc2::method(sel = "isSearching")]
+    pub unsafe fn isSearching(&self) -> bool;
 
-extern_protocol!(
-    pub unsafe trait MKLocalSearchCompleterDelegate: NSObjectProtocol {
-        #[cfg(feature = "MapKit_MKLocalSearchCompleter")]
-        #[optional]
-        #[method(completerDidUpdateResults:)]
-        unsafe fn completerDidUpdateResults(&self, completer: &MKLocalSearchCompleter);
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
+}
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "MapKit_MKLocalSearchCompleter"
-        ))]
-        #[optional]
-        #[method(completer:didFailWithError:)]
-        unsafe fn completer_didFailWithError(
-            &self,
-            completer: &MKLocalSearchCompleter,
-            error: &NSError,
-        );
-    }
+#[objc2::protocol]
+pub unsafe trait MKLocalSearchCompleterDelegate: NSObjectProtocol {
+    #[cfg(feature = "MapKit_MKLocalSearchCompleter")]
+    #[objc2::method(optional, sel = "completerDidUpdateResults:")]
+    unsafe fn completerDidUpdateResults(&self, completer: &MKLocalSearchCompleter);
 
-    unsafe impl ProtocolType for dyn MKLocalSearchCompleterDelegate {}
-);
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "MapKit_MKLocalSearchCompleter"
+    ))]
+    #[objc2::method(optional, sel = "completer:didFailWithError:")]
+    unsafe fn completer_didFailWithError(
+        &self,
+        completer: &MKLocalSearchCompleter,
+        error: &NSError,
+    );
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKLocalSearchCompletion")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKLocalSearchCompletion")]
-    pub struct MKLocalSearchCompletion;
-
-    #[cfg(feature = "MapKit_MKLocalSearchCompletion")]
-    unsafe impl ClassType for MKLocalSearchCompletion {
-        type Super = NSObject;
-    }
-);
+    pub type MKLocalSearchCompletion;
+}
 
 #[cfg(feature = "MapKit_MKLocalSearchCompletion")]
 unsafe impl NSObjectProtocol for MKLocalSearchCompletion {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKLocalSearchCompletion")]
-    unsafe impl MKLocalSearchCompletion {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    pub type MKLocalSearchCompletion;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
-        #[method_id(@__retain_semantics Other titleHighlightRanges)]
-        pub unsafe fn titleHighlightRanges(&self) -> Id<NSArray<NSValue>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subtitle)]
-        pub unsafe fn subtitle(&self) -> Id<NSString>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
+    #[objc2::method(sel = "titleHighlightRanges", managed = "Other")]
+    pub unsafe fn titleHighlightRanges(&self) -> Id<NSArray<NSValue>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
-        #[method_id(@__retain_semantics Other subtitleHighlightRanges)]
-        pub unsafe fn subtitleHighlightRanges(&self) -> Id<NSArray<NSValue>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subtitle", managed = "Other")]
+    pub unsafe fn subtitle(&self) -> Id<NSString>;
 
-extern_methods!(
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
+    #[objc2::method(sel = "subtitleHighlightRanges", managed = "Other")]
+    pub unsafe fn subtitleHighlightRanges(&self) -> Id<NSArray<NSValue>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKLocalSearchRequest")]
-    unsafe impl MKLocalSearchRequest {
-        #[cfg(feature = "MapKit_MKLocalSearchCompletion")]
-        #[method_id(@__retain_semantics Init initWithCompletion:)]
-        pub unsafe fn initWithCompletion(
-            this: Option<Allocated<Self>>,
-            completion: &MKLocalSearchCompletion,
-        ) -> Id<Self>;
-    }
-);
+    pub type MKLocalSearchRequest;
+
+    #[cfg(feature = "MapKit_MKLocalSearchCompletion")]
+    #[objc2::method(sel = "initWithCompletion:", managed = "Init")]
+    pub unsafe fn initWithCompletion(
+        this: Option<Allocated<Self>>,
+        completion: &MKLocalSearchCompletion,
+    ) -> Id<Self>;
+}

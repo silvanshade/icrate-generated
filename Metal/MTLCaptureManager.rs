@@ -6,135 +6,136 @@ use crate::Metal::*;
 
 extern_static!(MTLCaptureErrorDomain: &'static NSErrorDomain);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MTLCaptureError {
-        MTLCaptureErrorNotSupported = 1,
-        MTLCaptureErrorAlreadyCapturing = 2,
-        MTLCaptureErrorInvalidDescriptor = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MTLCaptureError {
+    MTLCaptureErrorNotSupported = 1,
+    MTLCaptureErrorAlreadyCapturing = 2,
+    MTLCaptureErrorInvalidDescriptor = 3,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MTLCaptureDestination {
-        MTLCaptureDestinationDeveloperTools = 1,
-        MTLCaptureDestinationGPUTraceDocument = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MTLCaptureDestination {
+    MTLCaptureDestinationDeveloperTools = 1,
+    MTLCaptureDestinationGPUTraceDocument = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLCaptureDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLCaptureDescriptor")]
-    pub struct MTLCaptureDescriptor;
-
-    #[cfg(feature = "Metal_MTLCaptureDescriptor")]
-    unsafe impl ClassType for MTLCaptureDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLCaptureDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLCaptureDescriptor")]
 unsafe impl NSObjectProtocol for MTLCaptureDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLCaptureDescriptor")]
-    unsafe impl MTLCaptureDescriptor {
-        #[method_id(@__retain_semantics Other captureObject)]
-        pub unsafe fn captureObject(&self) -> Option<Id<Object>>;
+    pub type MTLCaptureDescriptor;
 
-        #[method(setCaptureObject:)]
-        pub unsafe fn setCaptureObject(&self, capture_object: Option<&Object>);
+    #[objc2::method(sel = "captureObject", managed = "Other")]
+    pub unsafe fn captureObject(&self) -> Option<Id<Object>>;
 
-        #[method(destination)]
-        pub fn destination(&self) -> MTLCaptureDestination;
+    #[objc2::method(sel = "setCaptureObject:")]
+    pub unsafe fn setCaptureObject(&self, capture_object: Option<&Object>);
 
-        #[method(setDestination:)]
-        pub fn setDestination(&self, destination: MTLCaptureDestination);
+    #[objc2::method(sel = "destination")]
+    pub fn destination(&self) -> MTLCaptureDestination;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other outputURL)]
-        pub fn outputURL(&self) -> Option<Id<NSURL>>;
+    #[objc2::method(sel = "setDestination:")]
+    pub fn setDestination(&self, destination: MTLCaptureDestination);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setOutputURL:)]
-        pub fn setOutputURL(&self, output_url: Option<&NSURL>);
-    }
-);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "outputURL", managed = "Other")]
+    pub fn outputURL(&self) -> Option<Id<NSURL>>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setOutputURL:")]
+    pub fn setOutputURL(&self, output_url: Option<&NSURL>);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLCaptureManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLCaptureManager")]
-    pub struct MTLCaptureManager;
-
-    #[cfg(feature = "Metal_MTLCaptureManager")]
-    unsafe impl ClassType for MTLCaptureManager {
-        type Super = NSObject;
-    }
-);
+    pub type MTLCaptureManager;
+}
 
 #[cfg(feature = "Metal_MTLCaptureManager")]
 unsafe impl NSObjectProtocol for MTLCaptureManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLCaptureManager")]
-    unsafe impl MTLCaptureManager {
-        #[method_id(@__retain_semantics Other sharedCaptureManager)]
-        pub unsafe fn sharedCaptureManager() -> Id<MTLCaptureManager>;
+    pub type MTLCaptureManager;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "sharedCaptureManager", managed = "Other")]
+    pub unsafe fn sharedCaptureManager() -> Id<MTLCaptureManager>;
 
-        #[method_id(@__retain_semantics New newCaptureScopeWithDevice:)]
-        pub fn newCaptureScopeWithDevice(
-            &self,
-            device: &ProtocolObject<dyn MTLDevice>,
-        ) -> Id<ProtocolObject<dyn MTLCaptureScope>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics New newCaptureScopeWithCommandQueue:)]
-        pub fn newCaptureScopeWithCommandQueue(
-            &self,
-            command_queue: &ProtocolObject<dyn MTLCommandQueue>,
-        ) -> Id<ProtocolObject<dyn MTLCaptureScope>>;
+    #[objc2::method(sel = "newCaptureScopeWithDevice:", managed = "New")]
+    pub fn newCaptureScopeWithDevice(
+        &self,
+        device: &ProtocolObject<dyn MTLDevice>,
+    ) -> Id<ProtocolObject<dyn MTLCaptureScope>>;
 
-        #[method(supportsDestination:)]
-        pub fn supportsDestination(&self, destination: MTLCaptureDestination) -> bool;
+    #[objc2::method(sel = "newCaptureScopeWithCommandQueue:", managed = "New")]
+    pub fn newCaptureScopeWithCommandQueue(
+        &self,
+        command_queue: &ProtocolObject<dyn MTLCommandQueue>,
+    ) -> Id<ProtocolObject<dyn MTLCaptureScope>>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Metal_MTLCaptureDescriptor"))]
-        #[method(startCaptureWithDescriptor:error:_)]
-        pub fn startCaptureWithDescriptor_error(
-            &self,
-            descriptor: &MTLCaptureDescriptor,
-        ) -> Result<(), Id<NSError>>;
+    #[objc2::method(sel = "supportsDestination:")]
+    pub fn supportsDestination(&self, destination: MTLCaptureDestination) -> bool;
 
-        #[deprecated = "Use startCaptureWithDescriptor:error: instead"]
-        #[method(startCaptureWithDevice:)]
-        pub fn startCaptureWithDevice(&self, device: &ProtocolObject<dyn MTLDevice>);
+    #[cfg(all(feature = "Foundation_NSError", feature = "Metal_MTLCaptureDescriptor"))]
+    #[objc2::method(sel = "startCaptureWithDescriptor:error:", throws)]
+    pub fn startCaptureWithDescriptor_error(
+        &self,
+        descriptor: &MTLCaptureDescriptor,
+    ) -> Result<(), Id<NSError>>;
 
-        #[deprecated = "Use startCaptureWithDescriptor:error: instead"]
-        #[method(startCaptureWithCommandQueue:)]
-        pub fn startCaptureWithCommandQueue(
-            &self,
-            command_queue: &ProtocolObject<dyn MTLCommandQueue>,
-        );
+    #[deprecated = "Use startCaptureWithDescriptor:error: instead"]
+    #[objc2::method(sel = "startCaptureWithDevice:")]
+    pub fn startCaptureWithDevice(&self, device: &ProtocolObject<dyn MTLDevice>);
 
-        #[deprecated = "Use startCaptureWithDescriptor:error: instead"]
-        #[method(startCaptureWithScope:)]
-        pub fn startCaptureWithScope(&self, capture_scope: &ProtocolObject<dyn MTLCaptureScope>);
+    #[deprecated = "Use startCaptureWithDescriptor:error: instead"]
+    #[objc2::method(sel = "startCaptureWithCommandQueue:")]
+    pub fn startCaptureWithCommandQueue(&self, command_queue: &ProtocolObject<dyn MTLCommandQueue>);
 
-        #[method(stopCapture)]
-        pub fn stopCapture(&self);
+    #[deprecated = "Use startCaptureWithDescriptor:error: instead"]
+    #[objc2::method(sel = "startCaptureWithScope:")]
+    pub fn startCaptureWithScope(&self, capture_scope: &ProtocolObject<dyn MTLCaptureScope>);
 
-        #[method_id(@__retain_semantics Other defaultCaptureScope)]
-        pub fn defaultCaptureScope(&self) -> Option<Id<ProtocolObject<dyn MTLCaptureScope>>>;
+    #[objc2::method(sel = "stopCapture")]
+    pub fn stopCapture(&self);
 
-        #[method(setDefaultCaptureScope:)]
-        pub fn setDefaultCaptureScope(
-            &self,
-            default_capture_scope: Option<&ProtocolObject<dyn MTLCaptureScope>>,
-        );
+    #[objc2::method(sel = "defaultCaptureScope", managed = "Other")]
+    pub fn defaultCaptureScope(&self) -> Option<Id<ProtocolObject<dyn MTLCaptureScope>>>;
 
-        #[method(isCapturing)]
-        pub fn isCapturing(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "setDefaultCaptureScope:")]
+    pub fn setDefaultCaptureScope(
+        &self,
+        default_capture_scope: Option<&ProtocolObject<dyn MTLCaptureScope>>,
+    );
+
+    #[objc2::method(sel = "isCapturing")]
+    pub fn isCapturing(&self) -> bool;
+}

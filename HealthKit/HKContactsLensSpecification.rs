@@ -6,17 +6,17 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKLensSpecification,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKContactsLensSpecification")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKContactsLensSpecification")]
-    pub struct HKContactsLensSpecification;
-
-    #[cfg(feature = "HealthKit_HKContactsLensSpecification")]
-    unsafe impl ClassType for HKContactsLensSpecification {
-        #[inherits(NSObject)]
-        type Super = HKLensSpecification;
-    }
-);
+    pub type HKContactsLensSpecification;
+}
 
 #[cfg(feature = "HealthKit_HKContactsLensSpecification")]
 unsafe impl NSCoding for HKContactsLensSpecification {}
@@ -27,33 +27,39 @@ unsafe impl NSObjectProtocol for HKContactsLensSpecification {}
 #[cfg(feature = "HealthKit_HKContactsLensSpecification")]
 unsafe impl NSSecureCoding for HKContactsLensSpecification {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKContactsLensSpecification")]
-    unsafe impl HKContactsLensSpecification {
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other baseCurve)]
-        pub unsafe fn baseCurve(&self) -> Option<Id<HKQuantity>>;
+    pub type HKContactsLensSpecification;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other diameter)]
-        pub unsafe fn diameter(&self) -> Option<Id<HKQuantity>>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "baseCurve", managed = "Other")]
+    pub unsafe fn baseCurve(&self) -> Option<Id<HKQuantity>>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Init initWithSphere:cylinder:axis:addPower:baseCurve:diameter:)]
-        pub unsafe fn initWithSphere_cylinder_axis_addPower_baseCurve_diameter(
-            this: Option<Allocated<Self>>,
-            sphere: &HKQuantity,
-            cylinder: Option<&HKQuantity>,
-            axis: Option<&HKQuantity>,
-            add_power: Option<&HKQuantity>,
-            base_curve: Option<&HKQuantity>,
-            diameter: Option<&HKQuantity>,
-        ) -> Id<Self>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "diameter", managed = "Other")]
+    pub unsafe fn diameter(&self) -> Option<Id<HKQuantity>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(
+        sel = "initWithSphere:cylinder:axis:addPower:baseCurve:diameter:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithSphere_cylinder_axis_addPower_baseCurve_diameter(
+        this: Option<Allocated<Self>>,
+        sphere: &HKQuantity,
+        cylinder: Option<&HKQuantity>,
+        axis: Option<&HKQuantity>,
+        add_power: Option<&HKQuantity>,
+        base_curve: Option<&HKQuantity>,
+        diameter: Option<&HKQuantity>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

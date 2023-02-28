@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSGestureRecognizer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSMagnificationGestureRecognizer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSMagnificationGestureRecognizer")]
-    pub struct NSMagnificationGestureRecognizer;
-
-    #[cfg(feature = "AppKit_NSMagnificationGestureRecognizer")]
-    unsafe impl ClassType for NSMagnificationGestureRecognizer {
-        #[inherits(NSObject)]
-        type Super = NSGestureRecognizer;
-    }
-);
+    pub type NSMagnificationGestureRecognizer;
+}
 
 #[cfg(feature = "AppKit_NSMagnificationGestureRecognizer")]
 unsafe impl NSCoding for NSMagnificationGestureRecognizer {}
@@ -23,26 +23,35 @@ unsafe impl NSCoding for NSMagnificationGestureRecognizer {}
 #[cfg(feature = "AppKit_NSMagnificationGestureRecognizer")]
 unsafe impl NSObjectProtocol for NSMagnificationGestureRecognizer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSMagnificationGestureRecognizer")]
-    unsafe impl NSMagnificationGestureRecognizer {
-        #[method(magnification)]
-        pub unsafe fn magnification(&self) -> CGFloat;
+    pub type NSMagnificationGestureRecognizer;
 
-        #[method(setMagnification:)]
-        pub unsafe fn setMagnification(&self, magnification: CGFloat);
-    }
-);
+    #[objc2::method(sel = "magnification")]
+    pub unsafe fn magnification(&self) -> CGFloat;
 
-extern_methods!(
-    /// Methods declared on superclass `NSGestureRecognizer`
+    #[objc2::method(sel = "setMagnification:")]
+    pub unsafe fn setMagnification(&self, magnification: CGFloat);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSGestureRecognizer`
     #[cfg(feature = "AppKit_NSMagnificationGestureRecognizer")]
-    unsafe impl NSMagnificationGestureRecognizer {
-        #[method_id(@__retain_semantics Init initWithTarget:action:)]
-        pub unsafe fn initWithTarget_action(
-            this: Option<Allocated<Self>>,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSMagnificationGestureRecognizer")]
+    pub type NSMagnificationGestureRecognizer;
+
+    #[objc2::method(sel = "initWithTarget:action:", managed = "Init")]
+    pub unsafe fn initWithTarget_action(
+        this: Option<Allocated<Self>>,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
+}

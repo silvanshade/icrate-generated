@@ -6,55 +6,59 @@ use crate::FileProvider::*;
 use crate::Foundation::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_protocol!(
-    pub unsafe trait NSFileProviderServiceSource {
-        #[method_id(@__retain_semantics Other serviceName)]
-        unsafe fn serviceName(&self) -> Id<NSFileProviderServiceName>;
+#[objc2::protocol]
+pub unsafe trait NSFileProviderServiceSource {
+    #[objc2::method(sel = "serviceName", managed = "Other")]
+    unsafe fn serviceName(&self) -> Id<NSFileProviderServiceName>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSXPCListenerEndpoint"
-        ))]
-        #[method_id(@__retain_semantics Other makeListenerEndpointAndReturnError:_)]
-        unsafe fn makeListenerEndpointAndReturnError(
-            &self,
-        ) -> Result<Id<NSXPCListenerEndpoint>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSXPCListenerEndpoint"
+    ))]
+    #[objc2::method(sel = "makeListenerEndpointAndReturnError:", managed = "Other", throws)]
+    unsafe fn makeListenerEndpointAndReturnError(
+        &self,
+    ) -> Result<Id<NSXPCListenerEndpoint>, Id<NSError>>;
 
-        #[optional]
-        #[method(isRestricted)]
-        unsafe fn isRestricted(&self) -> bool;
-    }
+    #[objc2::method(optional, sel = "isRestricted")]
+    unsafe fn isRestricted(&self) -> bool;
+}
 
-    unsafe impl ProtocolType for dyn NSFileProviderServiceSource {}
-);
-
-extern_methods!(
-    /// NSFileProviderService
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderExtension")]
-    unsafe impl NSFileProviderExtension {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
-        #[method_id(@__retain_semantics Other supportedServiceSourcesForItemIdentifier:error:_)]
-        pub unsafe fn supportedServiceSourcesForItemIdentifier_error(
-            &self,
-            item_identifier: &NSFileProviderItemIdentifier,
-        ) -> Result<Id<NSArray<ProtocolObject<dyn NSFileProviderServiceSource>>>, Id<NSError>>;
-    }
-);
+    pub type NSFileProviderExtension;
 
-extern_methods!(
-    /// NSFileProviderService
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
+    #[objc2::method(
+        sel = "supportedServiceSourcesForItemIdentifier:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn supportedServiceSourcesForItemIdentifier_error(
+        &self,
+        item_identifier: &NSFileProviderItemIdentifier,
+    ) -> Result<Id<NSArray<ProtocolObject<dyn NSFileProviderServiceSource>>>, Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderManager")]
-    unsafe impl NSFileProviderManager {
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSFileProviderService"
-        ))]
-        #[method(getServiceWithName:itemIdentifier:completionHandler:)]
-        pub unsafe fn getServiceWithName_itemIdentifier_completionHandler(
-            &self,
-            service_name: &NSFileProviderServiceName,
-            item_identifier: &NSFileProviderItemIdentifier,
-            completion_handler: &Block<(*mut NSFileProviderService, *mut NSError), ()>,
-        );
-    }
-);
+    pub type NSFileProviderManager;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSFileProviderService"
+    ))]
+    #[objc2::method(sel = "getServiceWithName:itemIdentifier:completionHandler:")]
+    pub unsafe fn getServiceWithName_itemIdentifier_completionHandler(
+        &self,
+        service_name: &NSFileProviderServiceName,
+        item_identifier: &NSFileProviderItemIdentifier,
+        completion_handler: &Block<(*mut NSFileProviderService, *mut NSError), ()>,
+    );
+}

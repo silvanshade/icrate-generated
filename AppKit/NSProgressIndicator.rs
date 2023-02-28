@@ -5,25 +5,25 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSProgressIndicatorStyle {
-        NSProgressIndicatorStyleBar = 0,
-        NSProgressIndicatorStyleSpinning = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSProgressIndicatorStyle {
+    NSProgressIndicatorStyleBar = 0,
+    NSProgressIndicatorStyleSpinning = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSProgressIndicator")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSProgressIndicator")]
-    pub struct NSProgressIndicator;
-
-    #[cfg(feature = "AppKit_NSProgressIndicator")]
-    unsafe impl ClassType for NSProgressIndicator {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type NSProgressIndicator;
+}
 
 #[cfg(feature = "AppKit_NSProgressIndicator")]
 unsafe impl NSAccessibility for NSProgressIndicator {}
@@ -55,97 +55,99 @@ unsafe impl NSObjectProtocol for NSProgressIndicator {}
 #[cfg(feature = "AppKit_NSProgressIndicator")]
 unsafe impl NSUserInterfaceItemIdentification for NSProgressIndicator {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSProgressIndicator")]
-    unsafe impl NSProgressIndicator {
-        #[method(isIndeterminate)]
-        pub unsafe fn isIndeterminate(&self) -> bool;
+    pub type NSProgressIndicator;
 
-        #[method(setIndeterminate:)]
-        pub unsafe fn setIndeterminate(&self, indeterminate: bool);
+    #[objc2::method(sel = "isIndeterminate")]
+    pub unsafe fn isIndeterminate(&self) -> bool;
 
-        #[method(isBezeled)]
-        pub unsafe fn isBezeled(&self) -> bool;
+    #[objc2::method(sel = "setIndeterminate:")]
+    pub unsafe fn setIndeterminate(&self, indeterminate: bool);
 
-        #[method(setBezeled:)]
-        pub unsafe fn setBezeled(&self, bezeled: bool);
+    #[objc2::method(sel = "isBezeled")]
+    pub unsafe fn isBezeled(&self) -> bool;
 
-        #[method(controlTint)]
-        pub unsafe fn controlTint(&self) -> NSControlTint;
+    #[objc2::method(sel = "setBezeled:")]
+    pub unsafe fn setBezeled(&self, bezeled: bool);
 
-        #[method(setControlTint:)]
-        pub unsafe fn setControlTint(&self, control_tint: NSControlTint);
+    #[objc2::method(sel = "controlTint")]
+    pub unsafe fn controlTint(&self) -> NSControlTint;
 
-        #[method(controlSize)]
-        pub unsafe fn controlSize(&self) -> NSControlSize;
+    #[objc2::method(sel = "setControlTint:")]
+    pub unsafe fn setControlTint(&self, control_tint: NSControlTint);
 
-        #[method(setControlSize:)]
-        pub unsafe fn setControlSize(&self, control_size: NSControlSize);
+    #[objc2::method(sel = "controlSize")]
+    pub unsafe fn controlSize(&self) -> NSControlSize;
 
-        #[method(doubleValue)]
-        pub unsafe fn doubleValue(&self) -> c_double;
+    #[objc2::method(sel = "setControlSize:")]
+    pub unsafe fn setControlSize(&self, control_size: NSControlSize);
 
-        #[method(setDoubleValue:)]
-        pub unsafe fn setDoubleValue(&self, double_value: c_double);
+    #[objc2::method(sel = "doubleValue")]
+    pub unsafe fn doubleValue(&self) -> c_double;
 
-        #[method(incrementBy:)]
-        pub unsafe fn incrementBy(&self, delta: c_double);
+    #[objc2::method(sel = "setDoubleValue:")]
+    pub unsafe fn setDoubleValue(&self, double_value: c_double);
 
-        #[method(minValue)]
-        pub unsafe fn minValue(&self) -> c_double;
+    #[objc2::method(sel = "incrementBy:")]
+    pub unsafe fn incrementBy(&self, delta: c_double);
 
-        #[method(setMinValue:)]
-        pub unsafe fn setMinValue(&self, min_value: c_double);
+    #[objc2::method(sel = "minValue")]
+    pub unsafe fn minValue(&self) -> c_double;
 
-        #[method(maxValue)]
-        pub unsafe fn maxValue(&self) -> c_double;
+    #[objc2::method(sel = "setMinValue:")]
+    pub unsafe fn setMinValue(&self, min_value: c_double);
 
-        #[method(setMaxValue:)]
-        pub unsafe fn setMaxValue(&self, max_value: c_double);
+    #[objc2::method(sel = "maxValue")]
+    pub unsafe fn maxValue(&self) -> c_double;
 
-        #[method(usesThreadedAnimation)]
-        pub unsafe fn usesThreadedAnimation(&self) -> bool;
+    #[objc2::method(sel = "setMaxValue:")]
+    pub unsafe fn setMaxValue(&self, max_value: c_double);
 
-        #[method(setUsesThreadedAnimation:)]
-        pub unsafe fn setUsesThreadedAnimation(&self, uses_threaded_animation: bool);
+    #[objc2::method(sel = "usesThreadedAnimation")]
+    pub unsafe fn usesThreadedAnimation(&self) -> bool;
 
-        #[method(startAnimation:)]
-        pub unsafe fn startAnimation(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "setUsesThreadedAnimation:")]
+    pub unsafe fn setUsesThreadedAnimation(&self, uses_threaded_animation: bool);
 
-        #[method(stopAnimation:)]
-        pub unsafe fn stopAnimation(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "startAnimation:")]
+    pub unsafe fn startAnimation(&self, sender: Option<&Object>);
 
-        #[method(style)]
-        pub unsafe fn style(&self) -> NSProgressIndicatorStyle;
+    #[objc2::method(sel = "stopAnimation:")]
+    pub unsafe fn stopAnimation(&self, sender: Option<&Object>);
 
-        #[method(setStyle:)]
-        pub unsafe fn setStyle(&self, style: NSProgressIndicatorStyle);
+    #[objc2::method(sel = "style")]
+    pub unsafe fn style(&self) -> NSProgressIndicatorStyle;
 
-        #[method(sizeToFit)]
-        pub unsafe fn sizeToFit(&self);
+    #[objc2::method(sel = "setStyle:")]
+    pub unsafe fn setStyle(&self, style: NSProgressIndicatorStyle);
 
-        #[method(isDisplayedWhenStopped)]
-        pub unsafe fn isDisplayedWhenStopped(&self) -> bool;
+    #[objc2::method(sel = "sizeToFit")]
+    pub unsafe fn sizeToFit(&self);
 
-        #[method(setDisplayedWhenStopped:)]
-        pub unsafe fn setDisplayedWhenStopped(&self, displayed_when_stopped: bool);
-    }
-);
+    #[objc2::method(sel = "isDisplayedWhenStopped")]
+    pub unsafe fn isDisplayedWhenStopped(&self) -> bool;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
+    #[objc2::method(sel = "setDisplayedWhenStopped:")]
+    pub unsafe fn setDisplayedWhenStopped(&self, displayed_when_stopped: bool);
+}
+
+#[ns_enum]
+#[underlying(NSUInteger)]
+#[deprecated = "These constants do not accurately represent the geometry of NSProgressIndicator.  Use `controlSize` and `sizeToFit` instead."]
+pub enum NSProgressIndicatorThickness {
     #[deprecated = "These constants do not accurately represent the geometry of NSProgressIndicator.  Use `controlSize` and `sizeToFit` instead."]
-    pub enum NSProgressIndicatorThickness {
-        #[deprecated = "These constants do not accurately represent the geometry of NSProgressIndicator.  Use `controlSize` and `sizeToFit` instead."]
-        NSProgressIndicatorPreferredThickness = 14,
-        #[deprecated = "These constants do not accurately represent the geometry of NSProgressIndicator.  Use `controlSize` and `sizeToFit` instead."]
-        NSProgressIndicatorPreferredSmallThickness = 10,
-        #[deprecated = "These constants do not accurately represent the geometry of NSProgressIndicator.  Use `controlSize` and `sizeToFit` instead."]
-        NSProgressIndicatorPreferredLargeThickness = 18,
-        #[deprecated = "These constants do not accurately represent the geometry of NSProgressIndicator.  Use `controlSize` and `sizeToFit` instead."]
-        NSProgressIndicatorPreferredAquaThickness = 12,
-    }
-);
+    NSProgressIndicatorPreferredThickness = 14,
+    #[deprecated = "These constants do not accurately represent the geometry of NSProgressIndicator.  Use `controlSize` and `sizeToFit` instead."]
+    NSProgressIndicatorPreferredSmallThickness = 10,
+    #[deprecated = "These constants do not accurately represent the geometry of NSProgressIndicator.  Use `controlSize` and `sizeToFit` instead."]
+    NSProgressIndicatorPreferredLargeThickness = 18,
+    #[deprecated = "These constants do not accurately represent the geometry of NSProgressIndicator.  Use `controlSize` and `sizeToFit` instead."]
+    NSProgressIndicatorPreferredAquaThickness = 12,
+}
 
 extern_static!(NSProgressIndicatorBarStyle: NSProgressIndicatorStyle = NSProgressIndicatorStyleBar);
 
@@ -153,29 +155,37 @@ extern_static!(
     NSProgressIndicatorSpinningStyle: NSProgressIndicatorStyle = NSProgressIndicatorStyleSpinning
 );
 
-extern_methods!(
-    /// NSProgressIndicatorDeprecated
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSProgressIndicator")]
-    unsafe impl NSProgressIndicator {
-        #[deprecated = "The animationDelay property does nothing."]
-        #[method(animationDelay)]
-        pub unsafe fn animationDelay(&self) -> NSTimeInterval;
+    pub type NSProgressIndicator;
 
-        #[deprecated = "The animationDelay property does nothing."]
-        #[method(setAnimationDelay:)]
-        pub unsafe fn setAnimationDelay(&self, delay: NSTimeInterval);
+    #[deprecated = "The animationDelay property does nothing."]
+    #[objc2::method(sel = "animationDelay")]
+    pub unsafe fn animationDelay(&self) -> NSTimeInterval;
 
-        #[deprecated = "Use -startAnimation and -stopAnimation instead."]
-        #[method(animate:)]
-        pub unsafe fn animate(&self, sender: Option<&Object>);
-    }
-);
+    #[deprecated = "The animationDelay property does nothing."]
+    #[objc2::method(sel = "setAnimationDelay:")]
+    pub unsafe fn setAnimationDelay(&self, delay: NSTimeInterval);
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[deprecated = "Use -startAnimation and -stopAnimation instead."]
+    #[objc2::method(sel = "animate:")]
+    pub unsafe fn animate(&self, sender: Option<&Object>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "AppKit_NSProgressIndicator")]
-    unsafe impl NSProgressIndicator {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSProgressIndicator")]
+    pub type NSProgressIndicator;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

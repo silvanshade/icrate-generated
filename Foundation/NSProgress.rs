@@ -20,244 +20,250 @@ pub type NSProgressUnpublishingHandler = *mut Block<(), ()>;
 pub type NSProgressPublishingHandler =
     *mut Block<(NonNull<NSProgress>,), NSProgressUnpublishingHandler>;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSProgress")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSProgress")]
-    pub struct NSProgress;
-
-    #[cfg(feature = "Foundation_NSProgress")]
-    unsafe impl ClassType for NSProgress {
-        type Super = NSObject;
-    }
-);
+    pub type NSProgress;
+}
 
 #[cfg(feature = "Foundation_NSProgress")]
 unsafe impl NSObjectProtocol for NSProgress {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSProgress")]
-    unsafe impl NSProgress {
-        #[method_id(@__retain_semantics Other currentProgress)]
-        pub unsafe fn currentProgress() -> Option<Id<NSProgress>>;
+    pub type NSProgress;
 
-        #[method_id(@__retain_semantics Other progressWithTotalUnitCount:)]
-        pub unsafe fn progressWithTotalUnitCount(unit_count: i64) -> Id<NSProgress>;
+    #[objc2::method(sel = "currentProgress", managed = "Other")]
+    pub unsafe fn currentProgress() -> Option<Id<NSProgress>>;
 
-        #[method_id(@__retain_semantics Other discreteProgressWithTotalUnitCount:)]
-        pub unsafe fn discreteProgressWithTotalUnitCount(unit_count: i64) -> Id<NSProgress>;
+    #[objc2::method(sel = "progressWithTotalUnitCount:", managed = "Other")]
+    pub unsafe fn progressWithTotalUnitCount(unit_count: i64) -> Id<NSProgress>;
 
-        #[method_id(@__retain_semantics Other progressWithTotalUnitCount:parent:pendingUnitCount:)]
-        pub unsafe fn progressWithTotalUnitCount_parent_pendingUnitCount(
-            unit_count: i64,
-            parent: &NSProgress,
-            portion_of_parent_total_unit_count: i64,
-        ) -> Id<NSProgress>;
+    #[objc2::method(sel = "discreteProgressWithTotalUnitCount:", managed = "Other")]
+    pub unsafe fn discreteProgressWithTotalUnitCount(unit_count: i64) -> Id<NSProgress>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Init initWithParent:userInfo:)]
-        pub unsafe fn initWithParent_userInfo(
-            this: Option<Allocated<Self>>,
-            parent_progress_or_nil: Option<&NSProgress>,
-            user_info_or_nil: Option<&NSDictionary<NSProgressUserInfoKey, Object>>,
-        ) -> Id<Self>;
+    #[objc2::method(
+        sel = "progressWithTotalUnitCount:parent:pendingUnitCount:",
+        managed = "Other"
+    )]
+    pub unsafe fn progressWithTotalUnitCount_parent_pendingUnitCount(
+        unit_count: i64,
+        parent: &NSProgress,
+        portion_of_parent_total_unit_count: i64,
+    ) -> Id<NSProgress>;
 
-        #[method(becomeCurrentWithPendingUnitCount:)]
-        pub unsafe fn becomeCurrentWithPendingUnitCount(&self, unit_count: i64);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "initWithParent:userInfo:", managed = "Init")]
+    pub unsafe fn initWithParent_userInfo(
+        this: Option<Allocated<Self>>,
+        parent_progress_or_nil: Option<&NSProgress>,
+        user_info_or_nil: Option<&NSDictionary<NSProgressUserInfoKey, Object>>,
+    ) -> Id<Self>;
 
-        #[method(performAsCurrentWithPendingUnitCount:usingBlock:)]
-        pub unsafe fn performAsCurrentWithPendingUnitCount_usingBlock(
-            &self,
-            unit_count: i64,
-            work: &Block<(), ()>,
-        );
+    #[objc2::method(sel = "becomeCurrentWithPendingUnitCount:")]
+    pub unsafe fn becomeCurrentWithPendingUnitCount(&self, unit_count: i64);
 
-        #[method(resignCurrent)]
-        pub unsafe fn resignCurrent(&self);
+    #[objc2::method(sel = "performAsCurrentWithPendingUnitCount:usingBlock:")]
+    pub unsafe fn performAsCurrentWithPendingUnitCount_usingBlock(
+        &self,
+        unit_count: i64,
+        work: &Block<(), ()>,
+    );
 
-        #[method(addChild:withPendingUnitCount:)]
-        pub unsafe fn addChild_withPendingUnitCount(&self, child: &NSProgress, in_unit_count: i64);
+    #[objc2::method(sel = "resignCurrent")]
+    pub unsafe fn resignCurrent(&self);
 
-        #[method(totalUnitCount)]
-        pub unsafe fn totalUnitCount(&self) -> i64;
+    #[objc2::method(sel = "addChild:withPendingUnitCount:")]
+    pub unsafe fn addChild_withPendingUnitCount(&self, child: &NSProgress, in_unit_count: i64);
 
-        #[method(setTotalUnitCount:)]
-        pub unsafe fn setTotalUnitCount(&self, total_unit_count: i64);
+    #[objc2::method(sel = "totalUnitCount")]
+    pub unsafe fn totalUnitCount(&self) -> i64;
 
-        #[method(completedUnitCount)]
-        pub unsafe fn completedUnitCount(&self) -> i64;
+    #[objc2::method(sel = "setTotalUnitCount:")]
+    pub unsafe fn setTotalUnitCount(&self, total_unit_count: i64);
 
-        #[method(setCompletedUnitCount:)]
-        pub unsafe fn setCompletedUnitCount(&self, completed_unit_count: i64);
+    #[objc2::method(sel = "completedUnitCount")]
+    pub unsafe fn completedUnitCount(&self) -> i64;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedDescription)]
-        pub unsafe fn localizedDescription(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setCompletedUnitCount:")]
+    pub unsafe fn setCompletedUnitCount(&self, completed_unit_count: i64);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLocalizedDescription:)]
-        pub unsafe fn setLocalizedDescription(&self, localized_description: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedDescription", managed = "Other")]
+    pub unsafe fn localizedDescription(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedAdditionalDescription)]
-        pub unsafe fn localizedAdditionalDescription(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLocalizedDescription:")]
+    pub unsafe fn setLocalizedDescription(&self, localized_description: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLocalizedAdditionalDescription:)]
-        pub unsafe fn setLocalizedAdditionalDescription(
-            &self,
-            localized_additional_description: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedAdditionalDescription", managed = "Other")]
+    pub unsafe fn localizedAdditionalDescription(&self) -> Id<NSString>;
 
-        #[method(isCancellable)]
-        pub unsafe fn isCancellable(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLocalizedAdditionalDescription:")]
+    pub unsafe fn setLocalizedAdditionalDescription(
+        &self,
+        localized_additional_description: Option<&NSString>,
+    );
 
-        #[method(setCancellable:)]
-        pub unsafe fn setCancellable(&self, cancellable: bool);
+    #[objc2::method(sel = "isCancellable")]
+    pub unsafe fn isCancellable(&self) -> bool;
 
-        #[method(isPausable)]
-        pub unsafe fn isPausable(&self) -> bool;
+    #[objc2::method(sel = "setCancellable:")]
+    pub unsafe fn setCancellable(&self, cancellable: bool);
 
-        #[method(setPausable:)]
-        pub unsafe fn setPausable(&self, pausable: bool);
+    #[objc2::method(sel = "isPausable")]
+    pub unsafe fn isPausable(&self) -> bool;
 
-        #[method(isCancelled)]
-        pub unsafe fn isCancelled(&self) -> bool;
+    #[objc2::method(sel = "setPausable:")]
+    pub unsafe fn setPausable(&self, pausable: bool);
 
-        #[method(isPaused)]
-        pub unsafe fn isPaused(&self) -> bool;
+    #[objc2::method(sel = "isCancelled")]
+    pub unsafe fn isCancelled(&self) -> bool;
 
-        #[method(cancellationHandler)]
-        pub unsafe fn cancellationHandler(&self) -> *mut Block<(), ()>;
+    #[objc2::method(sel = "isPaused")]
+    pub unsafe fn isPaused(&self) -> bool;
 
-        #[method(setCancellationHandler:)]
-        pub unsafe fn setCancellationHandler(&self, cancellation_handler: Option<&Block<(), ()>>);
+    #[objc2::method(sel = "cancellationHandler")]
+    pub unsafe fn cancellationHandler(&self) -> *mut Block<(), ()>;
 
-        #[method(pausingHandler)]
-        pub unsafe fn pausingHandler(&self) -> *mut Block<(), ()>;
+    #[objc2::method(sel = "setCancellationHandler:")]
+    pub unsafe fn setCancellationHandler(&self, cancellation_handler: Option<&Block<(), ()>>);
 
-        #[method(setPausingHandler:)]
-        pub unsafe fn setPausingHandler(&self, pausing_handler: Option<&Block<(), ()>>);
+    #[objc2::method(sel = "pausingHandler")]
+    pub unsafe fn pausingHandler(&self) -> *mut Block<(), ()>;
 
-        #[method(resumingHandler)]
-        pub unsafe fn resumingHandler(&self) -> *mut Block<(), ()>;
+    #[objc2::method(sel = "setPausingHandler:")]
+    pub unsafe fn setPausingHandler(&self, pausing_handler: Option<&Block<(), ()>>);
 
-        #[method(setResumingHandler:)]
-        pub unsafe fn setResumingHandler(&self, resuming_handler: Option<&Block<(), ()>>);
+    #[objc2::method(sel = "resumingHandler")]
+    pub unsafe fn resumingHandler(&self) -> *mut Block<(), ()>;
 
-        #[method(setUserInfoObject:forKey:)]
-        pub unsafe fn setUserInfoObject_forKey(
-            &self,
-            object_or_nil: Option<&Object>,
-            key: &NSProgressUserInfoKey,
-        );
+    #[objc2::method(sel = "setResumingHandler:")]
+    pub unsafe fn setResumingHandler(&self, resuming_handler: Option<&Block<(), ()>>);
 
-        #[method(isIndeterminate)]
-        pub unsafe fn isIndeterminate(&self) -> bool;
+    #[objc2::method(sel = "setUserInfoObject:forKey:")]
+    pub unsafe fn setUserInfoObject_forKey(
+        &self,
+        object_or_nil: Option<&Object>,
+        key: &NSProgressUserInfoKey,
+    );
 
-        #[method(fractionCompleted)]
-        pub unsafe fn fractionCompleted(&self) -> c_double;
+    #[objc2::method(sel = "isIndeterminate")]
+    pub unsafe fn isIndeterminate(&self) -> bool;
 
-        #[method(isFinished)]
-        pub unsafe fn isFinished(&self) -> bool;
+    #[objc2::method(sel = "fractionCompleted")]
+    pub unsafe fn fractionCompleted(&self) -> c_double;
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
+    #[objc2::method(sel = "isFinished")]
+    pub unsafe fn isFinished(&self) -> bool;
 
-        #[method(pause)]
-        pub unsafe fn pause(&self);
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
 
-        #[method(resume)]
-        pub unsafe fn resume(&self);
+    #[objc2::method(sel = "pause")]
+    pub unsafe fn pause(&self);
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other userInfo)]
-        pub unsafe fn userInfo(&self) -> Id<NSDictionary<NSProgressUserInfoKey, Object>>;
+    #[objc2::method(sel = "resume")]
+    pub unsafe fn resume(&self);
 
-        #[method_id(@__retain_semantics Other kind)]
-        pub unsafe fn kind(&self) -> Option<Id<NSProgressKind>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "userInfo", managed = "Other")]
+    pub unsafe fn userInfo(&self) -> Id<NSDictionary<NSProgressUserInfoKey, Object>>;
 
-        #[method(setKind:)]
-        pub unsafe fn setKind(&self, kind: Option<&NSProgressKind>);
+    #[objc2::method(sel = "kind", managed = "Other")]
+    pub unsafe fn kind(&self) -> Option<Id<NSProgressKind>>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other estimatedTimeRemaining)]
-        pub unsafe fn estimatedTimeRemaining(&self) -> Option<Id<NSNumber>>;
+    #[objc2::method(sel = "setKind:")]
+    pub unsafe fn setKind(&self, kind: Option<&NSProgressKind>);
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method(setEstimatedTimeRemaining:)]
-        pub unsafe fn setEstimatedTimeRemaining(&self, estimated_time_remaining: Option<&NSNumber>);
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "estimatedTimeRemaining", managed = "Other")]
+    pub unsafe fn estimatedTimeRemaining(&self) -> Option<Id<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other throughput)]
-        pub unsafe fn throughput(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "setEstimatedTimeRemaining:")]
+    pub unsafe fn setEstimatedTimeRemaining(&self, estimated_time_remaining: Option<&NSNumber>);
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method(setThroughput:)]
-        pub unsafe fn setThroughput(&self, throughput: Option<&NSNumber>);
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "throughput", managed = "Other")]
+    pub unsafe fn throughput(&self) -> Option<Id<NSNumber>>;
 
-        #[method_id(@__retain_semantics Other fileOperationKind)]
-        pub unsafe fn fileOperationKind(&self) -> Option<Id<NSProgressFileOperationKind>>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "setThroughput:")]
+    pub unsafe fn setThroughput(&self, throughput: Option<&NSNumber>);
 
-        #[method(setFileOperationKind:)]
-        pub unsafe fn setFileOperationKind(
-            &self,
-            file_operation_kind: Option<&NSProgressFileOperationKind>,
-        );
+    #[objc2::method(sel = "fileOperationKind", managed = "Other")]
+    pub unsafe fn fileOperationKind(&self) -> Option<Id<NSProgressFileOperationKind>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other fileURL)]
-        pub unsafe fn fileURL(&self) -> Option<Id<NSURL>>;
+    #[objc2::method(sel = "setFileOperationKind:")]
+    pub unsafe fn setFileOperationKind(
+        &self,
+        file_operation_kind: Option<&NSProgressFileOperationKind>,
+    );
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setFileURL:)]
-        pub unsafe fn setFileURL(&self, file_url: Option<&NSURL>);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "fileURL", managed = "Other")]
+    pub unsafe fn fileURL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other fileTotalCount)]
-        pub unsafe fn fileTotalCount(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setFileURL:")]
+    pub unsafe fn setFileURL(&self, file_url: Option<&NSURL>);
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method(setFileTotalCount:)]
-        pub unsafe fn setFileTotalCount(&self, file_total_count: Option<&NSNumber>);
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "fileTotalCount", managed = "Other")]
+    pub unsafe fn fileTotalCount(&self) -> Option<Id<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other fileCompletedCount)]
-        pub unsafe fn fileCompletedCount(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "setFileTotalCount:")]
+    pub unsafe fn setFileTotalCount(&self, file_total_count: Option<&NSNumber>);
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method(setFileCompletedCount:)]
-        pub unsafe fn setFileCompletedCount(&self, file_completed_count: Option<&NSNumber>);
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "fileCompletedCount", managed = "Other")]
+    pub unsafe fn fileCompletedCount(&self) -> Option<Id<NSNumber>>;
 
-        #[method(publish)]
-        pub unsafe fn publish(&self);
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "setFileCompletedCount:")]
+    pub unsafe fn setFileCompletedCount(&self, file_completed_count: Option<&NSNumber>);
 
-        #[method(unpublish)]
-        pub unsafe fn unpublish(&self);
+    #[objc2::method(sel = "publish")]
+    pub unsafe fn publish(&self);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other addSubscriberForFileURL:withPublishingHandler:)]
-        pub unsafe fn addSubscriberForFileURL_withPublishingHandler(
-            url: &NSURL,
-            publishing_handler: NSProgressPublishingHandler,
-        ) -> Id<Object>;
+    #[objc2::method(sel = "unpublish")]
+    pub unsafe fn unpublish(&self);
 
-        #[method(removeSubscriber:)]
-        pub unsafe fn removeSubscriber(subscriber: &Object);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(
+        sel = "addSubscriberForFileURL:withPublishingHandler:",
+        managed = "Other"
+    )]
+    pub unsafe fn addSubscriberForFileURL_withPublishingHandler(
+        url: &NSURL,
+        publishing_handler: NSProgressPublishingHandler,
+    ) -> Id<Object>;
 
-        #[method(isOld)]
-        pub unsafe fn isOld(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "removeSubscriber:")]
+    pub unsafe fn removeSubscriber(subscriber: &Object);
 
-extern_protocol!(
-    pub unsafe trait NSProgressReporting: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSProgress")]
-        #[method_id(@__retain_semantics Other progress)]
-        unsafe fn progress(&self) -> Id<NSProgress>;
-    }
+    #[objc2::method(sel = "isOld")]
+    pub unsafe fn isOld(&self) -> bool;
+}
 
-    unsafe impl ProtocolType for dyn NSProgressReporting {}
-);
+#[objc2::protocol]
+pub unsafe trait NSProgressReporting: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSProgress")]
+    #[objc2::method(sel = "progress", managed = "Other")]
+    unsafe fn progress(&self) -> Id<NSProgress>;
+}
 
 extern_static!(NSProgressEstimatedTimeRemainingKey: &'static NSProgressUserInfoKey);
 

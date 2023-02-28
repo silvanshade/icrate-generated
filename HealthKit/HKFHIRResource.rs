@@ -30,16 +30,16 @@ extern_static!(HKFHIRResourceTypeObservation: &'static HKFHIRResourceType);
 
 extern_static!(HKFHIRResourceTypeProcedure: &'static HKFHIRResourceType);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKFHIRResource")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKFHIRResource")]
-    pub struct HKFHIRResource;
-
-    #[cfg(feature = "HealthKit_HKFHIRResource")]
-    unsafe impl ClassType for HKFHIRResource {
-        type Super = NSObject;
-    }
-);
+    pub type HKFHIRResource;
+}
 
 #[cfg(feature = "HealthKit_HKFHIRResource")]
 unsafe impl NSCoding for HKFHIRResource {}
@@ -50,29 +50,32 @@ unsafe impl NSObjectProtocol for HKFHIRResource {}
 #[cfg(feature = "HealthKit_HKFHIRResource")]
 unsafe impl NSSecureCoding for HKFHIRResource {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKFHIRResource")]
-    unsafe impl HKFHIRResource {
-        #[cfg(feature = "HealthKit_HKFHIRVersion")]
-        #[method_id(@__retain_semantics Other FHIRVersion)]
-        pub unsafe fn FHIRVersion(&self) -> Id<HKFHIRVersion>;
+    pub type HKFHIRResource;
 
-        #[method_id(@__retain_semantics Other resourceType)]
-        pub unsafe fn resourceType(&self) -> Id<HKFHIRResourceType>;
+    #[cfg(feature = "HealthKit_HKFHIRVersion")]
+    #[objc2::method(sel = "FHIRVersion", managed = "Other")]
+    pub unsafe fn FHIRVersion(&self) -> Id<HKFHIRVersion>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    #[objc2::method(sel = "resourceType", managed = "Other")]
+    pub unsafe fn resourceType(&self) -> Id<HKFHIRResourceType>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other data)]
-        pub unsafe fn data(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other sourceURL)]
-        pub unsafe fn sourceURL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "data", managed = "Other")]
+    pub unsafe fn data(&self) -> Id<NSData>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "sourceURL", managed = "Other")]
+    pub unsafe fn sourceURL(&self) -> Option<Id<NSURL>>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

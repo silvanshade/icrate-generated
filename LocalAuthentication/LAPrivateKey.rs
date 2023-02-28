@@ -4,31 +4,34 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::LocalAuthentication::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "LocalAuthentication_LAPrivateKey")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "LocalAuthentication_LAPrivateKey")]
-    pub struct LAPrivateKey;
-
-    #[cfg(feature = "LocalAuthentication_LAPrivateKey")]
-    unsafe impl ClassType for LAPrivateKey {
-        type Super = NSObject;
-    }
-);
+    pub type LAPrivateKey;
+}
 
 #[cfg(feature = "LocalAuthentication_LAPrivateKey")]
 unsafe impl NSObjectProtocol for LAPrivateKey {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "LocalAuthentication_LAPrivateKey")]
-    unsafe impl LAPrivateKey {
-        #[cfg(feature = "LocalAuthentication_LAPublicKey")]
-        #[method_id(@__retain_semantics Other publicKey)]
-        pub unsafe fn publicKey(&self) -> Id<LAPublicKey>;
+    pub type LAPrivateKey;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(feature = "LocalAuthentication_LAPublicKey")]
+    #[objc2::method(sel = "publicKey", managed = "Other")]
+    pub unsafe fn publicKey(&self) -> Id<LAPublicKey>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

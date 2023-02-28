@@ -5,25 +5,26 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSComboButtonStyle {
-        NSComboButtonStyleSplit = 0,
-        NSComboButtonStyleUnified = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSComboButtonStyle {
+    NSComboButtonStyleSplit = 0,
+    NSComboButtonStyleUnified = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSControl,
+    unsafe inherits = [
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSComboButton")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSComboButton")]
-    pub struct NSComboButton;
-
-    #[cfg(feature = "AppKit_NSComboButton")]
-    unsafe impl ClassType for NSComboButton {
-        #[inherits(NSView, NSResponder, NSObject)]
-        type Super = NSControl;
-    }
-);
+    pub type NSComboButton;
+}
 
 #[cfg(feature = "AppKit_NSComboButton")]
 unsafe impl NSAccessibility for NSComboButton {}
@@ -49,84 +50,96 @@ unsafe impl NSObjectProtocol for NSComboButton {}
 #[cfg(feature = "AppKit_NSComboButton")]
 unsafe impl NSUserInterfaceItemIdentification for NSComboButton {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSComboButton")]
-    unsafe impl NSComboButton {
-        #[cfg(all(feature = "AppKit_NSMenu", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other comboButtonWithTitle:menu:target:action:)]
-        pub unsafe fn comboButtonWithTitle_menu_target_action(
-            title: &NSString,
-            menu: Option<&NSMenu>,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
+    pub type NSComboButton;
 
-        #[cfg(all(feature = "AppKit_NSImage", feature = "AppKit_NSMenu"))]
-        #[method_id(@__retain_semantics Other comboButtonWithImage:menu:target:action:)]
-        pub unsafe fn comboButtonWithImage_menu_target_action(
-            image: &NSImage,
-            menu: Option<&NSMenu>,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "AppKit_NSMenu", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "comboButtonWithTitle:menu:target:action:", managed = "Other")]
+    pub unsafe fn comboButtonWithTitle_menu_target_action(
+        title: &NSString,
+        menu: Option<&NSMenu>,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "AppKit_NSImage",
-            feature = "AppKit_NSMenu",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other comboButtonWithTitle:image:menu:target:action:)]
-        pub unsafe fn comboButtonWithTitle_image_menu_target_action(
-            title: &NSString,
-            image: &NSImage,
-            menu: Option<&NSMenu>,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "AppKit_NSImage", feature = "AppKit_NSMenu"))]
+    #[objc2::method(sel = "comboButtonWithImage:menu:target:action:", managed = "Other")]
+    pub unsafe fn comboButtonWithImage_menu_target_action(
+        image: &NSImage,
+        menu: Option<&NSMenu>,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[cfg(all(
+        feature = "AppKit_NSImage",
+        feature = "AppKit_NSMenu",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "comboButtonWithTitle:image:menu:target:action:",
+        managed = "Other"
+    )]
+    pub unsafe fn comboButtonWithTitle_image_menu_target_action(
+        title: &NSString,
+        image: &NSImage,
+        menu: Option<&NSMenu>,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setImage:)]
-        pub unsafe fn setImage(&self, image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Option<Id<NSImage>>;
 
-        #[method(imageScaling)]
-        pub unsafe fn imageScaling(&self) -> NSImageScaling;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setImage:")]
+    pub unsafe fn setImage(&self, image: Option<&NSImage>);
 
-        #[method(setImageScaling:)]
-        pub unsafe fn setImageScaling(&self, image_scaling: NSImageScaling);
+    #[objc2::method(sel = "imageScaling")]
+    pub unsafe fn imageScaling(&self) -> NSImageScaling;
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method_id(@__retain_semantics Other menu)]
-        pub unsafe fn menu(&self) -> Id<NSMenu>;
+    #[objc2::method(sel = "setImageScaling:")]
+    pub unsafe fn setImageScaling(&self, image_scaling: NSImageScaling);
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method(setMenu:)]
-        pub unsafe fn setMenu(&self, menu: &NSMenu);
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "menu", managed = "Other")]
+    pub unsafe fn menu(&self) -> Id<NSMenu>;
 
-        #[method(style)]
-        pub unsafe fn style(&self) -> NSComboButtonStyle;
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "setMenu:")]
+    pub unsafe fn setMenu(&self, menu: &NSMenu);
 
-        #[method(setStyle:)]
-        pub unsafe fn setStyle(&self, style: NSComboButtonStyle);
-    }
-);
+    #[objc2::method(sel = "style")]
+    pub unsafe fn style(&self) -> NSComboButtonStyle;
 
-extern_methods!(
-    /// Methods declared on superclass `NSControl`
+    #[objc2::method(sel = "setStyle:")]
+    pub unsafe fn setStyle(&self, style: NSComboButtonStyle);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSControl`
     #[cfg(feature = "AppKit_NSComboButton")]
-    unsafe impl NSComboButton {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSComboButton")]
+    pub type NSComboButton;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

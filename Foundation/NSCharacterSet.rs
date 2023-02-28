@@ -3,23 +3,22 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        NSOpenStepUnicodeReservedBase = 0xF400,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    NSOpenStepUnicodeReservedBase = 0xF400,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSCharacterSet")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSCharacterSet")]
-    pub struct NSCharacterSet;
-
-    #[cfg(feature = "Foundation_NSCharacterSet")]
-    unsafe impl ClassType for NSCharacterSet {
-        type Super = NSObject;
-    }
-);
+    pub type NSCharacterSet;
+}
 
 #[cfg(feature = "Foundation_NSCharacterSet")]
 unsafe impl NSCoding for NSCharacterSet {}
@@ -30,108 +29,108 @@ unsafe impl NSObjectProtocol for NSCharacterSet {}
 #[cfg(feature = "Foundation_NSCharacterSet")]
 unsafe impl NSSecureCoding for NSCharacterSet {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCharacterSet")]
-    unsafe impl NSCharacterSet {
-        #[method_id(@__retain_semantics Other controlCharacterSet)]
-        pub unsafe fn controlCharacterSet() -> Id<NSCharacterSet>;
+    pub type NSCharacterSet;
 
-        #[method_id(@__retain_semantics Other whitespaceCharacterSet)]
-        pub unsafe fn whitespaceCharacterSet() -> Id<NSCharacterSet>;
+    #[objc2::method(sel = "controlCharacterSet", managed = "Other")]
+    pub unsafe fn controlCharacterSet() -> Id<NSCharacterSet>;
 
-        #[method_id(@__retain_semantics Other whitespaceAndNewlineCharacterSet)]
-        pub unsafe fn whitespaceAndNewlineCharacterSet() -> Id<NSCharacterSet>;
+    #[objc2::method(sel = "whitespaceCharacterSet", managed = "Other")]
+    pub unsafe fn whitespaceCharacterSet() -> Id<NSCharacterSet>;
 
-        #[method_id(@__retain_semantics Other decimalDigitCharacterSet)]
-        pub unsafe fn decimalDigitCharacterSet() -> Id<NSCharacterSet>;
+    #[objc2::method(sel = "whitespaceAndNewlineCharacterSet", managed = "Other")]
+    pub unsafe fn whitespaceAndNewlineCharacterSet() -> Id<NSCharacterSet>;
 
-        #[method_id(@__retain_semantics Other letterCharacterSet)]
-        pub unsafe fn letterCharacterSet() -> Id<NSCharacterSet>;
+    #[objc2::method(sel = "decimalDigitCharacterSet", managed = "Other")]
+    pub unsafe fn decimalDigitCharacterSet() -> Id<NSCharacterSet>;
 
-        #[method_id(@__retain_semantics Other lowercaseLetterCharacterSet)]
-        pub unsafe fn lowercaseLetterCharacterSet() -> Id<NSCharacterSet>;
+    #[objc2::method(sel = "letterCharacterSet", managed = "Other")]
+    pub unsafe fn letterCharacterSet() -> Id<NSCharacterSet>;
 
-        #[method_id(@__retain_semantics Other uppercaseLetterCharacterSet)]
-        pub unsafe fn uppercaseLetterCharacterSet() -> Id<NSCharacterSet>;
+    #[objc2::method(sel = "lowercaseLetterCharacterSet", managed = "Other")]
+    pub unsafe fn lowercaseLetterCharacterSet() -> Id<NSCharacterSet>;
 
-        #[method_id(@__retain_semantics Other nonBaseCharacterSet)]
-        pub unsafe fn nonBaseCharacterSet() -> Id<NSCharacterSet>;
+    #[objc2::method(sel = "uppercaseLetterCharacterSet", managed = "Other")]
+    pub unsafe fn uppercaseLetterCharacterSet() -> Id<NSCharacterSet>;
 
-        #[method_id(@__retain_semantics Other alphanumericCharacterSet)]
-        pub unsafe fn alphanumericCharacterSet() -> Id<NSCharacterSet>;
+    #[objc2::method(sel = "nonBaseCharacterSet", managed = "Other")]
+    pub unsafe fn nonBaseCharacterSet() -> Id<NSCharacterSet>;
 
-        #[method_id(@__retain_semantics Other decomposableCharacterSet)]
-        pub unsafe fn decomposableCharacterSet() -> Id<NSCharacterSet>;
+    #[objc2::method(sel = "alphanumericCharacterSet", managed = "Other")]
+    pub unsafe fn alphanumericCharacterSet() -> Id<NSCharacterSet>;
 
-        #[method_id(@__retain_semantics Other illegalCharacterSet)]
-        pub unsafe fn illegalCharacterSet() -> Id<NSCharacterSet>;
+    #[objc2::method(sel = "decomposableCharacterSet", managed = "Other")]
+    pub unsafe fn decomposableCharacterSet() -> Id<NSCharacterSet>;
 
-        #[method_id(@__retain_semantics Other punctuationCharacterSet)]
-        pub unsafe fn punctuationCharacterSet() -> Id<NSCharacterSet>;
+    #[objc2::method(sel = "illegalCharacterSet", managed = "Other")]
+    pub unsafe fn illegalCharacterSet() -> Id<NSCharacterSet>;
 
-        #[method_id(@__retain_semantics Other capitalizedLetterCharacterSet)]
-        pub unsafe fn capitalizedLetterCharacterSet() -> Id<NSCharacterSet>;
+    #[objc2::method(sel = "punctuationCharacterSet", managed = "Other")]
+    pub unsafe fn punctuationCharacterSet() -> Id<NSCharacterSet>;
 
-        #[method_id(@__retain_semantics Other symbolCharacterSet)]
-        pub unsafe fn symbolCharacterSet() -> Id<NSCharacterSet>;
+    #[objc2::method(sel = "capitalizedLetterCharacterSet", managed = "Other")]
+    pub unsafe fn capitalizedLetterCharacterSet() -> Id<NSCharacterSet>;
 
-        #[method_id(@__retain_semantics Other newlineCharacterSet)]
-        pub unsafe fn newlineCharacterSet() -> Id<NSCharacterSet>;
+    #[objc2::method(sel = "symbolCharacterSet", managed = "Other")]
+    pub unsafe fn symbolCharacterSet() -> Id<NSCharacterSet>;
 
-        #[method_id(@__retain_semantics Other characterSetWithRange:)]
-        pub unsafe fn characterSetWithRange(a_range: NSRange) -> Id<NSCharacterSet>;
+    #[objc2::method(sel = "newlineCharacterSet", managed = "Other")]
+    pub unsafe fn newlineCharacterSet() -> Id<NSCharacterSet>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other characterSetWithCharactersInString:)]
-        pub unsafe fn characterSetWithCharactersInString(a_string: &NSString)
-            -> Id<NSCharacterSet>;
+    #[objc2::method(sel = "characterSetWithRange:", managed = "Other")]
+    pub unsafe fn characterSetWithRange(a_range: NSRange) -> Id<NSCharacterSet>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other characterSetWithBitmapRepresentation:)]
-        pub unsafe fn characterSetWithBitmapRepresentation(data: &NSData) -> Id<NSCharacterSet>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "characterSetWithCharactersInString:", managed = "Other")]
+    pub unsafe fn characterSetWithCharactersInString(a_string: &NSString) -> Id<NSCharacterSet>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other characterSetWithContentsOfFile:)]
-        pub unsafe fn characterSetWithContentsOfFile(
-            f_name: &NSString,
-        ) -> Option<Id<NSCharacterSet>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "characterSetWithBitmapRepresentation:", managed = "Other")]
+    pub unsafe fn characterSetWithBitmapRepresentation(data: &NSData) -> Id<NSCharacterSet>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "characterSetWithContentsOfFile:", managed = "Other")]
+    pub unsafe fn characterSetWithContentsOfFile(f_name: &NSString) -> Option<Id<NSCharacterSet>>;
 
-        #[method(characterIsMember:)]
-        pub unsafe fn characterIsMember(&self, a_character: unichar) -> bool;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other bitmapRepresentation)]
-        pub unsafe fn bitmapRepresentation(&self) -> Id<NSData>;
+    #[objc2::method(sel = "characterIsMember:")]
+    pub unsafe fn characterIsMember(&self, a_character: unichar) -> bool;
 
-        #[method_id(@__retain_semantics Other invertedSet)]
-        pub unsafe fn invertedSet(&self) -> Id<NSCharacterSet>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "bitmapRepresentation", managed = "Other")]
+    pub unsafe fn bitmapRepresentation(&self) -> Id<NSData>;
 
-        #[method(longCharacterIsMember:)]
-        pub unsafe fn longCharacterIsMember(&self, the_long_char: UTF32Char) -> bool;
+    #[objc2::method(sel = "invertedSet", managed = "Other")]
+    pub unsafe fn invertedSet(&self) -> Id<NSCharacterSet>;
 
-        #[method(isSupersetOfSet:)]
-        pub unsafe fn isSupersetOfSet(&self, the_other_set: &NSCharacterSet) -> bool;
+    #[objc2::method(sel = "longCharacterIsMember:")]
+    pub unsafe fn longCharacterIsMember(&self, the_long_char: UTF32Char) -> bool;
 
-        #[method(hasMemberInPlane:)]
-        pub unsafe fn hasMemberInPlane(&self, the_plane: u8) -> bool;
-    }
-);
+    #[objc2::method(sel = "isSupersetOfSet:")]
+    pub unsafe fn isSupersetOfSet(&self, the_other_set: &NSCharacterSet) -> bool;
 
-extern_class!(
+    #[objc2::method(sel = "hasMemberInPlane:")]
+    pub unsafe fn hasMemberInPlane(&self, the_plane: u8) -> bool;
+}
+
+#[objc2::interface(
+    unsafe super = NSCharacterSet,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMutableCharacterSet")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSMutableCharacterSet")]
-    pub struct NSMutableCharacterSet;
-
-    #[cfg(feature = "Foundation_NSMutableCharacterSet")]
-    unsafe impl ClassType for NSMutableCharacterSet {
-        #[inherits(NSObject)]
-        type Super = NSCharacterSet;
-    }
-);
+    pub type NSMutableCharacterSet;
+}
 
 #[cfg(feature = "Foundation_NSMutableCharacterSet")]
 unsafe impl NSCoding for NSMutableCharacterSet {}
@@ -142,96 +141,99 @@ unsafe impl NSObjectProtocol for NSMutableCharacterSet {}
 #[cfg(feature = "Foundation_NSMutableCharacterSet")]
 unsafe impl NSSecureCoding for NSMutableCharacterSet {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableCharacterSet")]
-    unsafe impl NSMutableCharacterSet {
-        #[method(addCharactersInRange:)]
-        pub unsafe fn addCharactersInRange(&self, a_range: NSRange);
+    pub type NSMutableCharacterSet;
 
-        #[method(removeCharactersInRange:)]
-        pub unsafe fn removeCharactersInRange(&self, a_range: NSRange);
+    #[objc2::method(sel = "addCharactersInRange:")]
+    pub unsafe fn addCharactersInRange(&self, a_range: NSRange);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(addCharactersInString:)]
-        pub unsafe fn addCharactersInString(&self, a_string: &NSString);
+    #[objc2::method(sel = "removeCharactersInRange:")]
+    pub unsafe fn removeCharactersInRange(&self, a_range: NSRange);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(removeCharactersInString:)]
-        pub unsafe fn removeCharactersInString(&self, a_string: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "addCharactersInString:")]
+    pub unsafe fn addCharactersInString(&self, a_string: &NSString);
 
-        #[method(formUnionWithCharacterSet:)]
-        pub unsafe fn formUnionWithCharacterSet(&self, other_set: &NSCharacterSet);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "removeCharactersInString:")]
+    pub unsafe fn removeCharactersInString(&self, a_string: &NSString);
 
-        #[method(formIntersectionWithCharacterSet:)]
-        pub unsafe fn formIntersectionWithCharacterSet(&self, other_set: &NSCharacterSet);
+    #[objc2::method(sel = "formUnionWithCharacterSet:")]
+    pub unsafe fn formUnionWithCharacterSet(&self, other_set: &NSCharacterSet);
 
-        #[method(invert)]
-        pub unsafe fn invert(&self);
+    #[objc2::method(sel = "formIntersectionWithCharacterSet:")]
+    pub unsafe fn formIntersectionWithCharacterSet(&self, other_set: &NSCharacterSet);
 
-        #[method_id(@__retain_semantics Other controlCharacterSet)]
-        pub unsafe fn controlCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
+    #[objc2::method(sel = "invert")]
+    pub unsafe fn invert(&self);
 
-        #[method_id(@__retain_semantics Other whitespaceCharacterSet)]
-        pub unsafe fn whitespaceCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
+    #[objc2::method(sel = "controlCharacterSet", managed = "Other")]
+    pub unsafe fn controlCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
 
-        #[method_id(@__retain_semantics Other whitespaceAndNewlineCharacterSet)]
-        pub unsafe fn whitespaceAndNewlineCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
+    #[objc2::method(sel = "whitespaceCharacterSet", managed = "Other")]
+    pub unsafe fn whitespaceCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
 
-        #[method_id(@__retain_semantics Other decimalDigitCharacterSet)]
-        pub unsafe fn decimalDigitCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
+    #[objc2::method(sel = "whitespaceAndNewlineCharacterSet", managed = "Other")]
+    pub unsafe fn whitespaceAndNewlineCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
 
-        #[method_id(@__retain_semantics Other letterCharacterSet)]
-        pub unsafe fn letterCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
+    #[objc2::method(sel = "decimalDigitCharacterSet", managed = "Other")]
+    pub unsafe fn decimalDigitCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
 
-        #[method_id(@__retain_semantics Other lowercaseLetterCharacterSet)]
-        pub unsafe fn lowercaseLetterCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
+    #[objc2::method(sel = "letterCharacterSet", managed = "Other")]
+    pub unsafe fn letterCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
 
-        #[method_id(@__retain_semantics Other uppercaseLetterCharacterSet)]
-        pub unsafe fn uppercaseLetterCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
+    #[objc2::method(sel = "lowercaseLetterCharacterSet", managed = "Other")]
+    pub unsafe fn lowercaseLetterCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
 
-        #[method_id(@__retain_semantics Other nonBaseCharacterSet)]
-        pub unsafe fn nonBaseCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
+    #[objc2::method(sel = "uppercaseLetterCharacterSet", managed = "Other")]
+    pub unsafe fn uppercaseLetterCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
 
-        #[method_id(@__retain_semantics Other alphanumericCharacterSet)]
-        pub unsafe fn alphanumericCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
+    #[objc2::method(sel = "nonBaseCharacterSet", managed = "Other")]
+    pub unsafe fn nonBaseCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
 
-        #[method_id(@__retain_semantics Other decomposableCharacterSet)]
-        pub unsafe fn decomposableCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
+    #[objc2::method(sel = "alphanumericCharacterSet", managed = "Other")]
+    pub unsafe fn alphanumericCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
 
-        #[method_id(@__retain_semantics Other illegalCharacterSet)]
-        pub unsafe fn illegalCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
+    #[objc2::method(sel = "decomposableCharacterSet", managed = "Other")]
+    pub unsafe fn decomposableCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
 
-        #[method_id(@__retain_semantics Other punctuationCharacterSet)]
-        pub unsafe fn punctuationCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
+    #[objc2::method(sel = "illegalCharacterSet", managed = "Other")]
+    pub unsafe fn illegalCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
 
-        #[method_id(@__retain_semantics Other capitalizedLetterCharacterSet)]
-        pub unsafe fn capitalizedLetterCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
+    #[objc2::method(sel = "punctuationCharacterSet", managed = "Other")]
+    pub unsafe fn punctuationCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
 
-        #[method_id(@__retain_semantics Other symbolCharacterSet)]
-        pub unsafe fn symbolCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
+    #[objc2::method(sel = "capitalizedLetterCharacterSet", managed = "Other")]
+    pub unsafe fn capitalizedLetterCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
 
-        #[method_id(@__retain_semantics Other newlineCharacterSet)]
-        pub unsafe fn newlineCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
+    #[objc2::method(sel = "symbolCharacterSet", managed = "Other")]
+    pub unsafe fn symbolCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
 
-        #[method_id(@__retain_semantics Other characterSetWithRange:)]
-        pub unsafe fn characterSetWithRange(a_range: NSRange) -> Id<NSMutableCharacterSet, Owned>;
+    #[objc2::method(sel = "newlineCharacterSet", managed = "Other")]
+    pub unsafe fn newlineCharacterSet() -> Id<NSMutableCharacterSet, Owned>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other characterSetWithCharactersInString:)]
-        pub unsafe fn characterSetWithCharactersInString(
-            a_string: &NSString,
-        ) -> Id<NSMutableCharacterSet, Owned>;
+    #[objc2::method(sel = "characterSetWithRange:", managed = "Other")]
+    pub unsafe fn characterSetWithRange(a_range: NSRange) -> Id<NSMutableCharacterSet, Owned>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other characterSetWithBitmapRepresentation:)]
-        pub unsafe fn characterSetWithBitmapRepresentation(
-            data: &NSData,
-        ) -> Id<NSMutableCharacterSet, Owned>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "characterSetWithCharactersInString:", managed = "Other")]
+    pub unsafe fn characterSetWithCharactersInString(
+        a_string: &NSString,
+    ) -> Id<NSMutableCharacterSet, Owned>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other characterSetWithContentsOfFile:)]
-        pub unsafe fn characterSetWithContentsOfFile(
-            f_name: &NSString,
-        ) -> Option<Id<NSMutableCharacterSet, Owned>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "characterSetWithBitmapRepresentation:", managed = "Other")]
+    pub unsafe fn characterSetWithBitmapRepresentation(
+        data: &NSData,
+    ) -> Id<NSMutableCharacterSet, Owned>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "characterSetWithContentsOfFile:", managed = "Other")]
+    pub unsafe fn characterSetWithContentsOfFile(
+        f_name: &NSString,
+    ) -> Option<Id<NSMutableCharacterSet, Owned>>;
+}

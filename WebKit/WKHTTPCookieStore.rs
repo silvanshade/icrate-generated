@@ -5,67 +5,63 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_protocol!(
-    pub unsafe trait WKHTTPCookieStoreObserver: NSObjectProtocol {
-        #[cfg(feature = "WebKit_WKHTTPCookieStore")]
-        #[optional]
-        #[method(cookiesDidChangeInCookieStore:)]
-        unsafe fn cookiesDidChangeInCookieStore(&self, cookie_store: &WKHTTPCookieStore);
-    }
+#[objc2::protocol]
+pub unsafe trait WKHTTPCookieStoreObserver: NSObjectProtocol {
+    #[cfg(feature = "WebKit_WKHTTPCookieStore")]
+    #[objc2::method(optional, sel = "cookiesDidChangeInCookieStore:")]
+    unsafe fn cookiesDidChangeInCookieStore(&self, cookie_store: &WKHTTPCookieStore);
+}
 
-    unsafe impl ProtocolType for dyn WKHTTPCookieStoreObserver {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKHTTPCookieStore")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKHTTPCookieStore")]
-    pub struct WKHTTPCookieStore;
-
-    #[cfg(feature = "WebKit_WKHTTPCookieStore")]
-    unsafe impl ClassType for WKHTTPCookieStore {
-        type Super = NSObject;
-    }
-);
+    pub type WKHTTPCookieStore;
+}
 
 #[cfg(feature = "WebKit_WKHTTPCookieStore")]
 unsafe impl NSObjectProtocol for WKHTTPCookieStore {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKHTTPCookieStore")]
-    unsafe impl WKHTTPCookieStore {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type WKHTTPCookieStore;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSHTTPCookie"))]
-        #[method(getAllCookies:)]
-        pub unsafe fn getAllCookies(
-            &self,
-            completion_handler: &Block<(NonNull<NSArray<NSHTTPCookie>>,), ()>,
-        );
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSHTTPCookie")]
-        #[method(setCookie:completionHandler:)]
-        pub unsafe fn setCookie_completionHandler(
-            &self,
-            cookie: &NSHTTPCookie,
-            completion_handler: Option<&Block<(), ()>>,
-        );
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSHTTPCookie"))]
+    #[objc2::method(sel = "getAllCookies:")]
+    pub unsafe fn getAllCookies(
+        &self,
+        completion_handler: &Block<(NonNull<NSArray<NSHTTPCookie>>,), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSHTTPCookie")]
-        #[method(deleteCookie:completionHandler:)]
-        pub unsafe fn deleteCookie_completionHandler(
-            &self,
-            cookie: &NSHTTPCookie,
-            completion_handler: Option<&Block<(), ()>>,
-        );
+    #[cfg(feature = "Foundation_NSHTTPCookie")]
+    #[objc2::method(sel = "setCookie:completionHandler:")]
+    pub unsafe fn setCookie_completionHandler(
+        &self,
+        cookie: &NSHTTPCookie,
+        completion_handler: Option<&Block<(), ()>>,
+    );
 
-        #[method(addObserver:)]
-        pub unsafe fn addObserver(&self, observer: &ProtocolObject<dyn WKHTTPCookieStoreObserver>);
+    #[cfg(feature = "Foundation_NSHTTPCookie")]
+    #[objc2::method(sel = "deleteCookie:completionHandler:")]
+    pub unsafe fn deleteCookie_completionHandler(
+        &self,
+        cookie: &NSHTTPCookie,
+        completion_handler: Option<&Block<(), ()>>,
+    );
 
-        #[method(removeObserver:)]
-        pub unsafe fn removeObserver(
-            &self,
-            observer: &ProtocolObject<dyn WKHTTPCookieStoreObserver>,
-        );
-    }
-);
+    #[objc2::method(sel = "addObserver:")]
+    pub unsafe fn addObserver(&self, observer: &ProtocolObject<dyn WKHTTPCookieStoreObserver>);
+
+    #[objc2::method(sel = "removeObserver:")]
+    pub unsafe fn removeObserver(&self, observer: &ProtocolObject<dyn WKHTTPCookieStoreObserver>);
+}

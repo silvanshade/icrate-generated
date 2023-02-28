@@ -6,16 +6,16 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKBiologicalSexObject")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKBiologicalSexObject")]
-    pub struct HKBiologicalSexObject;
-
-    #[cfg(feature = "HealthKit_HKBiologicalSexObject")]
-    unsafe impl ClassType for HKBiologicalSexObject {
-        type Super = NSObject;
-    }
-);
+    pub type HKBiologicalSexObject;
+}
 
 #[cfg(feature = "HealthKit_HKBiologicalSexObject")]
 unsafe impl NSCoding for HKBiologicalSexObject {}
@@ -26,24 +26,27 @@ unsafe impl NSObjectProtocol for HKBiologicalSexObject {}
 #[cfg(feature = "HealthKit_HKBiologicalSexObject")]
 unsafe impl NSSecureCoding for HKBiologicalSexObject {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKBiologicalSexObject")]
-    unsafe impl HKBiologicalSexObject {
-        #[method(biologicalSex)]
-        pub unsafe fn biologicalSex(&self) -> HKBiologicalSex;
-    }
-);
+    pub type HKBiologicalSexObject;
 
-extern_class!(
+    #[objc2::method(sel = "biologicalSex")]
+    pub unsafe fn biologicalSex(&self) -> HKBiologicalSex;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKBloodTypeObject")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKBloodTypeObject")]
-    pub struct HKBloodTypeObject;
-
-    #[cfg(feature = "HealthKit_HKBloodTypeObject")]
-    unsafe impl ClassType for HKBloodTypeObject {
-        type Super = NSObject;
-    }
-);
+    pub type HKBloodTypeObject;
+}
 
 #[cfg(feature = "HealthKit_HKBloodTypeObject")]
 unsafe impl NSCoding for HKBloodTypeObject {}
@@ -54,24 +57,27 @@ unsafe impl NSObjectProtocol for HKBloodTypeObject {}
 #[cfg(feature = "HealthKit_HKBloodTypeObject")]
 unsafe impl NSSecureCoding for HKBloodTypeObject {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKBloodTypeObject")]
-    unsafe impl HKBloodTypeObject {
-        #[method(bloodType)]
-        pub unsafe fn bloodType(&self) -> HKBloodType;
-    }
-);
+    pub type HKBloodTypeObject;
 
-extern_class!(
+    #[objc2::method(sel = "bloodType")]
+    pub unsafe fn bloodType(&self) -> HKBloodType;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKFitzpatrickSkinTypeObject")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKFitzpatrickSkinTypeObject")]
-    pub struct HKFitzpatrickSkinTypeObject;
-
-    #[cfg(feature = "HealthKit_HKFitzpatrickSkinTypeObject")]
-    unsafe impl ClassType for HKFitzpatrickSkinTypeObject {
-        type Super = NSObject;
-    }
-);
+    pub type HKFitzpatrickSkinTypeObject;
+}
 
 #[cfg(feature = "HealthKit_HKFitzpatrickSkinTypeObject")]
 unsafe impl NSCoding for HKFitzpatrickSkinTypeObject {}
@@ -82,24 +88,27 @@ unsafe impl NSObjectProtocol for HKFitzpatrickSkinTypeObject {}
 #[cfg(feature = "HealthKit_HKFitzpatrickSkinTypeObject")]
 unsafe impl NSSecureCoding for HKFitzpatrickSkinTypeObject {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKFitzpatrickSkinTypeObject")]
-    unsafe impl HKFitzpatrickSkinTypeObject {
-        #[method(skinType)]
-        pub unsafe fn skinType(&self) -> HKFitzpatrickSkinType;
-    }
-);
+    pub type HKFitzpatrickSkinTypeObject;
 
-extern_class!(
+    #[objc2::method(sel = "skinType")]
+    pub unsafe fn skinType(&self) -> HKFitzpatrickSkinType;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKWheelchairUseObject")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKWheelchairUseObject")]
-    pub struct HKWheelchairUseObject;
-
-    #[cfg(feature = "HealthKit_HKWheelchairUseObject")]
-    unsafe impl ClassType for HKWheelchairUseObject {
-        type Super = NSObject;
-    }
-);
+    pub type HKWheelchairUseObject;
+}
 
 #[cfg(feature = "HealthKit_HKWheelchairUseObject")]
 unsafe impl NSCoding for HKWheelchairUseObject {}
@@ -110,24 +119,27 @@ unsafe impl NSObjectProtocol for HKWheelchairUseObject {}
 #[cfg(feature = "HealthKit_HKWheelchairUseObject")]
 unsafe impl NSSecureCoding for HKWheelchairUseObject {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKWheelchairUseObject")]
-    unsafe impl HKWheelchairUseObject {
-        #[method(wheelchairUse)]
-        pub unsafe fn wheelchairUse(&self) -> HKWheelchairUse;
-    }
-);
+    pub type HKWheelchairUseObject;
 
-extern_class!(
+    #[objc2::method(sel = "wheelchairUse")]
+    pub unsafe fn wheelchairUse(&self) -> HKWheelchairUse;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKActivityMoveModeObject")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKActivityMoveModeObject")]
-    pub struct HKActivityMoveModeObject;
-
-    #[cfg(feature = "HealthKit_HKActivityMoveModeObject")]
-    unsafe impl ClassType for HKActivityMoveModeObject {
-        type Super = NSObject;
-    }
-);
+    pub type HKActivityMoveModeObject;
+}
 
 #[cfg(feature = "HealthKit_HKActivityMoveModeObject")]
 unsafe impl NSCoding for HKActivityMoveModeObject {}
@@ -138,10 +150,13 @@ unsafe impl NSObjectProtocol for HKActivityMoveModeObject {}
 #[cfg(feature = "HealthKit_HKActivityMoveModeObject")]
 unsafe impl NSSecureCoding for HKActivityMoveModeObject {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKActivityMoveModeObject")]
-    unsafe impl HKActivityMoveModeObject {
-        #[method(activityMoveMode)]
-        pub unsafe fn activityMoveMode(&self) -> HKActivityMoveMode;
-    }
-);
+    pub type HKActivityMoveModeObject;
+
+    #[objc2::method(sel = "activityMoveMode")]
+    pub unsafe fn activityMoveMode(&self) -> HKActivityMoveMode;
+}

@@ -5,44 +5,41 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_protocol!(
-    pub unsafe trait GCTouchedStateInput: NSObjectProtocol {
-        #[method(touchedDidChangeHandler)]
-        unsafe fn touchedDidChangeHandler(
-            &self,
-        ) -> *mut Block<
-            (
-                NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
-                NonNull<ProtocolObject<dyn GCTouchedStateInput>>,
-                Bool,
-            ),
-            (),
-        >;
+#[objc2::protocol]
+pub unsafe trait GCTouchedStateInput: NSObjectProtocol {
+    #[objc2::method(sel = "touchedDidChangeHandler")]
+    unsafe fn touchedDidChangeHandler(
+        &self,
+    ) -> *mut Block<
+        (
+            NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
+            NonNull<ProtocolObject<dyn GCTouchedStateInput>>,
+            Bool,
+        ),
+        (),
+    >;
 
-        #[method(setTouchedDidChangeHandler:)]
-        unsafe fn setTouchedDidChangeHandler(
-            &self,
-            touched_did_change_handler: Option<
-                &Block<
-                    (
-                        NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
-                        NonNull<ProtocolObject<dyn GCTouchedStateInput>>,
-                        Bool,
-                    ),
-                    (),
-                >,
+    #[objc2::method(sel = "setTouchedDidChangeHandler:")]
+    unsafe fn setTouchedDidChangeHandler(
+        &self,
+        touched_did_change_handler: Option<
+            &Block<
+                (
+                    NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
+                    NonNull<ProtocolObject<dyn GCTouchedStateInput>>,
+                    Bool,
+                ),
+                (),
             >,
-        );
+        >,
+    );
 
-        #[method(isTouched)]
-        unsafe fn isTouched(&self) -> bool;
+    #[objc2::method(sel = "isTouched")]
+    unsafe fn isTouched(&self) -> bool;
 
-        #[method(lastTouchedStateTimestamp)]
-        unsafe fn lastTouchedStateTimestamp(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "lastTouchedStateTimestamp")]
+    unsafe fn lastTouchedStateTimestamp(&self) -> NSTimeInterval;
 
-        #[method(lastTouchedStateLatency)]
-        unsafe fn lastTouchedStateLatency(&self) -> NSTimeInterval;
-    }
-
-    unsafe impl ProtocolType for dyn GCTouchedStateInput {}
-);
+    #[objc2::method(sel = "lastTouchedStateLatency")]
+    unsafe fn lastTouchedStateLatency(&self) -> NSTimeInterval;
+}

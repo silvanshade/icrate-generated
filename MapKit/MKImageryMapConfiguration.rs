@@ -7,17 +7,17 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKMapConfiguration,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKImageryMapConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKImageryMapConfiguration")]
-    pub struct MKImageryMapConfiguration;
-
-    #[cfg(feature = "MapKit_MKImageryMapConfiguration")]
-    unsafe impl ClassType for MKImageryMapConfiguration {
-        #[inherits(NSObject)]
-        type Super = MKMapConfiguration;
-    }
-);
+    pub type MKImageryMapConfiguration;
+}
 
 #[cfg(feature = "MapKit_MKImageryMapConfiguration")]
 unsafe impl NSCoding for MKImageryMapConfiguration {}
@@ -28,16 +28,19 @@ unsafe impl NSObjectProtocol for MKImageryMapConfiguration {}
 #[cfg(feature = "MapKit_MKImageryMapConfiguration")]
 unsafe impl NSSecureCoding for MKImageryMapConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKImageryMapConfiguration")]
-    unsafe impl MKImageryMapConfiguration {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type MKImageryMapConfiguration;
 
-        #[method_id(@__retain_semantics Init initWithElevationStyle:)]
-        pub unsafe fn initWithElevationStyle(
-            this: Option<Allocated<Self>>,
-            elevation_style: MKMapElevationStyle,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "initWithElevationStyle:", managed = "Init")]
+    pub unsafe fn initWithElevationStyle(
+        this: Option<Allocated<Self>>,
+        elevation_style: MKMapElevationStyle,
+    ) -> Id<Self>;
+}

@@ -5,14 +5,11 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_protocol!(
-    pub unsafe trait GCButtonElement: GCPhysicalInputElement {
-        #[method_id(@__retain_semantics Other pressedInput)]
-        unsafe fn pressedInput(&self) -> Id<TodoProtocols>;
+#[objc2::protocol]
+pub unsafe trait GCButtonElement: GCPhysicalInputElement {
+    #[objc2::method(sel = "pressedInput", managed = "Other")]
+    unsafe fn pressedInput(&self) -> Id<TodoProtocols>;
 
-        #[method_id(@__retain_semantics Other touchedInput)]
-        unsafe fn touchedInput(&self) -> Option<Id<ProtocolObject<dyn GCTouchedStateInput>>>;
-    }
-
-    unsafe impl ProtocolType for dyn GCButtonElement {}
-);
+    #[objc2::method(sel = "touchedInput", managed = "Other")]
+    unsafe fn touchedInput(&self) -> Option<Id<ProtocolObject<dyn GCTouchedStateInput>>>;
+}

@@ -4,53 +4,55 @@ use crate::common::*;
 use crate::ExternalAccessory::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum EAWiFiUnconfiguredAccessoryProperties {
-        EAWiFiUnconfiguredAccessoryPropertySupportsAirPlay = 1 << 0,
-        EAWiFiUnconfiguredAccessoryPropertySupportsAirPrint = 1 << 1,
-        EAWiFiUnconfiguredAccessoryPropertySupportsHomeKit = 1 << 2,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum EAWiFiUnconfiguredAccessoryProperties {
+    EAWiFiUnconfiguredAccessoryPropertySupportsAirPlay = 1 << 0,
+    EAWiFiUnconfiguredAccessoryPropertySupportsAirPrint = 1 << 1,
+    EAWiFiUnconfiguredAccessoryPropertySupportsHomeKit = 1 << 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "ExternalAccessory_EAWiFiUnconfiguredAccessory")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "ExternalAccessory_EAWiFiUnconfiguredAccessory")]
-    pub struct EAWiFiUnconfiguredAccessory;
-
-    #[cfg(feature = "ExternalAccessory_EAWiFiUnconfiguredAccessory")]
-    unsafe impl ClassType for EAWiFiUnconfiguredAccessory {
-        type Super = NSObject;
-    }
-);
+    pub type EAWiFiUnconfiguredAccessory;
+}
 
 #[cfg(feature = "ExternalAccessory_EAWiFiUnconfiguredAccessory")]
 unsafe impl NSObjectProtocol for EAWiFiUnconfiguredAccessory {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ExternalAccessory_EAWiFiUnconfiguredAccessory")]
-    unsafe impl EAWiFiUnconfiguredAccessory {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    pub type EAWiFiUnconfiguredAccessory;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other manufacturer)]
-        pub unsafe fn manufacturer(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other model)]
-        pub unsafe fn model(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "manufacturer", managed = "Other")]
+    pub unsafe fn manufacturer(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other ssid)]
-        pub unsafe fn ssid(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "model", managed = "Other")]
+    pub unsafe fn model(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other macAddress)]
-        pub unsafe fn macAddress(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "ssid", managed = "Other")]
+    pub unsafe fn ssid(&self) -> Id<NSString>;
 
-        #[method(properties)]
-        pub unsafe fn properties(&self) -> EAWiFiUnconfiguredAccessoryProperties;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "macAddress", managed = "Other")]
+    pub unsafe fn macAddress(&self) -> Id<NSString>;
+
+    #[objc2::method(sel = "properties")]
+    pub unsafe fn properties(&self) -> EAWiFiUnconfiguredAccessoryProperties;
+}

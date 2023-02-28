@@ -5,32 +5,17 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_protocol!(
-    pub unsafe trait GCPhysicalInputElementName {}
+#[objc2::protocol]
+pub unsafe trait GCPhysicalInputElementName {}
 
-    unsafe impl ProtocolType for dyn GCPhysicalInputElementName {}
-);
+#[objc2::protocol]
+pub unsafe trait GCButtonElementName: GCPhysicalInputElementName {}
 
-extern_protocol!(
-    pub unsafe trait GCButtonElementName: GCPhysicalInputElementName {}
+#[objc2::protocol]
+pub unsafe trait GCAxisElementName: GCPhysicalInputElementName {}
 
-    unsafe impl ProtocolType for dyn GCButtonElementName {}
-);
+#[objc2::protocol]
+pub unsafe trait GCSwitchElementName: GCPhysicalInputElementName {}
 
-extern_protocol!(
-    pub unsafe trait GCAxisElementName: GCPhysicalInputElementName {}
-
-    unsafe impl ProtocolType for dyn GCAxisElementName {}
-);
-
-extern_protocol!(
-    pub unsafe trait GCSwitchElementName: GCPhysicalInputElementName {}
-
-    unsafe impl ProtocolType for dyn GCSwitchElementName {}
-);
-
-extern_protocol!(
-    pub unsafe trait GCDirectionPadElementName: GCPhysicalInputElementName {}
-
-    unsafe impl ProtocolType for dyn GCDirectionPadElementName {}
-);
+#[objc2::protocol]
+pub unsafe trait GCDirectionPadElementName: GCPhysicalInputElementName {}

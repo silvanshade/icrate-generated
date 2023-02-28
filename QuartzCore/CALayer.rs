@@ -20,49 +20,46 @@ typed_enum!(
     pub type CALayerCornerCurve = NSString;
 );
 
-ns_options!(
-    #[underlying(c_uint)]
-    pub enum CAAutoresizingMask {
-        kCALayerNotSizable = 0,
-        kCALayerMinXMargin = 1 << 0,
-        kCALayerWidthSizable = 1 << 1,
-        kCALayerMaxXMargin = 1 << 2,
-        kCALayerMinYMargin = 1 << 3,
-        kCALayerHeightSizable = 1 << 4,
-        kCALayerMaxYMargin = 1 << 5,
-    }
-);
+#[ns_options]
+#[underlying(c_uint)]
+pub enum CAAutoresizingMask {
+    kCALayerNotSizable = 0,
+    kCALayerMinXMargin = 1 << 0,
+    kCALayerWidthSizable = 1 << 1,
+    kCALayerMaxXMargin = 1 << 2,
+    kCALayerMinYMargin = 1 << 3,
+    kCALayerHeightSizable = 1 << 4,
+    kCALayerMaxYMargin = 1 << 5,
+}
 
-ns_options!(
-    #[underlying(c_uint)]
-    pub enum CAEdgeAntialiasingMask {
-        kCALayerLeftEdge = 1 << 0,
-        kCALayerRightEdge = 1 << 1,
-        kCALayerBottomEdge = 1 << 2,
-        kCALayerTopEdge = 1 << 3,
-    }
-);
+#[ns_options]
+#[underlying(c_uint)]
+pub enum CAEdgeAntialiasingMask {
+    kCALayerLeftEdge = 1 << 0,
+    kCALayerRightEdge = 1 << 1,
+    kCALayerBottomEdge = 1 << 2,
+    kCALayerTopEdge = 1 << 3,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum CACornerMask {
-        kCALayerMinXMinYCorner = 1 << 0,
-        kCALayerMaxXMinYCorner = 1 << 1,
-        kCALayerMinXMaxYCorner = 1 << 2,
-        kCALayerMaxXMaxYCorner = 1 << 3,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum CACornerMask {
+    kCALayerMinXMinYCorner = 1 << 0,
+    kCALayerMaxXMinYCorner = 1 << 1,
+    kCALayerMinXMaxYCorner = 1 << 2,
+    kCALayerMaxXMaxYCorner = 1 << 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CALayer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CALayer")]
-    pub struct CALayer;
-
-    #[cfg(feature = "CoreAnimation_CALayer")]
-    unsafe impl ClassType for CALayer {
-        type Super = NSObject;
-    }
-);
+    pub type CALayer;
+}
 
 #[cfg(feature = "CoreAnimation_CALayer")]
 unsafe impl CAMediaTiming for CALayer {}
@@ -76,537 +73,518 @@ unsafe impl NSObjectProtocol for CALayer {}
 #[cfg(feature = "CoreAnimation_CALayer")]
 unsafe impl NSSecureCoding for CALayer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CALayer")]
-    unsafe impl CALayer {
-        #[method_id(@__retain_semantics Other layer)]
-        pub fn layer() -> Id<Self>;
+    pub type CALayer;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "layer", managed = "Other")]
+    pub fn layer() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithLayer:)]
-        pub unsafe fn initWithLayer(this: Option<Allocated<Self>>, layer: &Object) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other presentationLayer)]
-        pub unsafe fn presentationLayer(&self) -> Option<Id<Self>>;
+    #[objc2::method(sel = "initWithLayer:", managed = "Init")]
+    pub unsafe fn initWithLayer(this: Option<Allocated<Self>>, layer: &Object) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other modelLayer)]
-        pub unsafe fn modelLayer(&self) -> Id<Self>;
+    #[objc2::method(sel = "presentationLayer", managed = "Other")]
+    pub unsafe fn presentationLayer(&self) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other defaultValueForKey:)]
-        pub unsafe fn defaultValueForKey(key: &NSString) -> Option<Id<Object>>;
+    #[objc2::method(sel = "modelLayer", managed = "Other")]
+    pub unsafe fn modelLayer(&self) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(needsDisplayForKey:)]
-        pub unsafe fn needsDisplayForKey(key: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "defaultValueForKey:", managed = "Other")]
+    pub unsafe fn defaultValueForKey(key: &NSString) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(shouldArchiveValueForKey:)]
-        pub unsafe fn shouldArchiveValueForKey(&self, key: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "needsDisplayForKey:")]
+    pub unsafe fn needsDisplayForKey(key: &NSString) -> bool;
 
-        #[method(bounds)]
-        pub fn bounds(&self) -> CGRect;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "shouldArchiveValueForKey:")]
+    pub unsafe fn shouldArchiveValueForKey(&self, key: &NSString) -> bool;
 
-        #[method(setBounds:)]
-        pub fn setBounds(&self, bounds: CGRect);
+    #[objc2::method(sel = "bounds")]
+    pub fn bounds(&self) -> CGRect;
 
-        #[method(position)]
-        pub fn position(&self) -> CGPoint;
+    #[objc2::method(sel = "setBounds:")]
+    pub fn setBounds(&self, bounds: CGRect);
 
-        #[method(setPosition:)]
-        pub fn setPosition(&self, position: CGPoint);
+    #[objc2::method(sel = "position")]
+    pub fn position(&self) -> CGPoint;
 
-        #[method(zPosition)]
-        pub fn zPosition(&self) -> CGFloat;
+    #[objc2::method(sel = "setPosition:")]
+    pub fn setPosition(&self, position: CGPoint);
 
-        #[method(setZPosition:)]
-        pub fn setZPosition(&self, z_position: CGFloat);
+    #[objc2::method(sel = "zPosition")]
+    pub fn zPosition(&self) -> CGFloat;
 
-        #[method(anchorPoint)]
-        pub fn anchorPoint(&self) -> CGPoint;
+    #[objc2::method(sel = "setZPosition:")]
+    pub fn setZPosition(&self, z_position: CGFloat);
 
-        #[method(setAnchorPoint:)]
-        pub fn setAnchorPoint(&self, anchor_point: CGPoint);
+    #[objc2::method(sel = "anchorPoint")]
+    pub fn anchorPoint(&self) -> CGPoint;
 
-        #[method(anchorPointZ)]
-        pub fn anchorPointZ(&self) -> CGFloat;
+    #[objc2::method(sel = "setAnchorPoint:")]
+    pub fn setAnchorPoint(&self, anchor_point: CGPoint);
 
-        #[method(setAnchorPointZ:)]
-        pub fn setAnchorPointZ(&self, anchor_point_z: CGFloat);
+    #[objc2::method(sel = "anchorPointZ")]
+    pub fn anchorPointZ(&self) -> CGFloat;
 
-        #[method(transform)]
-        pub fn transform(&self) -> CATransform3D;
+    #[objc2::method(sel = "setAnchorPointZ:")]
+    pub fn setAnchorPointZ(&self, anchor_point_z: CGFloat);
 
-        #[method(setTransform:)]
-        pub fn setTransform(&self, transform: CATransform3D);
+    #[objc2::method(sel = "transform")]
+    pub fn transform(&self) -> CATransform3D;
 
-        #[method(frame)]
-        pub fn frame(&self) -> CGRect;
+    #[objc2::method(sel = "setTransform:")]
+    pub fn setTransform(&self, transform: CATransform3D);
 
-        #[method(setFrame:)]
-        pub fn setFrame(&self, frame: CGRect);
+    #[objc2::method(sel = "frame")]
+    pub fn frame(&self) -> CGRect;
 
-        #[method(isHidden)]
-        pub fn isHidden(&self) -> bool;
+    #[objc2::method(sel = "setFrame:")]
+    pub fn setFrame(&self, frame: CGRect);
 
-        #[method(setHidden:)]
-        pub fn setHidden(&self, hidden: bool);
+    #[objc2::method(sel = "isHidden")]
+    pub fn isHidden(&self) -> bool;
 
-        #[method(isDoubleSided)]
-        pub fn isDoubleSided(&self) -> bool;
+    #[objc2::method(sel = "setHidden:")]
+    pub fn setHidden(&self, hidden: bool);
 
-        #[method(setDoubleSided:)]
-        pub fn setDoubleSided(&self, double_sided: bool);
+    #[objc2::method(sel = "isDoubleSided")]
+    pub fn isDoubleSided(&self) -> bool;
 
-        #[method(isGeometryFlipped)]
-        pub fn isGeometryFlipped(&self) -> bool;
+    #[objc2::method(sel = "setDoubleSided:")]
+    pub fn setDoubleSided(&self, double_sided: bool);
 
-        #[method(setGeometryFlipped:)]
-        pub fn setGeometryFlipped(&self, geometry_flipped: bool);
+    #[objc2::method(sel = "isGeometryFlipped")]
+    pub fn isGeometryFlipped(&self) -> bool;
 
-        #[method(contentsAreFlipped)]
-        pub fn contentsAreFlipped(&self) -> bool;
+    #[objc2::method(sel = "setGeometryFlipped:")]
+    pub fn setGeometryFlipped(&self, geometry_flipped: bool);
 
-        #[method_id(@__retain_semantics Other superlayer)]
-        pub fn superlayer(&self) -> Option<Id<CALayer>>;
+    #[objc2::method(sel = "contentsAreFlipped")]
+    pub fn contentsAreFlipped(&self) -> bool;
 
-        #[method(removeFromSuperlayer)]
-        pub fn removeFromSuperlayer(&self);
+    #[objc2::method(sel = "superlayer", managed = "Other")]
+    pub fn superlayer(&self) -> Option<Id<CALayer>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other sublayers)]
-        pub unsafe fn sublayers(&self) -> Option<Id<NSArray<CALayer>>>;
+    #[objc2::method(sel = "removeFromSuperlayer")]
+    pub fn removeFromSuperlayer(&self);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setSublayers:)]
-        pub unsafe fn setSublayers(&self, sublayers: Option<&NSArray<CALayer>>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "sublayers", managed = "Other")]
+    pub unsafe fn sublayers(&self) -> Option<Id<NSArray<CALayer>>>;
 
-        #[method(addSublayer:)]
-        pub fn addSublayer(&self, layer: &CALayer);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setSublayers:")]
+    pub unsafe fn setSublayers(&self, sublayers: Option<&NSArray<CALayer>>);
 
-        #[method(insertSublayer:atIndex:)]
-        pub fn insertSublayer_atIndex(&self, layer: &CALayer, idx: c_uint);
+    #[objc2::method(sel = "addSublayer:")]
+    pub fn addSublayer(&self, layer: &CALayer);
 
-        #[method(insertSublayer:below:)]
-        pub fn insertSublayer_below(&self, layer: &CALayer, sibling: Option<&CALayer>);
+    #[objc2::method(sel = "insertSublayer:atIndex:")]
+    pub fn insertSublayer_atIndex(&self, layer: &CALayer, idx: c_uint);
 
-        #[method(insertSublayer:above:)]
-        pub fn insertSublayer_above(&self, layer: &CALayer, sibling: Option<&CALayer>);
+    #[objc2::method(sel = "insertSublayer:below:")]
+    pub fn insertSublayer_below(&self, layer: &CALayer, sibling: Option<&CALayer>);
 
-        #[method(replaceSublayer:with:)]
-        pub unsafe fn replaceSublayer_with(&self, old_layer: &CALayer, new_layer: &CALayer);
+    #[objc2::method(sel = "insertSublayer:above:")]
+    pub fn insertSublayer_above(&self, layer: &CALayer, sibling: Option<&CALayer>);
 
-        #[method(sublayerTransform)]
-        pub fn sublayerTransform(&self) -> CATransform3D;
+    #[objc2::method(sel = "replaceSublayer:with:")]
+    pub unsafe fn replaceSublayer_with(&self, old_layer: &CALayer, new_layer: &CALayer);
 
-        #[method(setSublayerTransform:)]
-        pub fn setSublayerTransform(&self, sublayer_transform: CATransform3D);
+    #[objc2::method(sel = "sublayerTransform")]
+    pub fn sublayerTransform(&self) -> CATransform3D;
 
-        #[method_id(@__retain_semantics Other mask)]
-        pub fn mask(&self) -> Option<Id<CALayer>>;
+    #[objc2::method(sel = "setSublayerTransform:")]
+    pub fn setSublayerTransform(&self, sublayer_transform: CATransform3D);
 
-        #[method(setMask:)]
-        pub unsafe fn setMask(&self, mask: Option<&CALayer>);
+    #[objc2::method(sel = "mask", managed = "Other")]
+    pub fn mask(&self) -> Option<Id<CALayer>>;
 
-        #[method(masksToBounds)]
-        pub fn masksToBounds(&self) -> bool;
+    #[objc2::method(sel = "setMask:")]
+    pub unsafe fn setMask(&self, mask: Option<&CALayer>);
 
-        #[method(setMasksToBounds:)]
-        pub fn setMasksToBounds(&self, masks_to_bounds: bool);
+    #[objc2::method(sel = "masksToBounds")]
+    pub fn masksToBounds(&self) -> bool;
 
-        #[method(convertPoint:fromLayer:)]
-        pub fn convertPoint_fromLayer(&self, p: CGPoint, l: Option<&CALayer>) -> CGPoint;
+    #[objc2::method(sel = "setMasksToBounds:")]
+    pub fn setMasksToBounds(&self, masks_to_bounds: bool);
 
-        #[method(convertPoint:toLayer:)]
-        pub fn convertPoint_toLayer(&self, p: CGPoint, l: Option<&CALayer>) -> CGPoint;
+    #[objc2::method(sel = "convertPoint:fromLayer:")]
+    pub fn convertPoint_fromLayer(&self, p: CGPoint, l: Option<&CALayer>) -> CGPoint;
 
-        #[method(convertRect:fromLayer:)]
-        pub fn convertRect_fromLayer(&self, r: CGRect, l: Option<&CALayer>) -> CGRect;
+    #[objc2::method(sel = "convertPoint:toLayer:")]
+    pub fn convertPoint_toLayer(&self, p: CGPoint, l: Option<&CALayer>) -> CGPoint;
 
-        #[method(convertRect:toLayer:)]
-        pub fn convertRect_toLayer(&self, r: CGRect, l: Option<&CALayer>) -> CGRect;
+    #[objc2::method(sel = "convertRect:fromLayer:")]
+    pub fn convertRect_fromLayer(&self, r: CGRect, l: Option<&CALayer>) -> CGRect;
 
-        #[method(convertTime:fromLayer:)]
-        pub fn convertTime_fromLayer(
-            &self,
-            t: CFTimeInterval,
-            l: Option<&CALayer>,
-        ) -> CFTimeInterval;
+    #[objc2::method(sel = "convertRect:toLayer:")]
+    pub fn convertRect_toLayer(&self, r: CGRect, l: Option<&CALayer>) -> CGRect;
 
-        #[method(convertTime:toLayer:)]
-        pub fn convertTime_toLayer(&self, t: CFTimeInterval, l: Option<&CALayer>)
-            -> CFTimeInterval;
+    #[objc2::method(sel = "convertTime:fromLayer:")]
+    pub fn convertTime_fromLayer(&self, t: CFTimeInterval, l: Option<&CALayer>) -> CFTimeInterval;
 
-        #[method_id(@__retain_semantics Other hitTest:)]
-        pub fn hitTest(&self, p: CGPoint) -> Option<Id<CALayer>>;
+    #[objc2::method(sel = "convertTime:toLayer:")]
+    pub fn convertTime_toLayer(&self, t: CFTimeInterval, l: Option<&CALayer>) -> CFTimeInterval;
 
-        #[method(containsPoint:)]
-        pub fn containsPoint(&self, p: CGPoint) -> bool;
+    #[objc2::method(sel = "hitTest:", managed = "Other")]
+    pub fn hitTest(&self, p: CGPoint) -> Option<Id<CALayer>>;
 
-        #[method_id(@__retain_semantics Other contents)]
-        pub unsafe fn contents(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "containsPoint:")]
+    pub fn containsPoint(&self, p: CGPoint) -> bool;
 
-        #[method(setContents:)]
-        pub unsafe fn setContents(&self, contents: Option<&Object>);
+    #[objc2::method(sel = "contents", managed = "Other")]
+    pub unsafe fn contents(&self) -> Option<Id<Object>>;
 
-        #[method(contentsRect)]
-        pub fn contentsRect(&self) -> CGRect;
+    #[objc2::method(sel = "setContents:")]
+    pub unsafe fn setContents(&self, contents: Option<&Object>);
 
-        #[method(setContentsRect:)]
-        pub fn setContentsRect(&self, contents_rect: CGRect);
+    #[objc2::method(sel = "contentsRect")]
+    pub fn contentsRect(&self) -> CGRect;
 
-        #[method_id(@__retain_semantics Other contentsGravity)]
-        pub fn contentsGravity(&self) -> Id<CALayerContentsGravity>;
+    #[objc2::method(sel = "setContentsRect:")]
+    pub fn setContentsRect(&self, contents_rect: CGRect);
 
-        #[method(setContentsGravity:)]
-        pub fn setContentsGravity(&self, contents_gravity: &CALayerContentsGravity);
+    #[objc2::method(sel = "contentsGravity", managed = "Other")]
+    pub fn contentsGravity(&self) -> Id<CALayerContentsGravity>;
 
-        #[method(contentsScale)]
-        pub fn contentsScale(&self) -> CGFloat;
+    #[objc2::method(sel = "setContentsGravity:")]
+    pub fn setContentsGravity(&self, contents_gravity: &CALayerContentsGravity);
 
-        #[method(setContentsScale:)]
-        pub fn setContentsScale(&self, contents_scale: CGFloat);
+    #[objc2::method(sel = "contentsScale")]
+    pub fn contentsScale(&self) -> CGFloat;
 
-        #[method(contentsCenter)]
-        pub fn contentsCenter(&self) -> CGRect;
+    #[objc2::method(sel = "setContentsScale:")]
+    pub fn setContentsScale(&self, contents_scale: CGFloat);
 
-        #[method(setContentsCenter:)]
-        pub fn setContentsCenter(&self, contents_center: CGRect);
+    #[objc2::method(sel = "contentsCenter")]
+    pub fn contentsCenter(&self) -> CGRect;
 
-        #[method_id(@__retain_semantics Other contentsFormat)]
-        pub fn contentsFormat(&self) -> Id<CALayerContentsFormat>;
+    #[objc2::method(sel = "setContentsCenter:")]
+    pub fn setContentsCenter(&self, contents_center: CGRect);
 
-        #[method(setContentsFormat:)]
-        pub fn setContentsFormat(&self, contents_format: &CALayerContentsFormat);
+    #[objc2::method(sel = "contentsFormat", managed = "Other")]
+    pub fn contentsFormat(&self) -> Id<CALayerContentsFormat>;
 
-        #[method_id(@__retain_semantics Other minificationFilter)]
-        pub fn minificationFilter(&self) -> Id<CALayerContentsFilter>;
+    #[objc2::method(sel = "setContentsFormat:")]
+    pub fn setContentsFormat(&self, contents_format: &CALayerContentsFormat);
 
-        #[method(setMinificationFilter:)]
-        pub fn setMinificationFilter(&self, minification_filter: &CALayerContentsFilter);
+    #[objc2::method(sel = "minificationFilter", managed = "Other")]
+    pub fn minificationFilter(&self) -> Id<CALayerContentsFilter>;
 
-        #[method_id(@__retain_semantics Other magnificationFilter)]
-        pub fn magnificationFilter(&self) -> Id<CALayerContentsFilter>;
+    #[objc2::method(sel = "setMinificationFilter:")]
+    pub fn setMinificationFilter(&self, minification_filter: &CALayerContentsFilter);
 
-        #[method(setMagnificationFilter:)]
-        pub fn setMagnificationFilter(&self, magnification_filter: &CALayerContentsFilter);
+    #[objc2::method(sel = "magnificationFilter", managed = "Other")]
+    pub fn magnificationFilter(&self) -> Id<CALayerContentsFilter>;
 
-        #[method(minificationFilterBias)]
-        pub fn minificationFilterBias(&self) -> c_float;
+    #[objc2::method(sel = "setMagnificationFilter:")]
+    pub fn setMagnificationFilter(&self, magnification_filter: &CALayerContentsFilter);
 
-        #[method(setMinificationFilterBias:)]
-        pub fn setMinificationFilterBias(&self, minification_filter_bias: c_float);
+    #[objc2::method(sel = "minificationFilterBias")]
+    pub fn minificationFilterBias(&self) -> c_float;
 
-        #[method(isOpaque)]
-        pub fn isOpaque(&self) -> bool;
+    #[objc2::method(sel = "setMinificationFilterBias:")]
+    pub fn setMinificationFilterBias(&self, minification_filter_bias: c_float);
 
-        #[method(setOpaque:)]
-        pub fn setOpaque(&self, opaque: bool);
+    #[objc2::method(sel = "isOpaque")]
+    pub fn isOpaque(&self) -> bool;
 
-        #[method(display)]
-        pub fn display(&self);
+    #[objc2::method(sel = "setOpaque:")]
+    pub fn setOpaque(&self, opaque: bool);
 
-        #[method(setNeedsDisplay)]
-        pub fn setNeedsDisplay(&self);
+    #[objc2::method(sel = "display")]
+    pub fn display(&self);
 
-        #[method(setNeedsDisplayInRect:)]
-        pub fn setNeedsDisplayInRect(&self, r: CGRect);
+    #[objc2::method(sel = "setNeedsDisplay")]
+    pub fn setNeedsDisplay(&self);
 
-        #[method(needsDisplay)]
-        pub fn needsDisplay(&self) -> bool;
+    #[objc2::method(sel = "setNeedsDisplayInRect:")]
+    pub fn setNeedsDisplayInRect(&self, r: CGRect);
 
-        #[method(displayIfNeeded)]
-        pub fn displayIfNeeded(&self);
+    #[objc2::method(sel = "needsDisplay")]
+    pub fn needsDisplay(&self) -> bool;
 
-        #[method(needsDisplayOnBoundsChange)]
-        pub fn needsDisplayOnBoundsChange(&self) -> bool;
+    #[objc2::method(sel = "displayIfNeeded")]
+    pub fn displayIfNeeded(&self);
 
-        #[method(setNeedsDisplayOnBoundsChange:)]
-        pub fn setNeedsDisplayOnBoundsChange(&self, needs_display_on_bounds_change: bool);
+    #[objc2::method(sel = "needsDisplayOnBoundsChange")]
+    pub fn needsDisplayOnBoundsChange(&self) -> bool;
 
-        #[method(drawsAsynchronously)]
-        pub fn drawsAsynchronously(&self) -> bool;
+    #[objc2::method(sel = "setNeedsDisplayOnBoundsChange:")]
+    pub fn setNeedsDisplayOnBoundsChange(&self, needs_display_on_bounds_change: bool);
 
-        #[method(setDrawsAsynchronously:)]
-        pub fn setDrawsAsynchronously(&self, draws_asynchronously: bool);
+    #[objc2::method(sel = "drawsAsynchronously")]
+    pub fn drawsAsynchronously(&self) -> bool;
 
-        #[method(edgeAntialiasingMask)]
-        pub fn edgeAntialiasingMask(&self) -> CAEdgeAntialiasingMask;
+    #[objc2::method(sel = "setDrawsAsynchronously:")]
+    pub fn setDrawsAsynchronously(&self, draws_asynchronously: bool);
 
-        #[method(setEdgeAntialiasingMask:)]
-        pub fn setEdgeAntialiasingMask(&self, edge_antialiasing_mask: CAEdgeAntialiasingMask);
+    #[objc2::method(sel = "edgeAntialiasingMask")]
+    pub fn edgeAntialiasingMask(&self) -> CAEdgeAntialiasingMask;
 
-        #[method(allowsEdgeAntialiasing)]
-        pub fn allowsEdgeAntialiasing(&self) -> bool;
+    #[objc2::method(sel = "setEdgeAntialiasingMask:")]
+    pub fn setEdgeAntialiasingMask(&self, edge_antialiasing_mask: CAEdgeAntialiasingMask);
 
-        #[method(setAllowsEdgeAntialiasing:)]
-        pub fn setAllowsEdgeAntialiasing(&self, allows_edge_antialiasing: bool);
+    #[objc2::method(sel = "allowsEdgeAntialiasing")]
+    pub fn allowsEdgeAntialiasing(&self) -> bool;
 
-        #[method(cornerRadius)]
-        pub fn cornerRadius(&self) -> CGFloat;
+    #[objc2::method(sel = "setAllowsEdgeAntialiasing:")]
+    pub fn setAllowsEdgeAntialiasing(&self, allows_edge_antialiasing: bool);
 
-        #[method(setCornerRadius:)]
-        pub fn setCornerRadius(&self, corner_radius: CGFloat);
+    #[objc2::method(sel = "cornerRadius")]
+    pub fn cornerRadius(&self) -> CGFloat;
 
-        #[method(maskedCorners)]
-        pub fn maskedCorners(&self) -> CACornerMask;
+    #[objc2::method(sel = "setCornerRadius:")]
+    pub fn setCornerRadius(&self, corner_radius: CGFloat);
 
-        #[method(setMaskedCorners:)]
-        pub fn setMaskedCorners(&self, masked_corners: CACornerMask);
+    #[objc2::method(sel = "maskedCorners")]
+    pub fn maskedCorners(&self) -> CACornerMask;
 
-        #[method_id(@__retain_semantics Other cornerCurve)]
-        pub fn cornerCurve(&self) -> Id<CALayerCornerCurve>;
+    #[objc2::method(sel = "setMaskedCorners:")]
+    pub fn setMaskedCorners(&self, masked_corners: CACornerMask);
 
-        #[method(setCornerCurve:)]
-        pub fn setCornerCurve(&self, corner_curve: &CALayerCornerCurve);
+    #[objc2::method(sel = "cornerCurve", managed = "Other")]
+    pub fn cornerCurve(&self) -> Id<CALayerCornerCurve>;
 
-        #[method(cornerCurveExpansionFactor:)]
-        pub fn cornerCurveExpansionFactor(curve: &CALayerCornerCurve) -> CGFloat;
+    #[objc2::method(sel = "setCornerCurve:")]
+    pub fn setCornerCurve(&self, corner_curve: &CALayerCornerCurve);
 
-        #[method(borderWidth)]
-        pub fn borderWidth(&self) -> CGFloat;
+    #[objc2::method(sel = "cornerCurveExpansionFactor:")]
+    pub fn cornerCurveExpansionFactor(curve: &CALayerCornerCurve) -> CGFloat;
 
-        #[method(setBorderWidth:)]
-        pub fn setBorderWidth(&self, border_width: CGFloat);
+    #[objc2::method(sel = "borderWidth")]
+    pub fn borderWidth(&self) -> CGFloat;
 
-        #[method(opacity)]
-        pub fn opacity(&self) -> c_float;
+    #[objc2::method(sel = "setBorderWidth:")]
+    pub fn setBorderWidth(&self, border_width: CGFloat);
 
-        #[method(setOpacity:)]
-        pub fn setOpacity(&self, opacity: c_float);
+    #[objc2::method(sel = "opacity")]
+    pub fn opacity(&self) -> c_float;
 
-        #[method(allowsGroupOpacity)]
-        pub fn allowsGroupOpacity(&self) -> bool;
+    #[objc2::method(sel = "setOpacity:")]
+    pub fn setOpacity(&self, opacity: c_float);
 
-        #[method(setAllowsGroupOpacity:)]
-        pub fn setAllowsGroupOpacity(&self, allows_group_opacity: bool);
+    #[objc2::method(sel = "allowsGroupOpacity")]
+    pub fn allowsGroupOpacity(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other compositingFilter)]
-        pub unsafe fn compositingFilter(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setAllowsGroupOpacity:")]
+    pub fn setAllowsGroupOpacity(&self, allows_group_opacity: bool);
 
-        #[method(setCompositingFilter:)]
-        pub unsafe fn setCompositingFilter(&self, compositing_filter: Option<&Object>);
+    #[objc2::method(sel = "compositingFilter", managed = "Other")]
+    pub unsafe fn compositingFilter(&self) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other filters)]
-        pub unsafe fn filters(&self) -> Option<Id<NSArray>>;
+    #[objc2::method(sel = "setCompositingFilter:")]
+    pub unsafe fn setCompositingFilter(&self, compositing_filter: Option<&Object>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setFilters:)]
-        pub unsafe fn setFilters(&self, filters: Option<&NSArray>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "filters", managed = "Other")]
+    pub unsafe fn filters(&self) -> Option<Id<NSArray>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other backgroundFilters)]
-        pub unsafe fn backgroundFilters(&self) -> Option<Id<NSArray>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setFilters:")]
+    pub unsafe fn setFilters(&self, filters: Option<&NSArray>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setBackgroundFilters:)]
-        pub unsafe fn setBackgroundFilters(&self, background_filters: Option<&NSArray>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "backgroundFilters", managed = "Other")]
+    pub unsafe fn backgroundFilters(&self) -> Option<Id<NSArray>>;
 
-        #[method(shouldRasterize)]
-        pub fn shouldRasterize(&self) -> bool;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setBackgroundFilters:")]
+    pub unsafe fn setBackgroundFilters(&self, background_filters: Option<&NSArray>);
 
-        #[method(setShouldRasterize:)]
-        pub fn setShouldRasterize(&self, should_rasterize: bool);
+    #[objc2::method(sel = "shouldRasterize")]
+    pub fn shouldRasterize(&self) -> bool;
 
-        #[method(rasterizationScale)]
-        pub fn rasterizationScale(&self) -> CGFloat;
+    #[objc2::method(sel = "setShouldRasterize:")]
+    pub fn setShouldRasterize(&self, should_rasterize: bool);
 
-        #[method(setRasterizationScale:)]
-        pub fn setRasterizationScale(&self, rasterization_scale: CGFloat);
+    #[objc2::method(sel = "rasterizationScale")]
+    pub fn rasterizationScale(&self) -> CGFloat;
 
-        #[method(shadowOpacity)]
-        pub fn shadowOpacity(&self) -> c_float;
+    #[objc2::method(sel = "setRasterizationScale:")]
+    pub fn setRasterizationScale(&self, rasterization_scale: CGFloat);
 
-        #[method(setShadowOpacity:)]
-        pub fn setShadowOpacity(&self, shadow_opacity: c_float);
+    #[objc2::method(sel = "shadowOpacity")]
+    pub fn shadowOpacity(&self) -> c_float;
 
-        #[method(shadowOffset)]
-        pub fn shadowOffset(&self) -> CGSize;
+    #[objc2::method(sel = "setShadowOpacity:")]
+    pub fn setShadowOpacity(&self, shadow_opacity: c_float);
 
-        #[method(setShadowOffset:)]
-        pub fn setShadowOffset(&self, shadow_offset: CGSize);
+    #[objc2::method(sel = "shadowOffset")]
+    pub fn shadowOffset(&self) -> CGSize;
 
-        #[method(shadowRadius)]
-        pub fn shadowRadius(&self) -> CGFloat;
+    #[objc2::method(sel = "setShadowOffset:")]
+    pub fn setShadowOffset(&self, shadow_offset: CGSize);
 
-        #[method(setShadowRadius:)]
-        pub fn setShadowRadius(&self, shadow_radius: CGFloat);
+    #[objc2::method(sel = "shadowRadius")]
+    pub fn shadowRadius(&self) -> CGFloat;
 
-        #[method(autoresizingMask)]
-        pub fn autoresizingMask(&self) -> CAAutoresizingMask;
+    #[objc2::method(sel = "setShadowRadius:")]
+    pub fn setShadowRadius(&self, shadow_radius: CGFloat);
 
-        #[method(setAutoresizingMask:)]
-        pub fn setAutoresizingMask(&self, autoresizing_mask: CAAutoresizingMask);
+    #[objc2::method(sel = "autoresizingMask")]
+    pub fn autoresizingMask(&self) -> CAAutoresizingMask;
 
-        #[method_id(@__retain_semantics Other layoutManager)]
-        pub fn layoutManager(&self) -> Option<Id<ProtocolObject<dyn CALayoutManager>>>;
+    #[objc2::method(sel = "setAutoresizingMask:")]
+    pub fn setAutoresizingMask(&self, autoresizing_mask: CAAutoresizingMask);
 
-        #[method(setLayoutManager:)]
-        pub fn setLayoutManager(
-            &self,
-            layout_manager: Option<&ProtocolObject<dyn CALayoutManager>>,
-        );
+    #[objc2::method(sel = "layoutManager", managed = "Other")]
+    pub fn layoutManager(&self) -> Option<Id<ProtocolObject<dyn CALayoutManager>>>;
 
-        #[method(preferredFrameSize)]
-        pub fn preferredFrameSize(&self) -> CGSize;
+    #[objc2::method(sel = "setLayoutManager:")]
+    pub fn setLayoutManager(&self, layout_manager: Option<&ProtocolObject<dyn CALayoutManager>>);
 
-        #[method(setNeedsLayout)]
-        pub fn setNeedsLayout(&self);
+    #[objc2::method(sel = "preferredFrameSize")]
+    pub fn preferredFrameSize(&self) -> CGSize;
 
-        #[method(needsLayout)]
-        pub fn needsLayout(&self) -> bool;
+    #[objc2::method(sel = "setNeedsLayout")]
+    pub fn setNeedsLayout(&self);
 
-        #[method(layoutIfNeeded)]
-        pub fn layoutIfNeeded(&self);
+    #[objc2::method(sel = "needsLayout")]
+    pub fn needsLayout(&self) -> bool;
 
-        #[method(layoutSublayers)]
-        pub fn layoutSublayers(&self);
+    #[objc2::method(sel = "layoutIfNeeded")]
+    pub fn layoutIfNeeded(&self);
 
-        #[method(resizeSublayersWithOldSize:)]
-        pub fn resizeSublayersWithOldSize(&self, size: CGSize);
+    #[objc2::method(sel = "layoutSublayers")]
+    pub fn layoutSublayers(&self);
 
-        #[method(resizeWithOldSuperlayerSize:)]
-        pub fn resizeWithOldSuperlayerSize(&self, size: CGSize);
+    #[objc2::method(sel = "resizeSublayersWithOldSize:")]
+    pub fn resizeSublayersWithOldSize(&self, size: CGSize);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other defaultActionForKey:)]
-        pub fn defaultActionForKey(event: &NSString) -> Option<Id<ProtocolObject<dyn CAAction>>>;
+    #[objc2::method(sel = "resizeWithOldSuperlayerSize:")]
+    pub fn resizeWithOldSuperlayerSize(&self, size: CGSize);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other actionForKey:)]
-        pub fn actionForKey(&self, event: &NSString) -> Option<Id<ProtocolObject<dyn CAAction>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "defaultActionForKey:", managed = "Other")]
+    pub fn defaultActionForKey(event: &NSString) -> Option<Id<ProtocolObject<dyn CAAction>>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other actions)]
-        pub fn actions(&self) -> Option<Id<NSDictionary<NSString, ProtocolObject<dyn CAAction>>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "actionForKey:", managed = "Other")]
+    pub fn actionForKey(&self, event: &NSString) -> Option<Id<ProtocolObject<dyn CAAction>>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(setActions:)]
-        pub fn setActions(
-            &self,
-            actions: Option<&NSDictionary<NSString, ProtocolObject<dyn CAAction>>>,
-        );
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "actions", managed = "Other")]
+    pub fn actions(&self) -> Option<Id<NSDictionary<NSString, ProtocolObject<dyn CAAction>>>>;
 
-        #[cfg(all(feature = "CoreAnimation_CAAnimation", feature = "Foundation_NSString"))]
-        #[method(addAnimation:forKey:)]
-        pub fn addAnimation_forKey(&self, anim: &CAAnimation, key: Option<&NSString>);
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setActions:")]
+    pub fn setActions(
+        &self,
+        actions: Option<&NSDictionary<NSString, ProtocolObject<dyn CAAction>>>,
+    );
 
-        #[method(removeAllAnimations)]
-        pub fn removeAllAnimations(&self);
+    #[cfg(all(feature = "CoreAnimation_CAAnimation", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "addAnimation:forKey:")]
+    pub fn addAnimation_forKey(&self, anim: &CAAnimation, key: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(removeAnimationForKey:)]
-        pub fn removeAnimationForKey(&self, key: &NSString);
+    #[objc2::method(sel = "removeAllAnimations")]
+    pub fn removeAllAnimations(&self);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other animationKeys)]
-        pub fn animationKeys(&self) -> Option<Id<NSArray<NSString>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "removeAnimationForKey:")]
+    pub fn removeAnimationForKey(&self, key: &NSString);
 
-        #[cfg(all(feature = "CoreAnimation_CAAnimation", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other animationForKey:)]
-        pub unsafe fn animationForKey(&self, key: &NSString) -> Option<Id<CAAnimation>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "animationKeys", managed = "Other")]
+    pub fn animationKeys(&self) -> Option<Id<NSArray<NSString>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub fn name(&self) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "CoreAnimation_CAAnimation", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "animationForKey:", managed = "Other")]
+    pub unsafe fn animationForKey(&self, key: &NSString) -> Option<Id<CAAnimation>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub fn setName(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub fn name(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub fn delegate(&self) -> Option<Id<ProtocolObject<dyn CALayerDelegate>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub fn setName(&self, name: Option<&NSString>);
 
-        #[method(setDelegate:)]
-        pub fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn CALayerDelegate>>);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub fn delegate(&self) -> Option<Id<ProtocolObject<dyn CALayerDelegate>>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other style)]
-        pub unsafe fn style(&self) -> Option<Id<NSDictionary>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn CALayerDelegate>>);
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(setStyle:)]
-        pub unsafe fn setStyle(&self, style: Option<&NSDictionary>);
-    }
-);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "style", managed = "Other")]
+    pub unsafe fn style(&self) -> Option<Id<NSDictionary>>;
 
-extern_protocol!(
-    pub unsafe trait CALayoutManager: NSObjectProtocol {
-        #[cfg(feature = "CoreAnimation_CALayer")]
-        #[optional]
-        #[method(preferredSizeOfLayer:)]
-        unsafe fn preferredSizeOfLayer(&self, layer: &CALayer) -> CGSize;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "setStyle:")]
+    pub unsafe fn setStyle(&self, style: Option<&NSDictionary>);
+}
 
-        #[cfg(feature = "CoreAnimation_CALayer")]
-        #[optional]
-        #[method(invalidateLayoutOfLayer:)]
-        unsafe fn invalidateLayoutOfLayer(&self, layer: &CALayer);
+#[objc2::protocol]
+pub unsafe trait CALayoutManager: NSObjectProtocol {
+    #[cfg(feature = "CoreAnimation_CALayer")]
+    #[objc2::method(optional, sel = "preferredSizeOfLayer:")]
+    unsafe fn preferredSizeOfLayer(&self, layer: &CALayer) -> CGSize;
 
-        #[cfg(feature = "CoreAnimation_CALayer")]
-        #[optional]
-        #[method(layoutSublayersOfLayer:)]
-        unsafe fn layoutSublayersOfLayer(&self, layer: &CALayer);
-    }
+    #[cfg(feature = "CoreAnimation_CALayer")]
+    #[objc2::method(optional, sel = "invalidateLayoutOfLayer:")]
+    unsafe fn invalidateLayoutOfLayer(&self, layer: &CALayer);
 
-    unsafe impl ProtocolType for dyn CALayoutManager {}
-);
+    #[cfg(feature = "CoreAnimation_CALayer")]
+    #[objc2::method(optional, sel = "layoutSublayersOfLayer:")]
+    unsafe fn layoutSublayersOfLayer(&self, layer: &CALayer);
+}
 
-extern_protocol!(
-    pub unsafe trait CAAction {
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(runActionForKey:object:arguments:)]
-        unsafe fn runActionForKey_object_arguments(
-            &self,
-            event: &NSString,
-            an_object: &Object,
-            dict: Option<&NSDictionary>,
-        );
-    }
+#[objc2::protocol]
+pub unsafe trait CAAction {
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "runActionForKey:object:arguments:")]
+    unsafe fn runActionForKey_object_arguments(
+        &self,
+        event: &NSString,
+        an_object: &Object,
+        dict: Option<&NSDictionary>,
+    );
+}
 
-    unsafe impl ProtocolType for dyn CAAction {}
-);
-
-extern_methods!(
-    /// CAActionAdditions
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSNull")]
-    unsafe impl NSNull {}
-);
+    pub type NSNull;
+}
 
 #[cfg(feature = "Foundation_NSNull")]
 unsafe impl CAAction for NSNull {}
 
-extern_protocol!(
-    pub unsafe trait CALayerDelegate: NSObjectProtocol {
-        #[cfg(feature = "CoreAnimation_CALayer")]
-        #[optional]
-        #[method(displayLayer:)]
-        unsafe fn displayLayer(&self, layer: &CALayer);
+#[objc2::protocol]
+pub unsafe trait CALayerDelegate: NSObjectProtocol {
+    #[cfg(feature = "CoreAnimation_CALayer")]
+    #[objc2::method(optional, sel = "displayLayer:")]
+    unsafe fn displayLayer(&self, layer: &CALayer);
 
-        #[cfg(feature = "CoreAnimation_CALayer")]
-        #[optional]
-        #[method(layerWillDraw:)]
-        unsafe fn layerWillDraw(&self, layer: &CALayer);
+    #[cfg(feature = "CoreAnimation_CALayer")]
+    #[objc2::method(optional, sel = "layerWillDraw:")]
+    unsafe fn layerWillDraw(&self, layer: &CALayer);
 
-        #[cfg(feature = "CoreAnimation_CALayer")]
-        #[optional]
-        #[method(layoutSublayersOfLayer:)]
-        unsafe fn layoutSublayersOfLayer(&self, layer: &CALayer);
+    #[cfg(feature = "CoreAnimation_CALayer")]
+    #[objc2::method(optional, sel = "layoutSublayersOfLayer:")]
+    unsafe fn layoutSublayersOfLayer(&self, layer: &CALayer);
 
-        #[cfg(all(feature = "CoreAnimation_CALayer", feature = "Foundation_NSString"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other actionForLayer:forKey:)]
-        unsafe fn actionForLayer_forKey(
-            &self,
-            layer: &CALayer,
-            event: &NSString,
-        ) -> Option<Id<ProtocolObject<dyn CAAction>>>;
-    }
-
-    unsafe impl ProtocolType for dyn CALayerDelegate {}
-);
+    #[cfg(all(feature = "CoreAnimation_CALayer", feature = "Foundation_NSString"))]
+    #[objc2::method(optional, sel = "actionForLayer:forKey:", managed = "Other")]
+    unsafe fn actionForLayer_forKey(
+        &self,
+        layer: &CALayer,
+        event: &NSString,
+    ) -> Option<Id<ProtocolObject<dyn CAAction>>>;
+}
 
 extern_static!(kCAGravityCenter: &'static CALayerContentsGravity);
 

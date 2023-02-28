@@ -6,45 +6,51 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHObject")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHObject")]
-    pub struct PHObject;
-
-    #[cfg(feature = "PhotoKit_PHObject")]
-    unsafe impl ClassType for PHObject {
-        type Super = NSObject;
-    }
-);
+    pub type PHObject;
+}
 
 #[cfg(feature = "PhotoKit_PHObject")]
 unsafe impl NSObjectProtocol for PHObject {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHObject")]
-    unsafe impl PHObject {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localIdentifier)]
-        pub unsafe fn localIdentifier(&self) -> Id<NSString>;
-    }
-);
+    pub type PHObject;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localIdentifier", managed = "Other")]
+    pub unsafe fn localIdentifier(&self) -> Id<NSString>;
+}
+
+#[objc2::interface(
+    unsafe super = PHObject,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHObjectPlaceholder")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHObjectPlaceholder")]
-    pub struct PHObjectPlaceholder;
-
-    #[cfg(feature = "PhotoKit_PHObjectPlaceholder")]
-    unsafe impl ClassType for PHObjectPlaceholder {
-        #[inherits(NSObject)]
-        type Super = PHObject;
-    }
-);
+    pub type PHObjectPlaceholder;
+}
 
 #[cfg(feature = "PhotoKit_PHObjectPlaceholder")]
 unsafe impl NSObjectProtocol for PHObjectPlaceholder {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHObjectPlaceholder")]
-    unsafe impl PHObjectPlaceholder {}
-);
+    pub type PHObjectPlaceholder;
+}

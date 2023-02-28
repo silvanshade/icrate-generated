@@ -3,68 +3,69 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSJSONReadingOptions {
-        NSJSONReadingMutableContainers = 1 << 0,
-        NSJSONReadingMutableLeaves = 1 << 1,
-        NSJSONReadingFragmentsAllowed = 1 << 2,
-        NSJSONReadingJSON5Allowed = 1 << 3,
-        NSJSONReadingTopLevelDictionaryAssumed = 1 << 4,
-        #[deprecated]
-        NSJSONReadingAllowFragments = NSJSONReadingFragmentsAllowed,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSJSONReadingOptions {
+    NSJSONReadingMutableContainers = 1 << 0,
+    NSJSONReadingMutableLeaves = 1 << 1,
+    NSJSONReadingFragmentsAllowed = 1 << 2,
+    NSJSONReadingJSON5Allowed = 1 << 3,
+    NSJSONReadingTopLevelDictionaryAssumed = 1 << 4,
+    #[deprecated]
+    NSJSONReadingAllowFragments = NSJSONReadingFragmentsAllowed,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSJSONWritingOptions {
-        NSJSONWritingPrettyPrinted = 1 << 0,
-        NSJSONWritingSortedKeys = 1 << 1,
-        NSJSONWritingFragmentsAllowed = 1 << 2,
-        NSJSONWritingWithoutEscapingSlashes = 1 << 3,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSJSONWritingOptions {
+    NSJSONWritingPrettyPrinted = 1 << 0,
+    NSJSONWritingSortedKeys = 1 << 1,
+    NSJSONWritingFragmentsAllowed = 1 << 2,
+    NSJSONWritingWithoutEscapingSlashes = 1 << 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSJSONSerialization")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSJSONSerialization")]
-    pub struct NSJSONSerialization;
-
-    #[cfg(feature = "Foundation_NSJSONSerialization")]
-    unsafe impl ClassType for NSJSONSerialization {
-        type Super = NSObject;
-    }
-);
+    pub type NSJSONSerialization;
+}
 
 #[cfg(feature = "Foundation_NSJSONSerialization")]
 unsafe impl NSObjectProtocol for NSJSONSerialization {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSJSONSerialization")]
-    unsafe impl NSJSONSerialization {
-        #[method(isValidJSONObject:)]
-        pub unsafe fn isValidJSONObject(obj: &Object) -> bool;
+    pub type NSJSONSerialization;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method_id(@__retain_semantics Other dataWithJSONObject:options:error:_)]
-        pub unsafe fn dataWithJSONObject_options_error(
-            obj: &Object,
-            opt: NSJSONWritingOptions,
-        ) -> Result<Id<NSData>, Id<NSError>>;
+    #[objc2::method(sel = "isValidJSONObject:")]
+    pub unsafe fn isValidJSONObject(obj: &Object) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method_id(@__retain_semantics Other JSONObjectWithData:options:error:_)]
-        pub unsafe fn JSONObjectWithData_options_error(
-            data: &NSData,
-            opt: NSJSONReadingOptions,
-        ) -> Result<Id<Object>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "dataWithJSONObject:options:error:", managed = "Other", throws)]
+    pub unsafe fn dataWithJSONObject_options_error(
+        obj: &Object,
+        opt: NSJSONWritingOptions,
+    ) -> Result<Id<NSData>, Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSInputStream"))]
-        #[method_id(@__retain_semantics Other JSONObjectWithStream:options:error:_)]
-        pub unsafe fn JSONObjectWithStream_options_error(
-            stream: &NSInputStream,
-            opt: NSJSONReadingOptions,
-        ) -> Result<Id<Object>, Id<NSError>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "JSONObjectWithData:options:error:", managed = "Other", throws)]
+    pub unsafe fn JSONObjectWithData_options_error(
+        data: &NSData,
+        opt: NSJSONReadingOptions,
+    ) -> Result<Id<Object>, Id<NSError>>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSInputStream"))]
+    #[objc2::method(sel = "JSONObjectWithStream:options:error:", managed = "Other", throws)]
+    pub unsafe fn JSONObjectWithStream_options_error(
+        stream: &NSInputStream,
+        opt: NSJSONReadingOptions,
+    ) -> Result<Id<Object>, Id<NSError>>;
+}

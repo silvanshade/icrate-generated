@@ -7,16 +7,16 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-    pub struct MKPointOfInterestFilter;
-
-    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-    unsafe impl ClassType for MKPointOfInterestFilter {
-        type Super = NSObject;
-    }
-);
+    pub type MKPointOfInterestFilter;
+}
 
 #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
 unsafe impl NSCoding for MKPointOfInterestFilter {}
@@ -27,33 +27,36 @@ unsafe impl NSObjectProtocol for MKPointOfInterestFilter {}
 #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
 unsafe impl NSSecureCoding for MKPointOfInterestFilter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-    unsafe impl MKPointOfInterestFilter {
-        #[method_id(@__retain_semantics Other filterIncludingAllCategories)]
-        pub unsafe fn filterIncludingAllCategories() -> Id<MKPointOfInterestFilter>;
+    pub type MKPointOfInterestFilter;
 
-        #[method_id(@__retain_semantics Other filterExcludingAllCategories)]
-        pub unsafe fn filterExcludingAllCategories() -> Id<MKPointOfInterestFilter>;
+    #[objc2::method(sel = "filterIncludingAllCategories", managed = "Other")]
+    pub unsafe fn filterIncludingAllCategories() -> Id<MKPointOfInterestFilter>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Init initIncludingCategories:)]
-        pub unsafe fn initIncludingCategories(
-            this: Option<Allocated<Self>>,
-            categories: &NSArray<MKPointOfInterestCategory>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "filterExcludingAllCategories", managed = "Other")]
+    pub unsafe fn filterExcludingAllCategories() -> Id<MKPointOfInterestFilter>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Init initExcludingCategories:)]
-        pub unsafe fn initExcludingCategories(
-            this: Option<Allocated<Self>>,
-            categories: &NSArray<MKPointOfInterestCategory>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "initIncludingCategories:", managed = "Init")]
+    pub unsafe fn initIncludingCategories(
+        this: Option<Allocated<Self>>,
+        categories: &NSArray<MKPointOfInterestCategory>,
+    ) -> Id<Self>;
 
-        #[method(includesCategory:)]
-        pub unsafe fn includesCategory(&self, category: &MKPointOfInterestCategory) -> bool;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "initExcludingCategories:", managed = "Init")]
+    pub unsafe fn initExcludingCategories(
+        this: Option<Allocated<Self>>,
+        categories: &NSArray<MKPointOfInterestCategory>,
+    ) -> Id<Self>;
 
-        #[method(excludesCategory:)]
-        pub unsafe fn excludesCategory(&self, category: &MKPointOfInterestCategory) -> bool;
-    }
-);
+    #[objc2::method(sel = "includesCategory:")]
+    pub unsafe fn includesCategory(&self, category: &MKPointOfInterestCategory) -> bool;
+
+    #[objc2::method(sel = "excludesCategory:")]
+    pub unsafe fn excludesCategory(&self, category: &MKPointOfInterestCategory) -> bool;
+}

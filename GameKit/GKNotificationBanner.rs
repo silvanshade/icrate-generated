@@ -5,38 +5,41 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameKit_GKNotificationBanner")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKNotificationBanner")]
-    pub struct GKNotificationBanner;
-
-    #[cfg(feature = "GameKit_GKNotificationBanner")]
-    unsafe impl ClassType for GKNotificationBanner {
-        type Super = NSObject;
-    }
-);
+    pub type GKNotificationBanner;
+}
 
 #[cfg(feature = "GameKit_GKNotificationBanner")]
 unsafe impl NSObjectProtocol for GKNotificationBanner {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKNotificationBanner")]
-    unsafe impl GKNotificationBanner {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(showBannerWithTitle:message:completionHandler:)]
-        pub unsafe fn showBannerWithTitle_message_completionHandler(
-            title: Option<&NSString>,
-            message: Option<&NSString>,
-            completion_handler: Option<&Block<(), ()>>,
-        );
+    pub type GKNotificationBanner;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(showBannerWithTitle:message:duration:completionHandler:)]
-        pub unsafe fn showBannerWithTitle_message_duration_completionHandler(
-            title: Option<&NSString>,
-            message: Option<&NSString>,
-            duration: NSTimeInterval,
-            completion_handler: Option<&Block<(), ()>>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "showBannerWithTitle:message:completionHandler:")]
+    pub unsafe fn showBannerWithTitle_message_completionHandler(
+        title: Option<&NSString>,
+        message: Option<&NSString>,
+        completion_handler: Option<&Block<(), ()>>,
+    );
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "showBannerWithTitle:message:duration:completionHandler:")]
+    pub unsafe fn showBannerWithTitle_message_duration_completionHandler(
+        title: Option<&NSString>,
+        message: Option<&NSString>,
+        duration: NSTimeInterval,
+        completion_handler: Option<&Block<(), ()>>,
+    );
+}

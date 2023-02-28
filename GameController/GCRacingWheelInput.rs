@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCRacingWheelInputState")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCRacingWheelInputState")]
-    pub struct GCRacingWheelInputState;
-
-    #[cfg(feature = "GameController_GCRacingWheelInputState")]
-    unsafe impl ClassType for GCRacingWheelInputState {
-        type Super = NSObject;
-    }
-);
+    pub type GCRacingWheelInputState;
+}
 
 #[cfg(feature = "GameController_GCRacingWheelInputState")]
 unsafe impl GCDevicePhysicalInputState for GCRacingWheelInputState {}
@@ -22,39 +22,42 @@ unsafe impl GCDevicePhysicalInputState for GCRacingWheelInputState {}
 #[cfg(feature = "GameController_GCRacingWheelInputState")]
 unsafe impl NSObjectProtocol for GCRacingWheelInputState {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCRacingWheelInputState")]
-    unsafe impl GCRacingWheelInputState {
-        #[cfg(feature = "GameController_GCSteeringWheelElement")]
-        #[method_id(@__retain_semantics Other wheel)]
-        pub unsafe fn wheel(&self) -> Id<GCSteeringWheelElement>;
+    pub type GCRacingWheelInputState;
 
-        #[method_id(@__retain_semantics Other acceleratorPedal)]
-        pub unsafe fn acceleratorPedal(&self) -> Option<Id<ProtocolObject<dyn GCButtonElement>>>;
+    #[cfg(feature = "GameController_GCSteeringWheelElement")]
+    #[objc2::method(sel = "wheel", managed = "Other")]
+    pub unsafe fn wheel(&self) -> Id<GCSteeringWheelElement>;
 
-        #[method_id(@__retain_semantics Other brakePedal)]
-        pub unsafe fn brakePedal(&self) -> Option<Id<ProtocolObject<dyn GCButtonElement>>>;
+    #[objc2::method(sel = "acceleratorPedal", managed = "Other")]
+    pub unsafe fn acceleratorPedal(&self) -> Option<Id<ProtocolObject<dyn GCButtonElement>>>;
 
-        #[method_id(@__retain_semantics Other clutchPedal)]
-        pub unsafe fn clutchPedal(&self) -> Option<Id<ProtocolObject<dyn GCButtonElement>>>;
+    #[objc2::method(sel = "brakePedal", managed = "Other")]
+    pub unsafe fn brakePedal(&self) -> Option<Id<ProtocolObject<dyn GCButtonElement>>>;
 
-        #[cfg(feature = "GameController_GCGearShifterElement")]
-        #[method_id(@__retain_semantics Other shifter)]
-        pub unsafe fn shifter(&self) -> Option<Id<GCGearShifterElement>>;
-    }
-);
+    #[objc2::method(sel = "clutchPedal", managed = "Other")]
+    pub unsafe fn clutchPedal(&self) -> Option<Id<ProtocolObject<dyn GCButtonElement>>>;
 
-extern_class!(
+    #[cfg(feature = "GameController_GCGearShifterElement")]
+    #[objc2::method(sel = "shifter", managed = "Other")]
+    pub unsafe fn shifter(&self) -> Option<Id<GCGearShifterElement>>;
+}
+
+#[objc2::interface(
+    unsafe super = GCRacingWheelInputState,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCRacingWheelInput")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCRacingWheelInput")]
-    pub struct GCRacingWheelInput;
-
-    #[cfg(feature = "GameController_GCRacingWheelInput")]
-    unsafe impl ClassType for GCRacingWheelInput {
-        #[inherits(NSObject)]
-        type Super = GCRacingWheelInputState;
-    }
-);
+    pub type GCRacingWheelInput;
+}
 
 #[cfg(feature = "GameController_GCRacingWheelInput")]
 unsafe impl GCDevicePhysicalInput for GCRacingWheelInput {}
@@ -65,13 +68,16 @@ unsafe impl GCDevicePhysicalInputState for GCRacingWheelInput {}
 #[cfg(feature = "GameController_GCRacingWheelInput")]
 unsafe impl NSObjectProtocol for GCRacingWheelInput {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCRacingWheelInput")]
-    unsafe impl GCRacingWheelInput {
-        #[method_id(@__retain_semantics Other capture)]
-        pub unsafe fn capture(&self) -> Id<GCRacingWheelInputState>;
+    pub type GCRacingWheelInput;
 
-        #[method_id(@__retain_semantics Other nextInputState)]
-        pub unsafe fn nextInputState(&self) -> Option<Id<GCRacingWheelInputState>>;
-    }
-);
+    #[objc2::method(sel = "capture", managed = "Other")]
+    pub unsafe fn capture(&self) -> Id<GCRacingWheelInputState>;
+
+    #[objc2::method(sel = "nextInputState", managed = "Other")]
+    pub unsafe fn nextInputState(&self) -> Option<Id<GCRacingWheelInputState>>;
+}

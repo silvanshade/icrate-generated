@@ -5,60 +5,61 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCExtendedGamepadSnapshot")]
+#[objc2::interface(
+    unsafe super = GCExtendedGamepad,
+    unsafe inherits = [
+        GCPhysicalInputProfile,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated = "GCExtendedGamepadSnapshot has been deprecated, use [GCController controllerWithExtendedGamepad] instead"]
-    pub struct GCExtendedGamepadSnapshot;
-
     #[cfg(feature = "GameController_GCExtendedGamepadSnapshot")]
-    unsafe impl ClassType for GCExtendedGamepadSnapshot {
-        #[inherits(GCPhysicalInputProfile, NSObject)]
-        type Super = GCExtendedGamepad;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type GCExtendedGamepadSnapshot;
+}
 
 #[cfg(feature = "GameController_GCExtendedGamepadSnapshot")]
 unsafe impl NSObjectProtocol for GCExtendedGamepadSnapshot {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCExtendedGamepadSnapshot")]
-    unsafe impl GCExtendedGamepadSnapshot {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other snapshotData)]
-        pub unsafe fn snapshotData(&self) -> Id<NSData>;
-
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(setSnapshotData:)]
-        pub unsafe fn setSnapshotData(&self, snapshot_data: &NSData);
-
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Init initWithSnapshotData:)]
-        pub unsafe fn initWithSnapshotData(
-            this: Option<Allocated<Self>>,
-            data: &NSData,
-        ) -> Id<Self>;
-
-        #[cfg(all(feature = "Foundation_NSData", feature = "GameController_GCController"))]
-        #[method_id(@__retain_semantics Init initWithController:snapshotData:)]
-        pub unsafe fn initWithController_snapshotData(
-            this: Option<Allocated<Self>>,
-            controller: &GCController,
-            data: &NSData,
-        ) -> Id<Self>;
-    }
-);
-
-ns_enum!(
-    #[underlying(NSInteger)]
     #[deprecated = "GCExtendedGamepadSnapshot has been deprecated, use [GCController controllerWithExtendedGamepad] instead"]
-    pub enum GCExtendedGamepadSnapshotDataVersion {
-        #[deprecated = "GCExtendedGamepadSnapshot has been deprecated, use [GCController controllerWithExtendedGamepad] instead"]
-        GCExtendedGamepadSnapshotDataVersion1 = 0x0100,
-        #[deprecated = "GCExtendedGamepadSnapshot has been deprecated, use [GCController controllerWithExtendedGamepad] instead"]
-        GCExtendedGamepadSnapshotDataVersion2 = 0x0101,
-    }
-);
+    pub type GCExtendedGamepadSnapshot;
+
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "snapshotData", managed = "Other")]
+    pub unsafe fn snapshotData(&self) -> Id<NSData>;
+
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "setSnapshotData:")]
+    pub unsafe fn setSnapshotData(&self, snapshot_data: &NSData);
+
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "initWithSnapshotData:", managed = "Init")]
+    pub unsafe fn initWithSnapshotData(this: Option<Allocated<Self>>, data: &NSData) -> Id<Self>;
+
+    #[cfg(all(feature = "Foundation_NSData", feature = "GameController_GCController"))]
+    #[objc2::method(sel = "initWithController:snapshotData:", managed = "Init")]
+    pub unsafe fn initWithController_snapshotData(
+        this: Option<Allocated<Self>>,
+        controller: &GCController,
+        data: &NSData,
+    ) -> Id<Self>;
+}
+
+#[ns_enum]
+#[underlying(NSInteger)]
+#[deprecated = "GCExtendedGamepadSnapshot has been deprecated, use [GCController controllerWithExtendedGamepad] instead"]
+pub enum GCExtendedGamepadSnapshotDataVersion {
+    #[deprecated = "GCExtendedGamepadSnapshot has been deprecated, use [GCController controllerWithExtendedGamepad] instead"]
+    GCExtendedGamepadSnapshotDataVersion1 = 0x0100,
+    #[deprecated = "GCExtendedGamepadSnapshot has been deprecated, use [GCController controllerWithExtendedGamepad] instead"]
+    GCExtendedGamepadSnapshotDataVersion2 = 0x0101,
+}
 
 extern_static!(GCCurrentExtendedGamepadSnapshotDataVersion: GCExtendedGamepadSnapshotDataVersion);
 

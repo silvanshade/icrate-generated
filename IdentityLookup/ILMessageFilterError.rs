@@ -6,13 +6,12 @@ use crate::IdentityLookup::*;
 
 extern_static!(ILMessageFilterErrorDomain: &'static NSErrorDomain);
 
-ns_error_enum!(
-    #[underlying(NSInteger)]
-    pub enum ILMessageFilterError {
-        ILMessageFilterErrorSystem = 1,
-        ILMessageFilterErrorInvalidNetworkURL = 2,
-        ILMessageFilterErrorNetworkURLUnauthorized = 3,
-        ILMessageFilterErrorNetworkRequestFailed = 4,
-        ILMessageFilterErrorRedundantNetworkDeferral = 5,
-    }
-);
+#[ns_error_enum]
+#[underlying(NSInteger)]
+pub enum ILMessageFilterError {
+    ILMessageFilterErrorSystem = 1,
+    ILMessageFilterErrorInvalidNetworkURL = 2,
+    ILMessageFilterErrorNetworkURLUnauthorized = 3,
+    ILMessageFilterErrorNetworkRequestFailed = 4,
+    ILMessageFilterErrorRedundantNetworkDeferral = 5,
+}

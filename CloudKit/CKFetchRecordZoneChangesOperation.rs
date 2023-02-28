@@ -5,282 +5,290 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CKDatabaseOperation,
+    unsafe inherits = [
+        CKOperation,
+        NSOperation,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKFetchRecordZoneChangesOperation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKFetchRecordZoneChangesOperation")]
-    pub struct CKFetchRecordZoneChangesOperation;
-
-    #[cfg(feature = "CloudKit_CKFetchRecordZoneChangesOperation")]
-    unsafe impl ClassType for CKFetchRecordZoneChangesOperation {
-        #[inherits(CKOperation, NSOperation, NSObject)]
-        type Super = CKDatabaseOperation;
-    }
-);
+    pub type CKFetchRecordZoneChangesOperation;
+}
 
 #[cfg(feature = "CloudKit_CKFetchRecordZoneChangesOperation")]
 unsafe impl NSObjectProtocol for CKFetchRecordZoneChangesOperation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKFetchRecordZoneChangesOperation")]
-    unsafe impl CKFetchRecordZoneChangesOperation {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKFetchRecordZoneChangesOperation;
 
-        #[cfg(all(
-            feature = "CloudKit_CKFetchRecordZoneChangesConfiguration",
-            feature = "CloudKit_CKRecordZoneID",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[method_id(@__retain_semantics Init initWithRecordZoneIDs:configurationsByRecordZoneID:)]
-        pub unsafe fn initWithRecordZoneIDs_configurationsByRecordZoneID(
-            this: Option<Allocated<Self>>,
-            record_zone_i_ds: &NSArray<CKRecordZoneID>,
-            configurations_by_record_zone_id: Option<
-                &NSDictionary<CKRecordZoneID, CKFetchRecordZoneChangesConfiguration>,
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "CloudKit_CKFetchRecordZoneChangesConfiguration",
+        feature = "CloudKit_CKRecordZoneID",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[objc2::method(
+        sel = "initWithRecordZoneIDs:configurationsByRecordZoneID:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithRecordZoneIDs_configurationsByRecordZoneID(
+        this: Option<Allocated<Self>>,
+        record_zone_i_ds: &NSArray<CKRecordZoneID>,
+        configurations_by_record_zone_id: Option<
+            &NSDictionary<CKRecordZoneID, CKFetchRecordZoneChangesConfiguration>,
+        >,
+    ) -> Id<Self>;
+
+    #[cfg(all(feature = "CloudKit_CKRecordZoneID", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "recordZoneIDs", managed = "Other")]
+    pub unsafe fn recordZoneIDs(&self) -> Option<Id<NSArray<CKRecordZoneID>>>;
+
+    #[cfg(all(feature = "CloudKit_CKRecordZoneID", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setRecordZoneIDs:")]
+    pub unsafe fn setRecordZoneIDs(&self, record_zone_i_ds: Option<&NSArray<CKRecordZoneID>>);
+
+    #[cfg(all(
+        feature = "CloudKit_CKFetchRecordZoneChangesConfiguration",
+        feature = "CloudKit_CKRecordZoneID",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[objc2::method(sel = "configurationsByRecordZoneID", managed = "Other")]
+    pub unsafe fn configurationsByRecordZoneID(
+        &self,
+    ) -> Option<Id<NSDictionary<CKRecordZoneID, CKFetchRecordZoneChangesConfiguration>>>;
+
+    #[cfg(all(
+        feature = "CloudKit_CKFetchRecordZoneChangesConfiguration",
+        feature = "CloudKit_CKRecordZoneID",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[objc2::method(sel = "setConfigurationsByRecordZoneID:")]
+    pub unsafe fn setConfigurationsByRecordZoneID(
+        &self,
+        configurations_by_record_zone_id: Option<
+            &NSDictionary<CKRecordZoneID, CKFetchRecordZoneChangesConfiguration>,
+        >,
+    );
+
+    #[objc2::method(sel = "fetchAllChanges")]
+    pub unsafe fn fetchAllChanges(&self) -> bool;
+
+    #[objc2::method(sel = "setFetchAllChanges:")]
+    pub unsafe fn setFetchAllChanges(&self, fetch_all_changes: bool);
+
+    #[cfg(feature = "CloudKit_CKRecord")]
+    #[deprecated = "Use recordWasChangedBlock instead, which surfaces per-record errors"]
+    #[objc2::method(sel = "recordChangedBlock")]
+    pub unsafe fn recordChangedBlock(&self) -> *mut Block<(NonNull<CKRecord>,), ()>;
+
+    #[cfg(feature = "CloudKit_CKRecord")]
+    #[deprecated = "Use recordWasChangedBlock instead, which surfaces per-record errors"]
+    #[objc2::method(sel = "setRecordChangedBlock:")]
+    pub unsafe fn setRecordChangedBlock(
+        &self,
+        record_changed_block: Option<&Block<(NonNull<CKRecord>,), ()>>,
+    );
+
+    #[cfg(all(
+        feature = "CloudKit_CKRecord",
+        feature = "CloudKit_CKRecordID",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "recordWasChangedBlock")]
+    pub unsafe fn recordWasChangedBlock(
+        &self,
+    ) -> *mut Block<(NonNull<CKRecordID>, *mut CKRecord, *mut NSError), ()>;
+
+    #[cfg(all(
+        feature = "CloudKit_CKRecord",
+        feature = "CloudKit_CKRecordID",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "setRecordWasChangedBlock:")]
+    pub unsafe fn setRecordWasChangedBlock(
+        &self,
+        record_was_changed_block: Option<
+            &Block<(NonNull<CKRecordID>, *mut CKRecord, *mut NSError), ()>,
+        >,
+    );
+
+    #[cfg(feature = "CloudKit_CKRecordID")]
+    #[objc2::method(sel = "recordWithIDWasDeletedBlock")]
+    pub unsafe fn recordWithIDWasDeletedBlock(
+        &self,
+    ) -> *mut Block<(NonNull<CKRecordID>, NonNull<CKRecordType>), ()>;
+
+    #[cfg(feature = "CloudKit_CKRecordID")]
+    #[objc2::method(sel = "setRecordWithIDWasDeletedBlock:")]
+    pub unsafe fn setRecordWithIDWasDeletedBlock(
+        &self,
+        record_with_id_was_deleted_block: Option<
+            &Block<(NonNull<CKRecordID>, NonNull<CKRecordType>), ()>,
+        >,
+    );
+
+    #[cfg(all(
+        feature = "CloudKit_CKRecordZoneID",
+        feature = "CloudKit_CKServerChangeToken",
+        feature = "Foundation_NSData"
+    ))]
+    #[objc2::method(sel = "recordZoneChangeTokensUpdatedBlock")]
+    pub unsafe fn recordZoneChangeTokensUpdatedBlock(
+        &self,
+    ) -> *mut Block<
+        (
+            NonNull<CKRecordZoneID>,
+            *mut CKServerChangeToken,
+            *mut NSData,
+        ),
+        (),
+    >;
+
+    #[cfg(all(
+        feature = "CloudKit_CKRecordZoneID",
+        feature = "CloudKit_CKServerChangeToken",
+        feature = "Foundation_NSData"
+    ))]
+    #[objc2::method(sel = "setRecordZoneChangeTokensUpdatedBlock:")]
+    pub unsafe fn setRecordZoneChangeTokensUpdatedBlock(
+        &self,
+        record_zone_change_tokens_updated_block: Option<
+            &Block<
+                (
+                    NonNull<CKRecordZoneID>,
+                    *mut CKServerChangeToken,
+                    *mut NSData,
+                ),
+                (),
             >,
-        ) -> Id<Self>;
+        >,
+    );
 
-        #[cfg(all(feature = "CloudKit_CKRecordZoneID", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other recordZoneIDs)]
-        pub unsafe fn recordZoneIDs(&self) -> Option<Id<NSArray<CKRecordZoneID>>>;
+    #[cfg(all(
+        feature = "CloudKit_CKRecordZoneID",
+        feature = "CloudKit_CKServerChangeToken",
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "recordZoneFetchCompletionBlock")]
+    pub unsafe fn recordZoneFetchCompletionBlock(
+        &self,
+    ) -> *mut Block<
+        (
+            NonNull<CKRecordZoneID>,
+            *mut CKServerChangeToken,
+            *mut NSData,
+            Bool,
+            *mut NSError,
+        ),
+        (),
+    >;
 
-        #[cfg(all(feature = "CloudKit_CKRecordZoneID", feature = "Foundation_NSArray"))]
-        #[method(setRecordZoneIDs:)]
-        pub unsafe fn setRecordZoneIDs(&self, record_zone_i_ds: Option<&NSArray<CKRecordZoneID>>);
-
-        #[cfg(all(
-            feature = "CloudKit_CKFetchRecordZoneChangesConfiguration",
-            feature = "CloudKit_CKRecordZoneID",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[method_id(@__retain_semantics Other configurationsByRecordZoneID)]
-        pub unsafe fn configurationsByRecordZoneID(
-            &self,
-        ) -> Option<Id<NSDictionary<CKRecordZoneID, CKFetchRecordZoneChangesConfiguration>>>;
-
-        #[cfg(all(
-            feature = "CloudKit_CKFetchRecordZoneChangesConfiguration",
-            feature = "CloudKit_CKRecordZoneID",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[method(setConfigurationsByRecordZoneID:)]
-        pub unsafe fn setConfigurationsByRecordZoneID(
-            &self,
-            configurations_by_record_zone_id: Option<
-                &NSDictionary<CKRecordZoneID, CKFetchRecordZoneChangesConfiguration>,
+    #[cfg(all(
+        feature = "CloudKit_CKRecordZoneID",
+        feature = "CloudKit_CKServerChangeToken",
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "setRecordZoneFetchCompletionBlock:")]
+    pub unsafe fn setRecordZoneFetchCompletionBlock(
+        &self,
+        record_zone_fetch_completion_block: Option<
+            &Block<
+                (
+                    NonNull<CKRecordZoneID>,
+                    *mut CKServerChangeToken,
+                    *mut NSData,
+                    Bool,
+                    *mut NSError,
+                ),
+                (),
             >,
-        );
+        >,
+    );
 
-        #[method(fetchAllChanges)]
-        pub unsafe fn fetchAllChanges(&self) -> bool;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "fetchRecordZoneChangesCompletionBlock")]
+    pub unsafe fn fetchRecordZoneChangesCompletionBlock(&self) -> *mut Block<(*mut NSError,), ()>;
 
-        #[method(setFetchAllChanges:)]
-        pub unsafe fn setFetchAllChanges(&self, fetch_all_changes: bool);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "setFetchRecordZoneChangesCompletionBlock:")]
+    pub unsafe fn setFetchRecordZoneChangesCompletionBlock(
+        &self,
+        fetch_record_zone_changes_completion_block: Option<&Block<(*mut NSError,), ()>>,
+    );
+}
 
-        #[cfg(feature = "CloudKit_CKRecord")]
-        #[deprecated = "Use recordWasChangedBlock instead, which surfaces per-record errors"]
-        #[method(recordChangedBlock)]
-        pub unsafe fn recordChangedBlock(&self) -> *mut Block<(NonNull<CKRecord>,), ()>;
-
-        #[cfg(feature = "CloudKit_CKRecord")]
-        #[deprecated = "Use recordWasChangedBlock instead, which surfaces per-record errors"]
-        #[method(setRecordChangedBlock:)]
-        pub unsafe fn setRecordChangedBlock(
-            &self,
-            record_changed_block: Option<&Block<(NonNull<CKRecord>,), ()>>,
-        );
-
-        #[cfg(all(
-            feature = "CloudKit_CKRecord",
-            feature = "CloudKit_CKRecordID",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(recordWasChangedBlock)]
-        pub unsafe fn recordWasChangedBlock(
-            &self,
-        ) -> *mut Block<(NonNull<CKRecordID>, *mut CKRecord, *mut NSError), ()>;
-
-        #[cfg(all(
-            feature = "CloudKit_CKRecord",
-            feature = "CloudKit_CKRecordID",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(setRecordWasChangedBlock:)]
-        pub unsafe fn setRecordWasChangedBlock(
-            &self,
-            record_was_changed_block: Option<
-                &Block<(NonNull<CKRecordID>, *mut CKRecord, *mut NSError), ()>,
-            >,
-        );
-
-        #[cfg(feature = "CloudKit_CKRecordID")]
-        #[method(recordWithIDWasDeletedBlock)]
-        pub unsafe fn recordWithIDWasDeletedBlock(
-            &self,
-        ) -> *mut Block<(NonNull<CKRecordID>, NonNull<CKRecordType>), ()>;
-
-        #[cfg(feature = "CloudKit_CKRecordID")]
-        #[method(setRecordWithIDWasDeletedBlock:)]
-        pub unsafe fn setRecordWithIDWasDeletedBlock(
-            &self,
-            record_with_id_was_deleted_block: Option<
-                &Block<(NonNull<CKRecordID>, NonNull<CKRecordType>), ()>,
-            >,
-        );
-
-        #[cfg(all(
-            feature = "CloudKit_CKRecordZoneID",
-            feature = "CloudKit_CKServerChangeToken",
-            feature = "Foundation_NSData"
-        ))]
-        #[method(recordZoneChangeTokensUpdatedBlock)]
-        pub unsafe fn recordZoneChangeTokensUpdatedBlock(
-            &self,
-        ) -> *mut Block<
-            (
-                NonNull<CKRecordZoneID>,
-                *mut CKServerChangeToken,
-                *mut NSData,
-            ),
-            (),
-        >;
-
-        #[cfg(all(
-            feature = "CloudKit_CKRecordZoneID",
-            feature = "CloudKit_CKServerChangeToken",
-            feature = "Foundation_NSData"
-        ))]
-        #[method(setRecordZoneChangeTokensUpdatedBlock:)]
-        pub unsafe fn setRecordZoneChangeTokensUpdatedBlock(
-            &self,
-            record_zone_change_tokens_updated_block: Option<
-                &Block<
-                    (
-                        NonNull<CKRecordZoneID>,
-                        *mut CKServerChangeToken,
-                        *mut NSData,
-                    ),
-                    (),
-                >,
-            >,
-        );
-
-        #[cfg(all(
-            feature = "CloudKit_CKRecordZoneID",
-            feature = "CloudKit_CKServerChangeToken",
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(recordZoneFetchCompletionBlock)]
-        pub unsafe fn recordZoneFetchCompletionBlock(
-            &self,
-        ) -> *mut Block<
-            (
-                NonNull<CKRecordZoneID>,
-                *mut CKServerChangeToken,
-                *mut NSData,
-                Bool,
-                *mut NSError,
-            ),
-            (),
-        >;
-
-        #[cfg(all(
-            feature = "CloudKit_CKRecordZoneID",
-            feature = "CloudKit_CKServerChangeToken",
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(setRecordZoneFetchCompletionBlock:)]
-        pub unsafe fn setRecordZoneFetchCompletionBlock(
-            &self,
-            record_zone_fetch_completion_block: Option<
-                &Block<
-                    (
-                        NonNull<CKRecordZoneID>,
-                        *mut CKServerChangeToken,
-                        *mut NSData,
-                        Bool,
-                        *mut NSError,
-                    ),
-                    (),
-                >,
-            >,
-        );
-
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(fetchRecordZoneChangesCompletionBlock)]
-        pub unsafe fn fetchRecordZoneChangesCompletionBlock(
-            &self,
-        ) -> *mut Block<(*mut NSError,), ()>;
-
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(setFetchRecordZoneChangesCompletionBlock:)]
-        pub unsafe fn setFetchRecordZoneChangesCompletionBlock(
-            &self,
-            fetch_record_zone_changes_completion_block: Option<&Block<(*mut NSError,), ()>>,
-        );
-    }
-);
-
-extern_methods!(
-    /// Deprecated
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKFetchRecordZoneChangesOperation")]
-    unsafe impl CKFetchRecordZoneChangesOperation {
-        #[cfg(all(
-            feature = "CloudKit_CKFetchRecordZoneChangesOptions",
-            feature = "CloudKit_CKRecordZoneID",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithRecordZoneIDs:optionsByRecordZoneID:)]
-        pub unsafe fn initWithRecordZoneIDs_optionsByRecordZoneID(
-            this: Option<Allocated<Self>>,
-            record_zone_i_ds: &NSArray<CKRecordZoneID>,
-            options_by_record_zone_id: Option<
-                &NSDictionary<CKRecordZoneID, CKFetchRecordZoneChangesOptions>,
-            >,
-        ) -> Id<Self>;
+    pub type CKFetchRecordZoneChangesOperation;
 
-        #[cfg(all(
-            feature = "CloudKit_CKFetchRecordZoneChangesOptions",
-            feature = "CloudKit_CKRecordZoneID",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other optionsByRecordZoneID)]
-        pub unsafe fn optionsByRecordZoneID(
-            &self,
-        ) -> Option<Id<NSDictionary<CKRecordZoneID, CKFetchRecordZoneChangesOptions>>>;
+    #[cfg(all(
+        feature = "CloudKit_CKFetchRecordZoneChangesOptions",
+        feature = "CloudKit_CKRecordZoneID",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[deprecated]
+    #[objc2::method(sel = "initWithRecordZoneIDs:optionsByRecordZoneID:", managed = "Init")]
+    pub unsafe fn initWithRecordZoneIDs_optionsByRecordZoneID(
+        this: Option<Allocated<Self>>,
+        record_zone_i_ds: &NSArray<CKRecordZoneID>,
+        options_by_record_zone_id: Option<
+            &NSDictionary<CKRecordZoneID, CKFetchRecordZoneChangesOptions>,
+        >,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "CloudKit_CKFetchRecordZoneChangesOptions",
-            feature = "CloudKit_CKRecordZoneID",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[deprecated]
-        #[method(setOptionsByRecordZoneID:)]
-        pub unsafe fn setOptionsByRecordZoneID(
-            &self,
-            options_by_record_zone_id: Option<
-                &NSDictionary<CKRecordZoneID, CKFetchRecordZoneChangesOptions>,
-            >,
-        );
-    }
-);
+    #[cfg(all(
+        feature = "CloudKit_CKFetchRecordZoneChangesOptions",
+        feature = "CloudKit_CKRecordZoneID",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[deprecated]
+    #[objc2::method(sel = "optionsByRecordZoneID", managed = "Other")]
+    pub unsafe fn optionsByRecordZoneID(
+        &self,
+    ) -> Option<Id<NSDictionary<CKRecordZoneID, CKFetchRecordZoneChangesOptions>>>;
 
-extern_class!(
+    #[cfg(all(
+        feature = "CloudKit_CKFetchRecordZoneChangesOptions",
+        feature = "CloudKit_CKRecordZoneID",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[deprecated]
+    #[objc2::method(sel = "setOptionsByRecordZoneID:")]
+    pub unsafe fn setOptionsByRecordZoneID(
+        &self,
+        options_by_record_zone_id: Option<
+            &NSDictionary<CKRecordZoneID, CKFetchRecordZoneChangesOptions>,
+        >,
+    );
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKFetchRecordZoneChangesConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKFetchRecordZoneChangesConfiguration")]
-    pub struct CKFetchRecordZoneChangesConfiguration;
-
-    #[cfg(feature = "CloudKit_CKFetchRecordZoneChangesConfiguration")]
-    unsafe impl ClassType for CKFetchRecordZoneChangesConfiguration {
-        type Super = NSObject;
-    }
-);
+    pub type CKFetchRecordZoneChangesConfiguration;
+}
 
 #[cfg(feature = "CloudKit_CKFetchRecordZoneChangesConfiguration")]
 unsafe impl NSCoding for CKFetchRecordZoneChangesConfiguration {}
@@ -291,47 +299,50 @@ unsafe impl NSObjectProtocol for CKFetchRecordZoneChangesConfiguration {}
 #[cfg(feature = "CloudKit_CKFetchRecordZoneChangesConfiguration")]
 unsafe impl NSSecureCoding for CKFetchRecordZoneChangesConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKFetchRecordZoneChangesConfiguration")]
-    unsafe impl CKFetchRecordZoneChangesConfiguration {
-        #[cfg(feature = "CloudKit_CKServerChangeToken")]
-        #[method_id(@__retain_semantics Other previousServerChangeToken)]
-        pub unsafe fn previousServerChangeToken(&self) -> Option<Id<CKServerChangeToken>>;
+    pub type CKFetchRecordZoneChangesConfiguration;
 
-        #[cfg(feature = "CloudKit_CKServerChangeToken")]
-        #[method(setPreviousServerChangeToken:)]
-        pub unsafe fn setPreviousServerChangeToken(
-            &self,
-            previous_server_change_token: Option<&CKServerChangeToken>,
-        );
+    #[cfg(feature = "CloudKit_CKServerChangeToken")]
+    #[objc2::method(sel = "previousServerChangeToken", managed = "Other")]
+    pub unsafe fn previousServerChangeToken(&self) -> Option<Id<CKServerChangeToken>>;
 
-        #[method(resultsLimit)]
-        pub unsafe fn resultsLimit(&self) -> NSUInteger;
+    #[cfg(feature = "CloudKit_CKServerChangeToken")]
+    #[objc2::method(sel = "setPreviousServerChangeToken:")]
+    pub unsafe fn setPreviousServerChangeToken(
+        &self,
+        previous_server_change_token: Option<&CKServerChangeToken>,
+    );
 
-        #[method(setResultsLimit:)]
-        pub unsafe fn setResultsLimit(&self, results_limit: NSUInteger);
+    #[objc2::method(sel = "resultsLimit")]
+    pub unsafe fn resultsLimit(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other desiredKeys)]
-        pub unsafe fn desiredKeys(&self) -> Option<Id<NSArray<CKRecordFieldKey>>>;
+    #[objc2::method(sel = "setResultsLimit:")]
+    pub unsafe fn setResultsLimit(&self, results_limit: NSUInteger);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setDesiredKeys:)]
-        pub unsafe fn setDesiredKeys(&self, desired_keys: Option<&NSArray<CKRecordFieldKey>>);
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "desiredKeys", managed = "Other")]
+    pub unsafe fn desiredKeys(&self) -> Option<Id<NSArray<CKRecordFieldKey>>>;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKFetchRecordZoneChangesOptions")]
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setDesiredKeys:")]
+    pub unsafe fn setDesiredKeys(&self, desired_keys: Option<&NSArray<CKRecordFieldKey>>);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct CKFetchRecordZoneChangesOptions;
-
     #[cfg(feature = "CloudKit_CKFetchRecordZoneChangesOptions")]
-    unsafe impl ClassType for CKFetchRecordZoneChangesOptions {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type CKFetchRecordZoneChangesOptions;
+}
 
 #[cfg(feature = "CloudKit_CKFetchRecordZoneChangesOptions")]
 unsafe impl NSCoding for CKFetchRecordZoneChangesOptions {}
@@ -342,32 +353,36 @@ unsafe impl NSObjectProtocol for CKFetchRecordZoneChangesOptions {}
 #[cfg(feature = "CloudKit_CKFetchRecordZoneChangesOptions")]
 unsafe impl NSSecureCoding for CKFetchRecordZoneChangesOptions {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKFetchRecordZoneChangesOptions")]
-    unsafe impl CKFetchRecordZoneChangesOptions {
-        #[cfg(feature = "CloudKit_CKServerChangeToken")]
-        #[method_id(@__retain_semantics Other previousServerChangeToken)]
-        pub unsafe fn previousServerChangeToken(&self) -> Option<Id<CKServerChangeToken>>;
+    #[deprecated]
+    pub type CKFetchRecordZoneChangesOptions;
 
-        #[cfg(feature = "CloudKit_CKServerChangeToken")]
-        #[method(setPreviousServerChangeToken:)]
-        pub unsafe fn setPreviousServerChangeToken(
-            &self,
-            previous_server_change_token: Option<&CKServerChangeToken>,
-        );
+    #[cfg(feature = "CloudKit_CKServerChangeToken")]
+    #[objc2::method(sel = "previousServerChangeToken", managed = "Other")]
+    pub unsafe fn previousServerChangeToken(&self) -> Option<Id<CKServerChangeToken>>;
 
-        #[method(resultsLimit)]
-        pub unsafe fn resultsLimit(&self) -> NSUInteger;
+    #[cfg(feature = "CloudKit_CKServerChangeToken")]
+    #[objc2::method(sel = "setPreviousServerChangeToken:")]
+    pub unsafe fn setPreviousServerChangeToken(
+        &self,
+        previous_server_change_token: Option<&CKServerChangeToken>,
+    );
 
-        #[method(setResultsLimit:)]
-        pub unsafe fn setResultsLimit(&self, results_limit: NSUInteger);
+    #[objc2::method(sel = "resultsLimit")]
+    pub unsafe fn resultsLimit(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other desiredKeys)]
-        pub unsafe fn desiredKeys(&self) -> Option<Id<NSArray<CKRecordFieldKey>>>;
+    #[objc2::method(sel = "setResultsLimit:")]
+    pub unsafe fn setResultsLimit(&self, results_limit: NSUInteger);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setDesiredKeys:)]
-        pub unsafe fn setDesiredKeys(&self, desired_keys: Option<&NSArray<CKRecordFieldKey>>);
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "desiredKeys", managed = "Other")]
+    pub unsafe fn desiredKeys(&self) -> Option<Id<NSArray<CKRecordFieldKey>>>;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setDesiredKeys:")]
+    pub unsafe fn setDesiredKeys(&self, desired_keys: Option<&NSArray<CKRecordFieldKey>>);
+}

@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Contacts::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Contacts_CNPhoneNumber")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Contacts_CNPhoneNumber")]
-    pub struct CNPhoneNumber;
-
-    #[cfg(feature = "Contacts_CNPhoneNumber")]
-    unsafe impl ClassType for CNPhoneNumber {
-        type Super = NSObject;
-    }
-);
+    pub type CNPhoneNumber;
+}
 
 #[cfg(feature = "Contacts_CNPhoneNumber")]
 unsafe impl NSCoding for CNPhoneNumber {}
@@ -24,33 +24,36 @@ unsafe impl NSObjectProtocol for CNPhoneNumber {}
 #[cfg(feature = "Contacts_CNPhoneNumber")]
 unsafe impl NSSecureCoding for CNPhoneNumber {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Contacts_CNPhoneNumber")]
-    unsafe impl CNPhoneNumber {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other phoneNumberWithStringValue:)]
-        pub unsafe fn phoneNumberWithStringValue(string_value: &NSString) -> Option<Id<Self>>;
+    pub type CNPhoneNumber;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithStringValue:)]
-        pub unsafe fn initWithStringValue(
-            this: Option<Allocated<Self>>,
-            string: &NSString,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "phoneNumberWithStringValue:", managed = "Other")]
+    pub unsafe fn phoneNumberWithStringValue(string_value: &NSString) -> Option<Id<Self>>;
 
-        #[deprecated = "Use initWithStringValue:"]
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithStringValue:", managed = "Init")]
+    pub unsafe fn initWithStringValue(
+        this: Option<Allocated<Self>>,
+        string: &NSString,
+    ) -> Option<Id<Self>>;
 
-        #[deprecated = "Use phoneNumberWithStringValue:"]
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Option<Id<Self>>;
+    #[deprecated = "Use initWithStringValue:"]
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringValue)]
-        pub unsafe fn stringValue(&self) -> Id<NSString>;
-    }
-);
+    #[deprecated = "Use phoneNumberWithStringValue:"]
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Option<Id<Self>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringValue", managed = "Other")]
+    pub unsafe fn stringValue(&self) -> Id<NSString>;
+}
 
 extern_static!(CNLabelPhoneNumberiPhone: &'static NSString);
 

@@ -4,35 +4,35 @@ use crate::common::*;
 use crate::CallKit::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait CXCallObserverDelegate: NSObjectProtocol {
-        #[cfg(all(feature = "CallKit_CXCall", feature = "CallKit_CXCallObserver"))]
-        #[method(callObserver:callChanged:)]
-        unsafe fn callObserver_callChanged(&self, call_observer: &CXCallObserver, call: &CXCall);
-    }
+#[objc2::protocol]
+pub unsafe trait CXCallObserverDelegate: NSObjectProtocol {
+    #[cfg(all(feature = "CallKit_CXCall", feature = "CallKit_CXCallObserver"))]
+    #[objc2::method(sel = "callObserver:callChanged:")]
+    unsafe fn callObserver_callChanged(&self, call_observer: &CXCallObserver, call: &CXCall);
+}
 
-    unsafe impl ProtocolType for dyn CXCallObserverDelegate {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CallKit_CXCallObserver")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CallKit_CXCallObserver")]
-    pub struct CXCallObserver;
-
-    #[cfg(feature = "CallKit_CXCallObserver")]
-    unsafe impl ClassType for CXCallObserver {
-        type Super = NSObject;
-    }
-);
+    pub type CXCallObserver;
+}
 
 #[cfg(feature = "CallKit_CXCallObserver")]
 unsafe impl NSObjectProtocol for CXCallObserver {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CallKit_CXCallObserver")]
-    unsafe impl CXCallObserver {
-        #[cfg(all(feature = "CallKit_CXCall", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other calls)]
-        pub unsafe fn calls(&self) -> Id<NSArray<CXCall>>;
-    }
-);
+    pub type CXCallObserver;
+
+    #[cfg(all(feature = "CallKit_CXCall", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "calls", managed = "Other")]
+    pub unsafe fn calls(&self) -> Id<NSArray<CXCall>>;
+}

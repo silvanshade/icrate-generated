@@ -5,31 +5,21 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MailKit::*;
 
-extern_protocol!(
-    pub unsafe trait MEExtension: NSObjectProtocol {
-        #[cfg(feature = "MailKit_MEComposeSession")]
-        #[optional]
-        #[method_id(@__retain_semantics Other handlerForComposeSession:)]
-        unsafe fn handlerForComposeSession(
-            &self,
-            session: &MEComposeSession,
-        ) -> Id<ProtocolObject<dyn MEComposeSessionHandler>>;
+#[objc2::protocol]
+pub unsafe trait MEExtension: NSObjectProtocol {
+    #[cfg(feature = "MailKit_MEComposeSession")]
+    #[objc2::method(optional, sel = "handlerForComposeSession:", managed = "Other")]
+    unsafe fn handlerForComposeSession(
+        &self,
+        session: &MEComposeSession,
+    ) -> Id<ProtocolObject<dyn MEComposeSessionHandler>>;
 
-        #[optional]
-        #[method_id(@__retain_semantics Other handlerForMessageActions)]
-        unsafe fn handlerForMessageActions(&self)
-            -> Id<ProtocolObject<dyn MEMessageActionHandler>>;
+    #[objc2::method(optional, sel = "handlerForMessageActions", managed = "Other")]
+    unsafe fn handlerForMessageActions(&self) -> Id<ProtocolObject<dyn MEMessageActionHandler>>;
 
-        #[optional]
-        #[method_id(@__retain_semantics Other handlerForContentBlocker)]
-        unsafe fn handlerForContentBlocker(&self) -> Id<ProtocolObject<dyn MEContentBlocker>>;
+    #[objc2::method(optional, sel = "handlerForContentBlocker", managed = "Other")]
+    unsafe fn handlerForContentBlocker(&self) -> Id<ProtocolObject<dyn MEContentBlocker>>;
 
-        #[optional]
-        #[method_id(@__retain_semantics Other handlerForMessageSecurity)]
-        unsafe fn handlerForMessageSecurity(
-            &self,
-        ) -> Id<ProtocolObject<dyn MEMessageSecurityHandler>>;
-    }
-
-    unsafe impl ProtocolType for dyn MEExtension {}
-);
+    #[objc2::method(optional, sel = "handlerForMessageSecurity", managed = "Other")]
+    unsafe fn handlerForMessageSecurity(&self) -> Id<ProtocolObject<dyn MEMessageSecurityHandler>>;
+}

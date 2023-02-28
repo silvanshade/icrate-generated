@@ -5,41 +5,40 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSCompositingOperation {
-        NSCompositingOperationClear = 0,
-        NSCompositingOperationCopy = 1,
-        NSCompositingOperationSourceOver = 2,
-        NSCompositingOperationSourceIn = 3,
-        NSCompositingOperationSourceOut = 4,
-        NSCompositingOperationSourceAtop = 5,
-        NSCompositingOperationDestinationOver = 6,
-        NSCompositingOperationDestinationIn = 7,
-        NSCompositingOperationDestinationOut = 8,
-        NSCompositingOperationDestinationAtop = 9,
-        NSCompositingOperationXOR = 10,
-        NSCompositingOperationPlusDarker = 11,
-        #[deprecated = "Use NSCompositingOperationSourceOver instead"]
-        NSCompositingOperationHighlight = 12,
-        NSCompositingOperationPlusLighter = 13,
-        NSCompositingOperationMultiply = 14,
-        NSCompositingOperationScreen = 15,
-        NSCompositingOperationOverlay = 16,
-        NSCompositingOperationDarken = 17,
-        NSCompositingOperationLighten = 18,
-        NSCompositingOperationColorDodge = 19,
-        NSCompositingOperationColorBurn = 20,
-        NSCompositingOperationSoftLight = 21,
-        NSCompositingOperationHardLight = 22,
-        NSCompositingOperationDifference = 23,
-        NSCompositingOperationExclusion = 24,
-        NSCompositingOperationHue = 25,
-        NSCompositingOperationSaturation = 26,
-        NSCompositingOperationColor = 27,
-        NSCompositingOperationLuminosity = 28,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSCompositingOperation {
+    NSCompositingOperationClear = 0,
+    NSCompositingOperationCopy = 1,
+    NSCompositingOperationSourceOver = 2,
+    NSCompositingOperationSourceIn = 3,
+    NSCompositingOperationSourceOut = 4,
+    NSCompositingOperationSourceAtop = 5,
+    NSCompositingOperationDestinationOver = 6,
+    NSCompositingOperationDestinationIn = 7,
+    NSCompositingOperationDestinationOut = 8,
+    NSCompositingOperationDestinationAtop = 9,
+    NSCompositingOperationXOR = 10,
+    NSCompositingOperationPlusDarker = 11,
+    #[deprecated = "Use NSCompositingOperationSourceOver instead"]
+    NSCompositingOperationHighlight = 12,
+    NSCompositingOperationPlusLighter = 13,
+    NSCompositingOperationMultiply = 14,
+    NSCompositingOperationScreen = 15,
+    NSCompositingOperationOverlay = 16,
+    NSCompositingOperationDarken = 17,
+    NSCompositingOperationLighten = 18,
+    NSCompositingOperationColorDodge = 19,
+    NSCompositingOperationColorBurn = 20,
+    NSCompositingOperationSoftLight = 21,
+    NSCompositingOperationHardLight = 22,
+    NSCompositingOperationDifference = 23,
+    NSCompositingOperationExclusion = 24,
+    NSCompositingOperationHue = 25,
+    NSCompositingOperationSaturation = 26,
+    NSCompositingOperationColor = 27,
+    NSCompositingOperationLuminosity = 28,
+}
 
 extern_static!(NSCompositeClear: NSCompositingOperation = NSCompositingOperationClear);
 
@@ -107,54 +106,49 @@ extern_static!(NSCompositeColor: NSCompositingOperation = NSCompositingOperation
 
 extern_static!(NSCompositeLuminosity: NSCompositingOperation = NSCompositingOperationLuminosity);
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSBackingStoreType {
-        #[deprecated]
-        NSBackingStoreRetained = 0,
-        #[deprecated]
-        NSBackingStoreNonretained = 1,
-        NSBackingStoreBuffered = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSBackingStoreType {
+    #[deprecated]
+    NSBackingStoreRetained = 0,
+    #[deprecated]
+    NSBackingStoreNonretained = 1,
+    NSBackingStoreBuffered = 2,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSWindowOrderingMode {
-        NSWindowAbove = 1,
-        NSWindowBelow = -1,
-        NSWindowOut = 0,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSWindowOrderingMode {
+    NSWindowAbove = 1,
+    NSWindowBelow = -1,
+    NSWindowOut = 0,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSFocusRingPlacement {
-        NSFocusRingOnly = 0,
-        NSFocusRingBelow = 1,
-        NSFocusRingAbove = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSFocusRingPlacement {
+    NSFocusRingOnly = 0,
+    NSFocusRingBelow = 1,
+    NSFocusRingAbove = 2,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSFocusRingType {
-        NSFocusRingTypeDefault = 0,
-        NSFocusRingTypeNone = 1,
-        NSFocusRingTypeExterior = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSFocusRingType {
+    NSFocusRingTypeDefault = 0,
+    NSFocusRingTypeNone = 1,
+    NSFocusRingTypeExterior = 2,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSColorRenderingIntent {
-        NSColorRenderingIntentDefault = 0,
-        NSColorRenderingIntentAbsoluteColorimetric = 1,
-        NSColorRenderingIntentRelativeColorimetric = 2,
-        NSColorRenderingIntentPerceptual = 3,
-        NSColorRenderingIntentSaturation = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSColorRenderingIntent {
+    NSColorRenderingIntentDefault = 0,
+    NSColorRenderingIntentAbsoluteColorimetric = 1,
+    NSColorRenderingIntentRelativeColorimetric = 2,
+    NSColorRenderingIntentPerceptual = 3,
+    NSColorRenderingIntentSaturation = 4,
+}
 
 typed_enum!(
     pub type NSColorSpaceName = NSString;
@@ -180,14 +174,13 @@ extern_static!(NSCalibratedBlackColorSpace: &'static NSColorSpaceName);
 
 extern_static!(NSDeviceBlackColorSpace: &'static NSColorSpaceName);
 
-ns_enum!(
-    #[underlying(i32)]
-    pub enum NSWindowDepth {
-        NSWindowDepthTwentyfourBitRGB = 0x208,
-        NSWindowDepthSixtyfourBitRGB = 0x210,
-        NSWindowDepthOnehundredtwentyeightBitRGB = 0x220,
-    }
-);
+#[ns_enum]
+#[underlying(i32)]
+pub enum NSWindowDepth {
+    NSWindowDepthTwentyfourBitRGB = 0x208,
+    NSWindowDepthSixtyfourBitRGB = 0x210,
+    NSWindowDepthOnehundredtwentyeightBitRGB = 0x220,
+}
 
 extern_fn!(
     pub unsafe fn NSBestDepth(
@@ -231,13 +224,12 @@ extern_static!(NSDarkGray: CGFloat);
 
 extern_static!(NSBlack: CGFloat);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSDisplayGamut {
-        NSDisplayGamutSRGB = 1,
-        NSDisplayGamutP3 = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSDisplayGamut {
+    NSDisplayGamutSRGB = 1,
+    NSDisplayGamutP3 = 2,
+}
 
 typed_extensible_enum!(
     pub type NSDeviceDescriptionKey = NSString;
@@ -423,13 +415,12 @@ extern_fn!(
     pub unsafe fn NSEnableScreenUpdates();
 );
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSAnimationEffect {
-        NSAnimationEffectDisappearingItemDefault = 0,
-        NSAnimationEffectPoof = 10,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSAnimationEffect {
+    NSAnimationEffectDisappearingItemDefault = 0,
+    NSAnimationEffectPoof = 10,
+}
 
 extern_fn!(
     pub unsafe fn NSShowAnimationEffect(

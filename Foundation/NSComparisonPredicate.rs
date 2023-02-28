@@ -3,55 +3,52 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSComparisonPredicateOptions {
-        NSCaseInsensitivePredicateOption = 0x01,
-        NSDiacriticInsensitivePredicateOption = 0x02,
-        NSNormalizedPredicateOption = 0x04,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSComparisonPredicateOptions {
+    NSCaseInsensitivePredicateOption = 0x01,
+    NSDiacriticInsensitivePredicateOption = 0x02,
+    NSNormalizedPredicateOption = 0x04,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSComparisonPredicateModifier {
-        NSDirectPredicateModifier = 0,
-        NSAllPredicateModifier = 1,
-        NSAnyPredicateModifier = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSComparisonPredicateModifier {
+    NSDirectPredicateModifier = 0,
+    NSAllPredicateModifier = 1,
+    NSAnyPredicateModifier = 2,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSPredicateOperatorType {
-        NSLessThanPredicateOperatorType = 0,
-        NSLessThanOrEqualToPredicateOperatorType = 1,
-        NSGreaterThanPredicateOperatorType = 2,
-        NSGreaterThanOrEqualToPredicateOperatorType = 3,
-        NSEqualToPredicateOperatorType = 4,
-        NSNotEqualToPredicateOperatorType = 5,
-        NSMatchesPredicateOperatorType = 6,
-        NSLikePredicateOperatorType = 7,
-        NSBeginsWithPredicateOperatorType = 8,
-        NSEndsWithPredicateOperatorType = 9,
-        NSInPredicateOperatorType = 10,
-        NSCustomSelectorPredicateOperatorType = 11,
-        NSContainsPredicateOperatorType = 99,
-        NSBetweenPredicateOperatorType = 100,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSPredicateOperatorType {
+    NSLessThanPredicateOperatorType = 0,
+    NSLessThanOrEqualToPredicateOperatorType = 1,
+    NSGreaterThanPredicateOperatorType = 2,
+    NSGreaterThanOrEqualToPredicateOperatorType = 3,
+    NSEqualToPredicateOperatorType = 4,
+    NSNotEqualToPredicateOperatorType = 5,
+    NSMatchesPredicateOperatorType = 6,
+    NSLikePredicateOperatorType = 7,
+    NSBeginsWithPredicateOperatorType = 8,
+    NSEndsWithPredicateOperatorType = 9,
+    NSInPredicateOperatorType = 10,
+    NSCustomSelectorPredicateOperatorType = 11,
+    NSContainsPredicateOperatorType = 99,
+    NSBetweenPredicateOperatorType = 100,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSPredicate,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSComparisonPredicate")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSComparisonPredicate")]
-    pub struct NSComparisonPredicate;
-
-    #[cfg(feature = "Foundation_NSComparisonPredicate")]
-    unsafe impl ClassType for NSComparisonPredicate {
-        #[inherits(NSObject)]
-        type Super = NSPredicate;
-    }
-);
+    pub type NSComparisonPredicate;
+}
 
 #[cfg(feature = "Foundation_NSComparisonPredicate")]
 unsafe impl NSCoding for NSComparisonPredicate {}
@@ -62,72 +59,85 @@ unsafe impl NSObjectProtocol for NSComparisonPredicate {}
 #[cfg(feature = "Foundation_NSComparisonPredicate")]
 unsafe impl NSSecureCoding for NSComparisonPredicate {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSComparisonPredicate")]
-    unsafe impl NSComparisonPredicate {
-        #[cfg(feature = "Foundation_NSExpression")]
-        #[method_id(@__retain_semantics Other predicateWithLeftExpression:rightExpression:modifier:type:options:)]
-        pub unsafe fn predicateWithLeftExpression_rightExpression_modifier_type_options(
-            lhs: &NSExpression,
-            rhs: &NSExpression,
-            modifier: NSComparisonPredicateModifier,
-            r#type: NSPredicateOperatorType,
-            options: NSComparisonPredicateOptions,
-        ) -> Id<NSComparisonPredicate>;
+    pub type NSComparisonPredicate;
 
-        #[cfg(feature = "Foundation_NSExpression")]
-        #[method_id(@__retain_semantics Other predicateWithLeftExpression:rightExpression:customSelector:)]
-        pub unsafe fn predicateWithLeftExpression_rightExpression_customSelector(
-            lhs: &NSExpression,
-            rhs: &NSExpression,
-            selector: Sel,
-        ) -> Id<NSComparisonPredicate>;
+    #[cfg(feature = "Foundation_NSExpression")]
+    #[objc2::method(
+        sel = "predicateWithLeftExpression:rightExpression:modifier:type:options:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateWithLeftExpression_rightExpression_modifier_type_options(
+        lhs: &NSExpression,
+        rhs: &NSExpression,
+        modifier: NSComparisonPredicateModifier,
+        r#type: NSPredicateOperatorType,
+        options: NSComparisonPredicateOptions,
+    ) -> Id<NSComparisonPredicate>;
 
-        #[cfg(feature = "Foundation_NSExpression")]
-        #[method_id(@__retain_semantics Init initWithLeftExpression:rightExpression:modifier:type:options:)]
-        pub unsafe fn initWithLeftExpression_rightExpression_modifier_type_options(
-            this: Option<Allocated<Self>>,
-            lhs: &NSExpression,
-            rhs: &NSExpression,
-            modifier: NSComparisonPredicateModifier,
-            r#type: NSPredicateOperatorType,
-            options: NSComparisonPredicateOptions,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSExpression")]
+    #[objc2::method(
+        sel = "predicateWithLeftExpression:rightExpression:customSelector:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateWithLeftExpression_rightExpression_customSelector(
+        lhs: &NSExpression,
+        rhs: &NSExpression,
+        selector: Sel,
+    ) -> Id<NSComparisonPredicate>;
 
-        #[cfg(feature = "Foundation_NSExpression")]
-        #[method_id(@__retain_semantics Init initWithLeftExpression:rightExpression:customSelector:)]
-        pub unsafe fn initWithLeftExpression_rightExpression_customSelector(
-            this: Option<Allocated<Self>>,
-            lhs: &NSExpression,
-            rhs: &NSExpression,
-            selector: Sel,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSExpression")]
+    #[objc2::method(
+        sel = "initWithLeftExpression:rightExpression:modifier:type:options:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithLeftExpression_rightExpression_modifier_type_options(
+        this: Option<Allocated<Self>>,
+        lhs: &NSExpression,
+        rhs: &NSExpression,
+        modifier: NSComparisonPredicateModifier,
+        r#type: NSPredicateOperatorType,
+        options: NSComparisonPredicateOptions,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSExpression")]
+    #[objc2::method(
+        sel = "initWithLeftExpression:rightExpression:customSelector:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithLeftExpression_rightExpression_customSelector(
+        this: Option<Allocated<Self>>,
+        lhs: &NSExpression,
+        rhs: &NSExpression,
+        selector: Sel,
+    ) -> Id<Self>;
 
-        #[method(predicateOperatorType)]
-        pub unsafe fn predicateOperatorType(&self) -> NSPredicateOperatorType;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[method(comparisonPredicateModifier)]
-        pub unsafe fn comparisonPredicateModifier(&self) -> NSComparisonPredicateModifier;
+    #[objc2::method(sel = "predicateOperatorType")]
+    pub unsafe fn predicateOperatorType(&self) -> NSPredicateOperatorType;
 
-        #[cfg(feature = "Foundation_NSExpression")]
-        #[method_id(@__retain_semantics Other leftExpression)]
-        pub unsafe fn leftExpression(&self) -> Id<NSExpression>;
+    #[objc2::method(sel = "comparisonPredicateModifier")]
+    pub unsafe fn comparisonPredicateModifier(&self) -> NSComparisonPredicateModifier;
 
-        #[cfg(feature = "Foundation_NSExpression")]
-        #[method_id(@__retain_semantics Other rightExpression)]
-        pub unsafe fn rightExpression(&self) -> Id<NSExpression>;
+    #[cfg(feature = "Foundation_NSExpression")]
+    #[objc2::method(sel = "leftExpression", managed = "Other")]
+    pub unsafe fn leftExpression(&self) -> Id<NSExpression>;
 
-        #[method(customSelector)]
-        pub unsafe fn customSelector(&self) -> Option<Sel>;
+    #[cfg(feature = "Foundation_NSExpression")]
+    #[objc2::method(sel = "rightExpression", managed = "Other")]
+    pub unsafe fn rightExpression(&self) -> Id<NSExpression>;
 
-        #[method(options)]
-        pub unsafe fn options(&self) -> NSComparisonPredicateOptions;
-    }
-);
+    #[objc2::method(sel = "customSelector")]
+    pub unsafe fn customSelector(&self) -> Option<Sel>;
+
+    #[objc2::method(sel = "options")]
+    pub unsafe fn options(&self) -> NSComparisonPredicateOptions;
+}

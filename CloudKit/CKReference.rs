@@ -5,24 +5,23 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum CKReferenceAction {
-        CKReferenceActionNone = 0,
-        CKReferenceActionDeleteSelf = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum CKReferenceAction {
+    CKReferenceActionNone = 0,
+    CKReferenceActionDeleteSelf = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKReference")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKReference")]
-    pub struct CKReference;
-
-    #[cfg(feature = "CloudKit_CKReference")]
-    unsafe impl ClassType for CKReference {
-        type Super = NSObject;
-    }
-);
+    pub type CKReference;
+}
 
 #[cfg(feature = "CloudKit_CKReference")]
 unsafe impl NSCoding for CKReference {}
@@ -33,36 +32,39 @@ unsafe impl NSObjectProtocol for CKReference {}
 #[cfg(feature = "CloudKit_CKReference")]
 unsafe impl NSSecureCoding for CKReference {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKReference")]
-    unsafe impl CKReference {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKReference;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKRecordID")]
-        #[method_id(@__retain_semantics Init initWithRecordID:action:)]
-        pub unsafe fn initWithRecordID_action(
-            this: Option<Allocated<Self>>,
-            record_id: &CKRecordID,
-            action: CKReferenceAction,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKRecord")]
-        #[method_id(@__retain_semantics Init initWithRecord:action:)]
-        pub unsafe fn initWithRecord_action(
-            this: Option<Allocated<Self>>,
-            record: &CKRecord,
-            action: CKReferenceAction,
-        ) -> Id<Self>;
+    #[cfg(feature = "CloudKit_CKRecordID")]
+    #[objc2::method(sel = "initWithRecordID:action:", managed = "Init")]
+    pub unsafe fn initWithRecordID_action(
+        this: Option<Allocated<Self>>,
+        record_id: &CKRecordID,
+        action: CKReferenceAction,
+    ) -> Id<Self>;
 
-        #[method(referenceAction)]
-        pub unsafe fn referenceAction(&self) -> CKReferenceAction;
+    #[cfg(feature = "CloudKit_CKRecord")]
+    #[objc2::method(sel = "initWithRecord:action:", managed = "Init")]
+    pub unsafe fn initWithRecord_action(
+        this: Option<Allocated<Self>>,
+        record: &CKRecord,
+        action: CKReferenceAction,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKRecordID")]
-        #[method_id(@__retain_semantics Other recordID)]
-        pub unsafe fn recordID(&self) -> Id<CKRecordID>;
-    }
-);
+    #[objc2::method(sel = "referenceAction")]
+    pub unsafe fn referenceAction(&self) -> CKReferenceAction;
+
+    #[cfg(feature = "CloudKit_CKRecordID")]
+    #[objc2::method(sel = "recordID", managed = "Other")]
+    pub unsafe fn recordID(&self) -> Id<CKRecordID>;
+}

@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLModElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLModElement;
-
     #[cfg(feature = "WebKit_DOMHTMLModElement")]
-    unsafe impl ClassType for DOMHTMLModElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLModElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLModElement")]
 unsafe impl DOMEventTarget for DOMHTMLModElement {}
@@ -24,23 +28,27 @@ unsafe impl DOMEventTarget for DOMHTMLModElement {}
 #[cfg(feature = "WebKit_DOMHTMLModElement")]
 unsafe impl NSObjectProtocol for DOMHTMLModElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLModElement")]
-    unsafe impl DOMHTMLModElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other cite)]
-        pub unsafe fn cite(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMHTMLModElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCite:)]
-        pub unsafe fn setCite(&self, cite: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "cite", managed = "Other")]
+    pub unsafe fn cite(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other dateTime)]
-        pub unsafe fn dateTime(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCite:")]
+    pub unsafe fn setCite(&self, cite: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setDateTime:)]
-        pub unsafe fn setDateTime(&self, date_time: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "dateTime", managed = "Other")]
+    pub unsafe fn dateTime(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setDateTime:")]
+    pub unsafe fn setDateTime(&self, date_time: Option<&NSString>);
+}

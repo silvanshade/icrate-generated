@@ -44,17 +44,18 @@ extern_static!(
         &'static HKVerifiableClinicalRecordCredentialType
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSample,
+    unsafe inherits = [
+        HKObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKVerifiableClinicalRecord")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKVerifiableClinicalRecord")]
-    pub struct HKVerifiableClinicalRecord;
-
-    #[cfg(feature = "HealthKit_HKVerifiableClinicalRecord")]
-    unsafe impl ClassType for HKVerifiableClinicalRecord {
-        #[inherits(HKObject, NSObject)]
-        type Super = HKSample;
-    }
-);
+    pub type HKVerifiableClinicalRecord;
+}
 
 #[cfg(feature = "HealthKit_HKVerifiableClinicalRecord")]
 unsafe impl NSCoding for HKVerifiableClinicalRecord {}
@@ -65,53 +66,56 @@ unsafe impl NSObjectProtocol for HKVerifiableClinicalRecord {}
 #[cfg(feature = "HealthKit_HKVerifiableClinicalRecord")]
 unsafe impl NSSecureCoding for HKVerifiableClinicalRecord {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKVerifiableClinicalRecord")]
-    unsafe impl HKVerifiableClinicalRecord {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other recordTypes)]
-        pub unsafe fn recordTypes(&self) -> Id<NSArray<NSString>>;
+    pub type HKVerifiableClinicalRecord;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other issuerIdentifier)]
-        pub unsafe fn issuerIdentifier(&self) -> Id<NSString>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "recordTypes", managed = "Other")]
+    pub unsafe fn recordTypes(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "HealthKit_HKVerifiableClinicalRecordSubject")]
-        #[method_id(@__retain_semantics Other subject)]
-        pub unsafe fn subject(&self) -> Id<HKVerifiableClinicalRecordSubject>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "issuerIdentifier", managed = "Other")]
+    pub unsafe fn issuerIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other issuedDate)]
-        pub unsafe fn issuedDate(&self) -> Id<NSDate>;
+    #[cfg(feature = "HealthKit_HKVerifiableClinicalRecordSubject")]
+    #[objc2::method(sel = "subject", managed = "Other")]
+    pub unsafe fn subject(&self) -> Id<HKVerifiableClinicalRecordSubject>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other relevantDate)]
-        pub unsafe fn relevantDate(&self) -> Id<NSDate>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "issuedDate", managed = "Other")]
+    pub unsafe fn issuedDate(&self) -> Id<NSDate>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other expirationDate)]
-        pub unsafe fn expirationDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "relevantDate", managed = "Other")]
+    pub unsafe fn relevantDate(&self) -> Id<NSDate>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other itemNames)]
-        pub unsafe fn itemNames(&self) -> Id<NSArray<NSString>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "expirationDate", managed = "Other")]
+    pub unsafe fn expirationDate(&self) -> Option<Id<NSDate>>;
 
-        #[method_id(@__retain_semantics Other sourceType)]
-        pub unsafe fn sourceType(&self) -> Option<Id<HKVerifiableClinicalRecordSourceType>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "itemNames", managed = "Other")]
+    pub unsafe fn itemNames(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other dataRepresentation)]
-        pub unsafe fn dataRepresentation(&self) -> Id<NSData>;
+    #[objc2::method(sel = "sourceType", managed = "Other")]
+    pub unsafe fn sourceType(&self) -> Option<Id<HKVerifiableClinicalRecordSourceType>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other JWSRepresentation)]
-        pub unsafe fn JWSRepresentation(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "dataRepresentation", managed = "Other")]
+    pub unsafe fn dataRepresentation(&self) -> Id<NSData>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[deprecated]
+    #[objc2::method(sel = "JWSRepresentation", managed = "Other")]
+    pub unsafe fn JWSRepresentation(&self) -> Id<NSData>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

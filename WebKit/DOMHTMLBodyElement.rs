@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLBodyElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLBodyElement;
-
     #[cfg(feature = "WebKit_DOMHTMLBodyElement")]
-    unsafe impl ClassType for DOMHTMLBodyElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLBodyElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLBodyElement")]
 unsafe impl DOMEventTarget for DOMHTMLBodyElement {}
@@ -24,55 +28,59 @@ unsafe impl DOMEventTarget for DOMHTMLBodyElement {}
 #[cfg(feature = "WebKit_DOMHTMLBodyElement")]
 unsafe impl NSObjectProtocol for DOMHTMLBodyElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLBodyElement")]
-    unsafe impl DOMHTMLBodyElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other aLink)]
-        pub unsafe fn aLink(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMHTMLBodyElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setALink:)]
-        pub unsafe fn setALink(&self, a_link: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "aLink", managed = "Other")]
+    pub unsafe fn aLink(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other background)]
-        pub unsafe fn background(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setALink:")]
+    pub unsafe fn setALink(&self, a_link: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBackground:)]
-        pub unsafe fn setBackground(&self, background: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "background", managed = "Other")]
+    pub unsafe fn background(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other bgColor)]
-        pub unsafe fn bgColor(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBackground:")]
+    pub unsafe fn setBackground(&self, background: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBgColor:)]
-        pub unsafe fn setBgColor(&self, bg_color: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "bgColor", managed = "Other")]
+    pub unsafe fn bgColor(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other link)]
-        pub unsafe fn link(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBgColor:")]
+    pub unsafe fn setBgColor(&self, bg_color: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLink:)]
-        pub unsafe fn setLink(&self, link: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "link", managed = "Other")]
+    pub unsafe fn link(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other text)]
-        pub unsafe fn text(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLink:")]
+    pub unsafe fn setLink(&self, link: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setText:)]
-        pub unsafe fn setText(&self, text: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "text", managed = "Other")]
+    pub unsafe fn text(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other vLink)]
-        pub unsafe fn vLink(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setText:")]
+    pub unsafe fn setText(&self, text: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setVLink:)]
-        pub unsafe fn setVLink(&self, v_link: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "vLink", managed = "Other")]
+    pub unsafe fn vLink(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setVLink:")]
+    pub unsafe fn setVLink(&self, v_link: Option<&NSString>);
+}

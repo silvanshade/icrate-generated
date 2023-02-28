@@ -7,16 +7,16 @@ use crate::Foundation::*;
 
 pub type NSNibName = NSString;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSNib")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSNib")]
-    pub struct NSNib;
-
-    #[cfg(feature = "AppKit_NSNib")]
-    unsafe impl ClassType for NSNib {
-        type Super = NSObject;
-    }
-);
+    pub type NSNib;
+}
 
 #[cfg(feature = "AppKit_NSNib")]
 unsafe impl NSCoding for NSNib {}
@@ -24,57 +24,62 @@ unsafe impl NSCoding for NSNib {}
 #[cfg(feature = "AppKit_NSNib")]
 unsafe impl NSObjectProtocol for NSNib {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSNib")]
-    unsafe impl NSNib {
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Init initWithNibNamed:bundle:)]
-        pub unsafe fn initWithNibNamed_bundle(
-            this: Option<Allocated<Self>>,
-            nib_name: &NSNibName,
-            bundle: Option<&NSBundle>,
-        ) -> Option<Id<Self>>;
+    pub type NSNib;
 
-        #[cfg(all(feature = "Foundation_NSBundle", feature = "Foundation_NSData"))]
-        #[method_id(@__retain_semantics Init initWithNibData:bundle:)]
-        pub unsafe fn initWithNibData_bundle(
-            this: Option<Allocated<Self>>,
-            nib_data: &NSData,
-            bundle: Option<&NSBundle>,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "initWithNibNamed:bundle:", managed = "Init")]
+    pub unsafe fn initWithNibNamed_bundle(
+        this: Option<Allocated<Self>>,
+        nib_name: &NSNibName,
+        bundle: Option<&NSBundle>,
+    ) -> Option<Id<Self>>;
 
-extern_methods!(
-    /// NSDeprecated
+    #[cfg(all(feature = "Foundation_NSBundle", feature = "Foundation_NSData"))]
+    #[objc2::method(sel = "initWithNibData:bundle:", managed = "Init")]
+    pub unsafe fn initWithNibData_bundle(
+        this: Option<Allocated<Self>>,
+        nib_data: &NSData,
+        bundle: Option<&NSBundle>,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSNib")]
-    unsafe impl NSNib {
-        #[cfg(feature = "Foundation_NSURL")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:)]
-        pub unsafe fn initWithContentsOfURL(
-            this: Option<Allocated<Self>>,
-            nib_file_url: Option<&NSURL>,
-        ) -> Option<Id<Self>>;
+    pub type NSNib;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[deprecated]
-        #[method(instantiateNibWithExternalNameTable:)]
-        pub unsafe fn instantiateNibWithExternalNameTable(
-            &self,
-            external_name_table: Option<&NSDictionary>,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[deprecated]
+    #[objc2::method(sel = "initWithContentsOfURL:", managed = "Init")]
+    pub unsafe fn initWithContentsOfURL(
+        this: Option<Allocated<Self>>,
+        nib_file_url: Option<&NSURL>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[deprecated]
-        #[method(instantiateNibWithOwner:topLevelObjects:)]
-        pub unsafe fn instantiateNibWithOwner_topLevelObjects(
-            &self,
-            owner: Option<&Object>,
-            top_level_objects: Option<&mut Option<Id<NSArray>>>,
-        ) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[deprecated]
+    #[objc2::method(sel = "instantiateNibWithExternalNameTable:")]
+    pub unsafe fn instantiateNibWithExternalNameTable(
+        &self,
+        external_name_table: Option<&NSDictionary>,
+    ) -> bool;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[deprecated]
+    #[objc2::method(sel = "instantiateNibWithOwner:topLevelObjects:")]
+    pub unsafe fn instantiateNibWithOwner_topLevelObjects(
+        &self,
+        owner: Option<&Object>,
+        top_level_objects: Option<&mut Option<Id<NSArray>>>,
+    ) -> bool;
+}
 
 extern_static!(NSNibOwner: &'static NSString);
 

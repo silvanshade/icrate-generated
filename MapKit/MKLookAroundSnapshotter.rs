@@ -7,54 +7,57 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKLookAroundSnapshotter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKLookAroundSnapshotter")]
-    pub struct MKLookAroundSnapshotter;
-
-    #[cfg(feature = "MapKit_MKLookAroundSnapshotter")]
-    unsafe impl ClassType for MKLookAroundSnapshotter {
-        type Super = NSObject;
-    }
-);
+    pub type MKLookAroundSnapshotter;
+}
 
 #[cfg(feature = "MapKit_MKLookAroundSnapshotter")]
 unsafe impl NSObjectProtocol for MKLookAroundSnapshotter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKLookAroundSnapshotter")]
-    unsafe impl MKLookAroundSnapshotter {
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    pub type MKLookAroundSnapshotter;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(all(
-            feature = "MapKit_MKLookAroundScene",
-            feature = "MapKit_MKLookAroundSnapshotOptions"
-        ))]
-        #[method_id(@__retain_semantics Init initWithScene:options:)]
-        pub unsafe fn initWithScene_options(
-            this: Option<Allocated<Self>>,
-            scene: &MKLookAroundScene,
-            options: &MKLookAroundSnapshotOptions,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "MapKit_MKLookAroundSnapshot"
-        ))]
-        #[method(getSnapshotWithCompletionHandler:)]
-        pub unsafe fn getSnapshotWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(*mut MKLookAroundSnapshot, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "MapKit_MKLookAroundScene",
+        feature = "MapKit_MKLookAroundSnapshotOptions"
+    ))]
+    #[objc2::method(sel = "initWithScene:options:", managed = "Init")]
+    pub unsafe fn initWithScene_options(
+        this: Option<Allocated<Self>>,
+        scene: &MKLookAroundScene,
+        options: &MKLookAroundSnapshotOptions,
+    ) -> Id<Self>;
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "MapKit_MKLookAroundSnapshot"
+    ))]
+    #[objc2::method(sel = "getSnapshotWithCompletionHandler:")]
+    pub unsafe fn getSnapshotWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(*mut MKLookAroundSnapshot, *mut NSError), ()>,
+    );
 
-        #[method(isLoading)]
-        pub unsafe fn isLoading(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
+
+    #[objc2::method(sel = "isLoading")]
+    pub unsafe fn isLoading(&self) -> bool;
+}

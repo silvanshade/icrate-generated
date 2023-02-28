@@ -5,217 +5,225 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::StoreKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum SKOverlayPosition {
-        SKOverlayPositionBottom = 0,
-        SKOverlayPositionBottomRaised = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum SKOverlayPosition {
+    SKOverlayPositionBottom = 0,
+    SKOverlayPositionBottomRaised = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKOverlayConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKOverlayConfiguration")]
-    pub struct SKOverlayConfiguration;
-
-    #[cfg(feature = "StoreKit_SKOverlayConfiguration")]
-    unsafe impl ClassType for SKOverlayConfiguration {
-        type Super = NSObject;
-    }
-);
+    pub type SKOverlayConfiguration;
+}
 
 #[cfg(feature = "StoreKit_SKOverlayConfiguration")]
 unsafe impl NSObjectProtocol for SKOverlayConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKOverlayConfiguration")]
-    unsafe impl SKOverlayConfiguration {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type SKOverlayConfiguration;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-extern_class!(
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = SKOverlayConfiguration,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKOverlayAppConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKOverlayAppConfiguration")]
-    pub struct SKOverlayAppConfiguration;
-
-    #[cfg(feature = "StoreKit_SKOverlayAppConfiguration")]
-    unsafe impl ClassType for SKOverlayAppConfiguration {
-        #[inherits(NSObject)]
-        type Super = SKOverlayConfiguration;
-    }
-);
+    pub type SKOverlayAppConfiguration;
+}
 
 #[cfg(feature = "StoreKit_SKOverlayAppConfiguration")]
 unsafe impl NSObjectProtocol for SKOverlayAppConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKOverlayAppConfiguration")]
-    unsafe impl SKOverlayAppConfiguration {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type SKOverlayAppConfiguration;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithAppIdentifier:position:)]
-        pub unsafe fn initWithAppIdentifier_position(
-            this: Option<Allocated<Self>>,
-            app_identifier: &NSString,
-            position: SKOverlayPosition,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other appIdentifier)]
-        pub unsafe fn appIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithAppIdentifier:position:", managed = "Init")]
+    pub unsafe fn initWithAppIdentifier_position(
+        this: Option<Allocated<Self>>,
+        app_identifier: &NSString,
+        position: SKOverlayPosition,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAppIdentifier:)]
-        pub unsafe fn setAppIdentifier(&self, app_identifier: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "appIdentifier", managed = "Other")]
+    pub unsafe fn appIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other campaignToken)]
-        pub unsafe fn campaignToken(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAppIdentifier:")]
+    pub unsafe fn setAppIdentifier(&self, app_identifier: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCampaignToken:)]
-        pub unsafe fn setCampaignToken(&self, campaign_token: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "campaignToken", managed = "Other")]
+    pub unsafe fn campaignToken(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other providerToken)]
-        pub unsafe fn providerToken(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCampaignToken:")]
+    pub unsafe fn setCampaignToken(&self, campaign_token: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setProviderToken:)]
-        pub unsafe fn setProviderToken(&self, provider_token: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "providerToken", managed = "Other")]
+    pub unsafe fn providerToken(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other customProductPageIdentifier)]
-        pub unsafe fn customProductPageIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setProviderToken:")]
+    pub unsafe fn setProviderToken(&self, provider_token: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCustomProductPageIdentifier:)]
-        pub unsafe fn setCustomProductPageIdentifier(
-            &self,
-            custom_product_page_identifier: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "customProductPageIdentifier", managed = "Other")]
+    pub unsafe fn customProductPageIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other latestReleaseID)]
-        pub unsafe fn latestReleaseID(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCustomProductPageIdentifier:")]
+    pub unsafe fn setCustomProductPageIdentifier(
+        &self,
+        custom_product_page_identifier: Option<&NSString>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLatestReleaseID:)]
-        pub unsafe fn setLatestReleaseID(&self, latest_release_id: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "latestReleaseID", managed = "Other")]
+    pub unsafe fn latestReleaseID(&self) -> Option<Id<NSString>>;
 
-        #[method(position)]
-        pub unsafe fn position(&self) -> SKOverlayPosition;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLatestReleaseID:")]
+    pub unsafe fn setLatestReleaseID(&self, latest_release_id: Option<&NSString>);
 
-        #[method(setPosition:)]
-        pub unsafe fn setPosition(&self, position: SKOverlayPosition);
+    #[objc2::method(sel = "position")]
+    pub unsafe fn position(&self) -> SKOverlayPosition;
 
-        #[method(userDismissible)]
-        pub unsafe fn userDismissible(&self) -> bool;
+    #[objc2::method(sel = "setPosition:")]
+    pub unsafe fn setPosition(&self, position: SKOverlayPosition);
 
-        #[method(setUserDismissible:)]
-        pub unsafe fn setUserDismissible(&self, user_dismissible: bool);
+    #[objc2::method(sel = "userDismissible")]
+    pub unsafe fn userDismissible(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAdditionalValue:forKey:)]
-        pub unsafe fn setAdditionalValue_forKey(&self, value: Option<&Object>, key: &NSString);
+    #[objc2::method(sel = "setUserDismissible:")]
+    pub unsafe fn setUserDismissible(&self, user_dismissible: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other additionalValueForKey:)]
-        pub unsafe fn additionalValueForKey(&self, key: &NSString) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAdditionalValue:forKey:")]
+    pub unsafe fn setAdditionalValue_forKey(&self, value: Option<&Object>, key: &NSString);
 
-        #[cfg(feature = "StoreKit_SKAdImpression")]
-        #[method(setAdImpression:)]
-        pub unsafe fn setAdImpression(&self, impression: &SKAdImpression);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "additionalValueForKey:", managed = "Other")]
+    pub unsafe fn additionalValueForKey(&self, key: &NSString) -> Option<Id<Object>>;
 
-extern_class!(
+    #[cfg(feature = "StoreKit_SKAdImpression")]
+    #[objc2::method(sel = "setAdImpression:")]
+    pub unsafe fn setAdImpression(&self, impression: &SKAdImpression);
+}
+
+#[objc2::interface(
+    unsafe super = SKOverlayConfiguration,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKOverlayAppClipConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKOverlayAppClipConfiguration")]
-    pub struct SKOverlayAppClipConfiguration;
-
-    #[cfg(feature = "StoreKit_SKOverlayAppClipConfiguration")]
-    unsafe impl ClassType for SKOverlayAppClipConfiguration {
-        #[inherits(NSObject)]
-        type Super = SKOverlayConfiguration;
-    }
-);
+    pub type SKOverlayAppClipConfiguration;
+}
 
 #[cfg(feature = "StoreKit_SKOverlayAppClipConfiguration")]
 unsafe impl NSObjectProtocol for SKOverlayAppClipConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKOverlayAppClipConfiguration")]
-    unsafe impl SKOverlayAppClipConfiguration {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type SKOverlayAppClipConfiguration;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithPosition:)]
-        pub unsafe fn initWithPosition(
-            this: Option<Allocated<Self>>,
-            position: SKOverlayPosition,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other campaignToken)]
-        pub unsafe fn campaignToken(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "initWithPosition:", managed = "Init")]
+    pub unsafe fn initWithPosition(
+        this: Option<Allocated<Self>>,
+        position: SKOverlayPosition,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCampaignToken:)]
-        pub unsafe fn setCampaignToken(&self, campaign_token: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "campaignToken", managed = "Other")]
+    pub unsafe fn campaignToken(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other providerToken)]
-        pub unsafe fn providerToken(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCampaignToken:")]
+    pub unsafe fn setCampaignToken(&self, campaign_token: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setProviderToken:)]
-        pub unsafe fn setProviderToken(&self, provider_token: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "providerToken", managed = "Other")]
+    pub unsafe fn providerToken(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other customProductPageIdentifier)]
-        pub unsafe fn customProductPageIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setProviderToken:")]
+    pub unsafe fn setProviderToken(&self, provider_token: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCustomProductPageIdentifier:)]
-        pub unsafe fn setCustomProductPageIdentifier(
-            &self,
-            custom_product_page_identifier: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "customProductPageIdentifier", managed = "Other")]
+    pub unsafe fn customProductPageIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other latestReleaseID)]
-        pub unsafe fn latestReleaseID(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCustomProductPageIdentifier:")]
+    pub unsafe fn setCustomProductPageIdentifier(
+        &self,
+        custom_product_page_identifier: Option<&NSString>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLatestReleaseID:)]
-        pub unsafe fn setLatestReleaseID(&self, latest_release_id: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "latestReleaseID", managed = "Other")]
+    pub unsafe fn latestReleaseID(&self) -> Option<Id<NSString>>;
 
-        #[method(position)]
-        pub unsafe fn position(&self) -> SKOverlayPosition;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLatestReleaseID:")]
+    pub unsafe fn setLatestReleaseID(&self, latest_release_id: Option<&NSString>);
 
-        #[method(setPosition:)]
-        pub unsafe fn setPosition(&self, position: SKOverlayPosition);
+    #[objc2::method(sel = "position")]
+    pub unsafe fn position(&self) -> SKOverlayPosition;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAdditionalValue:forKey:)]
-        pub unsafe fn setAdditionalValue_forKey(&self, value: Option<&Object>, key: &NSString);
+    #[objc2::method(sel = "setPosition:")]
+    pub unsafe fn setPosition(&self, position: SKOverlayPosition);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other additionalValueForKey:)]
-        pub unsafe fn additionalValueForKey(&self, key: &NSString) -> Option<Id<Object>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAdditionalValue:forKey:")]
+    pub unsafe fn setAdditionalValue_forKey(&self, value: Option<&Object>, key: &NSString);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "additionalValueForKey:", managed = "Other")]
+    pub unsafe fn additionalValueForKey(&self, key: &NSString) -> Option<Id<Object>>;
+}

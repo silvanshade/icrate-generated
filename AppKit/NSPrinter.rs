@@ -5,14 +5,13 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSPrinterTableStatus {
-        NSPrinterTableOK = 0,
-        NSPrinterTableNotFound = 1,
-        NSPrinterTableError = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSPrinterTableStatus {
+    NSPrinterTableOK = 0,
+    NSPrinterTableNotFound = 1,
+    NSPrinterTableError = 2,
+}
 
 typed_extensible_enum!(
     pub type NSPrinterTypeName = NSString;
@@ -22,16 +21,16 @@ typed_extensible_enum!(
     pub type NSPrinterPaperName = NSString;
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPrinter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPrinter")]
-    pub struct NSPrinter;
-
-    #[cfg(feature = "AppKit_NSPrinter")]
-    unsafe impl ClassType for NSPrinter {
-        type Super = NSObject;
-    }
-);
+    pub type NSPrinter;
+}
 
 #[cfg(feature = "AppKit_NSPrinter")]
 unsafe impl NSCoding for NSPrinter {}
@@ -39,154 +38,149 @@ unsafe impl NSCoding for NSPrinter {}
 #[cfg(feature = "AppKit_NSPrinter")]
 unsafe impl NSObjectProtocol for NSPrinter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPrinter")]
-    unsafe impl NSPrinter {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other printerNames)]
-        pub unsafe fn printerNames() -> Id<NSArray<NSString>>;
+    pub type NSPrinter;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other printerTypes)]
-        pub unsafe fn printerTypes() -> Id<NSArray<NSPrinterTypeName>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "printerNames", managed = "Other")]
+    pub unsafe fn printerNames() -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other printerWithName:)]
-        pub unsafe fn printerWithName(name: &NSString) -> Option<Id<NSPrinter>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "printerTypes", managed = "Other")]
+    pub unsafe fn printerTypes() -> Id<NSArray<NSPrinterTypeName>>;
 
-        #[method_id(@__retain_semantics Other printerWithType:)]
-        pub unsafe fn printerWithType(r#type: &NSPrinterTypeName) -> Option<Id<NSPrinter>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "printerWithName:", managed = "Other")]
+    pub unsafe fn printerWithName(name: &NSString) -> Option<Id<NSPrinter>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[objc2::method(sel = "printerWithType:", managed = "Other")]
+    pub unsafe fn printerWithType(r#type: &NSPrinterTypeName) -> Option<Id<NSPrinter>>;
 
-        #[method_id(@__retain_semantics Other type)]
-        pub unsafe fn r#type(&self) -> Id<NSPrinterTypeName>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[method(languageLevel)]
-        pub unsafe fn languageLevel(&self) -> NSInteger;
+    #[objc2::method(sel = "type", managed = "Other")]
+    pub unsafe fn r#type(&self) -> Id<NSPrinterTypeName>;
 
-        #[method(pageSizeForPaper:)]
-        pub unsafe fn pageSizeForPaper(&self, paper_name: &NSPrinterPaperName) -> NSSize;
+    #[objc2::method(sel = "languageLevel")]
+    pub unsafe fn languageLevel(&self) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other deviceDescription)]
-        pub unsafe fn deviceDescription(&self) -> Id<NSDictionary<NSDeviceDescriptionKey, Object>>;
-    }
-);
+    #[objc2::method(sel = "pageSizeForPaper:")]
+    pub unsafe fn pageSizeForPaper(&self, paper_name: &NSPrinterPaperName) -> NSSize;
 
-extern_methods!(
-    /// NSDeprecated
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "deviceDescription", managed = "Other")]
+    pub unsafe fn deviceDescription(&self) -> Id<NSDictionary<NSDeviceDescriptionKey, Object>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPrinter")]
-    unsafe impl NSPrinter {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(statusForTable:)]
-        pub unsafe fn statusForTable(&self, table_name: &NSString) -> NSPrinterTableStatus;
+    pub type NSPrinter;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(isKey:inTable:)]
-        pub unsafe fn isKey_inTable(&self, key: Option<&NSString>, table: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "statusForTable:")]
+    pub unsafe fn statusForTable(&self, table_name: &NSString) -> NSPrinterTableStatus;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(booleanForKey:inTable:)]
-        pub unsafe fn booleanForKey_inTable(
-            &self,
-            key: Option<&NSString>,
-            table: &NSString,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "isKey:inTable:")]
+    pub unsafe fn isKey_inTable(&self, key: Option<&NSString>, table: &NSString) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(floatForKey:inTable:)]
-        pub unsafe fn floatForKey_inTable(
-            &self,
-            key: Option<&NSString>,
-            table: &NSString,
-        ) -> c_float;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "booleanForKey:inTable:")]
+    pub unsafe fn booleanForKey_inTable(&self, key: Option<&NSString>, table: &NSString) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(intForKey:inTable:)]
-        pub unsafe fn intForKey_inTable(&self, key: Option<&NSString>, table: &NSString) -> c_int;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "floatForKey:inTable:")]
+    pub unsafe fn floatForKey_inTable(&self, key: Option<&NSString>, table: &NSString) -> c_float;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(rectForKey:inTable:)]
-        pub unsafe fn rectForKey_inTable(&self, key: Option<&NSString>, table: &NSString)
-            -> NSRect;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "intForKey:inTable:")]
+    pub unsafe fn intForKey_inTable(&self, key: Option<&NSString>, table: &NSString) -> c_int;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(sizeForKey:inTable:)]
-        pub unsafe fn sizeForKey_inTable(&self, key: Option<&NSString>, table: &NSString)
-            -> NSSize;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "rectForKey:inTable:")]
+    pub unsafe fn rectForKey_inTable(&self, key: Option<&NSString>, table: &NSString) -> NSRect;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other stringForKey:inTable:)]
-        pub unsafe fn stringForKey_inTable(
-            &self,
-            key: Option<&NSString>,
-            table: &NSString,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "sizeForKey:inTable:")]
+    pub unsafe fn sizeForKey_inTable(&self, key: Option<&NSString>, table: &NSString) -> NSSize;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other stringListForKey:inTable:)]
-        pub unsafe fn stringListForKey_inTable(
-            &self,
-            key: Option<&NSString>,
-            table: &NSString,
-        ) -> Option<Id<NSArray>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "stringForKey:inTable:", managed = "Other")]
+    pub unsafe fn stringForKey_inTable(
+        &self,
+        key: Option<&NSString>,
+        table: &NSString,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(imageRectForPaper:)]
-        pub unsafe fn imageRectForPaper(&self, paper_name: Option<&NSString>) -> NSRect;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[deprecated]
+    #[objc2::method(sel = "stringListForKey:inTable:", managed = "Other")]
+    pub unsafe fn stringListForKey_inTable(
+        &self,
+        key: Option<&NSString>,
+        table: &NSString,
+    ) -> Option<Id<NSArray>>;
 
-        #[deprecated]
-        #[method(acceptsBinary)]
-        pub unsafe fn acceptsBinary(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "imageRectForPaper:")]
+    pub unsafe fn imageRectForPaper(&self, paper_name: Option<&NSString>) -> NSRect;
 
-        #[deprecated]
-        #[method(isColor)]
-        pub unsafe fn isColor(&self) -> bool;
+    #[deprecated]
+    #[objc2::method(sel = "acceptsBinary")]
+    pub unsafe fn acceptsBinary(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(isFontAvailable:)]
-        pub unsafe fn isFontAvailable(&self, face_name: Option<&NSString>) -> bool;
+    #[deprecated]
+    #[objc2::method(sel = "isColor")]
+    pub unsafe fn isColor(&self) -> bool;
 
-        #[deprecated]
-        #[method(isOutputStackInReverseOrder)]
-        pub unsafe fn isOutputStackInReverseOrder(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "isFontAvailable:")]
+    pub unsafe fn isFontAvailable(&self, face_name: Option<&NSString>) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other printerWithName:domain:includeUnavailable:)]
-        pub unsafe fn printerWithName_domain_includeUnavailable(
-            name: &NSString,
-            domain: Option<&NSString>,
-            flag: bool,
-        ) -> Option<Id<NSPrinter>>;
+    #[deprecated]
+    #[objc2::method(sel = "isOutputStackInReverseOrder")]
+    pub unsafe fn isOutputStackInReverseOrder(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other domain)]
-        pub unsafe fn domain(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "printerWithName:domain:includeUnavailable:", managed = "Other")]
+    pub unsafe fn printerWithName_domain_includeUnavailable(
+        name: &NSString,
+        domain: Option<&NSString>,
+        flag: bool,
+    ) -> Option<Id<NSPrinter>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other host)]
-        pub unsafe fn host(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "domain", managed = "Other")]
+    pub unsafe fn domain(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other note)]
-        pub unsafe fn note(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "host", managed = "Other")]
+    pub unsafe fn host(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "note", managed = "Other")]
+    pub unsafe fn note(&self) -> Id<NSString>;
+}

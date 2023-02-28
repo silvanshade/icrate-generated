@@ -5,14 +5,11 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_protocol!(
-    pub unsafe trait GCAxisElement: GCPhysicalInputElement {
-        #[method_id(@__retain_semantics Other absoluteInput)]
-        unsafe fn absoluteInput(&self) -> Option<Id<ProtocolObject<dyn GCAxisInput>>>;
+#[objc2::protocol]
+pub unsafe trait GCAxisElement: GCPhysicalInputElement {
+    #[objc2::method(sel = "absoluteInput", managed = "Other")]
+    unsafe fn absoluteInput(&self) -> Option<Id<ProtocolObject<dyn GCAxisInput>>>;
 
-        #[method_id(@__retain_semantics Other relativeInput)]
-        unsafe fn relativeInput(&self) -> Id<ProtocolObject<dyn GCRelativeInput>>;
-    }
-
-    unsafe impl ProtocolType for dyn GCAxisElement {}
-);
+    #[objc2::method(sel = "relativeInput", managed = "Other")]
+    unsafe fn relativeInput(&self) -> Id<ProtocolObject<dyn GCRelativeInput>>;
+}

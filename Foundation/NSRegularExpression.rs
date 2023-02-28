@@ -3,29 +3,28 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSRegularExpressionOptions {
-        NSRegularExpressionCaseInsensitive = 1 << 0,
-        NSRegularExpressionAllowCommentsAndWhitespace = 1 << 1,
-        NSRegularExpressionIgnoreMetacharacters = 1 << 2,
-        NSRegularExpressionDotMatchesLineSeparators = 1 << 3,
-        NSRegularExpressionAnchorsMatchLines = 1 << 4,
-        NSRegularExpressionUseUnixLineSeparators = 1 << 5,
-        NSRegularExpressionUseUnicodeWordBoundaries = 1 << 6,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSRegularExpressionOptions {
+    NSRegularExpressionCaseInsensitive = 1 << 0,
+    NSRegularExpressionAllowCommentsAndWhitespace = 1 << 1,
+    NSRegularExpressionIgnoreMetacharacters = 1 << 2,
+    NSRegularExpressionDotMatchesLineSeparators = 1 << 3,
+    NSRegularExpressionAnchorsMatchLines = 1 << 4,
+    NSRegularExpressionUseUnixLineSeparators = 1 << 5,
+    NSRegularExpressionUseUnicodeWordBoundaries = 1 << 6,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSRegularExpression")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSRegularExpression")]
-    pub struct NSRegularExpression;
-
-    #[cfg(feature = "Foundation_NSRegularExpression")]
-    unsafe impl ClassType for NSRegularExpression {
-        type Super = NSObject;
-    }
-);
+    pub type NSRegularExpression;
+}
 
 #[cfg(feature = "Foundation_NSRegularExpression")]
 unsafe impl NSCoding for NSRegularExpression {}
@@ -36,181 +35,196 @@ unsafe impl NSObjectProtocol for NSRegularExpression {}
 #[cfg(feature = "Foundation_NSRegularExpression")]
 unsafe impl NSSecureCoding for NSRegularExpression {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSRegularExpression")]
-    unsafe impl NSRegularExpression {
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other regularExpressionWithPattern:options:error:_)]
-        pub unsafe fn regularExpressionWithPattern_options_error(
-            pattern: &NSString,
-            options: NSRegularExpressionOptions,
-        ) -> Result<Id<NSRegularExpression>, Id<NSError>>;
+    pub type NSRegularExpression;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithPattern:options:error:_)]
-        pub unsafe fn initWithPattern_options_error(
-            this: Option<Allocated<Self>>,
-            pattern: &NSString,
-            options: NSRegularExpressionOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "regularExpressionWithPattern:options:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn regularExpressionWithPattern_options_error(
+        pattern: &NSString,
+        options: NSRegularExpressionOptions,
+    ) -> Result<Id<NSRegularExpression>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other pattern)]
-        pub unsafe fn pattern(&self) -> Id<NSString>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithPattern:options:error:", managed = "Init", throws)]
+    pub unsafe fn initWithPattern_options_error(
+        this: Option<Allocated<Self>>,
+        pattern: &NSString,
+        options: NSRegularExpressionOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[method(options)]
-        pub unsafe fn options(&self) -> NSRegularExpressionOptions;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "pattern", managed = "Other")]
+    pub unsafe fn pattern(&self) -> Id<NSString>;
 
-        #[method(numberOfCaptureGroups)]
-        pub unsafe fn numberOfCaptureGroups(&self) -> NSUInteger;
+    #[objc2::method(sel = "options")]
+    pub unsafe fn options(&self) -> NSRegularExpressionOptions;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other escapedPatternForString:)]
-        pub unsafe fn escapedPatternForString(string: &NSString) -> Id<NSString>;
-    }
-);
+    #[objc2::method(sel = "numberOfCaptureGroups")]
+    pub unsafe fn numberOfCaptureGroups(&self) -> NSUInteger;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSMatchingOptions {
-        NSMatchingReportProgress = 1 << 0,
-        NSMatchingReportCompletion = 1 << 1,
-        NSMatchingAnchored = 1 << 2,
-        NSMatchingWithTransparentBounds = 1 << 3,
-        NSMatchingWithoutAnchoringBounds = 1 << 4,
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "escapedPatternForString:", managed = "Other")]
+    pub unsafe fn escapedPatternForString(string: &NSString) -> Id<NSString>;
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSMatchingFlags {
-        NSMatchingProgress = 1 << 0,
-        NSMatchingCompleted = 1 << 1,
-        NSMatchingHitEnd = 1 << 2,
-        NSMatchingRequiredEnd = 1 << 3,
-        NSMatchingInternalError = 1 << 4,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSMatchingOptions {
+    NSMatchingReportProgress = 1 << 0,
+    NSMatchingReportCompletion = 1 << 1,
+    NSMatchingAnchored = 1 << 2,
+    NSMatchingWithTransparentBounds = 1 << 3,
+    NSMatchingWithoutAnchoringBounds = 1 << 4,
+}
 
-extern_methods!(
-    /// NSMatching
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSMatchingFlags {
+    NSMatchingProgress = 1 << 0,
+    NSMatchingCompleted = 1 << 1,
+    NSMatchingHitEnd = 1 << 2,
+    NSMatchingRequiredEnd = 1 << 3,
+    NSMatchingInternalError = 1 << 4,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSRegularExpression")]
-    unsafe impl NSRegularExpression {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSTextCheckingResult"
-        ))]
-        #[method(enumerateMatchesInString:options:range:usingBlock:)]
-        pub unsafe fn enumerateMatchesInString_options_range_usingBlock(
-            &self,
-            string: &NSString,
-            options: NSMatchingOptions,
-            range: NSRange,
-            block: &Block<(*mut NSTextCheckingResult, NSMatchingFlags, NonNull<Bool>), ()>,
-        );
+    pub type NSRegularExpression;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSTextCheckingResult"
-        ))]
-        #[method_id(@__retain_semantics Other matchesInString:options:range:)]
-        pub unsafe fn matchesInString_options_range(
-            &self,
-            string: &NSString,
-            options: NSMatchingOptions,
-            range: NSRange,
-        ) -> Id<NSArray<NSTextCheckingResult>>;
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSTextCheckingResult"
+    ))]
+    #[objc2::method(sel = "enumerateMatchesInString:options:range:usingBlock:")]
+    pub unsafe fn enumerateMatchesInString_options_range_usingBlock(
+        &self,
+        string: &NSString,
+        options: NSMatchingOptions,
+        range: NSRange,
+        block: &Block<(*mut NSTextCheckingResult, NSMatchingFlags, NonNull<Bool>), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(numberOfMatchesInString:options:range:)]
-        pub unsafe fn numberOfMatchesInString_options_range(
-            &self,
-            string: &NSString,
-            options: NSMatchingOptions,
-            range: NSRange,
-        ) -> NSUInteger;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSTextCheckingResult"
+    ))]
+    #[objc2::method(sel = "matchesInString:options:range:", managed = "Other")]
+    pub unsafe fn matchesInString_options_range(
+        &self,
+        string: &NSString,
+        options: NSMatchingOptions,
+        range: NSRange,
+    ) -> Id<NSArray<NSTextCheckingResult>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSTextCheckingResult"
-        ))]
-        #[method_id(@__retain_semantics Other firstMatchInString:options:range:)]
-        pub unsafe fn firstMatchInString_options_range(
-            &self,
-            string: &NSString,
-            options: NSMatchingOptions,
-            range: NSRange,
-        ) -> Option<Id<NSTextCheckingResult>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "numberOfMatchesInString:options:range:")]
+    pub unsafe fn numberOfMatchesInString_options_range(
+        &self,
+        string: &NSString,
+        options: NSMatchingOptions,
+        range: NSRange,
+    ) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(rangeOfFirstMatchInString:options:range:)]
-        pub unsafe fn rangeOfFirstMatchInString_options_range(
-            &self,
-            string: &NSString,
-            options: NSMatchingOptions,
-            range: NSRange,
-        ) -> NSRange;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSTextCheckingResult"
+    ))]
+    #[objc2::method(sel = "firstMatchInString:options:range:", managed = "Other")]
+    pub unsafe fn firstMatchInString_options_range(
+        &self,
+        string: &NSString,
+        options: NSMatchingOptions,
+        range: NSRange,
+    ) -> Option<Id<NSTextCheckingResult>>;
 
-extern_methods!(
-    /// NSReplacement
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "rangeOfFirstMatchInString:options:range:")]
+    pub unsafe fn rangeOfFirstMatchInString_options_range(
+        &self,
+        string: &NSString,
+        options: NSMatchingOptions,
+        range: NSRange,
+    ) -> NSRange;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSRegularExpression")]
-    unsafe impl NSRegularExpression {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringByReplacingMatchesInString:options:range:withTemplate:)]
-        pub unsafe fn stringByReplacingMatchesInString_options_range_withTemplate(
-            &self,
-            string: &NSString,
-            options: NSMatchingOptions,
-            range: NSRange,
-            templ: &NSString,
-        ) -> Id<NSString>;
+    pub type NSRegularExpression;
 
-        #[cfg(all(
-            feature = "Foundation_NSMutableString",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(replaceMatchesInString:options:range:withTemplate:)]
-        pub unsafe fn replaceMatchesInString_options_range_withTemplate(
-            &self,
-            string: &NSMutableString,
-            options: NSMatchingOptions,
-            range: NSRange,
-            templ: &NSString,
-        ) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "stringByReplacingMatchesInString:options:range:withTemplate:",
+        managed = "Other"
+    )]
+    pub unsafe fn stringByReplacingMatchesInString_options_range_withTemplate(
+        &self,
+        string: &NSString,
+        options: NSMatchingOptions,
+        range: NSRange,
+        templ: &NSString,
+    ) -> Id<NSString>;
 
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSTextCheckingResult"
-        ))]
-        #[method_id(@__retain_semantics Other replacementStringForResult:inString:offset:template:)]
-        pub unsafe fn replacementStringForResult_inString_offset_template(
-            &self,
-            result: &NSTextCheckingResult,
-            string: &NSString,
-            offset: NSInteger,
-            templ: &NSString,
-        ) -> Id<NSString>;
+    #[cfg(all(
+        feature = "Foundation_NSMutableString",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "replaceMatchesInString:options:range:withTemplate:")]
+    pub unsafe fn replaceMatchesInString_options_range_withTemplate(
+        &self,
+        string: &NSMutableString,
+        options: NSMatchingOptions,
+        range: NSRange,
+        templ: &NSString,
+    ) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other escapedTemplateForString:)]
-        pub unsafe fn escapedTemplateForString(string: &NSString) -> Id<NSString>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSTextCheckingResult"
+    ))]
+    #[objc2::method(
+        sel = "replacementStringForResult:inString:offset:template:",
+        managed = "Other"
+    )]
+    pub unsafe fn replacementStringForResult_inString_offset_template(
+        &self,
+        result: &NSTextCheckingResult,
+        string: &NSString,
+        offset: NSInteger,
+        templ: &NSString,
+    ) -> Id<NSString>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "escapedTemplateForString:", managed = "Other")]
+    pub unsafe fn escapedTemplateForString(string: &NSString) -> Id<NSString>;
+}
+
+#[objc2::interface(
+    unsafe super = NSRegularExpression,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSDataDetector")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSDataDetector")]
-    pub struct NSDataDetector;
-
-    #[cfg(feature = "Foundation_NSDataDetector")]
-    unsafe impl ClassType for NSDataDetector {
-        #[inherits(NSObject)]
-        type Super = NSRegularExpression;
-    }
-);
+    pub type NSDataDetector;
+}
 
 #[cfg(feature = "Foundation_NSDataDetector")]
 unsafe impl NSCoding for NSDataDetector {}
@@ -221,37 +235,46 @@ unsafe impl NSObjectProtocol for NSDataDetector {}
 #[cfg(feature = "Foundation_NSDataDetector")]
 unsafe impl NSSecureCoding for NSDataDetector {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSDataDetector")]
-    unsafe impl NSDataDetector {
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other dataDetectorWithTypes:error:_)]
-        pub unsafe fn dataDetectorWithTypes_error(
-            checking_types: NSTextCheckingTypes,
-        ) -> Result<Id<NSDataDetector>, Id<NSError>>;
+    pub type NSDataDetector;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Init initWithTypes:error:_)]
-        pub unsafe fn initWithTypes_error(
-            this: Option<Allocated<Self>>,
-            checking_types: NSTextCheckingTypes,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "dataDetectorWithTypes:error:", managed = "Other", throws)]
+    pub unsafe fn dataDetectorWithTypes_error(
+        checking_types: NSTextCheckingTypes,
+    ) -> Result<Id<NSDataDetector>, Id<NSError>>;
 
-        #[method(checkingTypes)]
-        pub unsafe fn checkingTypes(&self) -> NSTextCheckingTypes;
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "initWithTypes:error:", managed = "Init", throws)]
+    pub unsafe fn initWithTypes_error(
+        this: Option<Allocated<Self>>,
+        checking_types: NSTextCheckingTypes,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSRegularExpression`
+    #[objc2::method(sel = "checkingTypes")]
+    pub unsafe fn checkingTypes(&self) -> NSTextCheckingTypes;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSRegularExpression`
     #[cfg(feature = "Foundation_NSDataDetector")]
-    unsafe impl NSDataDetector {
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithPattern:options:error:_)]
-        pub unsafe fn initWithPattern_options_error(
-            this: Option<Allocated<Self>>,
-            pattern: &NSString,
-            options: NSRegularExpressionOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSDataDetector")]
+    pub type NSDataDetector;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithPattern:options:error:", managed = "Init", throws)]
+    pub unsafe fn initWithPattern_options_error(
+        this: Option<Allocated<Self>>,
+        pattern: &NSString,
+        options: NSRegularExpressionOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
+}

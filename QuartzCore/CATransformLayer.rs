@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::CoreAnimation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CALayer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CATransformLayer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CATransformLayer")]
-    pub struct CATransformLayer;
-
-    #[cfg(feature = "CoreAnimation_CATransformLayer")]
-    unsafe impl ClassType for CATransformLayer {
-        #[inherits(NSObject)]
-        type Super = CALayer;
-    }
-);
+    pub type CATransformLayer;
+}
 
 #[cfg(feature = "CoreAnimation_CATransformLayer")]
 unsafe impl CAMediaTiming for CATransformLayer {}
@@ -28,19 +28,28 @@ unsafe impl NSObjectProtocol for CATransformLayer {}
 #[cfg(feature = "CoreAnimation_CATransformLayer")]
 unsafe impl NSSecureCoding for CATransformLayer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CATransformLayer")]
-    unsafe impl CATransformLayer {}
-);
+    pub type CATransformLayer;
+}
 
-extern_methods!(
-    /// Methods declared on superclass `CALayer`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CALayer`
     #[cfg(feature = "CoreAnimation_CATransformLayer")]
-    unsafe impl CATransformLayer {
-        #[method_id(@__retain_semantics Other layer)]
-        pub unsafe fn layer() -> Id<Self>;
-
-        #[method_id(@__retain_semantics Init initWithLayer:)]
-        pub unsafe fn initWithLayer(this: Option<Allocated<Self>>, layer: &Object) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CATransformLayer")]
+    pub type CATransformLayer;
+
+    #[objc2::method(sel = "layer", managed = "Other")]
+    pub unsafe fn layer() -> Id<Self>;
+
+    #[objc2::method(sel = "initWithLayer:", managed = "Init")]
+    pub unsafe fn initWithLayer(this: Option<Allocated<Self>>, layer: &Object) -> Id<Self>;
+}

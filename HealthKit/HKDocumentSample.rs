@@ -6,17 +6,18 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSample,
+    unsafe inherits = [
+        HKObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKDocumentSample")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKDocumentSample")]
-    pub struct HKDocumentSample;
-
-    #[cfg(feature = "HealthKit_HKDocumentSample")]
-    unsafe impl ClassType for HKDocumentSample {
-        #[inherits(HKObject, NSObject)]
-        type Super = HKSample;
-    }
-);
+    pub type HKDocumentSample;
+}
 
 #[cfg(feature = "HealthKit_HKDocumentSample")]
 unsafe impl NSCoding for HKDocumentSample {}
@@ -27,11 +28,14 @@ unsafe impl NSObjectProtocol for HKDocumentSample {}
 #[cfg(feature = "HealthKit_HKDocumentSample")]
 unsafe impl NSSecureCoding for HKDocumentSample {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKDocumentSample")]
-    unsafe impl HKDocumentSample {
-        #[cfg(feature = "HealthKit_HKDocumentType")]
-        #[method_id(@__retain_semantics Other documentType)]
-        pub unsafe fn documentType(&self) -> Id<HKDocumentType>;
-    }
-);
+    pub type HKDocumentSample;
+
+    #[cfg(feature = "HealthKit_HKDocumentType")]
+    #[objc2::method(sel = "documentType", managed = "Other")]
+    pub unsafe fn documentType(&self) -> Id<HKDocumentType>;
+}

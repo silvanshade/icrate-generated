@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLScriptElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLScriptElement;
-
     #[cfg(feature = "WebKit_DOMHTMLScriptElement")]
-    unsafe impl ClassType for DOMHTMLScriptElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLScriptElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLScriptElement")]
 unsafe impl DOMEventTarget for DOMHTMLScriptElement {}
@@ -24,61 +28,65 @@ unsafe impl DOMEventTarget for DOMHTMLScriptElement {}
 #[cfg(feature = "WebKit_DOMHTMLScriptElement")]
 unsafe impl NSObjectProtocol for DOMHTMLScriptElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLScriptElement")]
-    unsafe impl DOMHTMLScriptElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other text)]
-        pub unsafe fn text(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMHTMLScriptElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setText:)]
-        pub unsafe fn setText(&self, text: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "text", managed = "Other")]
+    pub unsafe fn text(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other htmlFor)]
-        pub unsafe fn htmlFor(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setText:")]
+    pub unsafe fn setText(&self, text: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setHtmlFor:)]
-        pub unsafe fn setHtmlFor(&self, html_for: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "htmlFor", managed = "Other")]
+    pub unsafe fn htmlFor(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other event)]
-        pub unsafe fn event(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setHtmlFor:")]
+    pub unsafe fn setHtmlFor(&self, html_for: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setEvent:)]
-        pub unsafe fn setEvent(&self, event: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "event", managed = "Other")]
+    pub unsafe fn event(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other charset)]
-        pub unsafe fn charset(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setEvent:")]
+    pub unsafe fn setEvent(&self, event: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCharset:)]
-        pub unsafe fn setCharset(&self, charset: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "charset", managed = "Other")]
+    pub unsafe fn charset(&self) -> Id<NSString>;
 
-        #[method(defer)]
-        pub unsafe fn defer(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCharset:")]
+    pub unsafe fn setCharset(&self, charset: Option<&NSString>);
 
-        #[method(setDefer:)]
-        pub unsafe fn setDefer(&self, defer: bool);
+    #[objc2::method(sel = "defer")]
+    pub unsafe fn defer(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other src)]
-        pub unsafe fn src(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setDefer:")]
+    pub unsafe fn setDefer(&self, defer: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSrc:)]
-        pub unsafe fn setSrc(&self, src: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "src", managed = "Other")]
+    pub unsafe fn src(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other type)]
-        pub unsafe fn r#type(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSrc:")]
+    pub unsafe fn setSrc(&self, src: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setType:)]
-        pub unsafe fn setType(&self, r#type: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "type", managed = "Other")]
+    pub unsafe fn r#type(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setType:")]
+    pub unsafe fn setType(&self, r#type: Option<&NSString>);
+}

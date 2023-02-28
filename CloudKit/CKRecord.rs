@@ -15,22 +15,19 @@ extern_static!(CKRecordParentKey: &'static CKRecordFieldKey);
 
 extern_static!(CKRecordShareKey: &'static CKRecordFieldKey);
 
-extern_protocol!(
-    pub unsafe trait CKRecordValue: NSObjectProtocol {}
+#[objc2::protocol]
+pub unsafe trait CKRecordValue: NSObjectProtocol {}
 
-    unsafe impl ProtocolType for dyn CKRecordValue {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKRecord")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKRecord")]
-    pub struct CKRecord;
-
-    #[cfg(feature = "CloudKit_CKRecord")]
-    unsafe impl ClassType for CKRecord {
-        type Super = NSObject;
-    }
-);
+    pub type CKRecord;
+}
 
 #[cfg(feature = "CloudKit_CKRecord")]
 unsafe impl NSCoding for CKRecord {}
@@ -41,247 +38,265 @@ unsafe impl NSObjectProtocol for CKRecord {}
 #[cfg(feature = "CloudKit_CKRecord")]
 unsafe impl NSSecureCoding for CKRecord {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKRecord")]
-    unsafe impl CKRecord {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKRecord;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithRecordType:)]
-        pub unsafe fn initWithRecordType(
-            this: Option<Allocated<Self>>,
-            record_type: &CKRecordType,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKRecordID")]
-        #[method_id(@__retain_semantics Init initWithRecordType:recordID:)]
-        pub unsafe fn initWithRecordType_recordID(
-            this: Option<Allocated<Self>>,
-            record_type: &CKRecordType,
-            record_id: &CKRecordID,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithRecordType:", managed = "Init")]
+    pub unsafe fn initWithRecordType(
+        this: Option<Allocated<Self>>,
+        record_type: &CKRecordType,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKRecordZoneID")]
-        #[method_id(@__retain_semantics Init initWithRecordType:zoneID:)]
-        pub unsafe fn initWithRecordType_zoneID(
-            this: Option<Allocated<Self>>,
-            record_type: &CKRecordType,
-            zone_id: &CKRecordZoneID,
-        ) -> Id<Self>;
+    #[cfg(feature = "CloudKit_CKRecordID")]
+    #[objc2::method(sel = "initWithRecordType:recordID:", managed = "Init")]
+    pub unsafe fn initWithRecordType_recordID(
+        this: Option<Allocated<Self>>,
+        record_type: &CKRecordType,
+        record_id: &CKRecordID,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other recordType)]
-        pub unsafe fn recordType(&self) -> Id<CKRecordType>;
+    #[cfg(feature = "CloudKit_CKRecordZoneID")]
+    #[objc2::method(sel = "initWithRecordType:zoneID:", managed = "Init")]
+    pub unsafe fn initWithRecordType_zoneID(
+        this: Option<Allocated<Self>>,
+        record_type: &CKRecordType,
+        zone_id: &CKRecordZoneID,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKRecordID")]
-        #[method_id(@__retain_semantics Other recordID)]
-        pub unsafe fn recordID(&self) -> Id<CKRecordID>;
+    #[objc2::method(sel = "recordType", managed = "Other")]
+    pub unsafe fn recordType(&self) -> Id<CKRecordType>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other recordChangeTag)]
-        pub unsafe fn recordChangeTag(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "CloudKit_CKRecordID")]
+    #[objc2::method(sel = "recordID", managed = "Other")]
+    pub unsafe fn recordID(&self) -> Id<CKRecordID>;
 
-        #[cfg(feature = "CloudKit_CKRecordID")]
-        #[method_id(@__retain_semantics Other creatorUserRecordID)]
-        pub unsafe fn creatorUserRecordID(&self) -> Option<Id<CKRecordID>>;
-
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other creationDate)]
-        pub unsafe fn creationDate(&self) -> Option<Id<NSDate>>;
-
-        #[cfg(feature = "CloudKit_CKRecordID")]
-        #[method_id(@__retain_semantics Other lastModifiedUserRecordID)]
-        pub unsafe fn lastModifiedUserRecordID(&self) -> Option<Id<CKRecordID>>;
-
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other modificationDate)]
-        pub unsafe fn modificationDate(&self) -> Option<Id<NSDate>>;
-
-        #[method_id(@__retain_semantics Other objectForKey:)]
-        pub unsafe fn objectForKey(
-            &self,
-            key: &CKRecordFieldKey,
-        ) -> Option<Id<ProtocolObject<dyn CKRecordValue>>>;
-
-        #[method(setObject:forKey:)]
-        pub unsafe fn setObject_forKey(
-            &self,
-            object: Option<&ProtocolObject<dyn CKRecordValue>>,
-            key: &CKRecordFieldKey,
-        );
-
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other allKeys)]
-        pub unsafe fn allKeys(&self) -> Id<NSArray<CKRecordFieldKey>>;
-
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other allTokens)]
-        pub unsafe fn allTokens(&self) -> Id<NSArray<NSString>>;
-
-        #[method_id(@__retain_semantics Other objectForKeyedSubscript:)]
-        pub unsafe fn objectForKeyedSubscript(
-            &self,
-            key: &CKRecordFieldKey,
-        ) -> Option<Id<ProtocolObject<dyn CKRecordValue>>>;
-
-        #[method(setObject:forKeyedSubscript:)]
-        pub unsafe fn setObject_forKeyedSubscript(
-            &self,
-            object: Option<&ProtocolObject<dyn CKRecordValue>>,
-            key: &CKRecordFieldKey,
-        );
-
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other changedKeys)]
-        pub unsafe fn changedKeys(&self) -> Id<NSArray<CKRecordFieldKey>>;
-
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method(encodeSystemFieldsWithCoder:)]
-        pub unsafe fn encodeSystemFieldsWithCoder(&self, coder: &NSCoder);
-
-        #[cfg(feature = "CloudKit_CKReference")]
-        #[method_id(@__retain_semantics Other share)]
-        pub unsafe fn share(&self) -> Option<Id<CKReference>>;
-
-        #[cfg(feature = "CloudKit_CKReference")]
-        #[method_id(@__retain_semantics Other parent)]
-        pub unsafe fn parent(&self) -> Option<Id<CKReference>>;
-
-        #[cfg(feature = "CloudKit_CKReference")]
-        #[method(setParent:)]
-        pub unsafe fn setParent(&self, parent: Option<&CKReference>);
-
-        #[method(setParentReferenceFromRecord:)]
-        pub unsafe fn setParentReferenceFromRecord(&self, parent_record: Option<&CKRecord>);
-
-        #[cfg(feature = "CloudKit_CKRecordID")]
-        #[method(setParentReferenceFromRecordID:)]
-        pub unsafe fn setParentReferenceFromRecordID(&self, parent_record_id: Option<&CKRecordID>);
-    }
-);
-
-extern_methods!(
-    /// CKRecordValue
     #[cfg(feature = "Foundation_NSString")]
-    unsafe impl NSString {}
-);
+    #[objc2::method(sel = "recordChangeTag", managed = "Other")]
+    pub unsafe fn recordChangeTag(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "CloudKit_CKRecordID")]
+    #[objc2::method(sel = "creatorUserRecordID", managed = "Other")]
+    pub unsafe fn creatorUserRecordID(&self) -> Option<Id<CKRecordID>>;
+
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "creationDate", managed = "Other")]
+    pub unsafe fn creationDate(&self) -> Option<Id<NSDate>>;
+
+    #[cfg(feature = "CloudKit_CKRecordID")]
+    #[objc2::method(sel = "lastModifiedUserRecordID", managed = "Other")]
+    pub unsafe fn lastModifiedUserRecordID(&self) -> Option<Id<CKRecordID>>;
+
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "modificationDate", managed = "Other")]
+    pub unsafe fn modificationDate(&self) -> Option<Id<NSDate>>;
+
+    #[objc2::method(sel = "objectForKey:", managed = "Other")]
+    pub unsafe fn objectForKey(
+        &self,
+        key: &CKRecordFieldKey,
+    ) -> Option<Id<ProtocolObject<dyn CKRecordValue>>>;
+
+    #[objc2::method(sel = "setObject:forKey:")]
+    pub unsafe fn setObject_forKey(
+        &self,
+        object: Option<&ProtocolObject<dyn CKRecordValue>>,
+        key: &CKRecordFieldKey,
+    );
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "allKeys", managed = "Other")]
+    pub unsafe fn allKeys(&self) -> Id<NSArray<CKRecordFieldKey>>;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "allTokens", managed = "Other")]
+    pub unsafe fn allTokens(&self) -> Id<NSArray<NSString>>;
+
+    #[objc2::method(sel = "objectForKeyedSubscript:", managed = "Other")]
+    pub unsafe fn objectForKeyedSubscript(
+        &self,
+        key: &CKRecordFieldKey,
+    ) -> Option<Id<ProtocolObject<dyn CKRecordValue>>>;
+
+    #[objc2::method(sel = "setObject:forKeyedSubscript:")]
+    pub unsafe fn setObject_forKeyedSubscript(
+        &self,
+        object: Option<&ProtocolObject<dyn CKRecordValue>>,
+        key: &CKRecordFieldKey,
+    );
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "changedKeys", managed = "Other")]
+    pub unsafe fn changedKeys(&self) -> Id<NSArray<CKRecordFieldKey>>;
+
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "encodeSystemFieldsWithCoder:")]
+    pub unsafe fn encodeSystemFieldsWithCoder(&self, coder: &NSCoder);
+
+    #[cfg(feature = "CloudKit_CKReference")]
+    #[objc2::method(sel = "share", managed = "Other")]
+    pub unsafe fn share(&self) -> Option<Id<CKReference>>;
+
+    #[cfg(feature = "CloudKit_CKReference")]
+    #[objc2::method(sel = "parent", managed = "Other")]
+    pub unsafe fn parent(&self) -> Option<Id<CKReference>>;
+
+    #[cfg(feature = "CloudKit_CKReference")]
+    #[objc2::method(sel = "setParent:")]
+    pub unsafe fn setParent(&self, parent: Option<&CKReference>);
+
+    #[objc2::method(sel = "setParentReferenceFromRecord:")]
+    pub unsafe fn setParentReferenceFromRecord(&self, parent_record: Option<&CKRecord>);
+
+    #[cfg(feature = "CloudKit_CKRecordID")]
+    #[objc2::method(sel = "setParentReferenceFromRecordID:")]
+    pub unsafe fn setParentReferenceFromRecordID(&self, parent_record_id: Option<&CKRecordID>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSString")]
+    pub type NSString;
+}
 
 #[cfg(feature = "Foundation_NSString")]
 unsafe impl CKRecordValue for NSString {}
 
-extern_methods!(
-    /// CKRecordValue
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSNumber")]
-    unsafe impl NSNumber {}
-);
+    pub type NSNumber;
+}
 
 #[cfg(feature = "Foundation_NSNumber")]
 unsafe impl CKRecordValue for NSNumber {}
 
-extern_methods!(
-    /// CKRecordValue
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSArray")]
-    unsafe impl NSArray {}
-);
+    pub type NSArray;
+}
 
 #[cfg(feature = "Foundation_NSArray")]
 unsafe impl CKRecordValue for NSArray {}
 
-extern_methods!(
-    /// CKRecordValue
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSDate")]
-    unsafe impl NSDate {}
-);
+    pub type NSDate;
+}
 
 #[cfg(feature = "Foundation_NSDate")]
 unsafe impl CKRecordValue for NSDate {}
 
-extern_methods!(
-    /// CKRecordValue
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSData")]
-    unsafe impl NSData {}
-);
+    pub type NSData;
+}
 
 #[cfg(feature = "Foundation_NSData")]
 unsafe impl CKRecordValue for NSData {}
 
-extern_methods!(
-    /// CKRecordValue
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKReference")]
-    unsafe impl CKReference {}
-);
+    pub type CKReference;
+}
 
 #[cfg(feature = "CloudKit_CKReference")]
 unsafe impl CKRecordValue for CKReference {}
 
-extern_methods!(
-    /// CKRecordValue
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKAsset")]
-    unsafe impl CKAsset {}
-);
+    pub type CKAsset;
+}
 
 #[cfg(feature = "CloudKit_CKAsset")]
 unsafe impl CKRecordValue for CKAsset {}
 
-extern_methods!(
-    /// CKRecordValue
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreLocation_CLLocation")]
-    unsafe impl CLLocation {}
-);
+    pub type CLLocation;
+}
 
 #[cfg(feature = "CoreLocation_CLLocation")]
 unsafe impl CKRecordValue for CLLocation {}
 
-extern_protocol!(
-    pub unsafe trait CKRecordKeyValueSetting: NSObjectProtocol {
-        #[method_id(@__retain_semantics Other objectForKey:)]
-        unsafe fn objectForKey(
-            &self,
-            key: &CKRecordFieldKey,
-        ) -> Option<Id<ProtocolObject<dyn CKRecordValue>>>;
+#[objc2::protocol]
+pub unsafe trait CKRecordKeyValueSetting: NSObjectProtocol {
+    #[objc2::method(sel = "objectForKey:", managed = "Other")]
+    unsafe fn objectForKey(
+        &self,
+        key: &CKRecordFieldKey,
+    ) -> Option<Id<ProtocolObject<dyn CKRecordValue>>>;
 
-        #[method(setObject:forKey:)]
-        unsafe fn setObject_forKey(
-            &self,
-            object: Option<&ProtocolObject<dyn CKRecordValue>>,
-            key: &CKRecordFieldKey,
-        );
+    #[objc2::method(sel = "setObject:forKey:")]
+    unsafe fn setObject_forKey(
+        &self,
+        object: Option<&ProtocolObject<dyn CKRecordValue>>,
+        key: &CKRecordFieldKey,
+    );
 
-        #[method_id(@__retain_semantics Other objectForKeyedSubscript:)]
-        unsafe fn objectForKeyedSubscript(
-            &self,
-            key: &CKRecordFieldKey,
-        ) -> Option<Id<ProtocolObject<dyn CKRecordValue>>>;
+    #[objc2::method(sel = "objectForKeyedSubscript:", managed = "Other")]
+    unsafe fn objectForKeyedSubscript(
+        &self,
+        key: &CKRecordFieldKey,
+    ) -> Option<Id<ProtocolObject<dyn CKRecordValue>>>;
 
-        #[method(setObject:forKeyedSubscript:)]
-        unsafe fn setObject_forKeyedSubscript(
-            &self,
-            object: Option<&ProtocolObject<dyn CKRecordValue>>,
-            key: &CKRecordFieldKey,
-        );
+    #[objc2::method(sel = "setObject:forKeyedSubscript:")]
+    unsafe fn setObject_forKeyedSubscript(
+        &self,
+        object: Option<&ProtocolObject<dyn CKRecordValue>>,
+        key: &CKRecordFieldKey,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other allKeys)]
-        unsafe fn allKeys(&self) -> Id<NSArray<CKRecordFieldKey>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "allKeys", managed = "Other")]
+    unsafe fn allKeys(&self) -> Id<NSArray<CKRecordFieldKey>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other changedKeys)]
-        unsafe fn changedKeys(&self) -> Id<NSArray<CKRecordFieldKey>>;
-    }
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "changedKeys", managed = "Other")]
+    unsafe fn changedKeys(&self) -> Id<NSArray<CKRecordFieldKey>>;
+}
 
-    unsafe impl ProtocolType for dyn CKRecordKeyValueSetting {}
-);
-
-extern_methods!(
-    /// CKRecordKeyValueSettingConformance
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKRecord")]
-    unsafe impl CKRecord {
-        #[method_id(@__retain_semantics Other encryptedValues)]
-        pub unsafe fn encryptedValues(&self) -> Id<ProtocolObject<dyn CKRecordKeyValueSetting>>;
-    }
-);
+    pub type CKRecord;
+
+    #[objc2::method(sel = "encryptedValues", managed = "Other")]
+    pub unsafe fn encryptedValues(&self) -> Id<ProtocolObject<dyn CKRecordKeyValueSetting>>;
+}
 
 #[cfg(feature = "CloudKit_CKRecord")]
 unsafe impl CKRecordKeyValueSetting for CKRecord {}

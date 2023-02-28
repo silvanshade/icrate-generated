@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSController")]
-    pub struct NSController;
-
-    #[cfg(feature = "AppKit_NSController")]
-    unsafe impl ClassType for NSController {
-        type Super = NSObject;
-    }
-);
+    pub type NSController;
+}
 
 #[cfg(feature = "AppKit_NSController")]
 unsafe impl NSCoding for NSController {}
@@ -28,40 +28,41 @@ unsafe impl NSEditorRegistration for NSController {}
 #[cfg(feature = "AppKit_NSController")]
 unsafe impl NSObjectProtocol for NSController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSController")]
-    unsafe impl NSController {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSController;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(objectDidBeginEditing:)]
-        pub unsafe fn objectDidBeginEditing(&self, editor: &ProtocolObject<dyn NSEditor>);
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[method(objectDidEndEditing:)]
-        pub unsafe fn objectDidEndEditing(&self, editor: &ProtocolObject<dyn NSEditor>);
+    #[objc2::method(sel = "objectDidBeginEditing:")]
+    pub unsafe fn objectDidBeginEditing(&self, editor: &ProtocolObject<dyn NSEditor>);
 
-        #[method(discardEditing)]
-        pub unsafe fn discardEditing(&self);
+    #[objc2::method(sel = "objectDidEndEditing:")]
+    pub unsafe fn objectDidEndEditing(&self, editor: &ProtocolObject<dyn NSEditor>);
 
-        #[method(commitEditing)]
-        pub unsafe fn commitEditing(&self) -> bool;
+    #[objc2::method(sel = "discardEditing")]
+    pub unsafe fn discardEditing(&self);
 
-        #[method(commitEditingWithDelegate:didCommitSelector:contextInfo:)]
-        pub unsafe fn commitEditingWithDelegate_didCommitSelector_contextInfo(
-            &self,
-            delegate: Option<&Object>,
-            did_commit_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
+    #[objc2::method(sel = "commitEditing")]
+    pub unsafe fn commitEditing(&self) -> bool;
 
-        #[method(isEditing)]
-        pub unsafe fn isEditing(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "commitEditingWithDelegate:didCommitSelector:contextInfo:")]
+    pub unsafe fn commitEditingWithDelegate_didCommitSelector_contextInfo(
+        &self,
+        delegate: Option<&Object>,
+        did_commit_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
+
+    #[objc2::method(sel = "isEditing")]
+    pub unsafe fn isEditing(&self) -> bool;
+}

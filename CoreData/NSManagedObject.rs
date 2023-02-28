@@ -4,229 +4,234 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSSnapshotEventType {
-        NSSnapshotEventUndoInsertion = 1 << 1,
-        NSSnapshotEventUndoDeletion = 1 << 2,
-        NSSnapshotEventUndoUpdate = 1 << 3,
-        NSSnapshotEventRollback = 1 << 4,
-        NSSnapshotEventRefresh = 1 << 5,
-        NSSnapshotEventMergePolicy = 1 << 6,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSSnapshotEventType {
+    NSSnapshotEventUndoInsertion = 1 << 1,
+    NSSnapshotEventUndoDeletion = 1 << 2,
+    NSSnapshotEventUndoUpdate = 1 << 3,
+    NSSnapshotEventRollback = 1 << 4,
+    NSSnapshotEventRefresh = 1 << 5,
+    NSSnapshotEventMergePolicy = 1 << 6,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSManagedObject")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSManagedObject")]
-    pub struct NSManagedObject;
-
-    #[cfg(feature = "CoreData_NSManagedObject")]
-    unsafe impl ClassType for NSManagedObject {
-        type Super = NSObject;
-    }
-);
+    pub type NSManagedObject;
+}
 
 #[cfg(feature = "CoreData_NSManagedObject")]
 unsafe impl NSObjectProtocol for NSManagedObject {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSManagedObject")]
-    unsafe impl NSManagedObject {
-        #[method(contextShouldIgnoreUnmodeledPropertyChanges)]
-        pub unsafe fn contextShouldIgnoreUnmodeledPropertyChanges() -> bool;
+    pub type NSManagedObject;
 
-        #[cfg(feature = "CoreData_NSEntityDescription")]
-        #[method_id(@__retain_semantics Other entity)]
-        pub unsafe fn entity_class() -> Id<NSEntityDescription>;
+    #[objc2::method(sel = "contextShouldIgnoreUnmodeledPropertyChanges")]
+    pub unsafe fn contextShouldIgnoreUnmodeledPropertyChanges() -> bool;
 
-        #[cfg(feature = "CoreData_NSFetchRequest")]
-        #[method_id(@__retain_semantics Other fetchRequest)]
-        pub unsafe fn fetchRequest() -> Id<NSFetchRequest>;
+    #[cfg(feature = "CoreData_NSEntityDescription")]
+    #[objc2::method(sel = "entity", managed = "Other")]
+    pub unsafe fn entity_class() -> Id<NSEntityDescription>;
 
-        #[cfg(all(
-            feature = "CoreData_NSEntityDescription",
-            feature = "CoreData_NSManagedObjectContext"
-        ))]
-        #[method_id(@__retain_semantics Init initWithEntity:insertIntoManagedObjectContext:)]
-        pub unsafe fn initWithEntity_insertIntoManagedObjectContext(
-            this: Option<Allocated<Self>>,
-            entity: &NSEntityDescription,
-            context: Option<&NSManagedObjectContext>,
-        ) -> Id<NSManagedObject>;
+    #[cfg(feature = "CoreData_NSFetchRequest")]
+    #[objc2::method(sel = "fetchRequest", managed = "Other")]
+    pub unsafe fn fetchRequest() -> Id<NSFetchRequest>;
 
-        #[cfg(feature = "CoreData_NSManagedObjectContext")]
-        #[method_id(@__retain_semantics Init initWithContext:)]
-        pub unsafe fn initWithContext(
-            this: Option<Allocated<Self>>,
-            moc: &NSManagedObjectContext,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "CoreData_NSEntityDescription",
+        feature = "CoreData_NSManagedObjectContext"
+    ))]
+    #[objc2::method(
+        sel = "initWithEntity:insertIntoManagedObjectContext:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithEntity_insertIntoManagedObjectContext(
+        this: Option<Allocated<Self>>,
+        entity: &NSEntityDescription,
+        context: Option<&NSManagedObjectContext>,
+    ) -> Id<NSManagedObject>;
 
-        #[cfg(feature = "CoreData_NSManagedObjectContext")]
-        #[method_id(@__retain_semantics Other managedObjectContext)]
-        pub unsafe fn managedObjectContext(&self) -> Option<Id<NSManagedObjectContext>>;
+    #[cfg(feature = "CoreData_NSManagedObjectContext")]
+    #[objc2::method(sel = "initWithContext:", managed = "Init")]
+    pub unsafe fn initWithContext(
+        this: Option<Allocated<Self>>,
+        moc: &NSManagedObjectContext,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "CoreData_NSEntityDescription")]
-        #[method_id(@__retain_semantics Other entity)]
-        pub unsafe fn entity(&self) -> Id<NSEntityDescription>;
+    #[cfg(feature = "CoreData_NSManagedObjectContext")]
+    #[objc2::method(sel = "managedObjectContext", managed = "Other")]
+    pub unsafe fn managedObjectContext(&self) -> Option<Id<NSManagedObjectContext>>;
 
-        #[cfg(feature = "CoreData_NSManagedObjectID")]
-        #[method_id(@__retain_semantics Other objectID)]
-        pub unsafe fn objectID(&self) -> Id<NSManagedObjectID>;
+    #[cfg(feature = "CoreData_NSEntityDescription")]
+    #[objc2::method(sel = "entity", managed = "Other")]
+    pub unsafe fn entity(&self) -> Id<NSEntityDescription>;
 
-        #[method(isInserted)]
-        pub unsafe fn isInserted(&self) -> bool;
+    #[cfg(feature = "CoreData_NSManagedObjectID")]
+    #[objc2::method(sel = "objectID", managed = "Other")]
+    pub unsafe fn objectID(&self) -> Id<NSManagedObjectID>;
 
-        #[method(isUpdated)]
-        pub unsafe fn isUpdated(&self) -> bool;
+    #[objc2::method(sel = "isInserted")]
+    pub unsafe fn isInserted(&self) -> bool;
 
-        #[method(isDeleted)]
-        pub unsafe fn isDeleted(&self) -> bool;
+    #[objc2::method(sel = "isUpdated")]
+    pub unsafe fn isUpdated(&self) -> bool;
 
-        #[method(hasChanges)]
-        pub unsafe fn hasChanges(&self) -> bool;
+    #[objc2::method(sel = "isDeleted")]
+    pub unsafe fn isDeleted(&self) -> bool;
 
-        #[method(hasPersistentChangedValues)]
-        pub unsafe fn hasPersistentChangedValues(&self) -> bool;
+    #[objc2::method(sel = "hasChanges")]
+    pub unsafe fn hasChanges(&self) -> bool;
 
-        #[method(isFault)]
-        pub unsafe fn isFault(&self) -> bool;
+    #[objc2::method(sel = "hasPersistentChangedValues")]
+    pub unsafe fn hasPersistentChangedValues(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(hasFaultForRelationshipNamed:)]
-        pub unsafe fn hasFaultForRelationshipNamed(&self, key: &NSString) -> bool;
+    #[objc2::method(sel = "isFault")]
+    pub unsafe fn isFault(&self) -> bool;
 
-        #[cfg(all(
-            feature = "CoreData_NSManagedObjectID",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other objectIDsForRelationshipNamed:)]
-        pub unsafe fn objectIDsForRelationshipNamed(
-            &self,
-            key: &NSString,
-        ) -> Id<NSArray<NSManagedObjectID>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "hasFaultForRelationshipNamed:")]
+    pub unsafe fn hasFaultForRelationshipNamed(&self, key: &NSString) -> bool;
 
-        #[method(faultingState)]
-        pub unsafe fn faultingState(&self) -> NSUInteger;
+    #[cfg(all(
+        feature = "CoreData_NSManagedObjectID",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "objectIDsForRelationshipNamed:", managed = "Other")]
+    pub unsafe fn objectIDsForRelationshipNamed(
+        &self,
+        key: &NSString,
+    ) -> Id<NSArray<NSManagedObjectID>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(willAccessValueForKey:)]
-        pub unsafe fn willAccessValueForKey(&self, key: Option<&NSString>);
+    #[objc2::method(sel = "faultingState")]
+    pub unsafe fn faultingState(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(didAccessValueForKey:)]
-        pub unsafe fn didAccessValueForKey(&self, key: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "willAccessValueForKey:")]
+    pub unsafe fn willAccessValueForKey(&self, key: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(willChangeValueForKey:)]
-        pub unsafe fn willChangeValueForKey(&self, key: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "didAccessValueForKey:")]
+    pub unsafe fn didAccessValueForKey(&self, key: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(didChangeValueForKey:)]
-        pub unsafe fn didChangeValueForKey(&self, key: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "willChangeValueForKey:")]
+    pub unsafe fn willChangeValueForKey(&self, key: &NSString);
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
-        #[method(willChangeValueForKey:withSetMutation:usingObjects:)]
-        pub unsafe fn willChangeValueForKey_withSetMutation_usingObjects(
-            &self,
-            in_key: &NSString,
-            in_mutation_kind: NSKeyValueSetMutationKind,
-            in_objects: &NSSet,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "didChangeValueForKey:")]
+    pub unsafe fn didChangeValueForKey(&self, key: &NSString);
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
-        #[method(didChangeValueForKey:withSetMutation:usingObjects:)]
-        pub unsafe fn didChangeValueForKey_withSetMutation_usingObjects(
-            &self,
-            in_key: &NSString,
-            in_mutation_kind: NSKeyValueSetMutationKind,
-            in_objects: &NSSet,
-        );
+    #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "willChangeValueForKey:withSetMutation:usingObjects:")]
+    pub unsafe fn willChangeValueForKey_withSetMutation_usingObjects(
+        &self,
+        in_key: &NSString,
+        in_mutation_kind: NSKeyValueSetMutationKind,
+        in_objects: &NSSet,
+    );
 
-        #[method(awakeFromFetch)]
-        pub unsafe fn awakeFromFetch(&self);
+    #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "didChangeValueForKey:withSetMutation:usingObjects:")]
+    pub unsafe fn didChangeValueForKey_withSetMutation_usingObjects(
+        &self,
+        in_key: &NSString,
+        in_mutation_kind: NSKeyValueSetMutationKind,
+        in_objects: &NSSet,
+    );
 
-        #[method(awakeFromInsert)]
-        pub unsafe fn awakeFromInsert(&self);
+    #[objc2::method(sel = "awakeFromFetch")]
+    pub unsafe fn awakeFromFetch(&self);
 
-        #[method(awakeFromSnapshotEvents:)]
-        pub unsafe fn awakeFromSnapshotEvents(&self, flags: NSSnapshotEventType);
+    #[objc2::method(sel = "awakeFromInsert")]
+    pub unsafe fn awakeFromInsert(&self);
 
-        #[method(prepareForDeletion)]
-        pub unsafe fn prepareForDeletion(&self);
+    #[objc2::method(sel = "awakeFromSnapshotEvents:")]
+    pub unsafe fn awakeFromSnapshotEvents(&self, flags: NSSnapshotEventType);
 
-        #[method(willSave)]
-        pub unsafe fn willSave(&self);
+    #[objc2::method(sel = "prepareForDeletion")]
+    pub unsafe fn prepareForDeletion(&self);
 
-        #[method(didSave)]
-        pub unsafe fn didSave(&self);
+    #[objc2::method(sel = "willSave")]
+    pub unsafe fn willSave(&self);
 
-        #[method(willTurnIntoFault)]
-        pub unsafe fn willTurnIntoFault(&self);
+    #[objc2::method(sel = "didSave")]
+    pub unsafe fn didSave(&self);
 
-        #[method(didTurnIntoFault)]
-        pub unsafe fn didTurnIntoFault(&self);
+    #[objc2::method(sel = "willTurnIntoFault")]
+    pub unsafe fn willTurnIntoFault(&self);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other valueForKey:)]
-        pub unsafe fn valueForKey(&self, key: &NSString) -> Option<Id<Object>>;
+    #[objc2::method(sel = "didTurnIntoFault")]
+    pub unsafe fn didTurnIntoFault(&self);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setValue:forKey:)]
-        pub unsafe fn setValue_forKey(&self, value: Option<&Object>, key: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "valueForKey:", managed = "Other")]
+    pub unsafe fn valueForKey(&self, key: &NSString) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other primitiveValueForKey:)]
-        pub unsafe fn primitiveValueForKey(&self, key: &NSString) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setValue:forKey:")]
+    pub unsafe fn setValue_forKey(&self, value: Option<&Object>, key: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPrimitiveValue:forKey:)]
-        pub unsafe fn setPrimitiveValue_forKey(&self, value: Option<&Object>, key: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "primitiveValueForKey:", managed = "Other")]
+    pub unsafe fn primitiveValueForKey(&self, key: &NSString) -> Option<Id<Object>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other committedValuesForKeys:)]
-        pub unsafe fn committedValuesForKeys(
-            &self,
-            keys: Option<&NSArray<NSString>>,
-        ) -> Id<NSDictionary<NSString, Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPrimitiveValue:forKey:")]
+    pub unsafe fn setPrimitiveValue_forKey(&self, value: Option<&Object>, key: &NSString);
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other changedValues)]
-        pub unsafe fn changedValues(&self) -> Id<NSDictionary<NSString, Object>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "committedValuesForKeys:", managed = "Other")]
+    pub unsafe fn committedValuesForKeys(
+        &self,
+        keys: Option<&NSArray<NSString>>,
+    ) -> Id<NSDictionary<NSString, Object>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other changedValuesForCurrentEvent)]
-        pub unsafe fn changedValuesForCurrentEvent(&self) -> Id<NSDictionary<NSString, Object>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "changedValues", managed = "Other")]
+    pub unsafe fn changedValues(&self) -> Id<NSDictionary<NSString, Object>>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(validateValue:forKey:error:_)]
-        pub unsafe fn validateValue_forKey_error(
-            &self,
-            value: &mut Option<Id<Object>>,
-            key: &NSString,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "changedValuesForCurrentEvent", managed = "Other")]
+    pub unsafe fn changedValuesForCurrentEvent(&self) -> Id<NSDictionary<NSString, Object>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(validateForDelete:_)]
-        pub unsafe fn validateForDelete(&self) -> Result<(), Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "validateValue:forKey:error:", throws)]
+    pub unsafe fn validateValue_forKey_error(
+        &self,
+        value: &mut Option<Id<Object>>,
+        key: &NSString,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(validateForInsert:_)]
-        pub unsafe fn validateForInsert(&self) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "validateForDelete:", throws)]
+    pub unsafe fn validateForDelete(&self) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(validateForUpdate:_)]
-        pub unsafe fn validateForUpdate(&self) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "validateForInsert:", throws)]
+    pub unsafe fn validateForInsert(&self) -> Result<(), Id<NSError>>;
 
-        #[method(setObservationInfo:)]
-        pub unsafe fn setObservationInfo(&self, in_observation_info: *mut c_void);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "validateForUpdate:", throws)]
+    pub unsafe fn validateForUpdate(&self) -> Result<(), Id<NSError>>;
 
-        #[method(observationInfo)]
-        pub unsafe fn observationInfo(&self) -> *mut c_void;
-    }
-);
+    #[objc2::method(sel = "setObservationInfo:")]
+    pub unsafe fn setObservationInfo(&self, in_observation_info: *mut c_void);
+
+    #[objc2::method(sel = "observationInfo")]
+    pub unsafe fn observationInfo(&self) -> *mut c_void;
+}

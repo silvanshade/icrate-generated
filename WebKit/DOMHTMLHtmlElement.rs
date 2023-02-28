@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLHtmlElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLHtmlElement;
-
     #[cfg(feature = "WebKit_DOMHTMLHtmlElement")]
-    unsafe impl ClassType for DOMHTMLHtmlElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLHtmlElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLHtmlElement")]
 unsafe impl DOMEventTarget for DOMHTMLHtmlElement {}
@@ -24,15 +28,19 @@ unsafe impl DOMEventTarget for DOMHTMLHtmlElement {}
 #[cfg(feature = "WebKit_DOMHTMLHtmlElement")]
 unsafe impl NSObjectProtocol for DOMHTMLHtmlElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLHtmlElement")]
-    unsafe impl DOMHTMLHtmlElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other version)]
-        pub unsafe fn version(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMHTMLHtmlElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setVersion:)]
-        pub unsafe fn setVersion(&self, version: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "version", managed = "Other")]
+    pub unsafe fn version(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setVersion:")]
+    pub unsafe fn setVersion(&self, version: Option<&NSString>);
+}

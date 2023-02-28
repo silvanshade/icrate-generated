@@ -5,18 +5,20 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_methods!(
-    /// NSAppKitAdditions
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAffineTransform")]
-    unsafe impl NSAffineTransform {
-        #[cfg(feature = "AppKit_NSBezierPath")]
-        #[method_id(@__retain_semantics Other transformBezierPath:)]
-        pub unsafe fn transformBezierPath(&self, path: &NSBezierPath) -> Id<NSBezierPath>;
+    pub type NSAffineTransform;
 
-        #[method(set)]
-        pub unsafe fn set(&self);
+    #[cfg(feature = "AppKit_NSBezierPath")]
+    #[objc2::method(sel = "transformBezierPath:", managed = "Other")]
+    pub unsafe fn transformBezierPath(&self, path: &NSBezierPath) -> Id<NSBezierPath>;
 
-        #[method(concat)]
-        pub unsafe fn concat(&self);
-    }
-);
+    #[objc2::method(sel = "set")]
+    pub unsafe fn set(&self);
+
+    #[objc2::method(sel = "concat")]
+    pub unsafe fn concat(&self);
+}

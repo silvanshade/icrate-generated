@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MXMetric,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXAnimationMetric")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXAnimationMetric")]
-    pub struct MXAnimationMetric;
-
-    #[cfg(feature = "MetricKit_MXAnimationMetric")]
-    unsafe impl ClassType for MXAnimationMetric {
-        #[inherits(NSObject)]
-        type Super = MXMetric;
-    }
-);
+    pub type MXAnimationMetric;
+}
 
 #[cfg(feature = "MetricKit_MXAnimationMetric")]
 unsafe impl NSCoding for MXAnimationMetric {}
@@ -25,11 +25,14 @@ unsafe impl NSObjectProtocol for MXAnimationMetric {}
 #[cfg(feature = "MetricKit_MXAnimationMetric")]
 unsafe impl NSSecureCoding for MXAnimationMetric {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXAnimationMetric")]
-    unsafe impl MXAnimationMetric {
-        #[cfg(all(feature = "Foundation_NSMeasurement", feature = "Foundation_NSUnit"))]
-        #[method_id(@__retain_semantics Other scrollHitchTimeRatio)]
-        pub unsafe fn scrollHitchTimeRatio(&self) -> Id<NSMeasurement<NSUnit>>;
-    }
-);
+    pub type MXAnimationMetric;
+
+    #[cfg(all(feature = "Foundation_NSMeasurement", feature = "Foundation_NSUnit"))]
+    #[objc2::method(sel = "scrollHitchTimeRatio", managed = "Other")]
+    pub unsafe fn scrollHitchTimeRatio(&self) -> Id<NSMeasurement<NSUnit>>;
+}

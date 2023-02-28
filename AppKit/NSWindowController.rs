@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSResponder,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSWindowController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSWindowController")]
-    pub struct NSWindowController;
-
-    #[cfg(feature = "AppKit_NSWindowController")]
-    unsafe impl ClassType for NSWindowController {
-        #[inherits(NSObject)]
-        type Super = NSResponder;
-    }
-);
+    pub type NSWindowController;
+}
 
 #[cfg(feature = "AppKit_NSWindowController")]
 unsafe impl NSCoding for NSWindowController {}
@@ -26,148 +26,151 @@ unsafe impl NSObjectProtocol for NSWindowController {}
 #[cfg(feature = "AppKit_NSWindowController")]
 unsafe impl NSSeguePerforming for NSWindowController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWindowController")]
-    unsafe impl NSWindowController {
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method_id(@__retain_semantics Init initWithWindow:)]
-        pub unsafe fn initWithWindow(
-            this: Option<Allocated<Self>>,
-            window: Option<&NSWindow>,
-        ) -> Id<Self>;
+    pub type NSWindowController;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "initWithWindow:", managed = "Init")]
+    pub unsafe fn initWithWindow(
+        this: Option<Allocated<Self>>,
+        window: Option<&NSWindow>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithWindowNibName:)]
-        pub unsafe fn initWithWindowNibName(
-            this: Option<Allocated<Self>>,
-            window_nib_name: &NSNibName,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Init initWithWindowNibName:owner:)]
-        pub unsafe fn initWithWindowNibName_owner(
-            this: Option<Allocated<Self>>,
-            window_nib_name: &NSNibName,
-            owner: &Object,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithWindowNibName:", managed = "Init")]
+    pub unsafe fn initWithWindowNibName(
+        this: Option<Allocated<Self>>,
+        window_nib_name: &NSNibName,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithWindowNibPath:owner:)]
-        pub unsafe fn initWithWindowNibPath_owner(
-            this: Option<Allocated<Self>>,
-            window_nib_path: &NSString,
-            owner: &Object,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithWindowNibName:owner:", managed = "Init")]
+    pub unsafe fn initWithWindowNibName_owner(
+        this: Option<Allocated<Self>>,
+        window_nib_name: &NSNibName,
+        owner: &Object,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other windowNibName)]
-        pub unsafe fn windowNibName(&self) -> Option<Id<NSNibName>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithWindowNibPath:owner:", managed = "Init")]
+    pub unsafe fn initWithWindowNibPath_owner(
+        this: Option<Allocated<Self>>,
+        window_nib_path: &NSString,
+        owner: &Object,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other windowNibPath)]
-        pub unsafe fn windowNibPath(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "windowNibName", managed = "Other")]
+    pub unsafe fn windowNibName(&self) -> Option<Id<NSNibName>>;
 
-        #[method_id(@__retain_semantics Other owner)]
-        pub unsafe fn owner(&self) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "windowNibPath", managed = "Other")]
+    pub unsafe fn windowNibPath(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other windowFrameAutosaveName)]
-        pub unsafe fn windowFrameAutosaveName(&self) -> Id<NSWindowFrameAutosaveName>;
+    #[objc2::method(sel = "owner", managed = "Other")]
+    pub unsafe fn owner(&self) -> Option<Id<Object>>;
 
-        #[method(setWindowFrameAutosaveName:)]
-        pub unsafe fn setWindowFrameAutosaveName(
-            &self,
-            window_frame_autosave_name: &NSWindowFrameAutosaveName,
-        );
+    #[objc2::method(sel = "windowFrameAutosaveName", managed = "Other")]
+    pub unsafe fn windowFrameAutosaveName(&self) -> Id<NSWindowFrameAutosaveName>;
 
-        #[method(shouldCascadeWindows)]
-        pub unsafe fn shouldCascadeWindows(&self) -> bool;
+    #[objc2::method(sel = "setWindowFrameAutosaveName:")]
+    pub unsafe fn setWindowFrameAutosaveName(
+        &self,
+        window_frame_autosave_name: &NSWindowFrameAutosaveName,
+    );
 
-        #[method(setShouldCascadeWindows:)]
-        pub unsafe fn setShouldCascadeWindows(&self, should_cascade_windows: bool);
+    #[objc2::method(sel = "shouldCascadeWindows")]
+    pub unsafe fn shouldCascadeWindows(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other document)]
-        pub unsafe fn document(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setShouldCascadeWindows:")]
+    pub unsafe fn setShouldCascadeWindows(&self, should_cascade_windows: bool);
 
-        #[method(setDocument:)]
-        pub unsafe fn setDocument(&self, document: Option<&Object>);
+    #[objc2::method(sel = "document", managed = "Other")]
+    pub unsafe fn document(&self) -> Option<Id<Object>>;
 
-        #[method(setDocumentEdited:)]
-        pub unsafe fn setDocumentEdited(&self, dirty_flag: bool);
+    #[objc2::method(sel = "setDocument:")]
+    pub unsafe fn setDocument(&self, document: Option<&Object>);
 
-        #[method(shouldCloseDocument)]
-        pub unsafe fn shouldCloseDocument(&self) -> bool;
+    #[objc2::method(sel = "setDocumentEdited:")]
+    pub unsafe fn setDocumentEdited(&self, dirty_flag: bool);
 
-        #[method(setShouldCloseDocument:)]
-        pub unsafe fn setShouldCloseDocument(&self, should_close_document: bool);
+    #[objc2::method(sel = "shouldCloseDocument")]
+    pub unsafe fn shouldCloseDocument(&self) -> bool;
 
-        #[method(synchronizeWindowTitleWithDocumentName)]
-        pub unsafe fn synchronizeWindowTitleWithDocumentName(&self);
+    #[objc2::method(sel = "setShouldCloseDocument:")]
+    pub unsafe fn setShouldCloseDocument(&self, should_close_document: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other windowTitleForDocumentDisplayName:)]
-        pub unsafe fn windowTitleForDocumentDisplayName(
-            &self,
-            display_name: &NSString,
-        ) -> Id<NSString>;
+    #[objc2::method(sel = "synchronizeWindowTitleWithDocumentName")]
+    pub unsafe fn synchronizeWindowTitleWithDocumentName(&self);
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other contentViewController)]
-        pub unsafe fn contentViewController(&self) -> Option<Id<NSViewController>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "windowTitleForDocumentDisplayName:", managed = "Other")]
+    pub unsafe fn windowTitleForDocumentDisplayName(&self, display_name: &NSString)
+        -> Id<NSString>;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method(setContentViewController:)]
-        pub unsafe fn setContentViewController(
-            &self,
-            content_view_controller: Option<&NSViewController>,
-        );
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "contentViewController", managed = "Other")]
+    pub unsafe fn contentViewController(&self) -> Option<Id<NSViewController>>;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method_id(@__retain_semantics Other window)]
-        pub unsafe fn window(&self) -> Option<Id<NSWindow>>;
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "setContentViewController:")]
+    pub unsafe fn setContentViewController(
+        &self,
+        content_view_controller: Option<&NSViewController>,
+    );
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(setWindow:)]
-        pub unsafe fn setWindow(&self, window: Option<&NSWindow>);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "window", managed = "Other")]
+    pub unsafe fn window(&self) -> Option<Id<NSWindow>>;
 
-        #[method(isWindowLoaded)]
-        pub unsafe fn isWindowLoaded(&self) -> bool;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "setWindow:")]
+    pub unsafe fn setWindow(&self, window: Option<&NSWindow>);
 
-        #[method(windowWillLoad)]
-        pub unsafe fn windowWillLoad(&self);
+    #[objc2::method(sel = "isWindowLoaded")]
+    pub unsafe fn isWindowLoaded(&self) -> bool;
 
-        #[method(windowDidLoad)]
-        pub unsafe fn windowDidLoad(&self);
+    #[objc2::method(sel = "windowWillLoad")]
+    pub unsafe fn windowWillLoad(&self);
 
-        #[method(loadWindow)]
-        pub unsafe fn loadWindow(&self);
+    #[objc2::method(sel = "windowDidLoad")]
+    pub unsafe fn windowDidLoad(&self);
 
-        #[method(close)]
-        pub unsafe fn close(&self);
+    #[objc2::method(sel = "loadWindow")]
+    pub unsafe fn loadWindow(&self);
 
-        #[method(showWindow:)]
-        pub unsafe fn showWindow(&self, sender: Option<&Object>);
-    }
-);
+    #[objc2::method(sel = "close")]
+    pub unsafe fn close(&self);
 
-extern_methods!(
-    /// NSWindowControllerStoryboardingMethods
+    #[objc2::method(sel = "showWindow:")]
+    pub unsafe fn showWindow(&self, sender: Option<&Object>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWindowController")]
-    unsafe impl NSWindowController {
-        #[cfg(feature = "AppKit_NSStoryboard")]
-        #[method_id(@__retain_semantics Other storyboard)]
-        pub unsafe fn storyboard(&self) -> Option<Id<NSStoryboard>>;
-    }
-);
+    pub type NSWindowController;
 
-extern_methods!(
-    /// NSWindowControllerDismissing
+    #[cfg(feature = "AppKit_NSStoryboard")]
+    #[objc2::method(sel = "storyboard", managed = "Other")]
+    pub unsafe fn storyboard(&self) -> Option<Id<NSStoryboard>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWindowController")]
-    unsafe impl NSWindowController {
-        #[method(dismissController:)]
-        pub unsafe fn dismissController(&self, sender: Option<&Object>);
-    }
-);
+    pub type NSWindowController;
+
+    #[objc2::method(sel = "dismissController:")]
+    pub unsafe fn dismissController(&self, sender: Option<&Object>);
+}

@@ -4,13 +4,12 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLSparseTextureMappingMode {
-        MTLSparseTextureMappingModeMap = 0,
-        MTLSparseTextureMappingModeUnmap = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLSparseTextureMappingMode {
+    MTLSparseTextureMappingModeMap = 0,
+    MTLSparseTextureMappingModeUnmap = 1,
+}
 
 extern_struct!(
     #[encoding_name("?")]
@@ -26,64 +25,64 @@ extern_struct!(
     }
 );
 
-extern_protocol!(
-    pub unsafe trait MTLResourceStateCommandEncoder: MTLCommandEncoder {
-        #[optional]
-        #[method(updateTextureMappings:mode:regions:mipLevels:slices:numRegions:)]
-        unsafe fn updateTextureMappings_mode_regions_mipLevels_slices_numRegions(
-            &self,
-            texture: &ProtocolObject<dyn MTLTexture>,
-            mode: MTLSparseTextureMappingMode,
-            regions: NonNull<MTLRegion>,
-            mip_levels: NonNull<NSUInteger>,
-            slices: NonNull<NSUInteger>,
-            num_regions: NSUInteger,
-        );
+#[objc2::protocol]
+pub unsafe trait MTLResourceStateCommandEncoder: MTLCommandEncoder {
+    #[objc2::method(
+        optional,
+        sel = "updateTextureMappings:mode:regions:mipLevels:slices:numRegions:"
+    )]
+    unsafe fn updateTextureMappings_mode_regions_mipLevels_slices_numRegions(
+        &self,
+        texture: &ProtocolObject<dyn MTLTexture>,
+        mode: MTLSparseTextureMappingMode,
+        regions: NonNull<MTLRegion>,
+        mip_levels: NonNull<NSUInteger>,
+        slices: NonNull<NSUInteger>,
+        num_regions: NSUInteger,
+    );
 
-        #[optional]
-        #[method(updateTextureMapping:mode:region:mipLevel:slice:)]
-        unsafe fn updateTextureMapping_mode_region_mipLevel_slice(
-            &self,
-            texture: &ProtocolObject<dyn MTLTexture>,
-            mode: MTLSparseTextureMappingMode,
-            region: MTLRegion,
-            mip_level: NSUInteger,
-            slice: NSUInteger,
-        );
+    #[objc2::method(optional, sel = "updateTextureMapping:mode:region:mipLevel:slice:")]
+    unsafe fn updateTextureMapping_mode_region_mipLevel_slice(
+        &self,
+        texture: &ProtocolObject<dyn MTLTexture>,
+        mode: MTLSparseTextureMappingMode,
+        region: MTLRegion,
+        mip_level: NSUInteger,
+        slice: NSUInteger,
+    );
 
-        #[optional]
-        #[method(updateTextureMapping:mode:indirectBuffer:indirectBufferOffset:)]
-        unsafe fn updateTextureMapping_mode_indirectBuffer_indirectBufferOffset(
-            &self,
-            texture: &ProtocolObject<dyn MTLTexture>,
-            mode: MTLSparseTextureMappingMode,
-            indirect_buffer: &ProtocolObject<dyn MTLBuffer>,
-            indirect_buffer_offset: NSUInteger,
-        );
+    #[objc2::method(
+        optional,
+        sel = "updateTextureMapping:mode:indirectBuffer:indirectBufferOffset:"
+    )]
+    unsafe fn updateTextureMapping_mode_indirectBuffer_indirectBufferOffset(
+        &self,
+        texture: &ProtocolObject<dyn MTLTexture>,
+        mode: MTLSparseTextureMappingMode,
+        indirect_buffer: &ProtocolObject<dyn MTLBuffer>,
+        indirect_buffer_offset: NSUInteger,
+    );
 
-        #[optional]
-        #[method(updateFence:)]
-        unsafe fn updateFence(&self, fence: &ProtocolObject<dyn MTLFence>);
+    #[objc2::method(optional, sel = "updateFence:")]
+    unsafe fn updateFence(&self, fence: &ProtocolObject<dyn MTLFence>);
 
-        #[optional]
-        #[method(waitForFence:)]
-        unsafe fn waitForFence(&self, fence: &ProtocolObject<dyn MTLFence>);
+    #[objc2::method(optional, sel = "waitForFence:")]
+    unsafe fn waitForFence(&self, fence: &ProtocolObject<dyn MTLFence>);
 
-        #[optional]
-        #[method(moveTextureMappingsFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:)]
-        unsafe fn moveTextureMappingsFromTexture_sourceSlice_sourceLevel_sourceOrigin_sourceSize_toTexture_destinationSlice_destinationLevel_destinationOrigin(
-            &self,
-            source_texture: &ProtocolObject<dyn MTLTexture>,
-            source_slice: NSUInteger,
-            source_level: NSUInteger,
-            source_origin: MTLOrigin,
-            source_size: MTLSize,
-            destination_texture: &ProtocolObject<dyn MTLTexture>,
-            destination_slice: NSUInteger,
-            destination_level: NSUInteger,
-            destination_origin: MTLOrigin,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn MTLResourceStateCommandEncoder {}
-);
+    #[objc2::method(
+        optional,
+        sel = "moveTextureMappingsFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:"
+    )]
+    unsafe fn moveTextureMappingsFromTexture_sourceSlice_sourceLevel_sourceOrigin_sourceSize_toTexture_destinationSlice_destinationLevel_destinationOrigin(
+        &self,
+        source_texture: &ProtocolObject<dyn MTLTexture>,
+        source_slice: NSUInteger,
+        source_level: NSUInteger,
+        source_origin: MTLOrigin,
+        source_size: MTLSize,
+        destination_texture: &ProtocolObject<dyn MTLTexture>,
+        destination_slice: NSUInteger,
+        destination_level: NSUInteger,
+        destination_origin: MTLOrigin,
+    );
+}

@@ -12,17 +12,17 @@ typed_enum!(
     pub type CATextLayerAlignmentMode = NSString;
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CALayer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CATextLayer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CATextLayer")]
-    pub struct CATextLayer;
-
-    #[cfg(feature = "CoreAnimation_CATextLayer")]
-    unsafe impl ClassType for CATextLayer {
-        #[inherits(NSObject)]
-        type Super = CALayer;
-    }
-);
+    pub type CATextLayer;
+}
 
 #[cfg(feature = "CoreAnimation_CATextLayer")]
 unsafe impl CAMediaTiming for CATextLayer {}
@@ -36,49 +36,49 @@ unsafe impl NSObjectProtocol for CATextLayer {}
 #[cfg(feature = "CoreAnimation_CATextLayer")]
 unsafe impl NSSecureCoding for CATextLayer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CATextLayer")]
-    unsafe impl CATextLayer {
-        #[method_id(@__retain_semantics Other string)]
-        pub unsafe fn string(&self) -> Option<Id<Object>>;
+    pub type CATextLayer;
 
-        #[method(setString:)]
-        pub unsafe fn setString(&self, string: Option<&Object>);
+    #[objc2::method(sel = "string", managed = "Other")]
+    pub unsafe fn string(&self) -> Option<Id<Object>>;
 
-        #[method(fontSize)]
-        pub unsafe fn fontSize(&self) -> CGFloat;
+    #[objc2::method(sel = "setString:")]
+    pub unsafe fn setString(&self, string: Option<&Object>);
 
-        #[method(setFontSize:)]
-        pub unsafe fn setFontSize(&self, font_size: CGFloat);
+    #[objc2::method(sel = "fontSize")]
+    pub unsafe fn fontSize(&self) -> CGFloat;
 
-        #[method(isWrapped)]
-        pub unsafe fn isWrapped(&self) -> bool;
+    #[objc2::method(sel = "setFontSize:")]
+    pub unsafe fn setFontSize(&self, font_size: CGFloat);
 
-        #[method(setWrapped:)]
-        pub unsafe fn setWrapped(&self, wrapped: bool);
+    #[objc2::method(sel = "isWrapped")]
+    pub unsafe fn isWrapped(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other truncationMode)]
-        pub unsafe fn truncationMode(&self) -> Id<CATextLayerTruncationMode>;
+    #[objc2::method(sel = "setWrapped:")]
+    pub unsafe fn setWrapped(&self, wrapped: bool);
 
-        #[method(setTruncationMode:)]
-        pub unsafe fn setTruncationMode(&self, truncation_mode: &CATextLayerTruncationMode);
+    #[objc2::method(sel = "truncationMode", managed = "Other")]
+    pub unsafe fn truncationMode(&self) -> Id<CATextLayerTruncationMode>;
 
-        #[method_id(@__retain_semantics Other alignmentMode)]
-        pub unsafe fn alignmentMode(&self) -> Id<CATextLayerAlignmentMode>;
+    #[objc2::method(sel = "setTruncationMode:")]
+    pub unsafe fn setTruncationMode(&self, truncation_mode: &CATextLayerTruncationMode);
 
-        #[method(setAlignmentMode:)]
-        pub unsafe fn setAlignmentMode(&self, alignment_mode: &CATextLayerAlignmentMode);
+    #[objc2::method(sel = "alignmentMode", managed = "Other")]
+    pub unsafe fn alignmentMode(&self) -> Id<CATextLayerAlignmentMode>;
 
-        #[method(allowsFontSubpixelQuantization)]
-        pub unsafe fn allowsFontSubpixelQuantization(&self) -> bool;
+    #[objc2::method(sel = "setAlignmentMode:")]
+    pub unsafe fn setAlignmentMode(&self, alignment_mode: &CATextLayerAlignmentMode);
 
-        #[method(setAllowsFontSubpixelQuantization:)]
-        pub unsafe fn setAllowsFontSubpixelQuantization(
-            &self,
-            allows_font_subpixel_quantization: bool,
-        );
-    }
-);
+    #[objc2::method(sel = "allowsFontSubpixelQuantization")]
+    pub unsafe fn allowsFontSubpixelQuantization(&self) -> bool;
+
+    #[objc2::method(sel = "setAllowsFontSubpixelQuantization:")]
+    pub unsafe fn setAllowsFontSubpixelQuantization(&self, allows_font_subpixel_quantization: bool);
+}
 
 extern_static!(kCATruncationNone: &'static CATextLayerTruncationMode);
 
@@ -98,14 +98,20 @@ extern_static!(kCAAlignmentCenter: &'static CATextLayerAlignmentMode);
 
 extern_static!(kCAAlignmentJustified: &'static CATextLayerAlignmentMode);
 
-extern_methods!(
-    /// Methods declared on superclass `CALayer`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CALayer`
     #[cfg(feature = "CoreAnimation_CATextLayer")]
-    unsafe impl CATextLayer {
-        #[method_id(@__retain_semantics Other layer)]
-        pub unsafe fn layer() -> Id<Self>;
-
-        #[method_id(@__retain_semantics Init initWithLayer:)]
-        pub unsafe fn initWithLayer(this: Option<Allocated<Self>>, layer: &Object) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CATextLayer")]
+    pub type CATextLayer;
+
+    #[objc2::method(sel = "layer", managed = "Other")]
+    pub unsafe fn layer() -> Id<Self>;
+
+    #[objc2::method(sel = "initWithLayer:", managed = "Init")]
+    pub unsafe fn initWithLayer(this: Option<Allocated<Self>>, layer: &Object) -> Id<Self>;
+}

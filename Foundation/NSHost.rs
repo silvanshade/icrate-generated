@@ -3,68 +3,72 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSHost")]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[deprecated = "Use Network framework instead, see deprecation notice in <Foundation/NSHost.h>"]
-    pub struct NSHost;
-
     #[cfg(feature = "Foundation_NSHost")]
-    unsafe impl ClassType for NSHost {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type NSHost;
+}
 
 #[cfg(feature = "Foundation_NSHost")]
 unsafe impl NSObjectProtocol for NSHost {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSHost")]
-    unsafe impl NSHost {
-        #[method_id(@__retain_semantics Other currentHost)]
-        pub unsafe fn currentHost() -> Id<Self>;
+    #[deprecated = "Use Network framework instead, see deprecation notice in <Foundation/NSHost.h>"]
+    pub type NSHost;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other hostWithName:)]
-        pub unsafe fn hostWithName(name: Option<&NSString>) -> Id<Self>;
+    #[objc2::method(sel = "currentHost", managed = "Other")]
+    pub unsafe fn currentHost() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other hostWithAddress:)]
-        pub unsafe fn hostWithAddress(address: &NSString) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "hostWithName:", managed = "Other")]
+    pub unsafe fn hostWithName(name: Option<&NSString>) -> Id<Self>;
 
-        #[method(isEqualToHost:)]
-        pub unsafe fn isEqualToHost(&self, a_host: &NSHost) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "hostWithAddress:", managed = "Other")]
+    pub unsafe fn hostWithAddress(address: &NSString) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "isEqualToHost:")]
+    pub unsafe fn isEqualToHost(&self, a_host: &NSHost) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other names)]
-        pub unsafe fn names(&self) -> Id<NSArray<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other address)]
-        pub unsafe fn address(&self) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "names", managed = "Other")]
+    pub unsafe fn names(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other addresses)]
-        pub unsafe fn addresses(&self) -> Id<NSArray<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "address", managed = "Other")]
+    pub unsafe fn address(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedName)]
-        pub unsafe fn localizedName(&self) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "addresses", managed = "Other")]
+    pub unsafe fn addresses(&self) -> Id<NSArray<NSString>>;
 
-        #[deprecated = "Caching no longer supported"]
-        #[method(setHostCacheEnabled:)]
-        pub unsafe fn setHostCacheEnabled(flag: bool);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedName", managed = "Other")]
+    pub unsafe fn localizedName(&self) -> Option<Id<NSString>>;
 
-        #[deprecated = "Caching no longer supported"]
-        #[method(isHostCacheEnabled)]
-        pub unsafe fn isHostCacheEnabled() -> bool;
+    #[deprecated = "Caching no longer supported"]
+    #[objc2::method(sel = "setHostCacheEnabled:")]
+    pub unsafe fn setHostCacheEnabled(flag: bool);
 
-        #[deprecated = "Caching no longer supported"]
-        #[method(flushHostCache)]
-        pub unsafe fn flushHostCache();
-    }
-);
+    #[deprecated = "Caching no longer supported"]
+    #[objc2::method(sel = "isHostCacheEnabled")]
+    pub unsafe fn isHostCacheEnabled() -> bool;
+
+    #[deprecated = "Caching no longer supported"]
+    #[objc2::method(sel = "flushHostCache")]
+    pub unsafe fn flushHostCache();
+}

@@ -9,40 +9,43 @@ use crate::MapKit::*;
 
 pub type MKMapSnapshotCompletionHandler = *mut Block<(*mut MKMapSnapshot, *mut NSError), ()>;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKMapSnapshotter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKMapSnapshotter")]
-    pub struct MKMapSnapshotter;
-
-    #[cfg(feature = "MapKit_MKMapSnapshotter")]
-    unsafe impl ClassType for MKMapSnapshotter {
-        type Super = NSObject;
-    }
-);
+    pub type MKMapSnapshotter;
+}
 
 #[cfg(feature = "MapKit_MKMapSnapshotter")]
 unsafe impl NSObjectProtocol for MKMapSnapshotter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMapSnapshotter")]
-    unsafe impl MKMapSnapshotter {
-        #[cfg(feature = "MapKit_MKMapSnapshotOptions")]
-        #[method_id(@__retain_semantics Init initWithOptions:)]
-        pub unsafe fn initWithOptions(
-            this: Option<Allocated<Self>>,
-            options: &MKMapSnapshotOptions,
-        ) -> Id<Self>;
+    pub type MKMapSnapshotter;
 
-        #[method(startWithCompletionHandler:)]
-        pub unsafe fn startWithCompletionHandler(
-            &self,
-            completion_handler: MKMapSnapshotCompletionHandler,
-        );
+    #[cfg(feature = "MapKit_MKMapSnapshotOptions")]
+    #[objc2::method(sel = "initWithOptions:", managed = "Init")]
+    pub unsafe fn initWithOptions(
+        this: Option<Allocated<Self>>,
+        options: &MKMapSnapshotOptions,
+    ) -> Id<Self>;
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
+    #[objc2::method(sel = "startWithCompletionHandler:")]
+    pub unsafe fn startWithCompletionHandler(
+        &self,
+        completion_handler: MKMapSnapshotCompletionHandler,
+    );
 
-        #[method(isLoading)]
-        pub unsafe fn isLoading(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
+
+    #[objc2::method(sel = "isLoading")]
+    pub unsafe fn isLoading(&self) -> bool;
+}

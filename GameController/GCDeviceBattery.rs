@@ -5,40 +5,42 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum GCDeviceBatteryState {
-        GCDeviceBatteryStateUnknown = -1,
-        GCDeviceBatteryStateDischarging = 0,
-        GCDeviceBatteryStateCharging = 1,
-        GCDeviceBatteryStateFull = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum GCDeviceBatteryState {
+    GCDeviceBatteryStateUnknown = -1,
+    GCDeviceBatteryStateDischarging = 0,
+    GCDeviceBatteryStateCharging = 1,
+    GCDeviceBatteryStateFull = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCDeviceBattery")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCDeviceBattery")]
-    pub struct GCDeviceBattery;
-
-    #[cfg(feature = "GameController_GCDeviceBattery")]
-    unsafe impl ClassType for GCDeviceBattery {
-        type Super = NSObject;
-    }
-);
+    pub type GCDeviceBattery;
+}
 
 #[cfg(feature = "GameController_GCDeviceBattery")]
 unsafe impl NSObjectProtocol for GCDeviceBattery {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCDeviceBattery")]
-    unsafe impl GCDeviceBattery {
-        #[method(batteryLevel)]
-        pub unsafe fn batteryLevel(&self) -> c_float;
+    pub type GCDeviceBattery;
 
-        #[method(batteryState)]
-        pub unsafe fn batteryState(&self) -> GCDeviceBatteryState;
+    #[objc2::method(sel = "batteryLevel")]
+    pub unsafe fn batteryLevel(&self) -> c_float;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "batteryState")]
+    pub unsafe fn batteryState(&self) -> GCDeviceBatteryState;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

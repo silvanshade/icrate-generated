@@ -5,48 +5,51 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::InputMethodKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "InputMethodKit_IMKServer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "InputMethodKit_IMKServer")]
-    pub struct IMKServer;
-
-    #[cfg(feature = "InputMethodKit_IMKServer")]
-    unsafe impl ClassType for IMKServer {
-        type Super = NSObject;
-    }
-);
+    pub type IMKServer;
+}
 
 #[cfg(feature = "InputMethodKit_IMKServer")]
 unsafe impl NSObjectProtocol for IMKServer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "InputMethodKit_IMKServer")]
-    unsafe impl IMKServer {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithName:bundleIdentifier:)]
-        pub unsafe fn initWithName_bundleIdentifier(
-            this: Option<Allocated<Self>>,
-            name: Option<&NSString>,
-            bundle_identifier: Option<&NSString>,
-        ) -> Option<Id<Self>>;
+    pub type IMKServer;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithName:controllerClass:delegateClass:)]
-        pub unsafe fn initWithName_controllerClass_delegateClass(
-            this: Option<Allocated<Self>>,
-            name: Option<&NSString>,
-            controller_class_id: Option<&Class>,
-            delegate_class_id: Option<&Class>,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithName:bundleIdentifier:", managed = "Init")]
+    pub unsafe fn initWithName_bundleIdentifier(
+        this: Option<Allocated<Self>>,
+        name: Option<&NSString>,
+        bundle_identifier: Option<&NSString>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Other bundle)]
-        pub unsafe fn bundle(&self) -> Option<Id<NSBundle>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithName:controllerClass:delegateClass:", managed = "Init")]
+    pub unsafe fn initWithName_controllerClass_delegateClass(
+        this: Option<Allocated<Self>>,
+        name: Option<&NSString>,
+        controller_class_id: Option<&Class>,
+        delegate_class_id: Option<&Class>,
+    ) -> Option<Id<Self>>;
 
-        #[method(paletteWillTerminate)]
-        pub unsafe fn paletteWillTerminate(&self) -> bool;
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "bundle", managed = "Other")]
+    pub unsafe fn bundle(&self) -> Option<Id<NSBundle>>;
 
-        #[method(lastKeyEventWasDeadKey)]
-        pub unsafe fn lastKeyEventWasDeadKey(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "paletteWillTerminate")]
+    pub unsafe fn paletteWillTerminate(&self) -> bool;
+
+    #[objc2::method(sel = "lastKeyEventWasDeadKey")]
+    pub unsafe fn lastKeyEventWasDeadKey(&self) -> bool;
+}

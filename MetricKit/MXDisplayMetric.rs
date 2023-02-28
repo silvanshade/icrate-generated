@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MXMetric,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXDisplayMetric")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXDisplayMetric")]
-    pub struct MXDisplayMetric;
-
-    #[cfg(feature = "MetricKit_MXDisplayMetric")]
-    unsafe impl ClassType for MXDisplayMetric {
-        #[inherits(NSObject)]
-        type Super = MXMetric;
-    }
-);
+    pub type MXDisplayMetric;
+}
 
 #[cfg(feature = "MetricKit_MXDisplayMetric")]
 unsafe impl NSCoding for MXDisplayMetric {}
@@ -25,16 +25,19 @@ unsafe impl NSObjectProtocol for MXDisplayMetric {}
 #[cfg(feature = "MetricKit_MXDisplayMetric")]
 unsafe impl NSSecureCoding for MXDisplayMetric {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXDisplayMetric")]
-    unsafe impl MXDisplayMetric {
-        #[cfg(all(
-            feature = "MetricKit_MXAverage",
-            feature = "MetricKit_MXUnitAveragePixelLuminance"
-        ))]
-        #[method_id(@__retain_semantics Other averagePixelLuminance)]
-        pub unsafe fn averagePixelLuminance(
-            &self,
-        ) -> Option<Id<MXAverage<MXUnitAveragePixelLuminance>>>;
-    }
-);
+    pub type MXDisplayMetric;
+
+    #[cfg(all(
+        feature = "MetricKit_MXAverage",
+        feature = "MetricKit_MXUnitAveragePixelLuminance"
+    ))]
+    #[objc2::method(sel = "averagePixelLuminance", managed = "Other")]
+    pub unsafe fn averagePixelLuminance(
+        &self,
+    ) -> Option<Id<MXAverage<MXUnitAveragePixelLuminance>>>;
+}

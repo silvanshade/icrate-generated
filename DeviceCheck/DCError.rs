@@ -6,13 +6,12 @@ use crate::Foundation::*;
 
 extern_static!(DCErrorDomain: &'static NSErrorDomain);
 
-ns_error_enum!(
-    #[underlying(NSInteger)]
-    pub enum DCError {
-        DCErrorUnknownSystemFailure = 0,
-        DCErrorFeatureUnsupported = 1,
-        DCErrorInvalidInput = 2,
-        DCErrorInvalidKey = 3,
-        DCErrorServerUnavailable = 4,
-    }
-);
+#[ns_error_enum]
+#[underlying(NSInteger)]
+pub enum DCError {
+    DCErrorUnknownSystemFailure = 0,
+    DCErrorFeatureUnsupported = 1,
+    DCErrorInvalidInput = 2,
+    DCErrorInvalidKey = 3,
+    DCErrorServerUnavailable = 4,
+}

@@ -5,26 +5,28 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSPopUpArrowPosition {
-        NSPopUpNoArrow = 0,
-        NSPopUpArrowAtCenter = 1,
-        NSPopUpArrowAtBottom = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSPopUpArrowPosition {
+    NSPopUpNoArrow = 0,
+    NSPopUpArrowAtCenter = 1,
+    NSPopUpArrowAtBottom = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSMenuItemCell,
+    unsafe inherits = [
+        NSButtonCell,
+        NSActionCell,
+        NSCell,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPopUpButtonCell")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPopUpButtonCell")]
-    pub struct NSPopUpButtonCell;
-
-    #[cfg(feature = "AppKit_NSPopUpButtonCell")]
-    unsafe impl ClassType for NSPopUpButtonCell {
-        #[inherits(NSButtonCell, NSActionCell, NSCell, NSObject)]
-        type Super = NSMenuItemCell;
-    }
-);
+    pub type NSPopUpButtonCell;
+}
 
 #[cfg(feature = "AppKit_NSPopUpButtonCell")]
 unsafe impl NSAccessibility for NSPopUpButtonCell {}
@@ -44,201 +46,214 @@ unsafe impl NSObjectProtocol for NSPopUpButtonCell {}
 #[cfg(feature = "AppKit_NSPopUpButtonCell")]
 unsafe impl NSUserInterfaceItemIdentification for NSPopUpButtonCell {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPopUpButtonCell")]
-    unsafe impl NSPopUpButtonCell {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initTextCell:pullsDown:)]
-        pub unsafe fn initTextCell_pullsDown(
-            this: Option<Allocated<Self>>,
-            string_value: &NSString,
-            pull_down: bool,
-        ) -> Id<Self>;
+    pub type NSPopUpButtonCell;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initTextCell:pullsDown:", managed = "Init")]
+    pub unsafe fn initTextCell_pullsDown(
+        this: Option<Allocated<Self>>,
+        string_value: &NSString,
+        pull_down: bool,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method_id(@__retain_semantics Other menu)]
-        pub unsafe fn menu(&self) -> Option<Id<NSMenu>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method(setMenu:)]
-        pub unsafe fn setMenu(&self, menu: Option<&NSMenu>);
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "menu", managed = "Other")]
+    pub unsafe fn menu(&self) -> Option<Id<NSMenu>>;
 
-        #[method(pullsDown)]
-        pub unsafe fn pullsDown(&self) -> bool;
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "setMenu:")]
+    pub unsafe fn setMenu(&self, menu: Option<&NSMenu>);
 
-        #[method(setPullsDown:)]
-        pub unsafe fn setPullsDown(&self, pulls_down: bool);
+    #[objc2::method(sel = "pullsDown")]
+    pub unsafe fn pullsDown(&self) -> bool;
 
-        #[method(autoenablesItems)]
-        pub unsafe fn autoenablesItems(&self) -> bool;
+    #[objc2::method(sel = "setPullsDown:")]
+    pub unsafe fn setPullsDown(&self, pulls_down: bool);
 
-        #[method(setAutoenablesItems:)]
-        pub unsafe fn setAutoenablesItems(&self, autoenables_items: bool);
+    #[objc2::method(sel = "autoenablesItems")]
+    pub unsafe fn autoenablesItems(&self) -> bool;
 
-        #[method(preferredEdge)]
-        pub unsafe fn preferredEdge(&self) -> NSRectEdge;
+    #[objc2::method(sel = "setAutoenablesItems:")]
+    pub unsafe fn setAutoenablesItems(&self, autoenables_items: bool);
 
-        #[method(setPreferredEdge:)]
-        pub unsafe fn setPreferredEdge(&self, preferred_edge: NSRectEdge);
+    #[objc2::method(sel = "preferredEdge")]
+    pub unsafe fn preferredEdge(&self) -> NSRectEdge;
 
-        #[method(usesItemFromMenu)]
-        pub unsafe fn usesItemFromMenu(&self) -> bool;
+    #[objc2::method(sel = "setPreferredEdge:")]
+    pub unsafe fn setPreferredEdge(&self, preferred_edge: NSRectEdge);
 
-        #[method(setUsesItemFromMenu:)]
-        pub unsafe fn setUsesItemFromMenu(&self, uses_item_from_menu: bool);
+    #[objc2::method(sel = "usesItemFromMenu")]
+    pub unsafe fn usesItemFromMenu(&self) -> bool;
 
-        #[method(altersStateOfSelectedItem)]
-        pub unsafe fn altersStateOfSelectedItem(&self) -> bool;
+    #[objc2::method(sel = "setUsesItemFromMenu:")]
+    pub unsafe fn setUsesItemFromMenu(&self, uses_item_from_menu: bool);
 
-        #[method(setAltersStateOfSelectedItem:)]
-        pub unsafe fn setAltersStateOfSelectedItem(&self, alters_state_of_selected_item: bool);
+    #[objc2::method(sel = "altersStateOfSelectedItem")]
+    pub unsafe fn altersStateOfSelectedItem(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(addItemWithTitle:)]
-        pub unsafe fn addItemWithTitle(&self, title: &NSString);
+    #[objc2::method(sel = "setAltersStateOfSelectedItem:")]
+    pub unsafe fn setAltersStateOfSelectedItem(&self, alters_state_of_selected_item: bool);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method(addItemsWithTitles:)]
-        pub unsafe fn addItemsWithTitles(&self, item_titles: &NSArray<NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "addItemWithTitle:")]
+    pub unsafe fn addItemWithTitle(&self, title: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(insertItemWithTitle:atIndex:)]
-        pub unsafe fn insertItemWithTitle_atIndex(&self, title: &NSString, index: NSInteger);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "addItemsWithTitles:")]
+    pub unsafe fn addItemsWithTitles(&self, item_titles: &NSArray<NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(removeItemWithTitle:)]
-        pub unsafe fn removeItemWithTitle(&self, title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "insertItemWithTitle:atIndex:")]
+    pub unsafe fn insertItemWithTitle_atIndex(&self, title: &NSString, index: NSInteger);
 
-        #[method(removeItemAtIndex:)]
-        pub unsafe fn removeItemAtIndex(&self, index: NSInteger);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "removeItemWithTitle:")]
+    pub unsafe fn removeItemWithTitle(&self, title: &NSString);
 
-        #[method(removeAllItems)]
-        pub unsafe fn removeAllItems(&self);
+    #[objc2::method(sel = "removeItemAtIndex:")]
+    pub unsafe fn removeItemAtIndex(&self, index: NSInteger);
 
-        #[cfg(all(feature = "AppKit_NSMenuItem", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other itemArray)]
-        pub unsafe fn itemArray(&self) -> Id<NSArray<NSMenuItem>>;
+    #[objc2::method(sel = "removeAllItems")]
+    pub unsafe fn removeAllItems(&self);
 
-        #[method(numberOfItems)]
-        pub unsafe fn numberOfItems(&self) -> NSInteger;
+    #[cfg(all(feature = "AppKit_NSMenuItem", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "itemArray", managed = "Other")]
+    pub unsafe fn itemArray(&self) -> Id<NSArray<NSMenuItem>>;
 
-        #[cfg(feature = "AppKit_NSMenuItem")]
-        #[method(indexOfItem:)]
-        pub unsafe fn indexOfItem(&self, item: &NSMenuItem) -> NSInteger;
+    #[objc2::method(sel = "numberOfItems")]
+    pub unsafe fn numberOfItems(&self) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(indexOfItemWithTitle:)]
-        pub unsafe fn indexOfItemWithTitle(&self, title: &NSString) -> NSInteger;
+    #[cfg(feature = "AppKit_NSMenuItem")]
+    #[objc2::method(sel = "indexOfItem:")]
+    pub unsafe fn indexOfItem(&self, item: &NSMenuItem) -> NSInteger;
 
-        #[method(indexOfItemWithTag:)]
-        pub unsafe fn indexOfItemWithTag(&self, tag: NSInteger) -> NSInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "indexOfItemWithTitle:")]
+    pub unsafe fn indexOfItemWithTitle(&self, title: &NSString) -> NSInteger;
 
-        #[method(indexOfItemWithRepresentedObject:)]
-        pub unsafe fn indexOfItemWithRepresentedObject(&self, obj: Option<&Object>) -> NSInteger;
+    #[objc2::method(sel = "indexOfItemWithTag:")]
+    pub unsafe fn indexOfItemWithTag(&self, tag: NSInteger) -> NSInteger;
 
-        #[method(indexOfItemWithTarget:andAction:)]
-        pub unsafe fn indexOfItemWithTarget_andAction(
-            &self,
-            target: Option<&Object>,
-            action_selector: Option<Sel>,
-        ) -> NSInteger;
+    #[objc2::method(sel = "indexOfItemWithRepresentedObject:")]
+    pub unsafe fn indexOfItemWithRepresentedObject(&self, obj: Option<&Object>) -> NSInteger;
 
-        #[cfg(feature = "AppKit_NSMenuItem")]
-        #[method_id(@__retain_semantics Other itemAtIndex:)]
-        pub unsafe fn itemAtIndex(&self, index: NSInteger) -> Option<Id<NSMenuItem>>;
+    #[objc2::method(sel = "indexOfItemWithTarget:andAction:")]
+    pub unsafe fn indexOfItemWithTarget_andAction(
+        &self,
+        target: Option<&Object>,
+        action_selector: Option<Sel>,
+    ) -> NSInteger;
 
-        #[cfg(all(feature = "AppKit_NSMenuItem", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other itemWithTitle:)]
-        pub unsafe fn itemWithTitle(&self, title: &NSString) -> Option<Id<NSMenuItem>>;
+    #[cfg(feature = "AppKit_NSMenuItem")]
+    #[objc2::method(sel = "itemAtIndex:", managed = "Other")]
+    pub unsafe fn itemAtIndex(&self, index: NSInteger) -> Option<Id<NSMenuItem>>;
 
-        #[cfg(feature = "AppKit_NSMenuItem")]
-        #[method_id(@__retain_semantics Other lastItem)]
-        pub unsafe fn lastItem(&self) -> Option<Id<NSMenuItem>>;
+    #[cfg(all(feature = "AppKit_NSMenuItem", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "itemWithTitle:", managed = "Other")]
+    pub unsafe fn itemWithTitle(&self, title: &NSString) -> Option<Id<NSMenuItem>>;
 
-        #[cfg(feature = "AppKit_NSMenuItem")]
-        #[method(selectItem:)]
-        pub unsafe fn selectItem(&self, item: Option<&NSMenuItem>);
+    #[cfg(feature = "AppKit_NSMenuItem")]
+    #[objc2::method(sel = "lastItem", managed = "Other")]
+    pub unsafe fn lastItem(&self) -> Option<Id<NSMenuItem>>;
 
-        #[method(selectItemAtIndex:)]
-        pub unsafe fn selectItemAtIndex(&self, index: NSInteger);
+    #[cfg(feature = "AppKit_NSMenuItem")]
+    #[objc2::method(sel = "selectItem:")]
+    pub unsafe fn selectItem(&self, item: Option<&NSMenuItem>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(selectItemWithTitle:)]
-        pub unsafe fn selectItemWithTitle(&self, title: &NSString);
+    #[objc2::method(sel = "selectItemAtIndex:")]
+    pub unsafe fn selectItemAtIndex(&self, index: NSInteger);
 
-        #[method(selectItemWithTag:)]
-        pub unsafe fn selectItemWithTag(&self, tag: NSInteger) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "selectItemWithTitle:")]
+    pub unsafe fn selectItemWithTitle(&self, title: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, string: Option<&NSString>);
+    #[objc2::method(sel = "selectItemWithTag:")]
+    pub unsafe fn selectItemWithTag(&self, tag: NSInteger) -> bool;
 
-        #[cfg(feature = "AppKit_NSMenuItem")]
-        #[method_id(@__retain_semantics Other selectedItem)]
-        pub unsafe fn selectedItem(&self) -> Option<Id<NSMenuItem>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, string: Option<&NSString>);
 
-        #[method(indexOfSelectedItem)]
-        pub unsafe fn indexOfSelectedItem(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSMenuItem")]
+    #[objc2::method(sel = "selectedItem", managed = "Other")]
+    pub unsafe fn selectedItem(&self) -> Option<Id<NSMenuItem>>;
 
-        #[method(synchronizeTitleAndSelectedItem)]
-        pub unsafe fn synchronizeTitleAndSelectedItem(&self);
+    #[objc2::method(sel = "indexOfSelectedItem")]
+    pub unsafe fn indexOfSelectedItem(&self) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other itemTitleAtIndex:)]
-        pub unsafe fn itemTitleAtIndex(&self, index: NSInteger) -> Id<NSString>;
+    #[objc2::method(sel = "synchronizeTitleAndSelectedItem")]
+    pub unsafe fn synchronizeTitleAndSelectedItem(&self);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other itemTitles)]
-        pub unsafe fn itemTitles(&self) -> Id<NSArray<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "itemTitleAtIndex:", managed = "Other")]
+    pub unsafe fn itemTitleAtIndex(&self, index: NSInteger) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other titleOfSelectedItem)]
-        pub unsafe fn titleOfSelectedItem(&self) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "itemTitles", managed = "Other")]
+    pub unsafe fn itemTitles(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(attachPopUpWithFrame:inView:)]
-        pub unsafe fn attachPopUpWithFrame_inView(&self, cell_frame: NSRect, control_view: &NSView);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "titleOfSelectedItem", managed = "Other")]
+    pub unsafe fn titleOfSelectedItem(&self) -> Option<Id<NSString>>;
 
-        #[method(dismissPopUp)]
-        pub unsafe fn dismissPopUp(&self);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "attachPopUpWithFrame:inView:")]
+    pub unsafe fn attachPopUpWithFrame_inView(&self, cell_frame: NSRect, control_view: &NSView);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(performClickWithFrame:inView:)]
-        pub unsafe fn performClickWithFrame_inView(&self, frame: NSRect, control_view: &NSView);
+    #[objc2::method(sel = "dismissPopUp")]
+    pub unsafe fn dismissPopUp(&self);
 
-        #[method(arrowPosition)]
-        pub unsafe fn arrowPosition(&self) -> NSPopUpArrowPosition;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "performClickWithFrame:inView:")]
+    pub unsafe fn performClickWithFrame_inView(&self, frame: NSRect, control_view: &NSView);
 
-        #[method(setArrowPosition:)]
-        pub unsafe fn setArrowPosition(&self, arrow_position: NSPopUpArrowPosition);
-    }
-);
+    #[objc2::method(sel = "arrowPosition")]
+    pub unsafe fn arrowPosition(&self) -> NSPopUpArrowPosition;
+
+    #[objc2::method(sel = "setArrowPosition:")]
+    pub unsafe fn setArrowPosition(&self, arrow_position: NSPopUpArrowPosition);
+}
 
 extern_static!(NSPopUpButtonCellWillPopUpNotification: &'static NSNotificationName);
 
-extern_methods!(
-    /// Methods declared on superclass `NSMenuItemCell`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSMenuItemCell`
     #[cfg(feature = "AppKit_NSPopUpButtonCell")]
-    unsafe impl NSPopUpButtonCell {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initTextCell:)]
-        pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPopUpButtonCell")]
+    pub type NSPopUpButtonCell;
 
-extern_methods!(
-    /// Methods declared on superclass `NSButtonCell`
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initTextCell:", managed = "Init")]
+    pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSButtonCell`
     #[cfg(feature = "AppKit_NSPopUpButtonCell")]
-    unsafe impl NSPopUpButtonCell {
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Init initImageCell:)]
-        pub unsafe fn initImageCell(
-            this: Option<Allocated<Self>>,
-            image: Option<&NSImage>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPopUpButtonCell")]
+    pub type NSPopUpButtonCell;
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "initImageCell:", managed = "Init")]
+    pub unsafe fn initImageCell(this: Option<Allocated<Self>>, image: Option<&NSImage>)
+        -> Id<Self>;
+}

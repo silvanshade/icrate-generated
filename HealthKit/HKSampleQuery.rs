@@ -8,89 +8,92 @@ use crate::UniformTypeIdentifiers::*;
 
 extern_static!(HKObjectQueryNoLimit: NSUInteger = 0);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKQuery,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKSampleQuery")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKSampleQuery")]
-    pub struct HKSampleQuery;
-
-    #[cfg(feature = "HealthKit_HKSampleQuery")]
-    unsafe impl ClassType for HKSampleQuery {
-        #[inherits(NSObject)]
-        type Super = HKQuery;
-    }
-);
+    pub type HKSampleQuery;
+}
 
 #[cfg(feature = "HealthKit_HKSampleQuery")]
 unsafe impl NSObjectProtocol for HKSampleQuery {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKSampleQuery")]
-    unsafe impl HKSampleQuery {
-        #[method(limit)]
-        pub unsafe fn limit(&self) -> NSUInteger;
+    pub type HKSampleQuery;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSSortDescriptor"
-        ))]
-        #[method_id(@__retain_semantics Other sortDescriptors)]
-        pub unsafe fn sortDescriptors(&self) -> Option<Id<NSArray<NSSortDescriptor>>>;
+    #[objc2::method(sel = "limit")]
+    pub unsafe fn limit(&self) -> NSUInteger;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSPredicate",
-            feature = "Foundation_NSSortDescriptor",
-            feature = "HealthKit_HKSample",
-            feature = "HealthKit_HKSampleType"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSampleType:predicate:limit:sortDescriptors:resultsHandler:)]
-        pub unsafe fn initWithSampleType_predicate_limit_sortDescriptors_resultsHandler(
-            this: Option<Allocated<Self>>,
-            sample_type: &HKSampleType,
-            predicate: Option<&NSPredicate>,
-            limit: NSUInteger,
-            sort_descriptors: Option<&NSArray<NSSortDescriptor>>,
-            results_handler: &Block<
-                (NonNull<HKSampleQuery>, *mut NSArray<HKSample>, *mut NSError),
-                (),
-            >,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSSortDescriptor"
+    ))]
+    #[objc2::method(sel = "sortDescriptors", managed = "Other")]
+    pub unsafe fn sortDescriptors(&self) -> Option<Id<NSArray<NSSortDescriptor>>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKQueryDescriptor",
-            feature = "HealthKit_HKSample"
-        ))]
-        #[method_id(@__retain_semantics Init initWithQueryDescriptors:limit:resultsHandler:)]
-        pub unsafe fn initWithQueryDescriptors_limit_resultsHandler(
-            this: Option<Allocated<Self>>,
-            query_descriptors: &NSArray<HKQueryDescriptor>,
-            limit: NSInteger,
-            results_handler: &Block<
-                (NonNull<HKSampleQuery>, *mut NSArray<HKSample>, *mut NSError),
-                (),
-            >,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSPredicate",
+        feature = "Foundation_NSSortDescriptor",
+        feature = "HealthKit_HKSample",
+        feature = "HealthKit_HKSampleType"
+    ))]
+    #[objc2::method(
+        sel = "initWithSampleType:predicate:limit:sortDescriptors:resultsHandler:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithSampleType_predicate_limit_sortDescriptors_resultsHandler(
+        this: Option<Allocated<Self>>,
+        sample_type: &HKSampleType,
+        predicate: Option<&NSPredicate>,
+        limit: NSUInteger,
+        sort_descriptors: Option<&NSArray<NSSortDescriptor>>,
+        results_handler: &Block<(NonNull<HKSampleQuery>, *mut NSArray<HKSample>, *mut NSError), ()>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSSortDescriptor",
-            feature = "HealthKit_HKQueryDescriptor",
-            feature = "HealthKit_HKSample"
-        ))]
-        #[method_id(@__retain_semantics Init initWithQueryDescriptors:limit:sortDescriptors:resultsHandler:)]
-        pub unsafe fn initWithQueryDescriptors_limit_sortDescriptors_resultsHandler(
-            this: Option<Allocated<Self>>,
-            query_descriptors: &NSArray<HKQueryDescriptor>,
-            limit: NSInteger,
-            sort_descriptors: &NSArray<NSSortDescriptor>,
-            results_handler: &Block<
-                (NonNull<HKSampleQuery>, *mut NSArray<HKSample>, *mut NSError),
-                (),
-            >,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKQueryDescriptor",
+        feature = "HealthKit_HKSample"
+    ))]
+    #[objc2::method(
+        sel = "initWithQueryDescriptors:limit:resultsHandler:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithQueryDescriptors_limit_resultsHandler(
+        this: Option<Allocated<Self>>,
+        query_descriptors: &NSArray<HKQueryDescriptor>,
+        limit: NSInteger,
+        results_handler: &Block<(NonNull<HKSampleQuery>, *mut NSArray<HKSample>, *mut NSError), ()>,
+    ) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSSortDescriptor",
+        feature = "HealthKit_HKQueryDescriptor",
+        feature = "HealthKit_HKSample"
+    ))]
+    #[objc2::method(
+        sel = "initWithQueryDescriptors:limit:sortDescriptors:resultsHandler:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithQueryDescriptors_limit_sortDescriptors_resultsHandler(
+        this: Option<Allocated<Self>>,
+        query_descriptors: &NSArray<HKQueryDescriptor>,
+        limit: NSInteger,
+        sort_descriptors: &NSArray<NSSortDescriptor>,
+        results_handler: &Block<(NonNull<HKSampleQuery>, *mut NSArray<HKSample>, *mut NSError), ()>,
+    ) -> Id<Self>;
+}

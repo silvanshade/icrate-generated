@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MXDiagnostic,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXAppLaunchDiagnostic")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXAppLaunchDiagnostic")]
-    pub struct MXAppLaunchDiagnostic;
-
-    #[cfg(feature = "MetricKit_MXAppLaunchDiagnostic")]
-    unsafe impl ClassType for MXAppLaunchDiagnostic {
-        #[inherits(NSObject)]
-        type Super = MXDiagnostic;
-    }
-);
+    pub type MXAppLaunchDiagnostic;
+}
 
 #[cfg(feature = "MetricKit_MXAppLaunchDiagnostic")]
 unsafe impl NSCoding for MXAppLaunchDiagnostic {}
@@ -25,18 +25,21 @@ unsafe impl NSObjectProtocol for MXAppLaunchDiagnostic {}
 #[cfg(feature = "MetricKit_MXAppLaunchDiagnostic")]
 unsafe impl NSSecureCoding for MXAppLaunchDiagnostic {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXAppLaunchDiagnostic")]
-    unsafe impl MXAppLaunchDiagnostic {
-        #[cfg(feature = "MetricKit_MXCallStackTree")]
-        #[method_id(@__retain_semantics Other callStackTree)]
-        pub unsafe fn callStackTree(&self) -> Id<MXCallStackTree>;
+    pub type MXAppLaunchDiagnostic;
 
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitDuration"
-        ))]
-        #[method_id(@__retain_semantics Other launchDuration)]
-        pub unsafe fn launchDuration(&self) -> Id<NSMeasurement<NSUnitDuration>>;
-    }
-);
+    #[cfg(feature = "MetricKit_MXCallStackTree")]
+    #[objc2::method(sel = "callStackTree", managed = "Other")]
+    pub unsafe fn callStackTree(&self) -> Id<MXCallStackTree>;
+
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitDuration"
+    ))]
+    #[objc2::method(sel = "launchDuration", managed = "Other")]
+    pub unsafe fn launchDuration(&self) -> Id<NSMeasurement<NSUnitDuration>>;
+}

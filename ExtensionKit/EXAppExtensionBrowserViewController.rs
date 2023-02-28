@@ -5,17 +5,18 @@ use crate::AppKit::*;
 use crate::ExtensionKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSViewController,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "ExtensionKit_EXAppExtensionBrowserViewController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "ExtensionKit_EXAppExtensionBrowserViewController")]
-    pub struct EXAppExtensionBrowserViewController;
-
-    #[cfg(feature = "ExtensionKit_EXAppExtensionBrowserViewController")]
-    unsafe impl ClassType for EXAppExtensionBrowserViewController {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSViewController;
-    }
-);
+    pub type EXAppExtensionBrowserViewController;
+}
 
 #[cfg(feature = "ExtensionKit_EXAppExtensionBrowserViewController")]
 unsafe impl NSCoding for EXAppExtensionBrowserViewController {}
@@ -32,21 +33,30 @@ unsafe impl NSSeguePerforming for EXAppExtensionBrowserViewController {}
 #[cfg(feature = "ExtensionKit_EXAppExtensionBrowserViewController")]
 unsafe impl NSUserInterfaceItemIdentification for EXAppExtensionBrowserViewController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ExtensionKit_EXAppExtensionBrowserViewController")]
-    unsafe impl EXAppExtensionBrowserViewController {}
-);
+    pub type EXAppExtensionBrowserViewController;
+}
 
-extern_methods!(
-    /// Methods declared on superclass `NSViewController`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSViewController`
     #[cfg(feature = "ExtensionKit_EXAppExtensionBrowserViewController")]
-    unsafe impl EXAppExtensionBrowserViewController {
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Init initWithNibName:bundle:)]
-        pub unsafe fn initWithNibName_bundle(
-            this: Option<Allocated<Self>>,
-            nib_name_or_nil: Option<&NSNibName>,
-            nib_bundle_or_nil: Option<&NSBundle>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "ExtensionKit_EXAppExtensionBrowserViewController")]
+    pub type EXAppExtensionBrowserViewController;
+
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "initWithNibName:bundle:", managed = "Init")]
+    pub unsafe fn initWithNibName_bundle(
+        this: Option<Allocated<Self>>,
+        nib_name_or_nil: Option<&NSNibName>,
+        nib_bundle_or_nil: Option<&NSBundle>,
+    ) -> Id<Self>;
+}

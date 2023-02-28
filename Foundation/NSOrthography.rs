@@ -3,16 +3,16 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSOrthography")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSOrthography")]
-    pub struct NSOrthography;
-
-    #[cfg(feature = "Foundation_NSOrthography")]
-    unsafe impl ClassType for NSOrthography {
-        type Super = NSObject;
-    }
-);
+    pub type NSOrthography;
+}
 
 #[cfg(feature = "Foundation_NSOrthography")]
 unsafe impl NSCoding for NSOrthography {}
@@ -23,86 +23,90 @@ unsafe impl NSObjectProtocol for NSOrthography {}
 #[cfg(feature = "Foundation_NSOrthography")]
 unsafe impl NSSecureCoding for NSOrthography {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSOrthography")]
-    unsafe impl NSOrthography {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other dominantScript)]
-        pub unsafe fn dominantScript(&self) -> Id<NSString>;
+    pub type NSOrthography;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other languageMap)]
-        pub unsafe fn languageMap(&self) -> Id<NSDictionary<NSString, NSArray<NSString>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "dominantScript", managed = "Other")]
+    pub unsafe fn dominantScript(&self) -> Id<NSString>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Init initWithDominantScript:languageMap:)]
-        pub unsafe fn initWithDominantScript_languageMap(
-            this: Option<Allocated<Self>>,
-            script: &NSString,
-            map: &NSDictionary<NSString, NSArray<NSString>>,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "languageMap", managed = "Other")]
+    pub unsafe fn languageMap(&self) -> Id<NSDictionary<NSString, NSArray<NSString>>>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "initWithDominantScript:languageMap:", managed = "Init")]
+    pub unsafe fn initWithDominantScript_languageMap(
+        this: Option<Allocated<Self>>,
+        script: &NSString,
+        map: &NSDictionary<NSString, NSArray<NSString>>,
+    ) -> Id<Self>;
 
-extern_methods!(
-    /// NSOrthographyExtended
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSOrthography")]
-    unsafe impl NSOrthography {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other languagesForScript:)]
-        pub unsafe fn languagesForScript(&self, script: &NSString)
-            -> Option<Id<NSArray<NSString>>>;
+    pub type NSOrthography;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other dominantLanguageForScript:)]
-        pub unsafe fn dominantLanguageForScript(&self, script: &NSString) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "languagesForScript:", managed = "Other")]
+    pub unsafe fn languagesForScript(&self, script: &NSString) -> Option<Id<NSArray<NSString>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other dominantLanguage)]
-        pub unsafe fn dominantLanguage(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "dominantLanguageForScript:", managed = "Other")]
+    pub unsafe fn dominantLanguageForScript(&self, script: &NSString) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other allScripts)]
-        pub unsafe fn allScripts(&self) -> Id<NSArray<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "dominantLanguage", managed = "Other")]
+    pub unsafe fn dominantLanguage(&self) -> Id<NSString>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other allLanguages)]
-        pub unsafe fn allLanguages(&self) -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "allScripts", managed = "Other")]
+    pub unsafe fn allScripts(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other defaultOrthographyForLanguage:)]
-        pub unsafe fn defaultOrthographyForLanguage(language: &NSString) -> Id<Self>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "allLanguages", managed = "Other")]
+    pub unsafe fn allLanguages(&self) -> Id<NSArray<NSString>>;
 
-extern_methods!(
-    /// NSOrthographyCreation
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "defaultOrthographyForLanguage:", managed = "Other")]
+    pub unsafe fn defaultOrthographyForLanguage(language: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSOrthography")]
-    unsafe impl NSOrthography {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other orthographyWithDominantScript:languageMap:)]
-        pub unsafe fn orthographyWithDominantScript_languageMap(
-            script: &NSString,
-            map: &NSDictionary<NSString, NSArray<NSString>>,
-        ) -> Id<Self>;
-    }
-);
+    pub type NSOrthography;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "orthographyWithDominantScript:languageMap:", managed = "Other")]
+    pub unsafe fn orthographyWithDominantScript_languageMap(
+        script: &NSString,
+        map: &NSDictionary<NSString, NSArray<NSString>>,
+    ) -> Id<Self>;
+}

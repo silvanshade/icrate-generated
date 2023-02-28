@@ -4,108 +4,113 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLBlitPassSampleBufferAttachmentDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLBlitPassSampleBufferAttachmentDescriptor")]
-    pub struct MTLBlitPassSampleBufferAttachmentDescriptor;
-
-    #[cfg(feature = "Metal_MTLBlitPassSampleBufferAttachmentDescriptor")]
-    unsafe impl ClassType for MTLBlitPassSampleBufferAttachmentDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLBlitPassSampleBufferAttachmentDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLBlitPassSampleBufferAttachmentDescriptor")]
 unsafe impl NSObjectProtocol for MTLBlitPassSampleBufferAttachmentDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLBlitPassSampleBufferAttachmentDescriptor")]
-    unsafe impl MTLBlitPassSampleBufferAttachmentDescriptor {
-        #[method_id(@__retain_semantics Other sampleBuffer)]
-        pub unsafe fn sampleBuffer(&self)
-            -> Option<Id<ProtocolObject<dyn MTLCounterSampleBuffer>>>;
+    pub type MTLBlitPassSampleBufferAttachmentDescriptor;
 
-        #[method(setSampleBuffer:)]
-        pub unsafe fn setSampleBuffer(
-            &self,
-            sample_buffer: Option<&ProtocolObject<dyn MTLCounterSampleBuffer>>,
-        );
+    #[objc2::method(sel = "sampleBuffer", managed = "Other")]
+    pub unsafe fn sampleBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLCounterSampleBuffer>>>;
 
-        #[method(startOfEncoderSampleIndex)]
-        pub unsafe fn startOfEncoderSampleIndex(&self) -> NSUInteger;
+    #[objc2::method(sel = "setSampleBuffer:")]
+    pub unsafe fn setSampleBuffer(
+        &self,
+        sample_buffer: Option<&ProtocolObject<dyn MTLCounterSampleBuffer>>,
+    );
 
-        #[method(setStartOfEncoderSampleIndex:)]
-        pub unsafe fn setStartOfEncoderSampleIndex(
-            &self,
-            start_of_encoder_sample_index: NSUInteger,
-        );
+    #[objc2::method(sel = "startOfEncoderSampleIndex")]
+    pub unsafe fn startOfEncoderSampleIndex(&self) -> NSUInteger;
 
-        #[method(endOfEncoderSampleIndex)]
-        pub unsafe fn endOfEncoderSampleIndex(&self) -> NSUInteger;
+    #[objc2::method(sel = "setStartOfEncoderSampleIndex:")]
+    pub unsafe fn setStartOfEncoderSampleIndex(&self, start_of_encoder_sample_index: NSUInteger);
 
-        #[method(setEndOfEncoderSampleIndex:)]
-        pub unsafe fn setEndOfEncoderSampleIndex(&self, end_of_encoder_sample_index: NSUInteger);
-    }
-);
+    #[objc2::method(sel = "endOfEncoderSampleIndex")]
+    pub unsafe fn endOfEncoderSampleIndex(&self) -> NSUInteger;
 
-extern_class!(
+    #[objc2::method(sel = "setEndOfEncoderSampleIndex:")]
+    pub unsafe fn setEndOfEncoderSampleIndex(&self, end_of_encoder_sample_index: NSUInteger);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLBlitPassSampleBufferAttachmentDescriptorArray")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLBlitPassSampleBufferAttachmentDescriptorArray")]
-    pub struct MTLBlitPassSampleBufferAttachmentDescriptorArray;
-
-    #[cfg(feature = "Metal_MTLBlitPassSampleBufferAttachmentDescriptorArray")]
-    unsafe impl ClassType for MTLBlitPassSampleBufferAttachmentDescriptorArray {
-        type Super = NSObject;
-    }
-);
+    pub type MTLBlitPassSampleBufferAttachmentDescriptorArray;
+}
 
 #[cfg(feature = "Metal_MTLBlitPassSampleBufferAttachmentDescriptorArray")]
 unsafe impl NSObjectProtocol for MTLBlitPassSampleBufferAttachmentDescriptorArray {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLBlitPassSampleBufferAttachmentDescriptorArray")]
-    unsafe impl MTLBlitPassSampleBufferAttachmentDescriptorArray {
-        #[cfg(feature = "Metal_MTLBlitPassSampleBufferAttachmentDescriptor")]
-        #[method_id(@__retain_semantics Other objectAtIndexedSubscript:)]
-        pub unsafe fn objectAtIndexedSubscript(
-            &self,
-            attachment_index: NSUInteger,
-        ) -> Id<MTLBlitPassSampleBufferAttachmentDescriptor>;
+    pub type MTLBlitPassSampleBufferAttachmentDescriptorArray;
 
-        #[cfg(feature = "Metal_MTLBlitPassSampleBufferAttachmentDescriptor")]
-        #[method(setObject:atIndexedSubscript:)]
-        pub unsafe fn setObject_atIndexedSubscript(
-            &self,
-            attachment: Option<&MTLBlitPassSampleBufferAttachmentDescriptor>,
-            attachment_index: NSUInteger,
-        );
-    }
-);
+    #[cfg(feature = "Metal_MTLBlitPassSampleBufferAttachmentDescriptor")]
+    #[objc2::method(sel = "objectAtIndexedSubscript:", managed = "Other")]
+    pub unsafe fn objectAtIndexedSubscript(
+        &self,
+        attachment_index: NSUInteger,
+    ) -> Id<MTLBlitPassSampleBufferAttachmentDescriptor>;
 
-extern_class!(
+    #[cfg(feature = "Metal_MTLBlitPassSampleBufferAttachmentDescriptor")]
+    #[objc2::method(sel = "setObject:atIndexedSubscript:")]
+    pub unsafe fn setObject_atIndexedSubscript(
+        &self,
+        attachment: Option<&MTLBlitPassSampleBufferAttachmentDescriptor>,
+        attachment_index: NSUInteger,
+    );
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLBlitPassDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLBlitPassDescriptor")]
-    pub struct MTLBlitPassDescriptor;
-
-    #[cfg(feature = "Metal_MTLBlitPassDescriptor")]
-    unsafe impl ClassType for MTLBlitPassDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLBlitPassDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLBlitPassDescriptor")]
 unsafe impl NSObjectProtocol for MTLBlitPassDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLBlitPassDescriptor")]
-    unsafe impl MTLBlitPassDescriptor {
-        #[method_id(@__retain_semantics Other blitPassDescriptor)]
-        pub unsafe fn blitPassDescriptor() -> Id<MTLBlitPassDescriptor>;
+    pub type MTLBlitPassDescriptor;
 
-        #[cfg(feature = "Metal_MTLBlitPassSampleBufferAttachmentDescriptorArray")]
-        #[method_id(@__retain_semantics Other sampleBufferAttachments)]
-        pub unsafe fn sampleBufferAttachments(
-            &self,
-        ) -> Id<MTLBlitPassSampleBufferAttachmentDescriptorArray>;
-    }
-);
+    #[objc2::method(sel = "blitPassDescriptor", managed = "Other")]
+    pub unsafe fn blitPassDescriptor() -> Id<MTLBlitPassDescriptor>;
+
+    #[cfg(feature = "Metal_MTLBlitPassSampleBufferAttachmentDescriptorArray")]
+    #[objc2::method(sel = "sampleBufferAttachments", managed = "Other")]
+    pub unsafe fn sampleBufferAttachments(
+        &self,
+    ) -> Id<MTLBlitPassSampleBufferAttachmentDescriptorArray>;
+}

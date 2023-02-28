@@ -5,49 +5,52 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameKit_GKLeaderboardScore")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKLeaderboardScore")]
-    pub struct GKLeaderboardScore;
-
-    #[cfg(feature = "GameKit_GKLeaderboardScore")]
-    unsafe impl ClassType for GKLeaderboardScore {
-        type Super = NSObject;
-    }
-);
+    pub type GKLeaderboardScore;
+}
 
 #[cfg(feature = "GameKit_GKLeaderboardScore")]
 unsafe impl NSObjectProtocol for GKLeaderboardScore {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKLeaderboardScore")]
-    unsafe impl GKLeaderboardScore {
-        #[cfg(feature = "GameKit_GKPlayer")]
-        #[method_id(@__retain_semantics Other player)]
-        pub unsafe fn player(&self) -> Id<GKPlayer>;
+    pub type GKLeaderboardScore;
 
-        #[cfg(feature = "GameKit_GKPlayer")]
-        #[method(setPlayer:)]
-        pub unsafe fn setPlayer(&self, player: &GKPlayer);
+    #[cfg(feature = "GameKit_GKPlayer")]
+    #[objc2::method(sel = "player", managed = "Other")]
+    pub unsafe fn player(&self) -> Id<GKPlayer>;
 
-        #[method(value)]
-        pub unsafe fn value(&self) -> NSInteger;
+    #[cfg(feature = "GameKit_GKPlayer")]
+    #[objc2::method(sel = "setPlayer:")]
+    pub unsafe fn setPlayer(&self, player: &GKPlayer);
 
-        #[method(setValue:)]
-        pub unsafe fn setValue(&self, value: NSInteger);
+    #[objc2::method(sel = "value")]
+    pub unsafe fn value(&self) -> NSInteger;
 
-        #[method(context)]
-        pub unsafe fn context(&self) -> NSUInteger;
+    #[objc2::method(sel = "setValue:")]
+    pub unsafe fn setValue(&self, value: NSInteger);
 
-        #[method(setContext:)]
-        pub unsafe fn setContext(&self, context: NSUInteger);
+    #[objc2::method(sel = "context")]
+    pub unsafe fn context(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other leaderboardID)]
-        pub unsafe fn leaderboardID(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setContext:")]
+    pub unsafe fn setContext(&self, context: NSUInteger);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLeaderboardID:)]
-        pub unsafe fn setLeaderboardID(&self, leaderboard_id: &NSString);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "leaderboardID", managed = "Other")]
+    pub unsafe fn leaderboardID(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLeaderboardID:")]
+    pub unsafe fn setLeaderboardID(&self, leaderboard_id: &NSString);
+}

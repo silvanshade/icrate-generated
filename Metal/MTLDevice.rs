@@ -4,16 +4,15 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MTLIOCompressionMethod {
-        MTLIOCompressionMethodZlib = 0,
-        MTLIOCompressionMethodLZFSE = 1,
-        MTLIOCompressionMethodLZ4 = 2,
-        MTLIOCompressionMethodLZMA = 3,
-        MTLIOCompressionMethodLZBitmap = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MTLIOCompressionMethod {
+    MTLIOCompressionMethodZlib = 0,
+    MTLIOCompressionMethodLZFSE = 1,
+    MTLIOCompressionMethodLZ4 = 2,
+    MTLIOCompressionMethodLZMA = 3,
+    MTLIOCompressionMethodLZBitmap = 4,
+}
 
 extern_fn!(
     pub unsafe fn MTLCreateSystemDefaultDevice() -> *mut ProtocolObject<dyn MTLDevice>;
@@ -46,124 +45,116 @@ extern_fn!(
     pub unsafe fn MTLRemoveDeviceObserver(observer: &NSObject);
 );
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    #[deprecated = "Use MTLGPUFamily instead"]
-    pub enum MTLFeatureSet {
-        MTLFeatureSet_iOS_GPUFamily1_v1 = 0,
-        MTLFeatureSet_iOS_GPUFamily2_v1 = 1,
-        MTLFeatureSet_iOS_GPUFamily1_v2 = 2,
-        MTLFeatureSet_iOS_GPUFamily2_v2 = 3,
-        MTLFeatureSet_iOS_GPUFamily3_v1 = 4,
-        MTLFeatureSet_iOS_GPUFamily1_v3 = 5,
-        MTLFeatureSet_iOS_GPUFamily2_v3 = 6,
-        MTLFeatureSet_iOS_GPUFamily3_v2 = 7,
-        MTLFeatureSet_iOS_GPUFamily1_v4 = 8,
-        MTLFeatureSet_iOS_GPUFamily2_v4 = 9,
-        MTLFeatureSet_iOS_GPUFamily3_v3 = 10,
-        MTLFeatureSet_iOS_GPUFamily4_v1 = 11,
-        MTLFeatureSet_iOS_GPUFamily1_v5 = 12,
-        MTLFeatureSet_iOS_GPUFamily2_v5 = 13,
-        MTLFeatureSet_iOS_GPUFamily3_v4 = 14,
-        MTLFeatureSet_iOS_GPUFamily4_v2 = 15,
-        MTLFeatureSet_iOS_GPUFamily5_v1 = 16,
-        MTLFeatureSet_macOS_GPUFamily1_v1 = 10000,
-        MTLFeatureSet_OSX_GPUFamily1_v1 = MTLFeatureSet_macOS_GPUFamily1_v1,
-        MTLFeatureSet_macOS_GPUFamily1_v2 = 10001,
-        MTLFeatureSet_OSX_GPUFamily1_v2 = MTLFeatureSet_macOS_GPUFamily1_v2,
-        MTLFeatureSet_macOS_ReadWriteTextureTier2 = 10002,
-        MTLFeatureSet_OSX_ReadWriteTextureTier2 = MTLFeatureSet_macOS_ReadWriteTextureTier2,
-        MTLFeatureSet_macOS_GPUFamily1_v3 = 10003,
-        MTLFeatureSet_macOS_GPUFamily1_v4 = 10004,
-        MTLFeatureSet_macOS_GPUFamily2_v1 = 10005,
-        MTLFeatureSet_tvOS_GPUFamily1_v1 = 30000,
-        MTLFeatureSet_TVOS_GPUFamily1_v1 = MTLFeatureSet_tvOS_GPUFamily1_v1,
-        MTLFeatureSet_tvOS_GPUFamily1_v2 = 30001,
-        MTLFeatureSet_tvOS_GPUFamily1_v3 = 30002,
-        MTLFeatureSet_tvOS_GPUFamily2_v1 = 30003,
-        MTLFeatureSet_tvOS_GPUFamily1_v4 = 30004,
-        MTLFeatureSet_tvOS_GPUFamily2_v2 = 30005,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+#[deprecated = "Use MTLGPUFamily instead"]
+pub enum MTLFeatureSet {
+    MTLFeatureSet_iOS_GPUFamily1_v1 = 0,
+    MTLFeatureSet_iOS_GPUFamily2_v1 = 1,
+    MTLFeatureSet_iOS_GPUFamily1_v2 = 2,
+    MTLFeatureSet_iOS_GPUFamily2_v2 = 3,
+    MTLFeatureSet_iOS_GPUFamily3_v1 = 4,
+    MTLFeatureSet_iOS_GPUFamily1_v3 = 5,
+    MTLFeatureSet_iOS_GPUFamily2_v3 = 6,
+    MTLFeatureSet_iOS_GPUFamily3_v2 = 7,
+    MTLFeatureSet_iOS_GPUFamily1_v4 = 8,
+    MTLFeatureSet_iOS_GPUFamily2_v4 = 9,
+    MTLFeatureSet_iOS_GPUFamily3_v3 = 10,
+    MTLFeatureSet_iOS_GPUFamily4_v1 = 11,
+    MTLFeatureSet_iOS_GPUFamily1_v5 = 12,
+    MTLFeatureSet_iOS_GPUFamily2_v5 = 13,
+    MTLFeatureSet_iOS_GPUFamily3_v4 = 14,
+    MTLFeatureSet_iOS_GPUFamily4_v2 = 15,
+    MTLFeatureSet_iOS_GPUFamily5_v1 = 16,
+    MTLFeatureSet_macOS_GPUFamily1_v1 = 10000,
+    MTLFeatureSet_OSX_GPUFamily1_v1 = MTLFeatureSet_macOS_GPUFamily1_v1,
+    MTLFeatureSet_macOS_GPUFamily1_v2 = 10001,
+    MTLFeatureSet_OSX_GPUFamily1_v2 = MTLFeatureSet_macOS_GPUFamily1_v2,
+    MTLFeatureSet_macOS_ReadWriteTextureTier2 = 10002,
+    MTLFeatureSet_OSX_ReadWriteTextureTier2 = MTLFeatureSet_macOS_ReadWriteTextureTier2,
+    MTLFeatureSet_macOS_GPUFamily1_v3 = 10003,
+    MTLFeatureSet_macOS_GPUFamily1_v4 = 10004,
+    MTLFeatureSet_macOS_GPUFamily2_v1 = 10005,
+    MTLFeatureSet_tvOS_GPUFamily1_v1 = 30000,
+    MTLFeatureSet_TVOS_GPUFamily1_v1 = MTLFeatureSet_tvOS_GPUFamily1_v1,
+    MTLFeatureSet_tvOS_GPUFamily1_v2 = 30001,
+    MTLFeatureSet_tvOS_GPUFamily1_v3 = 30002,
+    MTLFeatureSet_tvOS_GPUFamily2_v1 = 30003,
+    MTLFeatureSet_tvOS_GPUFamily1_v4 = 30004,
+    MTLFeatureSet_tvOS_GPUFamily2_v2 = 30005,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MTLGPUFamily {
-        MTLGPUFamilyApple1 = 1001,
-        MTLGPUFamilyApple2 = 1002,
-        MTLGPUFamilyApple3 = 1003,
-        MTLGPUFamilyApple4 = 1004,
-        MTLGPUFamilyApple5 = 1005,
-        MTLGPUFamilyApple6 = 1006,
-        MTLGPUFamilyApple7 = 1007,
-        MTLGPUFamilyApple8 = 1008,
-        #[deprecated]
-        MTLGPUFamilyMac1 = 2001,
-        MTLGPUFamilyMac2 = 2002,
-        MTLGPUFamilyCommon1 = 3001,
-        MTLGPUFamilyCommon2 = 3002,
-        MTLGPUFamilyCommon3 = 3003,
-        #[deprecated]
-        MTLGPUFamilyMacCatalyst1 = 4001,
-        #[deprecated]
-        MTLGPUFamilyMacCatalyst2 = 4002,
-        MTLGPUFamilyMetal3 = 5001,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MTLGPUFamily {
+    MTLGPUFamilyApple1 = 1001,
+    MTLGPUFamilyApple2 = 1002,
+    MTLGPUFamilyApple3 = 1003,
+    MTLGPUFamilyApple4 = 1004,
+    MTLGPUFamilyApple5 = 1005,
+    MTLGPUFamilyApple6 = 1006,
+    MTLGPUFamilyApple7 = 1007,
+    MTLGPUFamilyApple8 = 1008,
+    #[deprecated]
+    MTLGPUFamilyMac1 = 2001,
+    MTLGPUFamilyMac2 = 2002,
+    MTLGPUFamilyCommon1 = 3001,
+    MTLGPUFamilyCommon2 = 3002,
+    MTLGPUFamilyCommon3 = 3003,
+    #[deprecated]
+    MTLGPUFamilyMacCatalyst1 = 4001,
+    #[deprecated]
+    MTLGPUFamilyMacCatalyst2 = 4002,
+    MTLGPUFamilyMetal3 = 5001,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLDeviceLocation {
-        MTLDeviceLocationBuiltIn = 0,
-        MTLDeviceLocationSlot = 1,
-        MTLDeviceLocationExternal = 2,
-        MTLDeviceLocationUnspecified = NSUIntegerMax as _,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLDeviceLocation {
+    MTLDeviceLocationBuiltIn = 0,
+    MTLDeviceLocationSlot = 1,
+    MTLDeviceLocationExternal = 2,
+    MTLDeviceLocationUnspecified = NSUIntegerMax as _,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum MTLPipelineOption {
-        MTLPipelineOptionNone = 0,
-        MTLPipelineOptionArgumentInfo = 1 << 0,
-        MTLPipelineOptionBufferTypeInfo = 1 << 1,
-        MTLPipelineOptionFailOnBinaryArchiveMiss = 1 << 2,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum MTLPipelineOption {
+    MTLPipelineOptionNone = 0,
+    MTLPipelineOptionArgumentInfo = 1 << 0,
+    MTLPipelineOptionBufferTypeInfo = 1 << 1,
+    MTLPipelineOptionFailOnBinaryArchiveMiss = 1 << 2,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLReadWriteTextureTier {
-        MTLReadWriteTextureTierNone = 0,
-        MTLReadWriteTextureTier1 = 1,
-        MTLReadWriteTextureTier2 = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLReadWriteTextureTier {
+    MTLReadWriteTextureTierNone = 0,
+    MTLReadWriteTextureTier1 = 1,
+    MTLReadWriteTextureTier2 = 2,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLArgumentBuffersTier {
-        MTLArgumentBuffersTier1 = 0,
-        MTLArgumentBuffersTier2 = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLArgumentBuffersTier {
+    MTLArgumentBuffersTier1 = 0,
+    MTLArgumentBuffersTier2 = 1,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLSparseTextureRegionAlignmentMode {
-        MTLSparseTextureRegionAlignmentModeOutward = 0,
-        MTLSparseTextureRegionAlignmentModeInward = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLSparseTextureRegionAlignmentMode {
+    MTLSparseTextureRegionAlignmentModeOutward = 0,
+    MTLSparseTextureRegionAlignmentModeInward = 1,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MTLSparsePageSize {
-        MTLSparsePageSize16 = 101,
-        MTLSparsePageSize64 = 102,
-        MTLSparsePageSize256 = 103,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MTLSparsePageSize {
+    MTLSparsePageSize16 = 101,
+    MTLSparsePageSize64 = 102,
+    MTLSparsePageSize256 = 103,
+}
 
 extern_struct!(
     #[encoding_name("?")]
@@ -174,16 +165,15 @@ extern_struct!(
     }
 );
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLCounterSamplingPoint {
-        MTLCounterSamplingPointAtStageBoundary = 0,
-        MTLCounterSamplingPointAtDrawBoundary = 1,
-        MTLCounterSamplingPointAtDispatchBoundary = 2,
-        MTLCounterSamplingPointAtTileDispatchBoundary = 3,
-        MTLCounterSamplingPointAtBlitBoundary = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLCounterSamplingPoint {
+    MTLCounterSamplingPointAtStageBoundary = 0,
+    MTLCounterSamplingPointAtDrawBoundary = 1,
+    MTLCounterSamplingPointAtDispatchBoundary = 2,
+    MTLCounterSamplingPointAtTileDispatchBoundary = 3,
+    MTLCounterSamplingPointAtBlitBoundary = 4,
+}
 
 extern_struct!(
     #[encoding_name("?")]
@@ -230,645 +220,672 @@ pub type MTLNewComputePipelineStateWithReflectionCompletionHandler = *mut Block<
     (),
 >;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLArgumentDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLArgumentDescriptor")]
-    pub struct MTLArgumentDescriptor;
-
-    #[cfg(feature = "Metal_MTLArgumentDescriptor")]
-    unsafe impl ClassType for MTLArgumentDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLArgumentDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLArgumentDescriptor")]
 unsafe impl NSObjectProtocol for MTLArgumentDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLArgumentDescriptor")]
-    unsafe impl MTLArgumentDescriptor {
-        #[method_id(@__retain_semantics Other argumentDescriptor)]
-        pub fn argumentDescriptor() -> Id<MTLArgumentDescriptor>;
+    pub type MTLArgumentDescriptor;
 
-        #[method(dataType)]
-        pub unsafe fn dataType(&self) -> MTLDataType;
+    #[objc2::method(sel = "argumentDescriptor", managed = "Other")]
+    pub fn argumentDescriptor() -> Id<MTLArgumentDescriptor>;
 
-        #[method(setDataType:)]
-        pub fn setDataType(&self, data_type: MTLDataType);
+    #[objc2::method(sel = "dataType")]
+    pub unsafe fn dataType(&self) -> MTLDataType;
 
-        #[method(index)]
-        pub unsafe fn index(&self) -> NSUInteger;
+    #[objc2::method(sel = "setDataType:")]
+    pub fn setDataType(&self, data_type: MTLDataType);
 
-        #[method(setIndex:)]
-        pub fn setIndex(&self, index: NSUInteger);
+    #[objc2::method(sel = "index")]
+    pub unsafe fn index(&self) -> NSUInteger;
 
-        #[method(arrayLength)]
-        pub unsafe fn arrayLength(&self) -> NSUInteger;
+    #[objc2::method(sel = "setIndex:")]
+    pub fn setIndex(&self, index: NSUInteger);
 
-        #[method(setArrayLength:)]
-        pub unsafe fn setArrayLength(&self, array_length: NSUInteger);
+    #[objc2::method(sel = "arrayLength")]
+    pub unsafe fn arrayLength(&self) -> NSUInteger;
 
-        #[method(access)]
-        pub unsafe fn access(&self) -> MTLArgumentAccess;
+    #[objc2::method(sel = "setArrayLength:")]
+    pub unsafe fn setArrayLength(&self, array_length: NSUInteger);
 
-        #[method(setAccess:)]
-        pub fn setAccess(&self, access: MTLArgumentAccess);
+    #[objc2::method(sel = "access")]
+    pub unsafe fn access(&self) -> MTLArgumentAccess;
 
-        #[method(textureType)]
-        pub unsafe fn textureType(&self) -> MTLTextureType;
+    #[objc2::method(sel = "setAccess:")]
+    pub fn setAccess(&self, access: MTLArgumentAccess);
 
-        #[method(setTextureType:)]
-        pub fn setTextureType(&self, texture_type: MTLTextureType);
+    #[objc2::method(sel = "textureType")]
+    pub unsafe fn textureType(&self) -> MTLTextureType;
 
-        #[method(constantBlockAlignment)]
-        pub unsafe fn constantBlockAlignment(&self) -> NSUInteger;
+    #[objc2::method(sel = "setTextureType:")]
+    pub fn setTextureType(&self, texture_type: MTLTextureType);
 
-        #[method(setConstantBlockAlignment:)]
-        pub unsafe fn setConstantBlockAlignment(&self, constant_block_alignment: NSUInteger);
-    }
-);
+    #[objc2::method(sel = "constantBlockAlignment")]
+    pub unsafe fn constantBlockAlignment(&self) -> NSUInteger;
+
+    #[objc2::method(sel = "setConstantBlockAlignment:")]
+    pub unsafe fn setConstantBlockAlignment(&self, constant_block_alignment: NSUInteger);
+}
 
 pub type MTLTimestamp = u64;
 
-extern_protocol!(
-    pub unsafe trait MTLDevice: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        fn name(&self) -> Id<NSString>;
+#[objc2::protocol]
+pub unsafe trait MTLDevice: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    fn name(&self) -> Id<NSString>;
 
-        #[method(registryID)]
-        fn registryID(&self) -> u64;
+    #[objc2::method(sel = "registryID")]
+    fn registryID(&self) -> u64;
 
-        #[method(maxThreadsPerThreadgroup)]
-        fn maxThreadsPerThreadgroup(&self) -> MTLSize;
+    #[objc2::method(sel = "maxThreadsPerThreadgroup")]
+    fn maxThreadsPerThreadgroup(&self) -> MTLSize;
 
-        #[method(isLowPower)]
-        fn isLowPower(&self) -> bool;
+    #[objc2::method(sel = "isLowPower")]
+    fn isLowPower(&self) -> bool;
 
-        #[method(isHeadless)]
-        fn isHeadless(&self) -> bool;
-
-        #[method(isRemovable)]
-        fn isRemovable(&self) -> bool;
+    #[objc2::method(sel = "isHeadless")]
+    fn isHeadless(&self) -> bool;
 
-        #[method(hasUnifiedMemory)]
-        fn hasUnifiedMemory(&self) -> bool;
-
-        #[method(recommendedMaxWorkingSetSize)]
-        fn recommendedMaxWorkingSetSize(&self) -> u64;
-
-        #[method(location)]
-        fn location(&self) -> MTLDeviceLocation;
-
-        #[method(locationNumber)]
-        fn locationNumber(&self) -> NSUInteger;
-
-        #[method(maxTransferRate)]
-        fn maxTransferRate(&self) -> u64;
-
-        #[method(isDepth24Stencil8PixelFormatSupported)]
-        fn isDepth24Stencil8PixelFormatSupported(&self) -> bool;
-
-        #[method(readWriteTextureSupport)]
-        fn readWriteTextureSupport(&self) -> MTLReadWriteTextureTier;
-
-        #[method(argumentBuffersSupport)]
-        fn argumentBuffersSupport(&self) -> MTLArgumentBuffersTier;
-
-        #[method(areRasterOrderGroupsSupported)]
-        unsafe fn areRasterOrderGroupsSupported(&self) -> bool;
-
-        #[method(supports32BitFloatFiltering)]
-        fn supports32BitFloatFiltering(&self) -> bool;
-
-        #[method(supports32BitMSAA)]
-        fn supports32BitMSAA(&self) -> bool;
-
-        #[method(supportsQueryTextureLOD)]
-        fn supportsQueryTextureLOD(&self) -> bool;
-
-        #[method(supportsBCTextureCompression)]
-        fn supportsBCTextureCompression(&self) -> bool;
-
-        #[method(supportsPullModelInterpolation)]
-        fn supportsPullModelInterpolation(&self) -> bool;
-
-        #[deprecated]
-        #[method(areBarycentricCoordsSupported)]
-        unsafe fn areBarycentricCoordsSupported(&self) -> bool;
-
-        #[method(supportsShaderBarycentricCoordinates)]
-        fn supportsShaderBarycentricCoordinates(&self) -> bool;
-
-        #[method(currentAllocatedSize)]
-        fn currentAllocatedSize(&self) -> NSUInteger;
-
-        #[method_id(@__retain_semantics New newCommandQueue)]
-        fn newCommandQueue(&self) -> Option<Id<ProtocolObject<dyn MTLCommandQueue>>>;
-
-        #[method_id(@__retain_semantics New newCommandQueueWithMaxCommandBufferCount:)]
-        fn newCommandQueueWithMaxCommandBufferCount(
-            &self,
-            max_command_buffer_count: NSUInteger,
-        ) -> Option<Id<ProtocolObject<dyn MTLCommandQueue>>>;
-
-        #[cfg(feature = "Metal_MTLTextureDescriptor")]
-        #[method(heapTextureSizeAndAlignWithDescriptor:)]
-        fn heapTextureSizeAndAlignWithDescriptor(
-            &self,
-            desc: &MTLTextureDescriptor,
-        ) -> MTLSizeAndAlign;
-
-        #[method(heapBufferSizeAndAlignWithLength:options:)]
-        fn heapBufferSizeAndAlignWithLength_options(
-            &self,
-            length: NSUInteger,
-            options: MTLResourceOptions,
-        ) -> MTLSizeAndAlign;
-
-        #[cfg(feature = "Metal_MTLHeapDescriptor")]
-        #[method_id(@__retain_semantics New newHeapWithDescriptor:)]
-        fn newHeapWithDescriptor(
-            &self,
-            descriptor: &MTLHeapDescriptor,
-        ) -> Option<Id<ProtocolObject<dyn MTLHeap>>>;
-
-        #[method_id(@__retain_semantics New newBufferWithLength:options:)]
-        fn newBufferWithLength_options(
-            &self,
-            length: NSUInteger,
-            options: MTLResourceOptions,
-        ) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
-
-        #[method_id(@__retain_semantics New newBufferWithBytes:length:options:)]
-        unsafe fn newBufferWithBytes_length_options(
-            &self,
-            pointer: NonNull<c_void>,
-            length: NSUInteger,
-            options: MTLResourceOptions,
-        ) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
-
-        #[method_id(@__retain_semantics New newBufferWithBytesNoCopy:length:options:deallocator:)]
-        unsafe fn newBufferWithBytesNoCopy_length_options_deallocator(
-            &self,
-            pointer: NonNull<c_void>,
-            length: NSUInteger,
-            options: MTLResourceOptions,
-            deallocator: Option<&Block<(NonNull<c_void>, NSUInteger), ()>>,
-        ) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
-
-        #[cfg(feature = "Metal_MTLDepthStencilDescriptor")]
-        #[method_id(@__retain_semantics New newDepthStencilStateWithDescriptor:)]
-        fn newDepthStencilStateWithDescriptor(
-            &self,
-            descriptor: &MTLDepthStencilDescriptor,
-        ) -> Option<Id<ProtocolObject<dyn MTLDepthStencilState>>>;
-
-        #[cfg(feature = "Metal_MTLTextureDescriptor")]
-        #[method_id(@__retain_semantics New newTextureWithDescriptor:)]
-        fn newTextureWithDescriptor(
-            &self,
-            descriptor: &MTLTextureDescriptor,
-        ) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
-
-        #[cfg(feature = "Metal_MTLTextureDescriptor")]
-        #[method_id(@__retain_semantics New newSharedTextureWithDescriptor:)]
-        unsafe fn newSharedTextureWithDescriptor(
-            &self,
-            descriptor: &MTLTextureDescriptor,
-        ) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
-
-        #[cfg(feature = "Metal_MTLSharedTextureHandle")]
-        #[method_id(@__retain_semantics New newSharedTextureWithHandle:)]
-        unsafe fn newSharedTextureWithHandle(
-            &self,
-            shared_handle: &MTLSharedTextureHandle,
-        ) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
-
-        #[cfg(feature = "Metal_MTLSamplerDescriptor")]
-        #[method_id(@__retain_semantics New newSamplerStateWithDescriptor:)]
-        fn newSamplerStateWithDescriptor(
-            &self,
-            descriptor: &MTLSamplerDescriptor,
-        ) -> Option<Id<ProtocolObject<dyn MTLSamplerState>>>;
-
-        #[method_id(@__retain_semantics New newDefaultLibrary)]
-        fn newDefaultLibrary(&self) -> Option<Id<ProtocolObject<dyn MTLLibrary>>>;
-
-        #[cfg(all(feature = "Foundation_NSBundle", feature = "Foundation_NSError"))]
-        #[method_id(@__retain_semantics New newDefaultLibraryWithBundle:error:_)]
-        unsafe fn newDefaultLibraryWithBundle_error(
-            &self,
-            bundle: &NSBundle,
-        ) -> Result<Id<ProtocolObject<dyn MTLLibrary>>, Id<NSError>>;
-
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[deprecated = "Use -newLibraryWithURL:error: instead"]
-        #[method_id(@__retain_semantics New newLibraryWithFile:error:_)]
-        fn newLibraryWithFile_error(
-            &self,
-            filepath: &NSString,
-        ) -> Result<Id<ProtocolObject<dyn MTLLibrary>>, Id<NSError>>;
-
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics New newLibraryWithURL:error:_)]
-        unsafe fn newLibraryWithURL_error(
-            &self,
-            url: &NSURL,
-        ) -> Result<Id<ProtocolObject<dyn MTLLibrary>>, Id<NSError>>;
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Metal_MTLCompileOptions"
-        ))]
-        #[method_id(@__retain_semantics New newLibraryWithSource:options:error:_)]
-        fn newLibraryWithSource_options_error(
-            &self,
-            source: &NSString,
-            options: Option<&MTLCompileOptions>,
-        ) -> Result<Id<ProtocolObject<dyn MTLLibrary>>, Id<NSError>>;
-
-        #[cfg(all(feature = "Foundation_NSString", feature = "Metal_MTLCompileOptions"))]
-        #[method(newLibraryWithSource:options:completionHandler:)]
-        unsafe fn newLibraryWithSource_options_completionHandler(
-            &self,
-            source: &NSString,
-            options: Option<&MTLCompileOptions>,
-            completion_handler: MTLNewLibraryCompletionHandler,
-        );
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Metal_MTLStitchedLibraryDescriptor"
-        ))]
-        #[method_id(@__retain_semantics New newLibraryWithStitchedDescriptor:error:_)]
-        unsafe fn newLibraryWithStitchedDescriptor_error(
-            &self,
-            descriptor: &MTLStitchedLibraryDescriptor,
-        ) -> Result<Id<ProtocolObject<dyn MTLLibrary>>, Id<NSError>>;
-
-        #[cfg(feature = "Metal_MTLStitchedLibraryDescriptor")]
-        #[method(newLibraryWithStitchedDescriptor:completionHandler:)]
-        unsafe fn newLibraryWithStitchedDescriptor_completionHandler(
-            &self,
-            descriptor: &MTLStitchedLibraryDescriptor,
-            completion_handler: MTLNewLibraryCompletionHandler,
-        );
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Metal_MTLRenderPipelineDescriptor"
-        ))]
-        #[method_id(@__retain_semantics New newRenderPipelineStateWithDescriptor:error:_)]
-        fn newRenderPipelineStateWithDescriptor_error(
-            &self,
-            descriptor: &MTLRenderPipelineDescriptor,
-        ) -> Result<Id<ProtocolObject<dyn MTLRenderPipelineState>>, Id<NSError>>;
-
-        #[cfg(feature = "Metal_MTLRenderPipelineDescriptor")]
-        #[method(newRenderPipelineStateWithDescriptor:completionHandler:)]
-        unsafe fn newRenderPipelineStateWithDescriptor_completionHandler(
-            &self,
-            descriptor: &MTLRenderPipelineDescriptor,
-            completion_handler: MTLNewRenderPipelineStateCompletionHandler,
-        );
-
-        #[cfg(feature = "Metal_MTLRenderPipelineDescriptor")]
-        #[method(newRenderPipelineStateWithDescriptor:options:completionHandler:)]
-        unsafe fn newRenderPipelineStateWithDescriptor_options_completionHandler(
-            &self,
-            descriptor: &MTLRenderPipelineDescriptor,
-            options: MTLPipelineOption,
-            completion_handler: MTLNewRenderPipelineStateWithReflectionCompletionHandler,
-        );
-
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics New newComputePipelineStateWithFunction:error:_)]
-        fn newComputePipelineStateWithFunction_error(
-            &self,
-            compute_function: &ProtocolObject<dyn MTLFunction>,
-        ) -> Result<Id<ProtocolObject<dyn MTLComputePipelineState>>, Id<NSError>>;
-
-        #[method(newComputePipelineStateWithFunction:completionHandler:)]
-        unsafe fn newComputePipelineStateWithFunction_completionHandler(
-            &self,
-            compute_function: &ProtocolObject<dyn MTLFunction>,
-            completion_handler: MTLNewComputePipelineStateCompletionHandler,
-        );
-
-        #[method(newComputePipelineStateWithFunction:options:completionHandler:)]
-        unsafe fn newComputePipelineStateWithFunction_options_completionHandler(
-            &self,
-            compute_function: &ProtocolObject<dyn MTLFunction>,
-            options: MTLPipelineOption,
-            completion_handler: MTLNewComputePipelineStateWithReflectionCompletionHandler,
-        );
-
-        #[cfg(feature = "Metal_MTLComputePipelineDescriptor")]
-        #[method(newComputePipelineStateWithDescriptor:options:completionHandler:)]
-        unsafe fn newComputePipelineStateWithDescriptor_options_completionHandler(
-            &self,
-            descriptor: &MTLComputePipelineDescriptor,
-            options: MTLPipelineOption,
-            completion_handler: MTLNewComputePipelineStateWithReflectionCompletionHandler,
-        );
-
-        #[method_id(@__retain_semantics New newFence)]
-        fn newFence(&self) -> Option<Id<ProtocolObject<dyn MTLFence>>>;
-
-        #[deprecated = "Use supportsFamily instead"]
-        #[method(supportsFeatureSet:)]
-        fn supportsFeatureSet(&self, feature_set: MTLFeatureSet) -> bool;
-
-        #[method(supportsFamily:)]
-        fn supportsFamily(&self, gpu_family: MTLGPUFamily) -> bool;
-
-        #[method(supportsTextureSampleCount:)]
-        fn supportsTextureSampleCount(&self, sample_count: NSUInteger) -> bool;
-
-        #[method(minimumLinearTextureAlignmentForPixelFormat:)]
-        fn minimumLinearTextureAlignmentForPixelFormat(&self, format: MTLPixelFormat)
-            -> NSUInteger;
-
-        #[method(minimumTextureBufferAlignmentForPixelFormat:)]
-        fn minimumTextureBufferAlignmentForPixelFormat(&self, format: MTLPixelFormat)
-            -> NSUInteger;
-
-        #[cfg(feature = "Metal_MTLTileRenderPipelineDescriptor")]
-        #[method(newRenderPipelineStateWithTileDescriptor:options:completionHandler:)]
-        unsafe fn newRenderPipelineStateWithTileDescriptor_options_completionHandler(
-            &self,
-            descriptor: &MTLTileRenderPipelineDescriptor,
-            options: MTLPipelineOption,
-            completion_handler: MTLNewRenderPipelineStateWithReflectionCompletionHandler,
-        );
-
-        #[cfg(feature = "Metal_MTLMeshRenderPipelineDescriptor")]
-        #[method(newRenderPipelineStateWithMeshDescriptor:options:completionHandler:)]
-        unsafe fn newRenderPipelineStateWithMeshDescriptor_options_completionHandler(
-            &self,
-            descriptor: &MTLMeshRenderPipelineDescriptor,
-            options: MTLPipelineOption,
-            completion_handler: MTLNewRenderPipelineStateWithReflectionCompletionHandler,
-        );
-
-        #[method(maxThreadgroupMemoryLength)]
-        fn maxThreadgroupMemoryLength(&self) -> NSUInteger;
-
-        #[method(maxArgumentBufferSamplerCount)]
-        fn maxArgumentBufferSamplerCount(&self) -> NSUInteger;
-
-        #[method(areProgrammableSamplePositionsSupported)]
-        unsafe fn areProgrammableSamplePositionsSupported(&self) -> bool;
-
-        #[method(getDefaultSamplePositions:count:)]
-        unsafe fn getDefaultSamplePositions_count(
-            &self,
-            positions: NonNull<MTLSamplePosition>,
-            count: NSUInteger,
-        );
-
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Metal_MTLArgumentDescriptor"
-        ))]
-        #[method_id(@__retain_semantics New newArgumentEncoderWithArguments:)]
-        fn newArgumentEncoderWithArguments(
-            &self,
-            arguments: &NSArray<MTLArgumentDescriptor>,
-        ) -> Option<Id<ProtocolObject<dyn MTLArgumentEncoder>>>;
-
-        #[method(supportsRasterizationRateMapWithLayerCount:)]
-        unsafe fn supportsRasterizationRateMapWithLayerCount(
-            &self,
-            layer_count: NSUInteger,
-        ) -> bool;
-
-        #[cfg(feature = "Metal_MTLRasterizationRateMapDescriptor")]
-        #[method_id(@__retain_semantics New newRasterizationRateMapWithDescriptor:)]
-        unsafe fn newRasterizationRateMapWithDescriptor(
-            &self,
-            descriptor: &MTLRasterizationRateMapDescriptor,
-        ) -> Option<Id<ProtocolObject<dyn MTLRasterizationRateMap>>>;
-
-        #[cfg(feature = "Metal_MTLIndirectCommandBufferDescriptor")]
-        #[method_id(@__retain_semantics New newIndirectCommandBufferWithDescriptor:maxCommandCount:options:)]
-        unsafe fn newIndirectCommandBufferWithDescriptor_maxCommandCount_options(
-            &self,
-            descriptor: &MTLIndirectCommandBufferDescriptor,
-            max_count: NSUInteger,
-            options: MTLResourceOptions,
-        ) -> Option<Id<ProtocolObject<dyn MTLIndirectCommandBuffer>>>;
-
-        #[method_id(@__retain_semantics New newEvent)]
-        fn newEvent(&self) -> Option<Id<ProtocolObject<dyn MTLEvent>>>;
-
-        #[method_id(@__retain_semantics New newSharedEvent)]
-        fn newSharedEvent(&self) -> Option<Id<ProtocolObject<dyn MTLSharedEvent>>>;
-
-        #[cfg(feature = "Metal_MTLSharedEventHandle")]
-        #[method_id(@__retain_semantics New newSharedEventWithHandle:)]
-        unsafe fn newSharedEventWithHandle(
-            &self,
-            shared_event_handle: &MTLSharedEventHandle,
-        ) -> Option<Id<ProtocolObject<dyn MTLSharedEvent>>>;
-
-        #[method(peerGroupID)]
-        unsafe fn peerGroupID(&self) -> u64;
-
-        #[method(peerIndex)]
-        unsafe fn peerIndex(&self) -> u32;
-
-        #[method(peerCount)]
-        unsafe fn peerCount(&self) -> u32;
-
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics New newIOHandleWithURL:error:_)]
-        unsafe fn newIOHandleWithURL_error(
-            &self,
-            url: &NSURL,
-        ) -> Result<Id<ProtocolObject<dyn MTLIOFileHandle>>, Id<NSError>>;
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Metal_MTLIOCommandQueueDescriptor"
-        ))]
-        #[method_id(@__retain_semantics New newIOCommandQueueWithDescriptor:error:_)]
-        unsafe fn newIOCommandQueueWithDescriptor_error(
-            &self,
-            descriptor: &MTLIOCommandQueueDescriptor,
-        ) -> Result<Id<ProtocolObject<dyn MTLIOCommandQueue>>, Id<NSError>>;
-
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics New newIOHandleWithURL:compressionMethod:error:_)]
-        unsafe fn newIOHandleWithURL_compressionMethod_error(
-            &self,
-            url: &NSURL,
-            compression_method: MTLIOCompressionMethod,
-        ) -> Result<Id<ProtocolObject<dyn MTLIOFileHandle>>, Id<NSError>>;
-
-        #[method(sparseTileSizeWithTextureType:pixelFormat:sampleCount:)]
-        unsafe fn sparseTileSizeWithTextureType_pixelFormat_sampleCount(
-            &self,
-            texture_type: MTLTextureType,
-            pixel_format: MTLPixelFormat,
-            sample_count: NSUInteger,
-        ) -> MTLSize;
-
-        #[method(sparseTileSizeInBytes)]
-        unsafe fn sparseTileSizeInBytes(&self) -> NSUInteger;
-
-        #[optional]
-        #[method(convertSparsePixelRegions:toTileRegions:withTileSize:alignmentMode:numRegions:)]
-        unsafe fn convertSparsePixelRegions_toTileRegions_withTileSize_alignmentMode_numRegions(
-            &self,
-            pixel_regions: NonNull<MTLRegion>,
-            tile_regions: NonNull<MTLRegion>,
-            tile_size: MTLSize,
-            mode: MTLSparseTextureRegionAlignmentMode,
-            num_regions: NSUInteger,
-        );
-
-        #[optional]
-        #[method(convertSparseTileRegions:toPixelRegions:withTileSize:numRegions:)]
-        unsafe fn convertSparseTileRegions_toPixelRegions_withTileSize_numRegions(
-            &self,
-            tile_regions: NonNull<MTLRegion>,
-            pixel_regions: NonNull<MTLRegion>,
-            tile_size: MTLSize,
-            num_regions: NSUInteger,
-        );
-
-        #[method(sparseTileSizeInBytesForSparsePageSize:)]
-        unsafe fn sparseTileSizeInBytesForSparsePageSize(
-            &self,
-            sparse_page_size: MTLSparsePageSize,
-        ) -> NSUInteger;
-
-        #[method(sparseTileSizeWithTextureType:pixelFormat:sampleCount:sparsePageSize:)]
-        unsafe fn sparseTileSizeWithTextureType_pixelFormat_sampleCount_sparsePageSize(
-            &self,
-            texture_type: MTLTextureType,
-            pixel_format: MTLPixelFormat,
-            sample_count: NSUInteger,
-            sparse_page_size: MTLSparsePageSize,
-        ) -> MTLSize;
-
-        #[method(maxBufferLength)]
-        fn maxBufferLength(&self) -> NSUInteger;
-
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other counterSets)]
-        unsafe fn counterSets(&self) -> Option<Id<NSArray<ProtocolObject<dyn MTLCounterSet>>>>;
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Metal_MTLCounterSampleBufferDescriptor"
-        ))]
-        #[method_id(@__retain_semantics New newCounterSampleBufferWithDescriptor:error:_)]
-        unsafe fn newCounterSampleBufferWithDescriptor_error(
-            &self,
-            descriptor: &MTLCounterSampleBufferDescriptor,
-        ) -> Result<Id<ProtocolObject<dyn MTLCounterSampleBuffer>>, Id<NSError>>;
-
-        #[method(sampleTimestamps:gpuTimestamp:)]
-        unsafe fn sampleTimestamps_gpuTimestamp(
-            &self,
-            cpu_timestamp: NonNull<MTLTimestamp>,
-            gpu_timestamp: NonNull<MTLTimestamp>,
-        );
-
-        #[method_id(@__retain_semantics New newArgumentEncoderWithBufferBinding:)]
-        unsafe fn newArgumentEncoderWithBufferBinding(
-            &self,
-            buffer_binding: &ProtocolObject<dyn MTLBufferBinding>,
-        ) -> Id<ProtocolObject<dyn MTLArgumentEncoder>>;
-
-        #[method(supportsCounterSampling:)]
-        fn supportsCounterSampling(&self, sampling_point: MTLCounterSamplingPoint) -> bool;
-
-        #[method(supportsVertexAmplificationCount:)]
-        fn supportsVertexAmplificationCount(&self, count: NSUInteger) -> bool;
-
-        #[method(supportsDynamicLibraries)]
-        fn supportsDynamicLibraries(&self) -> bool;
-
-        #[method(supportsRenderDynamicLibraries)]
-        unsafe fn supportsRenderDynamicLibraries(&self) -> bool;
-
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics New newDynamicLibrary:error:_)]
-        fn newDynamicLibrary_error(
-            &self,
-            library: &ProtocolObject<dyn MTLLibrary>,
-        ) -> Result<Id<ProtocolObject<dyn MTLDynamicLibrary>>, Id<NSError>>;
-
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics New newDynamicLibraryWithURL:error:_)]
-        fn newDynamicLibraryWithURL_error(
-            &self,
-            url: &NSURL,
-        ) -> Result<Id<ProtocolObject<dyn MTLDynamicLibrary>>, Id<NSError>>;
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Metal_MTLBinaryArchiveDescriptor"
-        ))]
-        #[method_id(@__retain_semantics New newBinaryArchiveWithDescriptor:error:_)]
-        fn newBinaryArchiveWithDescriptor_error(
-            &self,
-            descriptor: &MTLBinaryArchiveDescriptor,
-        ) -> Result<Id<ProtocolObject<dyn MTLBinaryArchive>>, Id<NSError>>;
-
-        #[method(supportsRaytracing)]
-        fn supportsRaytracing(&self) -> bool;
-
-        #[cfg(feature = "Metal_MTLAccelerationStructureDescriptor")]
-        #[method(accelerationStructureSizesWithDescriptor:)]
-        fn accelerationStructureSizesWithDescriptor(
-            &self,
-            descriptor: &MTLAccelerationStructureDescriptor,
-        ) -> MTLAccelerationStructureSizes;
-
-        #[method_id(@__retain_semantics New newAccelerationStructureWithSize:)]
-        fn newAccelerationStructureWithSize(
-            &self,
-            size: NSUInteger,
-        ) -> Option<Id<ProtocolObject<dyn MTLAccelerationStructure>>>;
-
-        #[cfg(feature = "Metal_MTLAccelerationStructureDescriptor")]
-        #[method_id(@__retain_semantics New newAccelerationStructureWithDescriptor:)]
-        unsafe fn newAccelerationStructureWithDescriptor(
-            &self,
-            descriptor: &MTLAccelerationStructureDescriptor,
-        ) -> Option<Id<ProtocolObject<dyn MTLAccelerationStructure>>>;
-
-        #[method(heapAccelerationStructureSizeAndAlignWithSize:)]
-        unsafe fn heapAccelerationStructureSizeAndAlignWithSize(
-            &self,
-            size: NSUInteger,
-        ) -> MTLSizeAndAlign;
-
-        #[cfg(feature = "Metal_MTLAccelerationStructureDescriptor")]
-        #[method(heapAccelerationStructureSizeAndAlignWithDescriptor:)]
-        unsafe fn heapAccelerationStructureSizeAndAlignWithDescriptor(
-            &self,
-            descriptor: &MTLAccelerationStructureDescriptor,
-        ) -> MTLSizeAndAlign;
-
-        #[method(supportsFunctionPointers)]
-        fn supportsFunctionPointers(&self) -> bool;
-
-        #[method(supportsFunctionPointersFromRender)]
-        unsafe fn supportsFunctionPointersFromRender(&self) -> bool;
-
-        #[method(supportsRaytracingFromRender)]
-        unsafe fn supportsRaytracingFromRender(&self) -> bool;
-
-        #[method(supportsPrimitiveMotionBlur)]
-        unsafe fn supportsPrimitiveMotionBlur(&self) -> bool;
-    }
-
-    unsafe impl ProtocolType for dyn MTLDevice {}
-);
+    #[objc2::method(sel = "isRemovable")]
+    fn isRemovable(&self) -> bool;
+
+    #[objc2::method(sel = "hasUnifiedMemory")]
+    fn hasUnifiedMemory(&self) -> bool;
+
+    #[objc2::method(sel = "recommendedMaxWorkingSetSize")]
+    fn recommendedMaxWorkingSetSize(&self) -> u64;
+
+    #[objc2::method(sel = "location")]
+    fn location(&self) -> MTLDeviceLocation;
+
+    #[objc2::method(sel = "locationNumber")]
+    fn locationNumber(&self) -> NSUInteger;
+
+    #[objc2::method(sel = "maxTransferRate")]
+    fn maxTransferRate(&self) -> u64;
+
+    #[objc2::method(sel = "isDepth24Stencil8PixelFormatSupported")]
+    fn isDepth24Stencil8PixelFormatSupported(&self) -> bool;
+
+    #[objc2::method(sel = "readWriteTextureSupport")]
+    fn readWriteTextureSupport(&self) -> MTLReadWriteTextureTier;
+
+    #[objc2::method(sel = "argumentBuffersSupport")]
+    fn argumentBuffersSupport(&self) -> MTLArgumentBuffersTier;
+
+    #[objc2::method(sel = "areRasterOrderGroupsSupported")]
+    unsafe fn areRasterOrderGroupsSupported(&self) -> bool;
+
+    #[objc2::method(sel = "supports32BitFloatFiltering")]
+    fn supports32BitFloatFiltering(&self) -> bool;
+
+    #[objc2::method(sel = "supports32BitMSAA")]
+    fn supports32BitMSAA(&self) -> bool;
+
+    #[objc2::method(sel = "supportsQueryTextureLOD")]
+    fn supportsQueryTextureLOD(&self) -> bool;
+
+    #[objc2::method(sel = "supportsBCTextureCompression")]
+    fn supportsBCTextureCompression(&self) -> bool;
+
+    #[objc2::method(sel = "supportsPullModelInterpolation")]
+    fn supportsPullModelInterpolation(&self) -> bool;
+
+    #[deprecated]
+    #[objc2::method(sel = "areBarycentricCoordsSupported")]
+    unsafe fn areBarycentricCoordsSupported(&self) -> bool;
+
+    #[objc2::method(sel = "supportsShaderBarycentricCoordinates")]
+    fn supportsShaderBarycentricCoordinates(&self) -> bool;
+
+    #[objc2::method(sel = "currentAllocatedSize")]
+    fn currentAllocatedSize(&self) -> NSUInteger;
+
+    #[objc2::method(sel = "newCommandQueue", managed = "New")]
+    fn newCommandQueue(&self) -> Option<Id<ProtocolObject<dyn MTLCommandQueue>>>;
+
+    #[objc2::method(sel = "newCommandQueueWithMaxCommandBufferCount:", managed = "New")]
+    fn newCommandQueueWithMaxCommandBufferCount(
+        &self,
+        max_command_buffer_count: NSUInteger,
+    ) -> Option<Id<ProtocolObject<dyn MTLCommandQueue>>>;
+
+    #[cfg(feature = "Metal_MTLTextureDescriptor")]
+    #[objc2::method(sel = "heapTextureSizeAndAlignWithDescriptor:")]
+    fn heapTextureSizeAndAlignWithDescriptor(&self, desc: &MTLTextureDescriptor)
+        -> MTLSizeAndAlign;
+
+    #[objc2::method(sel = "heapBufferSizeAndAlignWithLength:options:")]
+    fn heapBufferSizeAndAlignWithLength_options(
+        &self,
+        length: NSUInteger,
+        options: MTLResourceOptions,
+    ) -> MTLSizeAndAlign;
+
+    #[cfg(feature = "Metal_MTLHeapDescriptor")]
+    #[objc2::method(sel = "newHeapWithDescriptor:", managed = "New")]
+    fn newHeapWithDescriptor(
+        &self,
+        descriptor: &MTLHeapDescriptor,
+    ) -> Option<Id<ProtocolObject<dyn MTLHeap>>>;
+
+    #[objc2::method(sel = "newBufferWithLength:options:", managed = "New")]
+    fn newBufferWithLength_options(
+        &self,
+        length: NSUInteger,
+        options: MTLResourceOptions,
+    ) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+
+    #[objc2::method(sel = "newBufferWithBytes:length:options:", managed = "New")]
+    unsafe fn newBufferWithBytes_length_options(
+        &self,
+        pointer: NonNull<c_void>,
+        length: NSUInteger,
+        options: MTLResourceOptions,
+    ) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+
+    #[objc2::method(
+        sel = "newBufferWithBytesNoCopy:length:options:deallocator:",
+        managed = "New"
+    )]
+    unsafe fn newBufferWithBytesNoCopy_length_options_deallocator(
+        &self,
+        pointer: NonNull<c_void>,
+        length: NSUInteger,
+        options: MTLResourceOptions,
+        deallocator: Option<&Block<(NonNull<c_void>, NSUInteger), ()>>,
+    ) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+
+    #[cfg(feature = "Metal_MTLDepthStencilDescriptor")]
+    #[objc2::method(sel = "newDepthStencilStateWithDescriptor:", managed = "New")]
+    fn newDepthStencilStateWithDescriptor(
+        &self,
+        descriptor: &MTLDepthStencilDescriptor,
+    ) -> Option<Id<ProtocolObject<dyn MTLDepthStencilState>>>;
+
+    #[cfg(feature = "Metal_MTLTextureDescriptor")]
+    #[objc2::method(sel = "newTextureWithDescriptor:", managed = "New")]
+    fn newTextureWithDescriptor(
+        &self,
+        descriptor: &MTLTextureDescriptor,
+    ) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
+
+    #[cfg(feature = "Metal_MTLTextureDescriptor")]
+    #[objc2::method(sel = "newSharedTextureWithDescriptor:", managed = "New")]
+    unsafe fn newSharedTextureWithDescriptor(
+        &self,
+        descriptor: &MTLTextureDescriptor,
+    ) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
+
+    #[cfg(feature = "Metal_MTLSharedTextureHandle")]
+    #[objc2::method(sel = "newSharedTextureWithHandle:", managed = "New")]
+    unsafe fn newSharedTextureWithHandle(
+        &self,
+        shared_handle: &MTLSharedTextureHandle,
+    ) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
+
+    #[cfg(feature = "Metal_MTLSamplerDescriptor")]
+    #[objc2::method(sel = "newSamplerStateWithDescriptor:", managed = "New")]
+    fn newSamplerStateWithDescriptor(
+        &self,
+        descriptor: &MTLSamplerDescriptor,
+    ) -> Option<Id<ProtocolObject<dyn MTLSamplerState>>>;
+
+    #[objc2::method(sel = "newDefaultLibrary", managed = "New")]
+    fn newDefaultLibrary(&self) -> Option<Id<ProtocolObject<dyn MTLLibrary>>>;
+
+    #[cfg(all(feature = "Foundation_NSBundle", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "newDefaultLibraryWithBundle:error:", managed = "New", throws)]
+    unsafe fn newDefaultLibraryWithBundle_error(
+        &self,
+        bundle: &NSBundle,
+    ) -> Result<Id<ProtocolObject<dyn MTLLibrary>>, Id<NSError>>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[deprecated = "Use -newLibraryWithURL:error: instead"]
+    #[objc2::method(sel = "newLibraryWithFile:error:", managed = "New", throws)]
+    fn newLibraryWithFile_error(
+        &self,
+        filepath: &NSString,
+    ) -> Result<Id<ProtocolObject<dyn MTLLibrary>>, Id<NSError>>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "newLibraryWithURL:error:", managed = "New", throws)]
+    unsafe fn newLibraryWithURL_error(
+        &self,
+        url: &NSURL,
+    ) -> Result<Id<ProtocolObject<dyn MTLLibrary>>, Id<NSError>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Metal_MTLCompileOptions"
+    ))]
+    #[objc2::method(sel = "newLibraryWithSource:options:error:", managed = "New", throws)]
+    fn newLibraryWithSource_options_error(
+        &self,
+        source: &NSString,
+        options: Option<&MTLCompileOptions>,
+    ) -> Result<Id<ProtocolObject<dyn MTLLibrary>>, Id<NSError>>;
+
+    #[cfg(all(feature = "Foundation_NSString", feature = "Metal_MTLCompileOptions"))]
+    #[objc2::method(sel = "newLibraryWithSource:options:completionHandler:")]
+    unsafe fn newLibraryWithSource_options_completionHandler(
+        &self,
+        source: &NSString,
+        options: Option<&MTLCompileOptions>,
+        completion_handler: MTLNewLibraryCompletionHandler,
+    );
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Metal_MTLStitchedLibraryDescriptor"
+    ))]
+    #[objc2::method(
+        sel = "newLibraryWithStitchedDescriptor:error:",
+        managed = "New",
+        throws
+    )]
+    unsafe fn newLibraryWithStitchedDescriptor_error(
+        &self,
+        descriptor: &MTLStitchedLibraryDescriptor,
+    ) -> Result<Id<ProtocolObject<dyn MTLLibrary>>, Id<NSError>>;
+
+    #[cfg(feature = "Metal_MTLStitchedLibraryDescriptor")]
+    #[objc2::method(sel = "newLibraryWithStitchedDescriptor:completionHandler:")]
+    unsafe fn newLibraryWithStitchedDescriptor_completionHandler(
+        &self,
+        descriptor: &MTLStitchedLibraryDescriptor,
+        completion_handler: MTLNewLibraryCompletionHandler,
+    );
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Metal_MTLRenderPipelineDescriptor"
+    ))]
+    #[objc2::method(
+        sel = "newRenderPipelineStateWithDescriptor:error:",
+        managed = "New",
+        throws
+    )]
+    fn newRenderPipelineStateWithDescriptor_error(
+        &self,
+        descriptor: &MTLRenderPipelineDescriptor,
+    ) -> Result<Id<ProtocolObject<dyn MTLRenderPipelineState>>, Id<NSError>>;
+
+    #[cfg(feature = "Metal_MTLRenderPipelineDescriptor")]
+    #[objc2::method(sel = "newRenderPipelineStateWithDescriptor:completionHandler:")]
+    unsafe fn newRenderPipelineStateWithDescriptor_completionHandler(
+        &self,
+        descriptor: &MTLRenderPipelineDescriptor,
+        completion_handler: MTLNewRenderPipelineStateCompletionHandler,
+    );
+
+    #[cfg(feature = "Metal_MTLRenderPipelineDescriptor")]
+    #[objc2::method(sel = "newRenderPipelineStateWithDescriptor:options:completionHandler:")]
+    unsafe fn newRenderPipelineStateWithDescriptor_options_completionHandler(
+        &self,
+        descriptor: &MTLRenderPipelineDescriptor,
+        options: MTLPipelineOption,
+        completion_handler: MTLNewRenderPipelineStateWithReflectionCompletionHandler,
+    );
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(
+        sel = "newComputePipelineStateWithFunction:error:",
+        managed = "New",
+        throws
+    )]
+    fn newComputePipelineStateWithFunction_error(
+        &self,
+        compute_function: &ProtocolObject<dyn MTLFunction>,
+    ) -> Result<Id<ProtocolObject<dyn MTLComputePipelineState>>, Id<NSError>>;
+
+    #[objc2::method(sel = "newComputePipelineStateWithFunction:completionHandler:")]
+    unsafe fn newComputePipelineStateWithFunction_completionHandler(
+        &self,
+        compute_function: &ProtocolObject<dyn MTLFunction>,
+        completion_handler: MTLNewComputePipelineStateCompletionHandler,
+    );
+
+    #[objc2::method(sel = "newComputePipelineStateWithFunction:options:completionHandler:")]
+    unsafe fn newComputePipelineStateWithFunction_options_completionHandler(
+        &self,
+        compute_function: &ProtocolObject<dyn MTLFunction>,
+        options: MTLPipelineOption,
+        completion_handler: MTLNewComputePipelineStateWithReflectionCompletionHandler,
+    );
+
+    #[cfg(feature = "Metal_MTLComputePipelineDescriptor")]
+    #[objc2::method(sel = "newComputePipelineStateWithDescriptor:options:completionHandler:")]
+    unsafe fn newComputePipelineStateWithDescriptor_options_completionHandler(
+        &self,
+        descriptor: &MTLComputePipelineDescriptor,
+        options: MTLPipelineOption,
+        completion_handler: MTLNewComputePipelineStateWithReflectionCompletionHandler,
+    );
+
+    #[objc2::method(sel = "newFence", managed = "New")]
+    fn newFence(&self) -> Option<Id<ProtocolObject<dyn MTLFence>>>;
+
+    #[deprecated = "Use supportsFamily instead"]
+    #[objc2::method(sel = "supportsFeatureSet:")]
+    fn supportsFeatureSet(&self, feature_set: MTLFeatureSet) -> bool;
+
+    #[objc2::method(sel = "supportsFamily:")]
+    fn supportsFamily(&self, gpu_family: MTLGPUFamily) -> bool;
+
+    #[objc2::method(sel = "supportsTextureSampleCount:")]
+    fn supportsTextureSampleCount(&self, sample_count: NSUInteger) -> bool;
+
+    #[objc2::method(sel = "minimumLinearTextureAlignmentForPixelFormat:")]
+    fn minimumLinearTextureAlignmentForPixelFormat(&self, format: MTLPixelFormat) -> NSUInteger;
+
+    #[objc2::method(sel = "minimumTextureBufferAlignmentForPixelFormat:")]
+    fn minimumTextureBufferAlignmentForPixelFormat(&self, format: MTLPixelFormat) -> NSUInteger;
+
+    #[cfg(feature = "Metal_MTLTileRenderPipelineDescriptor")]
+    #[objc2::method(sel = "newRenderPipelineStateWithTileDescriptor:options:completionHandler:")]
+    unsafe fn newRenderPipelineStateWithTileDescriptor_options_completionHandler(
+        &self,
+        descriptor: &MTLTileRenderPipelineDescriptor,
+        options: MTLPipelineOption,
+        completion_handler: MTLNewRenderPipelineStateWithReflectionCompletionHandler,
+    );
+
+    #[cfg(feature = "Metal_MTLMeshRenderPipelineDescriptor")]
+    #[objc2::method(sel = "newRenderPipelineStateWithMeshDescriptor:options:completionHandler:")]
+    unsafe fn newRenderPipelineStateWithMeshDescriptor_options_completionHandler(
+        &self,
+        descriptor: &MTLMeshRenderPipelineDescriptor,
+        options: MTLPipelineOption,
+        completion_handler: MTLNewRenderPipelineStateWithReflectionCompletionHandler,
+    );
+
+    #[objc2::method(sel = "maxThreadgroupMemoryLength")]
+    fn maxThreadgroupMemoryLength(&self) -> NSUInteger;
+
+    #[objc2::method(sel = "maxArgumentBufferSamplerCount")]
+    fn maxArgumentBufferSamplerCount(&self) -> NSUInteger;
+
+    #[objc2::method(sel = "areProgrammableSamplePositionsSupported")]
+    unsafe fn areProgrammableSamplePositionsSupported(&self) -> bool;
+
+    #[objc2::method(sel = "getDefaultSamplePositions:count:")]
+    unsafe fn getDefaultSamplePositions_count(
+        &self,
+        positions: NonNull<MTLSamplePosition>,
+        count: NSUInteger,
+    );
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Metal_MTLArgumentDescriptor"
+    ))]
+    #[objc2::method(sel = "newArgumentEncoderWithArguments:", managed = "New")]
+    fn newArgumentEncoderWithArguments(
+        &self,
+        arguments: &NSArray<MTLArgumentDescriptor>,
+    ) -> Option<Id<ProtocolObject<dyn MTLArgumentEncoder>>>;
+
+    #[objc2::method(sel = "supportsRasterizationRateMapWithLayerCount:")]
+    unsafe fn supportsRasterizationRateMapWithLayerCount(&self, layer_count: NSUInteger) -> bool;
+
+    #[cfg(feature = "Metal_MTLRasterizationRateMapDescriptor")]
+    #[objc2::method(sel = "newRasterizationRateMapWithDescriptor:", managed = "New")]
+    unsafe fn newRasterizationRateMapWithDescriptor(
+        &self,
+        descriptor: &MTLRasterizationRateMapDescriptor,
+    ) -> Option<Id<ProtocolObject<dyn MTLRasterizationRateMap>>>;
+
+    #[cfg(feature = "Metal_MTLIndirectCommandBufferDescriptor")]
+    #[objc2::method(
+        sel = "newIndirectCommandBufferWithDescriptor:maxCommandCount:options:",
+        managed = "New"
+    )]
+    unsafe fn newIndirectCommandBufferWithDescriptor_maxCommandCount_options(
+        &self,
+        descriptor: &MTLIndirectCommandBufferDescriptor,
+        max_count: NSUInteger,
+        options: MTLResourceOptions,
+    ) -> Option<Id<ProtocolObject<dyn MTLIndirectCommandBuffer>>>;
+
+    #[objc2::method(sel = "newEvent", managed = "New")]
+    fn newEvent(&self) -> Option<Id<ProtocolObject<dyn MTLEvent>>>;
+
+    #[objc2::method(sel = "newSharedEvent", managed = "New")]
+    fn newSharedEvent(&self) -> Option<Id<ProtocolObject<dyn MTLSharedEvent>>>;
+
+    #[cfg(feature = "Metal_MTLSharedEventHandle")]
+    #[objc2::method(sel = "newSharedEventWithHandle:", managed = "New")]
+    unsafe fn newSharedEventWithHandle(
+        &self,
+        shared_event_handle: &MTLSharedEventHandle,
+    ) -> Option<Id<ProtocolObject<dyn MTLSharedEvent>>>;
+
+    #[objc2::method(sel = "peerGroupID")]
+    unsafe fn peerGroupID(&self) -> u64;
+
+    #[objc2::method(sel = "peerIndex")]
+    unsafe fn peerIndex(&self) -> u32;
+
+    #[objc2::method(sel = "peerCount")]
+    unsafe fn peerCount(&self) -> u32;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "newIOHandleWithURL:error:", managed = "New", throws)]
+    unsafe fn newIOHandleWithURL_error(
+        &self,
+        url: &NSURL,
+    ) -> Result<Id<ProtocolObject<dyn MTLIOFileHandle>>, Id<NSError>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Metal_MTLIOCommandQueueDescriptor"
+    ))]
+    #[objc2::method(
+        sel = "newIOCommandQueueWithDescriptor:error:",
+        managed = "New",
+        throws
+    )]
+    unsafe fn newIOCommandQueueWithDescriptor_error(
+        &self,
+        descriptor: &MTLIOCommandQueueDescriptor,
+    ) -> Result<Id<ProtocolObject<dyn MTLIOCommandQueue>>, Id<NSError>>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(
+        sel = "newIOHandleWithURL:compressionMethod:error:",
+        managed = "New",
+        throws
+    )]
+    unsafe fn newIOHandleWithURL_compressionMethod_error(
+        &self,
+        url: &NSURL,
+        compression_method: MTLIOCompressionMethod,
+    ) -> Result<Id<ProtocolObject<dyn MTLIOFileHandle>>, Id<NSError>>;
+
+    #[objc2::method(sel = "sparseTileSizeWithTextureType:pixelFormat:sampleCount:")]
+    unsafe fn sparseTileSizeWithTextureType_pixelFormat_sampleCount(
+        &self,
+        texture_type: MTLTextureType,
+        pixel_format: MTLPixelFormat,
+        sample_count: NSUInteger,
+    ) -> MTLSize;
+
+    #[objc2::method(sel = "sparseTileSizeInBytes")]
+    unsafe fn sparseTileSizeInBytes(&self) -> NSUInteger;
+
+    #[objc2::method(
+        optional,
+        sel = "convertSparsePixelRegions:toTileRegions:withTileSize:alignmentMode:numRegions:"
+    )]
+    unsafe fn convertSparsePixelRegions_toTileRegions_withTileSize_alignmentMode_numRegions(
+        &self,
+        pixel_regions: NonNull<MTLRegion>,
+        tile_regions: NonNull<MTLRegion>,
+        tile_size: MTLSize,
+        mode: MTLSparseTextureRegionAlignmentMode,
+        num_regions: NSUInteger,
+    );
+
+    #[objc2::method(
+        optional,
+        sel = "convertSparseTileRegions:toPixelRegions:withTileSize:numRegions:"
+    )]
+    unsafe fn convertSparseTileRegions_toPixelRegions_withTileSize_numRegions(
+        &self,
+        tile_regions: NonNull<MTLRegion>,
+        pixel_regions: NonNull<MTLRegion>,
+        tile_size: MTLSize,
+        num_regions: NSUInteger,
+    );
+
+    #[objc2::method(sel = "sparseTileSizeInBytesForSparsePageSize:")]
+    unsafe fn sparseTileSizeInBytesForSparsePageSize(
+        &self,
+        sparse_page_size: MTLSparsePageSize,
+    ) -> NSUInteger;
+
+    #[objc2::method(sel = "sparseTileSizeWithTextureType:pixelFormat:sampleCount:sparsePageSize:")]
+    unsafe fn sparseTileSizeWithTextureType_pixelFormat_sampleCount_sparsePageSize(
+        &self,
+        texture_type: MTLTextureType,
+        pixel_format: MTLPixelFormat,
+        sample_count: NSUInteger,
+        sparse_page_size: MTLSparsePageSize,
+    ) -> MTLSize;
+
+    #[objc2::method(sel = "maxBufferLength")]
+    fn maxBufferLength(&self) -> NSUInteger;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "counterSets", managed = "Other")]
+    unsafe fn counterSets(&self) -> Option<Id<NSArray<ProtocolObject<dyn MTLCounterSet>>>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Metal_MTLCounterSampleBufferDescriptor"
+    ))]
+    #[objc2::method(
+        sel = "newCounterSampleBufferWithDescriptor:error:",
+        managed = "New",
+        throws
+    )]
+    unsafe fn newCounterSampleBufferWithDescriptor_error(
+        &self,
+        descriptor: &MTLCounterSampleBufferDescriptor,
+    ) -> Result<Id<ProtocolObject<dyn MTLCounterSampleBuffer>>, Id<NSError>>;
+
+    #[objc2::method(sel = "sampleTimestamps:gpuTimestamp:")]
+    unsafe fn sampleTimestamps_gpuTimestamp(
+        &self,
+        cpu_timestamp: NonNull<MTLTimestamp>,
+        gpu_timestamp: NonNull<MTLTimestamp>,
+    );
+
+    #[objc2::method(sel = "newArgumentEncoderWithBufferBinding:", managed = "New")]
+    unsafe fn newArgumentEncoderWithBufferBinding(
+        &self,
+        buffer_binding: &ProtocolObject<dyn MTLBufferBinding>,
+    ) -> Id<ProtocolObject<dyn MTLArgumentEncoder>>;
+
+    #[objc2::method(sel = "supportsCounterSampling:")]
+    fn supportsCounterSampling(&self, sampling_point: MTLCounterSamplingPoint) -> bool;
+
+    #[objc2::method(sel = "supportsVertexAmplificationCount:")]
+    fn supportsVertexAmplificationCount(&self, count: NSUInteger) -> bool;
+
+    #[objc2::method(sel = "supportsDynamicLibraries")]
+    fn supportsDynamicLibraries(&self) -> bool;
+
+    #[objc2::method(sel = "supportsRenderDynamicLibraries")]
+    unsafe fn supportsRenderDynamicLibraries(&self) -> bool;
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "newDynamicLibrary:error:", managed = "New", throws)]
+    fn newDynamicLibrary_error(
+        &self,
+        library: &ProtocolObject<dyn MTLLibrary>,
+    ) -> Result<Id<ProtocolObject<dyn MTLDynamicLibrary>>, Id<NSError>>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "newDynamicLibraryWithURL:error:", managed = "New", throws)]
+    fn newDynamicLibraryWithURL_error(
+        &self,
+        url: &NSURL,
+    ) -> Result<Id<ProtocolObject<dyn MTLDynamicLibrary>>, Id<NSError>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Metal_MTLBinaryArchiveDescriptor"
+    ))]
+    #[objc2::method(sel = "newBinaryArchiveWithDescriptor:error:", managed = "New", throws)]
+    fn newBinaryArchiveWithDescriptor_error(
+        &self,
+        descriptor: &MTLBinaryArchiveDescriptor,
+    ) -> Result<Id<ProtocolObject<dyn MTLBinaryArchive>>, Id<NSError>>;
+
+    #[objc2::method(sel = "supportsRaytracing")]
+    fn supportsRaytracing(&self) -> bool;
+
+    #[cfg(feature = "Metal_MTLAccelerationStructureDescriptor")]
+    #[objc2::method(sel = "accelerationStructureSizesWithDescriptor:")]
+    fn accelerationStructureSizesWithDescriptor(
+        &self,
+        descriptor: &MTLAccelerationStructureDescriptor,
+    ) -> MTLAccelerationStructureSizes;
+
+    #[objc2::method(sel = "newAccelerationStructureWithSize:", managed = "New")]
+    fn newAccelerationStructureWithSize(
+        &self,
+        size: NSUInteger,
+    ) -> Option<Id<ProtocolObject<dyn MTLAccelerationStructure>>>;
+
+    #[cfg(feature = "Metal_MTLAccelerationStructureDescriptor")]
+    #[objc2::method(sel = "newAccelerationStructureWithDescriptor:", managed = "New")]
+    unsafe fn newAccelerationStructureWithDescriptor(
+        &self,
+        descriptor: &MTLAccelerationStructureDescriptor,
+    ) -> Option<Id<ProtocolObject<dyn MTLAccelerationStructure>>>;
+
+    #[objc2::method(sel = "heapAccelerationStructureSizeAndAlignWithSize:")]
+    unsafe fn heapAccelerationStructureSizeAndAlignWithSize(
+        &self,
+        size: NSUInteger,
+    ) -> MTLSizeAndAlign;
+
+    #[cfg(feature = "Metal_MTLAccelerationStructureDescriptor")]
+    #[objc2::method(sel = "heapAccelerationStructureSizeAndAlignWithDescriptor:")]
+    unsafe fn heapAccelerationStructureSizeAndAlignWithDescriptor(
+        &self,
+        descriptor: &MTLAccelerationStructureDescriptor,
+    ) -> MTLSizeAndAlign;
+
+    #[objc2::method(sel = "supportsFunctionPointers")]
+    fn supportsFunctionPointers(&self) -> bool;
+
+    #[objc2::method(sel = "supportsFunctionPointersFromRender")]
+    unsafe fn supportsFunctionPointersFromRender(&self) -> bool;
+
+    #[objc2::method(sel = "supportsRaytracingFromRender")]
+    unsafe fn supportsRaytracingFromRender(&self) -> bool;
+
+    #[objc2::method(sel = "supportsPrimitiveMotionBlur")]
+    unsafe fn supportsPrimitiveMotionBlur(&self) -> bool;
+}

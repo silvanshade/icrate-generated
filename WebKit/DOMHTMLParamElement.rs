@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLParamElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLParamElement;
-
     #[cfg(feature = "WebKit_DOMHTMLParamElement")]
-    unsafe impl ClassType for DOMHTMLParamElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLParamElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLParamElement")]
 unsafe impl DOMEventTarget for DOMHTMLParamElement {}
@@ -24,39 +28,43 @@ unsafe impl DOMEventTarget for DOMHTMLParamElement {}
 #[cfg(feature = "WebKit_DOMHTMLParamElement")]
 unsafe impl NSObjectProtocol for DOMHTMLParamElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLParamElement")]
-    unsafe impl DOMHTMLParamElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMHTMLParamElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other type)]
-        pub unsafe fn r#type(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setType:)]
-        pub unsafe fn setType(&self, r#type: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "type", managed = "Other")]
+    pub unsafe fn r#type(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other value)]
-        pub unsafe fn value(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setType:")]
+    pub unsafe fn setType(&self, r#type: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setValue:)]
-        pub unsafe fn setValue(&self, value: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "value", managed = "Other")]
+    pub unsafe fn value(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other valueType)]
-        pub unsafe fn valueType(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setValue:")]
+    pub unsafe fn setValue(&self, value: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setValueType:)]
-        pub unsafe fn setValueType(&self, value_type: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "valueType", managed = "Other")]
+    pub unsafe fn valueType(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setValueType:")]
+    pub unsafe fn setValueType(&self, value_type: Option<&NSString>);
+}

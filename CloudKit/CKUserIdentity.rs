@@ -5,16 +5,16 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKUserIdentity")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKUserIdentity")]
-    pub struct CKUserIdentity;
-
-    #[cfg(feature = "CloudKit_CKUserIdentity")]
-    unsafe impl ClassType for CKUserIdentity {
-        type Super = NSObject;
-    }
-);
+    pub type CKUserIdentity;
+}
 
 #[cfg(feature = "CloudKit_CKUserIdentity")]
 unsafe impl NSCoding for CKUserIdentity {}
@@ -25,32 +25,35 @@ unsafe impl NSObjectProtocol for CKUserIdentity {}
 #[cfg(feature = "CloudKit_CKUserIdentity")]
 unsafe impl NSSecureCoding for CKUserIdentity {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKUserIdentity")]
-    unsafe impl CKUserIdentity {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKUserIdentity;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKUserIdentityLookupInfo")]
-        #[method_id(@__retain_semantics Other lookupInfo)]
-        pub unsafe fn lookupInfo(&self) -> Option<Id<CKUserIdentityLookupInfo>>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSPersonNameComponents")]
-        #[method_id(@__retain_semantics Other nameComponents)]
-        pub unsafe fn nameComponents(&self) -> Option<Id<NSPersonNameComponents>>;
+    #[cfg(feature = "CloudKit_CKUserIdentityLookupInfo")]
+    #[objc2::method(sel = "lookupInfo", managed = "Other")]
+    pub unsafe fn lookupInfo(&self) -> Option<Id<CKUserIdentityLookupInfo>>;
 
-        #[cfg(feature = "CloudKit_CKRecordID")]
-        #[method_id(@__retain_semantics Other userRecordID)]
-        pub unsafe fn userRecordID(&self) -> Option<Id<CKRecordID>>;
+    #[cfg(feature = "Foundation_NSPersonNameComponents")]
+    #[objc2::method(sel = "nameComponents", managed = "Other")]
+    pub unsafe fn nameComponents(&self) -> Option<Id<NSPersonNameComponents>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other contactIdentifiers)]
-        pub unsafe fn contactIdentifiers(&self) -> Id<NSArray<NSString>>;
+    #[cfg(feature = "CloudKit_CKRecordID")]
+    #[objc2::method(sel = "userRecordID", managed = "Other")]
+    pub unsafe fn userRecordID(&self) -> Option<Id<CKRecordID>>;
 
-        #[method(hasiCloudAccount)]
-        pub unsafe fn hasiCloudAccount(&self) -> bool;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "contactIdentifiers", managed = "Other")]
+    pub unsafe fn contactIdentifiers(&self) -> Id<NSArray<NSString>>;
+
+    #[objc2::method(sel = "hasiCloudAccount")]
+    pub unsafe fn hasiCloudAccount(&self) -> bool;
+}

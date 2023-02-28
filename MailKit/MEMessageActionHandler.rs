@@ -5,24 +5,20 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MailKit::*;
 
-extern_protocol!(
-    pub unsafe trait MEMessageActionHandler: NSObjectProtocol {
-        #[cfg(all(
-            feature = "MailKit_MEMessage",
-            feature = "MailKit_MEMessageActionDecision"
-        ))]
-        #[method(decideActionForMessage:completionHandler:)]
-        unsafe fn decideActionForMessage_completionHandler(
-            &self,
-            message: &MEMessage,
-            completion_handler: &Block<(*mut MEMessageActionDecision,), ()>,
-        );
+#[objc2::protocol]
+pub unsafe trait MEMessageActionHandler: NSObjectProtocol {
+    #[cfg(all(
+        feature = "MailKit_MEMessage",
+        feature = "MailKit_MEMessageActionDecision"
+    ))]
+    #[objc2::method(sel = "decideActionForMessage:completionHandler:")]
+    unsafe fn decideActionForMessage_completionHandler(
+        &self,
+        message: &MEMessage,
+        completion_handler: &Block<(*mut MEMessageActionDecision,), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other requiredHeaders)]
-        unsafe fn requiredHeaders(&self) -> Id<NSArray<NSString>>;
-    }
-
-    unsafe impl ProtocolType for dyn MEMessageActionHandler {}
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(optional, sel = "requiredHeaders", managed = "Other")]
+    unsafe fn requiredHeaders(&self) -> Id<NSArray<NSString>>;
+}

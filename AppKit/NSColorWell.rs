@@ -5,26 +5,27 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSColorWellStyle {
-        NSColorWellStyleDefault = 0,
-        NSColorWellStyleMinimal = 1,
-        NSColorWellStyleExpanded = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSColorWellStyle {
+    NSColorWellStyleDefault = 0,
+    NSColorWellStyleMinimal = 1,
+    NSColorWellStyleExpanded = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSControl,
+    unsafe inherits = [
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSColorWell")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSColorWell")]
-    pub struct NSColorWell;
-
-    #[cfg(feature = "AppKit_NSColorWell")]
-    unsafe impl ClassType for NSColorWell {
-        #[inherits(NSView, NSResponder, NSObject)]
-        type Super = NSControl;
-    }
-);
+    pub type NSColorWell;
+}
 
 #[cfg(feature = "AppKit_NSColorWell")]
 unsafe impl NSAccessibility for NSColorWell {}
@@ -50,76 +51,85 @@ unsafe impl NSObjectProtocol for NSColorWell {}
 #[cfg(feature = "AppKit_NSColorWell")]
 unsafe impl NSUserInterfaceItemIdentification for NSColorWell {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSColorWell")]
-    unsafe impl NSColorWell {
-        #[method_id(@__retain_semantics Other colorWellWithStyle:)]
-        pub unsafe fn colorWellWithStyle(style: NSColorWellStyle) -> Id<Self>;
+    pub type NSColorWell;
 
-        #[method(deactivate)]
-        pub unsafe fn deactivate(&self);
+    #[objc2::method(sel = "colorWellWithStyle:", managed = "Other")]
+    pub unsafe fn colorWellWithStyle(style: NSColorWellStyle) -> Id<Self>;
 
-        #[method(activate:)]
-        pub unsafe fn activate(&self, exclusive: bool);
+    #[objc2::method(sel = "deactivate")]
+    pub unsafe fn deactivate(&self);
 
-        #[method(isActive)]
-        pub unsafe fn isActive(&self) -> bool;
+    #[objc2::method(sel = "activate:")]
+    pub unsafe fn activate(&self, exclusive: bool);
 
-        #[method(drawWellInside:)]
-        pub unsafe fn drawWellInside(&self, inside_rect: NSRect);
+    #[objc2::method(sel = "isActive")]
+    pub unsafe fn isActive(&self) -> bool;
 
-        #[deprecated = "This property will be deprecated in a future release."]
-        #[method(isBordered)]
-        pub unsafe fn isBordered(&self) -> bool;
+    #[objc2::method(sel = "drawWellInside:")]
+    pub unsafe fn drawWellInside(&self, inside_rect: NSRect);
 
-        #[deprecated = "This property will be deprecated in a future release."]
-        #[method(setBordered:)]
-        pub unsafe fn setBordered(&self, bordered: bool);
+    #[deprecated = "This property will be deprecated in a future release."]
+    #[objc2::method(sel = "isBordered")]
+    pub unsafe fn isBordered(&self) -> bool;
 
-        #[method(takeColorFrom:)]
-        pub unsafe fn takeColorFrom(&self, sender: Option<&Object>);
+    #[deprecated = "This property will be deprecated in a future release."]
+    #[objc2::method(sel = "setBordered:")]
+    pub unsafe fn setBordered(&self, bordered: bool);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other color)]
-        pub unsafe fn color(&self) -> Id<NSColor>;
+    #[objc2::method(sel = "takeColorFrom:")]
+    pub unsafe fn takeColorFrom(&self, sender: Option<&Object>);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setColor:)]
-        pub unsafe fn setColor(&self, color: &NSColor);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "color", managed = "Other")]
+    pub unsafe fn color(&self) -> Id<NSColor>;
 
-        #[method(colorWellStyle)]
-        pub unsafe fn colorWellStyle(&self) -> NSColorWellStyle;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setColor:")]
+    pub unsafe fn setColor(&self, color: &NSColor);
 
-        #[method(setColorWellStyle:)]
-        pub unsafe fn setColorWellStyle(&self, color_well_style: NSColorWellStyle);
+    #[objc2::method(sel = "colorWellStyle")]
+    pub unsafe fn colorWellStyle(&self) -> NSColorWellStyle;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Option<Id<NSImage>>;
+    #[objc2::method(sel = "setColorWellStyle:")]
+    pub unsafe fn setColorWellStyle(&self, color_well_style: NSColorWellStyle);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setImage:)]
-        pub unsafe fn setImage(&self, image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Option<Id<NSImage>>;
 
-        #[method_id(@__retain_semantics Other pulldownTarget)]
-        pub unsafe fn pulldownTarget(&self) -> Option<Id<Object>>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setImage:")]
+    pub unsafe fn setImage(&self, image: Option<&NSImage>);
 
-        #[method(setPulldownTarget:)]
-        pub unsafe fn setPulldownTarget(&self, pulldown_target: Option<&Object>);
+    #[objc2::method(sel = "pulldownTarget", managed = "Other")]
+    pub unsafe fn pulldownTarget(&self) -> Option<Id<Object>>;
 
-        #[method(pulldownAction)]
-        pub unsafe fn pulldownAction(&self) -> Option<Sel>;
+    #[objc2::method(sel = "setPulldownTarget:")]
+    pub unsafe fn setPulldownTarget(&self, pulldown_target: Option<&Object>);
 
-        #[method(setPulldownAction:)]
-        pub unsafe fn setPulldownAction(&self, pulldown_action: Option<Sel>);
-    }
-);
+    #[objc2::method(sel = "pulldownAction")]
+    pub unsafe fn pulldownAction(&self) -> Option<Sel>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSControl`
+    #[objc2::method(sel = "setPulldownAction:")]
+    pub unsafe fn setPulldownAction(&self, pulldown_action: Option<Sel>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSControl`
     #[cfg(feature = "AppKit_NSColorWell")]
-    unsafe impl NSColorWell {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSColorWell")]
+    pub type NSColorWell;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

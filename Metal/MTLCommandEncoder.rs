@@ -4,52 +4,47 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum MTLResourceUsage {
-        MTLResourceUsageRead = 1 << 0,
-        MTLResourceUsageWrite = 1 << 1,
-        #[deprecated]
-        MTLResourceUsageSample = 1 << 2,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum MTLResourceUsage {
+    MTLResourceUsageRead = 1 << 0,
+    MTLResourceUsageWrite = 1 << 1,
+    #[deprecated]
+    MTLResourceUsageSample = 1 << 2,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum MTLBarrierScope {
-        MTLBarrierScopeBuffers = 1 << 0,
-        MTLBarrierScopeTextures = 1 << 1,
-        MTLBarrierScopeRenderTargets = 1 << 2,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum MTLBarrierScope {
+    MTLBarrierScopeBuffers = 1 << 0,
+    MTLBarrierScopeTextures = 1 << 1,
+    MTLBarrierScopeRenderTargets = 1 << 2,
+}
 
-extern_protocol!(
-    pub unsafe trait MTLCommandEncoder: NSObjectProtocol {
-        #[method_id(@__retain_semantics Other device)]
-        unsafe fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
+#[objc2::protocol]
+pub unsafe trait MTLCommandEncoder: NSObjectProtocol {
+    #[objc2::method(sel = "device", managed = "Other")]
+    unsafe fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        fn label(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    fn label(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        fn setLabel(&self, label: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    fn setLabel(&self, label: Option<&NSString>);
 
-        #[method(endEncoding)]
-        fn endEncoding(&self);
+    #[objc2::method(sel = "endEncoding")]
+    fn endEncoding(&self);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(insertDebugSignpost:)]
-        fn insertDebugSignpost(&self, string: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "insertDebugSignpost:")]
+    fn insertDebugSignpost(&self, string: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(pushDebugGroup:)]
-        fn pushDebugGroup(&self, string: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "pushDebugGroup:")]
+    fn pushDebugGroup(&self, string: &NSString);
 
-        #[method(popDebugGroup)]
-        fn popDebugGroup(&self);
-    }
-
-    unsafe impl ProtocolType for dyn MTLCommandEncoder {}
-);
+    #[objc2::method(sel = "popDebugGroup")]
+    fn popDebugGroup(&self);
+}

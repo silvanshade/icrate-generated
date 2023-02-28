@@ -7,170 +7,172 @@ use crate::Foundation::*;
 
 pub type CKOperationID = NSString;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSOperation,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKOperation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKOperation")]
-    pub struct CKOperation;
-
-    #[cfg(feature = "CloudKit_CKOperation")]
-    unsafe impl ClassType for CKOperation {
-        #[inherits(NSObject)]
-        type Super = NSOperation;
-    }
-);
+    pub type CKOperation;
+}
 
 #[cfg(feature = "CloudKit_CKOperation")]
 unsafe impl NSObjectProtocol for CKOperation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKOperation")]
-    unsafe impl CKOperation {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKOperation;
 
-        #[cfg(feature = "CloudKit_CKOperationConfiguration")]
-        #[method_id(@__retain_semantics Other configuration)]
-        pub unsafe fn configuration(&self) -> Id<CKOperationConfiguration>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKOperationConfiguration")]
-        #[method(setConfiguration:)]
-        pub unsafe fn setConfiguration(&self, configuration: Option<&CKOperationConfiguration>);
+    #[cfg(feature = "CloudKit_CKOperationConfiguration")]
+    #[objc2::method(sel = "configuration", managed = "Other")]
+    pub unsafe fn configuration(&self) -> Id<CKOperationConfiguration>;
 
-        #[cfg(feature = "CloudKit_CKOperationGroup")]
-        #[method_id(@__retain_semantics Other group)]
-        pub unsafe fn group(&self) -> Option<Id<CKOperationGroup>>;
+    #[cfg(feature = "CloudKit_CKOperationConfiguration")]
+    #[objc2::method(sel = "setConfiguration:")]
+    pub unsafe fn setConfiguration(&self, configuration: Option<&CKOperationConfiguration>);
 
-        #[cfg(feature = "CloudKit_CKOperationGroup")]
-        #[method(setGroup:)]
-        pub unsafe fn setGroup(&self, group: Option<&CKOperationGroup>);
+    #[cfg(feature = "CloudKit_CKOperationGroup")]
+    #[objc2::method(sel = "group", managed = "Other")]
+    pub unsafe fn group(&self) -> Option<Id<CKOperationGroup>>;
 
-        #[method_id(@__retain_semantics Other operationID)]
-        pub unsafe fn operationID(&self) -> Id<CKOperationID>;
+    #[cfg(feature = "CloudKit_CKOperationGroup")]
+    #[objc2::method(sel = "setGroup:")]
+    pub unsafe fn setGroup(&self, group: Option<&CKOperationGroup>);
 
-        #[method(longLivedOperationWasPersistedBlock)]
-        pub unsafe fn longLivedOperationWasPersistedBlock(&self) -> *mut Block<(), ()>;
+    #[objc2::method(sel = "operationID", managed = "Other")]
+    pub unsafe fn operationID(&self) -> Id<CKOperationID>;
 
-        #[method(setLongLivedOperationWasPersistedBlock:)]
-        pub unsafe fn setLongLivedOperationWasPersistedBlock(
-            &self,
-            long_lived_operation_was_persisted_block: Option<&Block<(), ()>>,
-        );
-    }
-);
+    #[objc2::method(sel = "longLivedOperationWasPersistedBlock")]
+    pub unsafe fn longLivedOperationWasPersistedBlock(&self) -> *mut Block<(), ()>;
 
-extern_class!(
+    #[objc2::method(sel = "setLongLivedOperationWasPersistedBlock:")]
+    pub unsafe fn setLongLivedOperationWasPersistedBlock(
+        &self,
+        long_lived_operation_was_persisted_block: Option<&Block<(), ()>>,
+    );
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKOperationConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKOperationConfiguration")]
-    pub struct CKOperationConfiguration;
-
-    #[cfg(feature = "CloudKit_CKOperationConfiguration")]
-    unsafe impl ClassType for CKOperationConfiguration {
-        type Super = NSObject;
-    }
-);
+    pub type CKOperationConfiguration;
+}
 
 #[cfg(feature = "CloudKit_CKOperationConfiguration")]
 unsafe impl NSObjectProtocol for CKOperationConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKOperationConfiguration")]
-    unsafe impl CKOperationConfiguration {
-        #[cfg(feature = "CloudKit_CKContainer")]
-        #[method_id(@__retain_semantics Other container)]
-        pub unsafe fn container(&self) -> Option<Id<CKContainer>>;
+    pub type CKOperationConfiguration;
 
-        #[cfg(feature = "CloudKit_CKContainer")]
-        #[method(setContainer:)]
-        pub unsafe fn setContainer(&self, container: Option<&CKContainer>);
+    #[cfg(feature = "CloudKit_CKContainer")]
+    #[objc2::method(sel = "container", managed = "Other")]
+    pub unsafe fn container(&self) -> Option<Id<CKContainer>>;
 
-        #[method(qualityOfService)]
-        pub unsafe fn qualityOfService(&self) -> NSQualityOfService;
+    #[cfg(feature = "CloudKit_CKContainer")]
+    #[objc2::method(sel = "setContainer:")]
+    pub unsafe fn setContainer(&self, container: Option<&CKContainer>);
 
-        #[method(setQualityOfService:)]
-        pub unsafe fn setQualityOfService(&self, quality_of_service: NSQualityOfService);
+    #[objc2::method(sel = "qualityOfService")]
+    pub unsafe fn qualityOfService(&self) -> NSQualityOfService;
 
-        #[method(allowsCellularAccess)]
-        pub unsafe fn allowsCellularAccess(&self) -> bool;
+    #[objc2::method(sel = "setQualityOfService:")]
+    pub unsafe fn setQualityOfService(&self, quality_of_service: NSQualityOfService);
 
-        #[method(setAllowsCellularAccess:)]
-        pub unsafe fn setAllowsCellularAccess(&self, allows_cellular_access: bool);
+    #[objc2::method(sel = "allowsCellularAccess")]
+    pub unsafe fn allowsCellularAccess(&self) -> bool;
 
-        #[method(isLongLived)]
-        pub unsafe fn isLongLived(&self) -> bool;
+    #[objc2::method(sel = "setAllowsCellularAccess:")]
+    pub unsafe fn setAllowsCellularAccess(&self, allows_cellular_access: bool);
 
-        #[method(setLongLived:)]
-        pub unsafe fn setLongLived(&self, long_lived: bool);
+    #[objc2::method(sel = "isLongLived")]
+    pub unsafe fn isLongLived(&self) -> bool;
 
-        #[method(timeoutIntervalForRequest)]
-        pub unsafe fn timeoutIntervalForRequest(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "setLongLived:")]
+    pub unsafe fn setLongLived(&self, long_lived: bool);
 
-        #[method(setTimeoutIntervalForRequest:)]
-        pub unsafe fn setTimeoutIntervalForRequest(
-            &self,
-            timeout_interval_for_request: NSTimeInterval,
-        );
+    #[objc2::method(sel = "timeoutIntervalForRequest")]
+    pub unsafe fn timeoutIntervalForRequest(&self) -> NSTimeInterval;
 
-        #[method(timeoutIntervalForResource)]
-        pub unsafe fn timeoutIntervalForResource(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "setTimeoutIntervalForRequest:")]
+    pub unsafe fn setTimeoutIntervalForRequest(&self, timeout_interval_for_request: NSTimeInterval);
 
-        #[method(setTimeoutIntervalForResource:)]
-        pub unsafe fn setTimeoutIntervalForResource(
-            &self,
-            timeout_interval_for_resource: NSTimeInterval,
-        );
-    }
-);
+    #[objc2::method(sel = "timeoutIntervalForResource")]
+    pub unsafe fn timeoutIntervalForResource(&self) -> NSTimeInterval;
 
-extern_methods!(
-    /// CKOperationDeprecated
+    #[objc2::method(sel = "setTimeoutIntervalForResource:")]
+    pub unsafe fn setTimeoutIntervalForResource(
+        &self,
+        timeout_interval_for_resource: NSTimeInterval,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKOperation")]
-    unsafe impl CKOperation {
-        #[cfg(feature = "CloudKit_CKContainer")]
-        #[deprecated = "Use CKOperationConfiguration"]
-        #[method_id(@__retain_semantics Other container)]
-        pub unsafe fn container(&self) -> Option<Id<CKContainer>>;
+    pub type CKOperation;
 
-        #[cfg(feature = "CloudKit_CKContainer")]
-        #[deprecated = "Use CKOperationConfiguration"]
-        #[method(setContainer:)]
-        pub unsafe fn setContainer(&self, container: Option<&CKContainer>);
+    #[cfg(feature = "CloudKit_CKContainer")]
+    #[deprecated = "Use CKOperationConfiguration"]
+    #[objc2::method(sel = "container", managed = "Other")]
+    pub unsafe fn container(&self) -> Option<Id<CKContainer>>;
 
-        #[deprecated = "Use CKOperationConfiguration"]
-        #[method(allowsCellularAccess)]
-        pub unsafe fn allowsCellularAccess(&self) -> bool;
+    #[cfg(feature = "CloudKit_CKContainer")]
+    #[deprecated = "Use CKOperationConfiguration"]
+    #[objc2::method(sel = "setContainer:")]
+    pub unsafe fn setContainer(&self, container: Option<&CKContainer>);
 
-        #[deprecated = "Use CKOperationConfiguration"]
-        #[method(setAllowsCellularAccess:)]
-        pub unsafe fn setAllowsCellularAccess(&self, allows_cellular_access: bool);
+    #[deprecated = "Use CKOperationConfiguration"]
+    #[objc2::method(sel = "allowsCellularAccess")]
+    pub unsafe fn allowsCellularAccess(&self) -> bool;
 
-        #[deprecated = "Use CKOperationConfiguration"]
-        #[method(isLongLived)]
-        pub unsafe fn isLongLived(&self) -> bool;
+    #[deprecated = "Use CKOperationConfiguration"]
+    #[objc2::method(sel = "setAllowsCellularAccess:")]
+    pub unsafe fn setAllowsCellularAccess(&self, allows_cellular_access: bool);
 
-        #[deprecated = "Use CKOperationConfiguration"]
-        #[method(setLongLived:)]
-        pub unsafe fn setLongLived(&self, long_lived: bool);
+    #[deprecated = "Use CKOperationConfiguration"]
+    #[objc2::method(sel = "isLongLived")]
+    pub unsafe fn isLongLived(&self) -> bool;
 
-        #[deprecated = "Use CKOperationConfiguration"]
-        #[method(timeoutIntervalForRequest)]
-        pub unsafe fn timeoutIntervalForRequest(&self) -> NSTimeInterval;
+    #[deprecated = "Use CKOperationConfiguration"]
+    #[objc2::method(sel = "setLongLived:")]
+    pub unsafe fn setLongLived(&self, long_lived: bool);
 
-        #[deprecated = "Use CKOperationConfiguration"]
-        #[method(setTimeoutIntervalForRequest:)]
-        pub unsafe fn setTimeoutIntervalForRequest(
-            &self,
-            timeout_interval_for_request: NSTimeInterval,
-        );
+    #[deprecated = "Use CKOperationConfiguration"]
+    #[objc2::method(sel = "timeoutIntervalForRequest")]
+    pub unsafe fn timeoutIntervalForRequest(&self) -> NSTimeInterval;
 
-        #[deprecated = "Use CKOperationConfiguration"]
-        #[method(timeoutIntervalForResource)]
-        pub unsafe fn timeoutIntervalForResource(&self) -> NSTimeInterval;
+    #[deprecated = "Use CKOperationConfiguration"]
+    #[objc2::method(sel = "setTimeoutIntervalForRequest:")]
+    pub unsafe fn setTimeoutIntervalForRequest(&self, timeout_interval_for_request: NSTimeInterval);
 
-        #[deprecated = "Use CKOperationConfiguration"]
-        #[method(setTimeoutIntervalForResource:)]
-        pub unsafe fn setTimeoutIntervalForResource(
-            &self,
-            timeout_interval_for_resource: NSTimeInterval,
-        );
-    }
-);
+    #[deprecated = "Use CKOperationConfiguration"]
+    #[objc2::method(sel = "timeoutIntervalForResource")]
+    pub unsafe fn timeoutIntervalForResource(&self) -> NSTimeInterval;
+
+    #[deprecated = "Use CKOperationConfiguration"]
+    #[objc2::method(sel = "setTimeoutIntervalForResource:")]
+    pub unsafe fn setTimeoutIntervalForResource(
+        &self,
+        timeout_interval_for_resource: NSTimeInterval,
+    );
+}

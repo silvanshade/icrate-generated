@@ -4,31 +4,34 @@ use crate::common::*;
 use crate::Contacts::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Contacts_CNContactsUserDefaults")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Contacts_CNContactsUserDefaults")]
-    pub struct CNContactsUserDefaults;
-
-    #[cfg(feature = "Contacts_CNContactsUserDefaults")]
-    unsafe impl ClassType for CNContactsUserDefaults {
-        type Super = NSObject;
-    }
-);
+    pub type CNContactsUserDefaults;
+}
 
 #[cfg(feature = "Contacts_CNContactsUserDefaults")]
 unsafe impl NSObjectProtocol for CNContactsUserDefaults {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Contacts_CNContactsUserDefaults")]
-    unsafe impl CNContactsUserDefaults {
-        #[method_id(@__retain_semantics Other sharedDefaults)]
-        pub unsafe fn sharedDefaults() -> Id<Self>;
+    pub type CNContactsUserDefaults;
 
-        #[method(sortOrder)]
-        pub unsafe fn sortOrder(&self) -> CNContactSortOrder;
+    #[objc2::method(sel = "sharedDefaults", managed = "Other")]
+    pub unsafe fn sharedDefaults() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other countryCode)]
-        pub unsafe fn countryCode(&self) -> Id<NSString>;
-    }
-);
+    #[objc2::method(sel = "sortOrder")]
+    pub unsafe fn sortOrder(&self) -> CNContactSortOrder;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "countryCode", managed = "Other")]
+    pub unsafe fn countryCode(&self) -> Id<NSString>;
+}

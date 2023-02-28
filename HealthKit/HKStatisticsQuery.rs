@@ -6,37 +6,43 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKQuery,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKStatisticsQuery")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKStatisticsQuery")]
-    pub struct HKStatisticsQuery;
-
-    #[cfg(feature = "HealthKit_HKStatisticsQuery")]
-    unsafe impl ClassType for HKStatisticsQuery {
-        #[inherits(NSObject)]
-        type Super = HKQuery;
-    }
-);
+    pub type HKStatisticsQuery;
+}
 
 #[cfg(feature = "HealthKit_HKStatisticsQuery")]
 unsafe impl NSObjectProtocol for HKStatisticsQuery {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKStatisticsQuery")]
-    unsafe impl HKStatisticsQuery {
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKQuantityType",
-            feature = "HealthKit_HKStatistics"
-        ))]
-        #[method_id(@__retain_semantics Init initWithQuantityType:quantitySamplePredicate:options:completionHandler:)]
-        pub unsafe fn initWithQuantityType_quantitySamplePredicate_options_completionHandler(
-            this: Option<Allocated<Self>>,
-            quantity_type: &HKQuantityType,
-            quantity_sample_predicate: Option<&NSPredicate>,
-            options: HKStatisticsOptions,
-            handler: &Block<(NonNull<HKStatisticsQuery>, *mut HKStatistics, *mut NSError), ()>,
-        ) -> Id<Self>;
-    }
-);
+    pub type HKStatisticsQuery;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKQuantityType",
+        feature = "HealthKit_HKStatistics"
+    ))]
+    #[objc2::method(
+        sel = "initWithQuantityType:quantitySamplePredicate:options:completionHandler:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithQuantityType_quantitySamplePredicate_options_completionHandler(
+        this: Option<Allocated<Self>>,
+        quantity_type: &HKQuantityType,
+        quantity_sample_predicate: Option<&NSPredicate>,
+        options: HKStatisticsOptions,
+        handler: &Block<(NonNull<HKStatisticsQuery>, *mut HKStatistics, *mut NSError), ()>,
+    ) -> Id<Self>;
+}

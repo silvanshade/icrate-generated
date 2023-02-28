@@ -47,14 +47,16 @@ extern_fn!(
     pub unsafe fn NSRangeFromString(a_string: &NSString) -> NSRange;
 );
 
-extern_methods!(
-    /// NSValueRangeExtensions
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSValue")]
-    unsafe impl NSValue {
-        #[method_id(@__retain_semantics Other valueWithRange:)]
-        pub unsafe fn valueWithRange(range: NSRange) -> Id<NSValue>;
+    pub type NSValue;
 
-        #[method(rangeValue)]
-        pub unsafe fn rangeValue(&self) -> NSRange;
-    }
-);
+    #[objc2::method(sel = "valueWithRange:", managed = "Other")]
+    pub unsafe fn valueWithRange(range: NSRange) -> Id<NSValue>;
+
+    #[objc2::method(sel = "rangeValue")]
+    pub unsafe fn rangeValue(&self) -> NSRange;
+}

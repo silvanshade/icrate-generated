@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationPublicKeyCredentialParameters")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationPublicKeyCredentialParameters")]
-    pub struct ASAuthorizationPublicKeyCredentialParameters;
-
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationPublicKeyCredentialParameters")]
-    unsafe impl ClassType for ASAuthorizationPublicKeyCredentialParameters {
-        type Super = NSObject;
-    }
-);
+    pub type ASAuthorizationPublicKeyCredentialParameters;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationPublicKeyCredentialParameters")]
 unsafe impl NSCoding for ASAuthorizationPublicKeyCredentialParameters {}
@@ -24,22 +24,25 @@ unsafe impl NSObjectProtocol for ASAuthorizationPublicKeyCredentialParameters {}
 #[cfg(feature = "AuthenticationServices_ASAuthorizationPublicKeyCredentialParameters")]
 unsafe impl NSSecureCoding for ASAuthorizationPublicKeyCredentialParameters {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAuthorizationPublicKeyCredentialParameters")]
-    unsafe impl ASAuthorizationPublicKeyCredentialParameters {
-        #[method_id(@__retain_semantics Init initWithAlgorithm:)]
-        pub unsafe fn initWithAlgorithm(
-            this: Option<Allocated<Self>>,
-            algorithm: ASCOSEAlgorithmIdentifier,
-        ) -> Id<Self>;
+    pub type ASAuthorizationPublicKeyCredentialParameters;
 
-        #[method(algorithm)]
-        pub unsafe fn algorithm(&self) -> ASCOSEAlgorithmIdentifier;
+    #[objc2::method(sel = "initWithAlgorithm:", managed = "Init")]
+    pub unsafe fn initWithAlgorithm(
+        this: Option<Allocated<Self>>,
+        algorithm: ASCOSEAlgorithmIdentifier,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "algorithm")]
+    pub unsafe fn algorithm(&self) -> ASCOSEAlgorithmIdentifier;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

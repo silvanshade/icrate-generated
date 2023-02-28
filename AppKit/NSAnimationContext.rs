@@ -5,57 +5,60 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSAnimationContext")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSAnimationContext")]
-    pub struct NSAnimationContext;
-
-    #[cfg(feature = "AppKit_NSAnimationContext")]
-    unsafe impl ClassType for NSAnimationContext {
-        type Super = NSObject;
-    }
-);
+    pub type NSAnimationContext;
+}
 
 #[cfg(feature = "AppKit_NSAnimationContext")]
 unsafe impl NSObjectProtocol for NSAnimationContext {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSAnimationContext")]
-    unsafe impl NSAnimationContext {
-        #[method(runAnimationGroup:completionHandler:)]
-        pub unsafe fn runAnimationGroup_completionHandler(
-            changes: &Block<(NonNull<NSAnimationContext>,), ()>,
-            completion_handler: Option<&Block<(), ()>>,
-        );
+    pub type NSAnimationContext;
 
-        #[method(runAnimationGroup:)]
-        pub unsafe fn runAnimationGroup(changes: &Block<(NonNull<NSAnimationContext>,), ()>);
+    #[objc2::method(sel = "runAnimationGroup:completionHandler:")]
+    pub unsafe fn runAnimationGroup_completionHandler(
+        changes: &Block<(NonNull<NSAnimationContext>,), ()>,
+        completion_handler: Option<&Block<(), ()>>,
+    );
 
-        #[method(beginGrouping)]
-        pub unsafe fn beginGrouping();
+    #[objc2::method(sel = "runAnimationGroup:")]
+    pub unsafe fn runAnimationGroup(changes: &Block<(NonNull<NSAnimationContext>,), ()>);
 
-        #[method(endGrouping)]
-        pub unsafe fn endGrouping();
+    #[objc2::method(sel = "beginGrouping")]
+    pub unsafe fn beginGrouping();
 
-        #[method_id(@__retain_semantics Other currentContext)]
-        pub unsafe fn currentContext() -> Id<NSAnimationContext>;
+    #[objc2::method(sel = "endGrouping")]
+    pub unsafe fn endGrouping();
 
-        #[method(duration)]
-        pub unsafe fn duration(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "currentContext", managed = "Other")]
+    pub unsafe fn currentContext() -> Id<NSAnimationContext>;
 
-        #[method(setDuration:)]
-        pub unsafe fn setDuration(&self, duration: NSTimeInterval);
+    #[objc2::method(sel = "duration")]
+    pub unsafe fn duration(&self) -> NSTimeInterval;
 
-        #[method(completionHandler)]
-        pub unsafe fn completionHandler(&self) -> *mut Block<(), ()>;
+    #[objc2::method(sel = "setDuration:")]
+    pub unsafe fn setDuration(&self, duration: NSTimeInterval);
 
-        #[method(setCompletionHandler:)]
-        pub unsafe fn setCompletionHandler(&self, completion_handler: Option<&Block<(), ()>>);
+    #[objc2::method(sel = "completionHandler")]
+    pub unsafe fn completionHandler(&self) -> *mut Block<(), ()>;
 
-        #[method(allowsImplicitAnimation)]
-        pub unsafe fn allowsImplicitAnimation(&self) -> bool;
+    #[objc2::method(sel = "setCompletionHandler:")]
+    pub unsafe fn setCompletionHandler(&self, completion_handler: Option<&Block<(), ()>>);
 
-        #[method(setAllowsImplicitAnimation:)]
-        pub unsafe fn setAllowsImplicitAnimation(&self, allows_implicit_animation: bool);
-    }
-);
+    #[objc2::method(sel = "allowsImplicitAnimation")]
+    pub unsafe fn allowsImplicitAnimation(&self) -> bool;
+
+    #[objc2::method(sel = "setAllowsImplicitAnimation:")]
+    pub unsafe fn setAllowsImplicitAnimation(&self, allows_implicit_animation: bool);
+}

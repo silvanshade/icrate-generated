@@ -6,16 +6,16 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKFHIRVersion")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKFHIRVersion")]
-    pub struct HKFHIRVersion;
-
-    #[cfg(feature = "HealthKit_HKFHIRVersion")]
-    unsafe impl ClassType for HKFHIRVersion {
-        type Super = NSObject;
-    }
-);
+    pub type HKFHIRVersion;
+}
 
 #[cfg(feature = "HealthKit_HKFHIRVersion")]
 unsafe impl NSCoding for HKFHIRVersion {}
@@ -26,38 +26,41 @@ unsafe impl NSObjectProtocol for HKFHIRVersion {}
 #[cfg(feature = "HealthKit_HKFHIRVersion")]
 unsafe impl NSSecureCoding for HKFHIRVersion {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKFHIRVersion")]
-    unsafe impl HKFHIRVersion {
-        #[method(majorVersion)]
-        pub unsafe fn majorVersion(&self) -> NSInteger;
+    pub type HKFHIRVersion;
 
-        #[method(minorVersion)]
-        pub unsafe fn minorVersion(&self) -> NSInteger;
+    #[objc2::method(sel = "majorVersion")]
+    pub unsafe fn majorVersion(&self) -> NSInteger;
 
-        #[method(patchVersion)]
-        pub unsafe fn patchVersion(&self) -> NSInteger;
+    #[objc2::method(sel = "minorVersion")]
+    pub unsafe fn minorVersion(&self) -> NSInteger;
 
-        #[method_id(@__retain_semantics Other FHIRRelease)]
-        pub unsafe fn FHIRRelease(&self) -> Id<HKFHIRRelease>;
+    #[objc2::method(sel = "patchVersion")]
+    pub unsafe fn patchVersion(&self) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringRepresentation)]
-        pub unsafe fn stringRepresentation(&self) -> Id<NSString>;
+    #[objc2::method(sel = "FHIRRelease", managed = "Other")]
+    pub unsafe fn FHIRRelease(&self) -> Id<HKFHIRRelease>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringRepresentation", managed = "Other")]
+    pub unsafe fn stringRepresentation(&self) -> Id<NSString>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other versionFromVersionString:error:_)]
-        pub unsafe fn versionFromVersionString_error(
-            version_string: &NSString,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other primaryDSTU2Version)]
-        pub unsafe fn primaryDSTU2Version() -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "versionFromVersionString:error:", managed = "Other", throws)]
+    pub unsafe fn versionFromVersionString_error(
+        version_string: &NSString,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[method_id(@__retain_semantics Other primaryR4Version)]
-        pub unsafe fn primaryR4Version() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "primaryDSTU2Version", managed = "Other")]
+    pub unsafe fn primaryDSTU2Version() -> Id<Self>;
+
+    #[objc2::method(sel = "primaryR4Version", managed = "Other")]
+    pub unsafe fn primaryR4Version() -> Id<Self>;
+}

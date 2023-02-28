@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSController,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSUserDefaultsController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSUserDefaultsController")]
-    pub struct NSUserDefaultsController;
-
-    #[cfg(feature = "AppKit_NSUserDefaultsController")]
-    unsafe impl ClassType for NSUserDefaultsController {
-        #[inherits(NSObject)]
-        type Super = NSController;
-    }
-);
+    pub type NSUserDefaultsController;
+}
 
 #[cfg(feature = "AppKit_NSUserDefaultsController")]
 unsafe impl NSCoding for NSUserDefaultsController {}
@@ -29,65 +29,63 @@ unsafe impl NSEditorRegistration for NSUserDefaultsController {}
 #[cfg(feature = "AppKit_NSUserDefaultsController")]
 unsafe impl NSObjectProtocol for NSUserDefaultsController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSUserDefaultsController")]
-    unsafe impl NSUserDefaultsController {
-        #[method_id(@__retain_semantics Other sharedUserDefaultsController)]
-        pub unsafe fn sharedUserDefaultsController() -> Id<NSUserDefaultsController>;
+    pub type NSUserDefaultsController;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUserDefaults"
-        ))]
-        #[method_id(@__retain_semantics Init initWithDefaults:initialValues:)]
-        pub unsafe fn initWithDefaults_initialValues(
-            this: Option<Allocated<Self>>,
-            defaults: Option<&NSUserDefaults>,
-            initial_values: Option<&NSDictionary<NSString, Object>>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "sharedUserDefaultsController", managed = "Other")]
+    pub unsafe fn sharedUserDefaultsController() -> Id<NSUserDefaultsController>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUserDefaults"
+    ))]
+    #[objc2::method(sel = "initWithDefaults:initialValues:", managed = "Init")]
+    pub unsafe fn initWithDefaults_initialValues(
+        this: Option<Allocated<Self>>,
+        defaults: Option<&NSUserDefaults>,
+        initial_values: Option<&NSDictionary<NSString, Object>>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSUserDefaults")]
-        #[method_id(@__retain_semantics Other defaults)]
-        pub unsafe fn defaults(&self) -> Id<NSUserDefaults>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other initialValues)]
-        pub unsafe fn initialValues(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
+    #[cfg(feature = "Foundation_NSUserDefaults")]
+    #[objc2::method(sel = "defaults", managed = "Other")]
+    pub unsafe fn defaults(&self) -> Id<NSUserDefaults>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(setInitialValues:)]
-        pub unsafe fn setInitialValues(
-            &self,
-            initial_values: Option<&NSDictionary<NSString, Object>>,
-        );
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initialValues", managed = "Other")]
+    pub unsafe fn initialValues(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
 
-        #[method(appliesImmediately)]
-        pub unsafe fn appliesImmediately(&self) -> bool;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setInitialValues:")]
+    pub unsafe fn setInitialValues(&self, initial_values: Option<&NSDictionary<NSString, Object>>);
 
-        #[method(setAppliesImmediately:)]
-        pub unsafe fn setAppliesImmediately(&self, applies_immediately: bool);
+    #[objc2::method(sel = "appliesImmediately")]
+    pub unsafe fn appliesImmediately(&self) -> bool;
 
-        #[method(hasUnappliedChanges)]
-        pub unsafe fn hasUnappliedChanges(&self) -> bool;
+    #[objc2::method(sel = "setAppliesImmediately:")]
+    pub unsafe fn setAppliesImmediately(&self, applies_immediately: bool);
 
-        #[method_id(@__retain_semantics Other values)]
-        pub unsafe fn values(&self) -> Id<Object>;
+    #[objc2::method(sel = "hasUnappliedChanges")]
+    pub unsafe fn hasUnappliedChanges(&self) -> bool;
 
-        #[method(revert:)]
-        pub unsafe fn revert(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "values", managed = "Other")]
+    pub unsafe fn values(&self) -> Id<Object>;
 
-        #[method(save:)]
-        pub unsafe fn save(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "revert:")]
+    pub unsafe fn revert(&self, sender: Option<&Object>);
 
-        #[method(revertToInitialValues:)]
-        pub unsafe fn revertToInitialValues(&self, sender: Option<&Object>);
-    }
-);
+    #[objc2::method(sel = "save:")]
+    pub unsafe fn save(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "revertToInitialValues:")]
+    pub unsafe fn revertToInitialValues(&self, sender: Option<&Object>);
+}

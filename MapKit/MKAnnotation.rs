@@ -7,25 +7,19 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_protocol!(
-    pub unsafe trait MKAnnotation: NSObjectProtocol {
-        #[method(coordinate)]
-        unsafe fn coordinate(&self) -> CLLocationCoordinate2D;
+#[objc2::protocol]
+pub unsafe trait MKAnnotation: NSObjectProtocol {
+    #[objc2::method(sel = "coordinate")]
+    unsafe fn coordinate(&self) -> CLLocationCoordinate2D;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[optional]
-        #[method_id(@__retain_semantics Other title)]
-        unsafe fn title(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(optional, sel = "title", managed = "Other")]
+    unsafe fn title(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[optional]
-        #[method_id(@__retain_semantics Other subtitle)]
-        unsafe fn subtitle(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(optional, sel = "subtitle", managed = "Other")]
+    unsafe fn subtitle(&self) -> Option<Id<NSString>>;
 
-        #[optional]
-        #[method(setCoordinate:)]
-        unsafe fn setCoordinate(&self, new_coordinate: CLLocationCoordinate2D);
-    }
-
-    unsafe impl ProtocolType for dyn MKAnnotation {}
-);
+    #[objc2::method(optional, sel = "setCoordinate:")]
+    unsafe fn setCoordinate(&self, new_coordinate: CLLocationCoordinate2D);
+}

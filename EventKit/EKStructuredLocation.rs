@@ -7,52 +7,55 @@ use crate::EventKit::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = EKObject,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "EventKit_EKStructuredLocation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "EventKit_EKStructuredLocation")]
-    pub struct EKStructuredLocation;
-
-    #[cfg(feature = "EventKit_EKStructuredLocation")]
-    unsafe impl ClassType for EKStructuredLocation {
-        #[inherits(NSObject)]
-        type Super = EKObject;
-    }
-);
+    pub type EKStructuredLocation;
+}
 
 #[cfg(feature = "EventKit_EKStructuredLocation")]
 unsafe impl NSObjectProtocol for EKStructuredLocation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "EventKit_EKStructuredLocation")]
-    unsafe impl EKStructuredLocation {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other locationWithTitle:)]
-        pub unsafe fn locationWithTitle(title: &NSString) -> Id<Self>;
+    pub type EKStructuredLocation;
 
-        #[cfg(feature = "MapKit_MKMapItem")]
-        #[method_id(@__retain_semantics Other locationWithMapItem:)]
-        pub unsafe fn locationWithMapItem(map_item: &MKMapItem) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "locationWithTitle:", managed = "Other")]
+    pub unsafe fn locationWithTitle(title: &NSString) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "MapKit_MKMapItem")]
+    #[objc2::method(sel = "locationWithMapItem:", managed = "Other")]
+    pub unsafe fn locationWithMapItem(map_item: &MKMapItem) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "CoreLocation_CLLocation")]
-        #[method_id(@__retain_semantics Other geoLocation)]
-        pub unsafe fn geoLocation(&self) -> Option<Id<CLLocation>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: Option<&NSString>);
 
-        #[cfg(feature = "CoreLocation_CLLocation")]
-        #[method(setGeoLocation:)]
-        pub unsafe fn setGeoLocation(&self, geo_location: Option<&CLLocation>);
+    #[cfg(feature = "CoreLocation_CLLocation")]
+    #[objc2::method(sel = "geoLocation", managed = "Other")]
+    pub unsafe fn geoLocation(&self) -> Option<Id<CLLocation>>;
 
-        #[method(radius)]
-        pub unsafe fn radius(&self) -> c_double;
+    #[cfg(feature = "CoreLocation_CLLocation")]
+    #[objc2::method(sel = "setGeoLocation:")]
+    pub unsafe fn setGeoLocation(&self, geo_location: Option<&CLLocation>);
 
-        #[method(setRadius:)]
-        pub unsafe fn setRadius(&self, radius: c_double);
-    }
-);
+    #[objc2::method(sel = "radius")]
+    pub unsafe fn radius(&self) -> c_double;
+
+    #[objc2::method(sel = "setRadius:")]
+    pub unsafe fn setRadius(&self, radius: c_double);
+}

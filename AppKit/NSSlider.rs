@@ -5,17 +5,19 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSControl,
+    unsafe inherits = [
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSlider")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSSlider")]
-    pub struct NSSlider;
-
-    #[cfg(feature = "AppKit_NSSlider")]
-    unsafe impl ClassType for NSSlider {
-        #[inherits(NSView, NSResponder, NSObject)]
-        type Super = NSControl;
-    }
-);
+    pub type NSSlider;
+}
 
 #[cfg(feature = "AppKit_NSSlider")]
 unsafe impl NSAccessibility for NSSlider {}
@@ -44,180 +46,198 @@ unsafe impl NSObjectProtocol for NSSlider {}
 #[cfg(feature = "AppKit_NSSlider")]
 unsafe impl NSUserInterfaceItemIdentification for NSSlider {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSlider")]
-    unsafe impl NSSlider {
-        #[method(sliderType)]
-        pub unsafe fn sliderType(&self) -> NSSliderType;
+    pub type NSSlider;
 
-        #[method(setSliderType:)]
-        pub unsafe fn setSliderType(&self, slider_type: NSSliderType);
+    #[objc2::method(sel = "sliderType")]
+    pub unsafe fn sliderType(&self) -> NSSliderType;
 
-        #[method(minValue)]
-        pub unsafe fn minValue(&self) -> c_double;
+    #[objc2::method(sel = "setSliderType:")]
+    pub unsafe fn setSliderType(&self, slider_type: NSSliderType);
 
-        #[method(setMinValue:)]
-        pub unsafe fn setMinValue(&self, min_value: c_double);
+    #[objc2::method(sel = "minValue")]
+    pub unsafe fn minValue(&self) -> c_double;
 
-        #[method(maxValue)]
-        pub unsafe fn maxValue(&self) -> c_double;
+    #[objc2::method(sel = "setMinValue:")]
+    pub unsafe fn setMinValue(&self, min_value: c_double);
 
-        #[method(setMaxValue:)]
-        pub unsafe fn setMaxValue(&self, max_value: c_double);
+    #[objc2::method(sel = "maxValue")]
+    pub unsafe fn maxValue(&self) -> c_double;
 
-        #[method(altIncrementValue)]
-        pub unsafe fn altIncrementValue(&self) -> c_double;
+    #[objc2::method(sel = "setMaxValue:")]
+    pub unsafe fn setMaxValue(&self, max_value: c_double);
 
-        #[method(setAltIncrementValue:)]
-        pub unsafe fn setAltIncrementValue(&self, alt_increment_value: c_double);
+    #[objc2::method(sel = "altIncrementValue")]
+    pub unsafe fn altIncrementValue(&self) -> c_double;
 
-        #[method(knobThickness)]
-        pub unsafe fn knobThickness(&self) -> CGFloat;
+    #[objc2::method(sel = "setAltIncrementValue:")]
+    pub unsafe fn setAltIncrementValue(&self, alt_increment_value: c_double);
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(acceptsFirstMouse:)]
-        pub unsafe fn acceptsFirstMouse(&self, event: Option<&NSEvent>) -> bool;
+    #[objc2::method(sel = "knobThickness")]
+    pub unsafe fn knobThickness(&self) -> CGFloat;
 
-        #[method(setVertical:)]
-        pub unsafe fn setVertical(&self, vertical: bool);
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "acceptsFirstMouse:")]
+    pub unsafe fn acceptsFirstMouse(&self, event: Option<&NSEvent>) -> bool;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other trackFillColor)]
-        pub unsafe fn trackFillColor(&self) -> Option<Id<NSColor>>;
+    #[objc2::method(sel = "setVertical:")]
+    pub unsafe fn setVertical(&self, vertical: bool);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setTrackFillColor:)]
-        pub unsafe fn setTrackFillColor(&self, track_fill_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "trackFillColor", managed = "Other")]
+    pub unsafe fn trackFillColor(&self) -> Option<Id<NSColor>>;
+
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setTrackFillColor:")]
+    pub unsafe fn setTrackFillColor(&self, track_fill_color: Option<&NSColor>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSlider")]
+    pub type NSSlider;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSlider")]
+    pub type NSSlider;
+
+    #[objc2::method(sel = "numberOfTickMarks")]
+    pub unsafe fn numberOfTickMarks(&self) -> NSInteger;
+
+    #[objc2::method(sel = "setNumberOfTickMarks:")]
+    pub unsafe fn setNumberOfTickMarks(&self, number_of_tick_marks: NSInteger);
+
+    #[objc2::method(sel = "tickMarkPosition")]
+    pub unsafe fn tickMarkPosition(&self) -> NSTickMarkPosition;
+
+    #[objc2::method(sel = "setTickMarkPosition:")]
+    pub unsafe fn setTickMarkPosition(&self, tick_mark_position: NSTickMarkPosition);
+
+    #[objc2::method(sel = "allowsTickMarkValuesOnly")]
+    pub unsafe fn allowsTickMarkValuesOnly(&self) -> bool;
+
+    #[objc2::method(sel = "setAllowsTickMarkValuesOnly:")]
+    pub unsafe fn setAllowsTickMarkValuesOnly(&self, allows_tick_mark_values_only: bool);
+
+    #[objc2::method(sel = "tickMarkValueAtIndex:")]
+    pub unsafe fn tickMarkValueAtIndex(&self, index: NSInteger) -> c_double;
+
+    #[objc2::method(sel = "rectOfTickMarkAtIndex:")]
+    pub unsafe fn rectOfTickMarkAtIndex(&self, index: NSInteger) -> NSRect;
+
+    #[objc2::method(sel = "indexOfTickMarkAtPoint:")]
+    pub unsafe fn indexOfTickMarkAtPoint(&self, point: NSPoint) -> NSInteger;
+
+    #[objc2::method(sel = "closestTickMarkValueToValue:")]
+    pub unsafe fn closestTickMarkValueToValue(&self, value: c_double) -> c_double;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSlider")]
+    pub type NSSlider;
+
+    #[objc2::method(sel = "sliderWithTarget:action:", managed = "Other")]
+    pub unsafe fn sliderWithTarget_action(target: Option<&Object>, action: Option<Sel>)
+        -> Id<Self>;
+
+    #[objc2::method(
+        sel = "sliderWithValue:minValue:maxValue:target:action:",
+        managed = "Other"
+    )]
+    pub unsafe fn sliderWithValue_minValue_maxValue_target_action(
+        value: c_double,
+        min_value: c_double,
+        max_value: c_double,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSlider")]
+    pub type NSSlider;
+
+    #[cfg(feature = "AppKit_NSCell")]
+    #[deprecated = "-setTitleCell: had no effect since 10.0"]
+    #[objc2::method(sel = "setTitleCell:")]
+    pub unsafe fn setTitleCell(&self, cell: Option<&NSCell>);
+
+    #[deprecated = "-titleCell has returned nil since 10.0"]
+    #[objc2::method(sel = "titleCell", managed = "Other")]
+    pub unsafe fn titleCell(&self) -> Option<Id<Object>>;
+
+    #[cfg(feature = "AppKit_NSColor")]
+    #[deprecated = "-setTitleColor: had no effect since 10.0"]
+    #[objc2::method(sel = "setTitleColor:")]
+    pub unsafe fn setTitleColor(&self, new_color: Option<&NSColor>);
+
+    #[cfg(feature = "AppKit_NSColor")]
+    #[deprecated = "-titleColor has returned nil since 10.0"]
+    #[objc2::method(sel = "titleColor", managed = "Other")]
+    pub unsafe fn titleColor(&self) -> Option<Id<NSColor>>;
+
+    #[cfg(feature = "AppKit_NSFont")]
+    #[deprecated = "-setTitleFont: had no effect since 10.0"]
+    #[objc2::method(sel = "setTitleFont:")]
+    pub unsafe fn setTitleFont(&self, font_obj: Option<&NSFont>);
+
+    #[cfg(feature = "AppKit_NSFont")]
+    #[deprecated = "-titleFont has returned nil since 10.0"]
+    #[objc2::method(sel = "titleFont", managed = "Other")]
+    pub unsafe fn titleFont(&self) -> Option<Id<NSFont>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "-title has returned nil since 10.0"]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "-setTitle: had no effect since 10.0"]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, string: Option<&NSString>);
+
+    #[deprecated = "-knobThickness has returned 0 since 10.0"]
+    #[objc2::method(sel = "setKnobThickness:")]
+    pub unsafe fn setKnobThickness(&self, thickness: CGFloat);
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[deprecated = "-setImage: had no effect since 10.0"]
+    #[objc2::method(sel = "setImage:")]
+    pub unsafe fn setImage(&self, background_image: Option<&NSImage>);
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[deprecated = "-image has returned nil since 10.0"]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Option<Id<NSImage>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSControl`
+    #[cfg(feature = "AppKit_NSSlider")]
     }
-);
-
-extern_methods!(
-    /// NSSliderVerticalGetter
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSlider")]
-    unsafe impl NSSlider {}
-);
+    pub type NSSlider;
 
-extern_methods!(
-    /// NSTickMarkSupport
-    #[cfg(feature = "AppKit_NSSlider")]
-    unsafe impl NSSlider {
-        #[method(numberOfTickMarks)]
-        pub unsafe fn numberOfTickMarks(&self) -> NSInteger;
-
-        #[method(setNumberOfTickMarks:)]
-        pub unsafe fn setNumberOfTickMarks(&self, number_of_tick_marks: NSInteger);
-
-        #[method(tickMarkPosition)]
-        pub unsafe fn tickMarkPosition(&self) -> NSTickMarkPosition;
-
-        #[method(setTickMarkPosition:)]
-        pub unsafe fn setTickMarkPosition(&self, tick_mark_position: NSTickMarkPosition);
-
-        #[method(allowsTickMarkValuesOnly)]
-        pub unsafe fn allowsTickMarkValuesOnly(&self) -> bool;
-
-        #[method(setAllowsTickMarkValuesOnly:)]
-        pub unsafe fn setAllowsTickMarkValuesOnly(&self, allows_tick_mark_values_only: bool);
-
-        #[method(tickMarkValueAtIndex:)]
-        pub unsafe fn tickMarkValueAtIndex(&self, index: NSInteger) -> c_double;
-
-        #[method(rectOfTickMarkAtIndex:)]
-        pub unsafe fn rectOfTickMarkAtIndex(&self, index: NSInteger) -> NSRect;
-
-        #[method(indexOfTickMarkAtPoint:)]
-        pub unsafe fn indexOfTickMarkAtPoint(&self, point: NSPoint) -> NSInteger;
-
-        #[method(closestTickMarkValueToValue:)]
-        pub unsafe fn closestTickMarkValueToValue(&self, value: c_double) -> c_double;
-    }
-);
-
-extern_methods!(
-    /// NSSliderConvenience
-    #[cfg(feature = "AppKit_NSSlider")]
-    unsafe impl NSSlider {
-        #[method_id(@__retain_semantics Other sliderWithTarget:action:)]
-        pub unsafe fn sliderWithTarget_action(
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other sliderWithValue:minValue:maxValue:target:action:)]
-        pub unsafe fn sliderWithValue_minValue_maxValue_target_action(
-            value: c_double,
-            min_value: c_double,
-            max_value: c_double,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
-    }
-);
-
-extern_methods!(
-    /// NSSliderDeprecated
-    #[cfg(feature = "AppKit_NSSlider")]
-    unsafe impl NSSlider {
-        #[cfg(feature = "AppKit_NSCell")]
-        #[deprecated = "-setTitleCell: had no effect since 10.0"]
-        #[method(setTitleCell:)]
-        pub unsafe fn setTitleCell(&self, cell: Option<&NSCell>);
-
-        #[deprecated = "-titleCell has returned nil since 10.0"]
-        #[method_id(@__retain_semantics Other titleCell)]
-        pub unsafe fn titleCell(&self) -> Option<Id<Object>>;
-
-        #[cfg(feature = "AppKit_NSColor")]
-        #[deprecated = "-setTitleColor: had no effect since 10.0"]
-        #[method(setTitleColor:)]
-        pub unsafe fn setTitleColor(&self, new_color: Option<&NSColor>);
-
-        #[cfg(feature = "AppKit_NSColor")]
-        #[deprecated = "-titleColor has returned nil since 10.0"]
-        #[method_id(@__retain_semantics Other titleColor)]
-        pub unsafe fn titleColor(&self) -> Option<Id<NSColor>>;
-
-        #[cfg(feature = "AppKit_NSFont")]
-        #[deprecated = "-setTitleFont: had no effect since 10.0"]
-        #[method(setTitleFont:)]
-        pub unsafe fn setTitleFont(&self, font_obj: Option<&NSFont>);
-
-        #[cfg(feature = "AppKit_NSFont")]
-        #[deprecated = "-titleFont has returned nil since 10.0"]
-        #[method_id(@__retain_semantics Other titleFont)]
-        pub unsafe fn titleFont(&self) -> Option<Id<NSFont>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "-title has returned nil since 10.0"]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "-setTitle: had no effect since 10.0"]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, string: Option<&NSString>);
-
-        #[deprecated = "-knobThickness has returned 0 since 10.0"]
-        #[method(setKnobThickness:)]
-        pub unsafe fn setKnobThickness(&self, thickness: CGFloat);
-
-        #[cfg(feature = "AppKit_NSImage")]
-        #[deprecated = "-setImage: had no effect since 10.0"]
-        #[method(setImage:)]
-        pub unsafe fn setImage(&self, background_image: Option<&NSImage>);
-
-        #[cfg(feature = "AppKit_NSImage")]
-        #[deprecated = "-image has returned nil since 10.0"]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Option<Id<NSImage>>;
-    }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSControl`
-    #[cfg(feature = "AppKit_NSSlider")]
-    unsafe impl NSSlider {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

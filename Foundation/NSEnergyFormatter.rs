@@ -3,27 +3,26 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSEnergyFormatterUnit {
-        NSEnergyFormatterUnitJoule = 11,
-        NSEnergyFormatterUnitKilojoule = 14,
-        NSEnergyFormatterUnitCalorie = (7 << 8) + 1,
-        NSEnergyFormatterUnitKilocalorie = (7 << 8) + 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSEnergyFormatterUnit {
+    NSEnergyFormatterUnitJoule = 11,
+    NSEnergyFormatterUnitKilojoule = 14,
+    NSEnergyFormatterUnitCalorie = (7 << 8) + 1,
+    NSEnergyFormatterUnitKilocalorie = (7 << 8) + 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSFormatter,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSEnergyFormatter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSEnergyFormatter")]
-    pub struct NSEnergyFormatter;
-
-    #[cfg(feature = "Foundation_NSEnergyFormatter")]
-    unsafe impl ClassType for NSEnergyFormatter {
-        #[inherits(NSObject)]
-        type Super = NSFormatter;
-    }
-);
+    pub type NSEnergyFormatter;
+}
 
 #[cfg(feature = "Foundation_NSEnergyFormatter")]
 unsafe impl NSCoding for NSEnergyFormatter {}
@@ -31,64 +30,67 @@ unsafe impl NSCoding for NSEnergyFormatter {}
 #[cfg(feature = "Foundation_NSEnergyFormatter")]
 unsafe impl NSObjectProtocol for NSEnergyFormatter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSEnergyFormatter")]
-    unsafe impl NSEnergyFormatter {
-        #[cfg(feature = "Foundation_NSNumberFormatter")]
-        #[method_id(@__retain_semantics Other numberFormatter)]
-        pub unsafe fn numberFormatter(&self) -> Id<NSNumberFormatter>;
+    pub type NSEnergyFormatter;
 
-        #[cfg(feature = "Foundation_NSNumberFormatter")]
-        #[method(setNumberFormatter:)]
-        pub unsafe fn setNumberFormatter(&self, number_formatter: Option<&NSNumberFormatter>);
+    #[cfg(feature = "Foundation_NSNumberFormatter")]
+    #[objc2::method(sel = "numberFormatter", managed = "Other")]
+    pub unsafe fn numberFormatter(&self) -> Id<NSNumberFormatter>;
 
-        #[method(unitStyle)]
-        pub unsafe fn unitStyle(&self) -> NSFormattingUnitStyle;
+    #[cfg(feature = "Foundation_NSNumberFormatter")]
+    #[objc2::method(sel = "setNumberFormatter:")]
+    pub unsafe fn setNumberFormatter(&self, number_formatter: Option<&NSNumberFormatter>);
 
-        #[method(setUnitStyle:)]
-        pub unsafe fn setUnitStyle(&self, unit_style: NSFormattingUnitStyle);
+    #[objc2::method(sel = "unitStyle")]
+    pub unsafe fn unitStyle(&self) -> NSFormattingUnitStyle;
 
-        #[method(isForFoodEnergyUse)]
-        pub unsafe fn isForFoodEnergyUse(&self) -> bool;
+    #[objc2::method(sel = "setUnitStyle:")]
+    pub unsafe fn setUnitStyle(&self, unit_style: NSFormattingUnitStyle);
 
-        #[method(setForFoodEnergyUse:)]
-        pub unsafe fn setForFoodEnergyUse(&self, for_food_energy_use: bool);
+    #[objc2::method(sel = "isForFoodEnergyUse")]
+    pub unsafe fn isForFoodEnergyUse(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringFromValue:unit:)]
-        pub unsafe fn stringFromValue_unit(
-            &self,
-            value: c_double,
-            unit: NSEnergyFormatterUnit,
-        ) -> Id<NSString>;
+    #[objc2::method(sel = "setForFoodEnergyUse:")]
+    pub unsafe fn setForFoodEnergyUse(&self, for_food_energy_use: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringFromJoules:)]
-        pub unsafe fn stringFromJoules(&self, number_in_joules: c_double) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringFromValue:unit:", managed = "Other")]
+    pub unsafe fn stringFromValue_unit(
+        &self,
+        value: c_double,
+        unit: NSEnergyFormatterUnit,
+    ) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other unitStringFromValue:unit:)]
-        pub unsafe fn unitStringFromValue_unit(
-            &self,
-            value: c_double,
-            unit: NSEnergyFormatterUnit,
-        ) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringFromJoules:", managed = "Other")]
+    pub unsafe fn stringFromJoules(&self, number_in_joules: c_double) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other unitStringFromJoules:usedUnit:)]
-        pub unsafe fn unitStringFromJoules_usedUnit(
-            &self,
-            number_in_joules: c_double,
-            unitp: *mut NSEnergyFormatterUnit,
-        ) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "unitStringFromValue:unit:", managed = "Other")]
+    pub unsafe fn unitStringFromValue_unit(
+        &self,
+        value: c_double,
+        unit: NSEnergyFormatterUnit,
+    ) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(getObjectValue:forString:errorDescription:)]
-        pub unsafe fn getObjectValue_forString_errorDescription(
-            &self,
-            obj: Option<&mut Option<Id<Object>>>,
-            string: &NSString,
-            error: Option<&mut Option<Id<NSString>>>,
-        ) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "unitStringFromJoules:usedUnit:", managed = "Other")]
+    pub unsafe fn unitStringFromJoules_usedUnit(
+        &self,
+        number_in_joules: c_double,
+        unitp: *mut NSEnergyFormatterUnit,
+    ) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "getObjectValue:forString:errorDescription:")]
+    pub unsafe fn getObjectValue_forString_errorDescription(
+        &self,
+        obj: Option<&mut Option<Id<Object>>>,
+        string: &NSString,
+        error: Option<&mut Option<Id<NSString>>>,
+    ) -> bool;
+}

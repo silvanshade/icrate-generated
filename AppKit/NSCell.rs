@@ -5,68 +5,64 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSCellType {
-        NSNullCellType = 0,
-        NSTextCellType = 1,
-        NSImageCellType = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSCellType {
+    NSNullCellType = 0,
+    NSTextCellType = 1,
+    NSImageCellType = 2,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSCellAttribute {
-        NSCellDisabled = 0,
-        NSCellState = 1,
-        NSPushInCell = 2,
-        NSCellEditable = 3,
-        NSChangeGrayCell = 4,
-        NSCellHighlighted = 5,
-        NSCellLightsByContents = 6,
-        NSCellLightsByGray = 7,
-        NSChangeBackgroundCell = 8,
-        NSCellLightsByBackground = 9,
-        NSCellIsBordered = 10,
-        NSCellHasOverlappingImage = 11,
-        NSCellHasImageHorizontal = 12,
-        NSCellHasImageOnLeftOrBottom = 13,
-        NSCellChangesContents = 14,
-        NSCellIsInsetButton = 15,
-        NSCellAllowsMixedState = 16,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSCellAttribute {
+    NSCellDisabled = 0,
+    NSCellState = 1,
+    NSPushInCell = 2,
+    NSCellEditable = 3,
+    NSChangeGrayCell = 4,
+    NSCellHighlighted = 5,
+    NSCellLightsByContents = 6,
+    NSCellLightsByGray = 7,
+    NSChangeBackgroundCell = 8,
+    NSCellLightsByBackground = 9,
+    NSCellIsBordered = 10,
+    NSCellHasOverlappingImage = 11,
+    NSCellHasImageHorizontal = 12,
+    NSCellHasImageOnLeftOrBottom = 13,
+    NSCellChangesContents = 14,
+    NSCellIsInsetButton = 15,
+    NSCellAllowsMixedState = 16,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSCellImagePosition {
-        NSNoImage = 0,
-        NSImageOnly = 1,
-        NSImageLeft = 2,
-        NSImageRight = 3,
-        NSImageBelow = 4,
-        NSImageAbove = 5,
-        NSImageOverlaps = 6,
-        NSImageLeading = 7,
-        NSImageTrailing = 8,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSCellImagePosition {
+    NSNoImage = 0,
+    NSImageOnly = 1,
+    NSImageLeft = 2,
+    NSImageRight = 3,
+    NSImageBelow = 4,
+    NSImageAbove = 5,
+    NSImageOverlaps = 6,
+    NSImageLeading = 7,
+    NSImageTrailing = 8,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSImageScaling {
-        NSImageScaleProportionallyDown = 0,
-        NSImageScaleAxesIndependently = 1,
-        NSImageScaleNone = 2,
-        NSImageScaleProportionallyUpOrDown = 3,
-        #[deprecated = "Use NSImageScaleProportionallyDown instead"]
-        NSScaleProportionally = 0,
-        #[deprecated = "Use NSImageScaleAxesIndependently instead"]
-        NSScaleToFit = 1,
-        #[deprecated = "Use NSImageScaleNone instead"]
-        NSScaleNone = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSImageScaling {
+    NSImageScaleProportionallyDown = 0,
+    NSImageScaleAxesIndependently = 1,
+    NSImageScaleNone = 2,
+    NSImageScaleProportionallyUpOrDown = 3,
+    #[deprecated = "Use NSImageScaleProportionallyDown instead"]
+    NSScaleProportionally = 0,
+    #[deprecated = "Use NSImageScaleAxesIndependently instead"]
+    NSScaleToFit = 1,
+    #[deprecated = "Use NSImageScaleNone instead"]
+    NSScaleNone = 2,
+}
 
 typed_extensible_enum!(
     pub type NSControlStateValue = NSInteger;
@@ -78,47 +74,44 @@ extern_static!(NSControlStateValueOff: NSControlStateValue = 0);
 
 extern_static!(NSControlStateValueOn: NSControlStateValue = 1);
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSCellStyleMask {
-        NSNoCellMask = 0,
-        NSContentsCellMask = 1,
-        NSPushInCellMask = 2,
-        NSChangeGrayCellMask = 4,
-        NSChangeBackgroundCellMask = 8,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSCellStyleMask {
+    NSNoCellMask = 0,
+    NSContentsCellMask = 1,
+    NSPushInCellMask = 2,
+    NSChangeGrayCellMask = 4,
+    NSChangeBackgroundCellMask = 8,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSControlTint {
-        NSDefaultControlTint = 0,
-        NSBlueControlTint = 1,
-        NSGraphiteControlTint = 6,
-        NSClearControlTint = 7,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSControlTint {
+    NSDefaultControlTint = 0,
+    NSBlueControlTint = 1,
+    NSGraphiteControlTint = 6,
+    NSClearControlTint = 7,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSControlSize {
-        NSControlSizeRegular = 0,
-        NSControlSizeSmall = 1,
-        NSControlSizeMini = 2,
-        NSControlSizeLarge = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSControlSize {
+    NSControlSizeRegular = 0,
+    NSControlSizeSmall = 1,
+    NSControlSizeMini = 2,
+    NSControlSizeLarge = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSCell")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSCell")]
-    pub struct NSCell;
-
-    #[cfg(feature = "AppKit_NSCell")]
-    unsafe impl ClassType for NSCell {
-        type Super = NSObject;
-    }
-);
+    pub type NSCell;
+}
 
 #[cfg(feature = "AppKit_NSCell")]
 unsafe impl NSAccessibility for NSCell {}
@@ -135,634 +128,641 @@ unsafe impl NSObjectProtocol for NSCell {}
 #[cfg(feature = "AppKit_NSCell")]
 unsafe impl NSUserInterfaceItemIdentification for NSCell {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSCell")]
-    unsafe impl NSCell {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSCell;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initTextCell:)]
-        pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Init initImageCell:)]
-        pub unsafe fn initImageCell(
-            this: Option<Allocated<Self>>,
-            image: Option<&NSImage>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initTextCell:", managed = "Init")]
+    pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "initImageCell:", managed = "Init")]
+    pub unsafe fn initImageCell(this: Option<Allocated<Self>>, image: Option<&NSImage>)
+        -> Id<Self>;
 
-        #[method(prefersTrackingUntilMouseUp)]
-        pub unsafe fn prefersTrackingUntilMouseUp() -> bool;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other controlView)]
-        pub unsafe fn controlView(&self) -> Option<Id<NSView>>;
+    #[objc2::method(sel = "prefersTrackingUntilMouseUp")]
+    pub unsafe fn prefersTrackingUntilMouseUp() -> bool;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setControlView:)]
-        pub unsafe fn setControlView(&self, control_view: Option<&NSView>);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "controlView", managed = "Other")]
+    pub unsafe fn controlView(&self) -> Option<Id<NSView>>;
 
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> NSCellType;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setControlView:")]
+    pub unsafe fn setControlView(&self, control_view: Option<&NSView>);
 
-        #[method(setType:)]
-        pub unsafe fn setType(&self, r#type: NSCellType);
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> NSCellType;
 
-        #[method(state)]
-        pub unsafe fn state(&self) -> NSControlStateValue;
+    #[objc2::method(sel = "setType:")]
+    pub unsafe fn setType(&self, r#type: NSCellType);
 
-        #[method(setState:)]
-        pub unsafe fn setState(&self, state: NSControlStateValue);
+    #[objc2::method(sel = "state")]
+    pub unsafe fn state(&self) -> NSControlStateValue;
 
-        #[method_id(@__retain_semantics Other target)]
-        pub unsafe fn target(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setState:")]
+    pub unsafe fn setState(&self, state: NSControlStateValue);
 
-        #[method(setTarget:)]
-        pub unsafe fn setTarget(&self, target: Option<&Object>);
+    #[objc2::method(sel = "target", managed = "Other")]
+    pub unsafe fn target(&self) -> Option<Id<Object>>;
 
-        #[method(action)]
-        pub unsafe fn action(&self) -> Option<Sel>;
+    #[objc2::method(sel = "setTarget:")]
+    pub unsafe fn setTarget(&self, target: Option<&Object>);
 
-        #[method(setAction:)]
-        pub unsafe fn setAction(&self, action: Option<Sel>);
+    #[objc2::method(sel = "action")]
+    pub unsafe fn action(&self) -> Option<Sel>;
 
-        #[method(tag)]
-        pub unsafe fn tag(&self) -> NSInteger;
+    #[objc2::method(sel = "setAction:")]
+    pub unsafe fn setAction(&self, action: Option<Sel>);
 
-        #[method(setTag:)]
-        pub unsafe fn setTag(&self, tag: NSInteger);
+    #[objc2::method(sel = "tag")]
+    pub unsafe fn tag(&self) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setTag:")]
+    pub unsafe fn setTag(&self, tag: NSInteger);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[method(isOpaque)]
-        pub unsafe fn isOpaque(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
 
-        #[method(isEnabled)]
-        pub unsafe fn isEnabled(&self) -> bool;
+    #[objc2::method(sel = "isOpaque")]
+    pub unsafe fn isOpaque(&self) -> bool;
 
-        #[method(setEnabled:)]
-        pub unsafe fn setEnabled(&self, enabled: bool);
+    #[objc2::method(sel = "isEnabled")]
+    pub unsafe fn isEnabled(&self) -> bool;
 
-        #[method(sendActionOn:)]
-        pub unsafe fn sendActionOn(&self, mask: NSEventMask) -> NSInteger;
+    #[objc2::method(sel = "setEnabled:")]
+    pub unsafe fn setEnabled(&self, enabled: bool);
 
-        #[method(isContinuous)]
-        pub unsafe fn isContinuous(&self) -> bool;
+    #[objc2::method(sel = "sendActionOn:")]
+    pub unsafe fn sendActionOn(&self, mask: NSEventMask) -> NSInteger;
 
-        #[method(setContinuous:)]
-        pub unsafe fn setContinuous(&self, continuous: bool);
+    #[objc2::method(sel = "isContinuous")]
+    pub unsafe fn isContinuous(&self) -> bool;
 
-        #[method(isEditable)]
-        pub unsafe fn isEditable(&self) -> bool;
+    #[objc2::method(sel = "setContinuous:")]
+    pub unsafe fn setContinuous(&self, continuous: bool);
 
-        #[method(setEditable:)]
-        pub unsafe fn setEditable(&self, editable: bool);
+    #[objc2::method(sel = "isEditable")]
+    pub unsafe fn isEditable(&self) -> bool;
 
-        #[method(isSelectable)]
-        pub unsafe fn isSelectable(&self) -> bool;
+    #[objc2::method(sel = "setEditable:")]
+    pub unsafe fn setEditable(&self, editable: bool);
 
-        #[method(setSelectable:)]
-        pub unsafe fn setSelectable(&self, selectable: bool);
+    #[objc2::method(sel = "isSelectable")]
+    pub unsafe fn isSelectable(&self) -> bool;
 
-        #[method(isBordered)]
-        pub unsafe fn isBordered(&self) -> bool;
+    #[objc2::method(sel = "setSelectable:")]
+    pub unsafe fn setSelectable(&self, selectable: bool);
 
-        #[method(setBordered:)]
-        pub unsafe fn setBordered(&self, bordered: bool);
+    #[objc2::method(sel = "isBordered")]
+    pub unsafe fn isBordered(&self) -> bool;
 
-        #[method(isBezeled)]
-        pub unsafe fn isBezeled(&self) -> bool;
+    #[objc2::method(sel = "setBordered:")]
+    pub unsafe fn setBordered(&self, bordered: bool);
 
-        #[method(setBezeled:)]
-        pub unsafe fn setBezeled(&self, bezeled: bool);
+    #[objc2::method(sel = "isBezeled")]
+    pub unsafe fn isBezeled(&self) -> bool;
 
-        #[method(isScrollable)]
-        pub unsafe fn isScrollable(&self) -> bool;
+    #[objc2::method(sel = "setBezeled:")]
+    pub unsafe fn setBezeled(&self, bezeled: bool);
 
-        #[method(setScrollable:)]
-        pub unsafe fn setScrollable(&self, scrollable: bool);
+    #[objc2::method(sel = "isScrollable")]
+    pub unsafe fn isScrollable(&self) -> bool;
 
-        #[method(isHighlighted)]
-        pub unsafe fn isHighlighted(&self) -> bool;
+    #[objc2::method(sel = "setScrollable:")]
+    pub unsafe fn setScrollable(&self, scrollable: bool);
 
-        #[method(setHighlighted:)]
-        pub unsafe fn setHighlighted(&self, highlighted: bool);
+    #[objc2::method(sel = "isHighlighted")]
+    pub unsafe fn isHighlighted(&self) -> bool;
 
-        #[method(alignment)]
-        pub unsafe fn alignment(&self) -> NSTextAlignment;
+    #[objc2::method(sel = "setHighlighted:")]
+    pub unsafe fn setHighlighted(&self, highlighted: bool);
 
-        #[method(setAlignment:)]
-        pub unsafe fn setAlignment(&self, alignment: NSTextAlignment);
+    #[objc2::method(sel = "alignment")]
+    pub unsafe fn alignment(&self) -> NSTextAlignment;
 
-        #[method(wraps)]
-        pub unsafe fn wraps(&self) -> bool;
+    #[objc2::method(sel = "setAlignment:")]
+    pub unsafe fn setAlignment(&self, alignment: NSTextAlignment);
 
-        #[method(setWraps:)]
-        pub unsafe fn setWraps(&self, wraps: bool);
+    #[objc2::method(sel = "wraps")]
+    pub unsafe fn wraps(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSFont")]
-        #[method_id(@__retain_semantics Other font)]
-        pub unsafe fn font(&self) -> Option<Id<NSFont>>;
+    #[objc2::method(sel = "setWraps:")]
+    pub unsafe fn setWraps(&self, wraps: bool);
 
-        #[cfg(feature = "AppKit_NSFont")]
-        #[method(setFont:)]
-        pub unsafe fn setFont(&self, font: Option<&NSFont>);
+    #[cfg(feature = "AppKit_NSFont")]
+    #[objc2::method(sel = "font", managed = "Other")]
+    pub unsafe fn font(&self) -> Option<Id<NSFont>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other keyEquivalent)]
-        pub unsafe fn keyEquivalent(&self) -> Id<NSString>;
+    #[cfg(feature = "AppKit_NSFont")]
+    #[objc2::method(sel = "setFont:")]
+    pub unsafe fn setFont(&self, font: Option<&NSFont>);
 
-        #[cfg(feature = "Foundation_NSFormatter")]
-        #[method_id(@__retain_semantics Other formatter)]
-        pub unsafe fn formatter(&self) -> Option<Id<NSFormatter>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "keyEquivalent", managed = "Other")]
+    pub unsafe fn keyEquivalent(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSFormatter")]
-        #[method(setFormatter:)]
-        pub unsafe fn setFormatter(&self, formatter: Option<&NSFormatter>);
+    #[cfg(feature = "Foundation_NSFormatter")]
+    #[objc2::method(sel = "formatter", managed = "Other")]
+    pub unsafe fn formatter(&self) -> Option<Id<NSFormatter>>;
 
-        #[method_id(@__retain_semantics Other objectValue)]
-        pub unsafe fn objectValue(&self) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSFormatter")]
+    #[objc2::method(sel = "setFormatter:")]
+    pub unsafe fn setFormatter(&self, formatter: Option<&NSFormatter>);
 
-        #[method(setObjectValue:)]
-        pub unsafe fn setObjectValue(&self, object_value: Option<&Object>);
+    #[objc2::method(sel = "objectValue", managed = "Other")]
+    pub unsafe fn objectValue(&self) -> Option<Id<Object>>;
 
-        #[method(hasValidObjectValue)]
-        pub unsafe fn hasValidObjectValue(&self) -> bool;
+    #[objc2::method(sel = "setObjectValue:")]
+    pub unsafe fn setObjectValue(&self, object_value: Option<&Object>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringValue)]
-        pub unsafe fn stringValue(&self) -> Id<NSString>;
+    #[objc2::method(sel = "hasValidObjectValue")]
+    pub unsafe fn hasValidObjectValue(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setStringValue:)]
-        pub unsafe fn setStringValue(&self, string_value: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringValue", managed = "Other")]
+    pub unsafe fn stringValue(&self) -> Id<NSString>;
 
-        #[method(compare:)]
-        pub unsafe fn compare(&self, other_cell: &Object) -> NSComparisonResult;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setStringValue:")]
+    pub unsafe fn setStringValue(&self, string_value: &NSString);
 
-        #[method(intValue)]
-        pub unsafe fn intValue(&self) -> c_int;
+    #[objc2::method(sel = "compare:")]
+    pub unsafe fn compare(&self, other_cell: &Object) -> NSComparisonResult;
 
-        #[method(setIntValue:)]
-        pub unsafe fn setIntValue(&self, int_value: c_int);
+    #[objc2::method(sel = "intValue")]
+    pub unsafe fn intValue(&self) -> c_int;
 
-        #[method(floatValue)]
-        pub unsafe fn floatValue(&self) -> c_float;
+    #[objc2::method(sel = "setIntValue:")]
+    pub unsafe fn setIntValue(&self, int_value: c_int);
 
-        #[method(setFloatValue:)]
-        pub unsafe fn setFloatValue(&self, float_value: c_float);
+    #[objc2::method(sel = "floatValue")]
+    pub unsafe fn floatValue(&self) -> c_float;
 
-        #[method(doubleValue)]
-        pub unsafe fn doubleValue(&self) -> c_double;
+    #[objc2::method(sel = "setFloatValue:")]
+    pub unsafe fn setFloatValue(&self, float_value: c_float);
 
-        #[method(setDoubleValue:)]
-        pub unsafe fn setDoubleValue(&self, double_value: c_double);
+    #[objc2::method(sel = "doubleValue")]
+    pub unsafe fn doubleValue(&self) -> c_double;
 
-        #[method(integerValue)]
-        pub unsafe fn integerValue(&self) -> NSInteger;
+    #[objc2::method(sel = "setDoubleValue:")]
+    pub unsafe fn setDoubleValue(&self, double_value: c_double);
 
-        #[method(setIntegerValue:)]
-        pub unsafe fn setIntegerValue(&self, integer_value: NSInteger);
+    #[objc2::method(sel = "integerValue")]
+    pub unsafe fn integerValue(&self) -> NSInteger;
 
-        #[method(takeIntValueFrom:)]
-        pub unsafe fn takeIntValueFrom(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "setIntegerValue:")]
+    pub unsafe fn setIntegerValue(&self, integer_value: NSInteger);
 
-        #[method(takeFloatValueFrom:)]
-        pub unsafe fn takeFloatValueFrom(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "takeIntValueFrom:")]
+    pub unsafe fn takeIntValueFrom(&self, sender: Option<&Object>);
 
-        #[method(takeDoubleValueFrom:)]
-        pub unsafe fn takeDoubleValueFrom(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "takeFloatValueFrom:")]
+    pub unsafe fn takeFloatValueFrom(&self, sender: Option<&Object>);
 
-        #[method(takeStringValueFrom:)]
-        pub unsafe fn takeStringValueFrom(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "takeDoubleValueFrom:")]
+    pub unsafe fn takeDoubleValueFrom(&self, sender: Option<&Object>);
 
-        #[method(takeObjectValueFrom:)]
-        pub unsafe fn takeObjectValueFrom(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "takeStringValueFrom:")]
+    pub unsafe fn takeStringValueFrom(&self, sender: Option<&Object>);
 
-        #[method(takeIntegerValueFrom:)]
-        pub unsafe fn takeIntegerValueFrom(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "takeObjectValueFrom:")]
+    pub unsafe fn takeObjectValueFrom(&self, sender: Option<&Object>);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Option<Id<NSImage>>;
+    #[objc2::method(sel = "takeIntegerValueFrom:")]
+    pub unsafe fn takeIntegerValueFrom(&self, sender: Option<&Object>);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setImage:)]
-        pub unsafe fn setImage(&self, image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Option<Id<NSImage>>;
 
-        #[method(controlSize)]
-        pub unsafe fn controlSize(&self) -> NSControlSize;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setImage:")]
+    pub unsafe fn setImage(&self, image: Option<&NSImage>);
 
-        #[method(setControlSize:)]
-        pub unsafe fn setControlSize(&self, control_size: NSControlSize);
+    #[objc2::method(sel = "controlSize")]
+    pub unsafe fn controlSize(&self) -> NSControlSize;
 
-        #[method_id(@__retain_semantics Other representedObject)]
-        pub unsafe fn representedObject(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setControlSize:")]
+    pub unsafe fn setControlSize(&self, control_size: NSControlSize);
 
-        #[method(setRepresentedObject:)]
-        pub unsafe fn setRepresentedObject(&self, represented_object: Option<&Object>);
+    #[objc2::method(sel = "representedObject", managed = "Other")]
+    pub unsafe fn representedObject(&self) -> Option<Id<Object>>;
 
-        #[method(cellAttribute:)]
-        pub unsafe fn cellAttribute(&self, parameter: NSCellAttribute) -> NSInteger;
+    #[objc2::method(sel = "setRepresentedObject:")]
+    pub unsafe fn setRepresentedObject(&self, represented_object: Option<&Object>);
 
-        #[method(setCellAttribute:to:)]
-        pub unsafe fn setCellAttribute_to(&self, parameter: NSCellAttribute, value: NSInteger);
+    #[objc2::method(sel = "cellAttribute:")]
+    pub unsafe fn cellAttribute(&self, parameter: NSCellAttribute) -> NSInteger;
 
-        #[method(imageRectForBounds:)]
-        pub unsafe fn imageRectForBounds(&self, rect: NSRect) -> NSRect;
+    #[objc2::method(sel = "setCellAttribute:to:")]
+    pub unsafe fn setCellAttribute_to(&self, parameter: NSCellAttribute, value: NSInteger);
 
-        #[method(titleRectForBounds:)]
-        pub unsafe fn titleRectForBounds(&self, rect: NSRect) -> NSRect;
+    #[objc2::method(sel = "imageRectForBounds:")]
+    pub unsafe fn imageRectForBounds(&self, rect: NSRect) -> NSRect;
 
-        #[method(drawingRectForBounds:)]
-        pub unsafe fn drawingRectForBounds(&self, rect: NSRect) -> NSRect;
-
-        #[method(cellSize)]
-        pub unsafe fn cellSize(&self) -> NSSize;
-
-        #[method(cellSizeForBounds:)]
-        pub unsafe fn cellSizeForBounds(&self, rect: NSRect) -> NSSize;
-
-        #[cfg(all(feature = "AppKit_NSColor", feature = "AppKit_NSView"))]
-        #[method_id(@__retain_semantics Other highlightColorWithFrame:inView:)]
-        pub unsafe fn highlightColorWithFrame_inView(
-            &self,
-            cell_frame: NSRect,
-            control_view: &NSView,
-        ) -> Option<Id<NSColor>>;
-
-        #[method(calcDrawInfo:)]
-        pub unsafe fn calcDrawInfo(&self, rect: NSRect);
-
-        #[cfg(feature = "AppKit_NSText")]
-        #[method_id(@__retain_semantics Other setUpFieldEditorAttributes:)]
-        pub unsafe fn setUpFieldEditorAttributes(&self, text_obj: &NSText) -> Id<NSText>;
-
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(drawInteriorWithFrame:inView:)]
-        pub unsafe fn drawInteriorWithFrame_inView(
-            &self,
-            cell_frame: NSRect,
-            control_view: &NSView,
-        );
-
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(drawWithFrame:inView:)]
-        pub unsafe fn drawWithFrame_inView(&self, cell_frame: NSRect, control_view: &NSView);
-
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(highlight:withFrame:inView:)]
-        pub unsafe fn highlight_withFrame_inView(
-            &self,
-            flag: bool,
-            cell_frame: NSRect,
-            control_view: &NSView,
-        );
-
-        #[method(mouseDownFlags)]
-        pub unsafe fn mouseDownFlags(&self) -> NSInteger;
-
-        #[method(getPeriodicDelay:interval:)]
-        pub unsafe fn getPeriodicDelay_interval(
-            &self,
-            delay: NonNull<c_float>,
-            interval: NonNull<c_float>,
-        );
-
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(startTrackingAt:inView:)]
-        pub unsafe fn startTrackingAt_inView(
-            &self,
-            start_point: NSPoint,
-            control_view: &NSView,
-        ) -> bool;
-
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(continueTracking:at:inView:)]
-        pub unsafe fn continueTracking_at_inView(
-            &self,
-            last_point: NSPoint,
-            current_point: NSPoint,
-            control_view: &NSView,
-        ) -> bool;
-
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(stopTracking:at:inView:mouseIsUp:)]
-        pub unsafe fn stopTracking_at_inView_mouseIsUp(
-            &self,
-            last_point: NSPoint,
-            stop_point: NSPoint,
-            control_view: &NSView,
-            flag: bool,
-        );
-
-        #[cfg(all(feature = "AppKit_NSEvent", feature = "AppKit_NSView"))]
-        #[method(trackMouse:inRect:ofView:untilMouseUp:)]
-        pub unsafe fn trackMouse_inRect_ofView_untilMouseUp(
-            &self,
-            event: &NSEvent,
-            cell_frame: NSRect,
-            control_view: &NSView,
-            flag: bool,
-        ) -> bool;
-
-        #[cfg(all(
-            feature = "AppKit_NSEvent",
-            feature = "AppKit_NSText",
-            feature = "AppKit_NSView"
-        ))]
-        #[method(editWithFrame:inView:editor:delegate:event:)]
-        pub unsafe fn editWithFrame_inView_editor_delegate_event(
-            &self,
-            rect: NSRect,
-            control_view: &NSView,
-            text_obj: &NSText,
-            delegate: Option<&Object>,
-            event: Option<&NSEvent>,
-        );
-
-        #[cfg(all(feature = "AppKit_NSText", feature = "AppKit_NSView"))]
-        #[method(selectWithFrame:inView:editor:delegate:start:length:)]
-        pub unsafe fn selectWithFrame_inView_editor_delegate_start_length(
-            &self,
-            rect: NSRect,
-            control_view: &NSView,
-            text_obj: &NSText,
-            delegate: Option<&Object>,
-            sel_start: NSInteger,
-            sel_length: NSInteger,
-        );
-
-        #[cfg(feature = "AppKit_NSText")]
-        #[method(endEditing:)]
-        pub unsafe fn endEditing(&self, text_obj: &NSText);
-
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(resetCursorRect:inView:)]
-        pub unsafe fn resetCursorRect_inView(&self, cell_frame: NSRect, control_view: &NSView);
-
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method_id(@__retain_semantics Other menu)]
-        pub unsafe fn menu(&self) -> Option<Id<NSMenu>>;
-
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method(setMenu:)]
-        pub unsafe fn setMenu(&self, menu: Option<&NSMenu>);
-
-        #[cfg(all(
-            feature = "AppKit_NSEvent",
-            feature = "AppKit_NSMenu",
-            feature = "AppKit_NSView"
-        ))]
-        #[method_id(@__retain_semantics Other menuForEvent:inRect:ofView:)]
-        pub unsafe fn menuForEvent_inRect_ofView(
-            &self,
-            event: &NSEvent,
-            cell_frame: NSRect,
-            view: &NSView,
-        ) -> Option<Id<NSMenu>>;
-
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method_id(@__retain_semantics Other defaultMenu)]
-        pub unsafe fn defaultMenu() -> Option<Id<NSMenu>>;
-
-        #[method(sendsActionOnEndEditing)]
-        pub unsafe fn sendsActionOnEndEditing(&self) -> bool;
-
-        #[method(setSendsActionOnEndEditing:)]
-        pub unsafe fn setSendsActionOnEndEditing(&self, sends_action_on_end_editing: bool);
-
-        #[method(baseWritingDirection)]
-        pub unsafe fn baseWritingDirection(&self) -> NSWritingDirection;
-
-        #[method(setBaseWritingDirection:)]
-        pub unsafe fn setBaseWritingDirection(&self, base_writing_direction: NSWritingDirection);
-
-        #[method(lineBreakMode)]
-        pub unsafe fn lineBreakMode(&self) -> NSLineBreakMode;
-
-        #[method(setLineBreakMode:)]
-        pub unsafe fn setLineBreakMode(&self, line_break_mode: NSLineBreakMode);
-
-        #[method(allowsUndo)]
-        pub unsafe fn allowsUndo(&self) -> bool;
-
-        #[method(setAllowsUndo:)]
-        pub unsafe fn setAllowsUndo(&self, allows_undo: bool);
-
-        #[method(truncatesLastVisibleLine)]
-        pub unsafe fn truncatesLastVisibleLine(&self) -> bool;
-
-        #[method(setTruncatesLastVisibleLine:)]
-        pub unsafe fn setTruncatesLastVisibleLine(&self, truncates_last_visible_line: bool);
-
-        #[method(userInterfaceLayoutDirection)]
-        pub unsafe fn userInterfaceLayoutDirection(&self) -> NSUserInterfaceLayoutDirection;
-
-        #[method(setUserInterfaceLayoutDirection:)]
-        pub unsafe fn setUserInterfaceLayoutDirection(
-            &self,
-            user_interface_layout_direction: NSUserInterfaceLayoutDirection,
-        );
-
-        #[cfg(all(feature = "AppKit_NSTextView", feature = "AppKit_NSView"))]
-        #[method_id(@__retain_semantics Other fieldEditorForView:)]
-        pub unsafe fn fieldEditorForView(&self, control_view: &NSView) -> Option<Id<NSTextView>>;
-
-        #[method(usesSingleLineMode)]
-        pub unsafe fn usesSingleLineMode(&self) -> bool;
-
-        #[method(setUsesSingleLineMode:)]
-        pub unsafe fn setUsesSingleLineMode(&self, uses_single_line_mode: bool);
-
-        #[cfg(all(
-            feature = "AppKit_NSDraggingImageComponent",
-            feature = "AppKit_NSView",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other draggingImageComponentsWithFrame:inView:)]
-        pub unsafe fn draggingImageComponentsWithFrame_inView(
-            &self,
-            frame: NSRect,
-            view: &NSView,
-        ) -> Id<NSArray<NSDraggingImageComponent>>;
-    }
-);
-
-extern_methods!(
-    /// NSKeyboardUI
+    #[objc2::method(sel = "titleRectForBounds:")]
+    pub unsafe fn titleRectForBounds(&self, rect: NSRect) -> NSRect;
+
+    #[objc2::method(sel = "drawingRectForBounds:")]
+    pub unsafe fn drawingRectForBounds(&self, rect: NSRect) -> NSRect;
+
+    #[objc2::method(sel = "cellSize")]
+    pub unsafe fn cellSize(&self) -> NSSize;
+
+    #[objc2::method(sel = "cellSizeForBounds:")]
+    pub unsafe fn cellSizeForBounds(&self, rect: NSRect) -> NSSize;
+
+    #[cfg(all(feature = "AppKit_NSColor", feature = "AppKit_NSView"))]
+    #[objc2::method(sel = "highlightColorWithFrame:inView:", managed = "Other")]
+    pub unsafe fn highlightColorWithFrame_inView(
+        &self,
+        cell_frame: NSRect,
+        control_view: &NSView,
+    ) -> Option<Id<NSColor>>;
+
+    #[objc2::method(sel = "calcDrawInfo:")]
+    pub unsafe fn calcDrawInfo(&self, rect: NSRect);
+
+    #[cfg(feature = "AppKit_NSText")]
+    #[objc2::method(sel = "setUpFieldEditorAttributes:", managed = "Other")]
+    pub unsafe fn setUpFieldEditorAttributes(&self, text_obj: &NSText) -> Id<NSText>;
+
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "drawInteriorWithFrame:inView:")]
+    pub unsafe fn drawInteriorWithFrame_inView(&self, cell_frame: NSRect, control_view: &NSView);
+
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "drawWithFrame:inView:")]
+    pub unsafe fn drawWithFrame_inView(&self, cell_frame: NSRect, control_view: &NSView);
+
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "highlight:withFrame:inView:")]
+    pub unsafe fn highlight_withFrame_inView(
+        &self,
+        flag: bool,
+        cell_frame: NSRect,
+        control_view: &NSView,
+    );
+
+    #[objc2::method(sel = "mouseDownFlags")]
+    pub unsafe fn mouseDownFlags(&self) -> NSInteger;
+
+    #[objc2::method(sel = "getPeriodicDelay:interval:")]
+    pub unsafe fn getPeriodicDelay_interval(
+        &self,
+        delay: NonNull<c_float>,
+        interval: NonNull<c_float>,
+    );
+
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "startTrackingAt:inView:")]
+    pub unsafe fn startTrackingAt_inView(
+        &self,
+        start_point: NSPoint,
+        control_view: &NSView,
+    ) -> bool;
+
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "continueTracking:at:inView:")]
+    pub unsafe fn continueTracking_at_inView(
+        &self,
+        last_point: NSPoint,
+        current_point: NSPoint,
+        control_view: &NSView,
+    ) -> bool;
+
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "stopTracking:at:inView:mouseIsUp:")]
+    pub unsafe fn stopTracking_at_inView_mouseIsUp(
+        &self,
+        last_point: NSPoint,
+        stop_point: NSPoint,
+        control_view: &NSView,
+        flag: bool,
+    );
+
+    #[cfg(all(feature = "AppKit_NSEvent", feature = "AppKit_NSView"))]
+    #[objc2::method(sel = "trackMouse:inRect:ofView:untilMouseUp:")]
+    pub unsafe fn trackMouse_inRect_ofView_untilMouseUp(
+        &self,
+        event: &NSEvent,
+        cell_frame: NSRect,
+        control_view: &NSView,
+        flag: bool,
+    ) -> bool;
+
+    #[cfg(all(
+        feature = "AppKit_NSEvent",
+        feature = "AppKit_NSText",
+        feature = "AppKit_NSView"
+    ))]
+    #[objc2::method(sel = "editWithFrame:inView:editor:delegate:event:")]
+    pub unsafe fn editWithFrame_inView_editor_delegate_event(
+        &self,
+        rect: NSRect,
+        control_view: &NSView,
+        text_obj: &NSText,
+        delegate: Option<&Object>,
+        event: Option<&NSEvent>,
+    );
+
+    #[cfg(all(feature = "AppKit_NSText", feature = "AppKit_NSView"))]
+    #[objc2::method(sel = "selectWithFrame:inView:editor:delegate:start:length:")]
+    pub unsafe fn selectWithFrame_inView_editor_delegate_start_length(
+        &self,
+        rect: NSRect,
+        control_view: &NSView,
+        text_obj: &NSText,
+        delegate: Option<&Object>,
+        sel_start: NSInteger,
+        sel_length: NSInteger,
+    );
+
+    #[cfg(feature = "AppKit_NSText")]
+    #[objc2::method(sel = "endEditing:")]
+    pub unsafe fn endEditing(&self, text_obj: &NSText);
+
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "resetCursorRect:inView:")]
+    pub unsafe fn resetCursorRect_inView(&self, cell_frame: NSRect, control_view: &NSView);
+
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "menu", managed = "Other")]
+    pub unsafe fn menu(&self) -> Option<Id<NSMenu>>;
+
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "setMenu:")]
+    pub unsafe fn setMenu(&self, menu: Option<&NSMenu>);
+
+    #[cfg(all(
+        feature = "AppKit_NSEvent",
+        feature = "AppKit_NSMenu",
+        feature = "AppKit_NSView"
+    ))]
+    #[objc2::method(sel = "menuForEvent:inRect:ofView:", managed = "Other")]
+    pub unsafe fn menuForEvent_inRect_ofView(
+        &self,
+        event: &NSEvent,
+        cell_frame: NSRect,
+        view: &NSView,
+    ) -> Option<Id<NSMenu>>;
+
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "defaultMenu", managed = "Other")]
+    pub unsafe fn defaultMenu() -> Option<Id<NSMenu>>;
+
+    #[objc2::method(sel = "sendsActionOnEndEditing")]
+    pub unsafe fn sendsActionOnEndEditing(&self) -> bool;
+
+    #[objc2::method(sel = "setSendsActionOnEndEditing:")]
+    pub unsafe fn setSendsActionOnEndEditing(&self, sends_action_on_end_editing: bool);
+
+    #[objc2::method(sel = "baseWritingDirection")]
+    pub unsafe fn baseWritingDirection(&self) -> NSWritingDirection;
+
+    #[objc2::method(sel = "setBaseWritingDirection:")]
+    pub unsafe fn setBaseWritingDirection(&self, base_writing_direction: NSWritingDirection);
+
+    #[objc2::method(sel = "lineBreakMode")]
+    pub unsafe fn lineBreakMode(&self) -> NSLineBreakMode;
+
+    #[objc2::method(sel = "setLineBreakMode:")]
+    pub unsafe fn setLineBreakMode(&self, line_break_mode: NSLineBreakMode);
+
+    #[objc2::method(sel = "allowsUndo")]
+    pub unsafe fn allowsUndo(&self) -> bool;
+
+    #[objc2::method(sel = "setAllowsUndo:")]
+    pub unsafe fn setAllowsUndo(&self, allows_undo: bool);
+
+    #[objc2::method(sel = "truncatesLastVisibleLine")]
+    pub unsafe fn truncatesLastVisibleLine(&self) -> bool;
+
+    #[objc2::method(sel = "setTruncatesLastVisibleLine:")]
+    pub unsafe fn setTruncatesLastVisibleLine(&self, truncates_last_visible_line: bool);
+
+    #[objc2::method(sel = "userInterfaceLayoutDirection")]
+    pub unsafe fn userInterfaceLayoutDirection(&self) -> NSUserInterfaceLayoutDirection;
+
+    #[objc2::method(sel = "setUserInterfaceLayoutDirection:")]
+    pub unsafe fn setUserInterfaceLayoutDirection(
+        &self,
+        user_interface_layout_direction: NSUserInterfaceLayoutDirection,
+    );
+
+    #[cfg(all(feature = "AppKit_NSTextView", feature = "AppKit_NSView"))]
+    #[objc2::method(sel = "fieldEditorForView:", managed = "Other")]
+    pub unsafe fn fieldEditorForView(&self, control_view: &NSView) -> Option<Id<NSTextView>>;
+
+    #[objc2::method(sel = "usesSingleLineMode")]
+    pub unsafe fn usesSingleLineMode(&self) -> bool;
+
+    #[objc2::method(sel = "setUsesSingleLineMode:")]
+    pub unsafe fn setUsesSingleLineMode(&self, uses_single_line_mode: bool);
+
+    #[cfg(all(
+        feature = "AppKit_NSDraggingImageComponent",
+        feature = "AppKit_NSView",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "draggingImageComponentsWithFrame:inView:", managed = "Other")]
+    pub unsafe fn draggingImageComponentsWithFrame_inView(
+        &self,
+        frame: NSRect,
+        view: &NSView,
+    ) -> Id<NSArray<NSDraggingImageComponent>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSCell")]
-    unsafe impl NSCell {
-        #[method(refusesFirstResponder)]
-        pub unsafe fn refusesFirstResponder(&self) -> bool;
+    pub type NSCell;
 
-        #[method(setRefusesFirstResponder:)]
-        pub unsafe fn setRefusesFirstResponder(&self, refuses_first_responder: bool);
+    #[objc2::method(sel = "refusesFirstResponder")]
+    pub unsafe fn refusesFirstResponder(&self) -> bool;
 
-        #[method(acceptsFirstResponder)]
-        pub unsafe fn acceptsFirstResponder(&self) -> bool;
+    #[objc2::method(sel = "setRefusesFirstResponder:")]
+    pub unsafe fn setRefusesFirstResponder(&self, refuses_first_responder: bool);
 
-        #[method(showsFirstResponder)]
-        pub unsafe fn showsFirstResponder(&self) -> bool;
+    #[objc2::method(sel = "acceptsFirstResponder")]
+    pub unsafe fn acceptsFirstResponder(&self) -> bool;
 
-        #[method(setShowsFirstResponder:)]
-        pub unsafe fn setShowsFirstResponder(&self, shows_first_responder: bool);
+    #[objc2::method(sel = "showsFirstResponder")]
+    pub unsafe fn showsFirstResponder(&self) -> bool;
 
-        #[method(performClick:)]
-        pub unsafe fn performClick(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "setShowsFirstResponder:")]
+    pub unsafe fn setShowsFirstResponder(&self, shows_first_responder: bool);
 
-        #[method(focusRingType)]
-        pub unsafe fn focusRingType(&self) -> NSFocusRingType;
+    #[objc2::method(sel = "performClick:")]
+    pub unsafe fn performClick(&self, sender: Option<&Object>);
 
-        #[method(setFocusRingType:)]
-        pub unsafe fn setFocusRingType(&self, focus_ring_type: NSFocusRingType);
+    #[objc2::method(sel = "focusRingType")]
+    pub unsafe fn focusRingType(&self) -> NSFocusRingType;
 
-        #[method(defaultFocusRingType)]
-        pub unsafe fn defaultFocusRingType() -> NSFocusRingType;
+    #[objc2::method(sel = "setFocusRingType:")]
+    pub unsafe fn setFocusRingType(&self, focus_ring_type: NSFocusRingType);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(drawFocusRingMaskWithFrame:inView:)]
-        pub unsafe fn drawFocusRingMaskWithFrame_inView(
-            &self,
-            cell_frame: NSRect,
-            control_view: &NSView,
-        );
+    #[objc2::method(sel = "defaultFocusRingType")]
+    pub unsafe fn defaultFocusRingType() -> NSFocusRingType;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(focusRingMaskBoundsForFrame:inView:)]
-        pub unsafe fn focusRingMaskBoundsForFrame_inView(
-            &self,
-            cell_frame: NSRect,
-            control_view: &NSView,
-        ) -> NSRect;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "drawFocusRingMaskWithFrame:inView:")]
+    pub unsafe fn drawFocusRingMaskWithFrame_inView(
+        &self,
+        cell_frame: NSRect,
+        control_view: &NSView,
+    );
 
-        #[method(wantsNotificationForMarkedText)]
-        pub unsafe fn wantsNotificationForMarkedText(&self) -> bool;
-    }
-);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "focusRingMaskBoundsForFrame:inView:")]
+    pub unsafe fn focusRingMaskBoundsForFrame_inView(
+        &self,
+        cell_frame: NSRect,
+        control_view: &NSView,
+    ) -> NSRect;
 
-extern_methods!(
-    /// NSCellAttributedStringMethods
+    #[objc2::method(sel = "wantsNotificationForMarkedText")]
+    pub unsafe fn wantsNotificationForMarkedText(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSCell")]
-    unsafe impl NSCell {
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other attributedStringValue)]
-        pub unsafe fn attributedStringValue(&self) -> Id<NSAttributedString>;
+    pub type NSCell;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(setAttributedStringValue:)]
-        pub unsafe fn setAttributedStringValue(&self, attributed_string_value: &NSAttributedString);
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "attributedStringValue", managed = "Other")]
+    pub unsafe fn attributedStringValue(&self) -> Id<NSAttributedString>;
 
-        #[method(allowsEditingTextAttributes)]
-        pub unsafe fn allowsEditingTextAttributes(&self) -> bool;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "setAttributedStringValue:")]
+    pub unsafe fn setAttributedStringValue(&self, attributed_string_value: &NSAttributedString);
 
-        #[method(setAllowsEditingTextAttributes:)]
-        pub unsafe fn setAllowsEditingTextAttributes(&self, allows_editing_text_attributes: bool);
+    #[objc2::method(sel = "allowsEditingTextAttributes")]
+    pub unsafe fn allowsEditingTextAttributes(&self) -> bool;
 
-        #[method(importsGraphics)]
-        pub unsafe fn importsGraphics(&self) -> bool;
+    #[objc2::method(sel = "setAllowsEditingTextAttributes:")]
+    pub unsafe fn setAllowsEditingTextAttributes(&self, allows_editing_text_attributes: bool);
 
-        #[method(setImportsGraphics:)]
-        pub unsafe fn setImportsGraphics(&self, imports_graphics: bool);
-    }
-);
+    #[objc2::method(sel = "importsGraphics")]
+    pub unsafe fn importsGraphics(&self) -> bool;
 
-extern_methods!(
-    /// NSCellMixedState
+    #[objc2::method(sel = "setImportsGraphics:")]
+    pub unsafe fn setImportsGraphics(&self, imports_graphics: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSCell")]
-    unsafe impl NSCell {
-        #[method(allowsMixedState)]
-        pub unsafe fn allowsMixedState(&self) -> bool;
+    pub type NSCell;
 
-        #[method(setAllowsMixedState:)]
-        pub unsafe fn setAllowsMixedState(&self, allows_mixed_state: bool);
+    #[objc2::method(sel = "allowsMixedState")]
+    pub unsafe fn allowsMixedState(&self) -> bool;
 
-        #[method(nextState)]
-        pub unsafe fn nextState(&self) -> NSInteger;
+    #[objc2::method(sel = "setAllowsMixedState:")]
+    pub unsafe fn setAllowsMixedState(&self, allows_mixed_state: bool);
 
-        #[method(setNextState)]
-        pub unsafe fn setNextState(&self);
-    }
-);
+    #[objc2::method(sel = "nextState")]
+    pub unsafe fn nextState(&self) -> NSInteger;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSCellHitResult {
-        NSCellHitNone = 0,
-        NSCellHitContentArea = 1 << 0,
-        NSCellHitEditableTextArea = 1 << 1,
-        NSCellHitTrackableArea = 1 << 2,
-    }
-);
+    #[objc2::method(sel = "setNextState")]
+    pub unsafe fn setNextState(&self);
+}
 
-extern_methods!(
-    /// NSCellHitTest
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSCellHitResult {
+    NSCellHitNone = 0,
+    NSCellHitContentArea = 1 << 0,
+    NSCellHitEditableTextArea = 1 << 1,
+    NSCellHitTrackableArea = 1 << 2,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSCell")]
-    unsafe impl NSCell {
-        #[cfg(all(feature = "AppKit_NSEvent", feature = "AppKit_NSView"))]
-        #[method(hitTestForEvent:inRect:ofView:)]
-        pub unsafe fn hitTestForEvent_inRect_ofView(
-            &self,
-            event: &NSEvent,
-            cell_frame: NSRect,
-            control_view: &NSView,
-        ) -> NSCellHitResult;
-    }
-);
+    pub type NSCell;
 
-extern_methods!(
-    /// NSCellExpansion
+    #[cfg(all(feature = "AppKit_NSEvent", feature = "AppKit_NSView"))]
+    #[objc2::method(sel = "hitTestForEvent:inRect:ofView:")]
+    pub unsafe fn hitTestForEvent_inRect_ofView(
+        &self,
+        event: &NSEvent,
+        cell_frame: NSRect,
+        control_view: &NSView,
+    ) -> NSCellHitResult;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSCell")]
-    unsafe impl NSCell {
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(expansionFrameWithFrame:inView:)]
-        pub unsafe fn expansionFrameWithFrame_inView(
-            &self,
-            cell_frame: NSRect,
-            view: &NSView,
-        ) -> NSRect;
+    pub type NSCell;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(drawWithExpansionFrame:inView:)]
-        pub unsafe fn drawWithExpansionFrame_inView(&self, cell_frame: NSRect, view: &NSView);
-    }
-);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "expansionFrameWithFrame:inView:")]
+    pub unsafe fn expansionFrameWithFrame_inView(
+        &self,
+        cell_frame: NSRect,
+        view: &NSView,
+    ) -> NSRect;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSBackgroundStyle {
-        NSBackgroundStyleNormal = 0,
-        NSBackgroundStyleEmphasized = 1,
-        NSBackgroundStyleRaised = 2,
-        NSBackgroundStyleLowered = 3,
-    }
-);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "drawWithExpansionFrame:inView:")]
+    pub unsafe fn drawWithExpansionFrame_inView(&self, cell_frame: NSRect, view: &NSView);
+}
 
-extern_methods!(
-    /// NSCellBackgroundStyle
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSBackgroundStyle {
+    NSBackgroundStyleNormal = 0,
+    NSBackgroundStyleEmphasized = 1,
+    NSBackgroundStyleRaised = 2,
+    NSBackgroundStyleLowered = 3,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSCell")]
-    unsafe impl NSCell {
-        #[method(backgroundStyle)]
-        pub unsafe fn backgroundStyle(&self) -> NSBackgroundStyle;
+    pub type NSCell;
 
-        #[method(setBackgroundStyle:)]
-        pub unsafe fn setBackgroundStyle(&self, background_style: NSBackgroundStyle);
+    #[objc2::method(sel = "backgroundStyle")]
+    pub unsafe fn backgroundStyle(&self) -> NSBackgroundStyle;
 
-        #[method(interiorBackgroundStyle)]
-        pub unsafe fn interiorBackgroundStyle(&self) -> NSBackgroundStyle;
-    }
-);
+    #[objc2::method(sel = "setBackgroundStyle:")]
+    pub unsafe fn setBackgroundStyle(&self, background_style: NSBackgroundStyle);
+
+    #[objc2::method(sel = "interiorBackgroundStyle")]
+    pub unsafe fn interiorBackgroundStyle(&self) -> NSBackgroundStyle;
+}
 
 extern_fn!(
     #[cfg(feature = "AppKit_NSImage")]
@@ -797,59 +797,61 @@ extern_fn!(
     );
 );
 
-extern_methods!(
-    /// NSDeprecated
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSCell")]
-    unsafe impl NSCell {
-        #[deprecated = "The controlTint property is not respected on 10.14 and later. For custom cells, use +[NSColor controlAccentColor] to respect the user's preferred accent color when drawing."]
-        #[method(controlTint)]
-        pub unsafe fn controlTint(&self) -> NSControlTint;
+    pub type NSCell;
 
-        #[deprecated = "The controlTint property is not respected on 10.14 and later. For custom cells, use +[NSColor controlAccentColor] to respect the user's preferred accent color when drawing."]
-        #[method(setControlTint:)]
-        pub unsafe fn setControlTint(&self, control_tint: NSControlTint);
+    #[deprecated = "The controlTint property is not respected on 10.14 and later. For custom cells, use +[NSColor controlAccentColor] to respect the user's preferred accent color when drawing."]
+    #[objc2::method(sel = "controlTint")]
+    pub unsafe fn controlTint(&self) -> NSControlTint;
 
-        #[deprecated]
-        #[method(entryType)]
-        pub unsafe fn entryType(&self) -> NSInteger;
+    #[deprecated = "The controlTint property is not respected on 10.14 and later. For custom cells, use +[NSColor controlAccentColor] to respect the user's preferred accent color when drawing."]
+    #[objc2::method(sel = "setControlTint:")]
+    pub unsafe fn setControlTint(&self, control_tint: NSControlTint);
 
-        #[deprecated]
-        #[method(setEntryType:)]
-        pub unsafe fn setEntryType(&self, r#type: NSInteger);
+    #[deprecated]
+    #[objc2::method(sel = "entryType")]
+    pub unsafe fn entryType(&self) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(isEntryAcceptable:)]
-        pub unsafe fn isEntryAcceptable(&self, string: &NSString) -> bool;
+    #[deprecated]
+    #[objc2::method(sel = "setEntryType:")]
+    pub unsafe fn setEntryType(&self, r#type: NSInteger);
 
-        #[deprecated]
-        #[method(setFloatingPointFormat:left:right:)]
-        pub unsafe fn setFloatingPointFormat_left_right(
-            &self,
-            auto_range: bool,
-            left_digits: NSUInteger,
-            right_digits: NSUInteger,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "isEntryAcceptable:")]
+    pub unsafe fn isEntryAcceptable(&self, string: &NSString) -> bool;
 
-        #[deprecated]
-        #[method(setMnemonicLocation:)]
-        pub unsafe fn setMnemonicLocation(&self, location: NSUInteger);
+    #[deprecated]
+    #[objc2::method(sel = "setFloatingPointFormat:left:right:")]
+    pub unsafe fn setFloatingPointFormat_left_right(
+        &self,
+        auto_range: bool,
+        left_digits: NSUInteger,
+        right_digits: NSUInteger,
+    );
 
-        #[deprecated]
-        #[method(mnemonicLocation)]
-        pub unsafe fn mnemonicLocation(&self) -> NSUInteger;
+    #[deprecated]
+    #[objc2::method(sel = "setMnemonicLocation:")]
+    pub unsafe fn setMnemonicLocation(&self, location: NSUInteger);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other mnemonic)]
-        pub unsafe fn mnemonic(&self) -> Id<NSString>;
+    #[deprecated]
+    #[objc2::method(sel = "mnemonicLocation")]
+    pub unsafe fn mnemonicLocation(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(setTitleWithMnemonic:)]
-        pub unsafe fn setTitleWithMnemonic(&self, string_with_ampersand: &NSString);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "mnemonic", managed = "Other")]
+    pub unsafe fn mnemonic(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "setTitleWithMnemonic:")]
+    pub unsafe fn setTitleWithMnemonic(&self, string_with_ampersand: &NSString);
+}
 
 extern_static!(NSBackgroundStyleLight: NSBackgroundStyle = NSBackgroundStyleNormal);
 
@@ -871,22 +873,21 @@ extern_static!(NSMiniControlSize: NSControlSize = NSControlSizeMini);
 
 extern_static!(NSControlTintDidChangeNotification: &'static NSNotificationName);
 
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        #[deprecated = "Use formatters instead"]
-        NSAnyType = 0,
-        #[deprecated = "Use formatters instead"]
-        NSIntType = 1,
-        #[deprecated = "Use formatters instead"]
-        NSPositiveIntType = 2,
-        #[deprecated = "Use formatters instead"]
-        NSFloatType = 3,
-        #[deprecated = "Use formatters instead"]
-        NSPositiveFloatType = 4,
-        #[deprecated = "Use formatters instead"]
-        NSDoubleType = 6,
-        #[deprecated = "Use formatters instead"]
-        NSPositiveDoubleType = 7,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    #[deprecated = "Use formatters instead"]
+    NSAnyType = 0,
+    #[deprecated = "Use formatters instead"]
+    NSIntType = 1,
+    #[deprecated = "Use formatters instead"]
+    NSPositiveIntType = 2,
+    #[deprecated = "Use formatters instead"]
+    NSFloatType = 3,
+    #[deprecated = "Use formatters instead"]
+    NSPositiveFloatType = 4,
+    #[deprecated = "Use formatters instead"]
+    NSDoubleType = 6,
+    #[deprecated = "Use formatters instead"]
+    NSPositiveDoubleType = 7,
+}

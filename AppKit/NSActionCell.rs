@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSCell,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSActionCell")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSActionCell")]
-    pub struct NSActionCell;
-
-    #[cfg(feature = "AppKit_NSActionCell")]
-    unsafe impl ClassType for NSActionCell {
-        #[inherits(NSObject)]
-        type Super = NSCell;
-    }
-);
+    pub type NSActionCell;
+}
 
 #[cfg(feature = "AppKit_NSActionCell")]
 unsafe impl NSAccessibility for NSActionCell {}
@@ -32,42 +32,49 @@ unsafe impl NSObjectProtocol for NSActionCell {}
 #[cfg(feature = "AppKit_NSActionCell")]
 unsafe impl NSUserInterfaceItemIdentification for NSActionCell {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSActionCell")]
-    unsafe impl NSActionCell {
-        #[method_id(@__retain_semantics Other target)]
-        pub unsafe fn target(&self) -> Option<Id<Object>>;
+    pub type NSActionCell;
 
-        #[method(setTarget:)]
-        pub unsafe fn setTarget(&self, target: Option<&Object>);
+    #[objc2::method(sel = "target", managed = "Other")]
+    pub unsafe fn target(&self) -> Option<Id<Object>>;
 
-        #[method(action)]
-        pub unsafe fn action(&self) -> Option<Sel>;
+    #[objc2::method(sel = "setTarget:")]
+    pub unsafe fn setTarget(&self, target: Option<&Object>);
 
-        #[method(setAction:)]
-        pub unsafe fn setAction(&self, action: Option<Sel>);
+    #[objc2::method(sel = "action")]
+    pub unsafe fn action(&self) -> Option<Sel>;
 
-        #[method(tag)]
-        pub unsafe fn tag(&self) -> NSInteger;
+    #[objc2::method(sel = "setAction:")]
+    pub unsafe fn setAction(&self, action: Option<Sel>);
 
-        #[method(setTag:)]
-        pub unsafe fn setTag(&self, tag: NSInteger);
-    }
-);
+    #[objc2::method(sel = "tag")]
+    pub unsafe fn tag(&self) -> NSInteger;
 
-extern_methods!(
-    /// Methods declared on superclass `NSCell`
+    #[objc2::method(sel = "setTag:")]
+    pub unsafe fn setTag(&self, tag: NSInteger);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSCell`
     #[cfg(feature = "AppKit_NSActionCell")]
-    unsafe impl NSActionCell {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initTextCell:)]
-        pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Init initImageCell:)]
-        pub unsafe fn initImageCell(
-            this: Option<Allocated<Self>>,
-            image: Option<&NSImage>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSActionCell")]
+    pub type NSActionCell;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initTextCell:", managed = "Init")]
+    pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "initImageCell:", managed = "Init")]
+    pub unsafe fn initImageCell(this: Option<Allocated<Self>>, image: Option<&NSImage>)
+        -> Id<Self>;
+}

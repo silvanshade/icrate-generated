@@ -5,17 +5,19 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSTextFieldCell,
+    unsafe inherits = [
+        NSActionCell,
+        NSCell,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSComboBoxCell")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSComboBoxCell")]
-    pub struct NSComboBoxCell;
-
-    #[cfg(feature = "AppKit_NSComboBoxCell")]
-    unsafe impl ClassType for NSComboBoxCell {
-        #[inherits(NSActionCell, NSCell, NSObject)]
-        type Super = NSTextFieldCell;
-    }
-);
+    pub type NSComboBoxCell;
+}
 
 #[cfg(feature = "AppKit_NSComboBoxCell")]
 unsafe impl NSAccessibility for NSComboBoxCell {}
@@ -32,177 +34,180 @@ unsafe impl NSObjectProtocol for NSComboBoxCell {}
 #[cfg(feature = "AppKit_NSComboBoxCell")]
 unsafe impl NSUserInterfaceItemIdentification for NSComboBoxCell {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSComboBoxCell")]
-    unsafe impl NSComboBoxCell {
-        #[method(hasVerticalScroller)]
-        pub unsafe fn hasVerticalScroller(&self) -> bool;
+    pub type NSComboBoxCell;
 
-        #[method(setHasVerticalScroller:)]
-        pub unsafe fn setHasVerticalScroller(&self, has_vertical_scroller: bool);
+    #[objc2::method(sel = "hasVerticalScroller")]
+    pub unsafe fn hasVerticalScroller(&self) -> bool;
 
-        #[method(intercellSpacing)]
-        pub unsafe fn intercellSpacing(&self) -> NSSize;
+    #[objc2::method(sel = "setHasVerticalScroller:")]
+    pub unsafe fn setHasVerticalScroller(&self, has_vertical_scroller: bool);
 
-        #[method(setIntercellSpacing:)]
-        pub unsafe fn setIntercellSpacing(&self, intercell_spacing: NSSize);
+    #[objc2::method(sel = "intercellSpacing")]
+    pub unsafe fn intercellSpacing(&self) -> NSSize;
 
-        #[method(itemHeight)]
-        pub unsafe fn itemHeight(&self) -> CGFloat;
+    #[objc2::method(sel = "setIntercellSpacing:")]
+    pub unsafe fn setIntercellSpacing(&self, intercell_spacing: NSSize);
 
-        #[method(setItemHeight:)]
-        pub unsafe fn setItemHeight(&self, item_height: CGFloat);
+    #[objc2::method(sel = "itemHeight")]
+    pub unsafe fn itemHeight(&self) -> CGFloat;
 
-        #[method(numberOfVisibleItems)]
-        pub unsafe fn numberOfVisibleItems(&self) -> NSInteger;
+    #[objc2::method(sel = "setItemHeight:")]
+    pub unsafe fn setItemHeight(&self, item_height: CGFloat);
 
-        #[method(setNumberOfVisibleItems:)]
-        pub unsafe fn setNumberOfVisibleItems(&self, number_of_visible_items: NSInteger);
+    #[objc2::method(sel = "numberOfVisibleItems")]
+    pub unsafe fn numberOfVisibleItems(&self) -> NSInteger;
 
-        #[method(isButtonBordered)]
-        pub unsafe fn isButtonBordered(&self) -> bool;
+    #[objc2::method(sel = "setNumberOfVisibleItems:")]
+    pub unsafe fn setNumberOfVisibleItems(&self, number_of_visible_items: NSInteger);
 
-        #[method(setButtonBordered:)]
-        pub unsafe fn setButtonBordered(&self, button_bordered: bool);
+    #[objc2::method(sel = "isButtonBordered")]
+    pub unsafe fn isButtonBordered(&self) -> bool;
 
-        #[method(reloadData)]
-        pub unsafe fn reloadData(&self);
+    #[objc2::method(sel = "setButtonBordered:")]
+    pub unsafe fn setButtonBordered(&self, button_bordered: bool);
 
-        #[method(noteNumberOfItemsChanged)]
-        pub unsafe fn noteNumberOfItemsChanged(&self);
+    #[objc2::method(sel = "reloadData")]
+    pub unsafe fn reloadData(&self);
 
-        #[method(usesDataSource)]
-        pub unsafe fn usesDataSource(&self) -> bool;
+    #[objc2::method(sel = "noteNumberOfItemsChanged")]
+    pub unsafe fn noteNumberOfItemsChanged(&self);
 
-        #[method(setUsesDataSource:)]
-        pub unsafe fn setUsesDataSource(&self, uses_data_source: bool);
+    #[objc2::method(sel = "usesDataSource")]
+    pub unsafe fn usesDataSource(&self) -> bool;
 
-        #[method(scrollItemAtIndexToTop:)]
-        pub unsafe fn scrollItemAtIndexToTop(&self, index: NSInteger);
+    #[objc2::method(sel = "setUsesDataSource:")]
+    pub unsafe fn setUsesDataSource(&self, uses_data_source: bool);
 
-        #[method(scrollItemAtIndexToVisible:)]
-        pub unsafe fn scrollItemAtIndexToVisible(&self, index: NSInteger);
+    #[objc2::method(sel = "scrollItemAtIndexToTop:")]
+    pub unsafe fn scrollItemAtIndexToTop(&self, index: NSInteger);
 
-        #[method(selectItemAtIndex:)]
-        pub unsafe fn selectItemAtIndex(&self, index: NSInteger);
+    #[objc2::method(sel = "scrollItemAtIndexToVisible:")]
+    pub unsafe fn scrollItemAtIndexToVisible(&self, index: NSInteger);
 
-        #[method(deselectItemAtIndex:)]
-        pub unsafe fn deselectItemAtIndex(&self, index: NSInteger);
+    #[objc2::method(sel = "selectItemAtIndex:")]
+    pub unsafe fn selectItemAtIndex(&self, index: NSInteger);
 
-        #[method(indexOfSelectedItem)]
-        pub unsafe fn indexOfSelectedItem(&self) -> NSInteger;
+    #[objc2::method(sel = "deselectItemAtIndex:")]
+    pub unsafe fn deselectItemAtIndex(&self, index: NSInteger);
 
-        #[method(numberOfItems)]
-        pub unsafe fn numberOfItems(&self) -> NSInteger;
+    #[objc2::method(sel = "indexOfSelectedItem")]
+    pub unsafe fn indexOfSelectedItem(&self) -> NSInteger;
 
-        #[method(completes)]
-        pub unsafe fn completes(&self) -> bool;
+    #[objc2::method(sel = "numberOfItems")]
+    pub unsafe fn numberOfItems(&self) -> NSInteger;
 
-        #[method(setCompletes:)]
-        pub unsafe fn setCompletes(&self, completes: bool);
+    #[objc2::method(sel = "completes")]
+    pub unsafe fn completes(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other completedString:)]
-        pub unsafe fn completedString(&self, string: &NSString) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setCompletes:")]
+    pub unsafe fn setCompletes(&self, completes: bool);
 
-        #[method_id(@__retain_semantics Other dataSource)]
-        pub unsafe fn dataSource(&self)
-            -> Option<Id<ProtocolObject<dyn NSComboBoxCellDataSource>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "completedString:", managed = "Other")]
+    pub unsafe fn completedString(&self, string: &NSString) -> Option<Id<NSString>>;
 
-        #[method(setDataSource:)]
-        pub unsafe fn setDataSource(
-            &self,
-            data_source: Option<&ProtocolObject<dyn NSComboBoxCellDataSource>>,
-        );
+    #[objc2::method(sel = "dataSource", managed = "Other")]
+    pub unsafe fn dataSource(&self) -> Option<Id<ProtocolObject<dyn NSComboBoxCellDataSource>>>;
 
-        #[method(addItemWithObjectValue:)]
-        pub unsafe fn addItemWithObjectValue(&self, object: &Object);
+    #[objc2::method(sel = "setDataSource:")]
+    pub unsafe fn setDataSource(
+        &self,
+        data_source: Option<&ProtocolObject<dyn NSComboBoxCellDataSource>>,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(addItemsWithObjectValues:)]
-        pub unsafe fn addItemsWithObjectValues(&self, objects: &NSArray);
+    #[objc2::method(sel = "addItemWithObjectValue:")]
+    pub unsafe fn addItemWithObjectValue(&self, object: &Object);
 
-        #[method(insertItemWithObjectValue:atIndex:)]
-        pub unsafe fn insertItemWithObjectValue_atIndex(&self, object: &Object, index: NSInteger);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "addItemsWithObjectValues:")]
+    pub unsafe fn addItemsWithObjectValues(&self, objects: &NSArray);
 
-        #[method(removeItemWithObjectValue:)]
-        pub unsafe fn removeItemWithObjectValue(&self, object: &Object);
+    #[objc2::method(sel = "insertItemWithObjectValue:atIndex:")]
+    pub unsafe fn insertItemWithObjectValue_atIndex(&self, object: &Object, index: NSInteger);
 
-        #[method(removeItemAtIndex:)]
-        pub unsafe fn removeItemAtIndex(&self, index: NSInteger);
+    #[objc2::method(sel = "removeItemWithObjectValue:")]
+    pub unsafe fn removeItemWithObjectValue(&self, object: &Object);
 
-        #[method(removeAllItems)]
-        pub unsafe fn removeAllItems(&self);
+    #[objc2::method(sel = "removeItemAtIndex:")]
+    pub unsafe fn removeItemAtIndex(&self, index: NSInteger);
 
-        #[method(selectItemWithObjectValue:)]
-        pub unsafe fn selectItemWithObjectValue(&self, object: Option<&Object>);
+    #[objc2::method(sel = "removeAllItems")]
+    pub unsafe fn removeAllItems(&self);
 
-        #[method_id(@__retain_semantics Other itemObjectValueAtIndex:)]
-        pub unsafe fn itemObjectValueAtIndex(&self, index: NSInteger) -> Id<Object>;
+    #[objc2::method(sel = "selectItemWithObjectValue:")]
+    pub unsafe fn selectItemWithObjectValue(&self, object: Option<&Object>);
 
-        #[method_id(@__retain_semantics Other objectValueOfSelectedItem)]
-        pub unsafe fn objectValueOfSelectedItem(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "itemObjectValueAtIndex:", managed = "Other")]
+    pub unsafe fn itemObjectValueAtIndex(&self, index: NSInteger) -> Id<Object>;
 
-        #[method(indexOfItemWithObjectValue:)]
-        pub unsafe fn indexOfItemWithObjectValue(&self, object: &Object) -> NSInteger;
+    #[objc2::method(sel = "objectValueOfSelectedItem", managed = "Other")]
+    pub unsafe fn objectValueOfSelectedItem(&self) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other objectValues)]
-        pub unsafe fn objectValues(&self) -> Id<NSArray>;
-    }
-);
+    #[objc2::method(sel = "indexOfItemWithObjectValue:")]
+    pub unsafe fn indexOfItemWithObjectValue(&self, object: &Object) -> NSInteger;
 
-extern_protocol!(
-    pub unsafe trait NSComboBoxCellDataSource: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSComboBoxCell")]
-        #[optional]
-        #[method(numberOfItemsInComboBoxCell:)]
-        unsafe fn numberOfItemsInComboBoxCell(&self, combo_box_cell: &NSComboBoxCell) -> NSInteger;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "objectValues", managed = "Other")]
+    pub unsafe fn objectValues(&self) -> Id<NSArray>;
+}
 
-        #[cfg(feature = "AppKit_NSComboBoxCell")]
-        #[optional]
-        #[method_id(@__retain_semantics Other comboBoxCell:objectValueForItemAtIndex:)]
-        unsafe fn comboBoxCell_objectValueForItemAtIndex(
-            &self,
-            combo_box_cell: &NSComboBoxCell,
-            index: NSInteger,
-        ) -> Id<Object>;
-
-        #[cfg(all(feature = "AppKit_NSComboBoxCell", feature = "Foundation_NSString"))]
-        #[optional]
-        #[method(comboBoxCell:indexOfItemWithStringValue:)]
-        unsafe fn comboBoxCell_indexOfItemWithStringValue(
-            &self,
-            combo_box_cell: &NSComboBoxCell,
-            string: &NSString,
-        ) -> NSUInteger;
-
-        #[cfg(all(feature = "AppKit_NSComboBoxCell", feature = "Foundation_NSString"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other comboBoxCell:completedString:)]
-        unsafe fn comboBoxCell_completedString(
-            &self,
-            combo_box_cell: &NSComboBoxCell,
-            uncompleted_string: &NSString,
-        ) -> Option<Id<NSString>>;
-    }
-
-    unsafe impl ProtocolType for dyn NSComboBoxCellDataSource {}
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSTextFieldCell`
+#[objc2::protocol]
+pub unsafe trait NSComboBoxCellDataSource: NSObjectProtocol {
     #[cfg(feature = "AppKit_NSComboBoxCell")]
-    unsafe impl NSComboBoxCell {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initTextCell:)]
-        pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
+    #[objc2::method(optional, sel = "numberOfItemsInComboBoxCell:")]
+    unsafe fn numberOfItemsInComboBoxCell(&self, combo_box_cell: &NSComboBoxCell) -> NSInteger;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Init initImageCell:)]
-        pub unsafe fn initImageCell(
-            this: Option<Allocated<Self>>,
-            image: Option<&NSImage>,
-        ) -> Id<Self>;
+    #[cfg(feature = "AppKit_NSComboBoxCell")]
+    #[objc2::method(
+        optional,
+        sel = "comboBoxCell:objectValueForItemAtIndex:",
+        managed = "Other"
+    )]
+    unsafe fn comboBoxCell_objectValueForItemAtIndex(
+        &self,
+        combo_box_cell: &NSComboBoxCell,
+        index: NSInteger,
+    ) -> Id<Object>;
+
+    #[cfg(all(feature = "AppKit_NSComboBoxCell", feature = "Foundation_NSString"))]
+    #[objc2::method(optional, sel = "comboBoxCell:indexOfItemWithStringValue:")]
+    unsafe fn comboBoxCell_indexOfItemWithStringValue(
+        &self,
+        combo_box_cell: &NSComboBoxCell,
+        string: &NSString,
+    ) -> NSUInteger;
+
+    #[cfg(all(feature = "AppKit_NSComboBoxCell", feature = "Foundation_NSString"))]
+    #[objc2::method(optional, sel = "comboBoxCell:completedString:", managed = "Other")]
+    unsafe fn comboBoxCell_completedString(
+        &self,
+        combo_box_cell: &NSComboBoxCell,
+        uncompleted_string: &NSString,
+    ) -> Option<Id<NSString>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSTextFieldCell`
+    #[cfg(feature = "AppKit_NSComboBoxCell")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSComboBoxCell")]
+    pub type NSComboBoxCell;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initTextCell:", managed = "Init")]
+    pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "initImageCell:", managed = "Init")]
+    pub unsafe fn initImageCell(this: Option<Allocated<Self>>, image: Option<&NSImage>)
+        -> Id<Self>;
+}

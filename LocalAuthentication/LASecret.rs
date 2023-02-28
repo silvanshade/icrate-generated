@@ -4,34 +4,34 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::LocalAuthentication::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "LocalAuthentication_LASecret")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "LocalAuthentication_LASecret")]
-    pub struct LASecret;
-
-    #[cfg(feature = "LocalAuthentication_LASecret")]
-    unsafe impl ClassType for LASecret {
-        type Super = NSObject;
-    }
-);
+    pub type LASecret;
+}
 
 #[cfg(feature = "LocalAuthentication_LASecret")]
 unsafe impl NSObjectProtocol for LASecret {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "LocalAuthentication_LASecret")]
-    unsafe impl LASecret {
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method(loadDataWithCompletion:)]
-        pub unsafe fn loadDataWithCompletion(
-            &self,
-            handler: &Block<(*mut NSData, *mut NSError), ()>,
-        );
+    pub type LASecret;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "loadDataWithCompletion:")]
+    pub unsafe fn loadDataWithCompletion(&self, handler: &Block<(*mut NSData, *mut NSError), ()>);
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

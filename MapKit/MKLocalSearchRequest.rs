@@ -7,78 +7,80 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum MKLocalSearchResultType {
-        MKLocalSearchResultTypeAddress = 1 << 0,
-        MKLocalSearchResultTypePointOfInterest = 1 << 1,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum MKLocalSearchResultType {
+    MKLocalSearchResultTypeAddress = 1 << 0,
+    MKLocalSearchResultTypePointOfInterest = 1 << 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKLocalSearchRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKLocalSearchRequest")]
-    pub struct MKLocalSearchRequest;
-
-    #[cfg(feature = "MapKit_MKLocalSearchRequest")]
-    unsafe impl ClassType for MKLocalSearchRequest {
-        type Super = NSObject;
-    }
-);
+    pub type MKLocalSearchRequest;
+}
 
 #[cfg(feature = "MapKit_MKLocalSearchRequest")]
 unsafe impl NSObjectProtocol for MKLocalSearchRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKLocalSearchRequest")]
-    unsafe impl MKLocalSearchRequest {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type MKLocalSearchRequest;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithNaturalLanguageQuery:)]
-        pub unsafe fn initWithNaturalLanguageQuery(
-            this: Option<Allocated<Self>>,
-            natural_language_query: &NSString,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithNaturalLanguageQuery:region:)]
-        pub unsafe fn initWithNaturalLanguageQuery_region(
-            this: Option<Allocated<Self>>,
-            natural_language_query: &NSString,
-            region: MKCoordinateRegion,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithNaturalLanguageQuery:", managed = "Init")]
+    pub unsafe fn initWithNaturalLanguageQuery(
+        this: Option<Allocated<Self>>,
+        natural_language_query: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other naturalLanguageQuery)]
-        pub unsafe fn naturalLanguageQuery(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithNaturalLanguageQuery:region:", managed = "Init")]
+    pub unsafe fn initWithNaturalLanguageQuery_region(
+        this: Option<Allocated<Self>>,
+        natural_language_query: &NSString,
+        region: MKCoordinateRegion,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setNaturalLanguageQuery:)]
-        pub unsafe fn setNaturalLanguageQuery(&self, natural_language_query: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "naturalLanguageQuery", managed = "Other")]
+    pub unsafe fn naturalLanguageQuery(&self) -> Option<Id<NSString>>;
 
-        #[method(region)]
-        pub unsafe fn region(&self) -> MKCoordinateRegion;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setNaturalLanguageQuery:")]
+    pub unsafe fn setNaturalLanguageQuery(&self, natural_language_query: Option<&NSString>);
 
-        #[method(setRegion:)]
-        pub unsafe fn setRegion(&self, region: MKCoordinateRegion);
+    #[objc2::method(sel = "region")]
+    pub unsafe fn region(&self) -> MKCoordinateRegion;
 
-        #[method(resultTypes)]
-        pub unsafe fn resultTypes(&self) -> MKLocalSearchResultType;
+    #[objc2::method(sel = "setRegion:")]
+    pub unsafe fn setRegion(&self, region: MKCoordinateRegion);
 
-        #[method(setResultTypes:)]
-        pub unsafe fn setResultTypes(&self, result_types: MKLocalSearchResultType);
+    #[objc2::method(sel = "resultTypes")]
+    pub unsafe fn resultTypes(&self) -> MKLocalSearchResultType;
 
-        #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-        #[method_id(@__retain_semantics Other pointOfInterestFilter)]
-        pub unsafe fn pointOfInterestFilter(&self) -> Option<Id<MKPointOfInterestFilter>>;
+    #[objc2::method(sel = "setResultTypes:")]
+    pub unsafe fn setResultTypes(&self, result_types: MKLocalSearchResultType);
 
-        #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-        #[method(setPointOfInterestFilter:)]
-        pub unsafe fn setPointOfInterestFilter(
-            &self,
-            point_of_interest_filter: Option<&MKPointOfInterestFilter>,
-        );
-    }
-);
+    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
+    #[objc2::method(sel = "pointOfInterestFilter", managed = "Other")]
+    pub unsafe fn pointOfInterestFilter(&self) -> Option<Id<MKPointOfInterestFilter>>;
+
+    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
+    #[objc2::method(sel = "setPointOfInterestFilter:")]
+    pub unsafe fn setPointOfInterestFilter(
+        &self,
+        point_of_interest_filter: Option<&MKPointOfInterestFilter>,
+    );
+}

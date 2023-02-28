@@ -5,86 +5,90 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKFetchNotificationChangesOperation")]
+#[objc2::interface(
+    unsafe super = CKOperation,
+    unsafe inherits = [
+        NSOperation,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated = "Instead of iterating notifications to enumerate changed record zones, use CKDatabaseSubscription, CKFetchDatabaseChangesOperation, and CKFetchRecordZoneChangesOperation"]
-    pub struct CKFetchNotificationChangesOperation;
-
     #[cfg(feature = "CloudKit_CKFetchNotificationChangesOperation")]
-    unsafe impl ClassType for CKFetchNotificationChangesOperation {
-        #[inherits(NSOperation, NSObject)]
-        type Super = CKOperation;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type CKFetchNotificationChangesOperation;
+}
 
 #[cfg(feature = "CloudKit_CKFetchNotificationChangesOperation")]
 unsafe impl NSObjectProtocol for CKFetchNotificationChangesOperation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKFetchNotificationChangesOperation")]
-    unsafe impl CKFetchNotificationChangesOperation {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[deprecated = "Instead of iterating notifications to enumerate changed record zones, use CKDatabaseSubscription, CKFetchDatabaseChangesOperation, and CKFetchRecordZoneChangesOperation"]
+    pub type CKFetchNotificationChangesOperation;
 
-        #[cfg(feature = "CloudKit_CKServerChangeToken")]
-        #[method_id(@__retain_semantics Init initWithPreviousServerChangeToken:)]
-        pub unsafe fn initWithPreviousServerChangeToken(
-            this: Option<Allocated<Self>>,
-            previous_server_change_token: Option<&CKServerChangeToken>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKServerChangeToken")]
-        #[method_id(@__retain_semantics Other previousServerChangeToken)]
-        pub unsafe fn previousServerChangeToken(&self) -> Option<Id<CKServerChangeToken>>;
+    #[cfg(feature = "CloudKit_CKServerChangeToken")]
+    #[objc2::method(sel = "initWithPreviousServerChangeToken:", managed = "Init")]
+    pub unsafe fn initWithPreviousServerChangeToken(
+        this: Option<Allocated<Self>>,
+        previous_server_change_token: Option<&CKServerChangeToken>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKServerChangeToken")]
-        #[method(setPreviousServerChangeToken:)]
-        pub unsafe fn setPreviousServerChangeToken(
-            &self,
-            previous_server_change_token: Option<&CKServerChangeToken>,
-        );
+    #[cfg(feature = "CloudKit_CKServerChangeToken")]
+    #[objc2::method(sel = "previousServerChangeToken", managed = "Other")]
+    pub unsafe fn previousServerChangeToken(&self) -> Option<Id<CKServerChangeToken>>;
 
-        #[method(resultsLimit)]
-        pub unsafe fn resultsLimit(&self) -> NSUInteger;
+    #[cfg(feature = "CloudKit_CKServerChangeToken")]
+    #[objc2::method(sel = "setPreviousServerChangeToken:")]
+    pub unsafe fn setPreviousServerChangeToken(
+        &self,
+        previous_server_change_token: Option<&CKServerChangeToken>,
+    );
 
-        #[method(setResultsLimit:)]
-        pub unsafe fn setResultsLimit(&self, results_limit: NSUInteger);
+    #[objc2::method(sel = "resultsLimit")]
+    pub unsafe fn resultsLimit(&self) -> NSUInteger;
 
-        #[method(moreComing)]
-        pub unsafe fn moreComing(&self) -> bool;
+    #[objc2::method(sel = "setResultsLimit:")]
+    pub unsafe fn setResultsLimit(&self, results_limit: NSUInteger);
 
-        #[cfg(feature = "CloudKit_CKNotification")]
-        #[method(notificationChangedBlock)]
-        pub unsafe fn notificationChangedBlock(&self)
-            -> *mut Block<(NonNull<CKNotification>,), ()>;
+    #[objc2::method(sel = "moreComing")]
+    pub unsafe fn moreComing(&self) -> bool;
 
-        #[cfg(feature = "CloudKit_CKNotification")]
-        #[method(setNotificationChangedBlock:)]
-        pub unsafe fn setNotificationChangedBlock(
-            &self,
-            notification_changed_block: Option<&Block<(NonNull<CKNotification>,), ()>>,
-        );
+    #[cfg(feature = "CloudKit_CKNotification")]
+    #[objc2::method(sel = "notificationChangedBlock")]
+    pub unsafe fn notificationChangedBlock(&self) -> *mut Block<(NonNull<CKNotification>,), ()>;
 
-        #[cfg(all(
-            feature = "CloudKit_CKServerChangeToken",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(fetchNotificationChangesCompletionBlock)]
-        pub unsafe fn fetchNotificationChangesCompletionBlock(
-            &self,
-        ) -> *mut Block<(*mut CKServerChangeToken, *mut NSError), ()>;
+    #[cfg(feature = "CloudKit_CKNotification")]
+    #[objc2::method(sel = "setNotificationChangedBlock:")]
+    pub unsafe fn setNotificationChangedBlock(
+        &self,
+        notification_changed_block: Option<&Block<(NonNull<CKNotification>,), ()>>,
+    );
 
-        #[cfg(all(
-            feature = "CloudKit_CKServerChangeToken",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(setFetchNotificationChangesCompletionBlock:)]
-        pub unsafe fn setFetchNotificationChangesCompletionBlock(
-            &self,
-            fetch_notification_changes_completion_block: Option<
-                &Block<(*mut CKServerChangeToken, *mut NSError), ()>,
-            >,
-        );
-    }
-);
+    #[cfg(all(
+        feature = "CloudKit_CKServerChangeToken",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "fetchNotificationChangesCompletionBlock")]
+    pub unsafe fn fetchNotificationChangesCompletionBlock(
+        &self,
+    ) -> *mut Block<(*mut CKServerChangeToken, *mut NSError), ()>;
+
+    #[cfg(all(
+        feature = "CloudKit_CKServerChangeToken",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "setFetchNotificationChangesCompletionBlock:")]
+    pub unsafe fn setFetchNotificationChangesCompletionBlock(
+        &self,
+        fetch_notification_changes_completion_block: Option<
+            &Block<(*mut CKServerChangeToken, *mut NSError), ()>,
+        >,
+    );
+}

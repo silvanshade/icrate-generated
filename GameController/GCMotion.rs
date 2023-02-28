@@ -43,89 +43,89 @@ extern_struct!(
 
 pub type GCMotionValueChangedHandler = *mut Block<(NonNull<GCMotion>,), ()>;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCMotion")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCMotion")]
-    pub struct GCMotion;
-
-    #[cfg(feature = "GameController_GCMotion")]
-    unsafe impl ClassType for GCMotion {
-        type Super = NSObject;
-    }
-);
+    pub type GCMotion;
+}
 
 #[cfg(feature = "GameController_GCMotion")]
 unsafe impl NSObjectProtocol for GCMotion {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCMotion")]
-    unsafe impl GCMotion {
-        #[cfg(feature = "GameController_GCController")]
-        #[method_id(@__retain_semantics Other controller)]
-        pub unsafe fn controller(&self) -> Option<Id<GCController>>;
+    pub type GCMotion;
 
-        #[method(valueChangedHandler)]
-        pub unsafe fn valueChangedHandler(&self) -> GCMotionValueChangedHandler;
+    #[cfg(feature = "GameController_GCController")]
+    #[objc2::method(sel = "controller", managed = "Other")]
+    pub unsafe fn controller(&self) -> Option<Id<GCController>>;
 
-        #[method(setValueChangedHandler:)]
-        pub unsafe fn setValueChangedHandler(
-            &self,
-            value_changed_handler: GCMotionValueChangedHandler,
-        );
+    #[objc2::method(sel = "valueChangedHandler")]
+    pub unsafe fn valueChangedHandler(&self) -> GCMotionValueChangedHandler;
 
-        #[method(sensorsRequireManualActivation)]
-        pub unsafe fn sensorsRequireManualActivation(&self) -> bool;
+    #[objc2::method(sel = "setValueChangedHandler:")]
+    pub unsafe fn setValueChangedHandler(&self, value_changed_handler: GCMotionValueChangedHandler);
 
-        #[method(sensorsActive)]
-        pub unsafe fn sensorsActive(&self) -> bool;
+    #[objc2::method(sel = "sensorsRequireManualActivation")]
+    pub unsafe fn sensorsRequireManualActivation(&self) -> bool;
 
-        #[method(setSensorsActive:)]
-        pub unsafe fn setSensorsActive(&self, sensors_active: bool);
+    #[objc2::method(sel = "sensorsActive")]
+    pub unsafe fn sensorsActive(&self) -> bool;
 
-        #[method(hasGravityAndUserAcceleration)]
-        pub unsafe fn hasGravityAndUserAcceleration(&self) -> bool;
+    #[objc2::method(sel = "setSensorsActive:")]
+    pub unsafe fn setSensorsActive(&self, sensors_active: bool);
 
-        #[method(gravity)]
-        pub unsafe fn gravity(&self) -> GCAcceleration;
+    #[objc2::method(sel = "hasGravityAndUserAcceleration")]
+    pub unsafe fn hasGravityAndUserAcceleration(&self) -> bool;
 
-        #[method(userAcceleration)]
-        pub unsafe fn userAcceleration(&self) -> GCAcceleration;
+    #[objc2::method(sel = "gravity")]
+    pub unsafe fn gravity(&self) -> GCAcceleration;
 
-        #[method(acceleration)]
-        pub unsafe fn acceleration(&self) -> GCAcceleration;
+    #[objc2::method(sel = "userAcceleration")]
+    pub unsafe fn userAcceleration(&self) -> GCAcceleration;
 
-        #[deprecated = "hasAttitudeAndRotationRate has been deprecated, use -hasAttitude and -hasRotationRate instead"]
-        #[method(hasAttitudeAndRotationRate)]
-        pub unsafe fn hasAttitudeAndRotationRate(&self) -> bool;
+    #[objc2::method(sel = "acceleration")]
+    pub unsafe fn acceleration(&self) -> GCAcceleration;
 
-        #[method(hasAttitude)]
-        pub unsafe fn hasAttitude(&self) -> bool;
+    #[deprecated = "hasAttitudeAndRotationRate has been deprecated, use -hasAttitude and -hasRotationRate instead"]
+    #[objc2::method(sel = "hasAttitudeAndRotationRate")]
+    pub unsafe fn hasAttitudeAndRotationRate(&self) -> bool;
 
-        #[method(hasRotationRate)]
-        pub unsafe fn hasRotationRate(&self) -> bool;
+    #[objc2::method(sel = "hasAttitude")]
+    pub unsafe fn hasAttitude(&self) -> bool;
 
-        #[method(attitude)]
-        pub unsafe fn attitude(&self) -> GCQuaternion;
+    #[objc2::method(sel = "hasRotationRate")]
+    pub unsafe fn hasRotationRate(&self) -> bool;
 
-        #[method(rotationRate)]
-        pub unsafe fn rotationRate(&self) -> GCRotationRate;
+    #[objc2::method(sel = "attitude")]
+    pub unsafe fn attitude(&self) -> GCQuaternion;
 
-        #[method(setGravity:)]
-        pub unsafe fn setGravity(&self, gravity: GCAcceleration);
+    #[objc2::method(sel = "rotationRate")]
+    pub unsafe fn rotationRate(&self) -> GCRotationRate;
 
-        #[method(setUserAcceleration:)]
-        pub unsafe fn setUserAcceleration(&self, user_acceleration: GCAcceleration);
+    #[objc2::method(sel = "setGravity:")]
+    pub unsafe fn setGravity(&self, gravity: GCAcceleration);
 
-        #[method(setAcceleration:)]
-        pub unsafe fn setAcceleration(&self, acceleration: GCAcceleration);
+    #[objc2::method(sel = "setUserAcceleration:")]
+    pub unsafe fn setUserAcceleration(&self, user_acceleration: GCAcceleration);
 
-        #[method(setAttitude:)]
-        pub unsafe fn setAttitude(&self, attitude: GCQuaternion);
+    #[objc2::method(sel = "setAcceleration:")]
+    pub unsafe fn setAcceleration(&self, acceleration: GCAcceleration);
 
-        #[method(setRotationRate:)]
-        pub unsafe fn setRotationRate(&self, rotation_rate: GCRotationRate);
+    #[objc2::method(sel = "setAttitude:")]
+    pub unsafe fn setAttitude(&self, attitude: GCQuaternion);
 
-        #[method(setStateFromMotion:)]
-        pub unsafe fn setStateFromMotion(&self, motion: &GCMotion);
-    }
-);
+    #[objc2::method(sel = "setRotationRate:")]
+    pub unsafe fn setRotationRate(&self, rotation_rate: GCRotationRate);
+
+    #[objc2::method(sel = "setStateFromMotion:")]
+    pub unsafe fn setStateFromMotion(&self, motion: &GCMotion);
+}

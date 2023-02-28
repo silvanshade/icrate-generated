@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MXMetric,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXCellularConditionMetric")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXCellularConditionMetric")]
-    pub struct MXCellularConditionMetric;
-
-    #[cfg(feature = "MetricKit_MXCellularConditionMetric")]
-    unsafe impl ClassType for MXCellularConditionMetric {
-        #[inherits(NSObject)]
-        type Super = MXMetric;
-    }
-);
+    pub type MXCellularConditionMetric;
+}
 
 #[cfg(feature = "MetricKit_MXCellularConditionMetric")]
 unsafe impl NSCoding for MXCellularConditionMetric {}
@@ -25,15 +25,17 @@ unsafe impl NSObjectProtocol for MXCellularConditionMetric {}
 #[cfg(feature = "MetricKit_MXCellularConditionMetric")]
 unsafe impl NSSecureCoding for MXCellularConditionMetric {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXCellularConditionMetric")]
-    unsafe impl MXCellularConditionMetric {
-        #[cfg(all(
-            feature = "MetricKit_MXHistogram",
-            feature = "MetricKit_MXUnitSignalBars"
-        ))]
-        #[method_id(@__retain_semantics Other histogrammedCellularConditionTime)]
-        pub unsafe fn histogrammedCellularConditionTime(&self)
-            -> Id<MXHistogram<MXUnitSignalBars>>;
-    }
-);
+    pub type MXCellularConditionMetric;
+
+    #[cfg(all(
+        feature = "MetricKit_MXHistogram",
+        feature = "MetricKit_MXUnitSignalBars"
+    ))]
+    #[objc2::method(sel = "histogrammedCellularConditionTime", managed = "Other")]
+    pub unsafe fn histogrammedCellularConditionTime(&self) -> Id<MXHistogram<MXUnitSignalBars>>;
+}

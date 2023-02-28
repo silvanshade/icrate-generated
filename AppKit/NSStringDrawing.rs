@@ -5,187 +5,201 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSStringDrawingContext")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSStringDrawingContext")]
-    pub struct NSStringDrawingContext;
-
-    #[cfg(feature = "AppKit_NSStringDrawingContext")]
-    unsafe impl ClassType for NSStringDrawingContext {
-        type Super = NSObject;
-    }
-);
+    pub type NSStringDrawingContext;
+}
 
 #[cfg(feature = "AppKit_NSStringDrawingContext")]
 unsafe impl NSObjectProtocol for NSStringDrawingContext {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSStringDrawingContext")]
-    unsafe impl NSStringDrawingContext {
-        #[method(minimumScaleFactor)]
-        pub unsafe fn minimumScaleFactor(&self) -> CGFloat;
+    pub type NSStringDrawingContext;
 
-        #[method(setMinimumScaleFactor:)]
-        pub unsafe fn setMinimumScaleFactor(&self, minimum_scale_factor: CGFloat);
+    #[objc2::method(sel = "minimumScaleFactor")]
+    pub unsafe fn minimumScaleFactor(&self) -> CGFloat;
 
-        #[method(actualScaleFactor)]
-        pub unsafe fn actualScaleFactor(&self) -> CGFloat;
+    #[objc2::method(sel = "setMinimumScaleFactor:")]
+    pub unsafe fn setMinimumScaleFactor(&self, minimum_scale_factor: CGFloat);
 
-        #[method(totalBounds)]
-        pub unsafe fn totalBounds(&self) -> NSRect;
-    }
-);
+    #[objc2::method(sel = "actualScaleFactor")]
+    pub unsafe fn actualScaleFactor(&self) -> CGFloat;
 
-extern_methods!(
-    /// NSStringDrawing
+    #[objc2::method(sel = "totalBounds")]
+    pub unsafe fn totalBounds(&self) -> NSRect;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSString")]
-    unsafe impl NSString {
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(sizeWithAttributes:)]
-        pub unsafe fn sizeWithAttributes(
-            &self,
-            attrs: Option<&NSDictionary<NSAttributedStringKey, Object>>,
-        ) -> NSSize;
+    pub type NSString;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(drawAtPoint:withAttributes:)]
-        pub unsafe fn drawAtPoint_withAttributes(
-            &self,
-            point: NSPoint,
-            attrs: Option<&NSDictionary<NSAttributedStringKey, Object>>,
-        );
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "sizeWithAttributes:")]
+    pub unsafe fn sizeWithAttributes(
+        &self,
+        attrs: Option<&NSDictionary<NSAttributedStringKey, Object>>,
+    ) -> NSSize;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(drawInRect:withAttributes:)]
-        pub unsafe fn drawInRect_withAttributes(
-            &self,
-            rect: NSRect,
-            attrs: Option<&NSDictionary<NSAttributedStringKey, Object>>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "drawAtPoint:withAttributes:")]
+    pub unsafe fn drawAtPoint_withAttributes(
+        &self,
+        point: NSPoint,
+        attrs: Option<&NSDictionary<NSAttributedStringKey, Object>>,
+    );
 
-extern_methods!(
-    /// NSStringDrawing
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "drawInRect:withAttributes:")]
+    pub unsafe fn drawInRect_withAttributes(
+        &self,
+        rect: NSRect,
+        attrs: Option<&NSDictionary<NSAttributedStringKey, Object>>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAttributedString")]
-    unsafe impl NSAttributedString {
-        #[method(size)]
-        pub unsafe fn size(&self) -> NSSize;
+    pub type NSAttributedString;
 
-        #[method(drawAtPoint:)]
-        pub unsafe fn drawAtPoint(&self, point: NSPoint);
+    #[objc2::method(sel = "size")]
+    pub unsafe fn size(&self) -> NSSize;
 
-        #[method(drawInRect:)]
-        pub unsafe fn drawInRect(&self, rect: NSRect);
-    }
-);
+    #[objc2::method(sel = "drawAtPoint:")]
+    pub unsafe fn drawAtPoint(&self, point: NSPoint);
 
-ns_options!(
-    #[underlying(NSInteger)]
-    pub enum NSStringDrawingOptions {
-        NSStringDrawingUsesLineFragmentOrigin = 1 << 0,
-        NSStringDrawingUsesFontLeading = 1 << 1,
-        NSStringDrawingUsesDeviceMetrics = 1 << 3,
-        NSStringDrawingTruncatesLastVisibleLine = 1 << 5,
-        #[deprecated]
-        NSStringDrawingDisableScreenFontSubstitution = 1 << 2,
-        #[deprecated]
-        NSStringDrawingOneShot = 1 << 4,
-    }
-);
+    #[objc2::method(sel = "drawInRect:")]
+    pub unsafe fn drawInRect(&self, rect: NSRect);
+}
 
-extern_methods!(
-    /// NSExtendedStringDrawing
+#[ns_options]
+#[underlying(NSInteger)]
+pub enum NSStringDrawingOptions {
+    NSStringDrawingUsesLineFragmentOrigin = 1 << 0,
+    NSStringDrawingUsesFontLeading = 1 << 1,
+    NSStringDrawingUsesDeviceMetrics = 1 << 3,
+    NSStringDrawingTruncatesLastVisibleLine = 1 << 5,
+    #[deprecated]
+    NSStringDrawingDisableScreenFontSubstitution = 1 << 2,
+    #[deprecated]
+    NSStringDrawingOneShot = 1 << 4,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSString")]
-    unsafe impl NSString {
-        #[cfg(all(
-            feature = "AppKit_NSStringDrawingContext",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[method(drawWithRect:options:attributes:context:)]
-        pub unsafe fn drawWithRect_options_attributes_context(
-            &self,
-            rect: NSRect,
-            options: NSStringDrawingOptions,
-            attributes: Option<&NSDictionary<NSAttributedStringKey, Object>>,
-            context: Option<&NSStringDrawingContext>,
-        );
+    pub type NSString;
 
-        #[cfg(all(
-            feature = "AppKit_NSStringDrawingContext",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[method(boundingRectWithSize:options:attributes:context:)]
-        pub unsafe fn boundingRectWithSize_options_attributes_context(
-            &self,
-            size: NSSize,
-            options: NSStringDrawingOptions,
-            attributes: Option<&NSDictionary<NSAttributedStringKey, Object>>,
-            context: Option<&NSStringDrawingContext>,
-        ) -> NSRect;
-    }
-);
+    #[cfg(all(
+        feature = "AppKit_NSStringDrawingContext",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[objc2::method(sel = "drawWithRect:options:attributes:context:")]
+    pub unsafe fn drawWithRect_options_attributes_context(
+        &self,
+        rect: NSRect,
+        options: NSStringDrawingOptions,
+        attributes: Option<&NSDictionary<NSAttributedStringKey, Object>>,
+        context: Option<&NSStringDrawingContext>,
+    );
 
-extern_methods!(
-    /// NSExtendedStringDrawing
+    #[cfg(all(
+        feature = "AppKit_NSStringDrawingContext",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[objc2::method(sel = "boundingRectWithSize:options:attributes:context:")]
+    pub unsafe fn boundingRectWithSize_options_attributes_context(
+        &self,
+        size: NSSize,
+        options: NSStringDrawingOptions,
+        attributes: Option<&NSDictionary<NSAttributedStringKey, Object>>,
+        context: Option<&NSStringDrawingContext>,
+    ) -> NSRect;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAttributedString")]
-    unsafe impl NSAttributedString {
-        #[cfg(feature = "AppKit_NSStringDrawingContext")]
-        #[method(drawWithRect:options:context:)]
-        pub unsafe fn drawWithRect_options_context(
-            &self,
-            rect: NSRect,
-            options: NSStringDrawingOptions,
-            context: Option<&NSStringDrawingContext>,
-        );
+    pub type NSAttributedString;
 
-        #[cfg(feature = "AppKit_NSStringDrawingContext")]
-        #[method(boundingRectWithSize:options:context:)]
-        pub unsafe fn boundingRectWithSize_options_context(
-            &self,
-            size: NSSize,
-            options: NSStringDrawingOptions,
-            context: Option<&NSStringDrawingContext>,
-        ) -> NSRect;
-    }
-);
+    #[cfg(feature = "AppKit_NSStringDrawingContext")]
+    #[objc2::method(sel = "drawWithRect:options:context:")]
+    pub unsafe fn drawWithRect_options_context(
+        &self,
+        rect: NSRect,
+        options: NSStringDrawingOptions,
+        context: Option<&NSStringDrawingContext>,
+    );
 
-extern_methods!(
-    /// NSStringDrawingDeprecated
+    #[cfg(feature = "AppKit_NSStringDrawingContext")]
+    #[objc2::method(sel = "boundingRectWithSize:options:context:")]
+    pub unsafe fn boundingRectWithSize_options_context(
+        &self,
+        size: NSSize,
+        options: NSStringDrawingOptions,
+        context: Option<&NSStringDrawingContext>,
+    ) -> NSRect;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSString")]
-    unsafe impl NSString {
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(drawWithRect:options:attributes:)]
-        pub unsafe fn drawWithRect_options_attributes(
-            &self,
-            rect: NSRect,
-            options: NSStringDrawingOptions,
-            attributes: Option<&NSDictionary<NSAttributedStringKey, Object>>,
-        );
+    pub type NSString;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(boundingRectWithSize:options:attributes:)]
-        pub unsafe fn boundingRectWithSize_options_attributes(
-            &self,
-            size: NSSize,
-            options: NSStringDrawingOptions,
-            attributes: Option<&NSDictionary<NSAttributedStringKey, Object>>,
-        ) -> NSRect;
-    }
-);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "drawWithRect:options:attributes:")]
+    pub unsafe fn drawWithRect_options_attributes(
+        &self,
+        rect: NSRect,
+        options: NSStringDrawingOptions,
+        attributes: Option<&NSDictionary<NSAttributedStringKey, Object>>,
+    );
 
-extern_methods!(
-    /// NSStringDrawingDeprecated
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "boundingRectWithSize:options:attributes:")]
+    pub unsafe fn boundingRectWithSize_options_attributes(
+        &self,
+        size: NSSize,
+        options: NSStringDrawingOptions,
+        attributes: Option<&NSDictionary<NSAttributedStringKey, Object>>,
+    ) -> NSRect;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAttributedString")]
-    unsafe impl NSAttributedString {
-        #[method(drawWithRect:options:)]
-        pub unsafe fn drawWithRect_options(&self, rect: NSRect, options: NSStringDrawingOptions);
+    pub type NSAttributedString;
 
-        #[method(boundingRectWithSize:options:)]
-        pub unsafe fn boundingRectWithSize_options(
-            &self,
-            size: NSSize,
-            options: NSStringDrawingOptions,
-        ) -> NSRect;
-    }
-);
+    #[objc2::method(sel = "drawWithRect:options:")]
+    pub unsafe fn drawWithRect_options(&self, rect: NSRect, options: NSStringDrawingOptions);
+
+    #[objc2::method(sel = "boundingRectWithSize:options:")]
+    pub unsafe fn boundingRectWithSize_options(
+        &self,
+        size: NSSize,
+        options: NSStringDrawingOptions,
+    ) -> NSRect;
+}

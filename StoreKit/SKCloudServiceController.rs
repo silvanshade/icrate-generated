@@ -5,90 +5,91 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::StoreKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum SKCloudServiceAuthorizationStatus {
-        SKCloudServiceAuthorizationStatusNotDetermined = 0,
-        SKCloudServiceAuthorizationStatusDenied = 1,
-        SKCloudServiceAuthorizationStatusRestricted = 2,
-        SKCloudServiceAuthorizationStatusAuthorized = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum SKCloudServiceAuthorizationStatus {
+    SKCloudServiceAuthorizationStatusNotDetermined = 0,
+    SKCloudServiceAuthorizationStatusDenied = 1,
+    SKCloudServiceAuthorizationStatusRestricted = 2,
+    SKCloudServiceAuthorizationStatusAuthorized = 3,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum SKCloudServiceCapability {
-        SKCloudServiceCapabilityNone = 0,
-        SKCloudServiceCapabilityMusicCatalogPlayback = 1 << 0,
-        SKCloudServiceCapabilityMusicCatalogSubscriptionEligible = 1 << 1,
-        SKCloudServiceCapabilityAddToCloudMusicLibrary = 1 << 8,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum SKCloudServiceCapability {
+    SKCloudServiceCapabilityNone = 0,
+    SKCloudServiceCapabilityMusicCatalogPlayback = 1 << 0,
+    SKCloudServiceCapabilityMusicCatalogSubscriptionEligible = 1 << 1,
+    SKCloudServiceCapabilityAddToCloudMusicLibrary = 1 << 8,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKCloudServiceController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKCloudServiceController")]
-    pub struct SKCloudServiceController;
-
-    #[cfg(feature = "StoreKit_SKCloudServiceController")]
-    unsafe impl ClassType for SKCloudServiceController {
-        type Super = NSObject;
-    }
-);
+    pub type SKCloudServiceController;
+}
 
 #[cfg(feature = "StoreKit_SKCloudServiceController")]
 unsafe impl NSObjectProtocol for SKCloudServiceController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKCloudServiceController")]
-    unsafe impl SKCloudServiceController {
-        #[method(authorizationStatus)]
-        pub unsafe fn authorizationStatus() -> SKCloudServiceAuthorizationStatus;
+    pub type SKCloudServiceController;
 
-        #[method(requestAuthorization:)]
-        pub unsafe fn requestAuthorization(
-            completion_handler: &Block<(SKCloudServiceAuthorizationStatus,), ()>,
-        );
+    #[objc2::method(sel = "authorizationStatus")]
+    pub unsafe fn authorizationStatus() -> SKCloudServiceAuthorizationStatus;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(requestCapabilitiesWithCompletionHandler:)]
-        pub unsafe fn requestCapabilitiesWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(SKCloudServiceCapability, *mut NSError), ()>,
-        );
+    #[objc2::method(sel = "requestAuthorization:")]
+    pub unsafe fn requestAuthorization(
+        completion_handler: &Block<(SKCloudServiceAuthorizationStatus,), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(requestStorefrontCountryCodeWithCompletionHandler:)]
-        pub unsafe fn requestStorefrontCountryCodeWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(*mut NSString, *mut NSError), ()>,
-        );
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "requestCapabilitiesWithCompletionHandler:")]
+    pub unsafe fn requestCapabilitiesWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(SKCloudServiceCapability, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(requestStorefrontIdentifierWithCompletionHandler:)]
-        pub unsafe fn requestStorefrontIdentifierWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(*mut NSString, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "requestStorefrontCountryCodeWithCompletionHandler:")]
+    pub unsafe fn requestStorefrontCountryCodeWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(*mut NSString, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(requestUserTokenForDeveloperToken:completionHandler:)]
-        pub unsafe fn requestUserTokenForDeveloperToken_completionHandler(
-            &self,
-            developer_token: &NSString,
-            completion_handler: &Block<(*mut NSString, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "requestStorefrontIdentifierWithCompletionHandler:")]
+    pub unsafe fn requestStorefrontIdentifierWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(*mut NSString, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[deprecated]
-        #[method(requestPersonalizationTokenForClientToken:withCompletionHandler:)]
-        pub unsafe fn requestPersonalizationTokenForClientToken_withCompletionHandler(
-            &self,
-            client_token: &NSString,
-            completion_handler: &Block<(*mut NSString, *mut NSError), ()>,
-        );
-    }
-);
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "requestUserTokenForDeveloperToken:completionHandler:")]
+    pub unsafe fn requestUserTokenForDeveloperToken_completionHandler(
+        &self,
+        developer_token: &NSString,
+        completion_handler: &Block<(*mut NSString, *mut NSError), ()>,
+    );
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[deprecated]
+    #[objc2::method(sel = "requestPersonalizationTokenForClientToken:withCompletionHandler:")]
+    pub unsafe fn requestPersonalizationTokenForClientToken_withCompletionHandler(
+        &self,
+        client_token: &NSString,
+        completion_handler: &Block<(*mut NSString, *mut NSError), ()>,
+    );
+}
 
 extern_static!(SKCloudServiceCapabilitiesDidChangeNotification: &'static NSNotificationName);
 

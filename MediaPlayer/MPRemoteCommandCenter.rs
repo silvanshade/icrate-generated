@@ -5,110 +5,113 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPRemoteCommandCenter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPRemoteCommandCenter")]
-    pub struct MPRemoteCommandCenter;
-
-    #[cfg(feature = "MediaPlayer_MPRemoteCommandCenter")]
-    unsafe impl ClassType for MPRemoteCommandCenter {
-        type Super = NSObject;
-    }
-);
+    pub type MPRemoteCommandCenter;
+}
 
 #[cfg(feature = "MediaPlayer_MPRemoteCommandCenter")]
 unsafe impl NSObjectProtocol for MPRemoteCommandCenter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPRemoteCommandCenter")]
-    unsafe impl MPRemoteCommandCenter {
-        #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
-        #[method_id(@__retain_semantics Other pauseCommand)]
-        pub unsafe fn pauseCommand(&self) -> Id<MPRemoteCommand>;
+    pub type MPRemoteCommandCenter;
 
-        #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
-        #[method_id(@__retain_semantics Other playCommand)]
-        pub unsafe fn playCommand(&self) -> Id<MPRemoteCommand>;
+    #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
+    #[objc2::method(sel = "pauseCommand", managed = "Other")]
+    pub unsafe fn pauseCommand(&self) -> Id<MPRemoteCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
-        #[method_id(@__retain_semantics Other stopCommand)]
-        pub unsafe fn stopCommand(&self) -> Id<MPRemoteCommand>;
+    #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
+    #[objc2::method(sel = "playCommand", managed = "Other")]
+    pub unsafe fn playCommand(&self) -> Id<MPRemoteCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
-        #[method_id(@__retain_semantics Other togglePlayPauseCommand)]
-        pub unsafe fn togglePlayPauseCommand(&self) -> Id<MPRemoteCommand>;
+    #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
+    #[objc2::method(sel = "stopCommand", managed = "Other")]
+    pub unsafe fn stopCommand(&self) -> Id<MPRemoteCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
-        #[method_id(@__retain_semantics Other enableLanguageOptionCommand)]
-        pub unsafe fn enableLanguageOptionCommand(&self) -> Id<MPRemoteCommand>;
+    #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
+    #[objc2::method(sel = "togglePlayPauseCommand", managed = "Other")]
+    pub unsafe fn togglePlayPauseCommand(&self) -> Id<MPRemoteCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
-        #[method_id(@__retain_semantics Other disableLanguageOptionCommand)]
-        pub unsafe fn disableLanguageOptionCommand(&self) -> Id<MPRemoteCommand>;
+    #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
+    #[objc2::method(sel = "enableLanguageOptionCommand", managed = "Other")]
+    pub unsafe fn enableLanguageOptionCommand(&self) -> Id<MPRemoteCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPChangePlaybackRateCommand")]
-        #[method_id(@__retain_semantics Other changePlaybackRateCommand)]
-        pub unsafe fn changePlaybackRateCommand(&self) -> Id<MPChangePlaybackRateCommand>;
+    #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
+    #[objc2::method(sel = "disableLanguageOptionCommand", managed = "Other")]
+    pub unsafe fn disableLanguageOptionCommand(&self) -> Id<MPRemoteCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPChangeRepeatModeCommand")]
-        #[method_id(@__retain_semantics Other changeRepeatModeCommand)]
-        pub unsafe fn changeRepeatModeCommand(&self) -> Id<MPChangeRepeatModeCommand>;
+    #[cfg(feature = "MediaPlayer_MPChangePlaybackRateCommand")]
+    #[objc2::method(sel = "changePlaybackRateCommand", managed = "Other")]
+    pub unsafe fn changePlaybackRateCommand(&self) -> Id<MPChangePlaybackRateCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPChangeShuffleModeCommand")]
-        #[method_id(@__retain_semantics Other changeShuffleModeCommand)]
-        pub unsafe fn changeShuffleModeCommand(&self) -> Id<MPChangeShuffleModeCommand>;
+    #[cfg(feature = "MediaPlayer_MPChangeRepeatModeCommand")]
+    #[objc2::method(sel = "changeRepeatModeCommand", managed = "Other")]
+    pub unsafe fn changeRepeatModeCommand(&self) -> Id<MPChangeRepeatModeCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
-        #[method_id(@__retain_semantics Other nextTrackCommand)]
-        pub unsafe fn nextTrackCommand(&self) -> Id<MPRemoteCommand>;
+    #[cfg(feature = "MediaPlayer_MPChangeShuffleModeCommand")]
+    #[objc2::method(sel = "changeShuffleModeCommand", managed = "Other")]
+    pub unsafe fn changeShuffleModeCommand(&self) -> Id<MPChangeShuffleModeCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
-        #[method_id(@__retain_semantics Other previousTrackCommand)]
-        pub unsafe fn previousTrackCommand(&self) -> Id<MPRemoteCommand>;
+    #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
+    #[objc2::method(sel = "nextTrackCommand", managed = "Other")]
+    pub unsafe fn nextTrackCommand(&self) -> Id<MPRemoteCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPSkipIntervalCommand")]
-        #[method_id(@__retain_semantics Other skipForwardCommand)]
-        pub unsafe fn skipForwardCommand(&self) -> Id<MPSkipIntervalCommand>;
+    #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
+    #[objc2::method(sel = "previousTrackCommand", managed = "Other")]
+    pub unsafe fn previousTrackCommand(&self) -> Id<MPRemoteCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPSkipIntervalCommand")]
-        #[method_id(@__retain_semantics Other skipBackwardCommand)]
-        pub unsafe fn skipBackwardCommand(&self) -> Id<MPSkipIntervalCommand>;
+    #[cfg(feature = "MediaPlayer_MPSkipIntervalCommand")]
+    #[objc2::method(sel = "skipForwardCommand", managed = "Other")]
+    pub unsafe fn skipForwardCommand(&self) -> Id<MPSkipIntervalCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
-        #[method_id(@__retain_semantics Other seekForwardCommand)]
-        pub unsafe fn seekForwardCommand(&self) -> Id<MPRemoteCommand>;
+    #[cfg(feature = "MediaPlayer_MPSkipIntervalCommand")]
+    #[objc2::method(sel = "skipBackwardCommand", managed = "Other")]
+    pub unsafe fn skipBackwardCommand(&self) -> Id<MPSkipIntervalCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
-        #[method_id(@__retain_semantics Other seekBackwardCommand)]
-        pub unsafe fn seekBackwardCommand(&self) -> Id<MPRemoteCommand>;
+    #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
+    #[objc2::method(sel = "seekForwardCommand", managed = "Other")]
+    pub unsafe fn seekForwardCommand(&self) -> Id<MPRemoteCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPChangePlaybackPositionCommand")]
-        #[method_id(@__retain_semantics Other changePlaybackPositionCommand)]
-        pub unsafe fn changePlaybackPositionCommand(&self) -> Id<MPChangePlaybackPositionCommand>;
+    #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
+    #[objc2::method(sel = "seekBackwardCommand", managed = "Other")]
+    pub unsafe fn seekBackwardCommand(&self) -> Id<MPRemoteCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPRatingCommand")]
-        #[method_id(@__retain_semantics Other ratingCommand)]
-        pub unsafe fn ratingCommand(&self) -> Id<MPRatingCommand>;
+    #[cfg(feature = "MediaPlayer_MPChangePlaybackPositionCommand")]
+    #[objc2::method(sel = "changePlaybackPositionCommand", managed = "Other")]
+    pub unsafe fn changePlaybackPositionCommand(&self) -> Id<MPChangePlaybackPositionCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPFeedbackCommand")]
-        #[method_id(@__retain_semantics Other likeCommand)]
-        pub unsafe fn likeCommand(&self) -> Id<MPFeedbackCommand>;
+    #[cfg(feature = "MediaPlayer_MPRatingCommand")]
+    #[objc2::method(sel = "ratingCommand", managed = "Other")]
+    pub unsafe fn ratingCommand(&self) -> Id<MPRatingCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPFeedbackCommand")]
-        #[method_id(@__retain_semantics Other dislikeCommand)]
-        pub unsafe fn dislikeCommand(&self) -> Id<MPFeedbackCommand>;
+    #[cfg(feature = "MediaPlayer_MPFeedbackCommand")]
+    #[objc2::method(sel = "likeCommand", managed = "Other")]
+    pub unsafe fn likeCommand(&self) -> Id<MPFeedbackCommand>;
 
-        #[cfg(feature = "MediaPlayer_MPFeedbackCommand")]
-        #[method_id(@__retain_semantics Other bookmarkCommand)]
-        pub unsafe fn bookmarkCommand(&self) -> Id<MPFeedbackCommand>;
+    #[cfg(feature = "MediaPlayer_MPFeedbackCommand")]
+    #[objc2::method(sel = "dislikeCommand", managed = "Other")]
+    pub unsafe fn dislikeCommand(&self) -> Id<MPFeedbackCommand>;
 
-        #[method_id(@__retain_semantics Other sharedCommandCenter)]
-        pub unsafe fn sharedCommandCenter() -> Id<MPRemoteCommandCenter>;
+    #[cfg(feature = "MediaPlayer_MPFeedbackCommand")]
+    #[objc2::method(sel = "bookmarkCommand", managed = "Other")]
+    pub unsafe fn bookmarkCommand(&self) -> Id<MPFeedbackCommand>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "sharedCommandCenter", managed = "Other")]
+    pub unsafe fn sharedCommandCenter() -> Id<MPRemoteCommandCenter>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

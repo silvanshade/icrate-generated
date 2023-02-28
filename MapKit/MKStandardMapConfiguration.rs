@@ -7,25 +7,24 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MKStandardMapEmphasisStyle {
-        MKStandardMapEmphasisStyleDefault = 0,
-        MKStandardMapEmphasisStyleMuted = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MKStandardMapEmphasisStyle {
+    MKStandardMapEmphasisStyleDefault = 0,
+    MKStandardMapEmphasisStyleMuted = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKMapConfiguration,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKStandardMapConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKStandardMapConfiguration")]
-    pub struct MKStandardMapConfiguration;
-
-    #[cfg(feature = "MapKit_MKStandardMapConfiguration")]
-    unsafe impl ClassType for MKStandardMapConfiguration {
-        #[inherits(NSObject)]
-        type Super = MKMapConfiguration;
-    }
-);
+    pub type MKStandardMapConfiguration;
+}
 
 #[cfg(feature = "MapKit_MKStandardMapConfiguration")]
 unsafe impl NSCoding for MKStandardMapConfiguration {}
@@ -36,52 +35,55 @@ unsafe impl NSObjectProtocol for MKStandardMapConfiguration {}
 #[cfg(feature = "MapKit_MKStandardMapConfiguration")]
 unsafe impl NSSecureCoding for MKStandardMapConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKStandardMapConfiguration")]
-    unsafe impl MKStandardMapConfiguration {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type MKStandardMapConfiguration;
 
-        #[method_id(@__retain_semantics Init initWithElevationStyle:)]
-        pub unsafe fn initWithElevationStyle(
-            this: Option<Allocated<Self>>,
-            elevation_style: MKMapElevationStyle,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithElevationStyle:emphasisStyle:)]
-        pub unsafe fn initWithElevationStyle_emphasisStyle(
-            this: Option<Allocated<Self>>,
-            elevation_style: MKMapElevationStyle,
-            emphasis_style: MKStandardMapEmphasisStyle,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithElevationStyle:", managed = "Init")]
+    pub unsafe fn initWithElevationStyle(
+        this: Option<Allocated<Self>>,
+        elevation_style: MKMapElevationStyle,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithEmphasisStyle:)]
-        pub unsafe fn initWithEmphasisStyle(
-            this: Option<Allocated<Self>>,
-            emphasis_style: MKStandardMapEmphasisStyle,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithElevationStyle:emphasisStyle:", managed = "Init")]
+    pub unsafe fn initWithElevationStyle_emphasisStyle(
+        this: Option<Allocated<Self>>,
+        elevation_style: MKMapElevationStyle,
+        emphasis_style: MKStandardMapEmphasisStyle,
+    ) -> Id<Self>;
 
-        #[method(emphasisStyle)]
-        pub unsafe fn emphasisStyle(&self) -> MKStandardMapEmphasisStyle;
+    #[objc2::method(sel = "initWithEmphasisStyle:", managed = "Init")]
+    pub unsafe fn initWithEmphasisStyle(
+        this: Option<Allocated<Self>>,
+        emphasis_style: MKStandardMapEmphasisStyle,
+    ) -> Id<Self>;
 
-        #[method(setEmphasisStyle:)]
-        pub unsafe fn setEmphasisStyle(&self, emphasis_style: MKStandardMapEmphasisStyle);
+    #[objc2::method(sel = "emphasisStyle")]
+    pub unsafe fn emphasisStyle(&self) -> MKStandardMapEmphasisStyle;
 
-        #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-        #[method_id(@__retain_semantics Other pointOfInterestFilter)]
-        pub unsafe fn pointOfInterestFilter(&self) -> Option<Id<MKPointOfInterestFilter>>;
+    #[objc2::method(sel = "setEmphasisStyle:")]
+    pub unsafe fn setEmphasisStyle(&self, emphasis_style: MKStandardMapEmphasisStyle);
 
-        #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-        #[method(setPointOfInterestFilter:)]
-        pub unsafe fn setPointOfInterestFilter(
-            &self,
-            point_of_interest_filter: Option<&MKPointOfInterestFilter>,
-        );
+    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
+    #[objc2::method(sel = "pointOfInterestFilter", managed = "Other")]
+    pub unsafe fn pointOfInterestFilter(&self) -> Option<Id<MKPointOfInterestFilter>>;
 
-        #[method(showsTraffic)]
-        pub unsafe fn showsTraffic(&self) -> bool;
+    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
+    #[objc2::method(sel = "setPointOfInterestFilter:")]
+    pub unsafe fn setPointOfInterestFilter(
+        &self,
+        point_of_interest_filter: Option<&MKPointOfInterestFilter>,
+    );
 
-        #[method(setShowsTraffic:)]
-        pub unsafe fn setShowsTraffic(&self, shows_traffic: bool);
-    }
-);
+    #[objc2::method(sel = "showsTraffic")]
+    pub unsafe fn showsTraffic(&self) -> bool;
+
+    #[objc2::method(sel = "setShowsTraffic:")]
+    pub unsafe fn setShowsTraffic(&self, shows_traffic: bool);
+}

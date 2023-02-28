@@ -6,17 +6,17 @@ use crate::Automator::*;
 use crate::Foundation::*;
 use crate::OSAKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSController,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Automator_AMWorkflowController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Automator_AMWorkflowController")]
-    pub struct AMWorkflowController;
-
-    #[cfg(feature = "Automator_AMWorkflowController")]
-    unsafe impl ClassType for AMWorkflowController {
-        #[inherits(NSObject)]
-        type Super = NSController;
-    }
-);
+    pub type AMWorkflowController;
+}
 
 #[cfg(feature = "Automator_AMWorkflowController")]
 unsafe impl NSCoding for AMWorkflowController {}
@@ -30,120 +30,111 @@ unsafe impl NSEditorRegistration for AMWorkflowController {}
 #[cfg(feature = "Automator_AMWorkflowController")]
 unsafe impl NSObjectProtocol for AMWorkflowController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Automator_AMWorkflowController")]
-    unsafe impl AMWorkflowController {
-        #[cfg(feature = "Automator_AMWorkflow")]
-        #[method_id(@__retain_semantics Other workflow)]
-        pub unsafe fn workflow(&self) -> Option<Id<AMWorkflow>>;
+    pub type AMWorkflowController;
 
-        #[cfg(feature = "Automator_AMWorkflow")]
-        #[method(setWorkflow:)]
-        pub unsafe fn setWorkflow(&self, workflow: Option<&AMWorkflow>);
+    #[cfg(feature = "Automator_AMWorkflow")]
+    #[objc2::method(sel = "workflow", managed = "Other")]
+    pub unsafe fn workflow(&self) -> Option<Id<AMWorkflow>>;
 
-        #[cfg(feature = "Automator_AMWorkflowView")]
-        #[method_id(@__retain_semantics Other workflowView)]
-        pub unsafe fn workflowView(&self) -> Option<Id<AMWorkflowView>>;
+    #[cfg(feature = "Automator_AMWorkflow")]
+    #[objc2::method(sel = "setWorkflow:")]
+    pub unsafe fn setWorkflow(&self, workflow: Option<&AMWorkflow>);
 
-        #[cfg(feature = "Automator_AMWorkflowView")]
-        #[method(setWorkflowView:)]
-        pub unsafe fn setWorkflowView(&self, workflow_view: Option<&AMWorkflowView>);
+    #[cfg(feature = "Automator_AMWorkflowView")]
+    #[objc2::method(sel = "workflowView", managed = "Other")]
+    pub unsafe fn workflowView(&self) -> Option<Id<AMWorkflowView>>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn AMWorkflowControllerDelegate>>>;
+    #[cfg(feature = "Automator_AMWorkflowView")]
+    #[objc2::method(sel = "setWorkflowView:")]
+    pub unsafe fn setWorkflowView(&self, workflow_view: Option<&AMWorkflowView>);
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn AMWorkflowControllerDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn AMWorkflowControllerDelegate>>>;
 
-        #[method(canRun)]
-        pub unsafe fn canRun(&self) -> bool;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn AMWorkflowControllerDelegate>>,
+    );
 
-        #[method(isRunning)]
-        pub unsafe fn isRunning(&self) -> bool;
+    #[objc2::method(sel = "canRun")]
+    pub unsafe fn canRun(&self) -> bool;
 
-        #[method(isPaused)]
-        pub unsafe fn isPaused(&self) -> bool;
+    #[objc2::method(sel = "isRunning")]
+    pub unsafe fn isRunning(&self) -> bool;
 
-        #[method(run:)]
-        pub unsafe fn run(&self, sender: &Object);
+    #[objc2::method(sel = "isPaused")]
+    pub unsafe fn isPaused(&self) -> bool;
 
-        #[method(stop:)]
-        pub unsafe fn stop(&self, sender: &Object);
+    #[objc2::method(sel = "run:")]
+    pub unsafe fn run(&self, sender: &Object);
 
-        #[method(pause:)]
-        pub unsafe fn pause(&self, sender: &Object);
+    #[objc2::method(sel = "stop:")]
+    pub unsafe fn stop(&self, sender: &Object);
 
-        #[method(step:)]
-        pub unsafe fn step(&self, sender: &Object);
+    #[objc2::method(sel = "pause:")]
+    pub unsafe fn pause(&self, sender: &Object);
 
-        #[method(reset:)]
-        pub unsafe fn reset(&self, sender: &Object);
-    }
-);
+    #[objc2::method(sel = "step:")]
+    pub unsafe fn step(&self, sender: &Object);
 
-extern_protocol!(
-    pub unsafe trait AMWorkflowControllerDelegate: NSObjectProtocol {
-        #[cfg(feature = "Automator_AMWorkflowController")]
-        #[optional]
-        #[method(workflowControllerWillRun:)]
-        unsafe fn workflowControllerWillRun(&self, controller: &AMWorkflowController);
+    #[objc2::method(sel = "reset:")]
+    pub unsafe fn reset(&self, sender: &Object);
+}
 
-        #[cfg(feature = "Automator_AMWorkflowController")]
-        #[optional]
-        #[method(workflowControllerWillStop:)]
-        unsafe fn workflowControllerWillStop(&self, controller: &AMWorkflowController);
+#[objc2::protocol]
+pub unsafe trait AMWorkflowControllerDelegate: NSObjectProtocol {
+    #[cfg(feature = "Automator_AMWorkflowController")]
+    #[objc2::method(optional, sel = "workflowControllerWillRun:")]
+    unsafe fn workflowControllerWillRun(&self, controller: &AMWorkflowController);
 
-        #[cfg(feature = "Automator_AMWorkflowController")]
-        #[optional]
-        #[method(workflowControllerDidRun:)]
-        unsafe fn workflowControllerDidRun(&self, controller: &AMWorkflowController);
+    #[cfg(feature = "Automator_AMWorkflowController")]
+    #[objc2::method(optional, sel = "workflowControllerWillStop:")]
+    unsafe fn workflowControllerWillStop(&self, controller: &AMWorkflowController);
 
-        #[cfg(feature = "Automator_AMWorkflowController")]
-        #[optional]
-        #[method(workflowControllerDidStop:)]
-        unsafe fn workflowControllerDidStop(&self, controller: &AMWorkflowController);
+    #[cfg(feature = "Automator_AMWorkflowController")]
+    #[objc2::method(optional, sel = "workflowControllerDidRun:")]
+    unsafe fn workflowControllerDidRun(&self, controller: &AMWorkflowController);
 
-        #[cfg(all(
-            feature = "Automator_AMAction",
-            feature = "Automator_AMWorkflowController"
-        ))]
-        #[optional]
-        #[method(workflowController:willRunAction:)]
-        unsafe fn workflowController_willRunAction(
-            &self,
-            controller: &AMWorkflowController,
-            action: &AMAction,
-        );
+    #[cfg(feature = "Automator_AMWorkflowController")]
+    #[objc2::method(optional, sel = "workflowControllerDidStop:")]
+    unsafe fn workflowControllerDidStop(&self, controller: &AMWorkflowController);
 
-        #[cfg(all(
-            feature = "Automator_AMAction",
-            feature = "Automator_AMWorkflowController"
-        ))]
-        #[optional]
-        #[method(workflowController:didRunAction:)]
-        unsafe fn workflowController_didRunAction(
-            &self,
-            controller: &AMWorkflowController,
-            action: &AMAction,
-        );
+    #[cfg(all(
+        feature = "Automator_AMAction",
+        feature = "Automator_AMWorkflowController"
+    ))]
+    #[objc2::method(optional, sel = "workflowController:willRunAction:")]
+    unsafe fn workflowController_willRunAction(
+        &self,
+        controller: &AMWorkflowController,
+        action: &AMAction,
+    );
 
-        #[cfg(all(
-            feature = "Automator_AMWorkflowController",
-            feature = "Foundation_NSError"
-        ))]
-        #[optional]
-        #[method(workflowController:didError:)]
-        unsafe fn workflowController_didError(
-            &self,
-            controller: &AMWorkflowController,
-            error: &NSError,
-        );
-    }
+    #[cfg(all(
+        feature = "Automator_AMAction",
+        feature = "Automator_AMWorkflowController"
+    ))]
+    #[objc2::method(optional, sel = "workflowController:didRunAction:")]
+    unsafe fn workflowController_didRunAction(
+        &self,
+        controller: &AMWorkflowController,
+        action: &AMAction,
+    );
 
-    unsafe impl ProtocolType for dyn AMWorkflowControllerDelegate {}
-);
+    #[cfg(all(
+        feature = "Automator_AMWorkflowController",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(optional, sel = "workflowController:didError:")]
+    unsafe fn workflowController_didError(
+        &self,
+        controller: &AMWorkflowController,
+        error: &NSError,
+    );
+}

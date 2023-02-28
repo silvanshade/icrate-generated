@@ -5,38 +5,42 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPPlayableContentManagerContext")]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[deprecated = "Use CarPlay framework"]
-    pub struct MPPlayableContentManagerContext;
-
     #[cfg(feature = "MediaPlayer_MPPlayableContentManagerContext")]
-    unsafe impl ClassType for MPPlayableContentManagerContext {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type MPPlayableContentManagerContext;
+}
 
 #[cfg(feature = "MediaPlayer_MPPlayableContentManagerContext")]
 unsafe impl NSObjectProtocol for MPPlayableContentManagerContext {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPPlayableContentManagerContext")]
-    unsafe impl MPPlayableContentManagerContext {
-        #[method(enforcedContentItemsCount)]
-        pub unsafe fn enforcedContentItemsCount(&self) -> NSInteger;
+    #[deprecated = "Use CarPlay framework"]
+    pub type MPPlayableContentManagerContext;
 
-        #[method(enforcedContentTreeDepth)]
-        pub unsafe fn enforcedContentTreeDepth(&self) -> NSInteger;
+    #[objc2::method(sel = "enforcedContentItemsCount")]
+    pub unsafe fn enforcedContentItemsCount(&self) -> NSInteger;
 
-        #[method(contentLimitsEnforced)]
-        pub unsafe fn contentLimitsEnforced(&self) -> bool;
+    #[objc2::method(sel = "enforcedContentTreeDepth")]
+    pub unsafe fn enforcedContentTreeDepth(&self) -> NSInteger;
 
-        #[deprecated]
-        #[method(contentLimitsEnabled)]
-        pub unsafe fn contentLimitsEnabled(&self) -> bool;
+    #[objc2::method(sel = "contentLimitsEnforced")]
+    pub unsafe fn contentLimitsEnforced(&self) -> bool;
 
-        #[method(endpointAvailable)]
-        pub unsafe fn endpointAvailable(&self) -> bool;
-    }
-);
+    #[deprecated]
+    #[objc2::method(sel = "contentLimitsEnabled")]
+    pub unsafe fn contentLimitsEnabled(&self) -> bool;
+
+    #[objc2::method(sel = "endpointAvailable")]
+    pub unsafe fn endpointAvailable(&self) -> bool;
+}

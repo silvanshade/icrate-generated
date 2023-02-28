@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLLinkElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLLinkElement;
-
     #[cfg(feature = "WebKit_DOMHTMLLinkElement")]
-    unsafe impl ClassType for DOMHTMLLinkElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLLinkElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLLinkElement")]
 unsafe impl DOMEventTarget for DOMHTMLLinkElement {}
@@ -24,85 +28,89 @@ unsafe impl DOMEventTarget for DOMHTMLLinkElement {}
 #[cfg(feature = "WebKit_DOMHTMLLinkElement")]
 unsafe impl NSObjectProtocol for DOMHTMLLinkElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLLinkElement")]
-    unsafe impl DOMHTMLLinkElement {
-        #[method(disabled)]
-        pub unsafe fn disabled(&self) -> bool;
+    #[deprecated]
+    pub type DOMHTMLLinkElement;
 
-        #[method(setDisabled:)]
-        pub unsafe fn setDisabled(&self, disabled: bool);
+    #[objc2::method(sel = "disabled")]
+    pub unsafe fn disabled(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other charset)]
-        pub unsafe fn charset(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setDisabled:")]
+    pub unsafe fn setDisabled(&self, disabled: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCharset:)]
-        pub unsafe fn setCharset(&self, charset: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "charset", managed = "Other")]
+    pub unsafe fn charset(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other href)]
-        pub unsafe fn href(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCharset:")]
+    pub unsafe fn setCharset(&self, charset: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setHref:)]
-        pub unsafe fn setHref(&self, href: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "href", managed = "Other")]
+    pub unsafe fn href(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other hreflang)]
-        pub unsafe fn hreflang(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setHref:")]
+    pub unsafe fn setHref(&self, href: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setHreflang:)]
-        pub unsafe fn setHreflang(&self, hreflang: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "hreflang", managed = "Other")]
+    pub unsafe fn hreflang(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other media)]
-        pub unsafe fn media(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setHreflang:")]
+    pub unsafe fn setHreflang(&self, hreflang: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMedia:)]
-        pub unsafe fn setMedia(&self, media: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "media", managed = "Other")]
+    pub unsafe fn media(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other rel)]
-        pub unsafe fn rel(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMedia:")]
+    pub unsafe fn setMedia(&self, media: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setRel:)]
-        pub unsafe fn setRel(&self, rel: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "rel", managed = "Other")]
+    pub unsafe fn rel(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other rev)]
-        pub unsafe fn rev(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setRel:")]
+    pub unsafe fn setRel(&self, rel: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setRev:)]
-        pub unsafe fn setRev(&self, rev: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "rev", managed = "Other")]
+    pub unsafe fn rev(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other target)]
-        pub unsafe fn target(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setRev:")]
+    pub unsafe fn setRev(&self, rev: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTarget:)]
-        pub unsafe fn setTarget(&self, target: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "target", managed = "Other")]
+    pub unsafe fn target(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other type)]
-        pub unsafe fn r#type(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTarget:")]
+    pub unsafe fn setTarget(&self, target: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setType:)]
-        pub unsafe fn setType(&self, r#type: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "type", managed = "Other")]
+    pub unsafe fn r#type(&self) -> Id<NSString>;
 
-        #[cfg(feature = "WebKit_DOMStyleSheet")]
-        #[method_id(@__retain_semantics Other sheet)]
-        pub unsafe fn sheet(&self) -> Option<Id<DOMStyleSheet>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setType:")]
+    pub unsafe fn setType(&self, r#type: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other absoluteLinkURL)]
-        pub unsafe fn absoluteLinkURL(&self) -> Id<NSURL>;
-    }
-);
+    #[cfg(feature = "WebKit_DOMStyleSheet")]
+    #[objc2::method(sel = "sheet", managed = "Other")]
+    pub unsafe fn sheet(&self) -> Option<Id<DOMStyleSheet>>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "absoluteLinkURL", managed = "Other")]
+    pub unsafe fn absoluteLinkURL(&self) -> Id<NSURL>;
+}

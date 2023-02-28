@@ -4,95 +4,98 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::LocalAuthentication::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "LocalAuthentication_LARightStore")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "LocalAuthentication_LARightStore")]
-    pub struct LARightStore;
-
-    #[cfg(feature = "LocalAuthentication_LARightStore")]
-    unsafe impl ClassType for LARightStore {
-        type Super = NSObject;
-    }
-);
+    pub type LARightStore;
+}
 
 #[cfg(feature = "LocalAuthentication_LARightStore")]
 unsafe impl NSObjectProtocol for LARightStore {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "LocalAuthentication_LARightStore")]
-    unsafe impl LARightStore {
-        #[method_id(@__retain_semantics Other sharedStore)]
-        pub unsafe fn sharedStore() -> Id<LARightStore>;
+    pub type LARightStore;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "LocalAuthentication_LAPersistedRight"
-        ))]
-        #[method(rightForIdentifier:completion:)]
-        pub unsafe fn rightForIdentifier_completion(
-            &self,
-            identifier: &NSString,
-            handler: &Block<(*mut LAPersistedRight, *mut NSError), ()>,
-        );
+    #[objc2::method(sel = "sharedStore", managed = "Other")]
+    pub unsafe fn sharedStore() -> Id<LARightStore>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "LocalAuthentication_LAPersistedRight",
-            feature = "LocalAuthentication_LARight"
-        ))]
-        #[method(saveRight:identifier:completion:)]
-        pub unsafe fn saveRight_identifier_completion(
-            &self,
-            right: &LARight,
-            identifier: &NSString,
-            handler: &Block<(*mut LAPersistedRight, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "LocalAuthentication_LAPersistedRight"
+    ))]
+    #[objc2::method(sel = "rightForIdentifier:completion:")]
+    pub unsafe fn rightForIdentifier_completion(
+        &self,
+        identifier: &NSString,
+        handler: &Block<(*mut LAPersistedRight, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "LocalAuthentication_LAPersistedRight",
-            feature = "LocalAuthentication_LARight"
-        ))]
-        #[method(saveRight:identifier:secret:completion:)]
-        pub unsafe fn saveRight_identifier_secret_completion(
-            &self,
-            right: &LARight,
-            identifier: &NSString,
-            secret: &NSData,
-            handler: &Block<(*mut LAPersistedRight, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "LocalAuthentication_LAPersistedRight",
+        feature = "LocalAuthentication_LARight"
+    ))]
+    #[objc2::method(sel = "saveRight:identifier:completion:")]
+    pub unsafe fn saveRight_identifier_completion(
+        &self,
+        right: &LARight,
+        identifier: &NSString,
+        handler: &Block<(*mut LAPersistedRight, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "LocalAuthentication_LAPersistedRight"
-        ))]
-        #[method(removeRight:completion:)]
-        pub unsafe fn removeRight_completion(
-            &self,
-            right: &LAPersistedRight,
-            handler: &Block<(*mut NSError,), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "LocalAuthentication_LAPersistedRight",
+        feature = "LocalAuthentication_LARight"
+    ))]
+    #[objc2::method(sel = "saveRight:identifier:secret:completion:")]
+    pub unsafe fn saveRight_identifier_secret_completion(
+        &self,
+        right: &LARight,
+        identifier: &NSString,
+        secret: &NSData,
+        handler: &Block<(*mut LAPersistedRight, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(removeRightForIdentifier:completion:)]
-        pub unsafe fn removeRightForIdentifier_completion(
-            &self,
-            identifier: &NSString,
-            handler: &Block<(*mut NSError,), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "LocalAuthentication_LAPersistedRight"
+    ))]
+    #[objc2::method(sel = "removeRight:completion:")]
+    pub unsafe fn removeRight_completion(
+        &self,
+        right: &LAPersistedRight,
+        handler: &Block<(*mut NSError,), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(removeAllRightsWithCompletion:)]
-        pub unsafe fn removeAllRightsWithCompletion(&self, handler: &Block<(*mut NSError,), ()>);
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "removeRightForIdentifier:completion:")]
+    pub unsafe fn removeRightForIdentifier_completion(
+        &self,
+        identifier: &NSString,
+        handler: &Block<(*mut NSError,), ()>,
+    );
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "removeAllRightsWithCompletion:")]
+    pub unsafe fn removeAllRightsWithCompletion(&self, handler: &Block<(*mut NSError,), ()>);
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

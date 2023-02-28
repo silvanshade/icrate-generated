@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSPropertyDescription,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSFetchedPropertyDescription")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSFetchedPropertyDescription")]
-    pub struct NSFetchedPropertyDescription;
-
-    #[cfg(feature = "CoreData_NSFetchedPropertyDescription")]
-    unsafe impl ClassType for NSFetchedPropertyDescription {
-        #[inherits(NSObject)]
-        type Super = NSPropertyDescription;
-    }
-);
+    pub type NSFetchedPropertyDescription;
+}
 
 #[cfg(feature = "CoreData_NSFetchedPropertyDescription")]
 unsafe impl NSCoding for NSFetchedPropertyDescription {}
@@ -22,15 +22,18 @@ unsafe impl NSCoding for NSFetchedPropertyDescription {}
 #[cfg(feature = "CoreData_NSFetchedPropertyDescription")]
 unsafe impl NSObjectProtocol for NSFetchedPropertyDescription {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSFetchedPropertyDescription")]
-    unsafe impl NSFetchedPropertyDescription {
-        #[cfg(feature = "CoreData_NSFetchRequest")]
-        #[method_id(@__retain_semantics Other fetchRequest)]
-        pub unsafe fn fetchRequest(&self) -> Option<Id<NSFetchRequest>>;
+    pub type NSFetchedPropertyDescription;
 
-        #[cfg(feature = "CoreData_NSFetchRequest")]
-        #[method(setFetchRequest:)]
-        pub unsafe fn setFetchRequest(&self, fetch_request: Option<&NSFetchRequest>);
-    }
-);
+    #[cfg(feature = "CoreData_NSFetchRequest")]
+    #[objc2::method(sel = "fetchRequest", managed = "Other")]
+    pub unsafe fn fetchRequest(&self) -> Option<Id<NSFetchRequest>>;
+
+    #[cfg(feature = "CoreData_NSFetchRequest")]
+    #[objc2::method(sel = "setFetchRequest:")]
+    pub unsafe fn setFetchRequest(&self, fetch_request: Option<&NSFetchRequest>);
+}

@@ -6,28 +6,27 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKWorkoutSessionState {
-        HKWorkoutSessionStateNotStarted = 1,
-        HKWorkoutSessionStateRunning = 2,
-        HKWorkoutSessionStateEnded = 3,
-        HKWorkoutSessionStatePaused = 4,
-        HKWorkoutSessionStatePrepared = 5,
-        HKWorkoutSessionStateStopped = 6,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKWorkoutSessionState {
+    HKWorkoutSessionStateNotStarted = 1,
+    HKWorkoutSessionStateRunning = 2,
+    HKWorkoutSessionStateEnded = 3,
+    HKWorkoutSessionStatePaused = 4,
+    HKWorkoutSessionStatePrepared = 5,
+    HKWorkoutSessionStateStopped = 6,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKWorkoutSession")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKWorkoutSession")]
-    pub struct HKWorkoutSession;
-
-    #[cfg(feature = "HealthKit_HKWorkoutSession")]
-    unsafe impl ClassType for HKWorkoutSession {
-        type Super = NSObject;
-    }
-);
+    pub type HKWorkoutSession;
+}
 
 #[cfg(feature = "HealthKit_HKWorkoutSession")]
 unsafe impl NSCoding for HKWorkoutSession {}
@@ -38,183 +37,187 @@ unsafe impl NSObjectProtocol for HKWorkoutSession {}
 #[cfg(feature = "HealthKit_HKWorkoutSession")]
 unsafe impl NSSecureCoding for HKWorkoutSession {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKWorkoutSession")]
-    unsafe impl HKWorkoutSession {
-        #[deprecated]
-        #[method(activityType)]
-        pub unsafe fn activityType(&self) -> HKWorkoutActivityType;
+    pub type HKWorkoutSession;
 
-        #[deprecated]
-        #[method(locationType)]
-        pub unsafe fn locationType(&self) -> HKWorkoutSessionLocationType;
+    #[deprecated]
+    #[objc2::method(sel = "activityType")]
+    pub unsafe fn activityType(&self) -> HKWorkoutActivityType;
 
-        #[cfg(feature = "HealthKit_HKWorkoutConfiguration")]
-        #[method_id(@__retain_semantics Other workoutConfiguration)]
-        pub unsafe fn workoutConfiguration(&self) -> Id<HKWorkoutConfiguration>;
+    #[deprecated]
+    #[objc2::method(sel = "locationType")]
+    pub unsafe fn locationType(&self) -> HKWorkoutSessionLocationType;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn HKWorkoutSessionDelegate>>>;
+    #[cfg(feature = "HealthKit_HKWorkoutConfiguration")]
+    #[objc2::method(sel = "workoutConfiguration", managed = "Other")]
+    pub unsafe fn workoutConfiguration(&self) -> Id<HKWorkoutConfiguration>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn HKWorkoutSessionDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn HKWorkoutSessionDelegate>>>;
 
-        #[method(state)]
-        pub unsafe fn state(&self) -> HKWorkoutSessionState;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn HKWorkoutSessionDelegate>>,
+    );
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other startDate)]
-        pub unsafe fn startDate(&self) -> Option<Id<NSDate>>;
+    #[objc2::method(sel = "state")]
+    pub unsafe fn state(&self) -> HKWorkoutSessionState;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other endDate)]
-        pub unsafe fn endDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "startDate", managed = "Other")]
+    pub unsafe fn startDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "HealthKit_HKWorkoutActivity")]
-        #[method_id(@__retain_semantics Other currentActivity)]
-        pub unsafe fn currentActivity(&self) -> Id<HKWorkoutActivity>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "endDate", managed = "Other")]
+    pub unsafe fn endDate(&self) -> Option<Id<NSDate>>;
 
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithActivityType:locationType:)]
-        pub unsafe fn initWithActivityType_locationType(
-            this: Option<Allocated<Self>>,
-            activity_type: HKWorkoutActivityType,
-            location_type: HKWorkoutSessionLocationType,
-        ) -> Id<Self>;
+    #[cfg(feature = "HealthKit_HKWorkoutActivity")]
+    #[objc2::method(sel = "currentActivity", managed = "Other")]
+    pub unsafe fn currentActivity(&self) -> Id<HKWorkoutActivity>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKWorkoutConfiguration"
-        ))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithConfiguration:error:_)]
-        pub unsafe fn initWithConfiguration_error(
-            this: Option<Allocated<Self>>,
-            workout_configuration: &HKWorkoutConfiguration,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[deprecated]
+    #[objc2::method(sel = "initWithActivityType:locationType:", managed = "Init")]
+    pub unsafe fn initWithActivityType_locationType(
+        this: Option<Allocated<Self>>,
+        activity_type: HKWorkoutActivityType,
+        location_type: HKWorkoutSessionLocationType,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKHealthStore",
-            feature = "HealthKit_HKWorkoutConfiguration"
-        ))]
-        #[method_id(@__retain_semantics Init initWithHealthStore:configuration:error:_)]
-        pub unsafe fn initWithHealthStore_configuration_error(
-            this: Option<Allocated<Self>>,
-            health_store: &HKHealthStore,
-            workout_configuration: &HKWorkoutConfiguration,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKWorkoutConfiguration"
+    ))]
+    #[deprecated]
+    #[objc2::method(sel = "initWithConfiguration:error:", managed = "Init", throws)]
+    pub unsafe fn initWithConfiguration_error(
+        this: Option<Allocated<Self>>,
+        workout_configuration: &HKWorkoutConfiguration,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKHealthStore",
+        feature = "HealthKit_HKWorkoutConfiguration"
+    ))]
+    #[objc2::method(
+        sel = "initWithHealthStore:configuration:error:",
+        managed = "Init",
+        throws
+    )]
+    pub unsafe fn initWithHealthStore_configuration_error(
+        this: Option<Allocated<Self>>,
+        health_store: &HKHealthStore,
+        workout_configuration: &HKWorkoutConfiguration,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[method(prepare)]
-        pub unsafe fn prepare(&self);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(startActivityWithDate:)]
-        pub unsafe fn startActivityWithDate(&self, date: Option<&NSDate>);
+    #[objc2::method(sel = "prepare")]
+    pub unsafe fn prepare(&self);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(stopActivityWithDate:)]
-        pub unsafe fn stopActivityWithDate(&self, date: Option<&NSDate>);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "startActivityWithDate:")]
+    pub unsafe fn startActivityWithDate(&self, date: Option<&NSDate>);
 
-        #[method(end)]
-        pub unsafe fn end(&self);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "stopActivityWithDate:")]
+    pub unsafe fn stopActivityWithDate(&self, date: Option<&NSDate>);
 
-        #[method(pause)]
-        pub unsafe fn pause(&self);
+    #[objc2::method(sel = "end")]
+    pub unsafe fn end(&self);
 
-        #[method(resume)]
-        pub unsafe fn resume(&self);
+    #[objc2::method(sel = "pause")]
+    pub unsafe fn pause(&self);
 
-        #[cfg(feature = "HealthKit_HKLiveWorkoutBuilder")]
-        #[method_id(@__retain_semantics Other associatedWorkoutBuilder)]
-        pub unsafe fn associatedWorkoutBuilder(&self) -> Id<HKLiveWorkoutBuilder>;
+    #[objc2::method(sel = "resume")]
+    pub unsafe fn resume(&self);
 
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "HealthKit_HKWorkoutConfiguration"
-        ))]
-        #[method(beginNewActivityWithConfiguration:date:metadata:)]
-        pub unsafe fn beginNewActivityWithConfiguration_date_metadata(
-            &self,
-            workout_configuration: &HKWorkoutConfiguration,
-            date: &NSDate,
-            metadata: Option<&NSDictionary<NSString, Object>>,
-        );
+    #[cfg(feature = "HealthKit_HKLiveWorkoutBuilder")]
+    #[objc2::method(sel = "associatedWorkoutBuilder", managed = "Other")]
+    pub unsafe fn associatedWorkoutBuilder(&self) -> Id<HKLiveWorkoutBuilder>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(endCurrentActivityOnDate:)]
-        pub unsafe fn endCurrentActivityOnDate(&self, date: &NSDate);
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "HealthKit_HKWorkoutConfiguration"
+    ))]
+    #[objc2::method(sel = "beginNewActivityWithConfiguration:date:metadata:")]
+    pub unsafe fn beginNewActivityWithConfiguration_date_metadata(
+        &self,
+        workout_configuration: &HKWorkoutConfiguration,
+        date: &NSDate,
+        metadata: Option<&NSDictionary<NSString, Object>>,
+    );
 
-extern_protocol!(
-    pub unsafe trait HKWorkoutSessionDelegate: NSObjectProtocol {
-        #[cfg(all(feature = "Foundation_NSDate", feature = "HealthKit_HKWorkoutSession"))]
-        #[method(workoutSession:didChangeToState:fromState:date:)]
-        unsafe fn workoutSession_didChangeToState_fromState_date(
-            &self,
-            workout_session: &HKWorkoutSession,
-            to_state: HKWorkoutSessionState,
-            from_state: HKWorkoutSessionState,
-            date: &NSDate,
-        );
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "endCurrentActivityOnDate:")]
+    pub unsafe fn endCurrentActivityOnDate(&self, date: &NSDate);
+}
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "HealthKit_HKWorkoutSession"))]
-        #[method(workoutSession:didFailWithError:)]
-        unsafe fn workoutSession_didFailWithError(
-            &self,
-            workout_session: &HKWorkoutSession,
-            error: &NSError,
-        );
+#[objc2::protocol]
+pub unsafe trait HKWorkoutSessionDelegate: NSObjectProtocol {
+    #[cfg(all(feature = "Foundation_NSDate", feature = "HealthKit_HKWorkoutSession"))]
+    #[objc2::method(sel = "workoutSession:didChangeToState:fromState:date:")]
+    unsafe fn workoutSession_didChangeToState_fromState_date(
+        &self,
+        workout_session: &HKWorkoutSession,
+        to_state: HKWorkoutSessionState,
+        from_state: HKWorkoutSessionState,
+        date: &NSDate,
+    );
 
-        #[cfg(all(
-            feature = "HealthKit_HKWorkoutEvent",
-            feature = "HealthKit_HKWorkoutSession"
-        ))]
-        #[optional]
-        #[method(workoutSession:didGenerateEvent:)]
-        unsafe fn workoutSession_didGenerateEvent(
-            &self,
-            workout_session: &HKWorkoutSession,
-            event: &HKWorkoutEvent,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "HealthKit_HKWorkoutSession"))]
+    #[objc2::method(sel = "workoutSession:didFailWithError:")]
+    unsafe fn workoutSession_didFailWithError(
+        &self,
+        workout_session: &HKWorkoutSession,
+        error: &NSError,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "HealthKit_HKWorkoutConfiguration",
-            feature = "HealthKit_HKWorkoutSession"
-        ))]
-        #[optional]
-        #[method(workoutSession:didBeginActivityWithConfiguration:date:)]
-        unsafe fn workoutSession_didBeginActivityWithConfiguration_date(
-            &self,
-            workout_session: &HKWorkoutSession,
-            workout_configuration: &HKWorkoutConfiguration,
-            date: &NSDate,
-        );
+    #[cfg(all(
+        feature = "HealthKit_HKWorkoutEvent",
+        feature = "HealthKit_HKWorkoutSession"
+    ))]
+    #[objc2::method(optional, sel = "workoutSession:didGenerateEvent:")]
+    unsafe fn workoutSession_didGenerateEvent(
+        &self,
+        workout_session: &HKWorkoutSession,
+        event: &HKWorkoutEvent,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "HealthKit_HKWorkoutConfiguration",
-            feature = "HealthKit_HKWorkoutSession"
-        ))]
-        #[optional]
-        #[method(workoutSession:didEndActivityWithConfiguration:date:)]
-        unsafe fn workoutSession_didEndActivityWithConfiguration_date(
-            &self,
-            workout_session: &HKWorkoutSession,
-            workout_configuration: &HKWorkoutConfiguration,
-            date: &NSDate,
-        );
-    }
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "HealthKit_HKWorkoutConfiguration",
+        feature = "HealthKit_HKWorkoutSession"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "workoutSession:didBeginActivityWithConfiguration:date:"
+    )]
+    unsafe fn workoutSession_didBeginActivityWithConfiguration_date(
+        &self,
+        workout_session: &HKWorkoutSession,
+        workout_configuration: &HKWorkoutConfiguration,
+        date: &NSDate,
+    );
 
-    unsafe impl ProtocolType for dyn HKWorkoutSessionDelegate {}
-);
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "HealthKit_HKWorkoutConfiguration",
+        feature = "HealthKit_HKWorkoutSession"
+    ))]
+    #[objc2::method(optional, sel = "workoutSession:didEndActivityWithConfiguration:date:")]
+    unsafe fn workoutSession_didEndActivityWithConfiguration_date(
+        &self,
+        workout_session: &HKWorkoutSession,
+        workout_configuration: &HKWorkoutConfiguration,
+        date: &NSDate,
+    );
+}

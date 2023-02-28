@@ -5,86 +5,93 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMNamedNodeMap")]
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMNamedNodeMap;
-
     #[cfg(feature = "WebKit_DOMNamedNodeMap")]
-    unsafe impl ClassType for DOMNamedNodeMap {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMNamedNodeMap;
+}
 
 #[cfg(feature = "WebKit_DOMNamedNodeMap")]
 unsafe impl NSObjectProtocol for DOMNamedNodeMap {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMNamedNodeMap")]
-    unsafe impl DOMNamedNodeMap {
-        #[method(length)]
-        pub unsafe fn length(&self) -> c_uint;
+    #[deprecated]
+    pub type DOMNamedNodeMap;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNode"))]
-        #[method_id(@__retain_semantics Other getNamedItem:)]
-        pub unsafe fn getNamedItem(&self, name: Option<&NSString>) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "length")]
+    pub unsafe fn length(&self) -> c_uint;
 
-        #[cfg(feature = "WebKit_DOMNode")]
-        #[method_id(@__retain_semantics Other setNamedItem:)]
-        pub unsafe fn setNamedItem(&self, node: Option<&DOMNode>) -> Option<Id<DOMNode>>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNode"))]
+    #[objc2::method(sel = "getNamedItem:", managed = "Other")]
+    pub unsafe fn getNamedItem(&self, name: Option<&NSString>) -> Option<Id<DOMNode>>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNode"))]
-        #[method_id(@__retain_semantics Other removeNamedItem:)]
-        pub unsafe fn removeNamedItem(&self, name: Option<&NSString>) -> Option<Id<DOMNode>>;
+    #[cfg(feature = "WebKit_DOMNode")]
+    #[objc2::method(sel = "setNamedItem:", managed = "Other")]
+    pub unsafe fn setNamedItem(&self, node: Option<&DOMNode>) -> Option<Id<DOMNode>>;
 
-        #[cfg(feature = "WebKit_DOMNode")]
-        #[method_id(@__retain_semantics Other item:)]
-        pub unsafe fn item(&self, index: c_uint) -> Option<Id<DOMNode>>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNode"))]
+    #[objc2::method(sel = "removeNamedItem:", managed = "Other")]
+    pub unsafe fn removeNamedItem(&self, name: Option<&NSString>) -> Option<Id<DOMNode>>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNode"))]
-        #[method_id(@__retain_semantics Other getNamedItemNS:localName:)]
-        pub unsafe fn getNamedItemNS_localName(
-            &self,
-            namespace_uri: Option<&NSString>,
-            local_name: Option<&NSString>,
-        ) -> Option<Id<DOMNode>>;
+    #[cfg(feature = "WebKit_DOMNode")]
+    #[objc2::method(sel = "item:", managed = "Other")]
+    pub unsafe fn item(&self, index: c_uint) -> Option<Id<DOMNode>>;
 
-        #[cfg(feature = "WebKit_DOMNode")]
-        #[method_id(@__retain_semantics Other setNamedItemNS:)]
-        pub unsafe fn setNamedItemNS(&self, node: Option<&DOMNode>) -> Option<Id<DOMNode>>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNode"))]
+    #[objc2::method(sel = "getNamedItemNS:localName:", managed = "Other")]
+    pub unsafe fn getNamedItemNS_localName(
+        &self,
+        namespace_uri: Option<&NSString>,
+        local_name: Option<&NSString>,
+    ) -> Option<Id<DOMNode>>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNode"))]
-        #[method_id(@__retain_semantics Other removeNamedItemNS:localName:)]
-        pub unsafe fn removeNamedItemNS_localName(
-            &self,
-            namespace_uri: Option<&NSString>,
-            local_name: Option<&NSString>,
-        ) -> Option<Id<DOMNode>>;
-    }
-);
+    #[cfg(feature = "WebKit_DOMNode")]
+    #[objc2::method(sel = "setNamedItemNS:", managed = "Other")]
+    pub unsafe fn setNamedItemNS(&self, node: Option<&DOMNode>) -> Option<Id<DOMNode>>;
 
-extern_methods!(
-    /// DOMNamedNodeMapDeprecated
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNode"))]
+    #[objc2::method(sel = "removeNamedItemNS:localName:", managed = "Other")]
+    pub unsafe fn removeNamedItemNS_localName(
+        &self,
+        namespace_uri: Option<&NSString>,
+        local_name: Option<&NSString>,
+    ) -> Option<Id<DOMNode>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMNamedNodeMap")]
-    unsafe impl DOMNamedNodeMap {
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNode"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other getNamedItemNS::)]
-        pub unsafe fn getNamedItemNS(
-            &self,
-            namespace_uri: Option<&NSString>,
-            local_name: Option<&NSString>,
-        ) -> Option<Id<DOMNode>>;
+    pub type DOMNamedNodeMap;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNode"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other removeNamedItemNS::)]
-        pub unsafe fn removeNamedItemNS(
-            &self,
-            namespace_uri: Option<&NSString>,
-            local_name: Option<&NSString>,
-        ) -> Option<Id<DOMNode>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNode"))]
+    #[deprecated]
+    #[objc2::method(sel = "getNamedItemNS::", managed = "Other")]
+    pub unsafe fn getNamedItemNS(
+        &self,
+        namespace_uri: Option<&NSString>,
+        local_name: Option<&NSString>,
+    ) -> Option<Id<DOMNode>>;
+
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMNode"))]
+    #[deprecated]
+    #[objc2::method(sel = "removeNamedItemNS::", managed = "Other")]
+    pub unsafe fn removeNamedItemNS(
+        &self,
+        namespace_uri: Option<&NSString>,
+        local_name: Option<&NSString>,
+    ) -> Option<Id<DOMNode>>;
+}

@@ -4,87 +4,82 @@ use crate::common::*;
 use crate::ExternalAccessory::*;
 use crate::Foundation::*;
 
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        EAConnectionIDNone = 0,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    EAConnectionIDNone = 0,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "ExternalAccessory_EAAccessory")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "ExternalAccessory_EAAccessory")]
-    pub struct EAAccessory;
-
-    #[cfg(feature = "ExternalAccessory_EAAccessory")]
-    unsafe impl ClassType for EAAccessory {
-        type Super = NSObject;
-    }
-);
+    pub type EAAccessory;
+}
 
 #[cfg(feature = "ExternalAccessory_EAAccessory")]
 unsafe impl NSObjectProtocol for EAAccessory {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ExternalAccessory_EAAccessory")]
-    unsafe impl EAAccessory {
-        #[method(isConnected)]
-        pub unsafe fn isConnected(&self) -> bool;
+    pub type EAAccessory;
 
-        #[method(connectionID)]
-        pub unsafe fn connectionID(&self) -> NSUInteger;
+    #[objc2::method(sel = "isConnected")]
+    pub unsafe fn isConnected(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other manufacturer)]
-        pub unsafe fn manufacturer(&self) -> Id<NSString>;
+    #[objc2::method(sel = "connectionID")]
+    pub unsafe fn connectionID(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "manufacturer", managed = "Other")]
+    pub unsafe fn manufacturer(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other modelNumber)]
-        pub unsafe fn modelNumber(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other serialNumber)]
-        pub unsafe fn serialNumber(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "modelNumber", managed = "Other")]
+    pub unsafe fn modelNumber(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other firmwareRevision)]
-        pub unsafe fn firmwareRevision(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "serialNumber", managed = "Other")]
+    pub unsafe fn serialNumber(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other hardwareRevision)]
-        pub unsafe fn hardwareRevision(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "firmwareRevision", managed = "Other")]
+    pub unsafe fn firmwareRevision(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Not supported"]
-        #[method_id(@__retain_semantics Other dockType)]
-        pub unsafe fn dockType(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "hardwareRevision", managed = "Other")]
+    pub unsafe fn hardwareRevision(&self) -> Id<NSString>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other protocolStrings)]
-        pub unsafe fn protocolStrings(&self) -> Id<NSArray<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Not supported"]
+    #[objc2::method(sel = "dockType", managed = "Other")]
+    pub unsafe fn dockType(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn EAAccessoryDelegate>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "protocolStrings", managed = "Other")]
+    pub unsafe fn protocolStrings(&self) -> Id<NSArray<NSString>>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn EAAccessoryDelegate>>,
-        );
-    }
-);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn EAAccessoryDelegate>>>;
 
-extern_protocol!(
-    pub unsafe trait EAAccessoryDelegate: NSObjectProtocol {
-        #[cfg(feature = "ExternalAccessory_EAAccessory")]
-        #[optional]
-        #[method(accessoryDidDisconnect:)]
-        unsafe fn accessoryDidDisconnect(&self, accessory: &EAAccessory);
-    }
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn EAAccessoryDelegate>>);
+}
 
-    unsafe impl ProtocolType for dyn EAAccessoryDelegate {}
-);
+#[objc2::protocol]
+pub unsafe trait EAAccessoryDelegate: NSObjectProtocol {
+    #[cfg(feature = "ExternalAccessory_EAAccessory")]
+    #[objc2::method(optional, sel = "accessoryDidDisconnect:")]
+    unsafe fn accessoryDidDisconnect(&self, accessory: &EAAccessory);
+}

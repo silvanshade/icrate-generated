@@ -3,16 +3,16 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSPersonNameComponents")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSPersonNameComponents")]
-    pub struct NSPersonNameComponents;
-
-    #[cfg(feature = "Foundation_NSPersonNameComponents")]
-    unsafe impl ClassType for NSPersonNameComponents {
-        type Super = NSObject;
-    }
-);
+    pub type NSPersonNameComponents;
+}
 
 #[cfg(feature = "Foundation_NSPersonNameComponents")]
 unsafe impl NSCoding for NSPersonNameComponents {}
@@ -23,64 +23,67 @@ unsafe impl NSObjectProtocol for NSPersonNameComponents {}
 #[cfg(feature = "Foundation_NSPersonNameComponents")]
 unsafe impl NSSecureCoding for NSPersonNameComponents {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSPersonNameComponents")]
-    unsafe impl NSPersonNameComponents {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other namePrefix)]
-        pub unsafe fn namePrefix(&self) -> Option<Id<NSString>>;
+    pub type NSPersonNameComponents;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setNamePrefix:)]
-        pub unsafe fn setNamePrefix(&self, name_prefix: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "namePrefix", managed = "Other")]
+    pub unsafe fn namePrefix(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other givenName)]
-        pub unsafe fn givenName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setNamePrefix:")]
+    pub unsafe fn setNamePrefix(&self, name_prefix: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setGivenName:)]
-        pub unsafe fn setGivenName(&self, given_name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "givenName", managed = "Other")]
+    pub unsafe fn givenName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other middleName)]
-        pub unsafe fn middleName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setGivenName:")]
+    pub unsafe fn setGivenName(&self, given_name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMiddleName:)]
-        pub unsafe fn setMiddleName(&self, middle_name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "middleName", managed = "Other")]
+    pub unsafe fn middleName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other familyName)]
-        pub unsafe fn familyName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMiddleName:")]
+    pub unsafe fn setMiddleName(&self, middle_name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setFamilyName:)]
-        pub unsafe fn setFamilyName(&self, family_name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "familyName", managed = "Other")]
+    pub unsafe fn familyName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other nameSuffix)]
-        pub unsafe fn nameSuffix(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setFamilyName:")]
+    pub unsafe fn setFamilyName(&self, family_name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setNameSuffix:)]
-        pub unsafe fn setNameSuffix(&self, name_suffix: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "nameSuffix", managed = "Other")]
+    pub unsafe fn nameSuffix(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other nickname)]
-        pub unsafe fn nickname(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setNameSuffix:")]
+    pub unsafe fn setNameSuffix(&self, name_suffix: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setNickname:)]
-        pub unsafe fn setNickname(&self, nickname: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "nickname", managed = "Other")]
+    pub unsafe fn nickname(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other phoneticRepresentation)]
-        pub unsafe fn phoneticRepresentation(&self) -> Option<Id<NSPersonNameComponents>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setNickname:")]
+    pub unsafe fn setNickname(&self, nickname: Option<&NSString>);
 
-        #[method(setPhoneticRepresentation:)]
-        pub unsafe fn setPhoneticRepresentation(
-            &self,
-            phonetic_representation: Option<&NSPersonNameComponents>,
-        );
-    }
-);
+    #[objc2::method(sel = "phoneticRepresentation", managed = "Other")]
+    pub unsafe fn phoneticRepresentation(&self) -> Option<Id<NSPersonNameComponents>>;
+
+    #[objc2::method(sel = "setPhoneticRepresentation:")]
+    pub unsafe fn setPhoneticRepresentation(
+        &self,
+        phonetic_representation: Option<&NSPersonNameComponents>,
+    );
+}

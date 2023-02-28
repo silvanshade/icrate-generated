@@ -6,16 +6,16 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKVerifiableClinicalRecordSubject")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKVerifiableClinicalRecordSubject")]
-    pub struct HKVerifiableClinicalRecordSubject;
-
-    #[cfg(feature = "HealthKit_HKVerifiableClinicalRecordSubject")]
-    unsafe impl ClassType for HKVerifiableClinicalRecordSubject {
-        type Super = NSObject;
-    }
-);
+    pub type HKVerifiableClinicalRecordSubject;
+}
 
 #[cfg(feature = "HealthKit_HKVerifiableClinicalRecordSubject")]
 unsafe impl NSCoding for HKVerifiableClinicalRecordSubject {}
@@ -26,21 +26,24 @@ unsafe impl NSObjectProtocol for HKVerifiableClinicalRecordSubject {}
 #[cfg(feature = "HealthKit_HKVerifiableClinicalRecordSubject")]
 unsafe impl NSSecureCoding for HKVerifiableClinicalRecordSubject {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKVerifiableClinicalRecordSubject")]
-    unsafe impl HKVerifiableClinicalRecordSubject {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fullName)]
-        pub unsafe fn fullName(&self) -> Id<NSString>;
+    pub type HKVerifiableClinicalRecordSubject;
 
-        #[cfg(feature = "Foundation_NSDateComponents")]
-        #[method_id(@__retain_semantics Other dateOfBirthComponents)]
-        pub unsafe fn dateOfBirthComponents(&self) -> Option<Id<NSDateComponents>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fullName", managed = "Other")]
+    pub unsafe fn fullName(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSDateComponents")]
+    #[objc2::method(sel = "dateOfBirthComponents", managed = "Other")]
+    pub unsafe fn dateOfBirthComponents(&self) -> Option<Id<NSDateComponents>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

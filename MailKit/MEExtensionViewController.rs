@@ -5,17 +5,18 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MailKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSViewController,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MailKit_MEExtensionViewController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MailKit_MEExtensionViewController")]
-    pub struct MEExtensionViewController;
-
-    #[cfg(feature = "MailKit_MEExtensionViewController")]
-    unsafe impl ClassType for MEExtensionViewController {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSViewController;
-    }
-);
+    pub type MEExtensionViewController;
+}
 
 #[cfg(feature = "MailKit_MEExtensionViewController")]
 unsafe impl NSCoding for MEExtensionViewController {}
@@ -32,21 +33,30 @@ unsafe impl NSSeguePerforming for MEExtensionViewController {}
 #[cfg(feature = "MailKit_MEExtensionViewController")]
 unsafe impl NSUserInterfaceItemIdentification for MEExtensionViewController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MailKit_MEExtensionViewController")]
-    unsafe impl MEExtensionViewController {}
-);
+    pub type MEExtensionViewController;
+}
 
-extern_methods!(
-    /// Methods declared on superclass `NSViewController`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSViewController`
     #[cfg(feature = "MailKit_MEExtensionViewController")]
-    unsafe impl MEExtensionViewController {
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Init initWithNibName:bundle:)]
-        pub unsafe fn initWithNibName_bundle(
-            this: Option<Allocated<Self>>,
-            nib_name_or_nil: Option<&NSNibName>,
-            nib_bundle_or_nil: Option<&NSBundle>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MailKit_MEExtensionViewController")]
+    pub type MEExtensionViewController;
+
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "initWithNibName:bundle:", managed = "Init")]
+    pub unsafe fn initWithNibName_bundle(
+        this: Option<Allocated<Self>>,
+        nib_name_or_nil: Option<&NSNibName>,
+        nib_bundle_or_nil: Option<&NSBundle>,
+    ) -> Id<Self>;
+}

@@ -5,25 +5,24 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSTabState {
-        NSSelectedTab = 0,
-        NSBackgroundTab = 1,
-        NSPressedTab = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSTabState {
+    NSSelectedTab = 0,
+    NSBackgroundTab = 1,
+    NSPressedTab = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTabViewItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTabViewItem")]
-    pub struct NSTabViewItem;
-
-    #[cfg(feature = "AppKit_NSTabViewItem")]
-    unsafe impl ClassType for NSTabViewItem {
-        type Super = NSObject;
-    }
-);
+    pub type NSTabViewItem;
+}
 
 #[cfg(feature = "AppKit_NSTabViewItem")]
 unsafe impl NSCoding for NSTabViewItem {}
@@ -31,93 +30,95 @@ unsafe impl NSCoding for NSTabViewItem {}
 #[cfg(feature = "AppKit_NSTabViewItem")]
 unsafe impl NSObjectProtocol for NSTabViewItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTabViewItem")]
-    unsafe impl NSTabViewItem {
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other tabViewItemWithViewController:)]
-        pub unsafe fn tabViewItemWithViewController(view_controller: &NSViewController)
-            -> Id<Self>;
+    pub type NSTabViewItem;
 
-        #[method_id(@__retain_semantics Init initWithIdentifier:)]
-        pub unsafe fn initWithIdentifier(
-            this: Option<Allocated<Self>>,
-            identifier: Option<&Object>,
-        ) -> Id<Self>;
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "tabViewItemWithViewController:", managed = "Other")]
+    pub unsafe fn tabViewItemWithViewController(view_controller: &NSViewController) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "initWithIdentifier:", managed = "Init")]
+    pub unsafe fn initWithIdentifier(
+        this: Option<Allocated<Self>>,
+        identifier: Option<&Object>,
+    ) -> Id<Self>;
 
-        #[method(setIdentifier:)]
-        pub unsafe fn setIdentifier(&self, identifier: Option<&Object>);
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Option<Id<Object>>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other color)]
-        pub unsafe fn color(&self) -> Id<NSColor>;
+    #[objc2::method(sel = "setIdentifier:")]
+    pub unsafe fn setIdentifier(&self, identifier: Option<&Object>);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setColor:)]
-        pub unsafe fn setColor(&self, color: &NSColor);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "color", managed = "Other")]
+    pub unsafe fn color(&self) -> Id<NSColor>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        pub unsafe fn label(&self) -> Id<NSString>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setColor:")]
+    pub unsafe fn setColor(&self, color: &NSColor);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        pub unsafe fn setLabel(&self, label: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    pub unsafe fn label(&self) -> Id<NSString>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    pub unsafe fn setLabel(&self, label: &NSString);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setImage:)]
-        pub unsafe fn setImage(&self, image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Option<Id<NSImage>>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other view)]
-        pub unsafe fn view(&self) -> Option<Id<NSView>>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setImage:")]
+    pub unsafe fn setImage(&self, image: Option<&NSImage>);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setView:)]
-        pub unsafe fn setView(&self, view: Option<&NSView>);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "view", managed = "Other")]
+    pub unsafe fn view(&self) -> Option<Id<NSView>>;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other viewController)]
-        pub unsafe fn viewController(&self) -> Option<Id<NSViewController>>;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setView:")]
+    pub unsafe fn setView(&self, view: Option<&NSView>);
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method(setViewController:)]
-        pub unsafe fn setViewController(&self, view_controller: Option<&NSViewController>);
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "viewController", managed = "Other")]
+    pub unsafe fn viewController(&self) -> Option<Id<NSViewController>>;
 
-        #[method(tabState)]
-        pub unsafe fn tabState(&self) -> NSTabState;
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "setViewController:")]
+    pub unsafe fn setViewController(&self, view_controller: Option<&NSViewController>);
 
-        #[cfg(feature = "AppKit_NSTabView")]
-        #[method_id(@__retain_semantics Other tabView)]
-        pub unsafe fn tabView(&self) -> Option<Id<NSTabView>>;
+    #[objc2::method(sel = "tabState")]
+    pub unsafe fn tabState(&self) -> NSTabState;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other initialFirstResponder)]
-        pub unsafe fn initialFirstResponder(&self) -> Option<Id<NSView>>;
+    #[cfg(feature = "AppKit_NSTabView")]
+    #[objc2::method(sel = "tabView", managed = "Other")]
+    pub unsafe fn tabView(&self) -> Option<Id<NSTabView>>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setInitialFirstResponder:)]
-        pub unsafe fn setInitialFirstResponder(&self, initial_first_responder: Option<&NSView>);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "initialFirstResponder", managed = "Other")]
+    pub unsafe fn initialFirstResponder(&self) -> Option<Id<NSView>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other toolTip)]
-        pub unsafe fn toolTip(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setInitialFirstResponder:")]
+    pub unsafe fn setInitialFirstResponder(&self, initial_first_responder: Option<&NSView>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setToolTip:)]
-        pub unsafe fn setToolTip(&self, tool_tip: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "toolTip", managed = "Other")]
+    pub unsafe fn toolTip(&self) -> Option<Id<NSString>>;
 
-        #[method(drawLabel:inRect:)]
-        pub unsafe fn drawLabel_inRect(&self, should_truncate_label: bool, label_rect: NSRect);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setToolTip:")]
+    pub unsafe fn setToolTip(&self, tool_tip: Option<&NSString>);
 
-        #[method(sizeOfLabel:)]
-        pub unsafe fn sizeOfLabel(&self, compute_min: bool) -> NSSize;
-    }
-);
+    #[objc2::method(sel = "drawLabel:inRect:")]
+    pub unsafe fn drawLabel_inRect(&self, should_truncate_label: bool, label_rect: NSRect);
+
+    #[objc2::method(sel = "sizeOfLabel:")]
+    pub unsafe fn sizeOfLabel(&self, compute_min: bool) -> NSSize;
+}

@@ -5,37 +5,35 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSTextLayoutManagerSegmentType {
-        NSTextLayoutManagerSegmentTypeStandard = 0,
-        NSTextLayoutManagerSegmentTypeSelection = 1,
-        NSTextLayoutManagerSegmentTypeHighlight = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSTextLayoutManagerSegmentType {
+    NSTextLayoutManagerSegmentTypeStandard = 0,
+    NSTextLayoutManagerSegmentTypeSelection = 1,
+    NSTextLayoutManagerSegmentTypeHighlight = 2,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSTextLayoutManagerSegmentOptions {
-        NSTextLayoutManagerSegmentOptionsNone = 0,
-        NSTextLayoutManagerSegmentOptionsRangeNotRequired = 1 << 0,
-        NSTextLayoutManagerSegmentOptionsMiddleFragmentsExcluded = 1 << 1,
-        NSTextLayoutManagerSegmentOptionsHeadSegmentExtended = 1 << 2,
-        NSTextLayoutManagerSegmentOptionsTailSegmentExtended = 1 << 3,
-        NSTextLayoutManagerSegmentOptionsUpstreamAffinity = 1 << 4,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSTextLayoutManagerSegmentOptions {
+    NSTextLayoutManagerSegmentOptionsNone = 0,
+    NSTextLayoutManagerSegmentOptionsRangeNotRequired = 1 << 0,
+    NSTextLayoutManagerSegmentOptionsMiddleFragmentsExcluded = 1 << 1,
+    NSTextLayoutManagerSegmentOptionsHeadSegmentExtended = 1 << 2,
+    NSTextLayoutManagerSegmentOptionsTailSegmentExtended = 1 << 3,
+    NSTextLayoutManagerSegmentOptionsUpstreamAffinity = 1 << 4,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextLayoutManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextLayoutManager")]
-    pub struct NSTextLayoutManager;
-
-    #[cfg(feature = "AppKit_NSTextLayoutManager")]
-    unsafe impl ClassType for NSTextLayoutManager {
-        type Super = NSObject;
-    }
-);
+    pub type NSTextLayoutManager;
+}
 
 #[cfg(feature = "AppKit_NSTextLayoutManager")]
 unsafe impl NSCoding for NSTextLayoutManager {}
@@ -49,282 +47,289 @@ unsafe impl NSSecureCoding for NSTextLayoutManager {}
 #[cfg(feature = "AppKit_NSTextLayoutManager")]
 unsafe impl NSTextSelectionDataSource for NSTextLayoutManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextLayoutManager")]
-    unsafe impl NSTextLayoutManager {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSTextLayoutManager;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn NSTextLayoutManagerDelegate>>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSTextLayoutManagerDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSTextLayoutManagerDelegate>>>;
 
-        #[method(usesFontLeading)]
-        pub unsafe fn usesFontLeading(&self) -> bool;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn NSTextLayoutManagerDelegate>>,
+    );
 
-        #[method(setUsesFontLeading:)]
-        pub unsafe fn setUsesFontLeading(&self, uses_font_leading: bool);
+    #[objc2::method(sel = "usesFontLeading")]
+    pub unsafe fn usesFontLeading(&self) -> bool;
 
-        #[method(limitsLayoutForSuspiciousContents)]
-        pub unsafe fn limitsLayoutForSuspiciousContents(&self) -> bool;
+    #[objc2::method(sel = "setUsesFontLeading:")]
+    pub unsafe fn setUsesFontLeading(&self, uses_font_leading: bool);
 
-        #[method(setLimitsLayoutForSuspiciousContents:)]
-        pub unsafe fn setLimitsLayoutForSuspiciousContents(
-            &self,
-            limits_layout_for_suspicious_contents: bool,
-        );
+    #[objc2::method(sel = "limitsLayoutForSuspiciousContents")]
+    pub unsafe fn limitsLayoutForSuspiciousContents(&self) -> bool;
 
-        #[method(usesHyphenation)]
-        pub unsafe fn usesHyphenation(&self) -> bool;
+    #[objc2::method(sel = "setLimitsLayoutForSuspiciousContents:")]
+    pub unsafe fn setLimitsLayoutForSuspiciousContents(
+        &self,
+        limits_layout_for_suspicious_contents: bool,
+    );
 
-        #[method(setUsesHyphenation:)]
-        pub unsafe fn setUsesHyphenation(&self, uses_hyphenation: bool);
+    #[objc2::method(sel = "usesHyphenation")]
+    pub unsafe fn usesHyphenation(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSTextContentManager")]
-        #[method_id(@__retain_semantics Other textContentManager)]
-        pub unsafe fn textContentManager(&self) -> Option<Id<NSTextContentManager>>;
+    #[objc2::method(sel = "setUsesHyphenation:")]
+    pub unsafe fn setUsesHyphenation(&self, uses_hyphenation: bool);
 
-        #[cfg(feature = "AppKit_NSTextContentManager")]
-        #[method(replaceTextContentManager:)]
-        pub unsafe fn replaceTextContentManager(&self, text_content_manager: &NSTextContentManager);
+    #[cfg(feature = "AppKit_NSTextContentManager")]
+    #[objc2::method(sel = "textContentManager", managed = "Other")]
+    pub unsafe fn textContentManager(&self) -> Option<Id<NSTextContentManager>>;
 
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method_id(@__retain_semantics Other textContainer)]
-        pub unsafe fn textContainer(&self) -> Option<Id<NSTextContainer>>;
+    #[cfg(feature = "AppKit_NSTextContentManager")]
+    #[objc2::method(sel = "replaceTextContentManager:")]
+    pub unsafe fn replaceTextContentManager(&self, text_content_manager: &NSTextContentManager);
 
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(setTextContainer:)]
-        pub unsafe fn setTextContainer(&self, text_container: Option<&NSTextContainer>);
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "textContainer", managed = "Other")]
+    pub unsafe fn textContainer(&self) -> Option<Id<NSTextContainer>>;
 
-        #[method(usageBoundsForTextContainer)]
-        pub unsafe fn usageBoundsForTextContainer(&self) -> CGRect;
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "setTextContainer:")]
+    pub unsafe fn setTextContainer(&self, text_container: Option<&NSTextContainer>);
 
-        #[cfg(feature = "AppKit_NSTextViewportLayoutController")]
-        #[method_id(@__retain_semantics Other textViewportLayoutController)]
-        pub unsafe fn textViewportLayoutController(&self) -> Id<NSTextViewportLayoutController>;
+    #[objc2::method(sel = "usageBoundsForTextContainer")]
+    pub unsafe fn usageBoundsForTextContainer(&self) -> CGRect;
 
-        #[cfg(feature = "Foundation_NSOperationQueue")]
-        #[method_id(@__retain_semantics Other layoutQueue)]
-        pub unsafe fn layoutQueue(&self) -> Option<Id<NSOperationQueue>>;
+    #[cfg(feature = "AppKit_NSTextViewportLayoutController")]
+    #[objc2::method(sel = "textViewportLayoutController", managed = "Other")]
+    pub unsafe fn textViewportLayoutController(&self) -> Id<NSTextViewportLayoutController>;
 
-        #[cfg(feature = "Foundation_NSOperationQueue")]
-        #[method(setLayoutQueue:)]
-        pub unsafe fn setLayoutQueue(&self, layout_queue: Option<&NSOperationQueue>);
+    #[cfg(feature = "Foundation_NSOperationQueue")]
+    #[objc2::method(sel = "layoutQueue", managed = "Other")]
+    pub unsafe fn layoutQueue(&self) -> Option<Id<NSOperationQueue>>;
 
-        #[cfg(feature = "AppKit_NSTextRange")]
-        #[method(ensureLayoutForRange:)]
-        pub unsafe fn ensureLayoutForRange(&self, range: &NSTextRange);
+    #[cfg(feature = "Foundation_NSOperationQueue")]
+    #[objc2::method(sel = "setLayoutQueue:")]
+    pub unsafe fn setLayoutQueue(&self, layout_queue: Option<&NSOperationQueue>);
 
-        #[method(ensureLayoutForBounds:)]
-        pub unsafe fn ensureLayoutForBounds(&self, bounds: CGRect);
+    #[cfg(feature = "AppKit_NSTextRange")]
+    #[objc2::method(sel = "ensureLayoutForRange:")]
+    pub unsafe fn ensureLayoutForRange(&self, range: &NSTextRange);
 
-        #[cfg(feature = "AppKit_NSTextRange")]
-        #[method(invalidateLayoutForRange:)]
-        pub unsafe fn invalidateLayoutForRange(&self, range: &NSTextRange);
+    #[objc2::method(sel = "ensureLayoutForBounds:")]
+    pub unsafe fn ensureLayoutForBounds(&self, bounds: CGRect);
 
-        #[cfg(feature = "AppKit_NSTextLayoutFragment")]
-        #[method_id(@__retain_semantics Other textLayoutFragmentForPosition:)]
-        pub unsafe fn textLayoutFragmentForPosition(
-            &self,
-            position: CGPoint,
-        ) -> Option<Id<NSTextLayoutFragment>>;
+    #[cfg(feature = "AppKit_NSTextRange")]
+    #[objc2::method(sel = "invalidateLayoutForRange:")]
+    pub unsafe fn invalidateLayoutForRange(&self, range: &NSTextRange);
 
-        #[cfg(feature = "AppKit_NSTextLayoutFragment")]
-        #[method_id(@__retain_semantics Other textLayoutFragmentForLocation:)]
-        pub unsafe fn textLayoutFragmentForLocation(
-            &self,
-            location: &ProtocolObject<dyn NSTextLocation>,
-        ) -> Option<Id<NSTextLayoutFragment>>;
+    #[cfg(feature = "AppKit_NSTextLayoutFragment")]
+    #[objc2::method(sel = "textLayoutFragmentForPosition:", managed = "Other")]
+    pub unsafe fn textLayoutFragmentForPosition(
+        &self,
+        position: CGPoint,
+    ) -> Option<Id<NSTextLayoutFragment>>;
 
-        #[cfg(feature = "AppKit_NSTextLayoutFragment")]
-        #[method_id(@__retain_semantics Other enumerateTextLayoutFragmentsFromLocation:options:usingBlock:)]
-        pub unsafe fn enumerateTextLayoutFragmentsFromLocation_options_usingBlock(
-            &self,
-            location: Option<&ProtocolObject<dyn NSTextLocation>>,
-            options: NSTextLayoutFragmentEnumerationOptions,
-            block: &Block<(NonNull<NSTextLayoutFragment>,), Bool>,
-        ) -> Option<Id<ProtocolObject<dyn NSTextLocation>>>;
+    #[cfg(feature = "AppKit_NSTextLayoutFragment")]
+    #[objc2::method(sel = "textLayoutFragmentForLocation:", managed = "Other")]
+    pub unsafe fn textLayoutFragmentForLocation(
+        &self,
+        location: &ProtocolObject<dyn NSTextLocation>,
+    ) -> Option<Id<NSTextLayoutFragment>>;
 
-        #[cfg(all(feature = "AppKit_NSTextSelection", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other textSelections)]
-        pub unsafe fn textSelections(&self) -> Id<NSArray<NSTextSelection>>;
+    #[cfg(feature = "AppKit_NSTextLayoutFragment")]
+    #[objc2::method(
+        sel = "enumerateTextLayoutFragmentsFromLocation:options:usingBlock:",
+        managed = "Other"
+    )]
+    pub unsafe fn enumerateTextLayoutFragmentsFromLocation_options_usingBlock(
+        &self,
+        location: Option<&ProtocolObject<dyn NSTextLocation>>,
+        options: NSTextLayoutFragmentEnumerationOptions,
+        block: &Block<(NonNull<NSTextLayoutFragment>,), Bool>,
+    ) -> Option<Id<ProtocolObject<dyn NSTextLocation>>>;
 
-        #[cfg(all(feature = "AppKit_NSTextSelection", feature = "Foundation_NSArray"))]
-        #[method(setTextSelections:)]
-        pub unsafe fn setTextSelections(&self, text_selections: &NSArray<NSTextSelection>);
+    #[cfg(all(feature = "AppKit_NSTextSelection", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "textSelections", managed = "Other")]
+    pub unsafe fn textSelections(&self) -> Id<NSArray<NSTextSelection>>;
 
-        #[cfg(feature = "AppKit_NSTextSelectionNavigation")]
-        #[method_id(@__retain_semantics Other textSelectionNavigation)]
-        pub unsafe fn textSelectionNavigation(&self) -> Id<NSTextSelectionNavigation>;
+    #[cfg(all(feature = "AppKit_NSTextSelection", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setTextSelections:")]
+    pub unsafe fn setTextSelections(&self, text_selections: &NSArray<NSTextSelection>);
 
-        #[cfg(feature = "AppKit_NSTextSelectionNavigation")]
-        #[method(setTextSelectionNavigation:)]
-        pub unsafe fn setTextSelectionNavigation(
-            &self,
-            text_selection_navigation: &NSTextSelectionNavigation,
-        );
+    #[cfg(feature = "AppKit_NSTextSelectionNavigation")]
+    #[objc2::method(sel = "textSelectionNavigation", managed = "Other")]
+    pub unsafe fn textSelectionNavigation(&self) -> Id<NSTextSelectionNavigation>;
 
-        #[cfg(all(feature = "AppKit_NSTextRange", feature = "Foundation_NSDictionary"))]
-        #[method(enumerateRenderingAttributesFromLocation:reverse:usingBlock:)]
-        pub unsafe fn enumerateRenderingAttributesFromLocation_reverse_usingBlock(
-            &self,
-            location: &ProtocolObject<dyn NSTextLocation>,
-            reverse: bool,
-            block: &Block<
-                (
-                    NonNull<NSTextLayoutManager>,
-                    NonNull<NSDictionary<NSAttributedStringKey, Object>>,
-                    NonNull<NSTextRange>,
-                ),
-                Bool,
-            >,
-        );
+    #[cfg(feature = "AppKit_NSTextSelectionNavigation")]
+    #[objc2::method(sel = "setTextSelectionNavigation:")]
+    pub unsafe fn setTextSelectionNavigation(
+        &self,
+        text_selection_navigation: &NSTextSelectionNavigation,
+    );
 
-        #[cfg(all(feature = "AppKit_NSTextRange", feature = "Foundation_NSDictionary"))]
-        #[method(setRenderingAttributes:forTextRange:)]
-        pub unsafe fn setRenderingAttributes_forTextRange(
-            &self,
-            rendering_attributes: &NSDictionary<NSAttributedStringKey, Object>,
-            text_range: &NSTextRange,
-        );
+    #[cfg(all(feature = "AppKit_NSTextRange", feature = "Foundation_NSDictionary"))]
+    #[objc2::method(sel = "enumerateRenderingAttributesFromLocation:reverse:usingBlock:")]
+    pub unsafe fn enumerateRenderingAttributesFromLocation_reverse_usingBlock(
+        &self,
+        location: &ProtocolObject<dyn NSTextLocation>,
+        reverse: bool,
+        block: &Block<
+            (
+                NonNull<NSTextLayoutManager>,
+                NonNull<NSDictionary<NSAttributedStringKey, Object>>,
+                NonNull<NSTextRange>,
+            ),
+            Bool,
+        >,
+    );
 
-        #[cfg(feature = "AppKit_NSTextRange")]
-        #[method(addRenderingAttribute:value:forTextRange:)]
-        pub unsafe fn addRenderingAttribute_value_forTextRange(
-            &self,
-            rendering_attribute: &NSAttributedStringKey,
-            value: Option<&Object>,
-            text_range: &NSTextRange,
-        );
+    #[cfg(all(feature = "AppKit_NSTextRange", feature = "Foundation_NSDictionary"))]
+    #[objc2::method(sel = "setRenderingAttributes:forTextRange:")]
+    pub unsafe fn setRenderingAttributes_forTextRange(
+        &self,
+        rendering_attributes: &NSDictionary<NSAttributedStringKey, Object>,
+        text_range: &NSTextRange,
+    );
 
-        #[cfg(feature = "AppKit_NSTextRange")]
-        #[method(removeRenderingAttribute:forTextRange:)]
-        pub unsafe fn removeRenderingAttribute_forTextRange(
-            &self,
-            rendering_attribute: &NSAttributedStringKey,
-            text_range: &NSTextRange,
-        );
+    #[cfg(feature = "AppKit_NSTextRange")]
+    #[objc2::method(sel = "addRenderingAttribute:value:forTextRange:")]
+    pub unsafe fn addRenderingAttribute_value_forTextRange(
+        &self,
+        rendering_attribute: &NSAttributedStringKey,
+        value: Option<&Object>,
+        text_range: &NSTextRange,
+    );
 
-        #[cfg(feature = "AppKit_NSTextRange")]
-        #[method(invalidateRenderingAttributesForTextRange:)]
-        pub unsafe fn invalidateRenderingAttributesForTextRange(&self, text_range: &NSTextRange);
+    #[cfg(feature = "AppKit_NSTextRange")]
+    #[objc2::method(sel = "removeRenderingAttribute:forTextRange:")]
+    pub unsafe fn removeRenderingAttribute_forTextRange(
+        &self,
+        rendering_attribute: &NSAttributedStringKey,
+        text_range: &NSTextRange,
+    );
 
-        #[cfg(feature = "AppKit_NSTextLayoutFragment")]
-        #[method(renderingAttributesValidator)]
-        pub unsafe fn renderingAttributesValidator(
-            &self,
-        ) -> *mut Block<(NonNull<NSTextLayoutManager>, NonNull<NSTextLayoutFragment>), ()>;
+    #[cfg(feature = "AppKit_NSTextRange")]
+    #[objc2::method(sel = "invalidateRenderingAttributesForTextRange:")]
+    pub unsafe fn invalidateRenderingAttributesForTextRange(&self, text_range: &NSTextRange);
 
-        #[cfg(feature = "AppKit_NSTextLayoutFragment")]
-        #[method(setRenderingAttributesValidator:)]
-        pub unsafe fn setRenderingAttributesValidator(
-            &self,
-            rendering_attributes_validator: Option<
-                &Block<(NonNull<NSTextLayoutManager>, NonNull<NSTextLayoutFragment>), ()>,
-            >,
-        );
+    #[cfg(feature = "AppKit_NSTextLayoutFragment")]
+    #[objc2::method(sel = "renderingAttributesValidator")]
+    pub unsafe fn renderingAttributesValidator(
+        &self,
+    ) -> *mut Block<(NonNull<NSTextLayoutManager>, NonNull<NSTextLayoutFragment>), ()>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other linkRenderingAttributes)]
-        pub unsafe fn linkRenderingAttributes() -> Id<NSDictionary<NSAttributedStringKey, Object>>;
+    #[cfg(feature = "AppKit_NSTextLayoutFragment")]
+    #[objc2::method(sel = "setRenderingAttributesValidator:")]
+    pub unsafe fn setRenderingAttributesValidator(
+        &self,
+        rendering_attributes_validator: Option<
+            &Block<(NonNull<NSTextLayoutManager>, NonNull<NSTextLayoutFragment>), ()>,
+        >,
+    );
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other renderingAttributesForLink:atLocation:)]
-        pub unsafe fn renderingAttributesForLink_atLocation(
-            &self,
-            link: &Object,
-            location: &ProtocolObject<dyn NSTextLocation>,
-        ) -> Id<NSDictionary<NSAttributedStringKey, Object>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "linkRenderingAttributes", managed = "Other")]
+    pub unsafe fn linkRenderingAttributes() -> Id<NSDictionary<NSAttributedStringKey, Object>>;
 
-        #[cfg(all(feature = "AppKit_NSTextContainer", feature = "AppKit_NSTextRange"))]
-        #[method(enumerateTextSegmentsInRange:type:options:usingBlock:)]
-        pub unsafe fn enumerateTextSegmentsInRange_type_options_usingBlock(
-            &self,
-            text_range: &NSTextRange,
-            r#type: NSTextLayoutManagerSegmentType,
-            options: NSTextLayoutManagerSegmentOptions,
-            block: &Block<(*mut NSTextRange, CGRect, CGFloat, NonNull<NSTextContainer>), Bool>,
-        );
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "renderingAttributesForLink:atLocation:", managed = "Other")]
+    pub unsafe fn renderingAttributesForLink_atLocation(
+        &self,
+        link: &Object,
+        location: &ProtocolObject<dyn NSTextLocation>,
+    ) -> Id<NSDictionary<NSAttributedStringKey, Object>>;
 
-        #[cfg(all(
-            feature = "AppKit_NSTextElement",
-            feature = "AppKit_NSTextRange",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method(replaceContentsInRange:withTextElements:)]
-        pub unsafe fn replaceContentsInRange_withTextElements(
-            &self,
-            range: &NSTextRange,
-            text_elements: &NSArray<NSTextElement>,
-        );
+    #[cfg(all(feature = "AppKit_NSTextContainer", feature = "AppKit_NSTextRange"))]
+    #[objc2::method(sel = "enumerateTextSegmentsInRange:type:options:usingBlock:")]
+    pub unsafe fn enumerateTextSegmentsInRange_type_options_usingBlock(
+        &self,
+        text_range: &NSTextRange,
+        r#type: NSTextLayoutManagerSegmentType,
+        options: NSTextLayoutManagerSegmentOptions,
+        block: &Block<(*mut NSTextRange, CGRect, CGFloat, NonNull<NSTextContainer>), Bool>,
+    );
 
-        #[cfg(all(
-            feature = "AppKit_NSTextRange",
-            feature = "Foundation_NSAttributedString"
-        ))]
-        #[method(replaceContentsInRange:withAttributedString:)]
-        pub unsafe fn replaceContentsInRange_withAttributedString(
-            &self,
-            range: &NSTextRange,
-            attributed_string: &NSAttributedString,
-        );
-    }
-);
+    #[cfg(all(
+        feature = "AppKit_NSTextElement",
+        feature = "AppKit_NSTextRange",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "replaceContentsInRange:withTextElements:")]
+    pub unsafe fn replaceContentsInRange_withTextElements(
+        &self,
+        range: &NSTextRange,
+        text_elements: &NSArray<NSTextElement>,
+    );
 
-extern_protocol!(
-    pub unsafe trait NSTextLayoutManagerDelegate: NSObjectProtocol {
-        #[cfg(all(
-            feature = "AppKit_NSTextElement",
-            feature = "AppKit_NSTextLayoutFragment",
-            feature = "AppKit_NSTextLayoutManager"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other textLayoutManager:textLayoutFragmentForLocation:inTextElement:)]
-        unsafe fn textLayoutManager_textLayoutFragmentForLocation_inTextElement(
-            &self,
-            text_layout_manager: &NSTextLayoutManager,
-            location: &ProtocolObject<dyn NSTextLocation>,
-            text_element: &NSTextElement,
-        ) -> Id<NSTextLayoutFragment>;
+    #[cfg(all(
+        feature = "AppKit_NSTextRange",
+        feature = "Foundation_NSAttributedString"
+    ))]
+    #[objc2::method(sel = "replaceContentsInRange:withAttributedString:")]
+    pub unsafe fn replaceContentsInRange_withAttributedString(
+        &self,
+        range: &NSTextRange,
+        attributed_string: &NSAttributedString,
+    );
+}
 
-        #[cfg(feature = "AppKit_NSTextLayoutManager")]
-        #[optional]
-        #[method(textLayoutManager:shouldBreakLineBeforeLocation:hyphenating:)]
-        unsafe fn textLayoutManager_shouldBreakLineBeforeLocation_hyphenating(
-            &self,
-            text_layout_manager: &NSTextLayoutManager,
-            location: &ProtocolObject<dyn NSTextLocation>,
-            hyphenating: bool,
-        ) -> bool;
+#[objc2::protocol]
+pub unsafe trait NSTextLayoutManagerDelegate: NSObjectProtocol {
+    #[cfg(all(
+        feature = "AppKit_NSTextElement",
+        feature = "AppKit_NSTextLayoutFragment",
+        feature = "AppKit_NSTextLayoutManager"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "textLayoutManager:textLayoutFragmentForLocation:inTextElement:",
+        managed = "Other"
+    )]
+    unsafe fn textLayoutManager_textLayoutFragmentForLocation_inTextElement(
+        &self,
+        text_layout_manager: &NSTextLayoutManager,
+        location: &ProtocolObject<dyn NSTextLocation>,
+        text_element: &NSTextElement,
+    ) -> Id<NSTextLayoutFragment>;
 
-        #[cfg(all(
-            feature = "AppKit_NSTextLayoutManager",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other textLayoutManager:renderingAttributesForLink:atLocation:defaultAttributes:)]
-        unsafe fn textLayoutManager_renderingAttributesForLink_atLocation_defaultAttributes(
-            &self,
-            text_layout_manager: &NSTextLayoutManager,
-            link: &Object,
-            location: &ProtocolObject<dyn NSTextLocation>,
-            rendering_attributes: &NSDictionary<NSAttributedStringKey, Object>,
-        ) -> Option<Id<NSDictionary<NSAttributedStringKey, Object>>>;
-    }
+    #[cfg(feature = "AppKit_NSTextLayoutManager")]
+    #[objc2::method(
+        optional,
+        sel = "textLayoutManager:shouldBreakLineBeforeLocation:hyphenating:"
+    )]
+    unsafe fn textLayoutManager_shouldBreakLineBeforeLocation_hyphenating(
+        &self,
+        text_layout_manager: &NSTextLayoutManager,
+        location: &ProtocolObject<dyn NSTextLocation>,
+        hyphenating: bool,
+    ) -> bool;
 
-    unsafe impl ProtocolType for dyn NSTextLayoutManagerDelegate {}
-);
+    #[cfg(all(
+        feature = "AppKit_NSTextLayoutManager",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "textLayoutManager:renderingAttributesForLink:atLocation:defaultAttributes:",
+        managed = "Other"
+    )]
+    unsafe fn textLayoutManager_renderingAttributesForLink_atLocation_defaultAttributes(
+        &self,
+        text_layout_manager: &NSTextLayoutManager,
+        link: &Object,
+        location: &ProtocolObject<dyn NSTextLocation>,
+        rendering_attributes: &NSDictionary<NSAttributedStringKey, Object>,
+    ) -> Option<Id<NSDictionary<NSAttributedStringKey, Object>>>;
+}

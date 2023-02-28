@@ -8,71 +8,74 @@ extern_static!(
     NSCoreDataCoreSpotlightDelegateIndexDidUpdateNotification: &'static NSNotificationName
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSCoreDataCoreSpotlightDelegate")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSCoreDataCoreSpotlightDelegate")]
-    pub struct NSCoreDataCoreSpotlightDelegate;
-
-    #[cfg(feature = "CoreData_NSCoreDataCoreSpotlightDelegate")]
-    unsafe impl ClassType for NSCoreDataCoreSpotlightDelegate {
-        type Super = NSObject;
-    }
-);
+    pub type NSCoreDataCoreSpotlightDelegate;
+}
 
 #[cfg(feature = "CoreData_NSCoreDataCoreSpotlightDelegate")]
 unsafe impl NSObjectProtocol for NSCoreDataCoreSpotlightDelegate {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSCoreDataCoreSpotlightDelegate")]
-    unsafe impl NSCoreDataCoreSpotlightDelegate {
-        #[method(isIndexingEnabled)]
-        pub unsafe fn isIndexingEnabled(&self) -> bool;
+    pub type NSCoreDataCoreSpotlightDelegate;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other domainIdentifier)]
-        pub unsafe fn domainIdentifier(&self) -> Id<NSString>;
+    #[objc2::method(sel = "isIndexingEnabled")]
+    pub unsafe fn isIndexingEnabled(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other indexName)]
-        pub unsafe fn indexName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "domainIdentifier", managed = "Other")]
+    pub unsafe fn domainIdentifier(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "indexName", managed = "Other")]
+    pub unsafe fn indexName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSPersistentStoreCoordinator",
-            feature = "CoreData_NSPersistentStoreDescription"
-        ))]
-        #[method_id(@__retain_semantics Init initForStoreWithDescription:coordinator:)]
-        pub unsafe fn initForStoreWithDescription_coordinator(
-            this: Option<Allocated<Self>>,
-            description: &NSPersistentStoreDescription,
-            psc: &NSPersistentStoreCoordinator,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "CoreData_NSManagedObjectModel",
-            feature = "CoreData_NSPersistentStoreDescription"
-        ))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initForStoreWithDescription:model:)]
-        pub unsafe fn initForStoreWithDescription_model(
-            this: Option<Allocated<Self>>,
-            description: &NSPersistentStoreDescription,
-            model: &NSManagedObjectModel,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "CoreData_NSPersistentStoreCoordinator",
+        feature = "CoreData_NSPersistentStoreDescription"
+    ))]
+    #[objc2::method(sel = "initForStoreWithDescription:coordinator:", managed = "Init")]
+    pub unsafe fn initForStoreWithDescription_coordinator(
+        this: Option<Allocated<Self>>,
+        description: &NSPersistentStoreDescription,
+        psc: &NSPersistentStoreCoordinator,
+    ) -> Id<Self>;
 
-        #[method(startSpotlightIndexing)]
-        pub unsafe fn startSpotlightIndexing(&self);
+    #[cfg(all(
+        feature = "CoreData_NSManagedObjectModel",
+        feature = "CoreData_NSPersistentStoreDescription"
+    ))]
+    #[deprecated]
+    #[objc2::method(sel = "initForStoreWithDescription:model:", managed = "Init")]
+    pub unsafe fn initForStoreWithDescription_model(
+        this: Option<Allocated<Self>>,
+        description: &NSPersistentStoreDescription,
+        model: &NSManagedObjectModel,
+    ) -> Id<Self>;
 
-        #[method(stopSpotlightIndexing)]
-        pub unsafe fn stopSpotlightIndexing(&self);
+    #[objc2::method(sel = "startSpotlightIndexing")]
+    pub unsafe fn startSpotlightIndexing(&self);
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(deleteSpotlightIndexWithCompletionHandler:)]
-        pub unsafe fn deleteSpotlightIndexWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
-    }
-);
+    #[objc2::method(sel = "stopSpotlightIndexing")]
+    pub unsafe fn stopSpotlightIndexing(&self);
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "deleteSpotlightIndexWithCompletionHandler:")]
+    pub unsafe fn deleteSpotlightIndexWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
+}

@@ -5,17 +5,18 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObjectController,
+    unsafe inherits = [
+        NSController,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSArrayController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSArrayController")]
-    pub struct NSArrayController;
-
-    #[cfg(feature = "AppKit_NSArrayController")]
-    unsafe impl ClassType for NSArrayController {
-        #[inherits(NSController, NSObject)]
-        type Super = NSObjectController;
-    }
-);
+    pub type NSArrayController;
+}
 
 #[cfg(feature = "AppKit_NSArrayController")]
 unsafe impl NSCoding for NSArrayController {}
@@ -29,197 +30,203 @@ unsafe impl NSEditorRegistration for NSArrayController {}
 #[cfg(feature = "AppKit_NSArrayController")]
 unsafe impl NSObjectProtocol for NSArrayController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSArrayController")]
-    unsafe impl NSArrayController {
-        #[method(rearrangeObjects)]
-        pub unsafe fn rearrangeObjects(&self);
+    pub type NSArrayController;
 
-        #[method(automaticallyRearrangesObjects)]
-        pub unsafe fn automaticallyRearrangesObjects(&self) -> bool;
+    #[objc2::method(sel = "rearrangeObjects")]
+    pub unsafe fn rearrangeObjects(&self);
 
-        #[method(setAutomaticallyRearrangesObjects:)]
-        pub unsafe fn setAutomaticallyRearrangesObjects(
-            &self,
-            automatically_rearranges_objects: bool,
-        );
+    #[objc2::method(sel = "automaticallyRearrangesObjects")]
+    pub unsafe fn automaticallyRearrangesObjects(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other automaticRearrangementKeyPaths)]
-        pub unsafe fn automaticRearrangementKeyPaths(&self) -> Option<Id<NSArray<NSString>>>;
+    #[objc2::method(sel = "setAutomaticallyRearrangesObjects:")]
+    pub unsafe fn setAutomaticallyRearrangesObjects(&self, automatically_rearranges_objects: bool);
 
-        #[method(didChangeArrangementCriteria)]
-        pub unsafe fn didChangeArrangementCriteria(&self);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "automaticRearrangementKeyPaths", managed = "Other")]
+    pub unsafe fn automaticRearrangementKeyPaths(&self) -> Option<Id<NSArray<NSString>>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSSortDescriptor"
-        ))]
-        #[method_id(@__retain_semantics Other sortDescriptors)]
-        pub unsafe fn sortDescriptors(&self) -> Id<NSArray<NSSortDescriptor>>;
+    #[objc2::method(sel = "didChangeArrangementCriteria")]
+    pub unsafe fn didChangeArrangementCriteria(&self);
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSSortDescriptor"
-        ))]
-        #[method(setSortDescriptors:)]
-        pub unsafe fn setSortDescriptors(&self, sort_descriptors: &NSArray<NSSortDescriptor>);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSSortDescriptor"
+    ))]
+    #[objc2::method(sel = "sortDescriptors", managed = "Other")]
+    pub unsafe fn sortDescriptors(&self) -> Id<NSArray<NSSortDescriptor>>;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other filterPredicate)]
-        pub unsafe fn filterPredicate(&self) -> Option<Id<NSPredicate>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSSortDescriptor"
+    ))]
+    #[objc2::method(sel = "setSortDescriptors:")]
+    pub unsafe fn setSortDescriptors(&self, sort_descriptors: &NSArray<NSSortDescriptor>);
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method(setFilterPredicate:)]
-        pub unsafe fn setFilterPredicate(&self, filter_predicate: Option<&NSPredicate>);
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "filterPredicate", managed = "Other")]
+    pub unsafe fn filterPredicate(&self) -> Option<Id<NSPredicate>>;
 
-        #[method(clearsFilterPredicateOnInsertion)]
-        pub unsafe fn clearsFilterPredicateOnInsertion(&self) -> bool;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "setFilterPredicate:")]
+    pub unsafe fn setFilterPredicate(&self, filter_predicate: Option<&NSPredicate>);
 
-        #[method(setClearsFilterPredicateOnInsertion:)]
-        pub unsafe fn setClearsFilterPredicateOnInsertion(
-            &self,
-            clears_filter_predicate_on_insertion: bool,
-        );
+    #[objc2::method(sel = "clearsFilterPredicateOnInsertion")]
+    pub unsafe fn clearsFilterPredicateOnInsertion(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other arrangeObjects:)]
-        pub unsafe fn arrangeObjects(&self, objects: &NSArray) -> Id<NSArray>;
+    #[objc2::method(sel = "setClearsFilterPredicateOnInsertion:")]
+    pub unsafe fn setClearsFilterPredicateOnInsertion(
+        &self,
+        clears_filter_predicate_on_insertion: bool,
+    );
 
-        #[method_id(@__retain_semantics Other arrangedObjects)]
-        pub unsafe fn arrangedObjects(&self) -> Id<Object>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "arrangeObjects:", managed = "Other")]
+    pub unsafe fn arrangeObjects(&self, objects: &NSArray) -> Id<NSArray>;
 
-        #[method(avoidsEmptySelection)]
-        pub unsafe fn avoidsEmptySelection(&self) -> bool;
+    #[objc2::method(sel = "arrangedObjects", managed = "Other")]
+    pub unsafe fn arrangedObjects(&self) -> Id<Object>;
 
-        #[method(setAvoidsEmptySelection:)]
-        pub unsafe fn setAvoidsEmptySelection(&self, avoids_empty_selection: bool);
+    #[objc2::method(sel = "avoidsEmptySelection")]
+    pub unsafe fn avoidsEmptySelection(&self) -> bool;
 
-        #[method(preservesSelection)]
-        pub unsafe fn preservesSelection(&self) -> bool;
+    #[objc2::method(sel = "setAvoidsEmptySelection:")]
+    pub unsafe fn setAvoidsEmptySelection(&self, avoids_empty_selection: bool);
 
-        #[method(setPreservesSelection:)]
-        pub unsafe fn setPreservesSelection(&self, preserves_selection: bool);
+    #[objc2::method(sel = "preservesSelection")]
+    pub unsafe fn preservesSelection(&self) -> bool;
 
-        #[method(selectsInsertedObjects)]
-        pub unsafe fn selectsInsertedObjects(&self) -> bool;
+    #[objc2::method(sel = "setPreservesSelection:")]
+    pub unsafe fn setPreservesSelection(&self, preserves_selection: bool);
 
-        #[method(setSelectsInsertedObjects:)]
-        pub unsafe fn setSelectsInsertedObjects(&self, selects_inserted_objects: bool);
+    #[objc2::method(sel = "selectsInsertedObjects")]
+    pub unsafe fn selectsInsertedObjects(&self) -> bool;
 
-        #[method(alwaysUsesMultipleValuesMarker)]
-        pub unsafe fn alwaysUsesMultipleValuesMarker(&self) -> bool;
+    #[objc2::method(sel = "setSelectsInsertedObjects:")]
+    pub unsafe fn setSelectsInsertedObjects(&self, selects_inserted_objects: bool);
 
-        #[method(setAlwaysUsesMultipleValuesMarker:)]
-        pub unsafe fn setAlwaysUsesMultipleValuesMarker(
-            &self,
-            always_uses_multiple_values_marker: bool,
-        );
+    #[objc2::method(sel = "alwaysUsesMultipleValuesMarker")]
+    pub unsafe fn alwaysUsesMultipleValuesMarker(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(setSelectionIndexes:)]
-        pub unsafe fn setSelectionIndexes(&self, indexes: &NSIndexSet) -> bool;
+    #[objc2::method(sel = "setAlwaysUsesMultipleValuesMarker:")]
+    pub unsafe fn setAlwaysUsesMultipleValuesMarker(
+        &self,
+        always_uses_multiple_values_marker: bool,
+    );
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method_id(@__retain_semantics Other selectionIndexes)]
-        pub unsafe fn selectionIndexes(&self) -> Id<NSIndexSet>;
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "setSelectionIndexes:")]
+    pub unsafe fn setSelectionIndexes(&self, indexes: &NSIndexSet) -> bool;
 
-        #[method(setSelectionIndex:)]
-        pub unsafe fn setSelectionIndex(&self, index: NSUInteger) -> bool;
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "selectionIndexes", managed = "Other")]
+    pub unsafe fn selectionIndexes(&self) -> Id<NSIndexSet>;
 
-        #[method(selectionIndex)]
-        pub unsafe fn selectionIndex(&self) -> NSUInteger;
+    #[objc2::method(sel = "setSelectionIndex:")]
+    pub unsafe fn setSelectionIndex(&self, index: NSUInteger) -> bool;
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(addSelectionIndexes:)]
-        pub unsafe fn addSelectionIndexes(&self, indexes: &NSIndexSet) -> bool;
+    #[objc2::method(sel = "selectionIndex")]
+    pub unsafe fn selectionIndex(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(removeSelectionIndexes:)]
-        pub unsafe fn removeSelectionIndexes(&self, indexes: &NSIndexSet) -> bool;
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "addSelectionIndexes:")]
+    pub unsafe fn addSelectionIndexes(&self, indexes: &NSIndexSet) -> bool;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setSelectedObjects:)]
-        pub unsafe fn setSelectedObjects(&self, objects: &NSArray) -> bool;
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "removeSelectionIndexes:")]
+    pub unsafe fn removeSelectionIndexes(&self, indexes: &NSIndexSet) -> bool;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other selectedObjects)]
-        pub unsafe fn selectedObjects(&self) -> Id<NSArray>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setSelectedObjects:")]
+    pub unsafe fn setSelectedObjects(&self, objects: &NSArray) -> bool;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(addSelectedObjects:)]
-        pub unsafe fn addSelectedObjects(&self, objects: &NSArray) -> bool;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "selectedObjects", managed = "Other")]
+    pub unsafe fn selectedObjects(&self) -> Id<NSArray>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(removeSelectedObjects:)]
-        pub unsafe fn removeSelectedObjects(&self, objects: &NSArray) -> bool;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "addSelectedObjects:")]
+    pub unsafe fn addSelectedObjects(&self, objects: &NSArray) -> bool;
 
-        #[method(add:)]
-        pub unsafe fn add(&self, sender: Option<&Object>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "removeSelectedObjects:")]
+    pub unsafe fn removeSelectedObjects(&self, objects: &NSArray) -> bool;
 
-        #[method(remove:)]
-        pub unsafe fn remove(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "add:")]
+    pub unsafe fn add(&self, sender: Option<&Object>);
 
-        #[method(insert:)]
-        pub unsafe fn insert(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "remove:")]
+    pub unsafe fn remove(&self, sender: Option<&Object>);
 
-        #[method(canInsert)]
-        pub unsafe fn canInsert(&self) -> bool;
+    #[objc2::method(sel = "insert:")]
+    pub unsafe fn insert(&self, sender: Option<&Object>);
 
-        #[method(selectNext:)]
-        pub unsafe fn selectNext(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "canInsert")]
+    pub unsafe fn canInsert(&self) -> bool;
 
-        #[method(selectPrevious:)]
-        pub unsafe fn selectPrevious(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "selectNext:")]
+    pub unsafe fn selectNext(&self, sender: Option<&Object>);
 
-        #[method(canSelectNext)]
-        pub unsafe fn canSelectNext(&self) -> bool;
+    #[objc2::method(sel = "selectPrevious:")]
+    pub unsafe fn selectPrevious(&self, sender: Option<&Object>);
 
-        #[method(canSelectPrevious)]
-        pub unsafe fn canSelectPrevious(&self) -> bool;
+    #[objc2::method(sel = "canSelectNext")]
+    pub unsafe fn canSelectNext(&self) -> bool;
 
-        #[method(addObject:)]
-        pub unsafe fn addObject(&self, object: &Object);
+    #[objc2::method(sel = "canSelectPrevious")]
+    pub unsafe fn canSelectPrevious(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(addObjects:)]
-        pub unsafe fn addObjects(&self, objects: &NSArray);
+    #[objc2::method(sel = "addObject:")]
+    pub unsafe fn addObject(&self, object: &Object);
 
-        #[method(insertObject:atArrangedObjectIndex:)]
-        pub unsafe fn insertObject_atArrangedObjectIndex(&self, object: &Object, index: NSUInteger);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "addObjects:")]
+    pub unsafe fn addObjects(&self, objects: &NSArray);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSIndexSet"))]
-        #[method(insertObjects:atArrangedObjectIndexes:)]
-        pub unsafe fn insertObjects_atArrangedObjectIndexes(
-            &self,
-            objects: &NSArray,
-            indexes: &NSIndexSet,
-        );
+    #[objc2::method(sel = "insertObject:atArrangedObjectIndex:")]
+    pub unsafe fn insertObject_atArrangedObjectIndex(&self, object: &Object, index: NSUInteger);
 
-        #[method(removeObjectAtArrangedObjectIndex:)]
-        pub unsafe fn removeObjectAtArrangedObjectIndex(&self, index: NSUInteger);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSIndexSet"))]
+    #[objc2::method(sel = "insertObjects:atArrangedObjectIndexes:")]
+    pub unsafe fn insertObjects_atArrangedObjectIndexes(
+        &self,
+        objects: &NSArray,
+        indexes: &NSIndexSet,
+    );
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(removeObjectsAtArrangedObjectIndexes:)]
-        pub unsafe fn removeObjectsAtArrangedObjectIndexes(&self, indexes: &NSIndexSet);
+    #[objc2::method(sel = "removeObjectAtArrangedObjectIndex:")]
+    pub unsafe fn removeObjectAtArrangedObjectIndex(&self, index: NSUInteger);
 
-        #[method(removeObject:)]
-        pub unsafe fn removeObject(&self, object: &Object);
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "removeObjectsAtArrangedObjectIndexes:")]
+    pub unsafe fn removeObjectsAtArrangedObjectIndexes(&self, indexes: &NSIndexSet);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(removeObjects:)]
-        pub unsafe fn removeObjects(&self, objects: &NSArray);
-    }
-);
+    #[objc2::method(sel = "removeObject:")]
+    pub unsafe fn removeObject(&self, object: &Object);
 
-extern_methods!(
-    /// Methods declared on superclass `NSObjectController`
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "removeObjects:")]
+    pub unsafe fn removeObjects(&self, objects: &NSArray);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSObjectController`
     #[cfg(feature = "AppKit_NSArrayController")]
-    unsafe impl NSArrayController {
-        #[method_id(@__retain_semantics Init initWithContent:)]
-        pub unsafe fn initWithContent(
-            this: Option<Allocated<Self>>,
-            content: Option<&Object>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSArrayController")]
+    pub type NSArrayController;
+
+    #[objc2::method(sel = "initWithContent:", managed = "Init")]
+    pub unsafe fn initWithContent(
+        this: Option<Allocated<Self>>,
+        content: Option<&Object>,
+    ) -> Id<Self>;
+}

@@ -5,35 +5,41 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMCSSStyleRule")]
+#[objc2::interface(
+    unsafe super = DOMCSSRule,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMCSSStyleRule;
-
     #[cfg(feature = "WebKit_DOMCSSStyleRule")]
-    unsafe impl ClassType for DOMCSSStyleRule {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMCSSRule;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMCSSStyleRule;
+}
 
 #[cfg(feature = "WebKit_DOMCSSStyleRule")]
 unsafe impl NSObjectProtocol for DOMCSSStyleRule {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCSSStyleRule")]
-    unsafe impl DOMCSSStyleRule {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other selectorText)]
-        pub unsafe fn selectorText(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMCSSStyleRule;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSelectorText:)]
-        pub unsafe fn setSelectorText(&self, selector_text: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "selectorText", managed = "Other")]
+    pub unsafe fn selectorText(&self) -> Id<NSString>;
 
-        #[cfg(feature = "WebKit_DOMCSSStyleDeclaration")]
-        #[method_id(@__retain_semantics Other style)]
-        pub unsafe fn style(&self) -> Option<Id<DOMCSSStyleDeclaration>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSelectorText:")]
+    pub unsafe fn setSelectorText(&self, selector_text: Option<&NSString>);
+
+    #[cfg(feature = "WebKit_DOMCSSStyleDeclaration")]
+    #[objc2::method(sel = "style", managed = "Other")]
+    pub unsafe fn style(&self) -> Option<Id<DOMCSSStyleDeclaration>>;
+}

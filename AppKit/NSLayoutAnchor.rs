@@ -5,259 +5,302 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSLayoutAnchor")]
-    unsafe impl<AnchorType: Message, AnchorTypeOwnership: Ownership>
-        NSLayoutAnchor<AnchorType, AnchorTypeOwnership>
-    {
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintEqualToAnchor:)]
-        pub unsafe fn constraintEqualToAnchor(
-            &self,
-            anchor: &NSLayoutAnchor<AnchorType>,
-        ) -> Id<NSLayoutConstraint>;
+    pub type NSLayoutAnchor<AnchorType: Message = Object, AnchorTypeOwnership: Ownership = Shared>;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintGreaterThanOrEqualToAnchor:)]
-        pub unsafe fn constraintGreaterThanOrEqualToAnchor(
-            &self,
-            anchor: &NSLayoutAnchor<AnchorType>,
-        ) -> Id<NSLayoutConstraint>;
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(sel = "constraintEqualToAnchor:", managed = "Other")]
+    pub unsafe fn constraintEqualToAnchor(
+        &self,
+        anchor: &NSLayoutAnchor<AnchorType>,
+    ) -> Id<NSLayoutConstraint>;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintLessThanOrEqualToAnchor:)]
-        pub unsafe fn constraintLessThanOrEqualToAnchor(
-            &self,
-            anchor: &NSLayoutAnchor<AnchorType>,
-        ) -> Id<NSLayoutConstraint>;
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(sel = "constraintGreaterThanOrEqualToAnchor:", managed = "Other")]
+    pub unsafe fn constraintGreaterThanOrEqualToAnchor(
+        &self,
+        anchor: &NSLayoutAnchor<AnchorType>,
+    ) -> Id<NSLayoutConstraint>;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintEqualToAnchor:constant:)]
-        pub unsafe fn constraintEqualToAnchor_constant(
-            &self,
-            anchor: &NSLayoutAnchor<AnchorType>,
-            c: CGFloat,
-        ) -> Id<NSLayoutConstraint>;
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(sel = "constraintLessThanOrEqualToAnchor:", managed = "Other")]
+    pub unsafe fn constraintLessThanOrEqualToAnchor(
+        &self,
+        anchor: &NSLayoutAnchor<AnchorType>,
+    ) -> Id<NSLayoutConstraint>;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintGreaterThanOrEqualToAnchor:constant:)]
-        pub unsafe fn constraintGreaterThanOrEqualToAnchor_constant(
-            &self,
-            anchor: &NSLayoutAnchor<AnchorType>,
-            c: CGFloat,
-        ) -> Id<NSLayoutConstraint>;
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(sel = "constraintEqualToAnchor:constant:", managed = "Other")]
+    pub unsafe fn constraintEqualToAnchor_constant(
+        &self,
+        anchor: &NSLayoutAnchor<AnchorType>,
+        c: CGFloat,
+    ) -> Id<NSLayoutConstraint>;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintLessThanOrEqualToAnchor:constant:)]
-        pub unsafe fn constraintLessThanOrEqualToAnchor_constant(
-            &self,
-            anchor: &NSLayoutAnchor<AnchorType>,
-            c: CGFloat,
-        ) -> Id<NSLayoutConstraint>;
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(
+        sel = "constraintGreaterThanOrEqualToAnchor:constant:",
+        managed = "Other"
+    )]
+    pub unsafe fn constraintGreaterThanOrEqualToAnchor_constant(
+        &self,
+        anchor: &NSLayoutAnchor<AnchorType>,
+        c: CGFloat,
+    ) -> Id<NSLayoutConstraint>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(sel = "constraintLessThanOrEqualToAnchor:constant:", managed = "Other")]
+    pub unsafe fn constraintLessThanOrEqualToAnchor_constant(
+        &self,
+        anchor: &NSLayoutAnchor<AnchorType>,
+        c: CGFloat,
+    ) -> Id<NSLayoutConstraint>;
 
-        #[method_id(@__retain_semantics Other item)]
-        pub unsafe fn item(&self) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[method(hasAmbiguousLayout)]
-        pub unsafe fn hasAmbiguousLayout(&self) -> bool;
+    #[objc2::method(sel = "item", managed = "Other")]
+    pub unsafe fn item(&self) -> Option<Id<Object>>;
 
-        #[cfg(all(feature = "AppKit_NSLayoutConstraint", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other constraintsAffectingLayout)]
-        pub unsafe fn constraintsAffectingLayout(&self) -> Id<NSArray<NSLayoutConstraint>>;
-    }
-);
+    #[objc2::method(sel = "hasAmbiguousLayout")]
+    pub unsafe fn hasAmbiguousLayout(&self) -> bool;
 
-extern_class!(
+    #[cfg(all(feature = "AppKit_NSLayoutConstraint", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "constraintsAffectingLayout", managed = "Other")]
+    pub unsafe fn constraintsAffectingLayout(&self) -> Id<NSArray<NSLayoutConstraint>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSLayoutAnchor,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSLayoutXAxisAnchor")]
     #[derive(Debug)]
-    #[cfg(feature = "AppKit_NSLayoutXAxisAnchor")]
-    pub struct NSLayoutXAxisAnchor;
-
-    #[cfg(feature = "AppKit_NSLayoutXAxisAnchor")]
-    unsafe impl ClassType for NSLayoutXAxisAnchor {
-        #[inherits(NSObject)]
-        type Super = NSLayoutAnchor;
-    }
-);
+    pub type NSLayoutXAxisAnchor;
+}
 
 #[cfg(feature = "AppKit_NSLayoutXAxisAnchor")]
 unsafe impl NSObjectProtocol for NSLayoutXAxisAnchor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSLayoutXAxisAnchor")]
-    unsafe impl NSLayoutXAxisAnchor {
-        #[cfg(feature = "AppKit_NSLayoutDimension")]
-        #[method_id(@__retain_semantics Other anchorWithOffsetToAnchor:)]
-        pub unsafe fn anchorWithOffsetToAnchor(
-            &self,
-            other_anchor: &NSLayoutXAxisAnchor,
-        ) -> Id<NSLayoutDimension>;
+    pub type NSLayoutXAxisAnchor;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintEqualToSystemSpacingAfterAnchor:multiplier:)]
-        pub unsafe fn constraintEqualToSystemSpacingAfterAnchor_multiplier(
-            &self,
-            anchor: &NSLayoutXAxisAnchor,
-            multiplier: CGFloat,
-        ) -> Id<NSLayoutConstraint>;
+    #[cfg(feature = "AppKit_NSLayoutDimension")]
+    #[objc2::method(sel = "anchorWithOffsetToAnchor:", managed = "Other")]
+    pub unsafe fn anchorWithOffsetToAnchor(
+        &self,
+        other_anchor: &NSLayoutXAxisAnchor,
+    ) -> Id<NSLayoutDimension>;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintGreaterThanOrEqualToSystemSpacingAfterAnchor:multiplier:)]
-        pub unsafe fn constraintGreaterThanOrEqualToSystemSpacingAfterAnchor_multiplier(
-            &self,
-            anchor: &NSLayoutXAxisAnchor,
-            multiplier: CGFloat,
-        ) -> Id<NSLayoutConstraint>;
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(
+        sel = "constraintEqualToSystemSpacingAfterAnchor:multiplier:",
+        managed = "Other"
+    )]
+    pub unsafe fn constraintEqualToSystemSpacingAfterAnchor_multiplier(
+        &self,
+        anchor: &NSLayoutXAxisAnchor,
+        multiplier: CGFloat,
+    ) -> Id<NSLayoutConstraint>;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintLessThanOrEqualToSystemSpacingAfterAnchor:multiplier:)]
-        pub unsafe fn constraintLessThanOrEqualToSystemSpacingAfterAnchor_multiplier(
-            &self,
-            anchor: &NSLayoutXAxisAnchor,
-            multiplier: CGFloat,
-        ) -> Id<NSLayoutConstraint>;
-    }
-);
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(
+        sel = "constraintGreaterThanOrEqualToSystemSpacingAfterAnchor:multiplier:",
+        managed = "Other"
+    )]
+    pub unsafe fn constraintGreaterThanOrEqualToSystemSpacingAfterAnchor_multiplier(
+        &self,
+        anchor: &NSLayoutXAxisAnchor,
+        multiplier: CGFloat,
+    ) -> Id<NSLayoutConstraint>;
 
-extern_class!(
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(
+        sel = "constraintLessThanOrEqualToSystemSpacingAfterAnchor:multiplier:",
+        managed = "Other"
+    )]
+    pub unsafe fn constraintLessThanOrEqualToSystemSpacingAfterAnchor_multiplier(
+        &self,
+        anchor: &NSLayoutXAxisAnchor,
+        multiplier: CGFloat,
+    ) -> Id<NSLayoutConstraint>;
+}
+
+#[objc2::interface(
+    unsafe super = NSLayoutAnchor,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSLayoutYAxisAnchor")]
     #[derive(Debug)]
-    #[cfg(feature = "AppKit_NSLayoutYAxisAnchor")]
-    pub struct NSLayoutYAxisAnchor;
-
-    #[cfg(feature = "AppKit_NSLayoutYAxisAnchor")]
-    unsafe impl ClassType for NSLayoutYAxisAnchor {
-        #[inherits(NSObject)]
-        type Super = NSLayoutAnchor;
-    }
-);
+    pub type NSLayoutYAxisAnchor;
+}
 
 #[cfg(feature = "AppKit_NSLayoutYAxisAnchor")]
 unsafe impl NSObjectProtocol for NSLayoutYAxisAnchor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSLayoutYAxisAnchor")]
-    unsafe impl NSLayoutYAxisAnchor {
-        #[cfg(feature = "AppKit_NSLayoutDimension")]
-        #[method_id(@__retain_semantics Other anchorWithOffsetToAnchor:)]
-        pub unsafe fn anchorWithOffsetToAnchor(
-            &self,
-            other_anchor: &NSLayoutYAxisAnchor,
-        ) -> Id<NSLayoutDimension>;
+    pub type NSLayoutYAxisAnchor;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintEqualToSystemSpacingBelowAnchor:multiplier:)]
-        pub unsafe fn constraintEqualToSystemSpacingBelowAnchor_multiplier(
-            &self,
-            anchor: &NSLayoutYAxisAnchor,
-            multiplier: CGFloat,
-        ) -> Id<NSLayoutConstraint>;
+    #[cfg(feature = "AppKit_NSLayoutDimension")]
+    #[objc2::method(sel = "anchorWithOffsetToAnchor:", managed = "Other")]
+    pub unsafe fn anchorWithOffsetToAnchor(
+        &self,
+        other_anchor: &NSLayoutYAxisAnchor,
+    ) -> Id<NSLayoutDimension>;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintGreaterThanOrEqualToSystemSpacingBelowAnchor:multiplier:)]
-        pub unsafe fn constraintGreaterThanOrEqualToSystemSpacingBelowAnchor_multiplier(
-            &self,
-            anchor: &NSLayoutYAxisAnchor,
-            multiplier: CGFloat,
-        ) -> Id<NSLayoutConstraint>;
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(
+        sel = "constraintEqualToSystemSpacingBelowAnchor:multiplier:",
+        managed = "Other"
+    )]
+    pub unsafe fn constraintEqualToSystemSpacingBelowAnchor_multiplier(
+        &self,
+        anchor: &NSLayoutYAxisAnchor,
+        multiplier: CGFloat,
+    ) -> Id<NSLayoutConstraint>;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintLessThanOrEqualToSystemSpacingBelowAnchor:multiplier:)]
-        pub unsafe fn constraintLessThanOrEqualToSystemSpacingBelowAnchor_multiplier(
-            &self,
-            anchor: &NSLayoutYAxisAnchor,
-            multiplier: CGFloat,
-        ) -> Id<NSLayoutConstraint>;
-    }
-);
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(
+        sel = "constraintGreaterThanOrEqualToSystemSpacingBelowAnchor:multiplier:",
+        managed = "Other"
+    )]
+    pub unsafe fn constraintGreaterThanOrEqualToSystemSpacingBelowAnchor_multiplier(
+        &self,
+        anchor: &NSLayoutYAxisAnchor,
+        multiplier: CGFloat,
+    ) -> Id<NSLayoutConstraint>;
 
-extern_class!(
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(
+        sel = "constraintLessThanOrEqualToSystemSpacingBelowAnchor:multiplier:",
+        managed = "Other"
+    )]
+    pub unsafe fn constraintLessThanOrEqualToSystemSpacingBelowAnchor_multiplier(
+        &self,
+        anchor: &NSLayoutYAxisAnchor,
+        multiplier: CGFloat,
+    ) -> Id<NSLayoutConstraint>;
+}
+
+#[objc2::interface(
+    unsafe super = NSLayoutAnchor,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSLayoutDimension")]
     #[derive(Debug)]
-    #[cfg(feature = "AppKit_NSLayoutDimension")]
-    pub struct NSLayoutDimension;
-
-    #[cfg(feature = "AppKit_NSLayoutDimension")]
-    unsafe impl ClassType for NSLayoutDimension {
-        #[inherits(NSObject)]
-        type Super = NSLayoutAnchor;
-    }
-);
+    pub type NSLayoutDimension;
+}
 
 #[cfg(feature = "AppKit_NSLayoutDimension")]
 unsafe impl NSObjectProtocol for NSLayoutDimension {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSLayoutDimension")]
-    unsafe impl NSLayoutDimension {
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintEqualToConstant:)]
-        pub unsafe fn constraintEqualToConstant(&self, c: CGFloat) -> Id<NSLayoutConstraint>;
+    pub type NSLayoutDimension;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintGreaterThanOrEqualToConstant:)]
-        pub unsafe fn constraintGreaterThanOrEqualToConstant(
-            &self,
-            c: CGFloat,
-        ) -> Id<NSLayoutConstraint>;
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(sel = "constraintEqualToConstant:", managed = "Other")]
+    pub unsafe fn constraintEqualToConstant(&self, c: CGFloat) -> Id<NSLayoutConstraint>;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintLessThanOrEqualToConstant:)]
-        pub unsafe fn constraintLessThanOrEqualToConstant(
-            &self,
-            c: CGFloat,
-        ) -> Id<NSLayoutConstraint>;
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(sel = "constraintGreaterThanOrEqualToConstant:", managed = "Other")]
+    pub unsafe fn constraintGreaterThanOrEqualToConstant(
+        &self,
+        c: CGFloat,
+    ) -> Id<NSLayoutConstraint>;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintEqualToAnchor:multiplier:)]
-        pub unsafe fn constraintEqualToAnchor_multiplier(
-            &self,
-            anchor: &NSLayoutDimension,
-            m: CGFloat,
-        ) -> Id<NSLayoutConstraint>;
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(sel = "constraintLessThanOrEqualToConstant:", managed = "Other")]
+    pub unsafe fn constraintLessThanOrEqualToConstant(&self, c: CGFloat) -> Id<NSLayoutConstraint>;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintGreaterThanOrEqualToAnchor:multiplier:)]
-        pub unsafe fn constraintGreaterThanOrEqualToAnchor_multiplier(
-            &self,
-            anchor: &NSLayoutDimension,
-            m: CGFloat,
-        ) -> Id<NSLayoutConstraint>;
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(sel = "constraintEqualToAnchor:multiplier:", managed = "Other")]
+    pub unsafe fn constraintEqualToAnchor_multiplier(
+        &self,
+        anchor: &NSLayoutDimension,
+        m: CGFloat,
+    ) -> Id<NSLayoutConstraint>;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintLessThanOrEqualToAnchor:multiplier:)]
-        pub unsafe fn constraintLessThanOrEqualToAnchor_multiplier(
-            &self,
-            anchor: &NSLayoutDimension,
-            m: CGFloat,
-        ) -> Id<NSLayoutConstraint>;
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(
+        sel = "constraintGreaterThanOrEqualToAnchor:multiplier:",
+        managed = "Other"
+    )]
+    pub unsafe fn constraintGreaterThanOrEqualToAnchor_multiplier(
+        &self,
+        anchor: &NSLayoutDimension,
+        m: CGFloat,
+    ) -> Id<NSLayoutConstraint>;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintEqualToAnchor:multiplier:constant:)]
-        pub unsafe fn constraintEqualToAnchor_multiplier_constant(
-            &self,
-            anchor: &NSLayoutDimension,
-            m: CGFloat,
-            c: CGFloat,
-        ) -> Id<NSLayoutConstraint>;
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(
+        sel = "constraintLessThanOrEqualToAnchor:multiplier:",
+        managed = "Other"
+    )]
+    pub unsafe fn constraintLessThanOrEqualToAnchor_multiplier(
+        &self,
+        anchor: &NSLayoutDimension,
+        m: CGFloat,
+    ) -> Id<NSLayoutConstraint>;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintGreaterThanOrEqualToAnchor:multiplier:constant:)]
-        pub unsafe fn constraintGreaterThanOrEqualToAnchor_multiplier_constant(
-            &self,
-            anchor: &NSLayoutDimension,
-            m: CGFloat,
-            c: CGFloat,
-        ) -> Id<NSLayoutConstraint>;
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(
+        sel = "constraintEqualToAnchor:multiplier:constant:",
+        managed = "Other"
+    )]
+    pub unsafe fn constraintEqualToAnchor_multiplier_constant(
+        &self,
+        anchor: &NSLayoutDimension,
+        m: CGFloat,
+        c: CGFloat,
+    ) -> Id<NSLayoutConstraint>;
 
-        #[cfg(feature = "AppKit_NSLayoutConstraint")]
-        #[method_id(@__retain_semantics Other constraintLessThanOrEqualToAnchor:multiplier:constant:)]
-        pub unsafe fn constraintLessThanOrEqualToAnchor_multiplier_constant(
-            &self,
-            anchor: &NSLayoutDimension,
-            m: CGFloat,
-            c: CGFloat,
-        ) -> Id<NSLayoutConstraint>;
-    }
-);
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(
+        sel = "constraintGreaterThanOrEqualToAnchor:multiplier:constant:",
+        managed = "Other"
+    )]
+    pub unsafe fn constraintGreaterThanOrEqualToAnchor_multiplier_constant(
+        &self,
+        anchor: &NSLayoutDimension,
+        m: CGFloat,
+        c: CGFloat,
+    ) -> Id<NSLayoutConstraint>;
+
+    #[cfg(feature = "AppKit_NSLayoutConstraint")]
+    #[objc2::method(
+        sel = "constraintLessThanOrEqualToAnchor:multiplier:constant:",
+        managed = "Other"
+    )]
+    pub unsafe fn constraintLessThanOrEqualToAnchor_multiplier_constant(
+        &self,
+        anchor: &NSLayoutDimension,
+        m: CGFloat,
+        c: CGFloat,
+    ) -> Id<NSLayoutConstraint>;
+}

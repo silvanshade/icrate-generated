@@ -3,32 +3,30 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSFileWrapperReadingOptions {
-        NSFileWrapperReadingImmediate = 1 << 0,
-        NSFileWrapperReadingWithoutMapping = 1 << 1,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSFileWrapperReadingOptions {
+    NSFileWrapperReadingImmediate = 1 << 0,
+    NSFileWrapperReadingWithoutMapping = 1 << 1,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSFileWrapperWritingOptions {
-        NSFileWrapperWritingAtomic = 1 << 0,
-        NSFileWrapperWritingWithNameUpdating = 1 << 1,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSFileWrapperWritingOptions {
+    NSFileWrapperWritingAtomic = 1 << 0,
+    NSFileWrapperWritingWithNameUpdating = 1 << 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSFileWrapper")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSFileWrapper")]
-    pub struct NSFileWrapper;
-
-    #[cfg(feature = "Foundation_NSFileWrapper")]
-    unsafe impl ClassType for NSFileWrapper {
-        type Super = NSObject;
-    }
-);
+    pub type NSFileWrapper;
+}
 
 #[cfg(feature = "Foundation_NSFileWrapper")]
 unsafe impl NSCoding for NSFileWrapper {}
@@ -39,200 +37,208 @@ unsafe impl NSObjectProtocol for NSFileWrapper {}
 #[cfg(feature = "Foundation_NSFileWrapper")]
 unsafe impl NSSecureCoding for NSFileWrapper {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSFileWrapper")]
-    unsafe impl NSFileWrapper {
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Init initWithURL:options:error:_)]
-        pub unsafe fn initWithURL_options_error(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            options: NSFileWrapperReadingOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    pub type NSFileWrapper;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initDirectoryWithFileWrappers:)]
-        pub unsafe fn initDirectoryWithFileWrappers(
-            this: Option<Allocated<Self>>,
-            children_by_preferred_name: &NSDictionary<NSString, NSFileWrapper>,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "initWithURL:options:error:", managed = "Init", throws)]
+    pub unsafe fn initWithURL_options_error(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        options: NSFileWrapperReadingOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Init initRegularFileWithContents:)]
-        pub unsafe fn initRegularFileWithContents(
-            this: Option<Allocated<Self>>,
-            contents: &NSData,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initDirectoryWithFileWrappers:", managed = "Init")]
+    pub unsafe fn initDirectoryWithFileWrappers(
+        this: Option<Allocated<Self>>,
+        children_by_preferred_name: &NSDictionary<NSString, NSFileWrapper>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initSymbolicLinkWithDestinationURL:)]
-        pub unsafe fn initSymbolicLinkWithDestinationURL(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "initRegularFileWithContents:", managed = "Init")]
+    pub unsafe fn initRegularFileWithContents(
+        this: Option<Allocated<Self>>,
+        contents: &NSData,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Init initWithSerializedRepresentation:)]
-        pub unsafe fn initWithSerializedRepresentation(
-            this: Option<Allocated<Self>>,
-            serialize_representation: &NSData,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initSymbolicLinkWithDestinationURL:", managed = "Init")]
+    pub unsafe fn initSymbolicLinkWithDestinationURL(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            in_coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "initWithSerializedRepresentation:", managed = "Init")]
+    pub unsafe fn initWithSerializedRepresentation(
+        this: Option<Allocated<Self>>,
+        serialize_representation: &NSData,
+    ) -> Option<Id<Self>>;
 
-        #[method(isDirectory)]
-        pub unsafe fn isDirectory(&self) -> bool;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(
+        this: Option<Allocated<Self>>,
+        in_coder: &NSCoder,
+    ) -> Option<Id<Self>>;
 
-        #[method(isRegularFile)]
-        pub unsafe fn isRegularFile(&self) -> bool;
+    #[objc2::method(sel = "isDirectory")]
+    pub unsafe fn isDirectory(&self) -> bool;
 
-        #[method(isSymbolicLink)]
-        pub unsafe fn isSymbolicLink(&self) -> bool;
+    #[objc2::method(sel = "isRegularFile")]
+    pub unsafe fn isRegularFile(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other preferredFilename)]
-        pub unsafe fn preferredFilename(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "isSymbolicLink")]
+    pub unsafe fn isSymbolicLink(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPreferredFilename:)]
-        pub unsafe fn setPreferredFilename(&self, preferred_filename: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "preferredFilename", managed = "Other")]
+    pub unsafe fn preferredFilename(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other filename)]
-        pub unsafe fn filename(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPreferredFilename:")]
+    pub unsafe fn setPreferredFilename(&self, preferred_filename: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setFilename:)]
-        pub unsafe fn setFilename(&self, filename: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "filename", managed = "Other")]
+    pub unsafe fn filename(&self) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other fileAttributes)]
-        pub unsafe fn fileAttributes(&self) -> Id<NSDictionary<NSString, Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setFilename:")]
+    pub unsafe fn setFilename(&self, filename: Option<&NSString>);
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(setFileAttributes:)]
-        pub unsafe fn setFileAttributes(&self, file_attributes: &NSDictionary<NSString, Object>);
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "fileAttributes", managed = "Other")]
+    pub unsafe fn fileAttributes(&self) -> Id<NSDictionary<NSString, Object>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(matchesContentsOfURL:)]
-        pub unsafe fn matchesContentsOfURL(&self, url: &NSURL) -> bool;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setFileAttributes:")]
+    pub unsafe fn setFileAttributes(&self, file_attributes: &NSDictionary<NSString, Object>);
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method(readFromURL:options:error:_)]
-        pub unsafe fn readFromURL_options_error(
-            &self,
-            url: &NSURL,
-            options: NSFileWrapperReadingOptions,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "matchesContentsOfURL:")]
+    pub unsafe fn matchesContentsOfURL(&self, url: &NSURL) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method(writeToURL:options:originalContentsURL:error:_)]
-        pub unsafe fn writeToURL_options_originalContentsURL_error(
-            &self,
-            url: &NSURL,
-            options: NSFileWrapperWritingOptions,
-            original_contents_url: Option<&NSURL>,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "readFromURL:options:error:", throws)]
+    pub unsafe fn readFromURL_options_error(
+        &self,
+        url: &NSURL,
+        options: NSFileWrapperReadingOptions,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other serializedRepresentation)]
-        pub unsafe fn serializedRepresentation(&self) -> Option<Id<NSData>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "writeToURL:options:originalContentsURL:error:", throws)]
+    pub unsafe fn writeToURL_options_originalContentsURL_error(
+        &self,
+        url: &NSURL,
+        options: NSFileWrapperWritingOptions,
+        original_contents_url: Option<&NSURL>,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other addFileWrapper:)]
-        pub unsafe fn addFileWrapper(&self, child: &NSFileWrapper) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "serializedRepresentation", managed = "Other")]
+    pub unsafe fn serializedRepresentation(&self) -> Option<Id<NSData>>;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other addRegularFileWithContents:preferredFilename:)]
-        pub unsafe fn addRegularFileWithContents_preferredFilename(
-            &self,
-            data: &NSData,
-            file_name: &NSString,
-        ) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "addFileWrapper:", managed = "Other")]
+    pub unsafe fn addFileWrapper(&self, child: &NSFileWrapper) -> Id<NSString>;
 
-        #[method(removeFileWrapper:)]
-        pub unsafe fn removeFileWrapper(&self, child: &NSFileWrapper);
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "addRegularFileWithContents:preferredFilename:",
+        managed = "Other"
+    )]
+    pub unsafe fn addRegularFileWithContents_preferredFilename(
+        &self,
+        data: &NSData,
+        file_name: &NSString,
+    ) -> Id<NSString>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other fileWrappers)]
-        pub unsafe fn fileWrappers(&self) -> Option<Id<NSDictionary<NSString, NSFileWrapper>>>;
+    #[objc2::method(sel = "removeFileWrapper:")]
+    pub unsafe fn removeFileWrapper(&self, child: &NSFileWrapper);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other keyForFileWrapper:)]
-        pub unsafe fn keyForFileWrapper(&self, child: &NSFileWrapper) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "fileWrappers", managed = "Other")]
+    pub unsafe fn fileWrappers(&self) -> Option<Id<NSDictionary<NSString, NSFileWrapper>>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other regularFileContents)]
-        pub unsafe fn regularFileContents(&self) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "keyForFileWrapper:", managed = "Other")]
+    pub unsafe fn keyForFileWrapper(&self, child: &NSFileWrapper) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other symbolicLinkDestinationURL)]
-        pub unsafe fn symbolicLinkDestinationURL(&self) -> Option<Id<NSURL>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "regularFileContents", managed = "Other")]
+    pub unsafe fn regularFileContents(&self) -> Option<Id<NSData>>;
 
-extern_methods!(
-    /// NSDeprecated
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "symbolicLinkDestinationURL", managed = "Other")]
+    pub unsafe fn symbolicLinkDestinationURL(&self) -> Option<Id<NSURL>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSFileWrapper")]
-    unsafe impl NSFileWrapper {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -initWithURL:options:error: instead."]
-        #[method_id(@__retain_semantics Init initWithPath:)]
-        pub unsafe fn initWithPath(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-        ) -> Option<Id<Self>>;
+    pub type NSFileWrapper;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -initSymbolicLinkWithDestinationURL: and -setPreferredFileName:, if necessary, instead."]
-        #[method_id(@__retain_semantics Init initSymbolicLinkWithDestination:)]
-        pub unsafe fn initSymbolicLinkWithDestination(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -initWithURL:options:error: instead."]
+    #[objc2::method(sel = "initWithPath:", managed = "Init")]
+    pub unsafe fn initWithPath(this: Option<Allocated<Self>>, path: &NSString) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -matchesContentsOfURL: instead."]
-        #[method(needsToBeUpdatedFromPath:)]
-        pub unsafe fn needsToBeUpdatedFromPath(&self, path: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -initSymbolicLinkWithDestinationURL: and -setPreferredFileName:, if necessary, instead."]
+    #[objc2::method(sel = "initSymbolicLinkWithDestination:", managed = "Init")]
+    pub unsafe fn initSymbolicLinkWithDestination(
+        this: Option<Allocated<Self>>,
+        path: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -readFromURL:options:error: instead."]
-        #[method(updateFromPath:)]
-        pub unsafe fn updateFromPath(&self, path: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -matchesContentsOfURL: instead."]
+    #[objc2::method(sel = "needsToBeUpdatedFromPath:")]
+    pub unsafe fn needsToBeUpdatedFromPath(&self, path: &NSString) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -writeToURL:options:originalContentsURL:error: instead."]
-        #[method(writeToFile:atomically:updateFilenames:)]
-        pub unsafe fn writeToFile_atomically_updateFilenames(
-            &self,
-            path: &NSString,
-            atomic_flag: bool,
-            update_filenames_flag: bool,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -readFromURL:options:error: instead."]
+    #[objc2::method(sel = "updateFromPath:")]
+    pub unsafe fn updateFromPath(&self, path: &NSString) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Instantiate a new NSFileWrapper with -initWithURL:options:error:, send it -setPreferredFileName: if necessary, then use -addFileWrapper: instead."]
-        #[method_id(@__retain_semantics Other addFileWithPath:)]
-        pub unsafe fn addFileWithPath(&self, path: &NSString) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -writeToURL:options:originalContentsURL:error: instead."]
+    #[objc2::method(sel = "writeToFile:atomically:updateFilenames:")]
+    pub unsafe fn writeToFile_atomically_updateFilenames(
+        &self,
+        path: &NSString,
+        atomic_flag: bool,
+        update_filenames_flag: bool,
+    ) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Instantiate a new NSFileWrapper with -initWithSymbolicLinkDestinationURL:, send it -setPreferredFileName: if necessary, then use -addFileWrapper: instead."]
-        #[method_id(@__retain_semantics Other addSymbolicLinkWithDestination:preferredFilename:)]
-        pub unsafe fn addSymbolicLinkWithDestination_preferredFilename(
-            &self,
-            path: &NSString,
-            filename: &NSString,
-        ) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Instantiate a new NSFileWrapper with -initWithURL:options:error:, send it -setPreferredFileName: if necessary, then use -addFileWrapper: instead."]
+    #[objc2::method(sel = "addFileWithPath:", managed = "Other")]
+    pub unsafe fn addFileWithPath(&self, path: &NSString) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -symbolicLinkDestinationURL instead."]
-        #[method_id(@__retain_semantics Other symbolicLinkDestination)]
-        pub unsafe fn symbolicLinkDestination(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Instantiate a new NSFileWrapper with -initWithSymbolicLinkDestinationURL:, send it -setPreferredFileName: if necessary, then use -addFileWrapper: instead."]
+    #[objc2::method(
+        sel = "addSymbolicLinkWithDestination:preferredFilename:",
+        managed = "Other"
+    )]
+    pub unsafe fn addSymbolicLinkWithDestination_preferredFilename(
+        &self,
+        path: &NSString,
+        filename: &NSString,
+    ) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -symbolicLinkDestinationURL instead."]
+    #[objc2::method(sel = "symbolicLinkDestination", managed = "Other")]
+    pub unsafe fn symbolicLinkDestination(&self) -> Id<NSString>;
+}

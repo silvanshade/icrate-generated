@@ -4,62 +4,63 @@ use crate::common::*;
 use crate::AutomaticAssessmentConfiguration::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentSession")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentSession")]
-    pub struct AEAssessmentSession;
-
-    #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentSession")]
-    unsafe impl ClassType for AEAssessmentSession {
-        type Super = NSObject;
-    }
-);
+    pub type AEAssessmentSession;
+}
 
 #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentSession")]
 unsafe impl NSObjectProtocol for AEAssessmentSession {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentSession")]
-    unsafe impl AEAssessmentSession {
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn AEAssessmentSessionDelegate>>>;
+    pub type AEAssessmentSession;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn AEAssessmentSessionDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn AEAssessmentSessionDelegate>>>;
 
-        #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentConfiguration")]
-        #[method_id(@__retain_semantics Other configuration)]
-        pub unsafe fn configuration(&self) -> Id<AEAssessmentConfiguration>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn AEAssessmentSessionDelegate>>,
+    );
 
-        #[method(isActive)]
-        pub unsafe fn isActive(&self) -> bool;
+    #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentConfiguration")]
+    #[objc2::method(sel = "configuration", managed = "Other")]
+    pub unsafe fn configuration(&self) -> Id<AEAssessmentConfiguration>;
 
-        #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentConfiguration")]
-        #[method_id(@__retain_semantics Init initWithConfiguration:)]
-        pub unsafe fn initWithConfiguration(
-            this: Option<Allocated<Self>>,
-            configuration: &AEAssessmentConfiguration,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "isActive")]
+    pub unsafe fn isActive(&self) -> bool;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentConfiguration")]
+    #[objc2::method(sel = "initWithConfiguration:", managed = "Init")]
+    pub unsafe fn initWithConfiguration(
+        this: Option<Allocated<Self>>,
+        configuration: &AEAssessmentConfiguration,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(begin)]
-        pub unsafe fn begin(&self);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[method(end)]
-        pub unsafe fn end(&self);
+    #[objc2::method(sel = "begin")]
+    pub unsafe fn begin(&self);
 
-        #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentConfiguration")]
-        #[method(updateToConfiguration:)]
-        pub unsafe fn updateToConfiguration(&self, configuration: &AEAssessmentConfiguration);
-    }
-);
+    #[objc2::method(sel = "end")]
+    pub unsafe fn end(&self);
+
+    #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentConfiguration")]
+    #[objc2::method(sel = "updateToConfiguration:")]
+    pub unsafe fn updateToConfiguration(&self, configuration: &AEAssessmentConfiguration);
+}

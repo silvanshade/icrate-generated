@@ -4,103 +4,103 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum ASAuthorizationProviderExtensionKeyType {
-        ASAuthorizationProviderExtensionKeyTypeUserDeviceSigning = 1,
-        ASAuthorizationProviderExtensionKeyTypeUserDeviceEncryption = 2,
-        ASAuthorizationProviderExtensionKeyTypeUserSecureEnclaveKey = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum ASAuthorizationProviderExtensionKeyType {
+    ASAuthorizationProviderExtensionKeyTypeUserDeviceSigning = 1,
+    ASAuthorizationProviderExtensionKeyTypeUserDeviceEncryption = 2,
+    ASAuthorizationProviderExtensionKeyTypeUserSecureEnclaveKey = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionLoginManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionLoginManager")]
-    pub struct ASAuthorizationProviderExtensionLoginManager;
-
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionLoginManager")]
-    unsafe impl ClassType for ASAuthorizationProviderExtensionLoginManager {
-        type Super = NSObject;
-    }
-);
+    pub type ASAuthorizationProviderExtensionLoginManager;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionLoginManager")]
 unsafe impl NSObjectProtocol for ASAuthorizationProviderExtensionLoginManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionLoginManager")]
-    unsafe impl ASAuthorizationProviderExtensionLoginManager {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type ASAuthorizationProviderExtensionLoginManager;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(isDeviceRegistered)]
-        pub unsafe fn isDeviceRegistered(&self) -> bool;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[method(isUserRegistered)]
-        pub unsafe fn isUserRegistered(&self) -> bool;
+    #[objc2::method(sel = "isDeviceRegistered")]
+    pub unsafe fn isDeviceRegistered(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other registrationToken)]
-        pub unsafe fn registrationToken(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "isUserRegistered")]
+    pub unsafe fn isUserRegistered(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other loginUserName)]
-        pub unsafe fn loginUserName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "registrationToken", managed = "Other")]
+    pub unsafe fn registrationToken(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLoginUserName:)]
-        pub unsafe fn setLoginUserName(&self, login_user_name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "loginUserName", managed = "Other")]
+    pub unsafe fn loginUserName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other ssoTokens)]
-        pub unsafe fn ssoTokens(&self) -> Option<Id<NSDictionary>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLoginUserName:")]
+    pub unsafe fn setLoginUserName(&self, login_user_name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(setSsoTokens:)]
-        pub unsafe fn setSsoTokens(&self, sso_tokens: Option<&NSDictionary>);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "ssoTokens", managed = "Other")]
+    pub unsafe fn ssoTokens(&self) -> Option<Id<NSDictionary>>;
 
-        #[cfg(
-            feature = "AuthenticationServices_ASAuthorizationProviderExtensionLoginConfiguration"
-        )]
-        #[method_id(@__retain_semantics Other loginConfiguration)]
-        pub unsafe fn loginConfiguration(
-            &self,
-        ) -> Option<Id<ASAuthorizationProviderExtensionLoginConfiguration>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "setSsoTokens:")]
+    pub unsafe fn setSsoTokens(&self, sso_tokens: Option<&NSDictionary>);
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASAuthorizationProviderExtensionLoginConfiguration",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(saveLoginConfiguration:error:_)]
-        pub unsafe fn saveLoginConfiguration_error(
-            &self,
-            login_configuration: &ASAuthorizationProviderExtensionLoginConfiguration,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionLoginConfiguration")]
+    #[objc2::method(sel = "loginConfiguration", managed = "Other")]
+    pub unsafe fn loginConfiguration(
+        &self,
+    ) -> Option<Id<ASAuthorizationProviderExtensionLoginConfiguration>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(userNeedsReauthenticationWithCompletion:)]
-        pub unsafe fn userNeedsReauthenticationWithCompletion(
-            &self,
-            completion: &Block<(*mut NSError,), ()>,
-        );
+    #[cfg(all(
+        feature = "AuthenticationServices_ASAuthorizationProviderExtensionLoginConfiguration",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "saveLoginConfiguration:error:", throws)]
+    pub unsafe fn saveLoginConfiguration_error(
+        &self,
+        login_configuration: &ASAuthorizationProviderExtensionLoginConfiguration,
+    ) -> Result<(), Id<NSError>>;
 
-        #[method(deviceRegistrationsNeedsRepair)]
-        pub unsafe fn deviceRegistrationsNeedsRepair(&self);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "userNeedsReauthenticationWithCompletion:")]
+    pub unsafe fn userNeedsReauthenticationWithCompletion(
+        &self,
+        completion: &Block<(*mut NSError,), ()>,
+    );
 
-        #[method(userRegistrationsNeedsRepair)]
-        pub unsafe fn userRegistrationsNeedsRepair(&self);
+    #[objc2::method(sel = "deviceRegistrationsNeedsRepair")]
+    pub unsafe fn deviceRegistrationsNeedsRepair(&self);
 
-        #[method(resetKeys)]
-        pub unsafe fn resetKeys(&self);
+    #[objc2::method(sel = "userRegistrationsNeedsRepair")]
+    pub unsafe fn userRegistrationsNeedsRepair(&self);
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(presentRegistrationViewControllerWithCompletion:)]
-        pub unsafe fn presentRegistrationViewControllerWithCompletion(
-            &self,
-            completion: &Block<(*mut NSError,), ()>,
-        );
-    }
-);
+    #[objc2::method(sel = "resetKeys")]
+    pub unsafe fn resetKeys(&self);
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "presentRegistrationViewControllerWithCompletion:")]
+    pub unsafe fn presentRegistrationViewControllerWithCompletion(
+        &self,
+        completion: &Block<(*mut NSError,), ()>,
+    );
+}

@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::IdentityLookup::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "IdentityLookup_ILMessageFilterCapabilitiesQueryResponse")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "IdentityLookup_ILMessageFilterCapabilitiesQueryResponse")]
-    pub struct ILMessageFilterCapabilitiesQueryResponse;
-
-    #[cfg(feature = "IdentityLookup_ILMessageFilterCapabilitiesQueryResponse")]
-    unsafe impl ClassType for ILMessageFilterCapabilitiesQueryResponse {
-        type Super = NSObject;
-    }
-);
+    pub type ILMessageFilterCapabilitiesQueryResponse;
+}
 
 #[cfg(feature = "IdentityLookup_ILMessageFilterCapabilitiesQueryResponse")]
 unsafe impl NSCoding for ILMessageFilterCapabilitiesQueryResponse {}
@@ -24,26 +24,26 @@ unsafe impl NSObjectProtocol for ILMessageFilterCapabilitiesQueryResponse {}
 #[cfg(feature = "IdentityLookup_ILMessageFilterCapabilitiesQueryResponse")]
 unsafe impl NSSecureCoding for ILMessageFilterCapabilitiesQueryResponse {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "IdentityLookup_ILMessageFilterCapabilitiesQueryResponse")]
-    unsafe impl ILMessageFilterCapabilitiesQueryResponse {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other transactionalSubActions)]
-        pub unsafe fn transactionalSubActions(&self) -> Id<NSArray<NSNumber>>;
+    pub type ILMessageFilterCapabilitiesQueryResponse;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method(setTransactionalSubActions:)]
-        pub unsafe fn setTransactionalSubActions(
-            &self,
-            transactional_sub_actions: &NSArray<NSNumber>,
-        );
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "transactionalSubActions", managed = "Other")]
+    pub unsafe fn transactionalSubActions(&self) -> Id<NSArray<NSNumber>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other promotionalSubActions)]
-        pub unsafe fn promotionalSubActions(&self) -> Id<NSArray<NSNumber>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "setTransactionalSubActions:")]
+    pub unsafe fn setTransactionalSubActions(&self, transactional_sub_actions: &NSArray<NSNumber>);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method(setPromotionalSubActions:)]
-        pub unsafe fn setPromotionalSubActions(&self, promotional_sub_actions: &NSArray<NSNumber>);
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "promotionalSubActions", managed = "Other")]
+    pub unsafe fn promotionalSubActions(&self) -> Id<NSArray<NSNumber>>;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "setPromotionalSubActions:")]
+    pub unsafe fn setPromotionalSubActions(&self, promotional_sub_actions: &NSArray<NSNumber>);
+}

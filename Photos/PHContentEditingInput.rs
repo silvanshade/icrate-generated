@@ -6,70 +6,73 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHContentEditingInput")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHContentEditingInput")]
-    pub struct PHContentEditingInput;
-
-    #[cfg(feature = "PhotoKit_PHContentEditingInput")]
-    unsafe impl ClassType for PHContentEditingInput {
-        type Super = NSObject;
-    }
-);
+    pub type PHContentEditingInput;
+}
 
 #[cfg(feature = "PhotoKit_PHContentEditingInput")]
 unsafe impl NSObjectProtocol for PHContentEditingInput {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHContentEditingInput")]
-    unsafe impl PHContentEditingInput {
-        #[method(mediaType)]
-        pub unsafe fn mediaType(&self) -> PHAssetMediaType;
+    pub type PHContentEditingInput;
 
-        #[method(mediaSubtypes)]
-        pub unsafe fn mediaSubtypes(&self) -> PHAssetMediaSubtype;
+    #[objc2::method(sel = "mediaType")]
+    pub unsafe fn mediaType(&self) -> PHAssetMediaType;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other creationDate)]
-        pub unsafe fn creationDate(&self) -> Option<Id<NSDate>>;
+    #[objc2::method(sel = "mediaSubtypes")]
+    pub unsafe fn mediaSubtypes(&self) -> PHAssetMediaSubtype;
 
-        #[cfg(feature = "CoreLocation_CLLocation")]
-        #[method_id(@__retain_semantics Other location)]
-        pub unsafe fn location(&self) -> Option<Id<CLLocation>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "creationDate", managed = "Other")]
+    pub unsafe fn creationDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other uniformTypeIdentifier)]
-        pub unsafe fn uniformTypeIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "CoreLocation_CLLocation")]
+    #[objc2::method(sel = "location", managed = "Other")]
+    pub unsafe fn location(&self) -> Option<Id<CLLocation>>;
 
-        #[method(playbackStyle)]
-        pub unsafe fn playbackStyle(&self) -> PHAssetPlaybackStyle;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "uniformTypeIdentifier", managed = "Other")]
+    pub unsafe fn uniformTypeIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "PhotoKit_PHAdjustmentData")]
-        #[method_id(@__retain_semantics Other adjustmentData)]
-        pub unsafe fn adjustmentData(&self) -> Option<Id<PHAdjustmentData>>;
+    #[objc2::method(sel = "playbackStyle")]
+    pub unsafe fn playbackStyle(&self) -> PHAssetPlaybackStyle;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other displaySizeImage)]
-        pub unsafe fn displaySizeImage(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "PhotoKit_PHAdjustmentData")]
+    #[objc2::method(sel = "adjustmentData", managed = "Other")]
+    pub unsafe fn adjustmentData(&self) -> Option<Id<PHAdjustmentData>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other fullSizeImageURL)]
-        pub unsafe fn fullSizeImageURL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "displaySizeImage", managed = "Other")]
+    pub unsafe fn displaySizeImage(&self) -> Option<Id<NSImage>>;
 
-        #[method(fullSizeImageOrientation)]
-        pub unsafe fn fullSizeImageOrientation(&self) -> c_int;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "fullSizeImageURL", managed = "Other")]
+    pub unsafe fn fullSizeImageURL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "AVFoundation_AVAsset")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other avAsset)]
-        pub unsafe fn avAsset(&self) -> Option<Id<AVAsset>>;
+    #[objc2::method(sel = "fullSizeImageOrientation")]
+    pub unsafe fn fullSizeImageOrientation(&self) -> c_int;
 
-        #[cfg(feature = "AVFoundation_AVAsset")]
-        #[method_id(@__retain_semantics Other audiovisualAsset)]
-        pub unsafe fn audiovisualAsset(&self) -> Option<Id<AVAsset>>;
+    #[cfg(feature = "AVFoundation_AVAsset")]
+    #[deprecated]
+    #[objc2::method(sel = "avAsset", managed = "Other")]
+    pub unsafe fn avAsset(&self) -> Option<Id<AVAsset>>;
 
-        #[cfg(feature = "PhotoKit_PHLivePhoto")]
-        #[method_id(@__retain_semantics Other livePhoto)]
-        pub unsafe fn livePhoto(&self) -> Option<Id<PHLivePhoto>>;
-    }
-);
+    #[cfg(feature = "AVFoundation_AVAsset")]
+    #[objc2::method(sel = "audiovisualAsset", managed = "Other")]
+    pub unsafe fn audiovisualAsset(&self) -> Option<Id<AVAsset>>;
+
+    #[cfg(feature = "PhotoKit_PHLivePhoto")]
+    #[objc2::method(sel = "livePhoto", managed = "Other")]
+    pub unsafe fn livePhoto(&self) -> Option<Id<PHLivePhoto>>;
+}

@@ -5,253 +5,282 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPRemoteCommandEvent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPRemoteCommandEvent")]
-    pub struct MPRemoteCommandEvent;
-
-    #[cfg(feature = "MediaPlayer_MPRemoteCommandEvent")]
-    unsafe impl ClassType for MPRemoteCommandEvent {
-        type Super = NSObject;
-    }
-);
+    pub type MPRemoteCommandEvent;
+}
 
 #[cfg(feature = "MediaPlayer_MPRemoteCommandEvent")]
 unsafe impl NSObjectProtocol for MPRemoteCommandEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPRemoteCommandEvent")]
-    unsafe impl MPRemoteCommandEvent {
-        #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
-        #[method_id(@__retain_semantics Other command)]
-        pub unsafe fn command(&self) -> Id<MPRemoteCommand>;
+    pub type MPRemoteCommandEvent;
 
-        #[method(timestamp)]
-        pub unsafe fn timestamp(&self) -> NSTimeInterval;
-    }
-);
+    #[cfg(feature = "MediaPlayer_MPRemoteCommand")]
+    #[objc2::method(sel = "command", managed = "Other")]
+    pub unsafe fn command(&self) -> Id<MPRemoteCommand>;
 
-extern_class!(
+    #[objc2::method(sel = "timestamp")]
+    pub unsafe fn timestamp(&self) -> NSTimeInterval;
+}
+
+#[objc2::interface(
+    unsafe super = MPRemoteCommandEvent,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPSkipIntervalCommandEvent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPSkipIntervalCommandEvent")]
-    pub struct MPSkipIntervalCommandEvent;
-
-    #[cfg(feature = "MediaPlayer_MPSkipIntervalCommandEvent")]
-    unsafe impl ClassType for MPSkipIntervalCommandEvent {
-        #[inherits(NSObject)]
-        type Super = MPRemoteCommandEvent;
-    }
-);
+    pub type MPSkipIntervalCommandEvent;
+}
 
 #[cfg(feature = "MediaPlayer_MPSkipIntervalCommandEvent")]
 unsafe impl NSObjectProtocol for MPSkipIntervalCommandEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPSkipIntervalCommandEvent")]
-    unsafe impl MPSkipIntervalCommandEvent {
-        #[method(interval)]
-        pub unsafe fn interval(&self) -> NSTimeInterval;
-    }
-);
+    pub type MPSkipIntervalCommandEvent;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MPSeekCommandEventType {
-        MPSeekCommandEventTypeBeginSeeking = 0,
-        MPSeekCommandEventTypeEndSeeking = 1,
-    }
-);
+    #[objc2::method(sel = "interval")]
+    pub unsafe fn interval(&self) -> NSTimeInterval;
+}
 
-extern_class!(
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MPSeekCommandEventType {
+    MPSeekCommandEventTypeBeginSeeking = 0,
+    MPSeekCommandEventTypeEndSeeking = 1,
+}
+
+#[objc2::interface(
+    unsafe super = MPRemoteCommandEvent,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPSeekCommandEvent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPSeekCommandEvent")]
-    pub struct MPSeekCommandEvent;
-
-    #[cfg(feature = "MediaPlayer_MPSeekCommandEvent")]
-    unsafe impl ClassType for MPSeekCommandEvent {
-        #[inherits(NSObject)]
-        type Super = MPRemoteCommandEvent;
-    }
-);
+    pub type MPSeekCommandEvent;
+}
 
 #[cfg(feature = "MediaPlayer_MPSeekCommandEvent")]
 unsafe impl NSObjectProtocol for MPSeekCommandEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPSeekCommandEvent")]
-    unsafe impl MPSeekCommandEvent {
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> MPSeekCommandEventType;
-    }
-);
+    pub type MPSeekCommandEvent;
 
-extern_class!(
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> MPSeekCommandEventType;
+}
+
+#[objc2::interface(
+    unsafe super = MPRemoteCommandEvent,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPRatingCommandEvent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPRatingCommandEvent")]
-    pub struct MPRatingCommandEvent;
-
-    #[cfg(feature = "MediaPlayer_MPRatingCommandEvent")]
-    unsafe impl ClassType for MPRatingCommandEvent {
-        #[inherits(NSObject)]
-        type Super = MPRemoteCommandEvent;
-    }
-);
+    pub type MPRatingCommandEvent;
+}
 
 #[cfg(feature = "MediaPlayer_MPRatingCommandEvent")]
 unsafe impl NSObjectProtocol for MPRatingCommandEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPRatingCommandEvent")]
-    unsafe impl MPRatingCommandEvent {
-        #[method(rating)]
-        pub unsafe fn rating(&self) -> c_float;
-    }
-);
+    pub type MPRatingCommandEvent;
 
-extern_class!(
+    #[objc2::method(sel = "rating")]
+    pub unsafe fn rating(&self) -> c_float;
+}
+
+#[objc2::interface(
+    unsafe super = MPRemoteCommandEvent,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPChangePlaybackRateCommandEvent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPChangePlaybackRateCommandEvent")]
-    pub struct MPChangePlaybackRateCommandEvent;
-
-    #[cfg(feature = "MediaPlayer_MPChangePlaybackRateCommandEvent")]
-    unsafe impl ClassType for MPChangePlaybackRateCommandEvent {
-        #[inherits(NSObject)]
-        type Super = MPRemoteCommandEvent;
-    }
-);
+    pub type MPChangePlaybackRateCommandEvent;
+}
 
 #[cfg(feature = "MediaPlayer_MPChangePlaybackRateCommandEvent")]
 unsafe impl NSObjectProtocol for MPChangePlaybackRateCommandEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPChangePlaybackRateCommandEvent")]
-    unsafe impl MPChangePlaybackRateCommandEvent {
-        #[method(playbackRate)]
-        pub unsafe fn playbackRate(&self) -> c_float;
-    }
-);
+    pub type MPChangePlaybackRateCommandEvent;
 
-extern_class!(
+    #[objc2::method(sel = "playbackRate")]
+    pub unsafe fn playbackRate(&self) -> c_float;
+}
+
+#[objc2::interface(
+    unsafe super = MPRemoteCommandEvent,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPFeedbackCommandEvent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPFeedbackCommandEvent")]
-    pub struct MPFeedbackCommandEvent;
-
-    #[cfg(feature = "MediaPlayer_MPFeedbackCommandEvent")]
-    unsafe impl ClassType for MPFeedbackCommandEvent {
-        #[inherits(NSObject)]
-        type Super = MPRemoteCommandEvent;
-    }
-);
+    pub type MPFeedbackCommandEvent;
+}
 
 #[cfg(feature = "MediaPlayer_MPFeedbackCommandEvent")]
 unsafe impl NSObjectProtocol for MPFeedbackCommandEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPFeedbackCommandEvent")]
-    unsafe impl MPFeedbackCommandEvent {
-        #[method(isNegative)]
-        pub unsafe fn isNegative(&self) -> bool;
-    }
-);
+    pub type MPFeedbackCommandEvent;
 
-extern_class!(
+    #[objc2::method(sel = "isNegative")]
+    pub unsafe fn isNegative(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe super = MPRemoteCommandEvent,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPChangeLanguageOptionCommandEvent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPChangeLanguageOptionCommandEvent")]
-    pub struct MPChangeLanguageOptionCommandEvent;
-
-    #[cfg(feature = "MediaPlayer_MPChangeLanguageOptionCommandEvent")]
-    unsafe impl ClassType for MPChangeLanguageOptionCommandEvent {
-        #[inherits(NSObject)]
-        type Super = MPRemoteCommandEvent;
-    }
-);
+    pub type MPChangeLanguageOptionCommandEvent;
+}
 
 #[cfg(feature = "MediaPlayer_MPChangeLanguageOptionCommandEvent")]
 unsafe impl NSObjectProtocol for MPChangeLanguageOptionCommandEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPChangeLanguageOptionCommandEvent")]
-    unsafe impl MPChangeLanguageOptionCommandEvent {
-        #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOption")]
-        #[method_id(@__retain_semantics Other languageOption)]
-        pub unsafe fn languageOption(&self) -> Id<MPNowPlayingInfoLanguageOption>;
+    pub type MPChangeLanguageOptionCommandEvent;
 
-        #[method(setting)]
-        pub unsafe fn setting(&self) -> MPChangeLanguageOptionSetting;
-    }
-);
+    #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOption")]
+    #[objc2::method(sel = "languageOption", managed = "Other")]
+    pub unsafe fn languageOption(&self) -> Id<MPNowPlayingInfoLanguageOption>;
 
-extern_class!(
+    #[objc2::method(sel = "setting")]
+    pub unsafe fn setting(&self) -> MPChangeLanguageOptionSetting;
+}
+
+#[objc2::interface(
+    unsafe super = MPRemoteCommandEvent,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPChangePlaybackPositionCommandEvent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPChangePlaybackPositionCommandEvent")]
-    pub struct MPChangePlaybackPositionCommandEvent;
-
-    #[cfg(feature = "MediaPlayer_MPChangePlaybackPositionCommandEvent")]
-    unsafe impl ClassType for MPChangePlaybackPositionCommandEvent {
-        #[inherits(NSObject)]
-        type Super = MPRemoteCommandEvent;
-    }
-);
+    pub type MPChangePlaybackPositionCommandEvent;
+}
 
 #[cfg(feature = "MediaPlayer_MPChangePlaybackPositionCommandEvent")]
 unsafe impl NSObjectProtocol for MPChangePlaybackPositionCommandEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPChangePlaybackPositionCommandEvent")]
-    unsafe impl MPChangePlaybackPositionCommandEvent {
-        #[method(positionTime)]
-        pub unsafe fn positionTime(&self) -> NSTimeInterval;
-    }
-);
+    pub type MPChangePlaybackPositionCommandEvent;
 
-extern_class!(
+    #[objc2::method(sel = "positionTime")]
+    pub unsafe fn positionTime(&self) -> NSTimeInterval;
+}
+
+#[objc2::interface(
+    unsafe super = MPRemoteCommandEvent,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPChangeShuffleModeCommandEvent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPChangeShuffleModeCommandEvent")]
-    pub struct MPChangeShuffleModeCommandEvent;
-
-    #[cfg(feature = "MediaPlayer_MPChangeShuffleModeCommandEvent")]
-    unsafe impl ClassType for MPChangeShuffleModeCommandEvent {
-        #[inherits(NSObject)]
-        type Super = MPRemoteCommandEvent;
-    }
-);
+    pub type MPChangeShuffleModeCommandEvent;
+}
 
 #[cfg(feature = "MediaPlayer_MPChangeShuffleModeCommandEvent")]
 unsafe impl NSObjectProtocol for MPChangeShuffleModeCommandEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPChangeShuffleModeCommandEvent")]
-    unsafe impl MPChangeShuffleModeCommandEvent {
-        #[method(shuffleType)]
-        pub unsafe fn shuffleType(&self) -> MPShuffleType;
+    pub type MPChangeShuffleModeCommandEvent;
 
-        #[method(preservesShuffleMode)]
-        pub unsafe fn preservesShuffleMode(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "shuffleType")]
+    pub unsafe fn shuffleType(&self) -> MPShuffleType;
 
-extern_class!(
+    #[objc2::method(sel = "preservesShuffleMode")]
+    pub unsafe fn preservesShuffleMode(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe super = MPRemoteCommandEvent,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPChangeRepeatModeCommandEvent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPChangeRepeatModeCommandEvent")]
-    pub struct MPChangeRepeatModeCommandEvent;
-
-    #[cfg(feature = "MediaPlayer_MPChangeRepeatModeCommandEvent")]
-    unsafe impl ClassType for MPChangeRepeatModeCommandEvent {
-        #[inherits(NSObject)]
-        type Super = MPRemoteCommandEvent;
-    }
-);
+    pub type MPChangeRepeatModeCommandEvent;
+}
 
 #[cfg(feature = "MediaPlayer_MPChangeRepeatModeCommandEvent")]
 unsafe impl NSObjectProtocol for MPChangeRepeatModeCommandEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPChangeRepeatModeCommandEvent")]
-    unsafe impl MPChangeRepeatModeCommandEvent {
-        #[method(repeatType)]
-        pub unsafe fn repeatType(&self) -> MPRepeatType;
+    pub type MPChangeRepeatModeCommandEvent;
 
-        #[method(preservesRepeatMode)]
-        pub unsafe fn preservesRepeatMode(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "repeatType")]
+    pub unsafe fn repeatType(&self) -> MPRepeatType;
+
+    #[objc2::method(sel = "preservesRepeatMode")]
+    pub unsafe fn preservesRepeatMode(&self) -> bool;
+}

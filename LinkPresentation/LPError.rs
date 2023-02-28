@@ -7,12 +7,11 @@ use crate::LinkPresentation::*;
 
 extern_static!(LPErrorDomain: Option<&'static NSErrorDomain>);
 
-ns_error_enum!(
-    #[underlying(NSInteger)]
-    pub enum LPErrorCode {
-        LPErrorUnknown = 1,
-        LPErrorMetadataFetchFailed = 2,
-        LPErrorMetadataFetchCancelled = 3,
-        LPErrorMetadataFetchTimedOut = 4,
-    }
-);
+#[ns_error_enum]
+#[underlying(NSInteger)]
+pub enum LPErrorCode {
+    LPErrorUnknown = 1,
+    LPErrorMetadataFetchFailed = 2,
+    LPErrorMetadataFetchCancelled = 3,
+    LPErrorMetadataFetchTimedOut = 4,
+}

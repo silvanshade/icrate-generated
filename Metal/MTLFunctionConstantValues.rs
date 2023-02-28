@@ -4,49 +4,52 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLFunctionConstantValues")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLFunctionConstantValues")]
-    pub struct MTLFunctionConstantValues;
-
-    #[cfg(feature = "Metal_MTLFunctionConstantValues")]
-    unsafe impl ClassType for MTLFunctionConstantValues {
-        type Super = NSObject;
-    }
-);
+    pub type MTLFunctionConstantValues;
+}
 
 #[cfg(feature = "Metal_MTLFunctionConstantValues")]
 unsafe impl NSObjectProtocol for MTLFunctionConstantValues {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLFunctionConstantValues")]
-    unsafe impl MTLFunctionConstantValues {
-        #[method(setConstantValue:type:atIndex:)]
-        pub unsafe fn setConstantValue_type_atIndex(
-            &self,
-            value: NonNull<c_void>,
-            r#type: MTLDataType,
-            index: NSUInteger,
-        );
+    pub type MTLFunctionConstantValues;
 
-        #[method(setConstantValues:type:withRange:)]
-        pub unsafe fn setConstantValues_type_withRange(
-            &self,
-            values: NonNull<c_void>,
-            r#type: MTLDataType,
-            range: NSRange,
-        );
+    #[objc2::method(sel = "setConstantValue:type:atIndex:")]
+    pub unsafe fn setConstantValue_type_atIndex(
+        &self,
+        value: NonNull<c_void>,
+        r#type: MTLDataType,
+        index: NSUInteger,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setConstantValue:type:withName:)]
-        pub unsafe fn setConstantValue_type_withName(
-            &self,
-            value: NonNull<c_void>,
-            r#type: MTLDataType,
-            name: &NSString,
-        );
+    #[objc2::method(sel = "setConstantValues:type:withRange:")]
+    pub unsafe fn setConstantValues_type_withRange(
+        &self,
+        values: NonNull<c_void>,
+        r#type: MTLDataType,
+        range: NSRange,
+    );
 
-        #[method(reset)]
-        pub fn reset(&self);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setConstantValue:type:withName:")]
+    pub unsafe fn setConstantValue_type_withName(
+        &self,
+        value: NonNull<c_void>,
+        r#type: MTLDataType,
+        name: &NSString,
+    );
+
+    #[objc2::method(sel = "reset")]
+    pub fn reset(&self);
+}

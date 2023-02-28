@@ -4,245 +4,266 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLRasterizationRateSampleArray")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLRasterizationRateSampleArray")]
-    pub struct MTLRasterizationRateSampleArray;
-
-    #[cfg(feature = "Metal_MTLRasterizationRateSampleArray")]
-    unsafe impl ClassType for MTLRasterizationRateSampleArray {
-        type Super = NSObject;
-    }
-);
+    pub type MTLRasterizationRateSampleArray;
+}
 
 #[cfg(feature = "Metal_MTLRasterizationRateSampleArray")]
 unsafe impl NSObjectProtocol for MTLRasterizationRateSampleArray {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRasterizationRateSampleArray")]
-    unsafe impl MTLRasterizationRateSampleArray {
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other objectAtIndexedSubscript:)]
-        pub unsafe fn objectAtIndexedSubscript(&self, index: NSUInteger) -> Id<NSNumber>;
+    pub type MTLRasterizationRateSampleArray;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method(setObject:atIndexedSubscript:)]
-        pub unsafe fn setObject_atIndexedSubscript(&self, value: &NSNumber, index: NSUInteger);
-    }
-);
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "objectAtIndexedSubscript:", managed = "Other")]
+    pub unsafe fn objectAtIndexedSubscript(&self, index: NSUInteger) -> Id<NSNumber>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "setObject:atIndexedSubscript:")]
+    pub unsafe fn setObject_atIndexedSubscript(&self, value: &NSNumber, index: NSUInteger);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
-    pub struct MTLRasterizationRateLayerDescriptor;
-
-    #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
-    unsafe impl ClassType for MTLRasterizationRateLayerDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLRasterizationRateLayerDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
 unsafe impl NSObjectProtocol for MTLRasterizationRateLayerDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
-    unsafe impl MTLRasterizationRateLayerDescriptor {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type MTLRasterizationRateLayerDescriptor;
 
-        #[method_id(@__retain_semantics Init initWithSampleCount:)]
-        pub unsafe fn initWithSampleCount(
-            this: Option<Allocated<Self>>,
-            sample_count: MTLSize,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithSampleCount:horizontal:vertical:)]
-        pub unsafe fn initWithSampleCount_horizontal_vertical(
-            this: Option<Allocated<Self>>,
-            sample_count: MTLSize,
-            horizontal: NonNull<c_float>,
-            vertical: NonNull<c_float>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithSampleCount:", managed = "Init")]
+    pub unsafe fn initWithSampleCount(
+        this: Option<Allocated<Self>>,
+        sample_count: MTLSize,
+    ) -> Id<Self>;
 
-        #[method(maxSampleCount)]
-        pub unsafe fn maxSampleCount(&self) -> MTLSize;
+    #[objc2::method(sel = "initWithSampleCount:horizontal:vertical:", managed = "Init")]
+    pub unsafe fn initWithSampleCount_horizontal_vertical(
+        this: Option<Allocated<Self>>,
+        sample_count: MTLSize,
+        horizontal: NonNull<c_float>,
+        vertical: NonNull<c_float>,
+    ) -> Id<Self>;
 
-        #[method(horizontalSampleStorage)]
-        pub unsafe fn horizontalSampleStorage(&self) -> NonNull<c_float>;
+    #[objc2::method(sel = "maxSampleCount")]
+    pub unsafe fn maxSampleCount(&self) -> MTLSize;
 
-        #[method(verticalSampleStorage)]
-        pub unsafe fn verticalSampleStorage(&self) -> NonNull<c_float>;
+    #[objc2::method(sel = "horizontalSampleStorage")]
+    pub unsafe fn horizontalSampleStorage(&self) -> NonNull<c_float>;
 
-        #[cfg(feature = "Metal_MTLRasterizationRateSampleArray")]
-        #[method_id(@__retain_semantics Other horizontal)]
-        pub unsafe fn horizontal(&self) -> Id<MTLRasterizationRateSampleArray>;
+    #[objc2::method(sel = "verticalSampleStorage")]
+    pub unsafe fn verticalSampleStorage(&self) -> NonNull<c_float>;
 
-        #[cfg(feature = "Metal_MTLRasterizationRateSampleArray")]
-        #[method_id(@__retain_semantics Other vertical)]
-        pub unsafe fn vertical(&self) -> Id<MTLRasterizationRateSampleArray>;
-    }
-);
+    #[cfg(feature = "Metal_MTLRasterizationRateSampleArray")]
+    #[objc2::method(sel = "horizontal", managed = "Other")]
+    pub unsafe fn horizontal(&self) -> Id<MTLRasterizationRateSampleArray>;
 
-extern_methods!(
+    #[cfg(feature = "Metal_MTLRasterizationRateSampleArray")]
+    #[objc2::method(sel = "vertical", managed = "Other")]
+    pub unsafe fn vertical(&self) -> Id<MTLRasterizationRateSampleArray>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
-    unsafe impl MTLRasterizationRateLayerDescriptor {}
-);
+    pub type MTLRasterizationRateLayerDescriptor;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLRasterizationRateLayerArray")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLRasterizationRateLayerArray")]
-    pub struct MTLRasterizationRateLayerArray;
-
-    #[cfg(feature = "Metal_MTLRasterizationRateLayerArray")]
-    unsafe impl ClassType for MTLRasterizationRateLayerArray {
-        type Super = NSObject;
-    }
-);
+    pub type MTLRasterizationRateLayerArray;
+}
 
 #[cfg(feature = "Metal_MTLRasterizationRateLayerArray")]
 unsafe impl NSObjectProtocol for MTLRasterizationRateLayerArray {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRasterizationRateLayerArray")]
-    unsafe impl MTLRasterizationRateLayerArray {
-        #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
-        #[method_id(@__retain_semantics Other objectAtIndexedSubscript:)]
-        pub unsafe fn objectAtIndexedSubscript(
-            &self,
-            layer_index: NSUInteger,
-        ) -> Option<Id<MTLRasterizationRateLayerDescriptor>>;
+    pub type MTLRasterizationRateLayerArray;
 
-        #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
-        #[method(setObject:atIndexedSubscript:)]
-        pub unsafe fn setObject_atIndexedSubscript(
-            &self,
-            layer: Option<&MTLRasterizationRateLayerDescriptor>,
-            layer_index: NSUInteger,
-        );
-    }
-);
+    #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
+    #[objc2::method(sel = "objectAtIndexedSubscript:", managed = "Other")]
+    pub unsafe fn objectAtIndexedSubscript(
+        &self,
+        layer_index: NSUInteger,
+    ) -> Option<Id<MTLRasterizationRateLayerDescriptor>>;
 
-extern_class!(
+    #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
+    #[objc2::method(sel = "setObject:atIndexedSubscript:")]
+    pub unsafe fn setObject_atIndexedSubscript(
+        &self,
+        layer: Option<&MTLRasterizationRateLayerDescriptor>,
+        layer_index: NSUInteger,
+    );
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLRasterizationRateMapDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLRasterizationRateMapDescriptor")]
-    pub struct MTLRasterizationRateMapDescriptor;
-
-    #[cfg(feature = "Metal_MTLRasterizationRateMapDescriptor")]
-    unsafe impl ClassType for MTLRasterizationRateMapDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLRasterizationRateMapDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLRasterizationRateMapDescriptor")]
 unsafe impl NSObjectProtocol for MTLRasterizationRateMapDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLRasterizationRateMapDescriptor")]
-    unsafe impl MTLRasterizationRateMapDescriptor {
-        #[method_id(@__retain_semantics Other rasterizationRateMapDescriptorWithScreenSize:)]
-        pub unsafe fn rasterizationRateMapDescriptorWithScreenSize(
-            screen_size: MTLSize,
-        ) -> Id<MTLRasterizationRateMapDescriptor>;
+    pub type MTLRasterizationRateMapDescriptor;
 
-        #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
-        #[method_id(@__retain_semantics Other rasterizationRateMapDescriptorWithScreenSize:layer:)]
-        pub unsafe fn rasterizationRateMapDescriptorWithScreenSize_layer(
-            screen_size: MTLSize,
-            layer: &MTLRasterizationRateLayerDescriptor,
-        ) -> Id<MTLRasterizationRateMapDescriptor>;
+    #[objc2::method(
+        sel = "rasterizationRateMapDescriptorWithScreenSize:",
+        managed = "Other"
+    )]
+    pub unsafe fn rasterizationRateMapDescriptorWithScreenSize(
+        screen_size: MTLSize,
+    ) -> Id<MTLRasterizationRateMapDescriptor>;
 
-        #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
-        #[method_id(@__retain_semantics Other rasterizationRateMapDescriptorWithScreenSize:layerCount:layers:)]
-        pub unsafe fn rasterizationRateMapDescriptorWithScreenSize_layerCount_layers(
-            screen_size: MTLSize,
-            layer_count: NSUInteger,
-            layers: &mut Id<MTLRasterizationRateLayerDescriptor>,
-        ) -> Id<MTLRasterizationRateMapDescriptor>;
+    #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
+    #[objc2::method(
+        sel = "rasterizationRateMapDescriptorWithScreenSize:layer:",
+        managed = "Other"
+    )]
+    pub unsafe fn rasterizationRateMapDescriptorWithScreenSize_layer(
+        screen_size: MTLSize,
+        layer: &MTLRasterizationRateLayerDescriptor,
+    ) -> Id<MTLRasterizationRateMapDescriptor>;
 
-        #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
-        #[method_id(@__retain_semantics Other layerAtIndex:)]
-        pub unsafe fn layerAtIndex(
-            &self,
-            layer_index: NSUInteger,
-        ) -> Option<Id<MTLRasterizationRateLayerDescriptor>>;
+    #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
+    #[objc2::method(
+        sel = "rasterizationRateMapDescriptorWithScreenSize:layerCount:layers:",
+        managed = "Other"
+    )]
+    pub unsafe fn rasterizationRateMapDescriptorWithScreenSize_layerCount_layers(
+        screen_size: MTLSize,
+        layer_count: NSUInteger,
+        layers: &mut Id<MTLRasterizationRateLayerDescriptor>,
+    ) -> Id<MTLRasterizationRateMapDescriptor>;
 
-        #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
-        #[method(setLayer:atIndex:)]
-        pub unsafe fn setLayer_atIndex(
-            &self,
-            layer: Option<&MTLRasterizationRateLayerDescriptor>,
-            layer_index: NSUInteger,
-        );
+    #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
+    #[objc2::method(sel = "layerAtIndex:", managed = "Other")]
+    pub unsafe fn layerAtIndex(
+        &self,
+        layer_index: NSUInteger,
+    ) -> Option<Id<MTLRasterizationRateLayerDescriptor>>;
 
-        #[cfg(feature = "Metal_MTLRasterizationRateLayerArray")]
-        #[method_id(@__retain_semantics Other layers)]
-        pub unsafe fn layers(&self) -> Id<MTLRasterizationRateLayerArray>;
+    #[cfg(feature = "Metal_MTLRasterizationRateLayerDescriptor")]
+    #[objc2::method(sel = "setLayer:atIndex:")]
+    pub unsafe fn setLayer_atIndex(
+        &self,
+        layer: Option<&MTLRasterizationRateLayerDescriptor>,
+        layer_index: NSUInteger,
+    );
 
-        #[method(screenSize)]
-        pub unsafe fn screenSize(&self) -> MTLSize;
+    #[cfg(feature = "Metal_MTLRasterizationRateLayerArray")]
+    #[objc2::method(sel = "layers", managed = "Other")]
+    pub unsafe fn layers(&self) -> Id<MTLRasterizationRateLayerArray>;
 
-        #[method(setScreenSize:)]
-        pub unsafe fn setScreenSize(&self, screen_size: MTLSize);
+    #[objc2::method(sel = "screenSize")]
+    pub unsafe fn screenSize(&self) -> MTLSize;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        pub unsafe fn label(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setScreenSize:")]
+    pub unsafe fn setScreenSize(&self, screen_size: MTLSize);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        pub unsafe fn setLabel(&self, label: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    pub unsafe fn label(&self) -> Option<Id<NSString>>;
 
-        #[method(layerCount)]
-        pub unsafe fn layerCount(&self) -> NSUInteger;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    pub unsafe fn setLabel(&self, label: Option<&NSString>);
 
-extern_protocol!(
-    pub unsafe trait MTLRasterizationRateMap: NSObjectProtocol {
-        #[method_id(@__retain_semantics Other device)]
-        unsafe fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
+    #[objc2::method(sel = "layerCount")]
+    pub unsafe fn layerCount(&self) -> NSUInteger;
+}
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        unsafe fn label(&self) -> Option<Id<NSString>>;
+#[objc2::protocol]
+pub unsafe trait MTLRasterizationRateMap: NSObjectProtocol {
+    #[objc2::method(sel = "device", managed = "Other")]
+    unsafe fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
 
-        #[method(screenSize)]
-        unsafe fn screenSize(&self) -> MTLSize;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    unsafe fn label(&self) -> Option<Id<NSString>>;
 
-        #[method(physicalGranularity)]
-        unsafe fn physicalGranularity(&self) -> MTLSize;
+    #[objc2::method(sel = "screenSize")]
+    unsafe fn screenSize(&self) -> MTLSize;
 
-        #[method(layerCount)]
-        unsafe fn layerCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "physicalGranularity")]
+    unsafe fn physicalGranularity(&self) -> MTLSize;
 
-        #[method(parameterBufferSizeAndAlign)]
-        unsafe fn parameterBufferSizeAndAlign(&self) -> MTLSizeAndAlign;
+    #[objc2::method(sel = "layerCount")]
+    unsafe fn layerCount(&self) -> NSUInteger;
 
-        #[method(copyParameterDataToBuffer:offset:)]
-        unsafe fn copyParameterDataToBuffer_offset(
-            &self,
-            buffer: &ProtocolObject<dyn MTLBuffer>,
-            offset: NSUInteger,
-        );
+    #[objc2::method(sel = "parameterBufferSizeAndAlign")]
+    unsafe fn parameterBufferSizeAndAlign(&self) -> MTLSizeAndAlign;
 
-        #[method(physicalSizeForLayer:)]
-        unsafe fn physicalSizeForLayer(&self, layer_index: NSUInteger) -> MTLSize;
+    #[objc2::method(sel = "copyParameterDataToBuffer:offset:")]
+    unsafe fn copyParameterDataToBuffer_offset(
+        &self,
+        buffer: &ProtocolObject<dyn MTLBuffer>,
+        offset: NSUInteger,
+    );
 
-        #[method(mapScreenToPhysicalCoordinates:forLayer:)]
-        unsafe fn mapScreenToPhysicalCoordinates_forLayer(
-            &self,
-            screen_coordinates: MTLCoordinate2D,
-            layer_index: NSUInteger,
-        ) -> MTLCoordinate2D;
+    #[objc2::method(sel = "physicalSizeForLayer:")]
+    unsafe fn physicalSizeForLayer(&self, layer_index: NSUInteger) -> MTLSize;
 
-        #[method(mapPhysicalToScreenCoordinates:forLayer:)]
-        unsafe fn mapPhysicalToScreenCoordinates_forLayer(
-            &self,
-            physical_coordinates: MTLCoordinate2D,
-            layer_index: NSUInteger,
-        ) -> MTLCoordinate2D;
-    }
+    #[objc2::method(sel = "mapScreenToPhysicalCoordinates:forLayer:")]
+    unsafe fn mapScreenToPhysicalCoordinates_forLayer(
+        &self,
+        screen_coordinates: MTLCoordinate2D,
+        layer_index: NSUInteger,
+    ) -> MTLCoordinate2D;
 
-    unsafe impl ProtocolType for dyn MTLRasterizationRateMap {}
-);
+    #[objc2::method(sel = "mapPhysicalToScreenCoordinates:forLayer:")]
+    unsafe fn mapPhysicalToScreenCoordinates_forLayer(
+        &self,
+        physical_coordinates: MTLCoordinate2D,
+        layer_index: NSUInteger,
+    ) -> MTLCoordinate2D;
+}

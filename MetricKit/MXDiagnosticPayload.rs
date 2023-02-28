@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXDiagnosticPayload")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXDiagnosticPayload")]
-    pub struct MXDiagnosticPayload;
-
-    #[cfg(feature = "MetricKit_MXDiagnosticPayload")]
-    unsafe impl ClassType for MXDiagnosticPayload {
-        type Super = NSObject;
-    }
-);
+    pub type MXDiagnosticPayload;
+}
 
 #[cfg(feature = "MetricKit_MXDiagnosticPayload")]
 unsafe impl NSCoding for MXDiagnosticPayload {}
@@ -24,59 +24,60 @@ unsafe impl NSObjectProtocol for MXDiagnosticPayload {}
 #[cfg(feature = "MetricKit_MXDiagnosticPayload")]
 unsafe impl NSSecureCoding for MXDiagnosticPayload {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXDiagnosticPayload")]
-    unsafe impl MXDiagnosticPayload {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "MetricKit_MXCPUExceptionDiagnostic"
-        ))]
-        #[method_id(@__retain_semantics Other cpuExceptionDiagnostics)]
-        pub unsafe fn cpuExceptionDiagnostics(
-            &self,
-        ) -> Option<Id<NSArray<MXCPUExceptionDiagnostic>>>;
+    pub type MXDiagnosticPayload;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "MetricKit_MXDiskWriteExceptionDiagnostic"
-        ))]
-        #[method_id(@__retain_semantics Other diskWriteExceptionDiagnostics)]
-        pub unsafe fn diskWriteExceptionDiagnostics(
-            &self,
-        ) -> Option<Id<NSArray<MXDiskWriteExceptionDiagnostic>>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "MetricKit_MXCPUExceptionDiagnostic"
+    ))]
+    #[objc2::method(sel = "cpuExceptionDiagnostics", managed = "Other")]
+    pub unsafe fn cpuExceptionDiagnostics(&self) -> Option<Id<NSArray<MXCPUExceptionDiagnostic>>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MetricKit_MXHangDiagnostic"))]
-        #[method_id(@__retain_semantics Other hangDiagnostics)]
-        pub unsafe fn hangDiagnostics(&self) -> Option<Id<NSArray<MXHangDiagnostic>>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "MetricKit_MXDiskWriteExceptionDiagnostic"
+    ))]
+    #[objc2::method(sel = "diskWriteExceptionDiagnostics", managed = "Other")]
+    pub unsafe fn diskWriteExceptionDiagnostics(
+        &self,
+    ) -> Option<Id<NSArray<MXDiskWriteExceptionDiagnostic>>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "MetricKit_MXAppLaunchDiagnostic"
-        ))]
-        #[method_id(@__retain_semantics Other appLaunchDiagnostics)]
-        pub unsafe fn appLaunchDiagnostics(&self) -> Option<Id<NSArray<MXAppLaunchDiagnostic>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MetricKit_MXHangDiagnostic"))]
+    #[objc2::method(sel = "hangDiagnostics", managed = "Other")]
+    pub unsafe fn hangDiagnostics(&self) -> Option<Id<NSArray<MXHangDiagnostic>>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "MetricKit_MXCrashDiagnostic"
-        ))]
-        #[method_id(@__retain_semantics Other crashDiagnostics)]
-        pub unsafe fn crashDiagnostics(&self) -> Option<Id<NSArray<MXCrashDiagnostic>>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "MetricKit_MXAppLaunchDiagnostic"
+    ))]
+    #[objc2::method(sel = "appLaunchDiagnostics", managed = "Other")]
+    pub unsafe fn appLaunchDiagnostics(&self) -> Option<Id<NSArray<MXAppLaunchDiagnostic>>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other timeStampBegin)]
-        pub unsafe fn timeStampBegin(&self) -> Id<NSDate>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "MetricKit_MXCrashDiagnostic"
+    ))]
+    #[objc2::method(sel = "crashDiagnostics", managed = "Other")]
+    pub unsafe fn crashDiagnostics(&self) -> Option<Id<NSArray<MXCrashDiagnostic>>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other timeStampEnd)]
-        pub unsafe fn timeStampEnd(&self) -> Id<NSDate>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "timeStampBegin", managed = "Other")]
+    pub unsafe fn timeStampBegin(&self) -> Id<NSDate>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other JSONRepresentation)]
-        pub unsafe fn JSONRepresentation(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "timeStampEnd", managed = "Other")]
+    pub unsafe fn timeStampEnd(&self) -> Id<NSDate>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other dictionaryRepresentation)]
-        pub unsafe fn dictionaryRepresentation(&self) -> Id<NSDictionary>;
-    }
-);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "JSONRepresentation", managed = "Other")]
+    pub unsafe fn JSONRepresentation(&self) -> Id<NSData>;
+
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "dictionaryRepresentation", managed = "Other")]
+    pub unsafe fn dictionaryRepresentation(&self) -> Id<NSDictionary>;
+}

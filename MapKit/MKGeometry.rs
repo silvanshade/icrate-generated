@@ -263,20 +263,22 @@ extern_fn!(
     pub unsafe fn MKMapRectRemainder(rect: MKMapRect) -> MKMapRect;
 );
 
-extern_methods!(
-    /// NSValueMapKitGeometryExtensions
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSValue")]
-    unsafe impl NSValue {
-        #[method_id(@__retain_semantics Other valueWithMKCoordinate:)]
-        pub unsafe fn valueWithMKCoordinate(coordinate: CLLocationCoordinate2D) -> Id<NSValue>;
+    pub type NSValue;
 
-        #[method_id(@__retain_semantics Other valueWithMKCoordinateSpan:)]
-        pub unsafe fn valueWithMKCoordinateSpan(span: MKCoordinateSpan) -> Id<NSValue>;
+    #[objc2::method(sel = "valueWithMKCoordinate:", managed = "Other")]
+    pub unsafe fn valueWithMKCoordinate(coordinate: CLLocationCoordinate2D) -> Id<NSValue>;
 
-        #[method(MKCoordinateValue)]
-        pub unsafe fn MKCoordinateValue(&self) -> CLLocationCoordinate2D;
+    #[objc2::method(sel = "valueWithMKCoordinateSpan:", managed = "Other")]
+    pub unsafe fn valueWithMKCoordinateSpan(span: MKCoordinateSpan) -> Id<NSValue>;
 
-        #[method(MKCoordinateSpanValue)]
-        pub unsafe fn MKCoordinateSpanValue(&self) -> MKCoordinateSpan;
-    }
-);
+    #[objc2::method(sel = "MKCoordinateValue")]
+    pub unsafe fn MKCoordinateValue(&self) -> CLLocationCoordinate2D;
+
+    #[objc2::method(sel = "MKCoordinateSpanValue")]
+    pub unsafe fn MKCoordinateSpanValue(&self) -> MKCoordinateSpan;
+}

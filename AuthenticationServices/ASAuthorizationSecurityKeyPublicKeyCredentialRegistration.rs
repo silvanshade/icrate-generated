@@ -4,20 +4,18 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(
+        feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialRegistration"
+    )]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(
-        feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialRegistration"
-    )]
-    pub struct ASAuthorizationSecurityKeyPublicKeyCredentialRegistration;
-
-    #[cfg(
-        feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialRegistration"
-    )]
-    unsafe impl ClassType for ASAuthorizationSecurityKeyPublicKeyCredentialRegistration {
-        type Super = NSObject;
-    }
-);
+    pub type ASAuthorizationSecurityKeyPublicKeyCredentialRegistration;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialRegistration")]
 unsafe impl ASAuthorizationCredential
@@ -43,9 +41,12 @@ unsafe impl NSObjectProtocol for ASAuthorizationSecurityKeyPublicKeyCredentialRe
 #[cfg(feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialRegistration")]
 unsafe impl NSSecureCoding for ASAuthorizationSecurityKeyPublicKeyCredentialRegistration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(
         feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialRegistration"
     )]
-    unsafe impl ASAuthorizationSecurityKeyPublicKeyCredentialRegistration {}
-);
+    pub type ASAuthorizationSecurityKeyPublicKeyCredentialRegistration;
+}

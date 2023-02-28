@@ -4,66 +4,68 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSPersistentCloudKitContainerEventType {
-        NSPersistentCloudKitContainerEventTypeSetup = 0,
-        NSPersistentCloudKitContainerEventTypeImport = 1,
-        NSPersistentCloudKitContainerEventTypeExport = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSPersistentCloudKitContainerEventType {
+    NSPersistentCloudKitContainerEventTypeSetup = 0,
+    NSPersistentCloudKitContainerEventTypeImport = 1,
+    NSPersistentCloudKitContainerEventTypeExport = 2,
+}
 
 extern_static!(NSPersistentCloudKitContainerEventChangedNotification: &'static NSNotificationName);
 
 extern_static!(NSPersistentCloudKitContainerEventUserInfoKey: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPersistentCloudKitContainerEvent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSPersistentCloudKitContainerEvent")]
-    pub struct NSPersistentCloudKitContainerEvent;
-
-    #[cfg(feature = "CoreData_NSPersistentCloudKitContainerEvent")]
-    unsafe impl ClassType for NSPersistentCloudKitContainerEvent {
-        type Super = NSObject;
-    }
-);
+    pub type NSPersistentCloudKitContainerEvent;
+}
 
 #[cfg(feature = "CoreData_NSPersistentCloudKitContainerEvent")]
 unsafe impl NSObjectProtocol for NSPersistentCloudKitContainerEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPersistentCloudKitContainerEvent")]
-    unsafe impl NSPersistentCloudKitContainerEvent {
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSUUID>;
+    pub type NSPersistentCloudKitContainerEvent;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other storeIdentifier)]
-        pub unsafe fn storeIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSUUID>;
 
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> NSPersistentCloudKitContainerEventType;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "storeIdentifier", managed = "Other")]
+    pub unsafe fn storeIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other startDate)]
-        pub unsafe fn startDate(&self) -> Id<NSDate>;
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> NSPersistentCloudKitContainerEventType;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other endDate)]
-        pub unsafe fn endDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "startDate", managed = "Other")]
+    pub unsafe fn startDate(&self) -> Id<NSDate>;
 
-        #[method(succeeded)]
-        pub unsafe fn succeeded(&self) -> bool;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "endDate", managed = "Other")]
+    pub unsafe fn endDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other error)]
-        pub unsafe fn error(&self) -> Option<Id<NSError>>;
+    #[objc2::method(sel = "succeeded")]
+    pub unsafe fn succeeded(&self) -> bool;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "error", managed = "Other")]
+    pub unsafe fn error(&self) -> Option<Id<NSError>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

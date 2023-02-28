@@ -4,270 +4,297 @@ use crate::common::*;
 use crate::DataDetection::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "DataDetection_DDMatch")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "DataDetection_DDMatch")]
-    pub struct DDMatch;
-
-    #[cfg(feature = "DataDetection_DDMatch")]
-    unsafe impl ClassType for DDMatch {
-        type Super = NSObject;
-    }
-);
+    pub type DDMatch;
+}
 
 #[cfg(feature = "DataDetection_DDMatch")]
 unsafe impl NSObjectProtocol for DDMatch {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "DataDetection_DDMatch")]
-    unsafe impl DDMatch {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other matchedString)]
-        pub unsafe fn matchedString(&self) -> Id<NSString>;
+    pub type DDMatch;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "matchedString", managed = "Other")]
+    pub unsafe fn matchedString(&self) -> Id<NSString>;
 
-extern_class!(
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = DDMatch,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "DataDetection_DDMatchLink")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "DataDetection_DDMatchLink")]
-    pub struct DDMatchLink;
-
-    #[cfg(feature = "DataDetection_DDMatchLink")]
-    unsafe impl ClassType for DDMatchLink {
-        #[inherits(NSObject)]
-        type Super = DDMatch;
-    }
-);
+    pub type DDMatchLink;
+}
 
 #[cfg(feature = "DataDetection_DDMatchLink")]
 unsafe impl NSObjectProtocol for DDMatchLink {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "DataDetection_DDMatchLink")]
-    unsafe impl DDMatchLink {
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Id<NSURL>;
-    }
-);
+    pub type DDMatchLink;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Id<NSURL>;
+}
+
+#[objc2::interface(
+    unsafe super = DDMatch,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "DataDetection_DDMatchPhoneNumber")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "DataDetection_DDMatchPhoneNumber")]
-    pub struct DDMatchPhoneNumber;
-
-    #[cfg(feature = "DataDetection_DDMatchPhoneNumber")]
-    unsafe impl ClassType for DDMatchPhoneNumber {
-        #[inherits(NSObject)]
-        type Super = DDMatch;
-    }
-);
+    pub type DDMatchPhoneNumber;
+}
 
 #[cfg(feature = "DataDetection_DDMatchPhoneNumber")]
 unsafe impl NSObjectProtocol for DDMatchPhoneNumber {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "DataDetection_DDMatchPhoneNumber")]
-    unsafe impl DDMatchPhoneNumber {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other phoneNumber)]
-        pub unsafe fn phoneNumber(&self) -> Id<NSString>;
+    pub type DDMatchPhoneNumber;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        pub unsafe fn label(&self) -> Option<Id<NSString>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "phoneNumber", managed = "Other")]
+    pub unsafe fn phoneNumber(&self) -> Id<NSString>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    pub unsafe fn label(&self) -> Option<Id<NSString>>;
+}
+
+#[objc2::interface(
+    unsafe super = DDMatch,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "DataDetection_DDMatchEmailAddress")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "DataDetection_DDMatchEmailAddress")]
-    pub struct DDMatchEmailAddress;
-
-    #[cfg(feature = "DataDetection_DDMatchEmailAddress")]
-    unsafe impl ClassType for DDMatchEmailAddress {
-        #[inherits(NSObject)]
-        type Super = DDMatch;
-    }
-);
+    pub type DDMatchEmailAddress;
+}
 
 #[cfg(feature = "DataDetection_DDMatchEmailAddress")]
 unsafe impl NSObjectProtocol for DDMatchEmailAddress {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "DataDetection_DDMatchEmailAddress")]
-    unsafe impl DDMatchEmailAddress {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other emailAddress)]
-        pub unsafe fn emailAddress(&self) -> Id<NSString>;
+    pub type DDMatchEmailAddress;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        pub unsafe fn label(&self) -> Option<Id<NSString>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "emailAddress", managed = "Other")]
+    pub unsafe fn emailAddress(&self) -> Id<NSString>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    pub unsafe fn label(&self) -> Option<Id<NSString>>;
+}
+
+#[objc2::interface(
+    unsafe super = DDMatch,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "DataDetection_DDMatchPostalAddress")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "DataDetection_DDMatchPostalAddress")]
-    pub struct DDMatchPostalAddress;
-
-    #[cfg(feature = "DataDetection_DDMatchPostalAddress")]
-    unsafe impl ClassType for DDMatchPostalAddress {
-        #[inherits(NSObject)]
-        type Super = DDMatch;
-    }
-);
+    pub type DDMatchPostalAddress;
+}
 
 #[cfg(feature = "DataDetection_DDMatchPostalAddress")]
 unsafe impl NSObjectProtocol for DDMatchPostalAddress {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "DataDetection_DDMatchPostalAddress")]
-    unsafe impl DDMatchPostalAddress {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other street)]
-        pub unsafe fn street(&self) -> Option<Id<NSString>>;
+    pub type DDMatchPostalAddress;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other city)]
-        pub unsafe fn city(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "street", managed = "Other")]
+    pub unsafe fn street(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other state)]
-        pub unsafe fn state(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "city", managed = "Other")]
+    pub unsafe fn city(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other postalCode)]
-        pub unsafe fn postalCode(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "state", managed = "Other")]
+    pub unsafe fn state(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other country)]
-        pub unsafe fn country(&self) -> Option<Id<NSString>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "postalCode", managed = "Other")]
+    pub unsafe fn postalCode(&self) -> Option<Id<NSString>>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "country", managed = "Other")]
+    pub unsafe fn country(&self) -> Option<Id<NSString>>;
+}
+
+#[objc2::interface(
+    unsafe super = DDMatch,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "DataDetection_DDMatchCalendarEvent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "DataDetection_DDMatchCalendarEvent")]
-    pub struct DDMatchCalendarEvent;
-
-    #[cfg(feature = "DataDetection_DDMatchCalendarEvent")]
-    unsafe impl ClassType for DDMatchCalendarEvent {
-        #[inherits(NSObject)]
-        type Super = DDMatch;
-    }
-);
+    pub type DDMatchCalendarEvent;
+}
 
 #[cfg(feature = "DataDetection_DDMatchCalendarEvent")]
 unsafe impl NSObjectProtocol for DDMatchCalendarEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "DataDetection_DDMatchCalendarEvent")]
-    unsafe impl DDMatchCalendarEvent {
-        #[method(isAllDay)]
-        pub unsafe fn isAllDay(&self) -> bool;
+    pub type DDMatchCalendarEvent;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other startDate)]
-        pub unsafe fn startDate(&self) -> Option<Id<NSDate>>;
+    #[objc2::method(sel = "isAllDay")]
+    pub unsafe fn isAllDay(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSTimeZone")]
-        #[method_id(@__retain_semantics Other startTimeZone)]
-        pub unsafe fn startTimeZone(&self) -> Option<Id<NSTimeZone>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "startDate", managed = "Other")]
+    pub unsafe fn startDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other endDate)]
-        pub unsafe fn endDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSTimeZone")]
+    #[objc2::method(sel = "startTimeZone", managed = "Other")]
+    pub unsafe fn startTimeZone(&self) -> Option<Id<NSTimeZone>>;
 
-        #[cfg(feature = "Foundation_NSTimeZone")]
-        #[method_id(@__retain_semantics Other endTimeZone)]
-        pub unsafe fn endTimeZone(&self) -> Option<Id<NSTimeZone>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "endDate", managed = "Other")]
+    pub unsafe fn endDate(&self) -> Option<Id<NSDate>>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSTimeZone")]
+    #[objc2::method(sel = "endTimeZone", managed = "Other")]
+    pub unsafe fn endTimeZone(&self) -> Option<Id<NSTimeZone>>;
+}
+
+#[objc2::interface(
+    unsafe super = DDMatch,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "DataDetection_DDMatchShipmentTrackingNumber")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "DataDetection_DDMatchShipmentTrackingNumber")]
-    pub struct DDMatchShipmentTrackingNumber;
-
-    #[cfg(feature = "DataDetection_DDMatchShipmentTrackingNumber")]
-    unsafe impl ClassType for DDMatchShipmentTrackingNumber {
-        #[inherits(NSObject)]
-        type Super = DDMatch;
-    }
-);
+    pub type DDMatchShipmentTrackingNumber;
+}
 
 #[cfg(feature = "DataDetection_DDMatchShipmentTrackingNumber")]
 unsafe impl NSObjectProtocol for DDMatchShipmentTrackingNumber {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "DataDetection_DDMatchShipmentTrackingNumber")]
-    unsafe impl DDMatchShipmentTrackingNumber {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other carrier)]
-        pub unsafe fn carrier(&self) -> Id<NSString>;
+    pub type DDMatchShipmentTrackingNumber;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other trackingNumber)]
-        pub unsafe fn trackingNumber(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "carrier", managed = "Other")]
+    pub unsafe fn carrier(&self) -> Id<NSString>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "trackingNumber", managed = "Other")]
+    pub unsafe fn trackingNumber(&self) -> Id<NSString>;
+}
+
+#[objc2::interface(
+    unsafe super = DDMatch,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "DataDetection_DDMatchFlightNumber")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "DataDetection_DDMatchFlightNumber")]
-    pub struct DDMatchFlightNumber;
-
-    #[cfg(feature = "DataDetection_DDMatchFlightNumber")]
-    unsafe impl ClassType for DDMatchFlightNumber {
-        #[inherits(NSObject)]
-        type Super = DDMatch;
-    }
-);
+    pub type DDMatchFlightNumber;
+}
 
 #[cfg(feature = "DataDetection_DDMatchFlightNumber")]
 unsafe impl NSObjectProtocol for DDMatchFlightNumber {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "DataDetection_DDMatchFlightNumber")]
-    unsafe impl DDMatchFlightNumber {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other airline)]
-        pub unsafe fn airline(&self) -> Id<NSString>;
+    pub type DDMatchFlightNumber;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other flightNumber)]
-        pub unsafe fn flightNumber(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "airline", managed = "Other")]
+    pub unsafe fn airline(&self) -> Id<NSString>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "flightNumber", managed = "Other")]
+    pub unsafe fn flightNumber(&self) -> Id<NSString>;
+}
+
+#[objc2::interface(
+    unsafe super = DDMatch,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "DataDetection_DDMatchMoneyAmount")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "DataDetection_DDMatchMoneyAmount")]
-    pub struct DDMatchMoneyAmount;
-
-    #[cfg(feature = "DataDetection_DDMatchMoneyAmount")]
-    unsafe impl ClassType for DDMatchMoneyAmount {
-        #[inherits(NSObject)]
-        type Super = DDMatch;
-    }
-);
+    pub type DDMatchMoneyAmount;
+}
 
 #[cfg(feature = "DataDetection_DDMatchMoneyAmount")]
 unsafe impl NSObjectProtocol for DDMatchMoneyAmount {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "DataDetection_DDMatchMoneyAmount")]
-    unsafe impl DDMatchMoneyAmount {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other currency)]
-        pub unsafe fn currency(&self) -> Id<NSString>;
+    pub type DDMatchMoneyAmount;
 
-        #[method(amount)]
-        pub unsafe fn amount(&self) -> c_double;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "currency", managed = "Other")]
+    pub unsafe fn currency(&self) -> Id<NSString>;
+
+    #[objc2::method(sel = "amount")]
+    pub unsafe fn amount(&self) -> c_double;
+}

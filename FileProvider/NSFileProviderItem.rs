@@ -18,100 +18,100 @@ extern_static!(
 
 extern_static!(NSFileProviderTrashContainerItemIdentifier: &'static NSFileProviderItemIdentifier);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "FileProvider_NSFileProviderItemVersion")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "FileProvider_NSFileProviderItemVersion")]
-    pub struct NSFileProviderItemVersion;
-
-    #[cfg(feature = "FileProvider_NSFileProviderItemVersion")]
-    unsafe impl ClassType for NSFileProviderItemVersion {
-        type Super = NSObject;
-    }
-);
+    pub type NSFileProviderItemVersion;
+}
 
 #[cfg(feature = "FileProvider_NSFileProviderItemVersion")]
 unsafe impl NSObjectProtocol for NSFileProviderItemVersion {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderItemVersion")]
-    unsafe impl NSFileProviderItemVersion {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other beforeFirstSyncComponent)]
-        pub unsafe fn beforeFirstSyncComponent() -> Id<NSData>;
+    pub type NSFileProviderItemVersion;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Init initWithContentVersion:metadataVersion:)]
-        pub unsafe fn initWithContentVersion_metadataVersion(
-            this: Option<Allocated<Self>>,
-            content_version: &NSData,
-            metadata_version: &NSData,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "beforeFirstSyncComponent", managed = "Other")]
+    pub unsafe fn beforeFirstSyncComponent() -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other contentVersion)]
-        pub unsafe fn contentVersion(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "initWithContentVersion:metadataVersion:", managed = "Init")]
+    pub unsafe fn initWithContentVersion_metadataVersion(
+        this: Option<Allocated<Self>>,
+        content_version: &NSData,
+        metadata_version: &NSData,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other metadataVersion)]
-        pub unsafe fn metadataVersion(&self) -> Id<NSData>;
-    }
-);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "contentVersion", managed = "Other")]
+    pub unsafe fn contentVersion(&self) -> Id<NSData>;
+
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "metadataVersion", managed = "Other")]
+    pub unsafe fn metadataVersion(&self) -> Id<NSData>;
+}
 
 extern_static!(NSFileProviderFavoriteRankUnranked: c_ulonglong);
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSFileProviderItemCapabilities {
-        NSFileProviderItemCapabilitiesAllowsReading = 1 << 0,
-        NSFileProviderItemCapabilitiesAllowsWriting = 1 << 1,
-        NSFileProviderItemCapabilitiesAllowsReparenting = 1 << 2,
-        NSFileProviderItemCapabilitiesAllowsRenaming = 1 << 3,
-        NSFileProviderItemCapabilitiesAllowsTrashing = 1 << 4,
-        NSFileProviderItemCapabilitiesAllowsDeleting = 1 << 5,
-        #[deprecated = "use NSFileProviderContentPolicy instead"]
-        NSFileProviderItemCapabilitiesAllowsEvicting = 1 << 6,
-        NSFileProviderItemCapabilitiesAllowsExcludingFromSync = 1 << 7,
-        NSFileProviderItemCapabilitiesAllowsAddingSubItems =
-            NSFileProviderItemCapabilitiesAllowsWriting,
-        NSFileProviderItemCapabilitiesAllowsContentEnumerating =
-            NSFileProviderItemCapabilitiesAllowsReading,
-        #[deprecated = "This capability is no longer supported, and does not contain all capabilities. Please migrate to directly specifying each of the individual capabilities that should be allowed for the item."]
-        NSFileProviderItemCapabilitiesAllowsAll = NSFileProviderItemCapabilitiesAllowsReading
-            | NSFileProviderItemCapabilitiesAllowsWriting
-            | NSFileProviderItemCapabilitiesAllowsReparenting
-            | NSFileProviderItemCapabilitiesAllowsRenaming
-            | NSFileProviderItemCapabilitiesAllowsTrashing
-            | NSFileProviderItemCapabilitiesAllowsDeleting,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSFileProviderItemCapabilities {
+    NSFileProviderItemCapabilitiesAllowsReading = 1 << 0,
+    NSFileProviderItemCapabilitiesAllowsWriting = 1 << 1,
+    NSFileProviderItemCapabilitiesAllowsReparenting = 1 << 2,
+    NSFileProviderItemCapabilitiesAllowsRenaming = 1 << 3,
+    NSFileProviderItemCapabilitiesAllowsTrashing = 1 << 4,
+    NSFileProviderItemCapabilitiesAllowsDeleting = 1 << 5,
+    #[deprecated = "use NSFileProviderContentPolicy instead"]
+    NSFileProviderItemCapabilitiesAllowsEvicting = 1 << 6,
+    NSFileProviderItemCapabilitiesAllowsExcludingFromSync = 1 << 7,
+    NSFileProviderItemCapabilitiesAllowsAddingSubItems =
+        NSFileProviderItemCapabilitiesAllowsWriting,
+    NSFileProviderItemCapabilitiesAllowsContentEnumerating =
+        NSFileProviderItemCapabilitiesAllowsReading,
+    #[deprecated = "This capability is no longer supported, and does not contain all capabilities. Please migrate to directly specifying each of the individual capabilities that should be allowed for the item."]
+    NSFileProviderItemCapabilitiesAllowsAll = NSFileProviderItemCapabilitiesAllowsReading
+        | NSFileProviderItemCapabilitiesAllowsWriting
+        | NSFileProviderItemCapabilitiesAllowsReparenting
+        | NSFileProviderItemCapabilitiesAllowsRenaming
+        | NSFileProviderItemCapabilitiesAllowsTrashing
+        | NSFileProviderItemCapabilitiesAllowsDeleting,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSFileProviderItemFields {
-        NSFileProviderItemContents = 1 << 0,
-        NSFileProviderItemFilename = 1 << 1,
-        NSFileProviderItemParentItemIdentifier = 1 << 2,
-        NSFileProviderItemLastUsedDate = 1 << 3,
-        NSFileProviderItemTagData = 1 << 4,
-        NSFileProviderItemFavoriteRank = 1 << 5,
-        NSFileProviderItemCreationDate = 1 << 6,
-        NSFileProviderItemContentModificationDate = 1 << 7,
-        NSFileProviderItemFileSystemFlags = 1 << 8,
-        NSFileProviderItemExtendedAttributes = 1 << 9,
-        NSFileProviderItemTypeAndCreator = 1 << 10,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSFileProviderItemFields {
+    NSFileProviderItemContents = 1 << 0,
+    NSFileProviderItemFilename = 1 << 1,
+    NSFileProviderItemParentItemIdentifier = 1 << 2,
+    NSFileProviderItemLastUsedDate = 1 << 3,
+    NSFileProviderItemTagData = 1 << 4,
+    NSFileProviderItemFavoriteRank = 1 << 5,
+    NSFileProviderItemCreationDate = 1 << 6,
+    NSFileProviderItemContentModificationDate = 1 << 7,
+    NSFileProviderItemFileSystemFlags = 1 << 8,
+    NSFileProviderItemExtendedAttributes = 1 << 9,
+    NSFileProviderItemTypeAndCreator = 1 << 10,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSFileProviderFileSystemFlags {
-        NSFileProviderFileSystemUserExecutable = 1 << 0,
-        NSFileProviderFileSystemUserReadable = 1 << 1,
-        NSFileProviderFileSystemUserWritable = 1 << 2,
-        NSFileProviderFileSystemHidden = 1 << 3,
-        NSFileProviderFileSystemPathExtensionHidden = 1 << 4,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSFileProviderFileSystemFlags {
+    NSFileProviderFileSystemUserExecutable = 1 << 0,
+    NSFileProviderFileSystemUserReadable = 1 << 1,
+    NSFileProviderFileSystemUserWritable = 1 << 2,
+    NSFileProviderFileSystemHidden = 1 << 3,
+    NSFileProviderFileSystemPathExtensionHidden = 1 << 4,
+}
 
 extern_struct!(
     pub struct NSFileProviderTypeAndCreator {
@@ -120,173 +120,139 @@ extern_struct!(
     }
 );
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSFileProviderContentPolicy {
-        NSFileProviderContentPolicyInherited = 0,
-        NSFileProviderContentPolicyDownloadLazily = 1,
-        NSFileProviderContentPolicyDownloadLazilyAndEvictOnRemoteUpdate = 2,
-        NSFileProviderContentPolicyDownloadEagerlyAndKeepDownloaded = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSFileProviderContentPolicy {
+    NSFileProviderContentPolicyInherited = 0,
+    NSFileProviderContentPolicyDownloadLazily = 1,
+    NSFileProviderContentPolicyDownloadLazilyAndEvictOnRemoteUpdate = 2,
+    NSFileProviderContentPolicyDownloadEagerlyAndKeepDownloaded = 3,
+}
 
-extern_protocol!(
-    pub unsafe trait NSFileProviderItemProtocol: NSObjectProtocol {
-        #[method_id(@__retain_semantics Other itemIdentifier)]
-        unsafe fn itemIdentifier(&self) -> Id<NSFileProviderItemIdentifier>;
+#[objc2::protocol]
+pub unsafe trait NSFileProviderItemProtocol: NSObjectProtocol {
+    #[objc2::method(sel = "itemIdentifier", managed = "Other")]
+    unsafe fn itemIdentifier(&self) -> Id<NSFileProviderItemIdentifier>;
 
-        #[method_id(@__retain_semantics Other parentItemIdentifier)]
-        unsafe fn parentItemIdentifier(&self) -> Id<NSFileProviderItemIdentifier>;
+    #[objc2::method(sel = "parentItemIdentifier", managed = "Other")]
+    unsafe fn parentItemIdentifier(&self) -> Id<NSFileProviderItemIdentifier>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other filename)]
-        unsafe fn filename(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "filename", managed = "Other")]
+    unsafe fn filename(&self) -> Id<NSString>;
 
-        #[cfg(feature = "UniformTypeIdentifiers_UTType")]
-        #[optional]
-        #[method_id(@__retain_semantics Other contentType)]
-        unsafe fn contentType(&self) -> Id<UTType>;
+    #[cfg(feature = "UniformTypeIdentifiers_UTType")]
+    #[objc2::method(optional, sel = "contentType", managed = "Other")]
+    unsafe fn contentType(&self) -> Id<UTType>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[optional]
-        #[method_id(@__retain_semantics Other typeIdentifier)]
-        unsafe fn typeIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(optional, sel = "typeIdentifier", managed = "Other")]
+    unsafe fn typeIdentifier(&self) -> Id<NSString>;
 
-        #[optional]
-        #[method(typeAndCreator)]
-        unsafe fn typeAndCreator(&self) -> NSFileProviderTypeAndCreator;
+    #[objc2::method(optional, sel = "typeAndCreator")]
+    unsafe fn typeAndCreator(&self) -> NSFileProviderTypeAndCreator;
 
-        #[optional]
-        #[method(capabilities)]
-        unsafe fn capabilities(&self) -> NSFileProviderItemCapabilities;
+    #[objc2::method(optional, sel = "capabilities")]
+    unsafe fn capabilities(&self) -> NSFileProviderItemCapabilities;
 
-        #[optional]
-        #[method(fileSystemFlags)]
-        unsafe fn fileSystemFlags(&self) -> NSFileProviderFileSystemFlags;
+    #[objc2::method(optional, sel = "fileSystemFlags")]
+    unsafe fn fileSystemFlags(&self) -> NSFileProviderFileSystemFlags;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[optional]
-        #[method_id(@__retain_semantics Other documentSize)]
-        unsafe fn documentSize(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(optional, sel = "documentSize", managed = "Other")]
+    unsafe fn documentSize(&self) -> Option<Id<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[optional]
-        #[method_id(@__retain_semantics Other childItemCount)]
-        unsafe fn childItemCount(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(optional, sel = "childItemCount", managed = "Other")]
+    unsafe fn childItemCount(&self) -> Option<Id<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[optional]
-        #[method_id(@__retain_semantics Other creationDate)]
-        unsafe fn creationDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(optional, sel = "creationDate", managed = "Other")]
+    unsafe fn creationDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[optional]
-        #[method_id(@__retain_semantics Other contentModificationDate)]
-        unsafe fn contentModificationDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(optional, sel = "contentModificationDate", managed = "Other")]
+    unsafe fn contentModificationDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other extendedAttributes)]
-        unsafe fn extendedAttributes(&self) -> Id<NSDictionary<NSString, NSData>>;
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(optional, sel = "extendedAttributes", managed = "Other")]
+    unsafe fn extendedAttributes(&self) -> Id<NSDictionary<NSString, NSData>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[optional]
-        #[method_id(@__retain_semantics Other lastUsedDate)]
-        unsafe fn lastUsedDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(optional, sel = "lastUsedDate", managed = "Other")]
+    unsafe fn lastUsedDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[optional]
-        #[method_id(@__retain_semantics Other tagData)]
-        unsafe fn tagData(&self) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(optional, sel = "tagData", managed = "Other")]
+    unsafe fn tagData(&self) -> Option<Id<NSData>>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[optional]
-        #[method_id(@__retain_semantics Other favoriteRank)]
-        unsafe fn favoriteRank(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(optional, sel = "favoriteRank", managed = "Other")]
+    unsafe fn favoriteRank(&self) -> Option<Id<NSNumber>>;
 
-        #[optional]
-        #[method(isTrashed)]
-        unsafe fn isTrashed(&self) -> bool;
+    #[objc2::method(optional, sel = "isTrashed")]
+    unsafe fn isTrashed(&self) -> bool;
 
-        #[optional]
-        #[method(isUploaded)]
-        unsafe fn isUploaded(&self) -> bool;
+    #[objc2::method(optional, sel = "isUploaded")]
+    unsafe fn isUploaded(&self) -> bool;
 
-        #[optional]
-        #[method(isUploading)]
-        unsafe fn isUploading(&self) -> bool;
+    #[objc2::method(optional, sel = "isUploading")]
+    unsafe fn isUploading(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[optional]
-        #[method_id(@__retain_semantics Other uploadingError)]
-        unsafe fn uploadingError(&self) -> Option<Id<NSError>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(optional, sel = "uploadingError", managed = "Other")]
+    unsafe fn uploadingError(&self) -> Option<Id<NSError>>;
 
-        #[optional]
-        #[method(isDownloaded)]
-        unsafe fn isDownloaded(&self) -> bool;
+    #[objc2::method(optional, sel = "isDownloaded")]
+    unsafe fn isDownloaded(&self) -> bool;
 
-        #[optional]
-        #[method(isDownloading)]
-        unsafe fn isDownloading(&self) -> bool;
+    #[objc2::method(optional, sel = "isDownloading")]
+    unsafe fn isDownloading(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[optional]
-        #[method_id(@__retain_semantics Other downloadingError)]
-        unsafe fn downloadingError(&self) -> Option<Id<NSError>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(optional, sel = "downloadingError", managed = "Other")]
+    unsafe fn downloadingError(&self) -> Option<Id<NSError>>;
 
-        #[optional]
-        #[method(isMostRecentVersionDownloaded)]
-        unsafe fn isMostRecentVersionDownloaded(&self) -> bool;
+    #[objc2::method(optional, sel = "isMostRecentVersionDownloaded")]
+    unsafe fn isMostRecentVersionDownloaded(&self) -> bool;
 
-        #[optional]
-        #[method(isShared)]
-        unsafe fn isShared(&self) -> bool;
+    #[objc2::method(optional, sel = "isShared")]
+    unsafe fn isShared(&self) -> bool;
 
-        #[optional]
-        #[method(isSharedByCurrentUser)]
-        unsafe fn isSharedByCurrentUser(&self) -> bool;
+    #[objc2::method(optional, sel = "isSharedByCurrentUser")]
+    unsafe fn isSharedByCurrentUser(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSPersonNameComponents")]
-        #[optional]
-        #[method_id(@__retain_semantics Other ownerNameComponents)]
-        unsafe fn ownerNameComponents(&self) -> Option<Id<NSPersonNameComponents>>;
+    #[cfg(feature = "Foundation_NSPersonNameComponents")]
+    #[objc2::method(optional, sel = "ownerNameComponents", managed = "Other")]
+    unsafe fn ownerNameComponents(&self) -> Option<Id<NSPersonNameComponents>>;
 
-        #[cfg(feature = "Foundation_NSPersonNameComponents")]
-        #[optional]
-        #[method_id(@__retain_semantics Other mostRecentEditorNameComponents)]
-        unsafe fn mostRecentEditorNameComponents(&self) -> Option<Id<NSPersonNameComponents>>;
+    #[cfg(feature = "Foundation_NSPersonNameComponents")]
+    #[objc2::method(optional, sel = "mostRecentEditorNameComponents", managed = "Other")]
+    unsafe fn mostRecentEditorNameComponents(&self) -> Option<Id<NSPersonNameComponents>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[optional]
-        #[method_id(@__retain_semantics Other versionIdentifier)]
-        unsafe fn versionIdentifier(&self) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(optional, sel = "versionIdentifier", managed = "Other")]
+    unsafe fn versionIdentifier(&self) -> Option<Id<NSData>>;
 
-        #[cfg(feature = "FileProvider_NSFileProviderItemVersion")]
-        #[optional]
-        #[method_id(@__retain_semantics Other itemVersion)]
-        unsafe fn itemVersion(&self) -> Id<NSFileProviderItemVersion>;
+    #[cfg(feature = "FileProvider_NSFileProviderItemVersion")]
+    #[objc2::method(optional, sel = "itemVersion", managed = "Other")]
+    unsafe fn itemVersion(&self) -> Id<NSFileProviderItemVersion>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[optional]
-        #[method_id(@__retain_semantics Other symlinkTargetPath)]
-        unsafe fn symlinkTargetPath(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(optional, sel = "symlinkTargetPath", managed = "Other")]
+    unsafe fn symlinkTargetPath(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[optional]
-        #[method_id(@__retain_semantics Other userInfo)]
-        unsafe fn userInfo(&self) -> Option<Id<NSDictionary>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(optional, sel = "userInfo", managed = "Other")]
+    unsafe fn userInfo(&self) -> Option<Id<NSDictionary>>;
 
-        #[optional]
-        #[method(contentPolicy)]
-        unsafe fn contentPolicy(&self) -> NSFileProviderContentPolicy;
-    }
-
-    unsafe impl ProtocolType for dyn NSFileProviderItemProtocol {}
-);
+    #[objc2::method(optional, sel = "contentPolicy")]
+    unsafe fn contentPolicy(&self) -> NSFileProviderContentPolicy;
+}
 
 pub type NSFileProviderItem = ProtocolObject<dyn NSFileProviderItemProtocol>;

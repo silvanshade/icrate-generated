@@ -7,17 +7,17 @@ use crate::WebKit::*;
 
 extern_static!(WebArchivePboardType: Option<&'static NSString>);
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WebArchive")]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct WebArchive;
-
     #[cfg(feature = "WebKit_WebArchive")]
-    unsafe impl ClassType for WebArchive {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type WebArchive;
+}
 
 #[cfg(feature = "WebKit_WebArchive")]
 unsafe impl NSCoding for WebArchive {}
@@ -25,39 +25,46 @@ unsafe impl NSCoding for WebArchive {}
 #[cfg(feature = "WebKit_WebArchive")]
 unsafe impl NSObjectProtocol for WebArchive {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WebArchive")]
-    unsafe impl WebArchive {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "WebKit_WebResource"))]
-        #[method_id(@__retain_semantics Init initWithMainResource:subresources:subframeArchives:)]
-        pub unsafe fn initWithMainResource_subresources_subframeArchives(
-            this: Option<Allocated<Self>>,
-            main_resource: Option<&WebResource>,
-            subresources: Option<&NSArray>,
-            subframe_archives: Option<&NSArray>,
-        ) -> Option<Id<Self>>;
+    #[deprecated]
+    pub type WebArchive;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Init initWithData:)]
-        pub unsafe fn initWithData(
-            this: Option<Allocated<Self>>,
-            data: Option<&NSData>,
-        ) -> Option<Id<Self>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "WebKit_WebResource"))]
+    #[objc2::method(
+        sel = "initWithMainResource:subresources:subframeArchives:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithMainResource_subresources_subframeArchives(
+        this: Option<Allocated<Self>>,
+        main_resource: Option<&WebResource>,
+        subresources: Option<&NSArray>,
+        subframe_archives: Option<&NSArray>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "WebKit_WebResource")]
-        #[method_id(@__retain_semantics Other mainResource)]
-        pub unsafe fn mainResource(&self) -> Option<Id<WebResource>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "initWithData:", managed = "Init")]
+    pub unsafe fn initWithData(
+        this: Option<Allocated<Self>>,
+        data: Option<&NSData>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other subresources)]
-        pub unsafe fn subresources(&self) -> Id<NSArray>;
+    #[cfg(feature = "WebKit_WebResource")]
+    #[objc2::method(sel = "mainResource", managed = "Other")]
+    pub unsafe fn mainResource(&self) -> Option<Id<WebResource>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other subframeArchives)]
-        pub unsafe fn subframeArchives(&self) -> Id<NSArray>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "subresources", managed = "Other")]
+    pub unsafe fn subresources(&self) -> Id<NSArray>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other data)]
-        pub unsafe fn data(&self) -> Id<NSData>;
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "subframeArchives", managed = "Other")]
+    pub unsafe fn subframeArchives(&self) -> Id<NSArray>;
+
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "data", managed = "Other")]
+    pub unsafe fn data(&self) -> Id<NSData>;
+}

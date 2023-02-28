@@ -11,16 +11,16 @@ pub type NSSoundName = NSString;
 
 pub type NSSoundPlaybackDeviceIdentifier = NSString;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSound")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSSound")]
-    pub struct NSSound;
-
-    #[cfg(feature = "AppKit_NSSound")]
-    unsafe impl ClassType for NSSound {
-        type Super = NSObject;
-    }
-);
+    pub type NSSound;
+}
 
 #[cfg(feature = "AppKit_NSSound")]
 unsafe impl NSCoding for NSSound {}
@@ -37,158 +37,156 @@ unsafe impl NSPasteboardWriting for NSSound {}
 #[cfg(feature = "AppKit_NSSound")]
 unsafe impl NSSecureCoding for NSSound {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSound")]
-    unsafe impl NSSound {
-        #[method_id(@__retain_semantics Other soundNamed:)]
-        pub unsafe fn soundNamed(name: &NSSoundName) -> Option<Id<NSSound>>;
+    pub type NSSound;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:byReference:)]
-        pub unsafe fn initWithContentsOfURL_byReference(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            by_ref: bool,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "soundNamed:", managed = "Other")]
+    pub unsafe fn soundNamed(name: &NSSoundName) -> Option<Id<NSSound>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithContentsOfFile:byReference:)]
-        pub unsafe fn initWithContentsOfFile_byReference(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-            by_ref: bool,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initWithContentsOfURL:byReference:", managed = "Init")]
+    pub unsafe fn initWithContentsOfURL_byReference(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        by_ref: bool,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Init initWithData:)]
-        pub unsafe fn initWithData(
-            this: Option<Allocated<Self>>,
-            data: &NSData,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithContentsOfFile:byReference:", managed = "Init")]
+    pub unsafe fn initWithContentsOfFile_byReference(
+        this: Option<Allocated<Self>>,
+        path: &NSString,
+        by_ref: bool,
+    ) -> Option<Id<Self>>;
 
-        #[method(setName:)]
-        pub unsafe fn setName(&self, string: Option<&NSSoundName>) -> bool;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "initWithData:", managed = "Init")]
+    pub unsafe fn initWithData(this: Option<Allocated<Self>>, data: &NSData) -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSSoundName>>;
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, string: Option<&NSSoundName>) -> bool;
 
-        #[cfg(feature = "AppKit_NSPasteboard")]
-        #[method(canInitWithPasteboard:)]
-        pub unsafe fn canInitWithPasteboard(pasteboard: &NSPasteboard) -> bool;
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSSoundName>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other soundUnfilteredTypes)]
-        pub unsafe fn soundUnfilteredTypes() -> Id<NSArray<NSString>>;
+    #[cfg(feature = "AppKit_NSPasteboard")]
+    #[objc2::method(sel = "canInitWithPasteboard:")]
+    pub unsafe fn canInitWithPasteboard(pasteboard: &NSPasteboard) -> bool;
 
-        #[cfg(feature = "AppKit_NSPasteboard")]
-        #[method_id(@__retain_semantics Init initWithPasteboard:)]
-        pub unsafe fn initWithPasteboard(
-            this: Option<Allocated<Self>>,
-            pasteboard: &NSPasteboard,
-        ) -> Option<Id<Self>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "soundUnfilteredTypes", managed = "Other")]
+    pub unsafe fn soundUnfilteredTypes() -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "AppKit_NSPasteboard")]
-        #[method(writeToPasteboard:)]
-        pub unsafe fn writeToPasteboard(&self, pasteboard: &NSPasteboard);
+    #[cfg(feature = "AppKit_NSPasteboard")]
+    #[objc2::method(sel = "initWithPasteboard:", managed = "Init")]
+    pub unsafe fn initWithPasteboard(
+        this: Option<Allocated<Self>>,
+        pasteboard: &NSPasteboard,
+    ) -> Option<Id<Self>>;
 
-        #[method(play)]
-        pub unsafe fn play(&self) -> bool;
+    #[cfg(feature = "AppKit_NSPasteboard")]
+    #[objc2::method(sel = "writeToPasteboard:")]
+    pub unsafe fn writeToPasteboard(&self, pasteboard: &NSPasteboard);
 
-        #[method(pause)]
-        pub unsafe fn pause(&self) -> bool;
+    #[objc2::method(sel = "play")]
+    pub unsafe fn play(&self) -> bool;
 
-        #[method(resume)]
-        pub unsafe fn resume(&self) -> bool;
+    #[objc2::method(sel = "pause")]
+    pub unsafe fn pause(&self) -> bool;
 
-        #[method(stop)]
-        pub unsafe fn stop(&self) -> bool;
+    #[objc2::method(sel = "resume")]
+    pub unsafe fn resume(&self) -> bool;
 
-        #[method(isPlaying)]
-        pub unsafe fn isPlaying(&self) -> bool;
+    #[objc2::method(sel = "stop")]
+    pub unsafe fn stop(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSSoundDelegate>>>;
+    #[objc2::method(sel = "isPlaying")]
+    pub unsafe fn isPlaying(&self) -> bool;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSSoundDelegate>>);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSSoundDelegate>>>;
 
-        #[method(duration)]
-        pub unsafe fn duration(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSSoundDelegate>>);
 
-        #[method(volume)]
-        pub unsafe fn volume(&self) -> c_float;
+    #[objc2::method(sel = "duration")]
+    pub unsafe fn duration(&self) -> NSTimeInterval;
 
-        #[method(setVolume:)]
-        pub unsafe fn setVolume(&self, volume: c_float);
+    #[objc2::method(sel = "volume")]
+    pub unsafe fn volume(&self) -> c_float;
 
-        #[method(currentTime)]
-        pub unsafe fn currentTime(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "setVolume:")]
+    pub unsafe fn setVolume(&self, volume: c_float);
 
-        #[method(setCurrentTime:)]
-        pub unsafe fn setCurrentTime(&self, current_time: NSTimeInterval);
+    #[objc2::method(sel = "currentTime")]
+    pub unsafe fn currentTime(&self) -> NSTimeInterval;
 
-        #[method(loops)]
-        pub unsafe fn loops(&self) -> bool;
+    #[objc2::method(sel = "setCurrentTime:")]
+    pub unsafe fn setCurrentTime(&self, current_time: NSTimeInterval);
 
-        #[method(setLoops:)]
-        pub unsafe fn setLoops(&self, loops: bool);
+    #[objc2::method(sel = "loops")]
+    pub unsafe fn loops(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other playbackDeviceIdentifier)]
-        pub unsafe fn playbackDeviceIdentifier(
-            &self,
-        ) -> Option<Id<NSSoundPlaybackDeviceIdentifier>>;
+    #[objc2::method(sel = "setLoops:")]
+    pub unsafe fn setLoops(&self, loops: bool);
 
-        #[method(setPlaybackDeviceIdentifier:)]
-        pub unsafe fn setPlaybackDeviceIdentifier(
-            &self,
-            playback_device_identifier: Option<&NSSoundPlaybackDeviceIdentifier>,
-        );
+    #[objc2::method(sel = "playbackDeviceIdentifier", managed = "Other")]
+    pub unsafe fn playbackDeviceIdentifier(&self) -> Option<Id<NSSoundPlaybackDeviceIdentifier>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[deprecated]
-        #[method(setChannelMapping:)]
-        pub unsafe fn setChannelMapping(&self, channel_mapping: Option<&NSArray>);
+    #[objc2::method(sel = "setPlaybackDeviceIdentifier:")]
+    pub unsafe fn setPlaybackDeviceIdentifier(
+        &self,
+        playback_device_identifier: Option<&NSSoundPlaybackDeviceIdentifier>,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other channelMapping)]
-        pub unsafe fn channelMapping(&self) -> Option<Id<NSArray>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[deprecated]
+    #[objc2::method(sel = "setChannelMapping:")]
+    pub unsafe fn setChannelMapping(&self, channel_mapping: Option<&NSArray>);
 
-extern_methods!(
-    /// NSDeprecated
+    #[cfg(feature = "Foundation_NSArray")]
+    #[deprecated]
+    #[objc2::method(sel = "channelMapping", managed = "Other")]
+    pub unsafe fn channelMapping(&self) -> Option<Id<NSArray>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSound")]
-    unsafe impl NSSound {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other soundUnfilteredFileTypes)]
-        pub unsafe fn soundUnfilteredFileTypes() -> Option<Id<NSArray>>;
+    pub type NSSound;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other soundUnfilteredPasteboardTypes)]
-        pub unsafe fn soundUnfilteredPasteboardTypes() -> Option<Id<NSArray>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[deprecated]
+    #[objc2::method(sel = "soundUnfilteredFileTypes", managed = "Other")]
+    pub unsafe fn soundUnfilteredFileTypes() -> Option<Id<NSArray>>;
 
-extern_protocol!(
-    pub unsafe trait NSSoundDelegate: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSSound")]
-        #[optional]
-        #[method(sound:didFinishPlaying:)]
-        unsafe fn sound_didFinishPlaying(&self, sound: &NSSound, flag: bool);
-    }
+    #[cfg(feature = "Foundation_NSArray")]
+    #[deprecated]
+    #[objc2::method(sel = "soundUnfilteredPasteboardTypes", managed = "Other")]
+    pub unsafe fn soundUnfilteredPasteboardTypes() -> Option<Id<NSArray>>;
+}
 
-    unsafe impl ProtocolType for dyn NSSoundDelegate {}
-);
+#[objc2::protocol]
+pub unsafe trait NSSoundDelegate: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSSound")]
+    #[objc2::method(optional, sel = "sound:didFinishPlaying:")]
+    unsafe fn sound_didFinishPlaying(&self, sound: &NSSound, flag: bool);
+}
 
-extern_methods!(
-    /// NSBundleSoundExtensions
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSBundle")]
-    unsafe impl NSBundle {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other pathForSoundResource:)]
-        pub unsafe fn pathForSoundResource(&self, name: &NSSoundName) -> Option<Id<NSString>>;
-    }
-);
+    pub type NSBundle;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "pathForSoundResource:", managed = "Other")]
+    pub unsafe fn pathForSoundResource(&self, name: &NSSoundName) -> Option<Id<NSString>>;
+}

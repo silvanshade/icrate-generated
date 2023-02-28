@@ -8,37 +8,40 @@ use crate::GameController::*;
 pub type GCControllerAxisValueChangedHandler =
     *mut Block<(NonNull<GCControllerAxisInput>, c_float), ()>;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = GCControllerElement,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCControllerAxisInput")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCControllerAxisInput")]
-    pub struct GCControllerAxisInput;
-
-    #[cfg(feature = "GameController_GCControllerAxisInput")]
-    unsafe impl ClassType for GCControllerAxisInput {
-        #[inherits(NSObject)]
-        type Super = GCControllerElement;
-    }
-);
+    pub type GCControllerAxisInput;
+}
 
 #[cfg(feature = "GameController_GCControllerAxisInput")]
 unsafe impl NSObjectProtocol for GCControllerAxisInput {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCControllerAxisInput")]
-    unsafe impl GCControllerAxisInput {
-        #[method(valueChangedHandler)]
-        pub unsafe fn valueChangedHandler(&self) -> GCControllerAxisValueChangedHandler;
+    pub type GCControllerAxisInput;
 
-        #[method(setValueChangedHandler:)]
-        pub unsafe fn setValueChangedHandler(
-            &self,
-            value_changed_handler: GCControllerAxisValueChangedHandler,
-        );
+    #[objc2::method(sel = "valueChangedHandler")]
+    pub unsafe fn valueChangedHandler(&self) -> GCControllerAxisValueChangedHandler;
 
-        #[method(value)]
-        pub unsafe fn value(&self) -> c_float;
+    #[objc2::method(sel = "setValueChangedHandler:")]
+    pub unsafe fn setValueChangedHandler(
+        &self,
+        value_changed_handler: GCControllerAxisValueChangedHandler,
+    );
 
-        #[method(setValue:)]
-        pub unsafe fn setValue(&self, value: c_float);
-    }
-);
+    #[objc2::method(sel = "value")]
+    pub unsafe fn value(&self) -> c_float;
+
+    #[objc2::method(sel = "setValue:")]
+    pub unsafe fn setValue(&self, value: c_float);
+}

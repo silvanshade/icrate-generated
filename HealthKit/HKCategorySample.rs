@@ -6,17 +6,18 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSample,
+    unsafe inherits = [
+        HKObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKCategorySample")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKCategorySample")]
-    pub struct HKCategorySample;
-
-    #[cfg(feature = "HealthKit_HKCategorySample")]
-    unsafe impl ClassType for HKCategorySample {
-        #[inherits(HKObject, NSObject)]
-        type Super = HKSample;
-    }
-);
+    pub type HKCategorySample;
+}
 
 #[cfg(feature = "HealthKit_HKCategorySample")]
 unsafe impl NSCoding for HKCategorySample {}
@@ -27,60 +28,72 @@ unsafe impl NSObjectProtocol for HKCategorySample {}
 #[cfg(feature = "HealthKit_HKCategorySample")]
 unsafe impl NSSecureCoding for HKCategorySample {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKCategorySample")]
-    unsafe impl HKCategorySample {
-        #[cfg(feature = "HealthKit_HKCategoryType")]
-        #[method_id(@__retain_semantics Other categoryType)]
-        pub unsafe fn categoryType(&self) -> Id<HKCategoryType>;
+    pub type HKCategorySample;
 
-        #[method(value)]
-        pub unsafe fn value(&self) -> NSInteger;
+    #[cfg(feature = "HealthKit_HKCategoryType")]
+    #[objc2::method(sel = "categoryType", managed = "Other")]
+    pub unsafe fn categoryType(&self) -> Id<HKCategoryType>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "value")]
+    pub unsafe fn value(&self) -> NSInteger;
 
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "HealthKit_HKCategoryType"
-        ))]
-        #[method_id(@__retain_semantics Other categorySampleWithType:value:startDate:endDate:metadata:)]
-        pub unsafe fn categorySampleWithType_value_startDate_endDate_metadata(
-            r#type: &HKCategoryType,
-            value: NSInteger,
-            start_date: &NSDate,
-            end_date: &NSDate,
-            metadata: Option<&NSDictionary<NSString, Object>>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSDate", feature = "HealthKit_HKCategoryType"))]
-        #[method_id(@__retain_semantics Other categorySampleWithType:value:startDate:endDate:)]
-        pub unsafe fn categorySampleWithType_value_startDate_endDate(
-            r#type: &HKCategoryType,
-            value: NSInteger,
-            start_date: &NSDate,
-            end_date: &NSDate,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "HealthKit_HKCategoryType"
+    ))]
+    #[objc2::method(
+        sel = "categorySampleWithType:value:startDate:endDate:metadata:",
+        managed = "Other"
+    )]
+    pub unsafe fn categorySampleWithType_value_startDate_endDate_metadata(
+        r#type: &HKCategoryType,
+        value: NSInteger,
+        start_date: &NSDate,
+        end_date: &NSDate,
+        metadata: Option<&NSDictionary<NSString, Object>>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "HealthKit_HKCategoryType",
-            feature = "HealthKit_HKDevice"
-        ))]
-        #[method_id(@__retain_semantics Other categorySampleWithType:value:startDate:endDate:device:metadata:)]
-        pub unsafe fn categorySampleWithType_value_startDate_endDate_device_metadata(
-            r#type: &HKCategoryType,
-            value: NSInteger,
-            start_date: &NSDate,
-            end_date: &NSDate,
-            device: Option<&HKDevice>,
-            metadata: Option<&NSDictionary<NSString, Object>>,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSDate", feature = "HealthKit_HKCategoryType"))]
+    #[objc2::method(
+        sel = "categorySampleWithType:value:startDate:endDate:",
+        managed = "Other"
+    )]
+    pub unsafe fn categorySampleWithType_value_startDate_endDate(
+        r#type: &HKCategoryType,
+        value: NSInteger,
+        start_date: &NSDate,
+        end_date: &NSDate,
+    ) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "HealthKit_HKCategoryType",
+        feature = "HealthKit_HKDevice"
+    ))]
+    #[objc2::method(
+        sel = "categorySampleWithType:value:startDate:endDate:device:metadata:",
+        managed = "Other"
+    )]
+    pub unsafe fn categorySampleWithType_value_startDate_endDate_device_metadata(
+        r#type: &HKCategoryType,
+        value: NSInteger,
+        start_date: &NSDate,
+        end_date: &NSDate,
+        device: Option<&HKDevice>,
+        metadata: Option<&NSDictionary<NSString, Object>>,
+    ) -> Id<Self>;
+}
 
 extern_static!(HKPredicateKeyPathCategoryValue: &'static NSString);

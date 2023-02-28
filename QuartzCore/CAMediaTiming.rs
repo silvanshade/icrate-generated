@@ -8,59 +8,56 @@ typed_enum!(
     pub type CAMediaTimingFillMode = NSString;
 );
 
-extern_protocol!(
-    pub unsafe trait CAMediaTiming {
-        #[method(beginTime)]
-        unsafe fn beginTime(&self) -> CFTimeInterval;
+#[objc2::protocol]
+pub unsafe trait CAMediaTiming {
+    #[objc2::method(sel = "beginTime")]
+    unsafe fn beginTime(&self) -> CFTimeInterval;
 
-        #[method(setBeginTime:)]
-        unsafe fn setBeginTime(&self, begin_time: CFTimeInterval);
+    #[objc2::method(sel = "setBeginTime:")]
+    unsafe fn setBeginTime(&self, begin_time: CFTimeInterval);
 
-        #[method(duration)]
-        unsafe fn duration(&self) -> CFTimeInterval;
+    #[objc2::method(sel = "duration")]
+    unsafe fn duration(&self) -> CFTimeInterval;
 
-        #[method(setDuration:)]
-        unsafe fn setDuration(&self, duration: CFTimeInterval);
+    #[objc2::method(sel = "setDuration:")]
+    unsafe fn setDuration(&self, duration: CFTimeInterval);
 
-        #[method(speed)]
-        unsafe fn speed(&self) -> c_float;
+    #[objc2::method(sel = "speed")]
+    unsafe fn speed(&self) -> c_float;
 
-        #[method(setSpeed:)]
-        unsafe fn setSpeed(&self, speed: c_float);
+    #[objc2::method(sel = "setSpeed:")]
+    unsafe fn setSpeed(&self, speed: c_float);
 
-        #[method(timeOffset)]
-        unsafe fn timeOffset(&self) -> CFTimeInterval;
+    #[objc2::method(sel = "timeOffset")]
+    unsafe fn timeOffset(&self) -> CFTimeInterval;
 
-        #[method(setTimeOffset:)]
-        unsafe fn setTimeOffset(&self, time_offset: CFTimeInterval);
+    #[objc2::method(sel = "setTimeOffset:")]
+    unsafe fn setTimeOffset(&self, time_offset: CFTimeInterval);
 
-        #[method(repeatCount)]
-        unsafe fn repeatCount(&self) -> c_float;
+    #[objc2::method(sel = "repeatCount")]
+    unsafe fn repeatCount(&self) -> c_float;
 
-        #[method(setRepeatCount:)]
-        unsafe fn setRepeatCount(&self, repeat_count: c_float);
+    #[objc2::method(sel = "setRepeatCount:")]
+    unsafe fn setRepeatCount(&self, repeat_count: c_float);
 
-        #[method(repeatDuration)]
-        unsafe fn repeatDuration(&self) -> CFTimeInterval;
+    #[objc2::method(sel = "repeatDuration")]
+    unsafe fn repeatDuration(&self) -> CFTimeInterval;
 
-        #[method(setRepeatDuration:)]
-        unsafe fn setRepeatDuration(&self, repeat_duration: CFTimeInterval);
+    #[objc2::method(sel = "setRepeatDuration:")]
+    unsafe fn setRepeatDuration(&self, repeat_duration: CFTimeInterval);
 
-        #[method(autoreverses)]
-        unsafe fn autoreverses(&self) -> bool;
+    #[objc2::method(sel = "autoreverses")]
+    unsafe fn autoreverses(&self) -> bool;
 
-        #[method(setAutoreverses:)]
-        unsafe fn setAutoreverses(&self, autoreverses: bool);
+    #[objc2::method(sel = "setAutoreverses:")]
+    unsafe fn setAutoreverses(&self, autoreverses: bool);
 
-        #[method_id(@__retain_semantics Other fillMode)]
-        unsafe fn fillMode(&self) -> Id<CAMediaTimingFillMode>;
+    #[objc2::method(sel = "fillMode", managed = "Other")]
+    unsafe fn fillMode(&self) -> Id<CAMediaTimingFillMode>;
 
-        #[method(setFillMode:)]
-        unsafe fn setFillMode(&self, fill_mode: &CAMediaTimingFillMode);
-    }
-
-    unsafe impl ProtocolType for dyn CAMediaTiming {}
-);
+    #[objc2::method(sel = "setFillMode:")]
+    unsafe fn setFillMode(&self, fill_mode: &CAMediaTimingFillMode);
+}
 
 extern_static!(kCAFillModeForwards: &'static CAMediaTimingFillMode);
 

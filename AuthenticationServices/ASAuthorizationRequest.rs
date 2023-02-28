@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationRequest")]
-    pub struct ASAuthorizationRequest;
-
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationRequest")]
-    unsafe impl ClassType for ASAuthorizationRequest {
-        type Super = NSObject;
-    }
-);
+    pub type ASAuthorizationRequest;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationRequest")]
 unsafe impl NSCoding for ASAuthorizationRequest {}
@@ -24,16 +24,19 @@ unsafe impl NSObjectProtocol for ASAuthorizationRequest {}
 #[cfg(feature = "AuthenticationServices_ASAuthorizationRequest")]
 unsafe impl NSSecureCoding for ASAuthorizationRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAuthorizationRequest")]
-    unsafe impl ASAuthorizationRequest {
-        #[method_id(@__retain_semantics Other provider)]
-        pub unsafe fn provider(&self) -> Id<ProtocolObject<dyn ASAuthorizationProvider>>;
+    pub type ASAuthorizationRequest;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "provider", managed = "Other")]
+    pub unsafe fn provider(&self) -> Id<ProtocolObject<dyn ASAuthorizationProvider>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

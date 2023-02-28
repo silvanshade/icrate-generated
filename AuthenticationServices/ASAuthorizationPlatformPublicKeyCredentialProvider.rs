@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialProvider")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialProvider")]
-    pub struct ASAuthorizationPlatformPublicKeyCredentialProvider;
-
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialProvider")]
-    unsafe impl ClassType for ASAuthorizationPlatformPublicKeyCredentialProvider {
-        type Super = NSObject;
-    }
-);
+    pub type ASAuthorizationPlatformPublicKeyCredentialProvider;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialProvider")]
 unsafe impl ASAuthorizationProvider for ASAuthorizationPlatformPublicKeyCredentialProvider {}
@@ -21,47 +21,56 @@ unsafe impl ASAuthorizationProvider for ASAuthorizationPlatformPublicKeyCredenti
 #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialProvider")]
 unsafe impl NSObjectProtocol for ASAuthorizationPlatformPublicKeyCredentialProvider {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialProvider")]
-    unsafe impl ASAuthorizationPlatformPublicKeyCredentialProvider {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithRelyingPartyIdentifier:)]
-        pub unsafe fn initWithRelyingPartyIdentifier(
-            this: Option<Allocated<Self>>,
-            relying_party_identifier: &NSString,
-        ) -> Id<Self>;
+    pub type ASAuthorizationPlatformPublicKeyCredentialProvider;
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest",
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other createCredentialRegistrationRequestWithChallenge:name:userID:)]
-        pub unsafe fn createCredentialRegistrationRequestWithChallenge_name_userID(
-            &self,
-            challenge: &NSData,
-            name: &NSString,
-            user_id: &NSData,
-        ) -> Id<ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithRelyingPartyIdentifier:", managed = "Init")]
+    pub unsafe fn initWithRelyingPartyIdentifier(
+        this: Option<Allocated<Self>>,
+        relying_party_identifier: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialAssertionRequest",
-            feature = "Foundation_NSData"
-        ))]
-        #[method_id(@__retain_semantics Other createCredentialAssertionRequestWithChallenge:)]
-        pub unsafe fn createCredentialAssertionRequestWithChallenge(
-            &self,
-            challenge: &NSData,
-        ) -> Id<ASAuthorizationPlatformPublicKeyCredentialAssertionRequest>;
+    #[cfg(all(
+        feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest",
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "createCredentialRegistrationRequestWithChallenge:name:userID:",
+        managed = "Other"
+    )]
+    pub unsafe fn createCredentialRegistrationRequestWithChallenge_name_userID(
+        &self,
+        challenge: &NSData,
+        name: &NSString,
+        user_id: &NSData,
+    ) -> Id<ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other relyingPartyIdentifier)]
-        pub unsafe fn relyingPartyIdentifier(&self) -> Id<NSString>;
+    #[cfg(all(
+        feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialAssertionRequest",
+        feature = "Foundation_NSData"
+    ))]
+    #[objc2::method(
+        sel = "createCredentialAssertionRequestWithChallenge:",
+        managed = "Other"
+    )]
+    pub unsafe fn createCredentialAssertionRequestWithChallenge(
+        &self,
+        challenge: &NSData,
+    ) -> Id<ASAuthorizationPlatformPublicKeyCredentialAssertionRequest>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "relyingPartyIdentifier", managed = "Other")]
+    pub unsafe fn relyingPartyIdentifier(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

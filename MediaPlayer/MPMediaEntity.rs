@@ -9,16 +9,16 @@ pub type MPMediaEntityPersistentID = u64;
 
 extern_static!(MPMediaEntityPropertyPersistentID: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPMediaEntity")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPMediaEntity")]
-    pub struct MPMediaEntity;
-
-    #[cfg(feature = "MediaPlayer_MPMediaEntity")]
-    unsafe impl ClassType for MPMediaEntity {
-        type Super = NSObject;
-    }
-);
+    pub type MPMediaEntity;
+}
 
 #[cfg(feature = "MediaPlayer_MPMediaEntity")]
 unsafe impl NSCoding for MPMediaEntity {}
@@ -29,29 +29,32 @@ unsafe impl NSObjectProtocol for MPMediaEntity {}
 #[cfg(feature = "MediaPlayer_MPMediaEntity")]
 unsafe impl NSSecureCoding for MPMediaEntity {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPMediaEntity")]
-    unsafe impl MPMediaEntity {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(canFilterByProperty:)]
-        pub unsafe fn canFilterByProperty(property: &NSString) -> bool;
+    pub type MPMediaEntity;
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
-        #[method(enumerateValuesForProperties:usingBlock:)]
-        pub unsafe fn enumerateValuesForProperties_usingBlock(
-            &self,
-            properties: &NSSet<NSString>,
-            block: &Block<(NonNull<NSString>, NonNull<Object>, NonNull<Bool>), ()>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "canFilterByProperty:")]
+    pub unsafe fn canFilterByProperty(property: &NSString) -> bool;
 
-        #[method_id(@__retain_semantics Other objectForKeyedSubscript:)]
-        pub unsafe fn objectForKeyedSubscript(&self, key: &Object) -> Option<Id<Object>>;
+    #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "enumerateValuesForProperties:usingBlock:")]
+    pub unsafe fn enumerateValuesForProperties_usingBlock(
+        &self,
+        properties: &NSSet<NSString>,
+        block: &Block<(NonNull<NSString>, NonNull<Object>, NonNull<Bool>), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other valueForProperty:)]
-        pub unsafe fn valueForProperty(&self, property: &NSString) -> Option<Id<Object>>;
+    #[objc2::method(sel = "objectForKeyedSubscript:", managed = "Other")]
+    pub unsafe fn objectForKeyedSubscript(&self, key: &Object) -> Option<Id<Object>>;
 
-        #[method(persistentID)]
-        pub unsafe fn persistentID(&self) -> MPMediaEntityPersistentID;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "valueForProperty:", managed = "Other")]
+    pub unsafe fn valueForProperty(&self, property: &NSString) -> Option<Id<Object>>;
+
+    #[objc2::method(sel = "persistentID")]
+    pub unsafe fn persistentID(&self) -> MPMediaEntityPersistentID;
+}

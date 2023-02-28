@@ -5,26 +5,30 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-extern_methods!(
-    /// MPNowPlayingInfoLanguageOptionAdditions
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AVFoundation_AVMediaSelectionOption")]
-    unsafe impl AVMediaSelectionOption {
-        #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOption")]
-        #[method_id(@__retain_semantics Other makeNowPlayingInfoLanguageOption)]
-        pub unsafe fn makeNowPlayingInfoLanguageOption(
-            &self,
-        ) -> Option<Id<MPNowPlayingInfoLanguageOption>>;
-    }
-);
+    pub type AVMediaSelectionOption;
 
-extern_methods!(
-    /// MPNowPlayingInfoLanguageOptionAdditions
+    #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOption")]
+    #[objc2::method(sel = "makeNowPlayingInfoLanguageOption", managed = "Other")]
+    pub unsafe fn makeNowPlayingInfoLanguageOption(
+        &self,
+    ) -> Option<Id<MPNowPlayingInfoLanguageOption>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AVFoundation_AVMediaSelectionGroup")]
-    unsafe impl AVMediaSelectionGroup {
-        #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOptionGroup")]
-        #[method_id(@__retain_semantics Other makeNowPlayingInfoLanguageOptionGroup)]
-        pub unsafe fn makeNowPlayingInfoLanguageOptionGroup(
-            &self,
-        ) -> Id<MPNowPlayingInfoLanguageOptionGroup>;
-    }
-);
+    pub type AVMediaSelectionGroup;
+
+    #[cfg(feature = "MediaPlayer_MPNowPlayingInfoLanguageOptionGroup")]
+    #[objc2::method(sel = "makeNowPlayingInfoLanguageOptionGroup", managed = "Other")]
+    pub unsafe fn makeNowPlayingInfoLanguageOptionGroup(
+        &self,
+    ) -> Id<MPNowPlayingInfoLanguageOptionGroup>;
+}

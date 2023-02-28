@@ -4,134 +4,133 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSEntityMappingType {
-        NSUndefinedEntityMappingType = 0x00,
-        NSCustomEntityMappingType = 0x01,
-        NSAddEntityMappingType = 0x02,
-        NSRemoveEntityMappingType = 0x03,
-        NSCopyEntityMappingType = 0x04,
-        NSTransformEntityMappingType = 0x05,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSEntityMappingType {
+    NSUndefinedEntityMappingType = 0x00,
+    NSCustomEntityMappingType = 0x01,
+    NSAddEntityMappingType = 0x02,
+    NSRemoveEntityMappingType = 0x03,
+    NSCopyEntityMappingType = 0x04,
+    NSTransformEntityMappingType = 0x05,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSEntityMapping")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSEntityMapping")]
-    pub struct NSEntityMapping;
-
-    #[cfg(feature = "CoreData_NSEntityMapping")]
-    unsafe impl ClassType for NSEntityMapping {
-        type Super = NSObject;
-    }
-);
+    pub type NSEntityMapping;
+}
 
 #[cfg(feature = "CoreData_NSEntityMapping")]
 unsafe impl NSObjectProtocol for NSEntityMapping {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSEntityMapping")]
-    unsafe impl NSEntityMapping {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    pub type NSEntityMapping;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[method(mappingType)]
-        pub unsafe fn mappingType(&self) -> NSEntityMappingType;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
 
-        #[method(setMappingType:)]
-        pub unsafe fn setMappingType(&self, mapping_type: NSEntityMappingType);
+    #[objc2::method(sel = "mappingType")]
+    pub unsafe fn mappingType(&self) -> NSEntityMappingType;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other sourceEntityName)]
-        pub unsafe fn sourceEntityName(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setMappingType:")]
+    pub unsafe fn setMappingType(&self, mapping_type: NSEntityMappingType);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSourceEntityName:)]
-        pub unsafe fn setSourceEntityName(&self, source_entity_name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "sourceEntityName", managed = "Other")]
+    pub unsafe fn sourceEntityName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other sourceEntityVersionHash)]
-        pub unsafe fn sourceEntityVersionHash(&self) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSourceEntityName:")]
+    pub unsafe fn setSourceEntityName(&self, source_entity_name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(setSourceEntityVersionHash:)]
-        pub unsafe fn setSourceEntityVersionHash(
-            &self,
-            source_entity_version_hash: Option<&NSData>,
-        );
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "sourceEntityVersionHash", managed = "Other")]
+    pub unsafe fn sourceEntityVersionHash(&self) -> Option<Id<NSData>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other destinationEntityName)]
-        pub unsafe fn destinationEntityName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "setSourceEntityVersionHash:")]
+    pub unsafe fn setSourceEntityVersionHash(&self, source_entity_version_hash: Option<&NSData>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setDestinationEntityName:)]
-        pub unsafe fn setDestinationEntityName(&self, destination_entity_name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "destinationEntityName", managed = "Other")]
+    pub unsafe fn destinationEntityName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other destinationEntityVersionHash)]
-        pub unsafe fn destinationEntityVersionHash(&self) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setDestinationEntityName:")]
+    pub unsafe fn setDestinationEntityName(&self, destination_entity_name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(setDestinationEntityVersionHash:)]
-        pub unsafe fn setDestinationEntityVersionHash(
-            &self,
-            destination_entity_version_hash: Option<&NSData>,
-        );
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "destinationEntityVersionHash", managed = "Other")]
+    pub unsafe fn destinationEntityVersionHash(&self) -> Option<Id<NSData>>;
 
-        #[cfg(all(feature = "CoreData_NSPropertyMapping", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other attributeMappings)]
-        pub unsafe fn attributeMappings(&self) -> Option<Id<NSArray<NSPropertyMapping>>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "setDestinationEntityVersionHash:")]
+    pub unsafe fn setDestinationEntityVersionHash(
+        &self,
+        destination_entity_version_hash: Option<&NSData>,
+    );
 
-        #[cfg(all(feature = "CoreData_NSPropertyMapping", feature = "Foundation_NSArray"))]
-        #[method(setAttributeMappings:)]
-        pub unsafe fn setAttributeMappings(
-            &self,
-            attribute_mappings: Option<&NSArray<NSPropertyMapping>>,
-        );
+    #[cfg(all(feature = "CoreData_NSPropertyMapping", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "attributeMappings", managed = "Other")]
+    pub unsafe fn attributeMappings(&self) -> Option<Id<NSArray<NSPropertyMapping>>>;
 
-        #[cfg(all(feature = "CoreData_NSPropertyMapping", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other relationshipMappings)]
-        pub unsafe fn relationshipMappings(&self) -> Option<Id<NSArray<NSPropertyMapping>>>;
+    #[cfg(all(feature = "CoreData_NSPropertyMapping", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setAttributeMappings:")]
+    pub unsafe fn setAttributeMappings(
+        &self,
+        attribute_mappings: Option<&NSArray<NSPropertyMapping>>,
+    );
 
-        #[cfg(all(feature = "CoreData_NSPropertyMapping", feature = "Foundation_NSArray"))]
-        #[method(setRelationshipMappings:)]
-        pub unsafe fn setRelationshipMappings(
-            &self,
-            relationship_mappings: Option<&NSArray<NSPropertyMapping>>,
-        );
+    #[cfg(all(feature = "CoreData_NSPropertyMapping", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "relationshipMappings", managed = "Other")]
+    pub unsafe fn relationshipMappings(&self) -> Option<Id<NSArray<NSPropertyMapping>>>;
 
-        #[cfg(feature = "Foundation_NSExpression")]
-        #[method_id(@__retain_semantics Other sourceExpression)]
-        pub unsafe fn sourceExpression(&self) -> Option<Id<NSExpression>>;
+    #[cfg(all(feature = "CoreData_NSPropertyMapping", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setRelationshipMappings:")]
+    pub unsafe fn setRelationshipMappings(
+        &self,
+        relationship_mappings: Option<&NSArray<NSPropertyMapping>>,
+    );
 
-        #[cfg(feature = "Foundation_NSExpression")]
-        #[method(setSourceExpression:)]
-        pub unsafe fn setSourceExpression(&self, source_expression: Option<&NSExpression>);
+    #[cfg(feature = "Foundation_NSExpression")]
+    #[objc2::method(sel = "sourceExpression", managed = "Other")]
+    pub unsafe fn sourceExpression(&self) -> Option<Id<NSExpression>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other userInfo)]
-        pub unsafe fn userInfo(&self) -> Option<Id<NSDictionary>>;
+    #[cfg(feature = "Foundation_NSExpression")]
+    #[objc2::method(sel = "setSourceExpression:")]
+    pub unsafe fn setSourceExpression(&self, source_expression: Option<&NSExpression>);
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(setUserInfo:)]
-        pub unsafe fn setUserInfo(&self, user_info: Option<&NSDictionary>);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "userInfo", managed = "Other")]
+    pub unsafe fn userInfo(&self) -> Option<Id<NSDictionary>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other entityMigrationPolicyClassName)]
-        pub unsafe fn entityMigrationPolicyClassName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "setUserInfo:")]
+    pub unsafe fn setUserInfo(&self, user_info: Option<&NSDictionary>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setEntityMigrationPolicyClassName:)]
-        pub unsafe fn setEntityMigrationPolicyClassName(
-            &self,
-            entity_migration_policy_class_name: Option<&NSString>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "entityMigrationPolicyClassName", managed = "Other")]
+    pub unsafe fn entityMigrationPolicyClassName(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setEntityMigrationPolicyClassName:")]
+    pub unsafe fn setEntityMigrationPolicyClassName(
+        &self,
+        entity_migration_policy_class_name: Option<&NSString>,
+    );
+}

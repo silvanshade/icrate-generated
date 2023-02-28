@@ -5,49 +5,51 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCGamepadSnapshot")]
+#[objc2::interface(
+    unsafe super = GCGamepad,
+    unsafe inherits = [
+        GCPhysicalInputProfile,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated = "GCGamepad has been deprecated, use GCExtendedGamepad instead"]
-    pub struct GCGamepadSnapshot;
-
     #[cfg(feature = "GameController_GCGamepadSnapshot")]
-    unsafe impl ClassType for GCGamepadSnapshot {
-        #[inherits(GCPhysicalInputProfile, NSObject)]
-        type Super = GCGamepad;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type GCGamepadSnapshot;
+}
 
 #[cfg(feature = "GameController_GCGamepadSnapshot")]
 unsafe impl NSObjectProtocol for GCGamepadSnapshot {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCGamepadSnapshot")]
-    unsafe impl GCGamepadSnapshot {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other snapshotData)]
-        pub unsafe fn snapshotData(&self) -> Id<NSData>;
+    #[deprecated = "GCGamepad has been deprecated, use GCExtendedGamepad instead"]
+    pub type GCGamepadSnapshot;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(setSnapshotData:)]
-        pub unsafe fn setSnapshotData(&self, snapshot_data: &NSData);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "snapshotData", managed = "Other")]
+    pub unsafe fn snapshotData(&self) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Init initWithSnapshotData:)]
-        pub unsafe fn initWithSnapshotData(
-            this: Option<Allocated<Self>>,
-            data: &NSData,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "setSnapshotData:")]
+    pub unsafe fn setSnapshotData(&self, snapshot_data: &NSData);
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "GameController_GCController"))]
-        #[method_id(@__retain_semantics Init initWithController:snapshotData:)]
-        pub unsafe fn initWithController_snapshotData(
-            this: Option<Allocated<Self>>,
-            controller: &GCController,
-            data: &NSData,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "initWithSnapshotData:", managed = "Init")]
+    pub unsafe fn initWithSnapshotData(this: Option<Allocated<Self>>, data: &NSData) -> Id<Self>;
+
+    #[cfg(all(feature = "Foundation_NSData", feature = "GameController_GCController"))]
+    #[objc2::method(sel = "initWithController:snapshotData:", managed = "Init")]
+    pub unsafe fn initWithController_snapshotData(
+        this: Option<Allocated<Self>>,
+        controller: &GCController,
+        data: &NSData,
+    ) -> Id<Self>;
+}
 
 extern_struct!(
     #[encoding_name("?")]

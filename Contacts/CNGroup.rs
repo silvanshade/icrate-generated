@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Contacts::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Contacts_CNGroup")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Contacts_CNGroup")]
-    pub struct CNGroup;
-
-    #[cfg(feature = "Contacts_CNGroup")]
-    unsafe impl ClassType for CNGroup {
-        type Super = NSObject;
-    }
-);
+    pub type CNGroup;
+}
 
 #[cfg(feature = "Contacts_CNGroup")]
 unsafe impl NSCoding for CNGroup {}
@@ -24,18 +24,21 @@ unsafe impl NSObjectProtocol for CNGroup {}
 #[cfg(feature = "Contacts_CNGroup")]
 unsafe impl NSSecureCoding for CNGroup {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Contacts_CNGroup")]
-    unsafe impl CNGroup {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    pub type CNGroup;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
+}
 
 extern_static!(CNGroupIdentifierKey: &'static NSString);
 

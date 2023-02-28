@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MXDiagnostic,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXCrashDiagnostic")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXCrashDiagnostic")]
-    pub struct MXCrashDiagnostic;
-
-    #[cfg(feature = "MetricKit_MXCrashDiagnostic")]
-    unsafe impl ClassType for MXCrashDiagnostic {
-        #[inherits(NSObject)]
-        type Super = MXDiagnostic;
-    }
-);
+    pub type MXCrashDiagnostic;
+}
 
 #[cfg(feature = "MetricKit_MXCrashDiagnostic")]
 unsafe impl NSCoding for MXCrashDiagnostic {}
@@ -25,31 +25,34 @@ unsafe impl NSObjectProtocol for MXCrashDiagnostic {}
 #[cfg(feature = "MetricKit_MXCrashDiagnostic")]
 unsafe impl NSSecureCoding for MXCrashDiagnostic {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXCrashDiagnostic")]
-    unsafe impl MXCrashDiagnostic {
-        #[cfg(feature = "MetricKit_MXCallStackTree")]
-        #[method_id(@__retain_semantics Other callStackTree)]
-        pub unsafe fn callStackTree(&self) -> Id<MXCallStackTree>;
+    pub type MXCrashDiagnostic;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other terminationReason)]
-        pub unsafe fn terminationReason(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "MetricKit_MXCallStackTree")]
+    #[objc2::method(sel = "callStackTree", managed = "Other")]
+    pub unsafe fn callStackTree(&self) -> Id<MXCallStackTree>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other virtualMemoryRegionInfo)]
-        pub unsafe fn virtualMemoryRegionInfo(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "terminationReason", managed = "Other")]
+    pub unsafe fn terminationReason(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other exceptionType)]
-        pub unsafe fn exceptionType(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "virtualMemoryRegionInfo", managed = "Other")]
+    pub unsafe fn virtualMemoryRegionInfo(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other exceptionCode)]
-        pub unsafe fn exceptionCode(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "exceptionType", managed = "Other")]
+    pub unsafe fn exceptionType(&self) -> Option<Id<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other signal)]
-        pub unsafe fn signal(&self) -> Option<Id<NSNumber>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "exceptionCode", managed = "Other")]
+    pub unsafe fn exceptionCode(&self) -> Option<Id<NSNumber>>;
+
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "signal", managed = "Other")]
+    pub unsafe fn signal(&self) -> Option<Id<NSNumber>>;
+}

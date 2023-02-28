@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Contacts::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Contacts_CNPostalAddress")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Contacts_CNPostalAddress")]
-    pub struct CNPostalAddress;
-
-    #[cfg(feature = "Contacts_CNPostalAddress")]
-    unsafe impl ClassType for CNPostalAddress {
-        type Super = NSObject;
-    }
-);
+    pub type CNPostalAddress;
+}
 
 #[cfg(feature = "Contacts_CNPostalAddress")]
 unsafe impl NSCoding for CNPostalAddress {}
@@ -24,46 +24,49 @@ unsafe impl NSObjectProtocol for CNPostalAddress {}
 #[cfg(feature = "Contacts_CNPostalAddress")]
 unsafe impl NSSecureCoding for CNPostalAddress {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Contacts_CNPostalAddress")]
-    unsafe impl CNPostalAddress {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other street)]
-        pub unsafe fn street(&self) -> Id<NSString>;
+    pub type CNPostalAddress;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subLocality)]
-        pub unsafe fn subLocality(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "street", managed = "Other")]
+    pub unsafe fn street(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other city)]
-        pub unsafe fn city(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subLocality", managed = "Other")]
+    pub unsafe fn subLocality(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subAdministrativeArea)]
-        pub unsafe fn subAdministrativeArea(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "city", managed = "Other")]
+    pub unsafe fn city(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other state)]
-        pub unsafe fn state(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subAdministrativeArea", managed = "Other")]
+    pub unsafe fn subAdministrativeArea(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other postalCode)]
-        pub unsafe fn postalCode(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "state", managed = "Other")]
+    pub unsafe fn state(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other country)]
-        pub unsafe fn country(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "postalCode", managed = "Other")]
+    pub unsafe fn postalCode(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other ISOCountryCode)]
-        pub unsafe fn ISOCountryCode(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "country", managed = "Other")]
+    pub unsafe fn country(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedStringForKey:)]
-        pub unsafe fn localizedStringForKey(key: &NSString) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "ISOCountryCode", managed = "Other")]
+    pub unsafe fn ISOCountryCode(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedStringForKey:", managed = "Other")]
+    pub unsafe fn localizedStringForKey(key: &NSString) -> Id<NSString>;
+}
 
 extern_static!(CNPostalAddressStreetKey: &'static NSString);
 

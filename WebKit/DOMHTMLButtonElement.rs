@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLButtonElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLButtonElement;
-
     #[cfg(feature = "WebKit_DOMHTMLButtonElement")]
-    unsafe impl ClassType for DOMHTMLButtonElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLButtonElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLButtonElement")]
 unsafe impl DOMEventTarget for DOMHTMLButtonElement {}
@@ -24,63 +28,67 @@ unsafe impl DOMEventTarget for DOMHTMLButtonElement {}
 #[cfg(feature = "WebKit_DOMHTMLButtonElement")]
 unsafe impl NSObjectProtocol for DOMHTMLButtonElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLButtonElement")]
-    unsafe impl DOMHTMLButtonElement {
-        #[method(autofocus)]
-        pub unsafe fn autofocus(&self) -> bool;
+    #[deprecated]
+    pub type DOMHTMLButtonElement;
 
-        #[method(setAutofocus:)]
-        pub unsafe fn setAutofocus(&self, autofocus: bool);
+    #[objc2::method(sel = "autofocus")]
+    pub unsafe fn autofocus(&self) -> bool;
 
-        #[method(disabled)]
-        pub unsafe fn disabled(&self) -> bool;
+    #[objc2::method(sel = "setAutofocus:")]
+    pub unsafe fn setAutofocus(&self, autofocus: bool);
 
-        #[method(setDisabled:)]
-        pub unsafe fn setDisabled(&self, disabled: bool);
+    #[objc2::method(sel = "disabled")]
+    pub unsafe fn disabled(&self) -> bool;
 
-        #[cfg(feature = "WebKit_DOMHTMLFormElement")]
-        #[method_id(@__retain_semantics Other form)]
-        pub unsafe fn form(&self) -> Option<Id<DOMHTMLFormElement>>;
+    #[objc2::method(sel = "setDisabled:")]
+    pub unsafe fn setDisabled(&self, disabled: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other type)]
-        pub unsafe fn r#type(&self) -> Id<NSString>;
+    #[cfg(feature = "WebKit_DOMHTMLFormElement")]
+    #[objc2::method(sel = "form", managed = "Other")]
+    pub unsafe fn form(&self) -> Option<Id<DOMHTMLFormElement>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setType:)]
-        pub unsafe fn setType(&self, r#type: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "type", managed = "Other")]
+    pub unsafe fn r#type(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setType:")]
+    pub unsafe fn setType(&self, r#type: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other value)]
-        pub unsafe fn value(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setValue:)]
-        pub unsafe fn setValue(&self, value: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "value", managed = "Other")]
+    pub unsafe fn value(&self) -> Id<NSString>;
 
-        #[method(willValidate)]
-        pub unsafe fn willValidate(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setValue:")]
+    pub unsafe fn setValue(&self, value: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other accessKey)]
-        pub unsafe fn accessKey(&self) -> Id<NSString>;
+    #[objc2::method(sel = "willValidate")]
+    pub unsafe fn willValidate(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(setAccessKey:)]
-        pub unsafe fn setAccessKey(&self, access_key: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "accessKey", managed = "Other")]
+    pub unsafe fn accessKey(&self) -> Id<NSString>;
 
-        #[method(click)]
-        pub unsafe fn click(&self);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "setAccessKey:")]
+    pub unsafe fn setAccessKey(&self, access_key: Option<&NSString>);
+
+    #[objc2::method(sel = "click")]
+    pub unsafe fn click(&self);
+}

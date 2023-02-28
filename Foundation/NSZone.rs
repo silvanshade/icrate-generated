@@ -57,13 +57,12 @@ extern_fn!(
     pub unsafe fn NSZoneFree(zone: *mut NSZone, ptr: NonNull<c_void>);
 );
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum __anonymous__ {
-        NSScannedOption = 1 << 0,
-        NSCollectorDisabledOption = 1 << 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum __anonymous__ {
+    NSScannedOption = 1 << 0,
+    NSCollectorDisabledOption = 1 << 1,
+}
 
 extern_fn!(
     pub unsafe fn NSAllocateCollectable(size: NSUInteger, options: NSUInteger) -> NonNull<c_void>;

@@ -5,64 +5,69 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSDictionaryControllerKeyValuePair")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSDictionaryControllerKeyValuePair")]
-    pub struct NSDictionaryControllerKeyValuePair;
-
-    #[cfg(feature = "AppKit_NSDictionaryControllerKeyValuePair")]
-    unsafe impl ClassType for NSDictionaryControllerKeyValuePair {
-        type Super = NSObject;
-    }
-);
+    pub type NSDictionaryControllerKeyValuePair;
+}
 
 #[cfg(feature = "AppKit_NSDictionaryControllerKeyValuePair")]
 unsafe impl NSObjectProtocol for NSDictionaryControllerKeyValuePair {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSDictionaryControllerKeyValuePair")]
-    unsafe impl NSDictionaryControllerKeyValuePair {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSDictionaryControllerKeyValuePair;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other key)]
-        pub unsafe fn key(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setKey:)]
-        pub unsafe fn setKey(&self, key: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "key", managed = "Other")]
+    pub unsafe fn key(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other value)]
-        pub unsafe fn value(&self) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setKey:")]
+    pub unsafe fn setKey(&self, key: Option<&NSString>);
 
-        #[method(setValue:)]
-        pub unsafe fn setValue(&self, value: Option<&Object>);
+    #[objc2::method(sel = "value", managed = "Other")]
+    pub unsafe fn value(&self) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedKey)]
-        pub unsafe fn localizedKey(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setValue:")]
+    pub unsafe fn setValue(&self, value: Option<&Object>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLocalizedKey:)]
-        pub unsafe fn setLocalizedKey(&self, localized_key: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedKey", managed = "Other")]
+    pub unsafe fn localizedKey(&self) -> Option<Id<NSString>>;
 
-        #[method(isExplicitlyIncluded)]
-        pub unsafe fn isExplicitlyIncluded(&self) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLocalizedKey:")]
+    pub unsafe fn setLocalizedKey(&self, localized_key: Option<&NSString>);
 
-extern_class!(
+    #[objc2::method(sel = "isExplicitlyIncluded")]
+    pub unsafe fn isExplicitlyIncluded(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe super = NSArrayController,
+    unsafe inherits = [
+        NSObjectController,
+        NSController,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSDictionaryController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSDictionaryController")]
-    pub struct NSDictionaryController;
-
-    #[cfg(feature = "AppKit_NSDictionaryController")]
-    unsafe impl ClassType for NSDictionaryController {
-        #[inherits(NSObjectController, NSController, NSObject)]
-        type Super = NSArrayController;
-    }
-);
+    pub type NSDictionaryController;
+}
 
 #[cfg(feature = "AppKit_NSDictionaryController")]
 unsafe impl NSCoding for NSDictionaryController {}
@@ -76,72 +81,81 @@ unsafe impl NSEditorRegistration for NSDictionaryController {}
 #[cfg(feature = "AppKit_NSDictionaryController")]
 unsafe impl NSObjectProtocol for NSDictionaryController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSDictionaryController")]
-    unsafe impl NSDictionaryController {
-        #[cfg(feature = "AppKit_NSDictionaryControllerKeyValuePair")]
-        #[method_id(@__retain_semantics New newObject)]
-        pub unsafe fn newObject(&self) -> Id<NSDictionaryControllerKeyValuePair>;
+    pub type NSDictionaryController;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other initialKey)]
-        pub unsafe fn initialKey(&self) -> Id<NSString>;
+    #[cfg(feature = "AppKit_NSDictionaryControllerKeyValuePair")]
+    #[objc2::method(sel = "newObject", managed = "New")]
+    pub unsafe fn newObject(&self) -> Id<NSDictionaryControllerKeyValuePair>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setInitialKey:)]
-        pub unsafe fn setInitialKey(&self, initial_key: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initialKey", managed = "Other")]
+    pub unsafe fn initialKey(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Other initialValue)]
-        pub unsafe fn initialValue(&self) -> Id<Object>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setInitialKey:")]
+    pub unsafe fn setInitialKey(&self, initial_key: &NSString);
 
-        #[method(setInitialValue:)]
-        pub unsafe fn setInitialValue(&self, initial_value: &Object);
+    #[objc2::method(sel = "initialValue", managed = "Other")]
+    pub unsafe fn initialValue(&self) -> Id<Object>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other includedKeys)]
-        pub unsafe fn includedKeys(&self) -> Id<NSArray<NSString>>;
+    #[objc2::method(sel = "setInitialValue:")]
+    pub unsafe fn setInitialValue(&self, initial_value: &Object);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method(setIncludedKeys:)]
-        pub unsafe fn setIncludedKeys(&self, included_keys: &NSArray<NSString>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "includedKeys", managed = "Other")]
+    pub unsafe fn includedKeys(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other excludedKeys)]
-        pub unsafe fn excludedKeys(&self) -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setIncludedKeys:")]
+    pub unsafe fn setIncludedKeys(&self, included_keys: &NSArray<NSString>);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method(setExcludedKeys:)]
-        pub unsafe fn setExcludedKeys(&self, excluded_keys: &NSArray<NSString>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "excludedKeys", managed = "Other")]
+    pub unsafe fn excludedKeys(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other localizedKeyDictionary)]
-        pub unsafe fn localizedKeyDictionary(&self) -> Id<NSDictionary<NSString, NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setExcludedKeys:")]
+    pub unsafe fn setExcludedKeys(&self, excluded_keys: &NSArray<NSString>);
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(setLocalizedKeyDictionary:)]
-        pub unsafe fn setLocalizedKeyDictionary(
-            &self,
-            localized_key_dictionary: &NSDictionary<NSString, NSString>,
-        );
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "localizedKeyDictionary", managed = "Other")]
+    pub unsafe fn localizedKeyDictionary(&self) -> Id<NSDictionary<NSString, NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedKeyTable)]
-        pub unsafe fn localizedKeyTable(&self) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setLocalizedKeyDictionary:")]
+    pub unsafe fn setLocalizedKeyDictionary(
+        &self,
+        localized_key_dictionary: &NSDictionary<NSString, NSString>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLocalizedKeyTable:)]
-        pub unsafe fn setLocalizedKeyTable(&self, localized_key_table: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedKeyTable", managed = "Other")]
+    pub unsafe fn localizedKeyTable(&self) -> Option<Id<NSString>>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSObjectController`
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLocalizedKeyTable:")]
+    pub unsafe fn setLocalizedKeyTable(&self, localized_key_table: Option<&NSString>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSObjectController`
     #[cfg(feature = "AppKit_NSDictionaryController")]
-    unsafe impl NSDictionaryController {
-        #[method_id(@__retain_semantics Init initWithContent:)]
-        pub unsafe fn initWithContent(
-            this: Option<Allocated<Self>>,
-            content: Option<&Object>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSDictionaryController")]
+    pub type NSDictionaryController;
+
+    #[objc2::method(sel = "initWithContent:", managed = "Init")]
+    pub unsafe fn initWithContent(
+        this: Option<Allocated<Self>>,
+        content: Option<&Object>,
+    ) -> Id<Self>;
+}

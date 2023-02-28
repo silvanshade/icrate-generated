@@ -10,17 +10,18 @@ extern_static!(HKPredicateKeyPathClinicalRecordFHIRResourceIdentifier: &'static 
 
 extern_static!(HKPredicateKeyPathClinicalRecordFHIRResourceType: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSample,
+    unsafe inherits = [
+        HKObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKClinicalRecord")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKClinicalRecord")]
-    pub struct HKClinicalRecord;
-
-    #[cfg(feature = "HealthKit_HKClinicalRecord")]
-    unsafe impl ClassType for HKClinicalRecord {
-        #[inherits(HKObject, NSObject)]
-        type Super = HKSample;
-    }
-);
+    pub type HKClinicalRecord;
+}
 
 #[cfg(feature = "HealthKit_HKClinicalRecord")]
 unsafe impl NSCoding for HKClinicalRecord {}
@@ -31,25 +32,28 @@ unsafe impl NSObjectProtocol for HKClinicalRecord {}
 #[cfg(feature = "HealthKit_HKClinicalRecord")]
 unsafe impl NSSecureCoding for HKClinicalRecord {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKClinicalRecord")]
-    unsafe impl HKClinicalRecord {
-        #[cfg(feature = "HealthKit_HKClinicalType")]
-        #[method_id(@__retain_semantics Other clinicalType)]
-        pub unsafe fn clinicalType(&self) -> Id<HKClinicalType>;
+    pub type HKClinicalRecord;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other displayName)]
-        pub unsafe fn displayName(&self) -> Id<NSString>;
+    #[cfg(feature = "HealthKit_HKClinicalType")]
+    #[objc2::method(sel = "clinicalType", managed = "Other")]
+    pub unsafe fn clinicalType(&self) -> Id<HKClinicalType>;
 
-        #[cfg(feature = "HealthKit_HKFHIRResource")]
-        #[method_id(@__retain_semantics Other FHIRResource)]
-        pub unsafe fn FHIRResource(&self) -> Option<Id<HKFHIRResource>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "displayName", managed = "Other")]
+    pub unsafe fn displayName(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "HealthKit_HKFHIRResource")]
+    #[objc2::method(sel = "FHIRResource", managed = "Other")]
+    pub unsafe fn FHIRResource(&self) -> Option<Id<HKFHIRResource>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

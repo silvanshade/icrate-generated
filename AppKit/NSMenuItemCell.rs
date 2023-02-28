@@ -5,17 +5,19 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSButtonCell,
+    unsafe inherits = [
+        NSActionCell,
+        NSCell,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSMenuItemCell")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSMenuItemCell")]
-    pub struct NSMenuItemCell;
-
-    #[cfg(feature = "AppKit_NSMenuItemCell")]
-    unsafe impl ClassType for NSMenuItemCell {
-        #[inherits(NSActionCell, NSCell, NSObject)]
-        type Super = NSButtonCell;
-    }
-);
+    pub type NSMenuItemCell;
+}
 
 #[cfg(feature = "AppKit_NSMenuItemCell")]
 unsafe impl NSAccessibility for NSMenuItemCell {}
@@ -32,118 +34,121 @@ unsafe impl NSObjectProtocol for NSMenuItemCell {}
 #[cfg(feature = "AppKit_NSMenuItemCell")]
 unsafe impl NSUserInterfaceItemIdentification for NSMenuItemCell {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSMenuItemCell")]
-    unsafe impl NSMenuItemCell {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initTextCell:)]
-        pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
+    pub type NSMenuItemCell;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initTextCell:", managed = "Init")]
+    pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSMenuItem")]
-        #[method_id(@__retain_semantics Other menuItem)]
-        pub unsafe fn menuItem(&self) -> Option<Id<NSMenuItem>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSMenuItem")]
-        #[method(setMenuItem:)]
-        pub unsafe fn setMenuItem(&self, menu_item: Option<&NSMenuItem>);
+    #[cfg(feature = "AppKit_NSMenuItem")]
+    #[objc2::method(sel = "menuItem", managed = "Other")]
+    pub unsafe fn menuItem(&self) -> Option<Id<NSMenuItem>>;
 
-        #[method(needsSizing)]
-        pub unsafe fn needsSizing(&self) -> bool;
+    #[cfg(feature = "AppKit_NSMenuItem")]
+    #[objc2::method(sel = "setMenuItem:")]
+    pub unsafe fn setMenuItem(&self, menu_item: Option<&NSMenuItem>);
 
-        #[method(setNeedsSizing:)]
-        pub unsafe fn setNeedsSizing(&self, needs_sizing: bool);
+    #[objc2::method(sel = "needsSizing")]
+    pub unsafe fn needsSizing(&self) -> bool;
 
-        #[method(calcSize)]
-        pub unsafe fn calcSize(&self);
+    #[objc2::method(sel = "setNeedsSizing:")]
+    pub unsafe fn setNeedsSizing(&self, needs_sizing: bool);
 
-        #[method(needsDisplay)]
-        pub unsafe fn needsDisplay(&self) -> bool;
+    #[objc2::method(sel = "calcSize")]
+    pub unsafe fn calcSize(&self);
 
-        #[method(setNeedsDisplay:)]
-        pub unsafe fn setNeedsDisplay(&self, needs_display: bool);
+    #[objc2::method(sel = "needsDisplay")]
+    pub unsafe fn needsDisplay(&self) -> bool;
 
-        #[method(stateImageWidth)]
-        pub unsafe fn stateImageWidth(&self) -> CGFloat;
+    #[objc2::method(sel = "setNeedsDisplay:")]
+    pub unsafe fn setNeedsDisplay(&self, needs_display: bool);
 
-        #[method(imageWidth)]
-        pub unsafe fn imageWidth(&self) -> CGFloat;
+    #[objc2::method(sel = "stateImageWidth")]
+    pub unsafe fn stateImageWidth(&self) -> CGFloat;
 
-        #[method(titleWidth)]
-        pub unsafe fn titleWidth(&self) -> CGFloat;
+    #[objc2::method(sel = "imageWidth")]
+    pub unsafe fn imageWidth(&self) -> CGFloat;
 
-        #[method(keyEquivalentWidth)]
-        pub unsafe fn keyEquivalentWidth(&self) -> CGFloat;
+    #[objc2::method(sel = "titleWidth")]
+    pub unsafe fn titleWidth(&self) -> CGFloat;
 
-        #[method(stateImageRectForBounds:)]
-        pub unsafe fn stateImageRectForBounds(&self, cell_frame: NSRect) -> NSRect;
+    #[objc2::method(sel = "keyEquivalentWidth")]
+    pub unsafe fn keyEquivalentWidth(&self) -> CGFloat;
 
-        #[method(titleRectForBounds:)]
-        pub unsafe fn titleRectForBounds(&self, cell_frame: NSRect) -> NSRect;
+    #[objc2::method(sel = "stateImageRectForBounds:")]
+    pub unsafe fn stateImageRectForBounds(&self, cell_frame: NSRect) -> NSRect;
 
-        #[method(keyEquivalentRectForBounds:)]
-        pub unsafe fn keyEquivalentRectForBounds(&self, cell_frame: NSRect) -> NSRect;
+    #[objc2::method(sel = "titleRectForBounds:")]
+    pub unsafe fn titleRectForBounds(&self, cell_frame: NSRect) -> NSRect;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(drawSeparatorItemWithFrame:inView:)]
-        pub unsafe fn drawSeparatorItemWithFrame_inView(
-            &self,
-            cell_frame: NSRect,
-            control_view: &NSView,
-        );
+    #[objc2::method(sel = "keyEquivalentRectForBounds:")]
+    pub unsafe fn keyEquivalentRectForBounds(&self, cell_frame: NSRect) -> NSRect;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(drawStateImageWithFrame:inView:)]
-        pub unsafe fn drawStateImageWithFrame_inView(
-            &self,
-            cell_frame: NSRect,
-            control_view: &NSView,
-        );
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "drawSeparatorItemWithFrame:inView:")]
+    pub unsafe fn drawSeparatorItemWithFrame_inView(
+        &self,
+        cell_frame: NSRect,
+        control_view: &NSView,
+    );
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(drawImageWithFrame:inView:)]
-        pub unsafe fn drawImageWithFrame_inView(&self, cell_frame: NSRect, control_view: &NSView);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "drawStateImageWithFrame:inView:")]
+    pub unsafe fn drawStateImageWithFrame_inView(&self, cell_frame: NSRect, control_view: &NSView);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(drawTitleWithFrame:inView:)]
-        pub unsafe fn drawTitleWithFrame_inView(&self, cell_frame: NSRect, control_view: &NSView);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "drawImageWithFrame:inView:")]
+    pub unsafe fn drawImageWithFrame_inView(&self, cell_frame: NSRect, control_view: &NSView);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(drawKeyEquivalentWithFrame:inView:)]
-        pub unsafe fn drawKeyEquivalentWithFrame_inView(
-            &self,
-            cell_frame: NSRect,
-            control_view: &NSView,
-        );
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "drawTitleWithFrame:inView:")]
+    pub unsafe fn drawTitleWithFrame_inView(&self, cell_frame: NSRect, control_view: &NSView);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(drawBorderAndBackgroundWithFrame:inView:)]
-        pub unsafe fn drawBorderAndBackgroundWithFrame_inView(
-            &self,
-            cell_frame: NSRect,
-            control_view: &NSView,
-        );
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "drawKeyEquivalentWithFrame:inView:")]
+    pub unsafe fn drawKeyEquivalentWithFrame_inView(
+        &self,
+        cell_frame: NSRect,
+        control_view: &NSView,
+    );
 
-        #[method(tag)]
-        pub unsafe fn tag(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "drawBorderAndBackgroundWithFrame:inView:")]
+    pub unsafe fn drawBorderAndBackgroundWithFrame_inView(
+        &self,
+        cell_frame: NSRect,
+        control_view: &NSView,
+    );
 
-        #[method(setTag:)]
-        pub unsafe fn setTag(&self, tag: NSInteger);
-    }
-);
+    #[objc2::method(sel = "tag")]
+    pub unsafe fn tag(&self) -> NSInteger;
 
-extern_methods!(
-    /// Methods declared on superclass `NSButtonCell`
+    #[objc2::method(sel = "setTag:")]
+    pub unsafe fn setTag(&self, tag: NSInteger);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSButtonCell`
     #[cfg(feature = "AppKit_NSMenuItemCell")]
-    unsafe impl NSMenuItemCell {
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Init initImageCell:)]
-        pub unsafe fn initImageCell(
-            this: Option<Allocated<Self>>,
-            image: Option<&NSImage>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSMenuItemCell")]
+    pub type NSMenuItemCell;
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "initImageCell:", managed = "Init")]
+    pub unsafe fn initImageCell(this: Option<Allocated<Self>>, image: Option<&NSImage>)
+        -> Id<Self>;
+}

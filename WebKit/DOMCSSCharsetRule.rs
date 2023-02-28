@@ -5,27 +5,33 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMCSSCharsetRule")]
+#[objc2::interface(
+    unsafe super = DOMCSSRule,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMCSSCharsetRule;
-
     #[cfg(feature = "WebKit_DOMCSSCharsetRule")]
-    unsafe impl ClassType for DOMCSSCharsetRule {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMCSSRule;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMCSSCharsetRule;
+}
 
 #[cfg(feature = "WebKit_DOMCSSCharsetRule")]
 unsafe impl NSObjectProtocol for DOMCSSCharsetRule {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCSSCharsetRule")]
-    unsafe impl DOMCSSCharsetRule {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other encoding)]
-        pub unsafe fn encoding(&self) -> Id<NSString>;
-    }
-);
+    #[deprecated]
+    pub type DOMCSSCharsetRule;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "encoding", managed = "Other")]
+    pub unsafe fn encoding(&self) -> Id<NSString>;
+}

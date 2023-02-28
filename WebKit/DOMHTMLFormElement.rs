@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLFormElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLFormElement;
-
     #[cfg(feature = "WebKit_DOMHTMLFormElement")]
-    unsafe impl ClassType for DOMHTMLFormElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLFormElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLFormElement")]
 unsafe impl DOMEventTarget for DOMHTMLFormElement {}
@@ -24,76 +28,80 @@ unsafe impl DOMEventTarget for DOMHTMLFormElement {}
 #[cfg(feature = "WebKit_DOMHTMLFormElement")]
 unsafe impl NSObjectProtocol for DOMHTMLFormElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLFormElement")]
-    unsafe impl DOMHTMLFormElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other acceptCharset)]
-        pub unsafe fn acceptCharset(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMHTMLFormElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAcceptCharset:)]
-        pub unsafe fn setAcceptCharset(&self, accept_charset: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "acceptCharset", managed = "Other")]
+    pub unsafe fn acceptCharset(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other action)]
-        pub unsafe fn action(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAcceptCharset:")]
+    pub unsafe fn setAcceptCharset(&self, accept_charset: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAction:)]
-        pub unsafe fn setAction(&self, action: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "action", managed = "Other")]
+    pub unsafe fn action(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other enctype)]
-        pub unsafe fn enctype(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAction:")]
+    pub unsafe fn setAction(&self, action: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setEnctype:)]
-        pub unsafe fn setEnctype(&self, enctype: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "enctype", managed = "Other")]
+    pub unsafe fn enctype(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other encoding)]
-        pub unsafe fn encoding(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setEnctype:")]
+    pub unsafe fn setEnctype(&self, enctype: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setEncoding:)]
-        pub unsafe fn setEncoding(&self, encoding: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "encoding", managed = "Other")]
+    pub unsafe fn encoding(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other method)]
-        pub unsafe fn method(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setEncoding:")]
+    pub unsafe fn setEncoding(&self, encoding: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMethod:)]
-        pub unsafe fn setMethod(&self, method: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "method", managed = "Other")]
+    pub unsafe fn method(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMethod:")]
+    pub unsafe fn setMethod(&self, method: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other target)]
-        pub unsafe fn target(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTarget:)]
-        pub unsafe fn setTarget(&self, target: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "target", managed = "Other")]
+    pub unsafe fn target(&self) -> Id<NSString>;
 
-        #[cfg(feature = "WebKit_DOMHTMLCollection")]
-        #[method_id(@__retain_semantics Other elements)]
-        pub unsafe fn elements(&self) -> Option<Id<DOMHTMLCollection>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTarget:")]
+    pub unsafe fn setTarget(&self, target: Option<&NSString>);
 
-        #[method(length)]
-        pub unsafe fn length(&self) -> c_int;
+    #[cfg(feature = "WebKit_DOMHTMLCollection")]
+    #[objc2::method(sel = "elements", managed = "Other")]
+    pub unsafe fn elements(&self) -> Option<Id<DOMHTMLCollection>>;
 
-        #[method(submit)]
-        pub unsafe fn submit(&self);
+    #[objc2::method(sel = "length")]
+    pub unsafe fn length(&self) -> c_int;
 
-        #[method(reset)]
-        pub unsafe fn reset(&self);
-    }
-);
+    #[objc2::method(sel = "submit")]
+    pub unsafe fn submit(&self);
+
+    #[objc2::method(sel = "reset")]
+    pub unsafe fn reset(&self);
+}

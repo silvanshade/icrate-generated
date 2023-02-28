@@ -7,114 +7,117 @@ extern_static!(NSDefaultRunLoopMode: &'static NSRunLoopMode);
 
 extern_static!(NSRunLoopCommonModes: &'static NSRunLoopMode);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSRunLoop")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSRunLoop")]
-    pub struct NSRunLoop;
-
-    #[cfg(feature = "Foundation_NSRunLoop")]
-    unsafe impl ClassType for NSRunLoop {
-        type Super = NSObject;
-    }
-);
+    pub type NSRunLoop;
+}
 
 #[cfg(feature = "Foundation_NSRunLoop")]
 unsafe impl NSObjectProtocol for NSRunLoop {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSRunLoop")]
-    unsafe impl NSRunLoop {
-        #[method_id(@__retain_semantics Other currentRunLoop)]
-        pub unsafe fn currentRunLoop() -> Id<NSRunLoop>;
+    pub type NSRunLoop;
 
-        #[method_id(@__retain_semantics Other mainRunLoop)]
-        pub unsafe fn mainRunLoop() -> Id<NSRunLoop>;
+    #[objc2::method(sel = "currentRunLoop", managed = "Other")]
+    pub unsafe fn currentRunLoop() -> Id<NSRunLoop>;
 
-        #[method_id(@__retain_semantics Other currentMode)]
-        pub unsafe fn currentMode(&self) -> Option<Id<NSRunLoopMode>>;
+    #[objc2::method(sel = "mainRunLoop", managed = "Other")]
+    pub unsafe fn mainRunLoop() -> Id<NSRunLoop>;
 
-        #[cfg(feature = "Foundation_NSTimer")]
-        #[method(addTimer:forMode:)]
-        pub unsafe fn addTimer_forMode(&self, timer: &NSTimer, mode: &NSRunLoopMode);
+    #[objc2::method(sel = "currentMode", managed = "Other")]
+    pub unsafe fn currentMode(&self) -> Option<Id<NSRunLoopMode>>;
 
-        #[cfg(feature = "Foundation_NSPort")]
-        #[method(addPort:forMode:)]
-        pub unsafe fn addPort_forMode(&self, a_port: &NSPort, mode: &NSRunLoopMode);
+    #[cfg(feature = "Foundation_NSTimer")]
+    #[objc2::method(sel = "addTimer:forMode:")]
+    pub unsafe fn addTimer_forMode(&self, timer: &NSTimer, mode: &NSRunLoopMode);
 
-        #[cfg(feature = "Foundation_NSPort")]
-        #[method(removePort:forMode:)]
-        pub unsafe fn removePort_forMode(&self, a_port: &NSPort, mode: &NSRunLoopMode);
+    #[cfg(feature = "Foundation_NSPort")]
+    #[objc2::method(sel = "addPort:forMode:")]
+    pub unsafe fn addPort_forMode(&self, a_port: &NSPort, mode: &NSRunLoopMode);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other limitDateForMode:)]
-        pub unsafe fn limitDateForMode(&self, mode: &NSRunLoopMode) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSPort")]
+    #[objc2::method(sel = "removePort:forMode:")]
+    pub unsafe fn removePort_forMode(&self, a_port: &NSPort, mode: &NSRunLoopMode);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(acceptInputForMode:beforeDate:)]
-        pub unsafe fn acceptInputForMode_beforeDate(
-            &self,
-            mode: &NSRunLoopMode,
-            limit_date: &NSDate,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "limitDateForMode:", managed = "Other")]
+    pub unsafe fn limitDateForMode(&self, mode: &NSRunLoopMode) -> Option<Id<NSDate>>;
 
-extern_methods!(
-    /// NSRunLoopConveniences
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "acceptInputForMode:beforeDate:")]
+    pub unsafe fn acceptInputForMode_beforeDate(&self, mode: &NSRunLoopMode, limit_date: &NSDate);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSRunLoop")]
-    unsafe impl NSRunLoop {
-        #[method(run)]
-        pub unsafe fn run(&self);
+    pub type NSRunLoop;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(runUntilDate:)]
-        pub unsafe fn runUntilDate(&self, limit_date: &NSDate);
+    #[objc2::method(sel = "run")]
+    pub unsafe fn run(&self);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(runMode:beforeDate:)]
-        pub unsafe fn runMode_beforeDate(&self, mode: &NSRunLoopMode, limit_date: &NSDate) -> bool;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "runUntilDate:")]
+    pub unsafe fn runUntilDate(&self, limit_date: &NSDate);
 
-        #[deprecated = "Not supported"]
-        #[method(configureAsServer)]
-        pub unsafe fn configureAsServer(&self);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "runMode:beforeDate:")]
+    pub unsafe fn runMode_beforeDate(&self, mode: &NSRunLoopMode, limit_date: &NSDate) -> bool;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(performInModes:block:)]
-        pub unsafe fn performInModes_block(
-            &self,
-            modes: &NSArray<NSRunLoopMode>,
-            block: &Block<(), ()>,
-        );
+    #[deprecated = "Not supported"]
+    #[objc2::method(sel = "configureAsServer")]
+    pub unsafe fn configureAsServer(&self);
 
-        #[method(performBlock:)]
-        pub unsafe fn performBlock(&self, block: &Block<(), ()>);
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "performInModes:block:")]
+    pub unsafe fn performInModes_block(
+        &self,
+        modes: &NSArray<NSRunLoopMode>,
+        block: &Block<(), ()>,
+    );
 
-extern_methods!(
-    /// NSOrderedPerform
+    #[objc2::method(sel = "performBlock:")]
+    pub unsafe fn performBlock(&self, block: &Block<(), ()>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSRunLoop")]
-    unsafe impl NSRunLoop {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(performSelector:target:argument:order:modes:)]
-        pub unsafe fn performSelector_target_argument_order_modes(
-            &self,
-            a_selector: Sel,
-            target: &Object,
-            arg: Option<&Object>,
-            order: NSUInteger,
-            modes: &NSArray<NSRunLoopMode>,
-        );
+    pub type NSRunLoop;
 
-        #[method(cancelPerformSelector:target:argument:)]
-        pub unsafe fn cancelPerformSelector_target_argument(
-            &self,
-            a_selector: Sel,
-            target: &Object,
-            arg: Option<&Object>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "performSelector:target:argument:order:modes:")]
+    pub unsafe fn performSelector_target_argument_order_modes(
+        &self,
+        a_selector: Sel,
+        target: &Object,
+        arg: Option<&Object>,
+        order: NSUInteger,
+        modes: &NSArray<NSRunLoopMode>,
+    );
 
-        #[method(cancelPerformSelectorsWithTarget:)]
-        pub unsafe fn cancelPerformSelectorsWithTarget(&self, target: &Object);
-    }
-);
+    #[objc2::method(sel = "cancelPerformSelector:target:argument:")]
+    pub unsafe fn cancelPerformSelector_target_argument(
+        &self,
+        a_selector: Sel,
+        target: &Object,
+        arg: Option<&Object>,
+    );
+
+    #[objc2::method(sel = "cancelPerformSelectorsWithTarget:")]
+    pub unsafe fn cancelPerformSelectorsWithTarget(&self, target: &Object);
+}

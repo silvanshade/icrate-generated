@@ -3,16 +3,16 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSTimeZone")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSTimeZone")]
-    pub struct NSTimeZone;
-
-    #[cfg(feature = "Foundation_NSTimeZone")]
-    unsafe impl ClassType for NSTimeZone {
-        type Super = NSObject;
-    }
-);
+    pub type NSTimeZone;
+}
 
 #[cfg(feature = "Foundation_NSTimeZone")]
 unsafe impl NSCoding for NSTimeZone {}
@@ -23,162 +23,168 @@ unsafe impl NSObjectProtocol for NSTimeZone {}
 #[cfg(feature = "Foundation_NSTimeZone")]
 unsafe impl NSSecureCoding for NSTimeZone {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSTimeZone")]
-    unsafe impl NSTimeZone {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    pub type NSTimeZone;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other data)]
-        pub unsafe fn data(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(secondsFromGMTForDate:)]
-        pub unsafe fn secondsFromGMTForDate(&self, a_date: &NSDate) -> NSInteger;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "data", managed = "Other")]
+    pub unsafe fn data(&self) -> Id<NSData>;
 
-        #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other abbreviationForDate:)]
-        pub unsafe fn abbreviationForDate(&self, a_date: &NSDate) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "secondsFromGMTForDate:")]
+    pub unsafe fn secondsFromGMTForDate(&self, a_date: &NSDate) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(isDaylightSavingTimeForDate:)]
-        pub unsafe fn isDaylightSavingTimeForDate(&self, a_date: &NSDate) -> bool;
+    #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "abbreviationForDate:", managed = "Other")]
+    pub unsafe fn abbreviationForDate(&self, a_date: &NSDate) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(daylightSavingTimeOffsetForDate:)]
-        pub unsafe fn daylightSavingTimeOffsetForDate(&self, a_date: &NSDate) -> NSTimeInterval;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "isDaylightSavingTimeForDate:")]
+    pub unsafe fn isDaylightSavingTimeForDate(&self, a_date: &NSDate) -> bool;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other nextDaylightSavingTimeTransitionAfterDate:)]
-        pub unsafe fn nextDaylightSavingTimeTransitionAfterDate(
-            &self,
-            a_date: &NSDate,
-        ) -> Option<Id<NSDate>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "daylightSavingTimeOffsetForDate:")]
+    pub unsafe fn daylightSavingTimeOffsetForDate(&self, a_date: &NSDate) -> NSTimeInterval;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSTimeZoneNameStyle {
-        NSTimeZoneNameStyleStandard = 0,
-        NSTimeZoneNameStyleShortStandard = 1,
-        NSTimeZoneNameStyleDaylightSaving = 2,
-        NSTimeZoneNameStyleShortDaylightSaving = 3,
-        NSTimeZoneNameStyleGeneric = 4,
-        NSTimeZoneNameStyleShortGeneric = 5,
-    }
-);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "nextDaylightSavingTimeTransitionAfterDate:", managed = "Other")]
+    pub unsafe fn nextDaylightSavingTimeTransitionAfterDate(
+        &self,
+        a_date: &NSDate,
+    ) -> Option<Id<NSDate>>;
+}
 
-extern_methods!(
-    /// NSExtendedTimeZone
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSTimeZoneNameStyle {
+    NSTimeZoneNameStyleStandard = 0,
+    NSTimeZoneNameStyleShortStandard = 1,
+    NSTimeZoneNameStyleDaylightSaving = 2,
+    NSTimeZoneNameStyleShortDaylightSaving = 3,
+    NSTimeZoneNameStyleGeneric = 4,
+    NSTimeZoneNameStyleShortGeneric = 5,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSTimeZone")]
-    unsafe impl NSTimeZone {
-        #[method_id(@__retain_semantics Other systemTimeZone)]
-        pub unsafe fn systemTimeZone() -> Id<NSTimeZone>;
+    pub type NSTimeZone;
 
-        #[method(resetSystemTimeZone)]
-        pub unsafe fn resetSystemTimeZone();
+    #[objc2::method(sel = "systemTimeZone", managed = "Other")]
+    pub unsafe fn systemTimeZone() -> Id<NSTimeZone>;
 
-        #[method_id(@__retain_semantics Other defaultTimeZone)]
-        pub unsafe fn defaultTimeZone() -> Id<NSTimeZone>;
+    #[objc2::method(sel = "resetSystemTimeZone")]
+    pub unsafe fn resetSystemTimeZone();
 
-        #[method(setDefaultTimeZone:)]
-        pub unsafe fn setDefaultTimeZone(default_time_zone: &NSTimeZone);
+    #[objc2::method(sel = "defaultTimeZone", managed = "Other")]
+    pub unsafe fn defaultTimeZone() -> Id<NSTimeZone>;
 
-        #[method_id(@__retain_semantics Other localTimeZone)]
-        pub unsafe fn localTimeZone() -> Id<NSTimeZone>;
+    #[objc2::method(sel = "setDefaultTimeZone:")]
+    pub unsafe fn setDefaultTimeZone(default_time_zone: &NSTimeZone);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other knownTimeZoneNames)]
-        pub unsafe fn knownTimeZoneNames() -> Id<NSArray<NSString>>;
+    #[objc2::method(sel = "localTimeZone", managed = "Other")]
+    pub unsafe fn localTimeZone() -> Id<NSTimeZone>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other abbreviationDictionary)]
-        pub unsafe fn abbreviationDictionary() -> Id<NSDictionary<NSString, NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "knownTimeZoneNames", managed = "Other")]
+    pub unsafe fn knownTimeZoneNames() -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(setAbbreviationDictionary:)]
-        pub unsafe fn setAbbreviationDictionary(
-            abbreviation_dictionary: &NSDictionary<NSString, NSString>,
-        );
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "abbreviationDictionary", managed = "Other")]
+    pub unsafe fn abbreviationDictionary() -> Id<NSDictionary<NSString, NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other timeZoneDataVersion)]
-        pub unsafe fn timeZoneDataVersion() -> Id<NSString>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setAbbreviationDictionary:")]
+    pub unsafe fn setAbbreviationDictionary(
+        abbreviation_dictionary: &NSDictionary<NSString, NSString>,
+    );
 
-        #[method(secondsFromGMT)]
-        pub unsafe fn secondsFromGMT(&self) -> NSInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "timeZoneDataVersion", managed = "Other")]
+    pub unsafe fn timeZoneDataVersion() -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other abbreviation)]
-        pub unsafe fn abbreviation(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "secondsFromGMT")]
+    pub unsafe fn secondsFromGMT(&self) -> NSInteger;
 
-        #[method(isDaylightSavingTime)]
-        pub unsafe fn isDaylightSavingTime(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "abbreviation", managed = "Other")]
+    pub unsafe fn abbreviation(&self) -> Option<Id<NSString>>;
 
-        #[method(daylightSavingTimeOffset)]
-        pub unsafe fn daylightSavingTimeOffset(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "isDaylightSavingTime")]
+    pub unsafe fn isDaylightSavingTime(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other nextDaylightSavingTimeTransition)]
-        pub unsafe fn nextDaylightSavingTimeTransition(&self) -> Option<Id<NSDate>>;
+    #[objc2::method(sel = "daylightSavingTimeOffset")]
+    pub unsafe fn daylightSavingTimeOffset(&self) -> NSTimeInterval;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other description)]
-        pub unsafe fn description(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "nextDaylightSavingTimeTransition", managed = "Other")]
+    pub unsafe fn nextDaylightSavingTimeTransition(&self) -> Option<Id<NSDate>>;
 
-        #[method(isEqualToTimeZone:)]
-        pub unsafe fn isEqualToTimeZone(&self, a_time_zone: &NSTimeZone) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "description", managed = "Other")]
+    pub unsafe fn description(&self) -> Id<NSString>;
 
-        #[cfg(all(feature = "Foundation_NSLocale", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other localizedName:locale:)]
-        pub unsafe fn localizedName_locale(
-            &self,
-            style: NSTimeZoneNameStyle,
-            locale: Option<&NSLocale>,
-        ) -> Option<Id<NSString>>;
-    }
-);
+    #[objc2::method(sel = "isEqualToTimeZone:")]
+    pub unsafe fn isEqualToTimeZone(&self, a_time_zone: &NSTimeZone) -> bool;
 
-extern_methods!(
-    /// NSTimeZoneCreation
+    #[cfg(all(feature = "Foundation_NSLocale", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "localizedName:locale:", managed = "Other")]
+    pub unsafe fn localizedName_locale(
+        &self,
+        style: NSTimeZoneNameStyle,
+        locale: Option<&NSLocale>,
+    ) -> Option<Id<NSString>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSTimeZone")]
-    unsafe impl NSTimeZone {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other timeZoneWithName:)]
-        pub unsafe fn timeZoneWithName(tz_name: &NSString) -> Option<Id<Self>>;
+    pub type NSTimeZone;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other timeZoneWithName:data:)]
-        pub unsafe fn timeZoneWithName_data(
-            tz_name: &NSString,
-            a_data: Option<&NSData>,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "timeZoneWithName:", managed = "Other")]
+    pub unsafe fn timeZoneWithName(tz_name: &NSString) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithName:)]
-        pub unsafe fn initWithName(
-            this: Option<Allocated<Self>>,
-            tz_name: &NSString,
-        ) -> Option<Id<Self>>;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "timeZoneWithName:data:", managed = "Other")]
+    pub unsafe fn timeZoneWithName_data(
+        tz_name: &NSString,
+        a_data: Option<&NSData>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithName:data:)]
-        pub unsafe fn initWithName_data(
-            this: Option<Allocated<Self>>,
-            tz_name: &NSString,
-            a_data: Option<&NSData>,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithName:", managed = "Init")]
+    pub unsafe fn initWithName(
+        this: Option<Allocated<Self>>,
+        tz_name: &NSString,
+    ) -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Other timeZoneForSecondsFromGMT:)]
-        pub unsafe fn timeZoneForSecondsFromGMT(seconds: NSInteger) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithName:data:", managed = "Init")]
+    pub unsafe fn initWithName_data(
+        this: Option<Allocated<Self>>,
+        tz_name: &NSString,
+        a_data: Option<&NSData>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other timeZoneWithAbbreviation:)]
-        pub unsafe fn timeZoneWithAbbreviation(abbreviation: &NSString) -> Option<Id<Self>>;
-    }
-);
+    #[objc2::method(sel = "timeZoneForSecondsFromGMT:", managed = "Other")]
+    pub unsafe fn timeZoneForSecondsFromGMT(seconds: NSInteger) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "timeZoneWithAbbreviation:", managed = "Other")]
+    pub unsafe fn timeZoneWithAbbreviation(abbreviation: &NSString) -> Option<Id<Self>>;
+}
 
 extern_static!(NSSystemTimeZoneDidChangeNotification: &'static NSNotificationName);

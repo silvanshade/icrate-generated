@@ -4,246 +4,259 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLVertexFormat {
-        MTLVertexFormatInvalid = 0,
-        MTLVertexFormatUChar2 = 1,
-        MTLVertexFormatUChar3 = 2,
-        MTLVertexFormatUChar4 = 3,
-        MTLVertexFormatChar2 = 4,
-        MTLVertexFormatChar3 = 5,
-        MTLVertexFormatChar4 = 6,
-        MTLVertexFormatUChar2Normalized = 7,
-        MTLVertexFormatUChar3Normalized = 8,
-        MTLVertexFormatUChar4Normalized = 9,
-        MTLVertexFormatChar2Normalized = 10,
-        MTLVertexFormatChar3Normalized = 11,
-        MTLVertexFormatChar4Normalized = 12,
-        MTLVertexFormatUShort2 = 13,
-        MTLVertexFormatUShort3 = 14,
-        MTLVertexFormatUShort4 = 15,
-        MTLVertexFormatShort2 = 16,
-        MTLVertexFormatShort3 = 17,
-        MTLVertexFormatShort4 = 18,
-        MTLVertexFormatUShort2Normalized = 19,
-        MTLVertexFormatUShort3Normalized = 20,
-        MTLVertexFormatUShort4Normalized = 21,
-        MTLVertexFormatShort2Normalized = 22,
-        MTLVertexFormatShort3Normalized = 23,
-        MTLVertexFormatShort4Normalized = 24,
-        MTLVertexFormatHalf2 = 25,
-        MTLVertexFormatHalf3 = 26,
-        MTLVertexFormatHalf4 = 27,
-        MTLVertexFormatFloat = 28,
-        MTLVertexFormatFloat2 = 29,
-        MTLVertexFormatFloat3 = 30,
-        MTLVertexFormatFloat4 = 31,
-        MTLVertexFormatInt = 32,
-        MTLVertexFormatInt2 = 33,
-        MTLVertexFormatInt3 = 34,
-        MTLVertexFormatInt4 = 35,
-        MTLVertexFormatUInt = 36,
-        MTLVertexFormatUInt2 = 37,
-        MTLVertexFormatUInt3 = 38,
-        MTLVertexFormatUInt4 = 39,
-        MTLVertexFormatInt1010102Normalized = 40,
-        MTLVertexFormatUInt1010102Normalized = 41,
-        MTLVertexFormatUChar4Normalized_BGRA = 42,
-        MTLVertexFormatUChar = 45,
-        MTLVertexFormatChar = 46,
-        MTLVertexFormatUCharNormalized = 47,
-        MTLVertexFormatCharNormalized = 48,
-        MTLVertexFormatUShort = 49,
-        MTLVertexFormatShort = 50,
-        MTLVertexFormatUShortNormalized = 51,
-        MTLVertexFormatShortNormalized = 52,
-        MTLVertexFormatHalf = 53,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLVertexFormat {
+    MTLVertexFormatInvalid = 0,
+    MTLVertexFormatUChar2 = 1,
+    MTLVertexFormatUChar3 = 2,
+    MTLVertexFormatUChar4 = 3,
+    MTLVertexFormatChar2 = 4,
+    MTLVertexFormatChar3 = 5,
+    MTLVertexFormatChar4 = 6,
+    MTLVertexFormatUChar2Normalized = 7,
+    MTLVertexFormatUChar3Normalized = 8,
+    MTLVertexFormatUChar4Normalized = 9,
+    MTLVertexFormatChar2Normalized = 10,
+    MTLVertexFormatChar3Normalized = 11,
+    MTLVertexFormatChar4Normalized = 12,
+    MTLVertexFormatUShort2 = 13,
+    MTLVertexFormatUShort3 = 14,
+    MTLVertexFormatUShort4 = 15,
+    MTLVertexFormatShort2 = 16,
+    MTLVertexFormatShort3 = 17,
+    MTLVertexFormatShort4 = 18,
+    MTLVertexFormatUShort2Normalized = 19,
+    MTLVertexFormatUShort3Normalized = 20,
+    MTLVertexFormatUShort4Normalized = 21,
+    MTLVertexFormatShort2Normalized = 22,
+    MTLVertexFormatShort3Normalized = 23,
+    MTLVertexFormatShort4Normalized = 24,
+    MTLVertexFormatHalf2 = 25,
+    MTLVertexFormatHalf3 = 26,
+    MTLVertexFormatHalf4 = 27,
+    MTLVertexFormatFloat = 28,
+    MTLVertexFormatFloat2 = 29,
+    MTLVertexFormatFloat3 = 30,
+    MTLVertexFormatFloat4 = 31,
+    MTLVertexFormatInt = 32,
+    MTLVertexFormatInt2 = 33,
+    MTLVertexFormatInt3 = 34,
+    MTLVertexFormatInt4 = 35,
+    MTLVertexFormatUInt = 36,
+    MTLVertexFormatUInt2 = 37,
+    MTLVertexFormatUInt3 = 38,
+    MTLVertexFormatUInt4 = 39,
+    MTLVertexFormatInt1010102Normalized = 40,
+    MTLVertexFormatUInt1010102Normalized = 41,
+    MTLVertexFormatUChar4Normalized_BGRA = 42,
+    MTLVertexFormatUChar = 45,
+    MTLVertexFormatChar = 46,
+    MTLVertexFormatUCharNormalized = 47,
+    MTLVertexFormatCharNormalized = 48,
+    MTLVertexFormatUShort = 49,
+    MTLVertexFormatShort = 50,
+    MTLVertexFormatUShortNormalized = 51,
+    MTLVertexFormatShortNormalized = 52,
+    MTLVertexFormatHalf = 53,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLVertexStepFunction {
-        MTLVertexStepFunctionConstant = 0,
-        MTLVertexStepFunctionPerVertex = 1,
-        MTLVertexStepFunctionPerInstance = 2,
-        MTLVertexStepFunctionPerPatch = 3,
-        MTLVertexStepFunctionPerPatchControlPoint = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLVertexStepFunction {
+    MTLVertexStepFunctionConstant = 0,
+    MTLVertexStepFunctionPerVertex = 1,
+    MTLVertexStepFunctionPerInstance = 2,
+    MTLVertexStepFunctionPerPatch = 3,
+    MTLVertexStepFunctionPerPatchControlPoint = 4,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLVertexBufferLayoutDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLVertexBufferLayoutDescriptor")]
-    pub struct MTLVertexBufferLayoutDescriptor;
-
-    #[cfg(feature = "Metal_MTLVertexBufferLayoutDescriptor")]
-    unsafe impl ClassType for MTLVertexBufferLayoutDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLVertexBufferLayoutDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLVertexBufferLayoutDescriptor")]
 unsafe impl NSObjectProtocol for MTLVertexBufferLayoutDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLVertexBufferLayoutDescriptor")]
-    unsafe impl MTLVertexBufferLayoutDescriptor {
-        #[method(stride)]
-        pub fn stride(&self) -> NSUInteger;
+    pub type MTLVertexBufferLayoutDescriptor;
 
-        #[method(setStride:)]
-        pub unsafe fn setStride(&self, stride: NSUInteger);
+    #[objc2::method(sel = "stride")]
+    pub fn stride(&self) -> NSUInteger;
 
-        #[method(stepFunction)]
-        pub fn stepFunction(&self) -> MTLVertexStepFunction;
+    #[objc2::method(sel = "setStride:")]
+    pub unsafe fn setStride(&self, stride: NSUInteger);
 
-        #[method(setStepFunction:)]
-        pub unsafe fn setStepFunction(&self, step_function: MTLVertexStepFunction);
+    #[objc2::method(sel = "stepFunction")]
+    pub fn stepFunction(&self) -> MTLVertexStepFunction;
 
-        #[method(stepRate)]
-        pub fn stepRate(&self) -> NSUInteger;
+    #[objc2::method(sel = "setStepFunction:")]
+    pub unsafe fn setStepFunction(&self, step_function: MTLVertexStepFunction);
 
-        #[method(setStepRate:)]
-        pub unsafe fn setStepRate(&self, step_rate: NSUInteger);
-    }
-);
+    #[objc2::method(sel = "stepRate")]
+    pub fn stepRate(&self) -> NSUInteger;
 
-extern_class!(
+    #[objc2::method(sel = "setStepRate:")]
+    pub unsafe fn setStepRate(&self, step_rate: NSUInteger);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLVertexBufferLayoutDescriptorArray")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLVertexBufferLayoutDescriptorArray")]
-    pub struct MTLVertexBufferLayoutDescriptorArray;
-
-    #[cfg(feature = "Metal_MTLVertexBufferLayoutDescriptorArray")]
-    unsafe impl ClassType for MTLVertexBufferLayoutDescriptorArray {
-        type Super = NSObject;
-    }
-);
+    pub type MTLVertexBufferLayoutDescriptorArray;
+}
 
 #[cfg(feature = "Metal_MTLVertexBufferLayoutDescriptorArray")]
 unsafe impl NSObjectProtocol for MTLVertexBufferLayoutDescriptorArray {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLVertexBufferLayoutDescriptorArray")]
-    unsafe impl MTLVertexBufferLayoutDescriptorArray {
-        #[cfg(feature = "Metal_MTLVertexBufferLayoutDescriptor")]
-        #[method_id(@__retain_semantics Other objectAtIndexedSubscript:)]
-        pub unsafe fn objectAtIndexedSubscript(
-            &self,
-            index: NSUInteger,
-        ) -> Id<MTLVertexBufferLayoutDescriptor>;
+    pub type MTLVertexBufferLayoutDescriptorArray;
 
-        #[cfg(feature = "Metal_MTLVertexBufferLayoutDescriptor")]
-        #[method(setObject:atIndexedSubscript:)]
-        pub unsafe fn setObject_atIndexedSubscript(
-            &self,
-            buffer_desc: Option<&MTLVertexBufferLayoutDescriptor>,
-            index: NSUInteger,
-        );
-    }
-);
+    #[cfg(feature = "Metal_MTLVertexBufferLayoutDescriptor")]
+    #[objc2::method(sel = "objectAtIndexedSubscript:", managed = "Other")]
+    pub unsafe fn objectAtIndexedSubscript(
+        &self,
+        index: NSUInteger,
+    ) -> Id<MTLVertexBufferLayoutDescriptor>;
 
-extern_class!(
+    #[cfg(feature = "Metal_MTLVertexBufferLayoutDescriptor")]
+    #[objc2::method(sel = "setObject:atIndexedSubscript:")]
+    pub unsafe fn setObject_atIndexedSubscript(
+        &self,
+        buffer_desc: Option<&MTLVertexBufferLayoutDescriptor>,
+        index: NSUInteger,
+    );
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLVertexAttributeDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLVertexAttributeDescriptor")]
-    pub struct MTLVertexAttributeDescriptor;
-
-    #[cfg(feature = "Metal_MTLVertexAttributeDescriptor")]
-    unsafe impl ClassType for MTLVertexAttributeDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLVertexAttributeDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLVertexAttributeDescriptor")]
 unsafe impl NSObjectProtocol for MTLVertexAttributeDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLVertexAttributeDescriptor")]
-    unsafe impl MTLVertexAttributeDescriptor {
-        #[method(format)]
-        pub fn format(&self) -> MTLVertexFormat;
+    pub type MTLVertexAttributeDescriptor;
 
-        #[method(setFormat:)]
-        pub fn setFormat(&self, format: MTLVertexFormat);
+    #[objc2::method(sel = "format")]
+    pub fn format(&self) -> MTLVertexFormat;
 
-        #[method(offset)]
-        pub fn offset(&self) -> NSUInteger;
+    #[objc2::method(sel = "setFormat:")]
+    pub fn setFormat(&self, format: MTLVertexFormat);
 
-        #[method(setOffset:)]
-        pub unsafe fn setOffset(&self, offset: NSUInteger);
+    #[objc2::method(sel = "offset")]
+    pub fn offset(&self) -> NSUInteger;
 
-        #[method(bufferIndex)]
-        pub fn bufferIndex(&self) -> NSUInteger;
+    #[objc2::method(sel = "setOffset:")]
+    pub unsafe fn setOffset(&self, offset: NSUInteger);
 
-        #[method(setBufferIndex:)]
-        pub unsafe fn setBufferIndex(&self, buffer_index: NSUInteger);
-    }
-);
+    #[objc2::method(sel = "bufferIndex")]
+    pub fn bufferIndex(&self) -> NSUInteger;
 
-extern_class!(
+    #[objc2::method(sel = "setBufferIndex:")]
+    pub unsafe fn setBufferIndex(&self, buffer_index: NSUInteger);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLVertexAttributeDescriptorArray")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLVertexAttributeDescriptorArray")]
-    pub struct MTLVertexAttributeDescriptorArray;
-
-    #[cfg(feature = "Metal_MTLVertexAttributeDescriptorArray")]
-    unsafe impl ClassType for MTLVertexAttributeDescriptorArray {
-        type Super = NSObject;
-    }
-);
+    pub type MTLVertexAttributeDescriptorArray;
+}
 
 #[cfg(feature = "Metal_MTLVertexAttributeDescriptorArray")]
 unsafe impl NSObjectProtocol for MTLVertexAttributeDescriptorArray {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLVertexAttributeDescriptorArray")]
-    unsafe impl MTLVertexAttributeDescriptorArray {
-        #[cfg(feature = "Metal_MTLVertexAttributeDescriptor")]
-        #[method_id(@__retain_semantics Other objectAtIndexedSubscript:)]
-        pub unsafe fn objectAtIndexedSubscript(
-            &self,
-            index: NSUInteger,
-        ) -> Id<MTLVertexAttributeDescriptor>;
+    pub type MTLVertexAttributeDescriptorArray;
 
-        #[cfg(feature = "Metal_MTLVertexAttributeDescriptor")]
-        #[method(setObject:atIndexedSubscript:)]
-        pub unsafe fn setObject_atIndexedSubscript(
-            &self,
-            attribute_desc: Option<&MTLVertexAttributeDescriptor>,
-            index: NSUInteger,
-        );
-    }
-);
+    #[cfg(feature = "Metal_MTLVertexAttributeDescriptor")]
+    #[objc2::method(sel = "objectAtIndexedSubscript:", managed = "Other")]
+    pub unsafe fn objectAtIndexedSubscript(
+        &self,
+        index: NSUInteger,
+    ) -> Id<MTLVertexAttributeDescriptor>;
 
-extern_class!(
+    #[cfg(feature = "Metal_MTLVertexAttributeDescriptor")]
+    #[objc2::method(sel = "setObject:atIndexedSubscript:")]
+    pub unsafe fn setObject_atIndexedSubscript(
+        &self,
+        attribute_desc: Option<&MTLVertexAttributeDescriptor>,
+        index: NSUInteger,
+    );
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLVertexDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLVertexDescriptor")]
-    pub struct MTLVertexDescriptor;
-
-    #[cfg(feature = "Metal_MTLVertexDescriptor")]
-    unsafe impl ClassType for MTLVertexDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLVertexDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLVertexDescriptor")]
 unsafe impl NSObjectProtocol for MTLVertexDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLVertexDescriptor")]
-    unsafe impl MTLVertexDescriptor {
-        #[method_id(@__retain_semantics Other vertexDescriptor)]
-        pub fn vertexDescriptor() -> Id<MTLVertexDescriptor>;
+    pub type MTLVertexDescriptor;
 
-        #[cfg(feature = "Metal_MTLVertexBufferLayoutDescriptorArray")]
-        #[method_id(@__retain_semantics Other layouts)]
-        pub fn layouts(&self) -> Id<MTLVertexBufferLayoutDescriptorArray>;
+    #[objc2::method(sel = "vertexDescriptor", managed = "Other")]
+    pub fn vertexDescriptor() -> Id<MTLVertexDescriptor>;
 
-        #[cfg(feature = "Metal_MTLVertexAttributeDescriptorArray")]
-        #[method_id(@__retain_semantics Other attributes)]
-        pub fn attributes(&self) -> Id<MTLVertexAttributeDescriptorArray>;
+    #[cfg(feature = "Metal_MTLVertexBufferLayoutDescriptorArray")]
+    #[objc2::method(sel = "layouts", managed = "Other")]
+    pub fn layouts(&self) -> Id<MTLVertexBufferLayoutDescriptorArray>;
 
-        #[method(reset)]
-        pub fn reset(&self);
-    }
-);
+    #[cfg(feature = "Metal_MTLVertexAttributeDescriptorArray")]
+    #[objc2::method(sel = "attributes", managed = "Other")]
+    pub fn attributes(&self) -> Id<MTLVertexAttributeDescriptorArray>;
+
+    #[objc2::method(sel = "reset")]
+    pub fn reset(&self);
+}

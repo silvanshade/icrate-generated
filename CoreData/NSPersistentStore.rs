@@ -4,134 +4,143 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPersistentStore")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSPersistentStore")]
-    pub struct NSPersistentStore;
-
-    #[cfg(feature = "CoreData_NSPersistentStore")]
-    unsafe impl ClassType for NSPersistentStore {
-        type Super = NSObject;
-    }
-);
+    pub type NSPersistentStore;
+}
 
 #[cfg(feature = "CoreData_NSPersistentStore")]
 unsafe impl NSObjectProtocol for NSPersistentStore {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPersistentStore")]
-    unsafe impl NSPersistentStore {
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other metadataForPersistentStoreWithURL:error:_)]
-        pub unsafe fn metadataForPersistentStoreWithURL_error(
-            url: &NSURL,
-        ) -> Result<Id<NSDictionary<NSString, Object>>, Id<NSError>>;
+    pub type NSPersistentStore;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(setMetadata:forPersistentStoreWithURL:error:_)]
-        pub unsafe fn setMetadata_forPersistentStoreWithURL_error(
-            metadata: Option<&NSDictionary<NSString, Object>>,
-            url: &NSURL,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "metadataForPersistentStoreWithURL:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn metadataForPersistentStoreWithURL_error(
+        url: &NSURL,
+    ) -> Result<Id<NSDictionary<NSString, Object>>, Id<NSError>>;
 
-        #[method(migrationManagerClass)]
-        pub unsafe fn migrationManagerClass() -> &'static Class;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "setMetadata:forPersistentStoreWithURL:error:", throws)]
+    pub unsafe fn setMetadata_forPersistentStoreWithURL_error(
+        metadata: Option<&NSDictionary<NSString, Object>>,
+        url: &NSURL,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSPersistentStoreCoordinator",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Init initWithPersistentStoreCoordinator:configurationName:URL:options:)]
-        pub unsafe fn initWithPersistentStoreCoordinator_configurationName_URL_options(
-            this: Option<Allocated<Self>>,
-            root: Option<&NSPersistentStoreCoordinator>,
-            name: Option<&NSString>,
-            url: &NSURL,
-            options: Option<&NSDictionary>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "migrationManagerClass")]
+    pub unsafe fn migrationManagerClass() -> &'static Class;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(all(
+        feature = "CoreData_NSPersistentStoreCoordinator",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "initWithPersistentStoreCoordinator:configurationName:URL:options:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithPersistentStoreCoordinator_configurationName_URL_options(
+        this: Option<Allocated<Self>>,
+        root: Option<&NSPersistentStoreCoordinator>,
+        name: Option<&NSString>,
+        url: &NSURL,
+        options: Option<&NSDictionary>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(loadMetadata:_)]
-        pub unsafe fn loadMetadata(&self) -> Result<(), Id<NSError>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
-        #[method_id(@__retain_semantics Other persistentStoreCoordinator)]
-        pub unsafe fn persistentStoreCoordinator(&self)
-            -> Option<Id<NSPersistentStoreCoordinator>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "loadMetadata:", throws)]
+    pub unsafe fn loadMetadata(&self) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other configurationName)]
-        pub unsafe fn configurationName(&self) -> Id<NSString>;
+    #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
+    #[objc2::method(sel = "persistentStoreCoordinator", managed = "Other")]
+    pub unsafe fn persistentStoreCoordinator(&self) -> Option<Id<NSPersistentStoreCoordinator>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other options)]
-        pub unsafe fn options(&self) -> Option<Id<NSDictionary>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "configurationName", managed = "Other")]
+    pub unsafe fn configurationName(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "options", managed = "Other")]
+    pub unsafe fn options(&self) -> Option<Id<NSDictionary>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setURL:)]
-        pub unsafe fn setURL(&self, url: Option<&NSURL>);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setURL:")]
+    pub unsafe fn setURL(&self, url: Option<&NSURL>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setIdentifier:)]
-        pub unsafe fn setIdentifier(&self, identifier: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other type)]
-        pub unsafe fn r#type(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setIdentifier:")]
+    pub unsafe fn setIdentifier(&self, identifier: Option<&NSString>);
 
-        #[method(isReadOnly)]
-        pub unsafe fn isReadOnly(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "type", managed = "Other")]
+    pub unsafe fn r#type(&self) -> Id<NSString>;
 
-        #[method(setReadOnly:)]
-        pub unsafe fn setReadOnly(&self, read_only: bool);
+    #[objc2::method(sel = "isReadOnly")]
+    pub unsafe fn isReadOnly(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other metadata)]
-        pub unsafe fn metadata(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
+    #[objc2::method(sel = "setReadOnly:")]
+    pub unsafe fn setReadOnly(&self, read_only: bool);
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(setMetadata:)]
-        pub unsafe fn setMetadata(&self, metadata: Option<&NSDictionary<NSString, Object>>);
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "metadata", managed = "Other")]
+    pub unsafe fn metadata(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
 
-        #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
-        #[method(didAddToPersistentStoreCoordinator:)]
-        pub unsafe fn didAddToPersistentStoreCoordinator(
-            &self,
-            coordinator: &NSPersistentStoreCoordinator,
-        );
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setMetadata:")]
+    pub unsafe fn setMetadata(&self, metadata: Option<&NSDictionary<NSString, Object>>);
 
-        #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
-        #[method(willRemoveFromPersistentStoreCoordinator:)]
-        pub unsafe fn willRemoveFromPersistentStoreCoordinator(
-            &self,
-            coordinator: Option<&NSPersistentStoreCoordinator>,
-        );
+    #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
+    #[objc2::method(sel = "didAddToPersistentStoreCoordinator:")]
+    pub unsafe fn didAddToPersistentStoreCoordinator(
+        &self,
+        coordinator: &NSPersistentStoreCoordinator,
+    );
 
-        #[cfg(feature = "CoreData_NSCoreDataCoreSpotlightDelegate")]
-        #[method_id(@__retain_semantics Other coreSpotlightExporter)]
-        pub unsafe fn coreSpotlightExporter(&self) -> Id<NSCoreDataCoreSpotlightDelegate>;
-    }
-);
+    #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
+    #[objc2::method(sel = "willRemoveFromPersistentStoreCoordinator:")]
+    pub unsafe fn willRemoveFromPersistentStoreCoordinator(
+        &self,
+        coordinator: Option<&NSPersistentStoreCoordinator>,
+    );
+
+    #[cfg(feature = "CoreData_NSCoreDataCoreSpotlightDelegate")]
+    #[objc2::method(sel = "coreSpotlightExporter", managed = "Other")]
+    pub unsafe fn coreSpotlightExporter(&self) -> Id<NSCoreDataCoreSpotlightDelegate>;
+}

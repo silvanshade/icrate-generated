@@ -59,16 +59,16 @@ extern_fn!(
     ) -> CLLocationCoordinate2D;
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreLocation_CLFloor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreLocation_CLFloor")]
-    pub struct CLFloor;
-
-    #[cfg(feature = "CoreLocation_CLFloor")]
-    unsafe impl ClassType for CLFloor {
-        type Super = NSObject;
-    }
-);
+    pub type CLFloor;
+}
 
 #[cfg(feature = "CoreLocation_CLFloor")]
 unsafe impl NSCoding for CLFloor {}
@@ -79,24 +79,27 @@ unsafe impl NSObjectProtocol for CLFloor {}
 #[cfg(feature = "CoreLocation_CLFloor")]
 unsafe impl NSSecureCoding for CLFloor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreLocation_CLFloor")]
-    unsafe impl CLFloor {
-        #[method(level)]
-        pub unsafe fn level(&self) -> NSInteger;
-    }
-);
+    pub type CLFloor;
 
-extern_class!(
+    #[objc2::method(sel = "level")]
+    pub unsafe fn level(&self) -> NSInteger;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreLocation_CLLocationSourceInformation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreLocation_CLLocationSourceInformation")]
-    pub struct CLLocationSourceInformation;
-
-    #[cfg(feature = "CoreLocation_CLLocationSourceInformation")]
-    unsafe impl ClassType for CLLocationSourceInformation {
-        type Super = NSObject;
-    }
-);
+    pub type CLLocationSourceInformation;
+}
 
 #[cfg(feature = "CoreLocation_CLLocationSourceInformation")]
 unsafe impl NSCoding for CLLocationSourceInformation {}
@@ -107,34 +110,40 @@ unsafe impl NSObjectProtocol for CLLocationSourceInformation {}
 #[cfg(feature = "CoreLocation_CLLocationSourceInformation")]
 unsafe impl NSSecureCoding for CLLocationSourceInformation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreLocation_CLLocationSourceInformation")]
-    unsafe impl CLLocationSourceInformation {
-        #[method_id(@__retain_semantics Init initWithSoftwareSimulationState:andExternalAccessoryState:)]
-        pub unsafe fn initWithSoftwareSimulationState_andExternalAccessoryState(
-            this: Option<Allocated<Self>>,
-            is_software: bool,
-            is_accessory: bool,
-        ) -> Id<Self>;
+    pub type CLLocationSourceInformation;
 
-        #[method(isSimulatedBySoftware)]
-        pub unsafe fn isSimulatedBySoftware(&self) -> bool;
+    #[objc2::method(
+        sel = "initWithSoftwareSimulationState:andExternalAccessoryState:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithSoftwareSimulationState_andExternalAccessoryState(
+        this: Option<Allocated<Self>>,
+        is_software: bool,
+        is_accessory: bool,
+    ) -> Id<Self>;
 
-        #[method(isProducedByAccessory)]
-        pub unsafe fn isProducedByAccessory(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "isSimulatedBySoftware")]
+    pub unsafe fn isSimulatedBySoftware(&self) -> bool;
 
-extern_class!(
+    #[objc2::method(sel = "isProducedByAccessory")]
+    pub unsafe fn isProducedByAccessory(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreLocation_CLLocation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreLocation_CLLocation")]
-    pub struct CLLocation;
-
-    #[cfg(feature = "CoreLocation_CLLocation")]
-    unsafe impl ClassType for CLLocation {
-        type Super = NSObject;
-    }
-);
+    pub type CLLocation;
+}
 
 #[cfg(feature = "CoreLocation_CLLocation")]
 unsafe impl NSCoding for CLLocation {}
@@ -145,111 +154,126 @@ unsafe impl NSObjectProtocol for CLLocation {}
 #[cfg(feature = "CoreLocation_CLLocation")]
 unsafe impl NSSecureCoding for CLLocation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreLocation_CLLocation")]
-    unsafe impl CLLocation {
-        #[method_id(@__retain_semantics Init initWithLatitude:longitude:)]
-        pub unsafe fn initWithLatitude_longitude(
-            this: Option<Allocated<Self>>,
-            latitude: CLLocationDegrees,
-            longitude: CLLocationDegrees,
-        ) -> Id<Self>;
+    pub type CLLocation;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Init initWithCoordinate:altitude:horizontalAccuracy:verticalAccuracy:timestamp:)]
-        pub unsafe fn initWithCoordinate_altitude_horizontalAccuracy_verticalAccuracy_timestamp(
-            this: Option<Allocated<Self>>,
-            coordinate: CLLocationCoordinate2D,
-            altitude: CLLocationDistance,
-            h_accuracy: CLLocationAccuracy,
-            v_accuracy: CLLocationAccuracy,
-            timestamp: &NSDate,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithLatitude:longitude:", managed = "Init")]
+    pub unsafe fn initWithLatitude_longitude(
+        this: Option<Allocated<Self>>,
+        latitude: CLLocationDegrees,
+        longitude: CLLocationDegrees,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Init initWithCoordinate:altitude:horizontalAccuracy:verticalAccuracy:course:speed:timestamp:)]
-        pub unsafe fn initWithCoordinate_altitude_horizontalAccuracy_verticalAccuracy_course_speed_timestamp(
-            this: Option<Allocated<Self>>,
-            coordinate: CLLocationCoordinate2D,
-            altitude: CLLocationDistance,
-            h_accuracy: CLLocationAccuracy,
-            v_accuracy: CLLocationAccuracy,
-            course: CLLocationDirection,
-            speed: CLLocationSpeed,
-            timestamp: &NSDate,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(
+        sel = "initWithCoordinate:altitude:horizontalAccuracy:verticalAccuracy:timestamp:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithCoordinate_altitude_horizontalAccuracy_verticalAccuracy_timestamp(
+        this: Option<Allocated<Self>>,
+        coordinate: CLLocationCoordinate2D,
+        altitude: CLLocationDistance,
+        h_accuracy: CLLocationAccuracy,
+        v_accuracy: CLLocationAccuracy,
+        timestamp: &NSDate,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Init initWithCoordinate:altitude:horizontalAccuracy:verticalAccuracy:course:courseAccuracy:speed:speedAccuracy:timestamp:)]
-        pub unsafe fn initWithCoordinate_altitude_horizontalAccuracy_verticalAccuracy_course_courseAccuracy_speed_speedAccuracy_timestamp(
-            this: Option<Allocated<Self>>,
-            coordinate: CLLocationCoordinate2D,
-            altitude: CLLocationDistance,
-            h_accuracy: CLLocationAccuracy,
-            v_accuracy: CLLocationAccuracy,
-            course: CLLocationDirection,
-            course_accuracy: CLLocationDirectionAccuracy,
-            speed: CLLocationSpeed,
-            speed_accuracy: CLLocationSpeedAccuracy,
-            timestamp: &NSDate,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(
+        sel = "initWithCoordinate:altitude:horizontalAccuracy:verticalAccuracy:course:speed:timestamp:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithCoordinate_altitude_horizontalAccuracy_verticalAccuracy_course_speed_timestamp(
+        this: Option<Allocated<Self>>,
+        coordinate: CLLocationCoordinate2D,
+        altitude: CLLocationDistance,
+        h_accuracy: CLLocationAccuracy,
+        v_accuracy: CLLocationAccuracy,
+        course: CLLocationDirection,
+        speed: CLLocationSpeed,
+        timestamp: &NSDate,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "CoreLocation_CLLocationSourceInformation",
-            feature = "Foundation_NSDate"
-        ))]
-        #[method_id(@__retain_semantics Init initWithCoordinate:altitude:horizontalAccuracy:verticalAccuracy:course:courseAccuracy:speed:speedAccuracy:timestamp:sourceInfo:)]
-        pub unsafe fn initWithCoordinate_altitude_horizontalAccuracy_verticalAccuracy_course_courseAccuracy_speed_speedAccuracy_timestamp_sourceInfo(
-            this: Option<Allocated<Self>>,
-            coordinate: CLLocationCoordinate2D,
-            altitude: CLLocationDistance,
-            h_accuracy: CLLocationAccuracy,
-            v_accuracy: CLLocationAccuracy,
-            course: CLLocationDirection,
-            course_accuracy: CLLocationDirectionAccuracy,
-            speed: CLLocationSpeed,
-            speed_accuracy: CLLocationSpeedAccuracy,
-            timestamp: &NSDate,
-            source_info: &CLLocationSourceInformation,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(
+        sel = "initWithCoordinate:altitude:horizontalAccuracy:verticalAccuracy:course:courseAccuracy:speed:speedAccuracy:timestamp:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithCoordinate_altitude_horizontalAccuracy_verticalAccuracy_course_courseAccuracy_speed_speedAccuracy_timestamp(
+        this: Option<Allocated<Self>>,
+        coordinate: CLLocationCoordinate2D,
+        altitude: CLLocationDistance,
+        h_accuracy: CLLocationAccuracy,
+        v_accuracy: CLLocationAccuracy,
+        course: CLLocationDirection,
+        course_accuracy: CLLocationDirectionAccuracy,
+        speed: CLLocationSpeed,
+        speed_accuracy: CLLocationSpeedAccuracy,
+        timestamp: &NSDate,
+    ) -> Id<Self>;
 
-        #[method(coordinate)]
-        pub unsafe fn coordinate(&self) -> CLLocationCoordinate2D;
+    #[cfg(all(
+        feature = "CoreLocation_CLLocationSourceInformation",
+        feature = "Foundation_NSDate"
+    ))]
+    #[objc2::method(
+        sel = "initWithCoordinate:altitude:horizontalAccuracy:verticalAccuracy:course:courseAccuracy:speed:speedAccuracy:timestamp:sourceInfo:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithCoordinate_altitude_horizontalAccuracy_verticalAccuracy_course_courseAccuracy_speed_speedAccuracy_timestamp_sourceInfo(
+        this: Option<Allocated<Self>>,
+        coordinate: CLLocationCoordinate2D,
+        altitude: CLLocationDistance,
+        h_accuracy: CLLocationAccuracy,
+        v_accuracy: CLLocationAccuracy,
+        course: CLLocationDirection,
+        course_accuracy: CLLocationDirectionAccuracy,
+        speed: CLLocationSpeed,
+        speed_accuracy: CLLocationSpeedAccuracy,
+        timestamp: &NSDate,
+        source_info: &CLLocationSourceInformation,
+    ) -> Id<Self>;
 
-        #[method(altitude)]
-        pub unsafe fn altitude(&self) -> CLLocationDistance;
+    #[objc2::method(sel = "coordinate")]
+    pub unsafe fn coordinate(&self) -> CLLocationCoordinate2D;
 
-        #[method(ellipsoidalAltitude)]
-        pub unsafe fn ellipsoidalAltitude(&self) -> CLLocationDistance;
+    #[objc2::method(sel = "altitude")]
+    pub unsafe fn altitude(&self) -> CLLocationDistance;
 
-        #[method(horizontalAccuracy)]
-        pub unsafe fn horizontalAccuracy(&self) -> CLLocationAccuracy;
+    #[objc2::method(sel = "ellipsoidalAltitude")]
+    pub unsafe fn ellipsoidalAltitude(&self) -> CLLocationDistance;
 
-        #[method(verticalAccuracy)]
-        pub unsafe fn verticalAccuracy(&self) -> CLLocationAccuracy;
+    #[objc2::method(sel = "horizontalAccuracy")]
+    pub unsafe fn horizontalAccuracy(&self) -> CLLocationAccuracy;
 
-        #[method(course)]
-        pub unsafe fn course(&self) -> CLLocationDirection;
+    #[objc2::method(sel = "verticalAccuracy")]
+    pub unsafe fn verticalAccuracy(&self) -> CLLocationAccuracy;
 
-        #[method(courseAccuracy)]
-        pub unsafe fn courseAccuracy(&self) -> CLLocationDirectionAccuracy;
+    #[objc2::method(sel = "course")]
+    pub unsafe fn course(&self) -> CLLocationDirection;
 
-        #[method(speed)]
-        pub unsafe fn speed(&self) -> CLLocationSpeed;
+    #[objc2::method(sel = "courseAccuracy")]
+    pub unsafe fn courseAccuracy(&self) -> CLLocationDirectionAccuracy;
 
-        #[method(speedAccuracy)]
-        pub unsafe fn speedAccuracy(&self) -> CLLocationSpeedAccuracy;
+    #[objc2::method(sel = "speed")]
+    pub unsafe fn speed(&self) -> CLLocationSpeed;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other timestamp)]
-        pub unsafe fn timestamp(&self) -> Id<NSDate>;
+    #[objc2::method(sel = "speedAccuracy")]
+    pub unsafe fn speedAccuracy(&self) -> CLLocationSpeedAccuracy;
 
-        #[cfg(feature = "CoreLocation_CLFloor")]
-        #[method_id(@__retain_semantics Other floor)]
-        pub unsafe fn floor(&self) -> Option<Id<CLFloor>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "timestamp", managed = "Other")]
+    pub unsafe fn timestamp(&self) -> Id<NSDate>;
 
-        #[cfg(feature = "CoreLocation_CLLocationSourceInformation")]
-        #[method_id(@__retain_semantics Other sourceInformation)]
-        pub unsafe fn sourceInformation(&self) -> Option<Id<CLLocationSourceInformation>>;
-    }
-);
+    #[cfg(feature = "CoreLocation_CLFloor")]
+    #[objc2::method(sel = "floor", managed = "Other")]
+    pub unsafe fn floor(&self) -> Option<Id<CLFloor>>;
+
+    #[cfg(feature = "CoreLocation_CLLocationSourceInformation")]
+    #[objc2::method(sel = "sourceInformation", managed = "Other")]
+    pub unsafe fn sourceInformation(&self) -> Option<Id<CLLocationSourceInformation>>;
+}

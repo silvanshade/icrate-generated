@@ -5,61 +5,61 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_enum!(
-    #[underlying(c_uint)]
+#[extern_enum]
+#[underlying(c_uint)]
+#[deprecated]
+pub enum __anonymous__ {
     #[deprecated]
-    pub enum __anonymous__ {
-        #[deprecated]
-        DOM_ELEMENT_NODE = 1,
-        #[deprecated]
-        DOM_ATTRIBUTE_NODE = 2,
-        #[deprecated]
-        DOM_TEXT_NODE = 3,
-        #[deprecated]
-        DOM_CDATA_SECTION_NODE = 4,
-        #[deprecated]
-        DOM_ENTITY_REFERENCE_NODE = 5,
-        #[deprecated]
-        DOM_ENTITY_NODE = 6,
-        #[deprecated]
-        DOM_PROCESSING_INSTRUCTION_NODE = 7,
-        #[deprecated]
-        DOM_COMMENT_NODE = 8,
-        #[deprecated]
-        DOM_DOCUMENT_NODE = 9,
-        #[deprecated]
-        DOM_DOCUMENT_TYPE_NODE = 10,
-        #[deprecated]
-        DOM_DOCUMENT_FRAGMENT_NODE = 11,
-        #[deprecated]
-        DOM_NOTATION_NODE = 12,
-        #[deprecated]
-        DOM_DOCUMENT_POSITION_DISCONNECTED = 0x01,
-        #[deprecated]
-        DOM_DOCUMENT_POSITION_PRECEDING = 0x02,
-        #[deprecated]
-        DOM_DOCUMENT_POSITION_FOLLOWING = 0x04,
-        #[deprecated]
-        DOM_DOCUMENT_POSITION_CONTAINS = 0x08,
-        #[deprecated]
-        DOM_DOCUMENT_POSITION_CONTAINED_BY = 0x10,
-        #[deprecated]
-        DOM_DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 0x20,
-    }
-);
+    DOM_ELEMENT_NODE = 1,
+    #[deprecated]
+    DOM_ATTRIBUTE_NODE = 2,
+    #[deprecated]
+    DOM_TEXT_NODE = 3,
+    #[deprecated]
+    DOM_CDATA_SECTION_NODE = 4,
+    #[deprecated]
+    DOM_ENTITY_REFERENCE_NODE = 5,
+    #[deprecated]
+    DOM_ENTITY_NODE = 6,
+    #[deprecated]
+    DOM_PROCESSING_INSTRUCTION_NODE = 7,
+    #[deprecated]
+    DOM_COMMENT_NODE = 8,
+    #[deprecated]
+    DOM_DOCUMENT_NODE = 9,
+    #[deprecated]
+    DOM_DOCUMENT_TYPE_NODE = 10,
+    #[deprecated]
+    DOM_DOCUMENT_FRAGMENT_NODE = 11,
+    #[deprecated]
+    DOM_NOTATION_NODE = 12,
+    #[deprecated]
+    DOM_DOCUMENT_POSITION_DISCONNECTED = 0x01,
+    #[deprecated]
+    DOM_DOCUMENT_POSITION_PRECEDING = 0x02,
+    #[deprecated]
+    DOM_DOCUMENT_POSITION_FOLLOWING = 0x04,
+    #[deprecated]
+    DOM_DOCUMENT_POSITION_CONTAINS = 0x08,
+    #[deprecated]
+    DOM_DOCUMENT_POSITION_CONTAINED_BY = 0x10,
+    #[deprecated]
+    DOM_DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 0x20,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[deprecated]
+    #[cfg(feature = "WebKit_DOMNode")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMNode")]
-    #[deprecated]
-    pub struct DOMNode;
-
-    #[cfg(feature = "WebKit_DOMNode")]
-    unsafe impl ClassType for DOMNode {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    pub type DOMNode;
+}
 
 #[cfg(feature = "WebKit_DOMNode")]
 unsafe impl DOMEventTarget for DOMNode {}
@@ -67,180 +67,185 @@ unsafe impl DOMEventTarget for DOMNode {}
 #[cfg(feature = "WebKit_DOMNode")]
 unsafe impl NSObjectProtocol for DOMNode {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMNode")]
-    unsafe impl DOMNode {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other nodeName)]
-        pub unsafe fn nodeName(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMNode;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other nodeValue)]
-        pub unsafe fn nodeValue(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "nodeName", managed = "Other")]
+    pub unsafe fn nodeName(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setNodeValue:)]
-        pub unsafe fn setNodeValue(&self, node_value: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "nodeValue", managed = "Other")]
+    pub unsafe fn nodeValue(&self) -> Id<NSString>;
 
-        #[method(nodeType)]
-        pub unsafe fn nodeType(&self) -> c_ushort;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setNodeValue:")]
+    pub unsafe fn setNodeValue(&self, node_value: Option<&NSString>);
 
-        #[method_id(@__retain_semantics Other parentNode)]
-        pub unsafe fn parentNode(&self) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "nodeType")]
+    pub unsafe fn nodeType(&self) -> c_ushort;
 
-        #[cfg(feature = "WebKit_DOMNodeList")]
-        #[method_id(@__retain_semantics Other childNodes)]
-        pub unsafe fn childNodes(&self) -> Option<Id<DOMNodeList>>;
+    #[objc2::method(sel = "parentNode", managed = "Other")]
+    pub unsafe fn parentNode(&self) -> Option<Id<DOMNode>>;
 
-        #[method_id(@__retain_semantics Other firstChild)]
-        pub unsafe fn firstChild(&self) -> Option<Id<DOMNode>>;
+    #[cfg(feature = "WebKit_DOMNodeList")]
+    #[objc2::method(sel = "childNodes", managed = "Other")]
+    pub unsafe fn childNodes(&self) -> Option<Id<DOMNodeList>>;
 
-        #[method_id(@__retain_semantics Other lastChild)]
-        pub unsafe fn lastChild(&self) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "firstChild", managed = "Other")]
+    pub unsafe fn firstChild(&self) -> Option<Id<DOMNode>>;
 
-        #[method_id(@__retain_semantics Other previousSibling)]
-        pub unsafe fn previousSibling(&self) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "lastChild", managed = "Other")]
+    pub unsafe fn lastChild(&self) -> Option<Id<DOMNode>>;
 
-        #[method_id(@__retain_semantics Other nextSibling)]
-        pub unsafe fn nextSibling(&self) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "previousSibling", managed = "Other")]
+    pub unsafe fn previousSibling(&self) -> Option<Id<DOMNode>>;
 
-        #[cfg(feature = "WebKit_DOMDocument")]
-        #[method_id(@__retain_semantics Other ownerDocument)]
-        pub unsafe fn ownerDocument(&self) -> Option<Id<DOMDocument>>;
+    #[objc2::method(sel = "nextSibling", managed = "Other")]
+    pub unsafe fn nextSibling(&self) -> Option<Id<DOMNode>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other namespaceURI)]
-        pub unsafe fn namespaceURI(&self) -> Id<NSString>;
+    #[cfg(feature = "WebKit_DOMDocument")]
+    #[objc2::method(sel = "ownerDocument", managed = "Other")]
+    pub unsafe fn ownerDocument(&self) -> Option<Id<DOMDocument>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other prefix)]
-        pub unsafe fn prefix(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "namespaceURI", managed = "Other")]
+    pub unsafe fn namespaceURI(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPrefix:)]
-        pub unsafe fn setPrefix(&self, prefix: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "prefix", managed = "Other")]
+    pub unsafe fn prefix(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localName)]
-        pub unsafe fn localName(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPrefix:")]
+    pub unsafe fn setPrefix(&self, prefix: Option<&NSString>);
 
-        #[cfg(feature = "WebKit_DOMNamedNodeMap")]
-        #[method_id(@__retain_semantics Other attributes)]
-        pub unsafe fn attributes(&self) -> Option<Id<DOMNamedNodeMap>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localName", managed = "Other")]
+    pub unsafe fn localName(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other baseURI)]
-        pub unsafe fn baseURI(&self) -> Id<NSString>;
+    #[cfg(feature = "WebKit_DOMNamedNodeMap")]
+    #[objc2::method(sel = "attributes", managed = "Other")]
+    pub unsafe fn attributes(&self) -> Option<Id<DOMNamedNodeMap>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other textContent)]
-        pub unsafe fn textContent(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "baseURI", managed = "Other")]
+    pub unsafe fn baseURI(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTextContent:)]
-        pub unsafe fn setTextContent(&self, text_content: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "textContent", managed = "Other")]
+    pub unsafe fn textContent(&self) -> Id<NSString>;
 
-        #[cfg(feature = "WebKit_DOMElement")]
-        #[method_id(@__retain_semantics Other parentElement)]
-        pub unsafe fn parentElement(&self) -> Option<Id<DOMElement>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTextContent:")]
+    pub unsafe fn setTextContent(&self, text_content: Option<&NSString>);
 
-        #[method(isContentEditable)]
-        pub unsafe fn isContentEditable(&self) -> bool;
+    #[cfg(feature = "WebKit_DOMElement")]
+    #[objc2::method(sel = "parentElement", managed = "Other")]
+    pub unsafe fn parentElement(&self) -> Option<Id<DOMElement>>;
 
-        #[method_id(@__retain_semantics Other insertBefore:refChild:)]
-        pub unsafe fn insertBefore_refChild(
-            &self,
-            new_child: Option<&DOMNode>,
-            ref_child: Option<&DOMNode>,
-        ) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "isContentEditable")]
+    pub unsafe fn isContentEditable(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other replaceChild:oldChild:)]
-        pub unsafe fn replaceChild_oldChild(
-            &self,
-            new_child: Option<&DOMNode>,
-            old_child: Option<&DOMNode>,
-        ) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "insertBefore:refChild:", managed = "Other")]
+    pub unsafe fn insertBefore_refChild(
+        &self,
+        new_child: Option<&DOMNode>,
+        ref_child: Option<&DOMNode>,
+    ) -> Option<Id<DOMNode>>;
 
-        #[method_id(@__retain_semantics Other removeChild:)]
-        pub unsafe fn removeChild(&self, old_child: Option<&DOMNode>) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "replaceChild:oldChild:", managed = "Other")]
+    pub unsafe fn replaceChild_oldChild(
+        &self,
+        new_child: Option<&DOMNode>,
+        old_child: Option<&DOMNode>,
+    ) -> Option<Id<DOMNode>>;
 
-        #[method_id(@__retain_semantics Other appendChild:)]
-        pub unsafe fn appendChild(&self, new_child: Option<&DOMNode>) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "removeChild:", managed = "Other")]
+    pub unsafe fn removeChild(&self, old_child: Option<&DOMNode>) -> Option<Id<DOMNode>>;
 
-        #[method(hasChildNodes)]
-        pub unsafe fn hasChildNodes(&self) -> bool;
+    #[objc2::method(sel = "appendChild:", managed = "Other")]
+    pub unsafe fn appendChild(&self, new_child: Option<&DOMNode>) -> Option<Id<DOMNode>>;
 
-        #[method_id(@__retain_semantics Other cloneNode:)]
-        pub unsafe fn cloneNode(&self, deep: bool) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "hasChildNodes")]
+    pub unsafe fn hasChildNodes(&self) -> bool;
 
-        #[method(normalize)]
-        pub unsafe fn normalize(&self);
+    #[objc2::method(sel = "cloneNode:", managed = "Other")]
+    pub unsafe fn cloneNode(&self, deep: bool) -> Option<Id<DOMNode>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(isSupported:version:)]
-        pub unsafe fn isSupported_version(
-            &self,
-            feature: Option<&NSString>,
-            version: Option<&NSString>,
-        ) -> bool;
+    #[objc2::method(sel = "normalize")]
+    pub unsafe fn normalize(&self);
 
-        #[method(hasAttributes)]
-        pub unsafe fn hasAttributes(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "isSupported:version:")]
+    pub unsafe fn isSupported_version(
+        &self,
+        feature: Option<&NSString>,
+        version: Option<&NSString>,
+    ) -> bool;
 
-        #[method(isSameNode:)]
-        pub unsafe fn isSameNode(&self, other: Option<&DOMNode>) -> bool;
+    #[objc2::method(sel = "hasAttributes")]
+    pub unsafe fn hasAttributes(&self) -> bool;
 
-        #[method(isEqualNode:)]
-        pub unsafe fn isEqualNode(&self, other: Option<&DOMNode>) -> bool;
+    #[objc2::method(sel = "isSameNode:")]
+    pub unsafe fn isSameNode(&self, other: Option<&DOMNode>) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other lookupPrefix:)]
-        pub unsafe fn lookupPrefix(&self, namespace_uri: Option<&NSString>)
-            -> Option<Id<NSString>>;
+    #[objc2::method(sel = "isEqualNode:")]
+    pub unsafe fn isEqualNode(&self, other: Option<&DOMNode>) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other lookupNamespaceURI:)]
-        pub unsafe fn lookupNamespaceURI(&self, prefix: Option<&NSString>) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "lookupPrefix:", managed = "Other")]
+    pub unsafe fn lookupPrefix(&self, namespace_uri: Option<&NSString>) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(isDefaultNamespace:)]
-        pub unsafe fn isDefaultNamespace(&self, namespace_uri: Option<&NSString>) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "lookupNamespaceURI:", managed = "Other")]
+    pub unsafe fn lookupNamespaceURI(&self, prefix: Option<&NSString>) -> Option<Id<NSString>>;
 
-        #[method(compareDocumentPosition:)]
-        pub unsafe fn compareDocumentPosition(&self, other: Option<&DOMNode>) -> c_ushort;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "isDefaultNamespace:")]
+    pub unsafe fn isDefaultNamespace(&self, namespace_uri: Option<&NSString>) -> bool;
 
-        #[method(contains:)]
-        pub unsafe fn contains(&self, other: Option<&DOMNode>) -> bool;
-    }
-);
+    #[objc2::method(sel = "compareDocumentPosition:")]
+    pub unsafe fn compareDocumentPosition(&self, other: Option<&DOMNode>) -> c_ushort;
 
-extern_methods!(
-    /// DOMNodeDeprecated
+    #[objc2::method(sel = "contains:")]
+    pub unsafe fn contains(&self, other: Option<&DOMNode>) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMNode")]
-    unsafe impl DOMNode {
-        #[deprecated]
-        #[method_id(@__retain_semantics Other insertBefore::)]
-        pub unsafe fn insertBefore(
-            &self,
-            new_child: Option<&DOMNode>,
-            ref_child: Option<&DOMNode>,
-        ) -> Option<Id<DOMNode>>;
+    pub type DOMNode;
 
-        #[deprecated]
-        #[method_id(@__retain_semantics Other replaceChild::)]
-        pub unsafe fn replaceChild(
-            &self,
-            new_child: Option<&DOMNode>,
-            old_child: Option<&DOMNode>,
-        ) -> Option<Id<DOMNode>>;
+    #[deprecated]
+    #[objc2::method(sel = "insertBefore::", managed = "Other")]
+    pub unsafe fn insertBefore(
+        &self,
+        new_child: Option<&DOMNode>,
+        ref_child: Option<&DOMNode>,
+    ) -> Option<Id<DOMNode>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(isSupported::)]
-        pub unsafe fn isSupported(
-            &self,
-            feature: Option<&NSString>,
-            version: Option<&NSString>,
-        ) -> bool;
-    }
-);
+    #[deprecated]
+    #[objc2::method(sel = "replaceChild::", managed = "Other")]
+    pub unsafe fn replaceChild(
+        &self,
+        new_child: Option<&DOMNode>,
+        old_child: Option<&DOMNode>,
+    ) -> Option<Id<DOMNode>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "isSupported::")]
+    pub unsafe fn isSupported(
+        &self,
+        feature: Option<&NSString>,
+        version: Option<&NSString>,
+    ) -> bool;
+}

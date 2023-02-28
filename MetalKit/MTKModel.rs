@@ -14,184 +14,200 @@ extern_static!(MTKModelErrorDomain: &'static MTKModelError);
 
 extern_static!(MTKModelErrorKey: &'static MTKModelError);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetalKit_MTKMeshBufferAllocator")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetalKit_MTKMeshBufferAllocator")]
-    pub struct MTKMeshBufferAllocator;
-
-    #[cfg(feature = "MetalKit_MTKMeshBufferAllocator")]
-    unsafe impl ClassType for MTKMeshBufferAllocator {
-        type Super = NSObject;
-    }
-);
+    pub type MTKMeshBufferAllocator;
+}
 
 #[cfg(feature = "MetalKit_MTKMeshBufferAllocator")]
 unsafe impl NSObjectProtocol for MTKMeshBufferAllocator {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetalKit_MTKMeshBufferAllocator")]
-    unsafe impl MTKMeshBufferAllocator {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type MTKMeshBufferAllocator;
 
-        #[method_id(@__retain_semantics Init initWithDevice:)]
-        pub unsafe fn initWithDevice(
-            this: Option<Allocated<Self>>,
-            device: &ProtocolObject<dyn MTLDevice>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other device)]
-        pub unsafe fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
-    }
-);
+    #[objc2::method(sel = "initWithDevice:", managed = "Init")]
+    pub unsafe fn initWithDevice(
+        this: Option<Allocated<Self>>,
+        device: &ProtocolObject<dyn MTLDevice>,
+    ) -> Id<Self>;
 
-extern_class!(
+    #[objc2::method(sel = "device", managed = "Other")]
+    pub unsafe fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetalKit_MTKMeshBuffer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetalKit_MTKMeshBuffer")]
-    pub struct MTKMeshBuffer;
-
-    #[cfg(feature = "MetalKit_MTKMeshBuffer")]
-    unsafe impl ClassType for MTKMeshBuffer {
-        type Super = NSObject;
-    }
-);
+    pub type MTKMeshBuffer;
+}
 
 #[cfg(feature = "MetalKit_MTKMeshBuffer")]
 unsafe impl NSObjectProtocol for MTKMeshBuffer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetalKit_MTKMeshBuffer")]
-    unsafe impl MTKMeshBuffer {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type MTKMeshBuffer;
 
-        #[method(length)]
-        pub unsafe fn length(&self) -> NSUInteger;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "MetalKit_MTKMeshBufferAllocator")]
-        #[method_id(@__retain_semantics Other allocator)]
-        pub unsafe fn allocator(&self) -> Id<MTKMeshBufferAllocator>;
+    #[objc2::method(sel = "length")]
+    pub unsafe fn length(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other buffer)]
-        pub unsafe fn buffer(&self) -> Id<ProtocolObject<dyn MTLBuffer>>;
+    #[cfg(feature = "MetalKit_MTKMeshBufferAllocator")]
+    #[objc2::method(sel = "allocator", managed = "Other")]
+    pub unsafe fn allocator(&self) -> Id<MTKMeshBufferAllocator>;
 
-        #[method(offset)]
-        pub unsafe fn offset(&self) -> NSUInteger;
-    }
-);
+    #[objc2::method(sel = "buffer", managed = "Other")]
+    pub unsafe fn buffer(&self) -> Id<ProtocolObject<dyn MTLBuffer>>;
 
-extern_class!(
+    #[objc2::method(sel = "offset")]
+    pub unsafe fn offset(&self) -> NSUInteger;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetalKit_MTKSubmesh")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetalKit_MTKSubmesh")]
-    pub struct MTKSubmesh;
-
-    #[cfg(feature = "MetalKit_MTKSubmesh")]
-    unsafe impl ClassType for MTKSubmesh {
-        type Super = NSObject;
-    }
-);
+    pub type MTKSubmesh;
+}
 
 #[cfg(feature = "MetalKit_MTKSubmesh")]
 unsafe impl NSObjectProtocol for MTKSubmesh {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetalKit_MTKSubmesh")]
-    unsafe impl MTKSubmesh {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type MTKSubmesh;
 
-        #[method(primitiveType)]
-        pub unsafe fn primitiveType(&self) -> MTLPrimitiveType;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(indexType)]
-        pub unsafe fn indexType(&self) -> MTLIndexType;
+    #[objc2::method(sel = "primitiveType")]
+    pub unsafe fn primitiveType(&self) -> MTLPrimitiveType;
 
-        #[cfg(feature = "MetalKit_MTKMeshBuffer")]
-        #[method_id(@__retain_semantics Other indexBuffer)]
-        pub unsafe fn indexBuffer(&self) -> Id<MTKMeshBuffer>;
+    #[objc2::method(sel = "indexType")]
+    pub unsafe fn indexType(&self) -> MTLIndexType;
 
-        #[method(indexCount)]
-        pub unsafe fn indexCount(&self) -> NSUInteger;
+    #[cfg(feature = "MetalKit_MTKMeshBuffer")]
+    #[objc2::method(sel = "indexBuffer", managed = "Other")]
+    pub unsafe fn indexBuffer(&self) -> Id<MTKMeshBuffer>;
 
-        #[cfg(feature = "MetalKit_MTKMesh")]
-        #[method_id(@__retain_semantics Other mesh)]
-        pub unsafe fn mesh(&self) -> Option<Id<MTKMesh>>;
+    #[objc2::method(sel = "indexCount")]
+    pub unsafe fn indexCount(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "MetalKit_MTKMesh")]
+    #[objc2::method(sel = "mesh", managed = "Other")]
+    pub unsafe fn mesh(&self) -> Option<Id<MTKMesh>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: &NSString);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: &NSString);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetalKit_MTKMesh")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetalKit_MTKMesh")]
-    pub struct MTKMesh;
-
-    #[cfg(feature = "MetalKit_MTKMesh")]
-    unsafe impl ClassType for MTKMesh {
-        type Super = NSObject;
-    }
-);
+    pub type MTKMesh;
+}
 
 #[cfg(feature = "MetalKit_MTKMesh")]
 unsafe impl NSObjectProtocol for MTKMesh {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetalKit_MTKMesh")]
-    unsafe impl MTKMesh {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type MTKMesh;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "ModelIO_MDLMesh"))]
-        #[method_id(@__retain_semantics Init initWithMesh:device:error:_)]
-        pub unsafe fn initWithMesh_device_error(
-            this: Option<Allocated<Self>>,
-            mesh: &MDLMesh,
-            device: &ProtocolObject<dyn MTLDevice>,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "ModelIO_MDLAsset",
-            feature = "ModelIO_MDLMesh"
-        ))]
-        #[method_id(@__retain_semantics New newMeshesFromAsset:device:sourceMeshes:error:_)]
-        pub unsafe fn newMeshesFromAsset_device_sourceMeshes_error(
-            asset: &MDLAsset,
-            device: &ProtocolObject<dyn MTLDevice>,
-            source_meshes: Option<&mut Option<Id<NSArray<MDLMesh>>>>,
-        ) -> Result<Id<NSArray<MTKMesh>>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "ModelIO_MDLMesh"))]
+    #[objc2::method(sel = "initWithMesh:device:error:", managed = "Init", throws)]
+    pub unsafe fn initWithMesh_device_error(
+        this: Option<Allocated<Self>>,
+        mesh: &MDLMesh,
+        device: &ProtocolObject<dyn MTLDevice>,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MetalKit_MTKMeshBuffer"))]
-        #[method_id(@__retain_semantics Other vertexBuffers)]
-        pub unsafe fn vertexBuffers(&self) -> Id<NSArray<MTKMeshBuffer>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "ModelIO_MDLAsset",
+        feature = "ModelIO_MDLMesh"
+    ))]
+    #[objc2::method(
+        sel = "newMeshesFromAsset:device:sourceMeshes:error:",
+        managed = "New",
+        throws
+    )]
+    pub unsafe fn newMeshesFromAsset_device_sourceMeshes_error(
+        asset: &MDLAsset,
+        device: &ProtocolObject<dyn MTLDevice>,
+        source_meshes: Option<&mut Option<Id<NSArray<MDLMesh>>>>,
+    ) -> Result<Id<NSArray<MTKMesh>>, Id<NSError>>;
 
-        #[cfg(feature = "ModelIO_MDLVertexDescriptor")]
-        #[method_id(@__retain_semantics Other vertexDescriptor)]
-        pub unsafe fn vertexDescriptor(&self) -> Id<MDLVertexDescriptor>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MetalKit_MTKMeshBuffer"))]
+    #[objc2::method(sel = "vertexBuffers", managed = "Other")]
+    pub unsafe fn vertexBuffers(&self) -> Id<NSArray<MTKMeshBuffer>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MetalKit_MTKSubmesh"))]
-        #[method_id(@__retain_semantics Other submeshes)]
-        pub unsafe fn submeshes(&self) -> Id<NSArray<MTKSubmesh>>;
+    #[cfg(feature = "ModelIO_MDLVertexDescriptor")]
+    #[objc2::method(sel = "vertexDescriptor", managed = "Other")]
+    pub unsafe fn vertexDescriptor(&self) -> Id<MDLVertexDescriptor>;
 
-        #[method(vertexCount)]
-        pub unsafe fn vertexCount(&self) -> NSUInteger;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MetalKit_MTKSubmesh"))]
+    #[objc2::method(sel = "submeshes", managed = "Other")]
+    pub unsafe fn submeshes(&self) -> Id<NSArray<MTKSubmesh>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[objc2::method(sel = "vertexCount")]
+    pub unsafe fn vertexCount(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: &NSString);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: &NSString);
+}
 
 extern_fn!(
     #[cfg(all(

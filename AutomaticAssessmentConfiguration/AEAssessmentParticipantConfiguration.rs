@@ -4,33 +4,36 @@ use crate::common::*;
 use crate::AutomaticAssessmentConfiguration::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentParticipantConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentParticipantConfiguration")]
-    pub struct AEAssessmentParticipantConfiguration;
-
-    #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentParticipantConfiguration")]
-    unsafe impl ClassType for AEAssessmentParticipantConfiguration {
-        type Super = NSObject;
-    }
-);
+    pub type AEAssessmentParticipantConfiguration;
+}
 
 #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentParticipantConfiguration")]
 unsafe impl NSObjectProtocol for AEAssessmentParticipantConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentParticipantConfiguration")]
-    unsafe impl AEAssessmentParticipantConfiguration {
-        #[method(allowsNetworkAccess)]
-        pub unsafe fn allowsNetworkAccess(&self) -> bool;
+    pub type AEAssessmentParticipantConfiguration;
 
-        #[method(setAllowsNetworkAccess:)]
-        pub unsafe fn setAllowsNetworkAccess(&self, allows_network_access: bool);
+    #[objc2::method(sel = "allowsNetworkAccess")]
+    pub unsafe fn allowsNetworkAccess(&self) -> bool;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "setAllowsNetworkAccess:")]
+    pub unsafe fn setAllowsNetworkAccess(&self, allows_network_access: bool);
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

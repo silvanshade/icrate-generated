@@ -4,187 +4,193 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSPersistentStoreRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSBatchInsertRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSBatchInsertRequest")]
-    pub struct NSBatchInsertRequest;
-
-    #[cfg(feature = "CoreData_NSBatchInsertRequest")]
-    unsafe impl ClassType for NSBatchInsertRequest {
-        #[inherits(NSObject)]
-        type Super = NSPersistentStoreRequest;
-    }
-);
+    pub type NSBatchInsertRequest;
+}
 
 #[cfg(feature = "CoreData_NSBatchInsertRequest")]
 unsafe impl NSObjectProtocol for NSBatchInsertRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSBatchInsertRequest")]
-    unsafe impl NSBatchInsertRequest {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other entityName)]
-        pub unsafe fn entityName(&self) -> Id<NSString>;
+    pub type NSBatchInsertRequest;
 
-        #[cfg(feature = "CoreData_NSEntityDescription")]
-        #[method_id(@__retain_semantics Other entity)]
-        pub unsafe fn entity(&self) -> Option<Id<NSEntityDescription>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "entityName", managed = "Other")]
+    pub unsafe fn entityName(&self) -> Id<NSString>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other objectsToInsert)]
-        pub unsafe fn objectsToInsert(&self)
-            -> Option<Id<NSArray<NSDictionary<NSString, Object>>>>;
+    #[cfg(feature = "CoreData_NSEntityDescription")]
+    #[objc2::method(sel = "entity", managed = "Other")]
+    pub unsafe fn entity(&self) -> Option<Id<NSEntityDescription>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(setObjectsToInsert:)]
-        pub unsafe fn setObjectsToInsert(
-            &self,
-            objects_to_insert: Option<&NSArray<NSDictionary<NSString, Object>>>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "objectsToInsert", managed = "Other")]
+    pub unsafe fn objectsToInsert(&self) -> Option<Id<NSArray<NSDictionary<NSString, Object>>>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMutableDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(dictionaryHandler)]
-        pub unsafe fn dictionaryHandler(
-            &self,
-        ) -> *mut Block<(NonNull<NSMutableDictionary<NSString, Object>>,), Bool>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "setObjectsToInsert:")]
+    pub unsafe fn setObjectsToInsert(
+        &self,
+        objects_to_insert: Option<&NSArray<NSDictionary<NSString, Object>>>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSMutableDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(setDictionaryHandler:)]
-        pub unsafe fn setDictionaryHandler(
-            &self,
-            dictionary_handler: Option<
-                &Block<(NonNull<NSMutableDictionary<NSString, Object>>,), Bool>,
-            >,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSMutableDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "dictionaryHandler")]
+    pub unsafe fn dictionaryHandler(
+        &self,
+    ) -> *mut Block<(NonNull<NSMutableDictionary<NSString, Object>>,), Bool>;
 
-        #[cfg(feature = "CoreData_NSManagedObject")]
-        #[method(managedObjectHandler)]
-        pub unsafe fn managedObjectHandler(&self) -> *mut Block<(NonNull<NSManagedObject>,), Bool>;
+    #[cfg(all(
+        feature = "Foundation_NSMutableDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "setDictionaryHandler:")]
+    pub unsafe fn setDictionaryHandler(
+        &self,
+        dictionary_handler: Option<&Block<(NonNull<NSMutableDictionary<NSString, Object>>,), Bool>>,
+    );
 
-        #[cfg(feature = "CoreData_NSManagedObject")]
-        #[method(setManagedObjectHandler:)]
-        pub unsafe fn setManagedObjectHandler(
-            &self,
-            managed_object_handler: Option<&Block<(NonNull<NSManagedObject>,), Bool>>,
-        );
+    #[cfg(feature = "CoreData_NSManagedObject")]
+    #[objc2::method(sel = "managedObjectHandler")]
+    pub unsafe fn managedObjectHandler(&self) -> *mut Block<(NonNull<NSManagedObject>,), Bool>;
 
-        #[method(resultType)]
-        pub unsafe fn resultType(&self) -> NSBatchInsertRequestResultType;
+    #[cfg(feature = "CoreData_NSManagedObject")]
+    #[objc2::method(sel = "setManagedObjectHandler:")]
+    pub unsafe fn setManagedObjectHandler(
+        &self,
+        managed_object_handler: Option<&Block<(NonNull<NSManagedObject>,), Bool>>,
+    );
 
-        #[method(setResultType:)]
-        pub unsafe fn setResultType(&self, result_type: NSBatchInsertRequestResultType);
+    #[objc2::method(sel = "resultType")]
+    pub unsafe fn resultType(&self) -> NSBatchInsertRequestResultType;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other batchInsertRequestWithEntityName:objects:)]
-        pub unsafe fn batchInsertRequestWithEntityName_objects(
-            entity_name: &NSString,
-            dictionaries: &NSArray<NSDictionary<NSString, Object>>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "setResultType:")]
+    pub unsafe fn setResultType(&self, result_type: NSBatchInsertRequestResultType);
 
-        #[cfg(all(
-            feature = "Foundation_NSMutableDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other batchInsertRequestWithEntityName:dictionaryHandler:)]
-        pub unsafe fn batchInsertRequestWithEntityName_dictionaryHandler(
-            entity_name: &NSString,
-            handler: &Block<(NonNull<NSMutableDictionary<NSString, Object>>,), Bool>,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "batchInsertRequestWithEntityName:objects:", managed = "Other")]
+    pub unsafe fn batchInsertRequestWithEntityName_objects(
+        entity_name: &NSString,
+        dictionaries: &NSArray<NSDictionary<NSString, Object>>,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "CoreData_NSManagedObject", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other batchInsertRequestWithEntityName:managedObjectHandler:)]
-        pub unsafe fn batchInsertRequestWithEntityName_managedObjectHandler(
-            entity_name: &NSString,
-            handler: &Block<(NonNull<NSManagedObject>,), Bool>,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSMutableDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "batchInsertRequestWithEntityName:dictionaryHandler:",
+        managed = "Other"
+    )]
+    pub unsafe fn batchInsertRequestWithEntityName_dictionaryHandler(
+        entity_name: &NSString,
+        handler: &Block<(NonNull<NSMutableDictionary<NSString, Object>>,), Bool>,
+    ) -> Id<Self>;
 
-        #[deprecated]
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(all(feature = "CoreData_NSManagedObject", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "batchInsertRequestWithEntityName:managedObjectHandler:",
+        managed = "Other"
+    )]
+    pub unsafe fn batchInsertRequestWithEntityName_managedObjectHandler(
+        entity_name: &NSString,
+        handler: &Block<(NonNull<NSManagedObject>,), Bool>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Init initWithEntityName:objects:)]
-        pub unsafe fn initWithEntityName_objects(
-            this: Option<Allocated<Self>>,
-            entity_name: &NSString,
-            dictionaries: &NSArray<NSDictionary<NSString, Object>>,
-        ) -> Id<Self>;
+    #[deprecated]
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "CoreData_NSEntityDescription",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Init initWithEntity:objects:)]
-        pub unsafe fn initWithEntity_objects(
-            this: Option<Allocated<Self>>,
-            entity: &NSEntityDescription,
-            dictionaries: &NSArray<NSDictionary<NSString, Object>>,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "initWithEntityName:objects:", managed = "Init")]
+    pub unsafe fn initWithEntityName_objects(
+        this: Option<Allocated<Self>>,
+        entity_name: &NSString,
+        dictionaries: &NSArray<NSDictionary<NSString, Object>>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "CoreData_NSEntityDescription",
-            feature = "Foundation_NSMutableDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Init initWithEntity:dictionaryHandler:)]
-        pub unsafe fn initWithEntity_dictionaryHandler(
-            this: Option<Allocated<Self>>,
-            entity: &NSEntityDescription,
-            handler: &Block<(NonNull<NSMutableDictionary<NSString, Object>>,), Bool>,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "CoreData_NSEntityDescription",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "initWithEntity:objects:", managed = "Init")]
+    pub unsafe fn initWithEntity_objects(
+        this: Option<Allocated<Self>>,
+        entity: &NSEntityDescription,
+        dictionaries: &NSArray<NSDictionary<NSString, Object>>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "CoreData_NSEntityDescription",
-            feature = "CoreData_NSManagedObject"
-        ))]
-        #[method_id(@__retain_semantics Init initWithEntity:managedObjectHandler:)]
-        pub unsafe fn initWithEntity_managedObjectHandler(
-            this: Option<Allocated<Self>>,
-            entity: &NSEntityDescription,
-            handler: &Block<(NonNull<NSManagedObject>,), Bool>,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "CoreData_NSEntityDescription",
+        feature = "Foundation_NSMutableDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "initWithEntity:dictionaryHandler:", managed = "Init")]
+    pub unsafe fn initWithEntity_dictionaryHandler(
+        this: Option<Allocated<Self>>,
+        entity: &NSEntityDescription,
+        handler: &Block<(NonNull<NSMutableDictionary<NSString, Object>>,), Bool>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMutableDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Init initWithEntityName:dictionaryHandler:)]
-        pub unsafe fn initWithEntityName_dictionaryHandler(
-            this: Option<Allocated<Self>>,
-            entity_name: &NSString,
-            handler: &Block<(NonNull<NSMutableDictionary<NSString, Object>>,), Bool>,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "CoreData_NSEntityDescription",
+        feature = "CoreData_NSManagedObject"
+    ))]
+    #[objc2::method(sel = "initWithEntity:managedObjectHandler:", managed = "Init")]
+    pub unsafe fn initWithEntity_managedObjectHandler(
+        this: Option<Allocated<Self>>,
+        entity: &NSEntityDescription,
+        handler: &Block<(NonNull<NSManagedObject>,), Bool>,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "CoreData_NSManagedObject", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithEntityName:managedObjectHandler:)]
-        pub unsafe fn initWithEntityName_managedObjectHandler(
-            this: Option<Allocated<Self>>,
-            entity_name: &NSString,
-            handler: &Block<(NonNull<NSManagedObject>,), Bool>,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSMutableDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "initWithEntityName:dictionaryHandler:", managed = "Init")]
+    pub unsafe fn initWithEntityName_dictionaryHandler(
+        this: Option<Allocated<Self>>,
+        entity_name: &NSString,
+        handler: &Block<(NonNull<NSMutableDictionary<NSString, Object>>,), Bool>,
+    ) -> Id<Self>;
+
+    #[cfg(all(feature = "CoreData_NSManagedObject", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithEntityName:managedObjectHandler:", managed = "Init")]
+    pub unsafe fn initWithEntityName_managedObjectHandler(
+        this: Option<Allocated<Self>>,
+        entity_name: &NSString,
+        handler: &Block<(NonNull<NSManagedObject>,), Bool>,
+    ) -> Id<Self>;
+}

@@ -5,121 +5,109 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_protocol!(
-    #[deprecated]
-    pub unsafe trait WebDocumentView: NSObjectProtocol {
-        #[cfg(feature = "WebKit_WebDataSource")]
-        #[method(setDataSource:)]
-        unsafe fn setDataSource(&self, data_source: Option<&WebDataSource>);
+#[objc2::protocol]
+#[deprecated]
+pub unsafe trait WebDocumentView: NSObjectProtocol {
+    #[cfg(feature = "WebKit_WebDataSource")]
+    #[objc2::method(sel = "setDataSource:")]
+    unsafe fn setDataSource(&self, data_source: Option<&WebDataSource>);
 
-        #[cfg(feature = "WebKit_WebDataSource")]
-        #[method(dataSourceUpdated:)]
-        unsafe fn dataSourceUpdated(&self, data_source: Option<&WebDataSource>);
+    #[cfg(feature = "WebKit_WebDataSource")]
+    #[objc2::method(sel = "dataSourceUpdated:")]
+    unsafe fn dataSourceUpdated(&self, data_source: Option<&WebDataSource>);
 
-        #[method(setNeedsLayout:)]
-        unsafe fn setNeedsLayout(&self, flag: bool);
+    #[objc2::method(sel = "setNeedsLayout:")]
+    unsafe fn setNeedsLayout(&self, flag: bool);
 
-        #[method(layout)]
-        unsafe fn layout(&self);
+    #[objc2::method(sel = "layout")]
+    unsafe fn layout(&self);
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(viewWillMoveToHostWindow:)]
-        unsafe fn viewWillMoveToHostWindow(&self, host_window: Option<&NSWindow>);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "viewWillMoveToHostWindow:")]
+    unsafe fn viewWillMoveToHostWindow(&self, host_window: Option<&NSWindow>);
 
-        #[method(viewDidMoveToHostWindow)]
-        unsafe fn viewDidMoveToHostWindow(&self);
-    }
+    #[objc2::method(sel = "viewDidMoveToHostWindow")]
+    unsafe fn viewDidMoveToHostWindow(&self);
+}
 
-    unsafe impl ProtocolType for dyn WebDocumentView {}
-);
+#[objc2::protocol]
+#[deprecated]
+pub unsafe trait WebDocumentSearching: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "searchFor:direction:caseSensitive:wrap:")]
+    unsafe fn searchFor_direction_caseSensitive_wrap(
+        &self,
+        string: Option<&NSString>,
+        forward: bool,
+        case_flag: bool,
+        wrap_flag: bool,
+    ) -> bool;
+}
 
-extern_protocol!(
-    #[deprecated]
-    pub unsafe trait WebDocumentSearching: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(searchFor:direction:caseSensitive:wrap:)]
-        unsafe fn searchFor_direction_caseSensitive_wrap(
-            &self,
-            string: Option<&NSString>,
-            forward: bool,
-            case_flag: bool,
-            wrap_flag: bool,
-        ) -> bool;
-    }
+#[objc2::protocol]
+#[deprecated]
+pub unsafe trait WebDocumentText: NSObjectProtocol {
+    #[objc2::method(sel = "supportsTextEncoding")]
+    unsafe fn supportsTextEncoding(&self) -> bool;
 
-    unsafe impl ProtocolType for dyn WebDocumentSearching {}
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "string", managed = "Other")]
+    unsafe fn string(&self) -> Option<Id<NSString>>;
 
-extern_protocol!(
-    #[deprecated]
-    pub unsafe trait WebDocumentText: NSObjectProtocol {
-        #[method(supportsTextEncoding)]
-        unsafe fn supportsTextEncoding(&self) -> bool;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "attributedString", managed = "Other")]
+    unsafe fn attributedString(&self) -> Option<Id<NSAttributedString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other string)]
-        unsafe fn string(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "selectedString", managed = "Other")]
+    unsafe fn selectedString(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other attributedString)]
-        unsafe fn attributedString(&self) -> Option<Id<NSAttributedString>>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "selectedAttributedString", managed = "Other")]
+    unsafe fn selectedAttributedString(&self) -> Option<Id<NSAttributedString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other selectedString)]
-        unsafe fn selectedString(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "selectAll")]
+    unsafe fn selectAll(&self);
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other selectedAttributedString)]
-        unsafe fn selectedAttributedString(&self) -> Option<Id<NSAttributedString>>;
+    #[objc2::method(sel = "deselectAll")]
+    unsafe fn deselectAll(&self);
+}
 
-        #[method(selectAll)]
-        unsafe fn selectAll(&self);
+#[objc2::protocol]
+#[deprecated]
+pub unsafe trait WebDocumentRepresentation: NSObjectProtocol {
+    #[cfg(feature = "WebKit_WebDataSource")]
+    #[objc2::method(sel = "setDataSource:")]
+    unsafe fn setDataSource(&self, data_source: Option<&WebDataSource>);
 
-        #[method(deselectAll)]
-        unsafe fn deselectAll(&self);
-    }
+    #[cfg(all(feature = "Foundation_NSData", feature = "WebKit_WebDataSource"))]
+    #[objc2::method(sel = "receivedData:withDataSource:")]
+    unsafe fn receivedData_withDataSource(
+        &self,
+        data: Option<&NSData>,
+        data_source: Option<&WebDataSource>,
+    );
 
-    unsafe impl ProtocolType for dyn WebDocumentText {}
-);
+    #[cfg(all(feature = "Foundation_NSError", feature = "WebKit_WebDataSource"))]
+    #[objc2::method(sel = "receivedError:withDataSource:")]
+    unsafe fn receivedError_withDataSource(
+        &self,
+        error: Option<&NSError>,
+        data_source: Option<&WebDataSource>,
+    );
 
-extern_protocol!(
-    #[deprecated]
-    pub unsafe trait WebDocumentRepresentation: NSObjectProtocol {
-        #[cfg(feature = "WebKit_WebDataSource")]
-        #[method(setDataSource:)]
-        unsafe fn setDataSource(&self, data_source: Option<&WebDataSource>);
+    #[cfg(feature = "WebKit_WebDataSource")]
+    #[objc2::method(sel = "finishedLoadingWithDataSource:")]
+    unsafe fn finishedLoadingWithDataSource(&self, data_source: Option<&WebDataSource>);
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "WebKit_WebDataSource"))]
-        #[method(receivedData:withDataSource:)]
-        unsafe fn receivedData_withDataSource(
-            &self,
-            data: Option<&NSData>,
-            data_source: Option<&WebDataSource>,
-        );
+    #[objc2::method(sel = "canProvideDocumentSource")]
+    unsafe fn canProvideDocumentSource(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "WebKit_WebDataSource"))]
-        #[method(receivedError:withDataSource:)]
-        unsafe fn receivedError_withDataSource(
-            &self,
-            error: Option<&NSError>,
-            data_source: Option<&WebDataSource>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "documentSource", managed = "Other")]
+    unsafe fn documentSource(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "WebKit_WebDataSource")]
-        #[method(finishedLoadingWithDataSource:)]
-        unsafe fn finishedLoadingWithDataSource(&self, data_source: Option<&WebDataSource>);
-
-        #[method(canProvideDocumentSource)]
-        unsafe fn canProvideDocumentSource(&self) -> bool;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other documentSource)]
-        unsafe fn documentSource(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        unsafe fn title(&self) -> Option<Id<NSString>>;
-    }
-
-    unsafe impl ProtocolType for dyn WebDocumentRepresentation {}
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    unsafe fn title(&self) -> Option<Id<NSString>>;
+}

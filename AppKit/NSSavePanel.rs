@@ -5,17 +5,19 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSPanel,
+    unsafe inherits = [
+        NSWindow,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSavePanel")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSSavePanel")]
-    pub struct NSSavePanel;
-
-    #[cfg(feature = "AppKit_NSSavePanel")]
-    unsafe impl ClassType for NSSavePanel {
-        #[inherits(NSWindow, NSResponder, NSObject)]
-        type Super = NSPanel;
-    }
-);
+    pub type NSSavePanel;
+}
 
 #[cfg(feature = "AppKit_NSSavePanel")]
 unsafe impl NSAccessibility for NSSavePanel {}
@@ -44,299 +46,310 @@ unsafe impl NSUserInterfaceItemIdentification for NSSavePanel {}
 #[cfg(feature = "AppKit_NSSavePanel")]
 unsafe impl NSUserInterfaceValidations for NSSavePanel {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSavePanel")]
-    unsafe impl NSSavePanel {
-        #[method_id(@__retain_semantics Other savePanel)]
-        pub unsafe fn savePanel() -> Id<NSSavePanel>;
+    pub type NSSavePanel;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
+    #[objc2::method(sel = "savePanel", managed = "Other")]
+    pub unsafe fn savePanel() -> Id<NSSavePanel>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other directoryURL)]
-        pub unsafe fn directoryURL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setDirectoryURL:)]
-        pub unsafe fn setDirectoryURL(&self, directory_url: Option<&NSURL>);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "directoryURL", managed = "Other")]
+    pub unsafe fn directoryURL(&self) -> Option<Id<NSURL>>;
 
-        #[method(allowsOtherFileTypes)]
-        pub unsafe fn allowsOtherFileTypes(&self) -> bool;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setDirectoryURL:")]
+    pub unsafe fn setDirectoryURL(&self, directory_url: Option<&NSURL>);
 
-        #[method(setAllowsOtherFileTypes:)]
-        pub unsafe fn setAllowsOtherFileTypes(&self, allows_other_file_types: bool);
+    #[objc2::method(sel = "allowsOtherFileTypes")]
+    pub unsafe fn allowsOtherFileTypes(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other accessoryView)]
-        pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
+    #[objc2::method(sel = "setAllowsOtherFileTypes:")]
+    pub unsafe fn setAllowsOtherFileTypes(&self, allows_other_file_types: bool);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setAccessoryView:)]
-        pub unsafe fn setAccessoryView(&self, accessory_view: Option<&NSView>);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "accessoryView", managed = "Other")]
+    pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSOpenSavePanelDelegate>>>;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setAccessoryView:")]
+    pub unsafe fn setAccessoryView(&self, accessory_view: Option<&NSView>);
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSOpenSavePanelDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSOpenSavePanelDelegate>>>;
 
-        #[method(isExpanded)]
-        pub unsafe fn isExpanded(&self) -> bool;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn NSOpenSavePanelDelegate>>,
+    );
 
-        #[method(canCreateDirectories)]
-        pub unsafe fn canCreateDirectories(&self) -> bool;
+    #[objc2::method(sel = "isExpanded")]
+    pub unsafe fn isExpanded(&self) -> bool;
 
-        #[method(setCanCreateDirectories:)]
-        pub unsafe fn setCanCreateDirectories(&self, can_create_directories: bool);
+    #[objc2::method(sel = "canCreateDirectories")]
+    pub unsafe fn canCreateDirectories(&self) -> bool;
 
-        #[method(canSelectHiddenExtension)]
-        pub unsafe fn canSelectHiddenExtension(&self) -> bool;
+    #[objc2::method(sel = "setCanCreateDirectories:")]
+    pub unsafe fn setCanCreateDirectories(&self, can_create_directories: bool);
 
-        #[method(setCanSelectHiddenExtension:)]
-        pub unsafe fn setCanSelectHiddenExtension(&self, can_select_hidden_extension: bool);
+    #[objc2::method(sel = "canSelectHiddenExtension")]
+    pub unsafe fn canSelectHiddenExtension(&self) -> bool;
 
-        #[method(isExtensionHidden)]
-        pub unsafe fn isExtensionHidden(&self) -> bool;
+    #[objc2::method(sel = "setCanSelectHiddenExtension:")]
+    pub unsafe fn setCanSelectHiddenExtension(&self, can_select_hidden_extension: bool);
 
-        #[method(setExtensionHidden:)]
-        pub unsafe fn setExtensionHidden(&self, extension_hidden: bool);
+    #[objc2::method(sel = "isExtensionHidden")]
+    pub unsafe fn isExtensionHidden(&self) -> bool;
 
-        #[method(treatsFilePackagesAsDirectories)]
-        pub unsafe fn treatsFilePackagesAsDirectories(&self) -> bool;
+    #[objc2::method(sel = "setExtensionHidden:")]
+    pub unsafe fn setExtensionHidden(&self, extension_hidden: bool);
 
-        #[method(setTreatsFilePackagesAsDirectories:)]
-        pub unsafe fn setTreatsFilePackagesAsDirectories(
-            &self,
-            treats_file_packages_as_directories: bool,
-        );
+    #[objc2::method(sel = "treatsFilePackagesAsDirectories")]
+    pub unsafe fn treatsFilePackagesAsDirectories(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other prompt)]
-        pub unsafe fn prompt(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setTreatsFilePackagesAsDirectories:")]
+    pub unsafe fn setTreatsFilePackagesAsDirectories(
+        &self,
+        treats_file_packages_as_directories: bool,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPrompt:)]
-        pub unsafe fn setPrompt(&self, prompt: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "prompt", managed = "Other")]
+    pub unsafe fn prompt(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPrompt:")]
+    pub unsafe fn setPrompt(&self, prompt: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other nameFieldLabel)]
-        pub unsafe fn nameFieldLabel(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setNameFieldLabel:)]
-        pub unsafe fn setNameFieldLabel(&self, name_field_label: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "nameFieldLabel", managed = "Other")]
+    pub unsafe fn nameFieldLabel(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other nameFieldStringValue)]
-        pub unsafe fn nameFieldStringValue(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setNameFieldLabel:")]
+    pub unsafe fn setNameFieldLabel(&self, name_field_label: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setNameFieldStringValue:)]
-        pub unsafe fn setNameFieldStringValue(&self, name_field_string_value: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "nameFieldStringValue", managed = "Other")]
+    pub unsafe fn nameFieldStringValue(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other message)]
-        pub unsafe fn message(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setNameFieldStringValue:")]
+    pub unsafe fn setNameFieldStringValue(&self, name_field_string_value: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMessage:)]
-        pub unsafe fn setMessage(&self, message: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "message", managed = "Other")]
+    pub unsafe fn message(&self) -> Id<NSString>;
 
-        #[method(validateVisibleColumns)]
-        pub unsafe fn validateVisibleColumns(&self);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMessage:")]
+    pub unsafe fn setMessage(&self, message: Option<&NSString>);
 
-        #[method(showsHiddenFiles)]
-        pub unsafe fn showsHiddenFiles(&self) -> bool;
+    #[objc2::method(sel = "validateVisibleColumns")]
+    pub unsafe fn validateVisibleColumns(&self);
 
-        #[method(setShowsHiddenFiles:)]
-        pub unsafe fn setShowsHiddenFiles(&self, shows_hidden_files: bool);
+    #[objc2::method(sel = "showsHiddenFiles")]
+    pub unsafe fn showsHiddenFiles(&self) -> bool;
 
-        #[method(showsTagField)]
-        pub unsafe fn showsTagField(&self) -> bool;
+    #[objc2::method(sel = "setShowsHiddenFiles:")]
+    pub unsafe fn setShowsHiddenFiles(&self, shows_hidden_files: bool);
 
-        #[method(setShowsTagField:)]
-        pub unsafe fn setShowsTagField(&self, shows_tag_field: bool);
+    #[objc2::method(sel = "showsTagField")]
+    pub unsafe fn showsTagField(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other tagNames)]
-        pub unsafe fn tagNames(&self) -> Option<Id<NSArray<NSString>>>;
+    #[objc2::method(sel = "setShowsTagField:")]
+    pub unsafe fn setShowsTagField(&self, shows_tag_field: bool);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method(setTagNames:)]
-        pub unsafe fn setTagNames(&self, tag_names: Option<&NSArray<NSString>>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "tagNames", managed = "Other")]
+    pub unsafe fn tagNames(&self) -> Option<Id<NSArray<NSString>>>;
 
-        #[method(ok:)]
-        pub unsafe fn ok(&self, sender: Option<&Object>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setTagNames:")]
+    pub unsafe fn setTagNames(&self, tag_names: Option<&NSArray<NSString>>);
 
-        #[method(cancel:)]
-        pub unsafe fn cancel(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "ok:")]
+    pub unsafe fn ok(&self, sender: Option<&Object>);
 
-        #[method(beginSheetModalForWindow:completionHandler:)]
-        pub unsafe fn beginSheetModalForWindow_completionHandler(
-            &self,
-            window: &NSWindow,
-            handler: &Block<(NSModalResponse,), ()>,
-        );
+    #[objc2::method(sel = "cancel:")]
+    pub unsafe fn cancel(&self, sender: Option<&Object>);
 
-        #[method(beginWithCompletionHandler:)]
-        pub unsafe fn beginWithCompletionHandler(&self, handler: &Block<(NSModalResponse,), ()>);
+    #[objc2::method(sel = "beginSheetModalForWindow:completionHandler:")]
+    pub unsafe fn beginSheetModalForWindow_completionHandler(
+        &self,
+        window: &NSWindow,
+        handler: &Block<(NSModalResponse,), ()>,
+    );
 
-        #[method(runModal)]
-        pub unsafe fn runModal(&self) -> NSModalResponse;
-    }
-);
+    #[objc2::method(sel = "beginWithCompletionHandler:")]
+    pub unsafe fn beginWithCompletionHandler(&self, handler: &Block<(NSModalResponse,), ()>);
 
-extern_protocol!(
-    pub unsafe trait NSOpenSavePanelDelegate: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSURL")]
-        #[optional]
-        #[method(panel:shouldEnableURL:)]
-        unsafe fn panel_shouldEnableURL(&self, sender: &Object, url: &NSURL) -> bool;
+    #[objc2::method(sel = "runModal")]
+    pub unsafe fn runModal(&self) -> NSModalResponse;
+}
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[optional]
-        #[method(panel:validateURL:error:_)]
-        unsafe fn panel_validateURL_error(
-            &self,
-            sender: &Object,
-            url: &NSURL,
-        ) -> Result<(), Id<NSError>>;
+#[objc2::protocol]
+pub unsafe trait NSOpenSavePanelDelegate: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(optional, sel = "panel:shouldEnableURL:")]
+    unsafe fn panel_shouldEnableURL(&self, sender: &Object, url: &NSURL) -> bool;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[optional]
-        #[method(panel:didChangeToDirectoryURL:)]
-        unsafe fn panel_didChangeToDirectoryURL(&self, sender: &Object, url: Option<&NSURL>);
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(optional, sel = "panel:validateURL:error:", throws)]
+    unsafe fn panel_validateURL_error(
+        &self,
+        sender: &Object,
+        url: &NSURL,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[optional]
-        #[method_id(@__retain_semantics Other panel:userEnteredFilename:confirmed:)]
-        unsafe fn panel_userEnteredFilename_confirmed(
-            &self,
-            sender: &Object,
-            filename: &NSString,
-            ok_flag: bool,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(optional, sel = "panel:didChangeToDirectoryURL:")]
+    unsafe fn panel_didChangeToDirectoryURL(&self, sender: &Object, url: Option<&NSURL>);
 
-        #[optional]
-        #[method(panel:willExpand:)]
-        unsafe fn panel_willExpand(&self, sender: &Object, expanding: bool);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        optional,
+        sel = "panel:userEnteredFilename:confirmed:",
+        managed = "Other"
+    )]
+    unsafe fn panel_userEnteredFilename_confirmed(
+        &self,
+        sender: &Object,
+        filename: &NSString,
+        ok_flag: bool,
+    ) -> Option<Id<NSString>>;
 
-        #[optional]
-        #[method(panelSelectionDidChange:)]
-        unsafe fn panelSelectionDidChange(&self, sender: Option<&Object>);
-    }
+    #[objc2::method(optional, sel = "panel:willExpand:")]
+    unsafe fn panel_willExpand(&self, sender: &Object, expanding: bool);
 
-    unsafe impl ProtocolType for dyn NSOpenSavePanelDelegate {}
-);
+    #[objc2::method(optional, sel = "panelSelectionDidChange:")]
+    unsafe fn panelSelectionDidChange(&self, sender: Option<&Object>);
+}
 
-extern_methods!(
-    /// NSDeprecated
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSavePanel")]
-    unsafe impl NSSavePanel {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -URL instead"]
-        #[method_id(@__retain_semantics Other filename)]
-        pub unsafe fn filename(&self) -> Id<NSString>;
+    pub type NSSavePanel;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -directoryURL instead"]
-        #[method_id(@__retain_semantics Other directory)]
-        pub unsafe fn directory(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -URL instead"]
+    #[objc2::method(sel = "filename", managed = "Other")]
+    pub unsafe fn filename(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -setDirectoryURL: instead"]
-        #[method(setDirectory:)]
-        pub unsafe fn setDirectory(&self, path: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -directoryURL instead"]
+    #[objc2::method(sel = "directory", managed = "Other")]
+    pub unsafe fn directory(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -allowedFileTypes instead"]
-        #[method_id(@__retain_semantics Other requiredFileType)]
-        pub unsafe fn requiredFileType(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -setDirectoryURL: instead"]
+    #[objc2::method(sel = "setDirectory:")]
+    pub unsafe fn setDirectory(&self, path: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -setAllowedFileTypes: instead"]
-        #[method(setRequiredFileType:)]
-        pub unsafe fn setRequiredFileType(&self, r#type: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -allowedFileTypes instead"]
+    #[objc2::method(sel = "requiredFileType", managed = "Other")]
+    pub unsafe fn requiredFileType(&self) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSString"))]
-        #[deprecated = "Use beginSheetModalForWindow:completionHandler: instead. The following parameters are replaced by properties: 'path' is replaced by 'directoryURL' and 'name' by 'nameFieldStringValue'."]
-        #[method(beginSheetForDirectory:file:modalForWindow:modalDelegate:didEndSelector:contextInfo:)]
-        pub unsafe fn beginSheetForDirectory_file_modalForWindow_modalDelegate_didEndSelector_contextInfo(
-            &self,
-            path: &NSString,
-            name: Option<&NSString>,
-            doc_window: Option<&NSWindow>,
-            delegate: Option<&Object>,
-            did_end_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -setAllowedFileTypes: instead"]
+    #[objc2::method(sel = "setRequiredFileType:")]
+    pub unsafe fn setRequiredFileType(&self, r#type: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -runModal instead. The following parameters are replaced by properties: 'path' is replaced by 'directoryURL' and 'name' by 'nameFieldStringValue'."]
-        #[method(runModalForDirectory:file:)]
-        pub unsafe fn runModalForDirectory_file(
-            &self,
-            path: Option<&NSString>,
-            name: Option<&NSString>,
-        ) -> NSInteger;
+    #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSString"))]
+    #[deprecated = "Use beginSheetModalForWindow:completionHandler: instead. The following parameters are replaced by properties: 'path' is replaced by 'directoryURL' and 'name' by 'nameFieldStringValue'."]
+    #[objc2::method(
+        sel = "beginSheetForDirectory:file:modalForWindow:modalDelegate:didEndSelector:contextInfo:"
+    )]
+    pub unsafe fn beginSheetForDirectory_file_modalForWindow_modalDelegate_didEndSelector_contextInfo(
+        &self,
+        path: &NSString,
+        name: Option<&NSString>,
+        doc_window: Option<&NSWindow>,
+        delegate: Option<&Object>,
+        did_end_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
 
-        #[deprecated = "Default implementation does nothing."]
-        #[method(selectText:)]
-        pub unsafe fn selectText(&self, sender: Option<&Object>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -runModal instead. The following parameters are replaced by properties: 'path' is replaced by 'directoryURL' and 'name' by 'nameFieldStringValue'."]
+    #[objc2::method(sel = "runModalForDirectory:file:")]
+    pub unsafe fn runModalForDirectory_file(
+        &self,
+        path: Option<&NSString>,
+        name: Option<&NSString>,
+    ) -> NSInteger;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[deprecated = "Use -allowedContentTypes instead"]
-        #[method_id(@__retain_semantics Other allowedFileTypes)]
-        pub unsafe fn allowedFileTypes(&self) -> Option<Id<NSArray<NSString>>>;
+    #[deprecated = "Default implementation does nothing."]
+    #[objc2::method(sel = "selectText:")]
+    pub unsafe fn selectText(&self, sender: Option<&Object>);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[deprecated = "Use -allowedContentTypes instead"]
-        #[method(setAllowedFileTypes:)]
-        pub unsafe fn setAllowedFileTypes(&self, allowed_file_types: Option<&NSArray<NSString>>);
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[deprecated = "Use -allowedContentTypes instead"]
+    #[objc2::method(sel = "allowedFileTypes", managed = "Other")]
+    pub unsafe fn allowedFileTypes(&self) -> Option<Id<NSArray<NSString>>>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSWindow`
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[deprecated = "Use -allowedContentTypes instead"]
+    #[objc2::method(sel = "setAllowedFileTypes:")]
+    pub unsafe fn setAllowedFileTypes(&self, allowed_file_types: Option<&NSArray<NSString>>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSWindow`
     #[cfg(feature = "AppKit_NSSavePanel")]
-    unsafe impl NSSavePanel {
-        #[method_id(@__retain_semantics Init initWithContentRect:styleMask:backing:defer:)]
-        pub unsafe fn initWithContentRect_styleMask_backing_defer(
-            this: Option<Allocated<Self>>,
-            content_rect: NSRect,
-            style: NSWindowStyleMask,
-            backing_store_type: NSBackingStoreType,
-            flag: bool,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSScreen")]
-        #[method_id(@__retain_semantics Init initWithContentRect:styleMask:backing:defer:screen:)]
-        pub unsafe fn initWithContentRect_styleMask_backing_defer_screen(
-            this: Option<Allocated<Self>>,
-            content_rect: NSRect,
-            style: NSWindowStyleMask,
-            backing_store_type: NSBackingStoreType,
-            flag: bool,
-            screen: Option<&NSScreen>,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other windowWithContentViewController:)]
-        pub unsafe fn windowWithContentViewController(
-            content_view_controller: &NSViewController,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSavePanel")]
+    pub type NSSavePanel;
+
+    #[objc2::method(sel = "initWithContentRect:styleMask:backing:defer:", managed = "Init")]
+    pub unsafe fn initWithContentRect_styleMask_backing_defer(
+        this: Option<Allocated<Self>>,
+        content_rect: NSRect,
+        style: NSWindowStyleMask,
+        backing_store_type: NSBackingStoreType,
+        flag: bool,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSScreen")]
+    #[objc2::method(
+        sel = "initWithContentRect:styleMask:backing:defer:screen:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithContentRect_styleMask_backing_defer_screen(
+        this: Option<Allocated<Self>>,
+        content_rect: NSRect,
+        style: NSWindowStyleMask,
+        backing_store_type: NSBackingStoreType,
+        flag: bool,
+        screen: Option<&NSScreen>,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "windowWithContentViewController:", managed = "Other")]
+    pub unsafe fn windowWithContentViewController(
+        content_view_controller: &NSViewController,
+    ) -> Id<Self>;
+}

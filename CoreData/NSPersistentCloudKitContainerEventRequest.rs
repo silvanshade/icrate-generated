@@ -4,49 +4,49 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSPersistentStoreRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPersistentCloudKitContainerEventRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSPersistentCloudKitContainerEventRequest")]
-    pub struct NSPersistentCloudKitContainerEventRequest;
-
-    #[cfg(feature = "CoreData_NSPersistentCloudKitContainerEventRequest")]
-    unsafe impl ClassType for NSPersistentCloudKitContainerEventRequest {
-        #[inherits(NSObject)]
-        type Super = NSPersistentStoreRequest;
-    }
-);
+    pub type NSPersistentCloudKitContainerEventRequest;
+}
 
 #[cfg(feature = "CoreData_NSPersistentCloudKitContainerEventRequest")]
 unsafe impl NSObjectProtocol for NSPersistentCloudKitContainerEventRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPersistentCloudKitContainerEventRequest")]
-    unsafe impl NSPersistentCloudKitContainerEventRequest {
-        #[method(resultType)]
-        pub unsafe fn resultType(&self) -> NSPersistentCloudKitContainerEventResultType;
+    pub type NSPersistentCloudKitContainerEventRequest;
 
-        #[method(setResultType:)]
-        pub unsafe fn setResultType(
-            &self,
-            result_type: NSPersistentCloudKitContainerEventResultType,
-        );
+    #[objc2::method(sel = "resultType")]
+    pub unsafe fn resultType(&self) -> NSPersistentCloudKitContainerEventResultType;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other fetchEventsAfterDate:)]
-        pub unsafe fn fetchEventsAfterDate(date: &NSDate) -> Id<Self>;
+    #[objc2::method(sel = "setResultType:")]
+    pub unsafe fn setResultType(&self, result_type: NSPersistentCloudKitContainerEventResultType);
 
-        #[cfg(feature = "CoreData_NSPersistentCloudKitContainerEvent")]
-        #[method_id(@__retain_semantics Other fetchEventsAfterEvent:)]
-        pub unsafe fn fetchEventsAfterEvent(
-            event: Option<&NSPersistentCloudKitContainerEvent>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "fetchEventsAfterDate:", managed = "Other")]
+    pub unsafe fn fetchEventsAfterDate(date: &NSDate) -> Id<Self>;
 
-        #[cfg(feature = "CoreData_NSFetchRequest")]
-        #[method_id(@__retain_semantics Other fetchEventsMatchingFetchRequest:)]
-        pub unsafe fn fetchEventsMatchingFetchRequest(fetch_request: &NSFetchRequest) -> Id<Self>;
+    #[cfg(feature = "CoreData_NSPersistentCloudKitContainerEvent")]
+    #[objc2::method(sel = "fetchEventsAfterEvent:", managed = "Other")]
+    pub unsafe fn fetchEventsAfterEvent(
+        event: Option<&NSPersistentCloudKitContainerEvent>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "CoreData_NSFetchRequest")]
-        #[method_id(@__retain_semantics Other fetchRequestForEvents)]
-        pub unsafe fn fetchRequestForEvents() -> Id<NSFetchRequest>;
-    }
-);
+    #[cfg(feature = "CoreData_NSFetchRequest")]
+    #[objc2::method(sel = "fetchEventsMatchingFetchRequest:", managed = "Other")]
+    pub unsafe fn fetchEventsMatchingFetchRequest(fetch_request: &NSFetchRequest) -> Id<Self>;
+
+    #[cfg(feature = "CoreData_NSFetchRequest")]
+    #[objc2::method(sel = "fetchRequestForEvents", managed = "Other")]
+    pub unsafe fn fetchRequestForEvents() -> Id<NSFetchRequest>;
+}

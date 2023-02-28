@@ -4,532 +4,543 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum MTLAccelerationStructureUsage {
-        MTLAccelerationStructureUsageNone = 0,
-        MTLAccelerationStructureUsageRefit = 1 << 0,
-        MTLAccelerationStructureUsagePreferFastBuild = 1 << 1,
-        MTLAccelerationStructureUsageExtendedLimits = 1 << 2,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum MTLAccelerationStructureUsage {
+    MTLAccelerationStructureUsageNone = 0,
+    MTLAccelerationStructureUsageRefit = 1 << 0,
+    MTLAccelerationStructureUsagePreferFastBuild = 1 << 1,
+    MTLAccelerationStructureUsageExtendedLimits = 1 << 2,
+}
 
-ns_options!(
-    #[underlying(u32)]
-    pub enum MTLAccelerationStructureInstanceOptions {
-        MTLAccelerationStructureInstanceOptionNone = 0,
-        MTLAccelerationStructureInstanceOptionDisableTriangleCulling = 1 << 0,
-        MTLAccelerationStructureInstanceOptionTriangleFrontFacingWindingCounterClockwise = 1 << 1,
-        MTLAccelerationStructureInstanceOptionOpaque = 1 << 2,
-        MTLAccelerationStructureInstanceOptionNonOpaque = 1 << 3,
-    }
-);
+#[ns_options]
+#[underlying(u32)]
+pub enum MTLAccelerationStructureInstanceOptions {
+    MTLAccelerationStructureInstanceOptionNone = 0,
+    MTLAccelerationStructureInstanceOptionDisableTriangleCulling = 1 << 0,
+    MTLAccelerationStructureInstanceOptionTriangleFrontFacingWindingCounterClockwise = 1 << 1,
+    MTLAccelerationStructureInstanceOptionOpaque = 1 << 2,
+    MTLAccelerationStructureInstanceOptionNonOpaque = 1 << 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLAccelerationStructureDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLAccelerationStructureDescriptor")]
-    pub struct MTLAccelerationStructureDescriptor;
-
-    #[cfg(feature = "Metal_MTLAccelerationStructureDescriptor")]
-    unsafe impl ClassType for MTLAccelerationStructureDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLAccelerationStructureDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLAccelerationStructureDescriptor")]
 unsafe impl NSObjectProtocol for MTLAccelerationStructureDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLAccelerationStructureDescriptor")]
-    unsafe impl MTLAccelerationStructureDescriptor {
-        #[method(usage)]
-        pub unsafe fn usage(&self) -> MTLAccelerationStructureUsage;
+    pub type MTLAccelerationStructureDescriptor;
 
-        #[method(setUsage:)]
-        pub unsafe fn setUsage(&self, usage: MTLAccelerationStructureUsage);
-    }
-);
+    #[objc2::method(sel = "usage")]
+    pub unsafe fn usage(&self) -> MTLAccelerationStructureUsage;
 
-extern_class!(
+    #[objc2::method(sel = "setUsage:")]
+    pub unsafe fn setUsage(&self, usage: MTLAccelerationStructureUsage);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLAccelerationStructureGeometryDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLAccelerationStructureGeometryDescriptor")]
-    pub struct MTLAccelerationStructureGeometryDescriptor;
-
-    #[cfg(feature = "Metal_MTLAccelerationStructureGeometryDescriptor")]
-    unsafe impl ClassType for MTLAccelerationStructureGeometryDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLAccelerationStructureGeometryDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLAccelerationStructureGeometryDescriptor")]
 unsafe impl NSObjectProtocol for MTLAccelerationStructureGeometryDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLAccelerationStructureGeometryDescriptor")]
-    unsafe impl MTLAccelerationStructureGeometryDescriptor {
-        #[method(intersectionFunctionTableOffset)]
-        pub unsafe fn intersectionFunctionTableOffset(&self) -> NSUInteger;
+    pub type MTLAccelerationStructureGeometryDescriptor;
 
-        #[method(setIntersectionFunctionTableOffset:)]
-        pub fn setIntersectionFunctionTableOffset(
-            &self,
-            intersection_function_table_offset: NSUInteger,
-        );
+    #[objc2::method(sel = "intersectionFunctionTableOffset")]
+    pub unsafe fn intersectionFunctionTableOffset(&self) -> NSUInteger;
 
-        #[method(opaque)]
-        pub unsafe fn opaque(&self) -> bool;
+    #[objc2::method(sel = "setIntersectionFunctionTableOffset:")]
+    pub fn setIntersectionFunctionTableOffset(
+        &self,
+        intersection_function_table_offset: NSUInteger,
+    );
 
-        #[method(setOpaque:)]
-        pub unsafe fn setOpaque(&self, opaque: bool);
+    #[objc2::method(sel = "opaque")]
+    pub unsafe fn opaque(&self) -> bool;
 
-        #[method(allowDuplicateIntersectionFunctionInvocation)]
-        pub unsafe fn allowDuplicateIntersectionFunctionInvocation(&self) -> bool;
+    #[objc2::method(sel = "setOpaque:")]
+    pub unsafe fn setOpaque(&self, opaque: bool);
 
-        #[method(setAllowDuplicateIntersectionFunctionInvocation:)]
-        pub unsafe fn setAllowDuplicateIntersectionFunctionInvocation(
-            &self,
-            allow_duplicate_intersection_function_invocation: bool,
-        );
+    #[objc2::method(sel = "allowDuplicateIntersectionFunctionInvocation")]
+    pub unsafe fn allowDuplicateIntersectionFunctionInvocation(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        pub unsafe fn label(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setAllowDuplicateIntersectionFunctionInvocation:")]
+    pub unsafe fn setAllowDuplicateIntersectionFunctionInvocation(
+        &self,
+        allow_duplicate_intersection_function_invocation: bool,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        pub unsafe fn setLabel(&self, label: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    pub unsafe fn label(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other primitiveDataBuffer)]
-        pub unsafe fn primitiveDataBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    pub unsafe fn setLabel(&self, label: Option<&NSString>);
 
-        #[method(setPrimitiveDataBuffer:)]
-        pub fn setPrimitiveDataBuffer(
-            &self,
-            primitive_data_buffer: Option<&ProtocolObject<dyn MTLBuffer>>,
-        );
+    #[objc2::method(sel = "primitiveDataBuffer", managed = "Other")]
+    pub unsafe fn primitiveDataBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
 
-        #[method(primitiveDataBufferOffset)]
-        pub unsafe fn primitiveDataBufferOffset(&self) -> NSUInteger;
+    #[objc2::method(sel = "setPrimitiveDataBuffer:")]
+    pub fn setPrimitiveDataBuffer(
+        &self,
+        primitive_data_buffer: Option<&ProtocolObject<dyn MTLBuffer>>,
+    );
 
-        #[method(setPrimitiveDataBufferOffset:)]
-        pub unsafe fn setPrimitiveDataBufferOffset(&self, primitive_data_buffer_offset: NSUInteger);
+    #[objc2::method(sel = "primitiveDataBufferOffset")]
+    pub unsafe fn primitiveDataBufferOffset(&self) -> NSUInteger;
 
-        #[method(primitiveDataStride)]
-        pub unsafe fn primitiveDataStride(&self) -> NSUInteger;
+    #[objc2::method(sel = "setPrimitiveDataBufferOffset:")]
+    pub unsafe fn setPrimitiveDataBufferOffset(&self, primitive_data_buffer_offset: NSUInteger);
 
-        #[method(setPrimitiveDataStride:)]
-        pub fn setPrimitiveDataStride(&self, primitive_data_stride: NSUInteger);
+    #[objc2::method(sel = "primitiveDataStride")]
+    pub unsafe fn primitiveDataStride(&self) -> NSUInteger;
 
-        #[method(primitiveDataElementSize)]
-        pub unsafe fn primitiveDataElementSize(&self) -> NSUInteger;
+    #[objc2::method(sel = "setPrimitiveDataStride:")]
+    pub fn setPrimitiveDataStride(&self, primitive_data_stride: NSUInteger);
 
-        #[method(setPrimitiveDataElementSize:)]
-        pub fn setPrimitiveDataElementSize(&self, primitive_data_element_size: NSUInteger);
-    }
-);
+    #[objc2::method(sel = "primitiveDataElementSize")]
+    pub unsafe fn primitiveDataElementSize(&self) -> NSUInteger;
 
-ns_enum!(
-    #[underlying(u32)]
-    pub enum MTLMotionBorderMode {
-        MTLMotionBorderModeClamp = 0,
-        MTLMotionBorderModeVanish = 1,
-    }
-);
+    #[objc2::method(sel = "setPrimitiveDataElementSize:")]
+    pub fn setPrimitiveDataElementSize(&self, primitive_data_element_size: NSUInteger);
+}
 
-extern_class!(
+#[ns_enum]
+#[underlying(u32)]
+pub enum MTLMotionBorderMode {
+    MTLMotionBorderModeClamp = 0,
+    MTLMotionBorderModeVanish = 1,
+}
+
+#[objc2::interface(
+    unsafe super = MTLAccelerationStructureDescriptor,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLPrimitiveAccelerationStructureDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLPrimitiveAccelerationStructureDescriptor")]
-    pub struct MTLPrimitiveAccelerationStructureDescriptor;
-
-    #[cfg(feature = "Metal_MTLPrimitiveAccelerationStructureDescriptor")]
-    unsafe impl ClassType for MTLPrimitiveAccelerationStructureDescriptor {
-        #[inherits(NSObject)]
-        type Super = MTLAccelerationStructureDescriptor;
-    }
-);
+    pub type MTLPrimitiveAccelerationStructureDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLPrimitiveAccelerationStructureDescriptor")]
 unsafe impl NSObjectProtocol for MTLPrimitiveAccelerationStructureDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLPrimitiveAccelerationStructureDescriptor")]
-    unsafe impl MTLPrimitiveAccelerationStructureDescriptor {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Metal_MTLAccelerationStructureGeometryDescriptor"
-        ))]
-        #[method_id(@__retain_semantics Other geometryDescriptors)]
-        pub unsafe fn geometryDescriptors(
-            &self,
-        ) -> Option<Id<NSArray<MTLAccelerationStructureGeometryDescriptor>>>;
+    pub type MTLPrimitiveAccelerationStructureDescriptor;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Metal_MTLAccelerationStructureGeometryDescriptor"
-        ))]
-        #[method(setGeometryDescriptors:)]
-        pub fn setGeometryDescriptors(
-            &self,
-            geometry_descriptors: Option<&NSArray<MTLAccelerationStructureGeometryDescriptor>>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Metal_MTLAccelerationStructureGeometryDescriptor"
+    ))]
+    #[objc2::method(sel = "geometryDescriptors", managed = "Other")]
+    pub unsafe fn geometryDescriptors(
+        &self,
+    ) -> Option<Id<NSArray<MTLAccelerationStructureGeometryDescriptor>>>;
 
-        #[method(motionStartBorderMode)]
-        pub unsafe fn motionStartBorderMode(&self) -> MTLMotionBorderMode;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Metal_MTLAccelerationStructureGeometryDescriptor"
+    ))]
+    #[objc2::method(sel = "setGeometryDescriptors:")]
+    pub fn setGeometryDescriptors(
+        &self,
+        geometry_descriptors: Option<&NSArray<MTLAccelerationStructureGeometryDescriptor>>,
+    );
 
-        #[method(setMotionStartBorderMode:)]
-        pub unsafe fn setMotionStartBorderMode(
-            &self,
-            motion_start_border_mode: MTLMotionBorderMode,
-        );
+    #[objc2::method(sel = "motionStartBorderMode")]
+    pub unsafe fn motionStartBorderMode(&self) -> MTLMotionBorderMode;
 
-        #[method(motionEndBorderMode)]
-        pub unsafe fn motionEndBorderMode(&self) -> MTLMotionBorderMode;
+    #[objc2::method(sel = "setMotionStartBorderMode:")]
+    pub unsafe fn setMotionStartBorderMode(&self, motion_start_border_mode: MTLMotionBorderMode);
 
-        #[method(setMotionEndBorderMode:)]
-        pub unsafe fn setMotionEndBorderMode(&self, motion_end_border_mode: MTLMotionBorderMode);
+    #[objc2::method(sel = "motionEndBorderMode")]
+    pub unsafe fn motionEndBorderMode(&self) -> MTLMotionBorderMode;
 
-        #[method(motionStartTime)]
-        pub unsafe fn motionStartTime(&self) -> c_float;
+    #[objc2::method(sel = "setMotionEndBorderMode:")]
+    pub unsafe fn setMotionEndBorderMode(&self, motion_end_border_mode: MTLMotionBorderMode);
 
-        #[method(setMotionStartTime:)]
-        pub unsafe fn setMotionStartTime(&self, motion_start_time: c_float);
+    #[objc2::method(sel = "motionStartTime")]
+    pub unsafe fn motionStartTime(&self) -> c_float;
 
-        #[method(motionEndTime)]
-        pub unsafe fn motionEndTime(&self) -> c_float;
+    #[objc2::method(sel = "setMotionStartTime:")]
+    pub unsafe fn setMotionStartTime(&self, motion_start_time: c_float);
 
-        #[method(setMotionEndTime:)]
-        pub unsafe fn setMotionEndTime(&self, motion_end_time: c_float);
+    #[objc2::method(sel = "motionEndTime")]
+    pub unsafe fn motionEndTime(&self) -> c_float;
 
-        #[method(motionKeyframeCount)]
-        pub unsafe fn motionKeyframeCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "setMotionEndTime:")]
+    pub unsafe fn setMotionEndTime(&self, motion_end_time: c_float);
 
-        #[method(setMotionKeyframeCount:)]
-        pub unsafe fn setMotionKeyframeCount(&self, motion_keyframe_count: NSUInteger);
+    #[objc2::method(sel = "motionKeyframeCount")]
+    pub unsafe fn motionKeyframeCount(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other descriptor)]
-        pub fn descriptor() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "setMotionKeyframeCount:")]
+    pub unsafe fn setMotionKeyframeCount(&self, motion_keyframe_count: NSUInteger);
 
-extern_class!(
+    #[objc2::method(sel = "descriptor", managed = "Other")]
+    pub fn descriptor() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = MTLAccelerationStructureGeometryDescriptor,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLAccelerationStructureTriangleGeometryDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLAccelerationStructureTriangleGeometryDescriptor")]
-    pub struct MTLAccelerationStructureTriangleGeometryDescriptor;
-
-    #[cfg(feature = "Metal_MTLAccelerationStructureTriangleGeometryDescriptor")]
-    unsafe impl ClassType for MTLAccelerationStructureTriangleGeometryDescriptor {
-        #[inherits(NSObject)]
-        type Super = MTLAccelerationStructureGeometryDescriptor;
-    }
-);
+    pub type MTLAccelerationStructureTriangleGeometryDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLAccelerationStructureTriangleGeometryDescriptor")]
 unsafe impl NSObjectProtocol for MTLAccelerationStructureTriangleGeometryDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLAccelerationStructureTriangleGeometryDescriptor")]
-    unsafe impl MTLAccelerationStructureTriangleGeometryDescriptor {
-        #[method_id(@__retain_semantics Other vertexBuffer)]
-        pub unsafe fn vertexBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+    pub type MTLAccelerationStructureTriangleGeometryDescriptor;
 
-        #[method(setVertexBuffer:)]
-        pub fn setVertexBuffer(&self, vertex_buffer: Option<&ProtocolObject<dyn MTLBuffer>>);
+    #[objc2::method(sel = "vertexBuffer", managed = "Other")]
+    pub unsafe fn vertexBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
 
-        #[method(vertexBufferOffset)]
-        pub unsafe fn vertexBufferOffset(&self) -> NSUInteger;
+    #[objc2::method(sel = "setVertexBuffer:")]
+    pub fn setVertexBuffer(&self, vertex_buffer: Option<&ProtocolObject<dyn MTLBuffer>>);
 
-        #[method(setVertexBufferOffset:)]
-        pub unsafe fn setVertexBufferOffset(&self, vertex_buffer_offset: NSUInteger);
+    #[objc2::method(sel = "vertexBufferOffset")]
+    pub unsafe fn vertexBufferOffset(&self) -> NSUInteger;
 
-        #[method(vertexFormat)]
-        pub unsafe fn vertexFormat(&self) -> MTLAttributeFormat;
+    #[objc2::method(sel = "setVertexBufferOffset:")]
+    pub unsafe fn setVertexBufferOffset(&self, vertex_buffer_offset: NSUInteger);
 
-        #[method(setVertexFormat:)]
-        pub unsafe fn setVertexFormat(&self, vertex_format: MTLAttributeFormat);
+    #[objc2::method(sel = "vertexFormat")]
+    pub unsafe fn vertexFormat(&self) -> MTLAttributeFormat;
 
-        #[method(vertexStride)]
-        pub unsafe fn vertexStride(&self) -> NSUInteger;
+    #[objc2::method(sel = "setVertexFormat:")]
+    pub unsafe fn setVertexFormat(&self, vertex_format: MTLAttributeFormat);
 
-        #[method(setVertexStride:)]
-        pub fn setVertexStride(&self, vertex_stride: NSUInteger);
+    #[objc2::method(sel = "vertexStride")]
+    pub unsafe fn vertexStride(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other indexBuffer)]
-        pub unsafe fn indexBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+    #[objc2::method(sel = "setVertexStride:")]
+    pub fn setVertexStride(&self, vertex_stride: NSUInteger);
 
-        #[method(setIndexBuffer:)]
-        pub fn setIndexBuffer(&self, index_buffer: Option<&ProtocolObject<dyn MTLBuffer>>);
+    #[objc2::method(sel = "indexBuffer", managed = "Other")]
+    pub unsafe fn indexBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
 
-        #[method(indexBufferOffset)]
-        pub unsafe fn indexBufferOffset(&self) -> NSUInteger;
+    #[objc2::method(sel = "setIndexBuffer:")]
+    pub fn setIndexBuffer(&self, index_buffer: Option<&ProtocolObject<dyn MTLBuffer>>);
 
-        #[method(setIndexBufferOffset:)]
-        pub unsafe fn setIndexBufferOffset(&self, index_buffer_offset: NSUInteger);
+    #[objc2::method(sel = "indexBufferOffset")]
+    pub unsafe fn indexBufferOffset(&self) -> NSUInteger;
 
-        #[method(indexType)]
-        pub unsafe fn indexType(&self) -> MTLIndexType;
+    #[objc2::method(sel = "setIndexBufferOffset:")]
+    pub unsafe fn setIndexBufferOffset(&self, index_buffer_offset: NSUInteger);
 
-        #[method(setIndexType:)]
-        pub unsafe fn setIndexType(&self, index_type: MTLIndexType);
+    #[objc2::method(sel = "indexType")]
+    pub unsafe fn indexType(&self) -> MTLIndexType;
 
-        #[method(triangleCount)]
-        pub unsafe fn triangleCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "setIndexType:")]
+    pub unsafe fn setIndexType(&self, index_type: MTLIndexType);
 
-        #[method(setTriangleCount:)]
-        pub fn setTriangleCount(&self, triangle_count: NSUInteger);
+    #[objc2::method(sel = "triangleCount")]
+    pub unsafe fn triangleCount(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other transformationMatrixBuffer)]
-        pub unsafe fn transformationMatrixBuffer(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+    #[objc2::method(sel = "setTriangleCount:")]
+    pub fn setTriangleCount(&self, triangle_count: NSUInteger);
 
-        #[method(setTransformationMatrixBuffer:)]
-        pub unsafe fn setTransformationMatrixBuffer(
-            &self,
-            transformation_matrix_buffer: Option<&ProtocolObject<dyn MTLBuffer>>,
-        );
+    #[objc2::method(sel = "transformationMatrixBuffer", managed = "Other")]
+    pub unsafe fn transformationMatrixBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
 
-        #[method(transformationMatrixBufferOffset)]
-        pub unsafe fn transformationMatrixBufferOffset(&self) -> NSUInteger;
+    #[objc2::method(sel = "setTransformationMatrixBuffer:")]
+    pub unsafe fn setTransformationMatrixBuffer(
+        &self,
+        transformation_matrix_buffer: Option<&ProtocolObject<dyn MTLBuffer>>,
+    );
 
-        #[method(setTransformationMatrixBufferOffset:)]
-        pub unsafe fn setTransformationMatrixBufferOffset(
-            &self,
-            transformation_matrix_buffer_offset: NSUInteger,
-        );
+    #[objc2::method(sel = "transformationMatrixBufferOffset")]
+    pub unsafe fn transformationMatrixBufferOffset(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other descriptor)]
-        pub fn descriptor() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "setTransformationMatrixBufferOffset:")]
+    pub unsafe fn setTransformationMatrixBufferOffset(
+        &self,
+        transformation_matrix_buffer_offset: NSUInteger,
+    );
 
-extern_class!(
+    #[objc2::method(sel = "descriptor", managed = "Other")]
+    pub fn descriptor() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = MTLAccelerationStructureGeometryDescriptor,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLAccelerationStructureBoundingBoxGeometryDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLAccelerationStructureBoundingBoxGeometryDescriptor")]
-    pub struct MTLAccelerationStructureBoundingBoxGeometryDescriptor;
-
-    #[cfg(feature = "Metal_MTLAccelerationStructureBoundingBoxGeometryDescriptor")]
-    unsafe impl ClassType for MTLAccelerationStructureBoundingBoxGeometryDescriptor {
-        #[inherits(NSObject)]
-        type Super = MTLAccelerationStructureGeometryDescriptor;
-    }
-);
+    pub type MTLAccelerationStructureBoundingBoxGeometryDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLAccelerationStructureBoundingBoxGeometryDescriptor")]
 unsafe impl NSObjectProtocol for MTLAccelerationStructureBoundingBoxGeometryDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLAccelerationStructureBoundingBoxGeometryDescriptor")]
-    unsafe impl MTLAccelerationStructureBoundingBoxGeometryDescriptor {
-        #[method_id(@__retain_semantics Other boundingBoxBuffer)]
-        pub unsafe fn boundingBoxBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+    pub type MTLAccelerationStructureBoundingBoxGeometryDescriptor;
 
-        #[method(setBoundingBoxBuffer:)]
-        pub fn setBoundingBoxBuffer(
-            &self,
-            bounding_box_buffer: Option<&ProtocolObject<dyn MTLBuffer>>,
-        );
+    #[objc2::method(sel = "boundingBoxBuffer", managed = "Other")]
+    pub unsafe fn boundingBoxBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
 
-        #[method(boundingBoxBufferOffset)]
-        pub unsafe fn boundingBoxBufferOffset(&self) -> NSUInteger;
+    #[objc2::method(sel = "setBoundingBoxBuffer:")]
+    pub fn setBoundingBoxBuffer(&self, bounding_box_buffer: Option<&ProtocolObject<dyn MTLBuffer>>);
 
-        #[method(setBoundingBoxBufferOffset:)]
-        pub unsafe fn setBoundingBoxBufferOffset(&self, bounding_box_buffer_offset: NSUInteger);
+    #[objc2::method(sel = "boundingBoxBufferOffset")]
+    pub unsafe fn boundingBoxBufferOffset(&self) -> NSUInteger;
 
-        #[method(boundingBoxStride)]
-        pub unsafe fn boundingBoxStride(&self) -> NSUInteger;
+    #[objc2::method(sel = "setBoundingBoxBufferOffset:")]
+    pub unsafe fn setBoundingBoxBufferOffset(&self, bounding_box_buffer_offset: NSUInteger);
 
-        #[method(setBoundingBoxStride:)]
-        pub unsafe fn setBoundingBoxStride(&self, bounding_box_stride: NSUInteger);
+    #[objc2::method(sel = "boundingBoxStride")]
+    pub unsafe fn boundingBoxStride(&self) -> NSUInteger;
 
-        #[method(boundingBoxCount)]
-        pub unsafe fn boundingBoxCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "setBoundingBoxStride:")]
+    pub unsafe fn setBoundingBoxStride(&self, bounding_box_stride: NSUInteger);
 
-        #[method(setBoundingBoxCount:)]
-        pub fn setBoundingBoxCount(&self, bounding_box_count: NSUInteger);
+    #[objc2::method(sel = "boundingBoxCount")]
+    pub unsafe fn boundingBoxCount(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other descriptor)]
-        pub fn descriptor() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "setBoundingBoxCount:")]
+    pub fn setBoundingBoxCount(&self, bounding_box_count: NSUInteger);
 
-extern_class!(
+    #[objc2::method(sel = "descriptor", managed = "Other")]
+    pub fn descriptor() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLMotionKeyframeData")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLMotionKeyframeData")]
-    pub struct MTLMotionKeyframeData;
-
-    #[cfg(feature = "Metal_MTLMotionKeyframeData")]
-    unsafe impl ClassType for MTLMotionKeyframeData {
-        type Super = NSObject;
-    }
-);
+    pub type MTLMotionKeyframeData;
+}
 
 #[cfg(feature = "Metal_MTLMotionKeyframeData")]
 unsafe impl NSObjectProtocol for MTLMotionKeyframeData {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLMotionKeyframeData")]
-    unsafe impl MTLMotionKeyframeData {
-        #[method_id(@__retain_semantics Other buffer)]
-        pub unsafe fn buffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+    pub type MTLMotionKeyframeData;
 
-        #[method(setBuffer:)]
-        pub unsafe fn setBuffer(&self, buffer: Option<&ProtocolObject<dyn MTLBuffer>>);
+    #[objc2::method(sel = "buffer", managed = "Other")]
+    pub unsafe fn buffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
 
-        #[method(offset)]
-        pub unsafe fn offset(&self) -> NSUInteger;
+    #[objc2::method(sel = "setBuffer:")]
+    pub unsafe fn setBuffer(&self, buffer: Option<&ProtocolObject<dyn MTLBuffer>>);
 
-        #[method(setOffset:)]
-        pub unsafe fn setOffset(&self, offset: NSUInteger);
+    #[objc2::method(sel = "offset")]
+    pub unsafe fn offset(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other data)]
-        pub unsafe fn data() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "setOffset:")]
+    pub unsafe fn setOffset(&self, offset: NSUInteger);
 
-extern_class!(
+    #[objc2::method(sel = "data", managed = "Other")]
+    pub unsafe fn data() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = MTLAccelerationStructureGeometryDescriptor,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLAccelerationStructureMotionTriangleGeometryDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLAccelerationStructureMotionTriangleGeometryDescriptor")]
-    pub struct MTLAccelerationStructureMotionTriangleGeometryDescriptor;
-
-    #[cfg(feature = "Metal_MTLAccelerationStructureMotionTriangleGeometryDescriptor")]
-    unsafe impl ClassType for MTLAccelerationStructureMotionTriangleGeometryDescriptor {
-        #[inherits(NSObject)]
-        type Super = MTLAccelerationStructureGeometryDescriptor;
-    }
-);
+    pub type MTLAccelerationStructureMotionTriangleGeometryDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLAccelerationStructureMotionTriangleGeometryDescriptor")]
 unsafe impl NSObjectProtocol for MTLAccelerationStructureMotionTriangleGeometryDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLAccelerationStructureMotionTriangleGeometryDescriptor")]
-    unsafe impl MTLAccelerationStructureMotionTriangleGeometryDescriptor {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Metal_MTLMotionKeyframeData"
-        ))]
-        #[method_id(@__retain_semantics Other vertexBuffers)]
-        pub unsafe fn vertexBuffers(&self) -> Id<NSArray<MTLMotionKeyframeData>>;
+    pub type MTLAccelerationStructureMotionTriangleGeometryDescriptor;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Metal_MTLMotionKeyframeData"
-        ))]
-        #[method(setVertexBuffers:)]
-        pub unsafe fn setVertexBuffers(&self, vertex_buffers: &NSArray<MTLMotionKeyframeData>);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Metal_MTLMotionKeyframeData"
+    ))]
+    #[objc2::method(sel = "vertexBuffers", managed = "Other")]
+    pub unsafe fn vertexBuffers(&self) -> Id<NSArray<MTLMotionKeyframeData>>;
 
-        #[method(vertexFormat)]
-        pub unsafe fn vertexFormat(&self) -> MTLAttributeFormat;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Metal_MTLMotionKeyframeData"
+    ))]
+    #[objc2::method(sel = "setVertexBuffers:")]
+    pub unsafe fn setVertexBuffers(&self, vertex_buffers: &NSArray<MTLMotionKeyframeData>);
 
-        #[method(setVertexFormat:)]
-        pub unsafe fn setVertexFormat(&self, vertex_format: MTLAttributeFormat);
+    #[objc2::method(sel = "vertexFormat")]
+    pub unsafe fn vertexFormat(&self) -> MTLAttributeFormat;
 
-        #[method(vertexStride)]
-        pub unsafe fn vertexStride(&self) -> NSUInteger;
+    #[objc2::method(sel = "setVertexFormat:")]
+    pub unsafe fn setVertexFormat(&self, vertex_format: MTLAttributeFormat);
 
-        #[method(setVertexStride:)]
-        pub unsafe fn setVertexStride(&self, vertex_stride: NSUInteger);
+    #[objc2::method(sel = "vertexStride")]
+    pub unsafe fn vertexStride(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other indexBuffer)]
-        pub unsafe fn indexBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+    #[objc2::method(sel = "setVertexStride:")]
+    pub unsafe fn setVertexStride(&self, vertex_stride: NSUInteger);
 
-        #[method(setIndexBuffer:)]
-        pub unsafe fn setIndexBuffer(&self, index_buffer: Option<&ProtocolObject<dyn MTLBuffer>>);
+    #[objc2::method(sel = "indexBuffer", managed = "Other")]
+    pub unsafe fn indexBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
 
-        #[method(indexBufferOffset)]
-        pub unsafe fn indexBufferOffset(&self) -> NSUInteger;
+    #[objc2::method(sel = "setIndexBuffer:")]
+    pub unsafe fn setIndexBuffer(&self, index_buffer: Option<&ProtocolObject<dyn MTLBuffer>>);
 
-        #[method(setIndexBufferOffset:)]
-        pub unsafe fn setIndexBufferOffset(&self, index_buffer_offset: NSUInteger);
+    #[objc2::method(sel = "indexBufferOffset")]
+    pub unsafe fn indexBufferOffset(&self) -> NSUInteger;
 
-        #[method(indexType)]
-        pub unsafe fn indexType(&self) -> MTLIndexType;
+    #[objc2::method(sel = "setIndexBufferOffset:")]
+    pub unsafe fn setIndexBufferOffset(&self, index_buffer_offset: NSUInteger);
 
-        #[method(setIndexType:)]
-        pub unsafe fn setIndexType(&self, index_type: MTLIndexType);
+    #[objc2::method(sel = "indexType")]
+    pub unsafe fn indexType(&self) -> MTLIndexType;
 
-        #[method(triangleCount)]
-        pub unsafe fn triangleCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "setIndexType:")]
+    pub unsafe fn setIndexType(&self, index_type: MTLIndexType);
 
-        #[method(setTriangleCount:)]
-        pub unsafe fn setTriangleCount(&self, triangle_count: NSUInteger);
+    #[objc2::method(sel = "triangleCount")]
+    pub unsafe fn triangleCount(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other transformationMatrixBuffer)]
-        pub unsafe fn transformationMatrixBuffer(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+    #[objc2::method(sel = "setTriangleCount:")]
+    pub unsafe fn setTriangleCount(&self, triangle_count: NSUInteger);
 
-        #[method(setTransformationMatrixBuffer:)]
-        pub unsafe fn setTransformationMatrixBuffer(
-            &self,
-            transformation_matrix_buffer: Option<&ProtocolObject<dyn MTLBuffer>>,
-        );
+    #[objc2::method(sel = "transformationMatrixBuffer", managed = "Other")]
+    pub unsafe fn transformationMatrixBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
 
-        #[method(transformationMatrixBufferOffset)]
-        pub unsafe fn transformationMatrixBufferOffset(&self) -> NSUInteger;
+    #[objc2::method(sel = "setTransformationMatrixBuffer:")]
+    pub unsafe fn setTransformationMatrixBuffer(
+        &self,
+        transformation_matrix_buffer: Option<&ProtocolObject<dyn MTLBuffer>>,
+    );
 
-        #[method(setTransformationMatrixBufferOffset:)]
-        pub unsafe fn setTransformationMatrixBufferOffset(
-            &self,
-            transformation_matrix_buffer_offset: NSUInteger,
-        );
+    #[objc2::method(sel = "transformationMatrixBufferOffset")]
+    pub unsafe fn transformationMatrixBufferOffset(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other descriptor)]
-        pub unsafe fn descriptor() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "setTransformationMatrixBufferOffset:")]
+    pub unsafe fn setTransformationMatrixBufferOffset(
+        &self,
+        transformation_matrix_buffer_offset: NSUInteger,
+    );
 
-extern_class!(
+    #[objc2::method(sel = "descriptor", managed = "Other")]
+    pub unsafe fn descriptor() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = MTLAccelerationStructureGeometryDescriptor,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor")]
-    pub struct MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor;
-
-    #[cfg(feature = "Metal_MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor")]
-    unsafe impl ClassType for MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor {
-        #[inherits(NSObject)]
-        type Super = MTLAccelerationStructureGeometryDescriptor;
-    }
-);
+    pub type MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor")]
 unsafe impl NSObjectProtocol for MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor")]
-    unsafe impl MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Metal_MTLMotionKeyframeData"
-        ))]
-        #[method_id(@__retain_semantics Other boundingBoxBuffers)]
-        pub unsafe fn boundingBoxBuffers(&self) -> Id<NSArray<MTLMotionKeyframeData>>;
+    pub type MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Metal_MTLMotionKeyframeData"
-        ))]
-        #[method(setBoundingBoxBuffers:)]
-        pub unsafe fn setBoundingBoxBuffers(
-            &self,
-            bounding_box_buffers: &NSArray<MTLMotionKeyframeData>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Metal_MTLMotionKeyframeData"
+    ))]
+    #[objc2::method(sel = "boundingBoxBuffers", managed = "Other")]
+    pub unsafe fn boundingBoxBuffers(&self) -> Id<NSArray<MTLMotionKeyframeData>>;
 
-        #[method(boundingBoxStride)]
-        pub unsafe fn boundingBoxStride(&self) -> NSUInteger;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Metal_MTLMotionKeyframeData"
+    ))]
+    #[objc2::method(sel = "setBoundingBoxBuffers:")]
+    pub unsafe fn setBoundingBoxBuffers(
+        &self,
+        bounding_box_buffers: &NSArray<MTLMotionKeyframeData>,
+    );
 
-        #[method(setBoundingBoxStride:)]
-        pub unsafe fn setBoundingBoxStride(&self, bounding_box_stride: NSUInteger);
+    #[objc2::method(sel = "boundingBoxStride")]
+    pub unsafe fn boundingBoxStride(&self) -> NSUInteger;
 
-        #[method(boundingBoxCount)]
-        pub unsafe fn boundingBoxCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "setBoundingBoxStride:")]
+    pub unsafe fn setBoundingBoxStride(&self, bounding_box_stride: NSUInteger);
 
-        #[method(setBoundingBoxCount:)]
-        pub unsafe fn setBoundingBoxCount(&self, bounding_box_count: NSUInteger);
+    #[objc2::method(sel = "boundingBoxCount")]
+    pub unsafe fn boundingBoxCount(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other descriptor)]
-        pub unsafe fn descriptor() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "setBoundingBoxCount:")]
+    pub unsafe fn setBoundingBoxCount(&self, bounding_box_count: NSUInteger);
+
+    #[objc2::method(sel = "descriptor", managed = "Other")]
+    pub unsafe fn descriptor() -> Id<Self>;
+}
 
 extern_struct!(
     #[encoding_name("?")]
@@ -554,14 +565,13 @@ extern_struct!(
     }
 );
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLAccelerationStructureInstanceDescriptorType {
-        MTLAccelerationStructureInstanceDescriptorTypeDefault = 0,
-        MTLAccelerationStructureInstanceDescriptorTypeUserID = 1,
-        MTLAccelerationStructureInstanceDescriptorTypeMotion = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLAccelerationStructureInstanceDescriptorType {
+    MTLAccelerationStructureInstanceDescriptorTypeDefault = 0,
+    MTLAccelerationStructureInstanceDescriptorTypeUserID = 1,
+    MTLAccelerationStructureInstanceDescriptorTypeMotion = 2,
+}
 
 extern_struct!(
     #[encoding_name("?")]
@@ -580,117 +590,112 @@ extern_struct!(
     }
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MTLAccelerationStructureDescriptor,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLInstanceAccelerationStructureDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLInstanceAccelerationStructureDescriptor")]
-    pub struct MTLInstanceAccelerationStructureDescriptor;
-
-    #[cfg(feature = "Metal_MTLInstanceAccelerationStructureDescriptor")]
-    unsafe impl ClassType for MTLInstanceAccelerationStructureDescriptor {
-        #[inherits(NSObject)]
-        type Super = MTLAccelerationStructureDescriptor;
-    }
-);
+    pub type MTLInstanceAccelerationStructureDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLInstanceAccelerationStructureDescriptor")]
 unsafe impl NSObjectProtocol for MTLInstanceAccelerationStructureDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLInstanceAccelerationStructureDescriptor")]
-    unsafe impl MTLInstanceAccelerationStructureDescriptor {
-        #[method_id(@__retain_semantics Other instanceDescriptorBuffer)]
-        pub unsafe fn instanceDescriptorBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+    pub type MTLInstanceAccelerationStructureDescriptor;
 
-        #[method(setInstanceDescriptorBuffer:)]
-        pub fn setInstanceDescriptorBuffer(
-            &self,
-            instance_descriptor_buffer: Option<&ProtocolObject<dyn MTLBuffer>>,
-        );
+    #[objc2::method(sel = "instanceDescriptorBuffer", managed = "Other")]
+    pub unsafe fn instanceDescriptorBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
 
-        #[method(instanceDescriptorBufferOffset)]
-        pub unsafe fn instanceDescriptorBufferOffset(&self) -> NSUInteger;
+    #[objc2::method(sel = "setInstanceDescriptorBuffer:")]
+    pub fn setInstanceDescriptorBuffer(
+        &self,
+        instance_descriptor_buffer: Option<&ProtocolObject<dyn MTLBuffer>>,
+    );
 
-        #[method(setInstanceDescriptorBufferOffset:)]
-        pub unsafe fn setInstanceDescriptorBufferOffset(
-            &self,
-            instance_descriptor_buffer_offset: NSUInteger,
-        );
+    #[objc2::method(sel = "instanceDescriptorBufferOffset")]
+    pub unsafe fn instanceDescriptorBufferOffset(&self) -> NSUInteger;
 
-        #[method(instanceDescriptorStride)]
-        pub unsafe fn instanceDescriptorStride(&self) -> NSUInteger;
+    #[objc2::method(sel = "setInstanceDescriptorBufferOffset:")]
+    pub unsafe fn setInstanceDescriptorBufferOffset(
+        &self,
+        instance_descriptor_buffer_offset: NSUInteger,
+    );
 
-        #[method(setInstanceDescriptorStride:)]
-        pub unsafe fn setInstanceDescriptorStride(&self, instance_descriptor_stride: NSUInteger);
+    #[objc2::method(sel = "instanceDescriptorStride")]
+    pub unsafe fn instanceDescriptorStride(&self) -> NSUInteger;
 
-        #[method(instanceCount)]
-        pub unsafe fn instanceCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "setInstanceDescriptorStride:")]
+    pub unsafe fn setInstanceDescriptorStride(&self, instance_descriptor_stride: NSUInteger);
 
-        #[method(setInstanceCount:)]
-        pub fn setInstanceCount(&self, instance_count: NSUInteger);
+    #[objc2::method(sel = "instanceCount")]
+    pub unsafe fn instanceCount(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other instancedAccelerationStructures)]
-        pub unsafe fn instancedAccelerationStructures(
-            &self,
-        ) -> Option<Id<NSArray<ProtocolObject<dyn MTLAccelerationStructure>>>>;
+    #[objc2::method(sel = "setInstanceCount:")]
+    pub fn setInstanceCount(&self, instance_count: NSUInteger);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setInstancedAccelerationStructures:)]
-        pub fn setInstancedAccelerationStructures(
-            &self,
-            instanced_acceleration_structures: Option<
-                &NSArray<ProtocolObject<dyn MTLAccelerationStructure>>,
-            >,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "instancedAccelerationStructures", managed = "Other")]
+    pub unsafe fn instancedAccelerationStructures(
+        &self,
+    ) -> Option<Id<NSArray<ProtocolObject<dyn MTLAccelerationStructure>>>>;
 
-        #[method(instanceDescriptorType)]
-        pub unsafe fn instanceDescriptorType(
-            &self,
-        ) -> MTLAccelerationStructureInstanceDescriptorType;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setInstancedAccelerationStructures:")]
+    pub fn setInstancedAccelerationStructures(
+        &self,
+        instanced_acceleration_structures: Option<
+            &NSArray<ProtocolObject<dyn MTLAccelerationStructure>>,
+        >,
+    );
 
-        #[method(setInstanceDescriptorType:)]
-        pub unsafe fn setInstanceDescriptorType(
-            &self,
-            instance_descriptor_type: MTLAccelerationStructureInstanceDescriptorType,
-        );
+    #[objc2::method(sel = "instanceDescriptorType")]
+    pub unsafe fn instanceDescriptorType(&self) -> MTLAccelerationStructureInstanceDescriptorType;
 
-        #[method_id(@__retain_semantics Other motionTransformBuffer)]
-        pub unsafe fn motionTransformBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+    #[objc2::method(sel = "setInstanceDescriptorType:")]
+    pub unsafe fn setInstanceDescriptorType(
+        &self,
+        instance_descriptor_type: MTLAccelerationStructureInstanceDescriptorType,
+    );
 
-        #[method(setMotionTransformBuffer:)]
-        pub unsafe fn setMotionTransformBuffer(
-            &self,
-            motion_transform_buffer: Option<&ProtocolObject<dyn MTLBuffer>>,
-        );
+    #[objc2::method(sel = "motionTransformBuffer", managed = "Other")]
+    pub unsafe fn motionTransformBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
 
-        #[method(motionTransformBufferOffset)]
-        pub unsafe fn motionTransformBufferOffset(&self) -> NSUInteger;
+    #[objc2::method(sel = "setMotionTransformBuffer:")]
+    pub unsafe fn setMotionTransformBuffer(
+        &self,
+        motion_transform_buffer: Option<&ProtocolObject<dyn MTLBuffer>>,
+    );
 
-        #[method(setMotionTransformBufferOffset:)]
-        pub unsafe fn setMotionTransformBufferOffset(
-            &self,
-            motion_transform_buffer_offset: NSUInteger,
-        );
+    #[objc2::method(sel = "motionTransformBufferOffset")]
+    pub unsafe fn motionTransformBufferOffset(&self) -> NSUInteger;
 
-        #[method(motionTransformCount)]
-        pub unsafe fn motionTransformCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "setMotionTransformBufferOffset:")]
+    pub unsafe fn setMotionTransformBufferOffset(&self, motion_transform_buffer_offset: NSUInteger);
 
-        #[method(setMotionTransformCount:)]
-        pub unsafe fn setMotionTransformCount(&self, motion_transform_count: NSUInteger);
+    #[objc2::method(sel = "motionTransformCount")]
+    pub unsafe fn motionTransformCount(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other descriptor)]
-        pub fn descriptor() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "setMotionTransformCount:")]
+    pub unsafe fn setMotionTransformCount(&self, motion_transform_count: NSUInteger);
 
-extern_protocol!(
-    pub unsafe trait MTLAccelerationStructure: MTLResource {
-        #[method(size)]
-        unsafe fn size(&self) -> NSUInteger;
+    #[objc2::method(sel = "descriptor", managed = "Other")]
+    pub fn descriptor() -> Id<Self>;
+}
 
-        #[method(gpuResourceID)]
-        unsafe fn gpuResourceID(&self) -> MTLResourceID;
-    }
+#[objc2::protocol]
+pub unsafe trait MTLAccelerationStructure: MTLResource {
+    #[objc2::method(sel = "size")]
+    unsafe fn size(&self) -> NSUInteger;
 
-    unsafe impl ProtocolType for dyn MTLAccelerationStructure {}
-);
+    #[objc2::method(sel = "gpuResourceID")]
+    unsafe fn gpuResourceID(&self) -> MTLResourceID;
+}

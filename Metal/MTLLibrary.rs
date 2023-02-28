@@ -4,414 +4,419 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLPatchType {
-        MTLPatchTypeNone = 0,
-        MTLPatchTypeTriangle = 1,
-        MTLPatchTypeQuad = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLPatchType {
+    MTLPatchTypeNone = 0,
+    MTLPatchTypeTriangle = 1,
+    MTLPatchTypeQuad = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLVertexAttribute")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLVertexAttribute")]
-    pub struct MTLVertexAttribute;
-
-    #[cfg(feature = "Metal_MTLVertexAttribute")]
-    unsafe impl ClassType for MTLVertexAttribute {
-        type Super = NSObject;
-    }
-);
+    pub type MTLVertexAttribute;
+}
 
 #[cfg(feature = "Metal_MTLVertexAttribute")]
 unsafe impl NSObjectProtocol for MTLVertexAttribute {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLVertexAttribute")]
-    unsafe impl MTLVertexAttribute {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub fn name(&self) -> Id<NSString>;
+    pub type MTLVertexAttribute;
 
-        #[method(attributeIndex)]
-        pub fn attributeIndex(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub fn name(&self) -> Id<NSString>;
 
-        #[method(attributeType)]
-        pub fn attributeType(&self) -> MTLDataType;
+    #[objc2::method(sel = "attributeIndex")]
+    pub fn attributeIndex(&self) -> NSUInteger;
 
-        #[method(isActive)]
-        pub fn isActive(&self) -> bool;
+    #[objc2::method(sel = "attributeType")]
+    pub fn attributeType(&self) -> MTLDataType;
 
-        #[method(isPatchData)]
-        pub fn isPatchData(&self) -> bool;
+    #[objc2::method(sel = "isActive")]
+    pub fn isActive(&self) -> bool;
 
-        #[method(isPatchControlPointData)]
-        pub fn isPatchControlPointData(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "isPatchData")]
+    pub fn isPatchData(&self) -> bool;
 
-extern_class!(
+    #[objc2::method(sel = "isPatchControlPointData")]
+    pub fn isPatchControlPointData(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLAttribute")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLAttribute")]
-    pub struct MTLAttribute;
-
-    #[cfg(feature = "Metal_MTLAttribute")]
-    unsafe impl ClassType for MTLAttribute {
-        type Super = NSObject;
-    }
-);
+    pub type MTLAttribute;
+}
 
 #[cfg(feature = "Metal_MTLAttribute")]
 unsafe impl NSObjectProtocol for MTLAttribute {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLAttribute")]
-    unsafe impl MTLAttribute {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub fn name(&self) -> Id<NSString>;
+    pub type MTLAttribute;
 
-        #[method(attributeIndex)]
-        pub fn attributeIndex(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub fn name(&self) -> Id<NSString>;
 
-        #[method(attributeType)]
-        pub fn attributeType(&self) -> MTLDataType;
+    #[objc2::method(sel = "attributeIndex")]
+    pub fn attributeIndex(&self) -> NSUInteger;
 
-        #[method(isActive)]
-        pub fn isActive(&self) -> bool;
+    #[objc2::method(sel = "attributeType")]
+    pub fn attributeType(&self) -> MTLDataType;
 
-        #[method(isPatchData)]
-        pub fn isPatchData(&self) -> bool;
+    #[objc2::method(sel = "isActive")]
+    pub fn isActive(&self) -> bool;
 
-        #[method(isPatchControlPointData)]
-        pub fn isPatchControlPointData(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "isPatchData")]
+    pub fn isPatchData(&self) -> bool;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLFunctionType {
-        MTLFunctionTypeVertex = 1,
-        MTLFunctionTypeFragment = 2,
-        MTLFunctionTypeKernel = 3,
-        MTLFunctionTypeVisible = 5,
-        MTLFunctionTypeIntersection = 6,
-        MTLFunctionTypeMesh = 7,
-        MTLFunctionTypeObject = 8,
-    }
-);
+    #[objc2::method(sel = "isPatchControlPointData")]
+    pub fn isPatchControlPointData(&self) -> bool;
+}
 
-extern_class!(
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLFunctionType {
+    MTLFunctionTypeVertex = 1,
+    MTLFunctionTypeFragment = 2,
+    MTLFunctionTypeKernel = 3,
+    MTLFunctionTypeVisible = 5,
+    MTLFunctionTypeIntersection = 6,
+    MTLFunctionTypeMesh = 7,
+    MTLFunctionTypeObject = 8,
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLFunctionConstant")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLFunctionConstant")]
-    pub struct MTLFunctionConstant;
-
-    #[cfg(feature = "Metal_MTLFunctionConstant")]
-    unsafe impl ClassType for MTLFunctionConstant {
-        type Super = NSObject;
-    }
-);
+    pub type MTLFunctionConstant;
+}
 
 #[cfg(feature = "Metal_MTLFunctionConstant")]
 unsafe impl NSObjectProtocol for MTLFunctionConstant {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLFunctionConstant")]
-    unsafe impl MTLFunctionConstant {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub fn name(&self) -> Id<NSString>;
+    pub type MTLFunctionConstant;
 
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> MTLDataType;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub fn name(&self) -> Id<NSString>;
 
-        #[method(index)]
-        pub fn index(&self) -> NSUInteger;
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> MTLDataType;
 
-        #[method(required)]
-        pub fn required(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "index")]
+    pub fn index(&self) -> NSUInteger;
 
-extern_protocol!(
-    pub unsafe trait MTLFunction: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        fn label(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "required")]
+    pub fn required(&self) -> bool;
+}
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        fn setLabel(&self, label: Option<&NSString>);
+#[objc2::protocol]
+pub unsafe trait MTLFunction: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    fn label(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other device)]
-        fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    fn setLabel(&self, label: Option<&NSString>);
 
-        #[method(functionType)]
-        fn functionType(&self) -> MTLFunctionType;
+    #[objc2::method(sel = "device", managed = "Other")]
+    fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
 
-        #[method(patchType)]
-        fn patchType(&self) -> MTLPatchType;
+    #[objc2::method(sel = "functionType")]
+    fn functionType(&self) -> MTLFunctionType;
 
-        #[method(patchControlPointCount)]
-        fn patchControlPointCount(&self) -> NSInteger;
+    #[objc2::method(sel = "patchType")]
+    fn patchType(&self) -> MTLPatchType;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Metal_MTLVertexAttribute"))]
-        #[method_id(@__retain_semantics Other vertexAttributes)]
-        fn vertexAttributes(&self) -> Option<Id<NSArray<MTLVertexAttribute>>>;
+    #[objc2::method(sel = "patchControlPointCount")]
+    fn patchControlPointCount(&self) -> NSInteger;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Metal_MTLAttribute"))]
-        #[method_id(@__retain_semantics Other stageInputAttributes)]
-        fn stageInputAttributes(&self) -> Option<Id<NSArray<MTLAttribute>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Metal_MTLVertexAttribute"))]
+    #[objc2::method(sel = "vertexAttributes", managed = "Other")]
+    fn vertexAttributes(&self) -> Option<Id<NSArray<MTLVertexAttribute>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        fn name(&self) -> Id<NSString>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Metal_MTLAttribute"))]
+    #[objc2::method(sel = "stageInputAttributes", managed = "Other")]
+    fn stageInputAttributes(&self) -> Option<Id<NSArray<MTLAttribute>>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "Metal_MTLFunctionConstant"
-        ))]
-        #[method_id(@__retain_semantics Other functionConstantsDictionary)]
-        fn functionConstantsDictionary(&self) -> Id<NSDictionary<NSString, MTLFunctionConstant>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    fn name(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics New newArgumentEncoderWithBufferIndex:)]
-        unsafe fn newArgumentEncoderWithBufferIndex(
-            &self,
-            buffer_index: NSUInteger,
-        ) -> Id<ProtocolObject<dyn MTLArgumentEncoder>>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "Metal_MTLFunctionConstant"
+    ))]
+    #[objc2::method(sel = "functionConstantsDictionary", managed = "Other")]
+    fn functionConstantsDictionary(&self) -> Id<NSDictionary<NSString, MTLFunctionConstant>>;
 
-        #[method(options)]
-        fn options(&self) -> MTLFunctionOptions;
-    }
+    #[objc2::method(sel = "newArgumentEncoderWithBufferIndex:", managed = "New")]
+    unsafe fn newArgumentEncoderWithBufferIndex(
+        &self,
+        buffer_index: NSUInteger,
+    ) -> Id<ProtocolObject<dyn MTLArgumentEncoder>>;
 
-    unsafe impl ProtocolType for dyn MTLFunction {}
-);
+    #[objc2::method(sel = "options")]
+    fn options(&self) -> MTLFunctionOptions;
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLLanguageVersion {
-        #[deprecated = "Use a newer language standard"]
-        MTLLanguageVersion1_0 = 1 << 16,
-        MTLLanguageVersion1_1 = (1 << 16) + 1,
-        MTLLanguageVersion1_2 = (1 << 16) + 2,
-        MTLLanguageVersion2_0 = 2 << 16,
-        MTLLanguageVersion2_1 = (2 << 16) + 1,
-        MTLLanguageVersion2_2 = (2 << 16) + 2,
-        MTLLanguageVersion2_3 = (2 << 16) + 3,
-        MTLLanguageVersion2_4 = (2 << 16) + 4,
-        MTLLanguageVersion3_0 = (3 << 16) + 0,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLLanguageVersion {
+    #[deprecated = "Use a newer language standard"]
+    MTLLanguageVersion1_0 = 1 << 16,
+    MTLLanguageVersion1_1 = (1 << 16) + 1,
+    MTLLanguageVersion1_2 = (1 << 16) + 2,
+    MTLLanguageVersion2_0 = 2 << 16,
+    MTLLanguageVersion2_1 = (2 << 16) + 1,
+    MTLLanguageVersion2_2 = (2 << 16) + 2,
+    MTLLanguageVersion2_3 = (2 << 16) + 3,
+    MTLLanguageVersion2_4 = (2 << 16) + 4,
+    MTLLanguageVersion3_0 = (3 << 16) + 0,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MTLLibraryType {
-        MTLLibraryTypeExecutable = 0,
-        MTLLibraryTypeDynamic = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MTLLibraryType {
+    MTLLibraryTypeExecutable = 0,
+    MTLLibraryTypeDynamic = 1,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MTLLibraryOptimizationLevel {
-        MTLLibraryOptimizationLevelDefault = 0,
-        MTLLibraryOptimizationLevelSize = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MTLLibraryOptimizationLevel {
+    MTLLibraryOptimizationLevelDefault = 0,
+    MTLLibraryOptimizationLevelSize = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLCompileOptions")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLCompileOptions")]
-    pub struct MTLCompileOptions;
-
-    #[cfg(feature = "Metal_MTLCompileOptions")]
-    unsafe impl ClassType for MTLCompileOptions {
-        type Super = NSObject;
-    }
-);
+    pub type MTLCompileOptions;
+}
 
 #[cfg(feature = "Metal_MTLCompileOptions")]
 unsafe impl NSObjectProtocol for MTLCompileOptions {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLCompileOptions")]
-    unsafe impl MTLCompileOptions {
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other preprocessorMacros)]
-        pub fn preprocessorMacros(&self) -> Option<Id<NSDictionary<NSString, NSObject>>>;
+    pub type MTLCompileOptions;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(setPreprocessorMacros:)]
-        pub unsafe fn setPreprocessorMacros(
-            &self,
-            preprocessor_macros: Option<&NSDictionary<NSString, NSObject>>,
-        );
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "preprocessorMacros", managed = "Other")]
+    pub fn preprocessorMacros(&self) -> Option<Id<NSDictionary<NSString, NSObject>>>;
 
-        #[method(fastMathEnabled)]
-        pub fn fastMathEnabled(&self) -> bool;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setPreprocessorMacros:")]
+    pub unsafe fn setPreprocessorMacros(
+        &self,
+        preprocessor_macros: Option<&NSDictionary<NSString, NSObject>>,
+    );
 
-        #[method(setFastMathEnabled:)]
-        pub fn setFastMathEnabled(&self, fast_math_enabled: bool);
+    #[objc2::method(sel = "fastMathEnabled")]
+    pub fn fastMathEnabled(&self) -> bool;
 
-        #[method(languageVersion)]
-        pub fn languageVersion(&self) -> MTLLanguageVersion;
+    #[objc2::method(sel = "setFastMathEnabled:")]
+    pub fn setFastMathEnabled(&self, fast_math_enabled: bool);
 
-        #[method(setLanguageVersion:)]
-        pub fn setLanguageVersion(&self, language_version: MTLLanguageVersion);
+    #[objc2::method(sel = "languageVersion")]
+    pub fn languageVersion(&self) -> MTLLanguageVersion;
 
-        #[method(libraryType)]
-        pub fn libraryType(&self) -> MTLLibraryType;
+    #[objc2::method(sel = "setLanguageVersion:")]
+    pub fn setLanguageVersion(&self, language_version: MTLLanguageVersion);
 
-        #[method(setLibraryType:)]
-        pub fn setLibraryType(&self, library_type: MTLLibraryType);
+    #[objc2::method(sel = "libraryType")]
+    pub fn libraryType(&self) -> MTLLibraryType;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other installName)]
-        pub fn installName(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setLibraryType:")]
+    pub fn setLibraryType(&self, library_type: MTLLibraryType);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setInstallName:)]
-        pub unsafe fn setInstallName(&self, install_name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "installName", managed = "Other")]
+    pub fn installName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other libraries)]
-        pub fn libraries(&self) -> Option<Id<NSArray<ProtocolObject<dyn MTLDynamicLibrary>>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setInstallName:")]
+    pub unsafe fn setInstallName(&self, install_name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setLibraries:)]
-        pub fn setLibraries(
-            &self,
-            libraries: Option<&NSArray<ProtocolObject<dyn MTLDynamicLibrary>>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "libraries", managed = "Other")]
+    pub fn libraries(&self) -> Option<Id<NSArray<ProtocolObject<dyn MTLDynamicLibrary>>>>;
 
-        #[method(preserveInvariance)]
-        pub fn preserveInvariance(&self) -> bool;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setLibraries:")]
+    pub fn setLibraries(&self, libraries: Option<&NSArray<ProtocolObject<dyn MTLDynamicLibrary>>>);
 
-        #[method(setPreserveInvariance:)]
-        pub fn setPreserveInvariance(&self, preserve_invariance: bool);
+    #[objc2::method(sel = "preserveInvariance")]
+    pub fn preserveInvariance(&self) -> bool;
 
-        #[method(optimizationLevel)]
-        pub unsafe fn optimizationLevel(&self) -> MTLLibraryOptimizationLevel;
+    #[objc2::method(sel = "setPreserveInvariance:")]
+    pub fn setPreserveInvariance(&self, preserve_invariance: bool);
 
-        #[method(setOptimizationLevel:)]
-        pub unsafe fn setOptimizationLevel(&self, optimization_level: MTLLibraryOptimizationLevel);
-    }
-);
+    #[objc2::method(sel = "optimizationLevel")]
+    pub unsafe fn optimizationLevel(&self) -> MTLLibraryOptimizationLevel;
+
+    #[objc2::method(sel = "setOptimizationLevel:")]
+    pub unsafe fn setOptimizationLevel(&self, optimization_level: MTLLibraryOptimizationLevel);
+}
 
 extern_static!(MTLLibraryErrorDomain: &'static NSErrorDomain);
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLLibraryError {
-        MTLLibraryErrorUnsupported = 1,
-        MTLLibraryErrorInternal = 2,
-        MTLLibraryErrorCompileFailure = 3,
-        MTLLibraryErrorCompileWarning = 4,
-        MTLLibraryErrorFunctionNotFound = 5,
-        MTLLibraryErrorFileNotFound = 6,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLLibraryError {
+    MTLLibraryErrorUnsupported = 1,
+    MTLLibraryErrorInternal = 2,
+    MTLLibraryErrorCompileFailure = 3,
+    MTLLibraryErrorCompileWarning = 4,
+    MTLLibraryErrorFunctionNotFound = 5,
+    MTLLibraryErrorFileNotFound = 6,
+}
 
-extern_protocol!(
-    pub unsafe trait MTLLibrary: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        fn label(&self) -> Option<Id<NSString>>;
+#[objc2::protocol]
+pub unsafe trait MTLLibrary: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    fn label(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        fn setLabel(&self, label: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    fn setLabel(&self, label: Option<&NSString>);
 
-        #[method_id(@__retain_semantics Other device)]
-        fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
+    #[objc2::method(sel = "device", managed = "Other")]
+    fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics New newFunctionWithName:)]
-        fn newFunctionWithName(
-            &self,
-            function_name: &NSString,
-        ) -> Option<Id<ProtocolObject<dyn MTLFunction>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "newFunctionWithName:", managed = "New")]
+    fn newFunctionWithName(
+        &self,
+        function_name: &NSString,
+    ) -> Option<Id<ProtocolObject<dyn MTLFunction>>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Metal_MTLFunctionConstantValues"
-        ))]
-        #[method_id(@__retain_semantics New newFunctionWithName:constantValues:error:_)]
-        fn newFunctionWithName_constantValues_error(
-            &self,
-            name: &NSString,
-            constant_values: &MTLFunctionConstantValues,
-        ) -> Result<Id<ProtocolObject<dyn MTLFunction>>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Metal_MTLFunctionConstantValues"
+    ))]
+    #[objc2::method(
+        sel = "newFunctionWithName:constantValues:error:",
+        managed = "New",
+        throws
+    )]
+    fn newFunctionWithName_constantValues_error(
+        &self,
+        name: &NSString,
+        constant_values: &MTLFunctionConstantValues,
+    ) -> Result<Id<ProtocolObject<dyn MTLFunction>>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Metal_MTLFunctionConstantValues"
-        ))]
-        #[method(newFunctionWithName:constantValues:completionHandler:)]
-        unsafe fn newFunctionWithName_constantValues_completionHandler(
-            &self,
-            name: &NSString,
-            constant_values: &MTLFunctionConstantValues,
-            completion_handler: &Block<(*mut ProtocolObject<dyn MTLFunction>, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Metal_MTLFunctionConstantValues"
+    ))]
+    #[objc2::method(sel = "newFunctionWithName:constantValues:completionHandler:")]
+    unsafe fn newFunctionWithName_constantValues_completionHandler(
+        &self,
+        name: &NSString,
+        constant_values: &MTLFunctionConstantValues,
+        completion_handler: &Block<(*mut ProtocolObject<dyn MTLFunction>, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Metal_MTLFunctionDescriptor"
-        ))]
-        #[method(newFunctionWithDescriptor:completionHandler:)]
-        unsafe fn newFunctionWithDescriptor_completionHandler(
-            &self,
-            descriptor: &MTLFunctionDescriptor,
-            completion_handler: &Block<(*mut ProtocolObject<dyn MTLFunction>, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Metal_MTLFunctionDescriptor"
+    ))]
+    #[objc2::method(sel = "newFunctionWithDescriptor:completionHandler:")]
+    unsafe fn newFunctionWithDescriptor_completionHandler(
+        &self,
+        descriptor: &MTLFunctionDescriptor,
+        completion_handler: &Block<(*mut ProtocolObject<dyn MTLFunction>, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Metal_MTLFunctionDescriptor"
-        ))]
-        #[method_id(@__retain_semantics New newFunctionWithDescriptor:error:_)]
-        fn newFunctionWithDescriptor_error(
-            &self,
-            descriptor: &MTLFunctionDescriptor,
-        ) -> Result<Id<ProtocolObject<dyn MTLFunction>>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Metal_MTLFunctionDescriptor"
+    ))]
+    #[objc2::method(sel = "newFunctionWithDescriptor:error:", managed = "New", throws)]
+    fn newFunctionWithDescriptor_error(
+        &self,
+        descriptor: &MTLFunctionDescriptor,
+    ) -> Result<Id<ProtocolObject<dyn MTLFunction>>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Metal_MTLIntersectionFunctionDescriptor"
-        ))]
-        #[method(newIntersectionFunctionWithDescriptor:completionHandler:)]
-        unsafe fn newIntersectionFunctionWithDescriptor_completionHandler(
-            &self,
-            descriptor: &MTLIntersectionFunctionDescriptor,
-            completion_handler: &Block<(*mut ProtocolObject<dyn MTLFunction>, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Metal_MTLIntersectionFunctionDescriptor"
+    ))]
+    #[objc2::method(sel = "newIntersectionFunctionWithDescriptor:completionHandler:")]
+    unsafe fn newIntersectionFunctionWithDescriptor_completionHandler(
+        &self,
+        descriptor: &MTLIntersectionFunctionDescriptor,
+        completion_handler: &Block<(*mut ProtocolObject<dyn MTLFunction>, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Metal_MTLIntersectionFunctionDescriptor"
-        ))]
-        #[method_id(@__retain_semantics New newIntersectionFunctionWithDescriptor:error:_)]
-        fn newIntersectionFunctionWithDescriptor_error(
-            &self,
-            descriptor: &MTLIntersectionFunctionDescriptor,
-        ) -> Result<Id<ProtocolObject<dyn MTLFunction>>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Metal_MTLIntersectionFunctionDescriptor"
+    ))]
+    #[objc2::method(
+        sel = "newIntersectionFunctionWithDescriptor:error:",
+        managed = "New",
+        throws
+    )]
+    fn newIntersectionFunctionWithDescriptor_error(
+        &self,
+        descriptor: &MTLIntersectionFunctionDescriptor,
+    ) -> Result<Id<ProtocolObject<dyn MTLFunction>>, Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other functionNames)]
-        fn functionNames(&self) -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "functionNames", managed = "Other")]
+    fn functionNames(&self) -> Id<NSArray<NSString>>;
 
-        #[method(type)]
-        unsafe fn r#type(&self) -> MTLLibraryType;
+    #[objc2::method(sel = "type")]
+    unsafe fn r#type(&self) -> MTLLibraryType;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other installName)]
-        fn installName(&self) -> Option<Id<NSString>>;
-    }
-
-    unsafe impl ProtocolType for dyn MTLLibrary {}
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "installName", managed = "Other")]
+    fn installName(&self) -> Option<Id<NSString>>;
+}

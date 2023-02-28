@@ -5,16 +5,16 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKServerChangeToken")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKServerChangeToken")]
-    pub struct CKServerChangeToken;
-
-    #[cfg(feature = "CloudKit_CKServerChangeToken")]
-    unsafe impl ClassType for CKServerChangeToken {
-        type Super = NSObject;
-    }
-);
+    pub type CKServerChangeToken;
+}
 
 #[cfg(feature = "CloudKit_CKServerChangeToken")]
 unsafe impl NSCoding for CKServerChangeToken {}
@@ -25,13 +25,16 @@ unsafe impl NSObjectProtocol for CKServerChangeToken {}
 #[cfg(feature = "CloudKit_CKServerChangeToken")]
 unsafe impl NSSecureCoding for CKServerChangeToken {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKServerChangeToken")]
-    unsafe impl CKServerChangeToken {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKServerChangeToken;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

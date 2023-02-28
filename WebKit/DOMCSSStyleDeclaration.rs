@@ -5,107 +5,109 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMCSSStyleDeclaration")]
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMCSSStyleDeclaration;
-
     #[cfg(feature = "WebKit_DOMCSSStyleDeclaration")]
-    unsafe impl ClassType for DOMCSSStyleDeclaration {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMCSSStyleDeclaration;
+}
 
 #[cfg(feature = "WebKit_DOMCSSStyleDeclaration")]
 unsafe impl NSObjectProtocol for DOMCSSStyleDeclaration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCSSStyleDeclaration")]
-    unsafe impl DOMCSSStyleDeclaration {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other cssText)]
-        pub unsafe fn cssText(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMCSSStyleDeclaration;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCssText:)]
-        pub unsafe fn setCssText(&self, css_text: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "cssText", managed = "Other")]
+    pub unsafe fn cssText(&self) -> Id<NSString>;
 
-        #[method(length)]
-        pub unsafe fn length(&self) -> c_uint;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCssText:")]
+    pub unsafe fn setCssText(&self, css_text: Option<&NSString>);
 
-        #[cfg(feature = "WebKit_DOMCSSRule")]
-        #[method_id(@__retain_semantics Other parentRule)]
-        pub unsafe fn parentRule(&self) -> Option<Id<DOMCSSRule>>;
+    #[objc2::method(sel = "length")]
+    pub unsafe fn length(&self) -> c_uint;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other getPropertyValue:)]
-        pub unsafe fn getPropertyValue(
-            &self,
-            property_name: Option<&NSString>,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "WebKit_DOMCSSRule")]
+    #[objc2::method(sel = "parentRule", managed = "Other")]
+    pub unsafe fn parentRule(&self) -> Option<Id<DOMCSSRule>>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMCSSValue"))]
-        #[method_id(@__retain_semantics Other getPropertyCSSValue:)]
-        pub unsafe fn getPropertyCSSValue(
-            &self,
-            property_name: Option<&NSString>,
-        ) -> Option<Id<DOMCSSValue>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "getPropertyValue:", managed = "Other")]
+    pub unsafe fn getPropertyValue(&self, property_name: Option<&NSString>)
+        -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other removeProperty:)]
-        pub unsafe fn removeProperty(
-            &self,
-            property_name: Option<&NSString>,
-        ) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMCSSValue"))]
+    #[objc2::method(sel = "getPropertyCSSValue:", managed = "Other")]
+    pub unsafe fn getPropertyCSSValue(
+        &self,
+        property_name: Option<&NSString>,
+    ) -> Option<Id<DOMCSSValue>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other getPropertyPriority:)]
-        pub unsafe fn getPropertyPriority(
-            &self,
-            property_name: Option<&NSString>,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "removeProperty:", managed = "Other")]
+    pub unsafe fn removeProperty(&self, property_name: Option<&NSString>) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setProperty:value:priority:)]
-        pub unsafe fn setProperty_value_priority(
-            &self,
-            property_name: Option<&NSString>,
-            value: Option<&NSString>,
-            priority: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "getPropertyPriority:", managed = "Other")]
+    pub unsafe fn getPropertyPriority(
+        &self,
+        property_name: Option<&NSString>,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other item:)]
-        pub unsafe fn item(&self, index: c_uint) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setProperty:value:priority:")]
+    pub unsafe fn setProperty_value_priority(
+        &self,
+        property_name: Option<&NSString>,
+        value: Option<&NSString>,
+        priority: Option<&NSString>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other getPropertyShorthand:)]
-        pub unsafe fn getPropertyShorthand(
-            &self,
-            property_name: Option<&NSString>,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "item:", managed = "Other")]
+    pub unsafe fn item(&self, index: c_uint) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(isPropertyImplicit:)]
-        pub unsafe fn isPropertyImplicit(&self, property_name: Option<&NSString>) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "getPropertyShorthand:", managed = "Other")]
+    pub unsafe fn getPropertyShorthand(
+        &self,
+        property_name: Option<&NSString>,
+    ) -> Option<Id<NSString>>;
 
-extern_methods!(
-    /// DOMCSSStyleDeclarationDeprecated
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "isPropertyImplicit:")]
+    pub unsafe fn isPropertyImplicit(&self, property_name: Option<&NSString>) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCSSStyleDeclaration")]
-    unsafe impl DOMCSSStyleDeclaration {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(setProperty:::)]
-        pub unsafe fn setProperty(
-            &self,
-            property_name: Option<&NSString>,
-            value: Option<&NSString>,
-            priority: Option<&NSString>,
-        );
-    }
-);
+    pub type DOMCSSStyleDeclaration;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "setProperty:::")]
+    pub unsafe fn setProperty(
+        &self,
+        property_name: Option<&NSString>,
+        value: Option<&NSString>,
+        priority: Option<&NSString>,
+    );
+}

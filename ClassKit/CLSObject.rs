@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::ClassKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "ClassKit_CLSObject")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "ClassKit_CLSObject")]
-    pub struct CLSObject;
-
-    #[cfg(feature = "ClassKit_CLSObject")]
-    unsafe impl ClassType for CLSObject {
-        type Super = NSObject;
-    }
-);
+    pub type CLSObject;
+}
 
 #[cfg(feature = "ClassKit_CLSObject")]
 unsafe impl NSCoding for CLSObject {}
@@ -24,21 +24,24 @@ unsafe impl NSObjectProtocol for CLSObject {}
 #[cfg(feature = "ClassKit_CLSObject")]
 unsafe impl NSSecureCoding for CLSObject {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ClassKit_CLSObject")]
-    unsafe impl CLSObject {
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other dateCreated)]
-        pub unsafe fn dateCreated(&self) -> Id<NSDate>;
+    pub type CLSObject;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other dateLastModified)]
-        pub unsafe fn dateLastModified(&self) -> Id<NSDate>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "dateCreated", managed = "Other")]
+    pub unsafe fn dateCreated(&self) -> Id<NSDate>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "dateLastModified", managed = "Other")]
+    pub unsafe fn dateLastModified(&self) -> Id<NSDate>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

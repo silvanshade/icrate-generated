@@ -3,25 +3,24 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSURLCacheStoragePolicy {
-        NSURLCacheStorageAllowed = 0,
-        NSURLCacheStorageAllowedInMemoryOnly = 1,
-        NSURLCacheStorageNotAllowed = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSURLCacheStoragePolicy {
+    NSURLCacheStorageAllowed = 0,
+    NSURLCacheStorageAllowedInMemoryOnly = 1,
+    NSURLCacheStorageNotAllowed = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSCachedURLResponse")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSCachedURLResponse")]
-    pub struct NSCachedURLResponse;
-
-    #[cfg(feature = "Foundation_NSCachedURLResponse")]
-    unsafe impl ClassType for NSCachedURLResponse {
-        type Super = NSObject;
-    }
-);
+    pub type NSCachedURLResponse;
+}
 
 #[cfg(feature = "Foundation_NSCachedURLResponse")]
 unsafe impl NSCoding for NSCachedURLResponse {}
@@ -32,170 +31,187 @@ unsafe impl NSObjectProtocol for NSCachedURLResponse {}
 #[cfg(feature = "Foundation_NSCachedURLResponse")]
 unsafe impl NSSecureCoding for NSCachedURLResponse {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCachedURLResponse")]
-    unsafe impl NSCachedURLResponse {
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSURLResponse"))]
-        #[method_id(@__retain_semantics Init initWithResponse:data:)]
-        pub unsafe fn initWithResponse_data(
-            this: Option<Allocated<Self>>,
-            response: &NSURLResponse,
-            data: &NSData,
-        ) -> Id<Self>;
+    pub type NSCachedURLResponse;
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSURLResponse"
-        ))]
-        #[method_id(@__retain_semantics Init initWithResponse:data:userInfo:storagePolicy:)]
-        pub unsafe fn initWithResponse_data_userInfo_storagePolicy(
-            this: Option<Allocated<Self>>,
-            response: &NSURLResponse,
-            data: &NSData,
-            user_info: Option<&NSDictionary>,
-            storage_policy: NSURLCacheStoragePolicy,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSURLResponse"))]
+    #[objc2::method(sel = "initWithResponse:data:", managed = "Init")]
+    pub unsafe fn initWithResponse_data(
+        this: Option<Allocated<Self>>,
+        response: &NSURLResponse,
+        data: &NSData,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURLResponse")]
-        #[method_id(@__retain_semantics Other response)]
-        pub unsafe fn response(&self) -> Id<NSURLResponse>;
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSURLResponse"
+    ))]
+    #[objc2::method(
+        sel = "initWithResponse:data:userInfo:storagePolicy:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithResponse_data_userInfo_storagePolicy(
+        this: Option<Allocated<Self>>,
+        response: &NSURLResponse,
+        data: &NSData,
+        user_info: Option<&NSDictionary>,
+        storage_policy: NSURLCacheStoragePolicy,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other data)]
-        pub unsafe fn data(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSURLResponse")]
+    #[objc2::method(sel = "response", managed = "Other")]
+    pub unsafe fn response(&self) -> Id<NSURLResponse>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other userInfo)]
-        pub unsafe fn userInfo(&self) -> Option<Id<NSDictionary>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "data", managed = "Other")]
+    pub unsafe fn data(&self) -> Id<NSData>;
 
-        #[method(storagePolicy)]
-        pub unsafe fn storagePolicy(&self) -> NSURLCacheStoragePolicy;
-    }
-);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "userInfo", managed = "Other")]
+    pub unsafe fn userInfo(&self) -> Option<Id<NSDictionary>>;
 
-extern_class!(
+    #[objc2::method(sel = "storagePolicy")]
+    pub unsafe fn storagePolicy(&self) -> NSURLCacheStoragePolicy;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSURLCache")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSURLCache")]
-    pub struct NSURLCache;
-
-    #[cfg(feature = "Foundation_NSURLCache")]
-    unsafe impl ClassType for NSURLCache {
-        type Super = NSObject;
-    }
-);
+    pub type NSURLCache;
+}
 
 #[cfg(feature = "Foundation_NSURLCache")]
 unsafe impl NSObjectProtocol for NSURLCache {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLCache")]
-    unsafe impl NSURLCache {
-        #[method_id(@__retain_semantics Other sharedURLCache)]
-        pub unsafe fn sharedURLCache() -> Id<NSURLCache>;
+    pub type NSURLCache;
 
-        #[method(setSharedURLCache:)]
-        pub unsafe fn setSharedURLCache(shared_url_cache: &NSURLCache);
+    #[objc2::method(sel = "sharedURLCache", managed = "Other")]
+    pub unsafe fn sharedURLCache() -> Id<NSURLCache>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithMemoryCapacity:diskCapacity:diskPath:)]
-        pub unsafe fn initWithMemoryCapacity_diskCapacity_diskPath(
-            this: Option<Allocated<Self>>,
-            memory_capacity: NSUInteger,
-            disk_capacity: NSUInteger,
-            path: Option<&NSString>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "setSharedURLCache:")]
+    pub unsafe fn setSharedURLCache(shared_url_cache: &NSURLCache);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithMemoryCapacity:diskCapacity:directoryURL:)]
-        pub unsafe fn initWithMemoryCapacity_diskCapacity_directoryURL(
-            this: Option<Allocated<Self>>,
-            memory_capacity: NSUInteger,
-            disk_capacity: NSUInteger,
-            directory_url: Option<&NSURL>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(
+        sel = "initWithMemoryCapacity:diskCapacity:diskPath:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithMemoryCapacity_diskCapacity_diskPath(
+        this: Option<Allocated<Self>>,
+        memory_capacity: NSUInteger,
+        disk_capacity: NSUInteger,
+        path: Option<&NSString>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSCachedURLResponse",
-            feature = "Foundation_NSURLRequest"
-        ))]
-        #[method_id(@__retain_semantics Other cachedResponseForRequest:)]
-        pub unsafe fn cachedResponseForRequest(
-            &self,
-            request: &NSURLRequest,
-        ) -> Option<Id<NSCachedURLResponse>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(
+        sel = "initWithMemoryCapacity:diskCapacity:directoryURL:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithMemoryCapacity_diskCapacity_directoryURL(
+        this: Option<Allocated<Self>>,
+        memory_capacity: NSUInteger,
+        disk_capacity: NSUInteger,
+        directory_url: Option<&NSURL>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSCachedURLResponse",
-            feature = "Foundation_NSURLRequest"
-        ))]
-        #[method(storeCachedResponse:forRequest:)]
-        pub unsafe fn storeCachedResponse_forRequest(
-            &self,
-            cached_response: &NSCachedURLResponse,
-            request: &NSURLRequest,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSCachedURLResponse",
+        feature = "Foundation_NSURLRequest"
+    ))]
+    #[objc2::method(sel = "cachedResponseForRequest:", managed = "Other")]
+    pub unsafe fn cachedResponseForRequest(
+        &self,
+        request: &NSURLRequest,
+    ) -> Option<Id<NSCachedURLResponse>>;
 
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[method(removeCachedResponseForRequest:)]
-        pub unsafe fn removeCachedResponseForRequest(&self, request: &NSURLRequest);
+    #[cfg(all(
+        feature = "Foundation_NSCachedURLResponse",
+        feature = "Foundation_NSURLRequest"
+    ))]
+    #[objc2::method(sel = "storeCachedResponse:forRequest:")]
+    pub unsafe fn storeCachedResponse_forRequest(
+        &self,
+        cached_response: &NSCachedURLResponse,
+        request: &NSURLRequest,
+    );
 
-        #[method(removeAllCachedResponses)]
-        pub unsafe fn removeAllCachedResponses(&self);
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[objc2::method(sel = "removeCachedResponseForRequest:")]
+    pub unsafe fn removeCachedResponseForRequest(&self, request: &NSURLRequest);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(removeCachedResponsesSinceDate:)]
-        pub unsafe fn removeCachedResponsesSinceDate(&self, date: &NSDate);
+    #[objc2::method(sel = "removeAllCachedResponses")]
+    pub unsafe fn removeAllCachedResponses(&self);
 
-        #[method(memoryCapacity)]
-        pub unsafe fn memoryCapacity(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "removeCachedResponsesSinceDate:")]
+    pub unsafe fn removeCachedResponsesSinceDate(&self, date: &NSDate);
 
-        #[method(setMemoryCapacity:)]
-        pub unsafe fn setMemoryCapacity(&self, memory_capacity: NSUInteger);
+    #[objc2::method(sel = "memoryCapacity")]
+    pub unsafe fn memoryCapacity(&self) -> NSUInteger;
 
-        #[method(diskCapacity)]
-        pub unsafe fn diskCapacity(&self) -> NSUInteger;
+    #[objc2::method(sel = "setMemoryCapacity:")]
+    pub unsafe fn setMemoryCapacity(&self, memory_capacity: NSUInteger);
 
-        #[method(setDiskCapacity:)]
-        pub unsafe fn setDiskCapacity(&self, disk_capacity: NSUInteger);
+    #[objc2::method(sel = "diskCapacity")]
+    pub unsafe fn diskCapacity(&self) -> NSUInteger;
 
-        #[method(currentMemoryUsage)]
-        pub unsafe fn currentMemoryUsage(&self) -> NSUInteger;
+    #[objc2::method(sel = "setDiskCapacity:")]
+    pub unsafe fn setDiskCapacity(&self, disk_capacity: NSUInteger);
 
-        #[method(currentDiskUsage)]
-        pub unsafe fn currentDiskUsage(&self) -> NSUInteger;
-    }
-);
+    #[objc2::method(sel = "currentMemoryUsage")]
+    pub unsafe fn currentMemoryUsage(&self) -> NSUInteger;
 
-extern_methods!(
-    /// NSURLSessionTaskAdditions
+    #[objc2::method(sel = "currentDiskUsage")]
+    pub unsafe fn currentDiskUsage(&self) -> NSUInteger;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLCache")]
-    unsafe impl NSURLCache {
-        #[cfg(all(
-            feature = "Foundation_NSCachedURLResponse",
-            feature = "Foundation_NSURLSessionDataTask"
-        ))]
-        #[method(storeCachedResponse:forDataTask:)]
-        pub unsafe fn storeCachedResponse_forDataTask(
-            &self,
-            cached_response: &NSCachedURLResponse,
-            data_task: &NSURLSessionDataTask,
-        );
+    pub type NSURLCache;
 
-        #[cfg(all(
-            feature = "Foundation_NSCachedURLResponse",
-            feature = "Foundation_NSURLSessionDataTask"
-        ))]
-        #[method(getCachedResponseForDataTask:completionHandler:)]
-        pub unsafe fn getCachedResponseForDataTask_completionHandler(
-            &self,
-            data_task: &NSURLSessionDataTask,
-            completion_handler: &Block<(*mut NSCachedURLResponse,), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSCachedURLResponse",
+        feature = "Foundation_NSURLSessionDataTask"
+    ))]
+    #[objc2::method(sel = "storeCachedResponse:forDataTask:")]
+    pub unsafe fn storeCachedResponse_forDataTask(
+        &self,
+        cached_response: &NSCachedURLResponse,
+        data_task: &NSURLSessionDataTask,
+    );
 
-        #[cfg(feature = "Foundation_NSURLSessionDataTask")]
-        #[method(removeCachedResponseForDataTask:)]
-        pub unsafe fn removeCachedResponseForDataTask(&self, data_task: &NSURLSessionDataTask);
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSCachedURLResponse",
+        feature = "Foundation_NSURLSessionDataTask"
+    ))]
+    #[objc2::method(sel = "getCachedResponseForDataTask:completionHandler:")]
+    pub unsafe fn getCachedResponseForDataTask_completionHandler(
+        &self,
+        data_task: &NSURLSessionDataTask,
+        completion_handler: &Block<(*mut NSCachedURLResponse,), ()>,
+    );
+
+    #[cfg(feature = "Foundation_NSURLSessionDataTask")]
+    #[objc2::method(sel = "removeCachedResponseForDataTask:")]
+    pub unsafe fn removeCachedResponseForDataTask(&self, data_task: &NSURLSessionDataTask);
+}

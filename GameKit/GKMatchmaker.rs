@@ -5,387 +5,392 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum GKInviteRecipientResponse {
-        GKInviteRecipientResponseAccepted = 0,
-        GKInviteRecipientResponseDeclined = 1,
-        GKInviteRecipientResponseFailed = 2,
-        GKInviteRecipientResponseIncompatible = 3,
-        GKInviteRecipientResponseUnableToConnect = 4,
-        GKInviteRecipientResponseNoAnswer = 5,
-        GKInviteeResponseAccepted = GKInviteRecipientResponseAccepted,
-        GKInviteeResponseDeclined = GKInviteRecipientResponseDeclined,
-        GKInviteeResponseFailed = GKInviteRecipientResponseFailed,
-        GKInviteeResponseIncompatible = GKInviteRecipientResponseIncompatible,
-        GKInviteeResponseUnableToConnect = GKInviteRecipientResponseUnableToConnect,
-        GKInviteeResponseNoAnswer = GKInviteRecipientResponseNoAnswer,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum GKInviteRecipientResponse {
+    GKInviteRecipientResponseAccepted = 0,
+    GKInviteRecipientResponseDeclined = 1,
+    GKInviteRecipientResponseFailed = 2,
+    GKInviteRecipientResponseIncompatible = 3,
+    GKInviteRecipientResponseUnableToConnect = 4,
+    GKInviteRecipientResponseNoAnswer = 5,
+    GKInviteeResponseAccepted = GKInviteRecipientResponseAccepted,
+    GKInviteeResponseDeclined = GKInviteRecipientResponseDeclined,
+    GKInviteeResponseFailed = GKInviteRecipientResponseFailed,
+    GKInviteeResponseIncompatible = GKInviteRecipientResponseIncompatible,
+    GKInviteeResponseUnableToConnect = GKInviteRecipientResponseUnableToConnect,
+    GKInviteeResponseNoAnswer = GKInviteRecipientResponseNoAnswer,
+}
 
 pub type GKInviteeResponse = GKInviteRecipientResponse;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum GKMatchType {
-        GKMatchTypePeerToPeer = 0,
-        GKMatchTypeHosted = 1,
-        GKMatchTypeTurnBased = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum GKMatchType {
+    GKMatchTypePeerToPeer = 0,
+    GKMatchTypeHosted = 1,
+    GKMatchTypeTurnBased = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameKit_GKMatchRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKMatchRequest")]
-    pub struct GKMatchRequest;
-
-    #[cfg(feature = "GameKit_GKMatchRequest")]
-    unsafe impl ClassType for GKMatchRequest {
-        type Super = NSObject;
-    }
-);
+    pub type GKMatchRequest;
+}
 
 #[cfg(feature = "GameKit_GKMatchRequest")]
 unsafe impl NSObjectProtocol for GKMatchRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKMatchRequest")]
-    unsafe impl GKMatchRequest {
-        #[method(minPlayers)]
-        pub unsafe fn minPlayers(&self) -> NSUInteger;
+    pub type GKMatchRequest;
 
-        #[method(setMinPlayers:)]
-        pub unsafe fn setMinPlayers(&self, min_players: NSUInteger);
+    #[objc2::method(sel = "minPlayers")]
+    pub unsafe fn minPlayers(&self) -> NSUInteger;
 
-        #[method(maxPlayers)]
-        pub unsafe fn maxPlayers(&self) -> NSUInteger;
+    #[objc2::method(sel = "setMinPlayers:")]
+    pub unsafe fn setMinPlayers(&self, min_players: NSUInteger);
 
-        #[method(setMaxPlayers:)]
-        pub unsafe fn setMaxPlayers(&self, max_players: NSUInteger);
+    #[objc2::method(sel = "maxPlayers")]
+    pub unsafe fn maxPlayers(&self) -> NSUInteger;
 
-        #[method(playerGroup)]
-        pub unsafe fn playerGroup(&self) -> NSUInteger;
+    #[objc2::method(sel = "setMaxPlayers:")]
+    pub unsafe fn setMaxPlayers(&self, max_players: NSUInteger);
 
-        #[method(setPlayerGroup:)]
-        pub unsafe fn setPlayerGroup(&self, player_group: NSUInteger);
+    #[objc2::method(sel = "playerGroup")]
+    pub unsafe fn playerGroup(&self) -> NSUInteger;
 
-        #[method(playerAttributes)]
-        pub unsafe fn playerAttributes(&self) -> u32;
+    #[objc2::method(sel = "setPlayerGroup:")]
+    pub unsafe fn setPlayerGroup(&self, player_group: NSUInteger);
 
-        #[method(setPlayerAttributes:)]
-        pub unsafe fn setPlayerAttributes(&self, player_attributes: u32);
+    #[objc2::method(sel = "playerAttributes")]
+    pub unsafe fn playerAttributes(&self) -> u32;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "GameKit_GKPlayer"))]
-        #[method_id(@__retain_semantics Other recipients)]
-        pub unsafe fn recipients(&self) -> Option<Id<NSArray<GKPlayer>>>;
+    #[objc2::method(sel = "setPlayerAttributes:")]
+    pub unsafe fn setPlayerAttributes(&self, player_attributes: u32);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "GameKit_GKPlayer"))]
-        #[method(setRecipients:)]
-        pub unsafe fn setRecipients(&self, recipients: Option<&NSArray<GKPlayer>>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "GameKit_GKPlayer"))]
+    #[objc2::method(sel = "recipients", managed = "Other")]
+    pub unsafe fn recipients(&self) -> Option<Id<NSArray<GKPlayer>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other inviteMessage)]
-        pub unsafe fn inviteMessage(&self) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "GameKit_GKPlayer"))]
+    #[objc2::method(sel = "setRecipients:")]
+    pub unsafe fn setRecipients(&self, recipients: Option<&NSArray<GKPlayer>>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setInviteMessage:)]
-        pub unsafe fn setInviteMessage(&self, invite_message: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "inviteMessage", managed = "Other")]
+    pub unsafe fn inviteMessage(&self) -> Option<Id<NSString>>;
 
-        #[method(defaultNumberOfPlayers)]
-        pub unsafe fn defaultNumberOfPlayers(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setInviteMessage:")]
+    pub unsafe fn setInviteMessage(&self, invite_message: Option<&NSString>);
 
-        #[method(setDefaultNumberOfPlayers:)]
-        pub unsafe fn setDefaultNumberOfPlayers(&self, default_number_of_players: NSUInteger);
+    #[objc2::method(sel = "defaultNumberOfPlayers")]
+    pub unsafe fn defaultNumberOfPlayers(&self) -> NSUInteger;
 
-        #[deprecated = "Set the matchmakingMode of GKMatchmakerViewController instead."]
-        #[method(restrictToAutomatch)]
-        pub unsafe fn restrictToAutomatch(&self) -> bool;
+    #[objc2::method(sel = "setDefaultNumberOfPlayers:")]
+    pub unsafe fn setDefaultNumberOfPlayers(&self, default_number_of_players: NSUInteger);
 
-        #[deprecated = "Set the matchmakingMode of GKMatchmakerViewController instead."]
-        #[method(setRestrictToAutomatch:)]
-        pub unsafe fn setRestrictToAutomatch(&self, restrict_to_automatch: bool);
+    #[deprecated = "Set the matchmakingMode of GKMatchmakerViewController instead."]
+    #[objc2::method(sel = "restrictToAutomatch")]
+    pub unsafe fn restrictToAutomatch(&self) -> bool;
 
-        #[cfg(feature = "GameKit_GKPlayer")]
-        #[method(recipientResponseHandler)]
-        pub unsafe fn recipientResponseHandler(
-            &self,
-        ) -> *mut Block<(NonNull<GKPlayer>, GKInviteRecipientResponse), ()>;
+    #[deprecated = "Set the matchmakingMode of GKMatchmakerViewController instead."]
+    #[objc2::method(sel = "setRestrictToAutomatch:")]
+    pub unsafe fn setRestrictToAutomatch(&self, restrict_to_automatch: bool);
 
-        #[cfg(feature = "GameKit_GKPlayer")]
-        #[method(setRecipientResponseHandler:)]
-        pub unsafe fn setRecipientResponseHandler(
-            &self,
-            recipient_response_handler: Option<
-                &Block<(NonNull<GKPlayer>, GKInviteRecipientResponse), ()>,
-            >,
-        );
+    #[cfg(feature = "GameKit_GKPlayer")]
+    #[objc2::method(sel = "recipientResponseHandler")]
+    pub unsafe fn recipientResponseHandler(
+        &self,
+    ) -> *mut Block<(NonNull<GKPlayer>, GKInviteRecipientResponse), ()>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "use recipientResponseHandler"]
-        #[method(inviteeResponseHandler)]
-        pub unsafe fn inviteeResponseHandler(
-            &self,
-        ) -> *mut Block<(NonNull<NSString>, GKInviteeResponse), ()>;
+    #[cfg(feature = "GameKit_GKPlayer")]
+    #[objc2::method(sel = "setRecipientResponseHandler:")]
+    pub unsafe fn setRecipientResponseHandler(
+        &self,
+        recipient_response_handler: Option<
+            &Block<(NonNull<GKPlayer>, GKInviteRecipientResponse), ()>,
+        >,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "use recipientResponseHandler"]
-        #[method(setInviteeResponseHandler:)]
-        pub unsafe fn setInviteeResponseHandler(
-            &self,
-            invitee_response_handler: Option<&Block<(NonNull<NSString>, GKInviteeResponse), ()>>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "use recipientResponseHandler"]
+    #[objc2::method(sel = "inviteeResponseHandler")]
+    pub unsafe fn inviteeResponseHandler(
+        &self,
+    ) -> *mut Block<(NonNull<NSString>, GKInviteeResponse), ()>;
 
-        #[method(maxPlayersAllowedForMatchOfType:)]
-        pub unsafe fn maxPlayersAllowedForMatchOfType(match_type: GKMatchType) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "use recipientResponseHandler"]
+    #[objc2::method(sel = "setInviteeResponseHandler:")]
+    pub unsafe fn setInviteeResponseHandler(
+        &self,
+        invitee_response_handler: Option<&Block<(NonNull<NSString>, GKInviteeResponse), ()>>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[deprecated = "This property is obsolete, use recipients instead"]
-        #[method_id(@__retain_semantics Other playersToInvite)]
-        pub unsafe fn playersToInvite(&self) -> Option<Id<NSArray<NSString>>>;
+    #[objc2::method(sel = "maxPlayersAllowedForMatchOfType:")]
+    pub unsafe fn maxPlayersAllowedForMatchOfType(match_type: GKMatchType) -> NSUInteger;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[deprecated = "This property is obsolete, use recipients instead"]
-        #[method(setPlayersToInvite:)]
-        pub unsafe fn setPlayersToInvite(&self, players_to_invite: Option<&NSArray<NSString>>);
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[deprecated = "This property is obsolete, use recipients instead"]
+    #[objc2::method(sel = "playersToInvite", managed = "Other")]
+    pub unsafe fn playersToInvite(&self) -> Option<Id<NSArray<NSString>>>;
 
-extern_class!(
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[deprecated = "This property is obsolete, use recipients instead"]
+    #[objc2::method(sel = "setPlayersToInvite:")]
+    pub unsafe fn setPlayersToInvite(&self, players_to_invite: Option<&NSArray<NSString>>);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameKit_GKInvite")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKInvite")]
-    pub struct GKInvite;
-
-    #[cfg(feature = "GameKit_GKInvite")]
-    unsafe impl ClassType for GKInvite {
-        type Super = NSObject;
-    }
-);
+    pub type GKInvite;
+}
 
 #[cfg(feature = "GameKit_GKInvite")]
 unsafe impl NSObjectProtocol for GKInvite {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKInvite")]
-    unsafe impl GKInvite {
-        #[cfg(feature = "GameKit_GKPlayer")]
-        #[method_id(@__retain_semantics Other sender)]
-        pub unsafe fn sender(&self) -> Id<GKPlayer>;
+    pub type GKInvite;
 
-        #[method(isHosted)]
-        pub unsafe fn isHosted(&self) -> bool;
+    #[cfg(feature = "GameKit_GKPlayer")]
+    #[objc2::method(sel = "sender", managed = "Other")]
+    pub unsafe fn sender(&self) -> Id<GKPlayer>;
 
-        #[method(playerGroup)]
-        pub unsafe fn playerGroup(&self) -> NSUInteger;
+    #[objc2::method(sel = "isHosted")]
+    pub unsafe fn isHosted(&self) -> bool;
 
-        #[method(playerAttributes)]
-        pub unsafe fn playerAttributes(&self) -> u32;
+    #[objc2::method(sel = "playerGroup")]
+    pub unsafe fn playerGroup(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "This property is obsolete, use sender instead"]
-        #[method_id(@__retain_semantics Other inviter)]
-        pub unsafe fn inviter(&self) -> Id<NSString>;
-    }
-);
+    #[objc2::method(sel = "playerAttributes")]
+    pub unsafe fn playerAttributes(&self) -> u32;
 
-extern_protocol!(
-    pub unsafe trait GKInviteEventListener {
-        #[cfg(all(feature = "GameKit_GKInvite", feature = "GameKit_GKPlayer"))]
-        #[optional]
-        #[method(player:didAcceptInvite:)]
-        unsafe fn player_didAcceptInvite(&self, player: &GKPlayer, invite: &GKInvite);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "This property is obsolete, use sender instead"]
+    #[objc2::method(sel = "inviter", managed = "Other")]
+    pub unsafe fn inviter(&self) -> Id<NSString>;
+}
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "GameKit_GKPlayer"))]
-        #[optional]
-        #[method(player:didRequestMatchWithRecipients:)]
-        unsafe fn player_didRequestMatchWithRecipients(
-            &self,
-            player: &GKPlayer,
-            recipient_players: &NSArray<GKPlayer>,
-        );
+#[objc2::protocol]
+pub unsafe trait GKInviteEventListener {
+    #[cfg(all(feature = "GameKit_GKInvite", feature = "GameKit_GKPlayer"))]
+    #[objc2::method(optional, sel = "player:didAcceptInvite:")]
+    unsafe fn player_didAcceptInvite(&self, player: &GKPlayer, invite: &GKInvite);
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString",
-            feature = "GameKit_GKPlayer"
-        ))]
-        #[optional]
-        #[method(player:didRequestMatchWithPlayers:)]
-        unsafe fn player_didRequestMatchWithPlayers(
-            &self,
-            player: &GKPlayer,
-            player_i_ds_to_invite: &NSArray<NSString>,
-        );
-    }
+    #[cfg(all(feature = "Foundation_NSArray", feature = "GameKit_GKPlayer"))]
+    #[objc2::method(optional, sel = "player:didRequestMatchWithRecipients:")]
+    unsafe fn player_didRequestMatchWithRecipients(
+        &self,
+        player: &GKPlayer,
+        recipient_players: &NSArray<GKPlayer>,
+    );
 
-    unsafe impl ProtocolType for dyn GKInviteEventListener {}
-);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString",
+        feature = "GameKit_GKPlayer"
+    ))]
+    #[objc2::method(optional, sel = "player:didRequestMatchWithPlayers:")]
+    unsafe fn player_didRequestMatchWithPlayers(
+        &self,
+        player: &GKPlayer,
+        player_i_ds_to_invite: &NSArray<NSString>,
+    );
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameKit_GKMatchmaker")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKMatchmaker")]
-    pub struct GKMatchmaker;
-
-    #[cfg(feature = "GameKit_GKMatchmaker")]
-    unsafe impl ClassType for GKMatchmaker {
-        type Super = NSObject;
-    }
-);
+    pub type GKMatchmaker;
+}
 
 #[cfg(feature = "GameKit_GKMatchmaker")]
 unsafe impl NSObjectProtocol for GKMatchmaker {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKMatchmaker")]
-    unsafe impl GKMatchmaker {
-        #[method_id(@__retain_semantics Other sharedMatchmaker)]
-        pub unsafe fn sharedMatchmaker() -> Id<GKMatchmaker>;
+    pub type GKMatchmaker;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "GameKit_GKInvite",
-            feature = "GameKit_GKMatch"
-        ))]
-        #[method(matchForInvite:completionHandler:)]
-        pub unsafe fn matchForInvite_completionHandler(
-            &self,
-            invite: &GKInvite,
-            completion_handler: Option<&Block<(*mut GKMatch, *mut NSError), ()>>,
-        );
+    #[objc2::method(sel = "sharedMatchmaker", managed = "Other")]
+    pub unsafe fn sharedMatchmaker() -> Id<GKMatchmaker>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "GameKit_GKMatch",
-            feature = "GameKit_GKMatchRequest"
-        ))]
-        #[method(findMatchForRequest:withCompletionHandler:)]
-        pub unsafe fn findMatchForRequest_withCompletionHandler(
-            &self,
-            request: &GKMatchRequest,
-            completion_handler: Option<&Block<(*mut GKMatch, *mut NSError), ()>>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "GameKit_GKInvite",
+        feature = "GameKit_GKMatch"
+    ))]
+    #[objc2::method(sel = "matchForInvite:completionHandler:")]
+    pub unsafe fn matchForInvite_completionHandler(
+        &self,
+        invite: &GKInvite,
+        completion_handler: Option<&Block<(*mut GKMatch, *mut NSError), ()>>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "GameKit_GKMatchRequest",
-            feature = "GameKit_GKPlayer"
-        ))]
-        #[method(findPlayersForHostedRequest:withCompletionHandler:)]
-        pub unsafe fn findPlayersForHostedRequest_withCompletionHandler(
-            &self,
-            request: &GKMatchRequest,
-            completion_handler: Option<&Block<(*mut NSArray<GKPlayer>, *mut NSError), ()>>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "GameKit_GKMatch",
+        feature = "GameKit_GKMatchRequest"
+    ))]
+    #[objc2::method(sel = "findMatchForRequest:withCompletionHandler:")]
+    pub unsafe fn findMatchForRequest_withCompletionHandler(
+        &self,
+        request: &GKMatchRequest,
+        completion_handler: Option<&Block<(*mut GKMatch, *mut NSError), ()>>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "GameKit_GKMatch",
-            feature = "GameKit_GKMatchRequest"
-        ))]
-        #[method(addPlayersToMatch:matchRequest:completionHandler:)]
-        pub unsafe fn addPlayersToMatch_matchRequest_completionHandler(
-            &self,
-            r#match: &GKMatch,
-            match_request: &GKMatchRequest,
-            completion_handler: Option<&Block<(*mut NSError,), ()>>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "GameKit_GKMatchRequest",
+        feature = "GameKit_GKPlayer"
+    ))]
+    #[objc2::method(sel = "findPlayersForHostedRequest:withCompletionHandler:")]
+    pub unsafe fn findPlayersForHostedRequest_withCompletionHandler(
+        &self,
+        request: &GKMatchRequest,
+        completion_handler: Option<&Block<(*mut NSArray<GKPlayer>, *mut NSError), ()>>,
+    );
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "GameKit_GKMatch",
+        feature = "GameKit_GKMatchRequest"
+    ))]
+    #[objc2::method(sel = "addPlayersToMatch:matchRequest:completionHandler:")]
+    pub unsafe fn addPlayersToMatch_matchRequest_completionHandler(
+        &self,
+        r#match: &GKMatch,
+        match_request: &GKMatchRequest,
+        completion_handler: Option<&Block<(*mut NSError,), ()>>,
+    );
 
-        #[cfg(feature = "GameKit_GKPlayer")]
-        #[method(cancelPendingInviteToPlayer:)]
-        pub unsafe fn cancelPendingInviteToPlayer(&self, player: &GKPlayer);
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
 
-        #[cfg(feature = "GameKit_GKMatch")]
-        #[method(finishMatchmakingForMatch:)]
-        pub unsafe fn finishMatchmakingForMatch(&self, r#match: &GKMatch);
+    #[cfg(feature = "GameKit_GKPlayer")]
+    #[objc2::method(sel = "cancelPendingInviteToPlayer:")]
+    pub unsafe fn cancelPendingInviteToPlayer(&self, player: &GKPlayer);
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(queryPlayerGroupActivity:withCompletionHandler:)]
-        pub unsafe fn queryPlayerGroupActivity_withCompletionHandler(
-            &self,
-            player_group: NSUInteger,
-            completion_handler: Option<&Block<(NSInteger, *mut NSError), ()>>,
-        );
+    #[cfg(feature = "GameKit_GKMatch")]
+    #[objc2::method(sel = "finishMatchmakingForMatch:")]
+    pub unsafe fn finishMatchmakingForMatch(&self, r#match: &GKMatch);
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(queryActivityWithCompletionHandler:)]
-        pub unsafe fn queryActivityWithCompletionHandler(
-            &self,
-            completion_handler: Option<&Block<(NSInteger, *mut NSError), ()>>,
-        );
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "queryPlayerGroupActivity:withCompletionHandler:")]
+    pub unsafe fn queryPlayerGroupActivity_withCompletionHandler(
+        &self,
+        player_group: NSUInteger,
+        completion_handler: Option<&Block<(NSInteger, *mut NSError), ()>>,
+    );
 
-        #[cfg(feature = "GameKit_GKPlayer")]
-        #[method(startBrowsingForNearbyPlayersWithHandler:)]
-        pub unsafe fn startBrowsingForNearbyPlayersWithHandler(
-            &self,
-            reachable_handler: Option<&Block<(NonNull<GKPlayer>, Bool), ()>>,
-        );
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "queryActivityWithCompletionHandler:")]
+    pub unsafe fn queryActivityWithCompletionHandler(
+        &self,
+        completion_handler: Option<&Block<(NSInteger, *mut NSError), ()>>,
+    );
 
-        #[method(stopBrowsingForNearbyPlayers)]
-        pub unsafe fn stopBrowsingForNearbyPlayers(&self);
+    #[cfg(feature = "GameKit_GKPlayer")]
+    #[objc2::method(sel = "startBrowsingForNearbyPlayersWithHandler:")]
+    pub unsafe fn startBrowsingForNearbyPlayersWithHandler(
+        &self,
+        reachable_handler: Option<&Block<(NonNull<GKPlayer>, Bool), ()>>,
+    );
 
-        #[cfg(feature = "GameKit_GKPlayer")]
-        #[method(startGroupActivityWithPlayerHandler:)]
-        pub unsafe fn startGroupActivityWithPlayerHandler(
-            &self,
-            handler: &Block<(NonNull<GKPlayer>,), ()>,
-        );
+    #[objc2::method(sel = "stopBrowsingForNearbyPlayers")]
+    pub unsafe fn stopBrowsingForNearbyPlayers(&self);
 
-        #[method(stopGroupActivity)]
-        pub unsafe fn stopGroupActivity(&self);
-    }
-);
+    #[cfg(feature = "GameKit_GKPlayer")]
+    #[objc2::method(sel = "startGroupActivityWithPlayerHandler:")]
+    pub unsafe fn startGroupActivityWithPlayerHandler(
+        &self,
+        handler: &Block<(NonNull<GKPlayer>,), ()>,
+    );
 
-extern_methods!(
-    /// GKDeprecated
+    #[objc2::method(sel = "stopGroupActivity")]
+    pub unsafe fn stopGroupActivity(&self);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKMatchmaker")]
-    unsafe impl GKMatchmaker {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "GameKit_GKInvite"))]
-        #[deprecated = "Use registerListener on GKLocalPlayer to register an object that implements the GKInviteEventListenerProtocol instead"]
-        #[method(inviteHandler)]
-        pub unsafe fn inviteHandler(&self) -> *mut Block<(NonNull<GKInvite>, *mut NSArray), ()>;
+    pub type GKMatchmaker;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "GameKit_GKInvite"))]
-        #[deprecated = "Use registerListener on GKLocalPlayer to register an object that implements the GKInviteEventListenerProtocol instead"]
-        #[method(setInviteHandler:)]
-        pub unsafe fn setInviteHandler(
-            &self,
-            invite_handler: Option<&Block<(NonNull<GKInvite>, *mut NSArray), ()>>,
-        );
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "GameKit_GKInvite"))]
+    #[deprecated = "Use registerListener on GKLocalPlayer to register an object that implements the GKInviteEventListenerProtocol instead"]
+    #[objc2::method(sel = "inviteHandler")]
+    pub unsafe fn inviteHandler(&self) -> *mut Block<(NonNull<GKInvite>, *mut NSArray), ()>;
 
-extern_methods!(
-    /// Obsoleted
+    #[cfg(all(feature = "Foundation_NSArray", feature = "GameKit_GKInvite"))]
+    #[deprecated = "Use registerListener on GKLocalPlayer to register an object that implements the GKInviteEventListenerProtocol instead"]
+    #[objc2::method(sel = "setInviteHandler:")]
+    pub unsafe fn setInviteHandler(
+        &self,
+        invite_handler: Option<&Block<(NonNull<GKInvite>, *mut NSArray), ()>>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKMatchmaker")]
-    unsafe impl GKMatchmaker {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "This is never invoked and its implementation does nothing, Use startBrowsingForNearbyPlayersWithHandler: instead"]
-        #[method(startBrowsingForNearbyPlayersWithReachableHandler:)]
-        pub unsafe fn startBrowsingForNearbyPlayersWithReachableHandler(
-            &self,
-            reachable_handler: Option<&Block<(NonNull<NSString>, Bool), ()>>,
-        );
+    pub type GKMatchmaker;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "This is never invoked and its implementation does nothing, use cancelPendingInviteToPlayer:"]
-        #[method(cancelInviteToPlayer:)]
-        pub unsafe fn cancelInviteToPlayer(&self, player_id: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "This is never invoked and its implementation does nothing, Use startBrowsingForNearbyPlayersWithHandler: instead"]
+    #[objc2::method(sel = "startBrowsingForNearbyPlayersWithReachableHandler:")]
+    pub unsafe fn startBrowsingForNearbyPlayersWithReachableHandler(
+        &self,
+        reachable_handler: Option<&Block<(NonNull<NSString>, Bool), ()>>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "GameKit_GKMatchRequest"
-        ))]
-        #[deprecated = "This is never invoked and its implementation does nothing, use findPlayersForHostedRequest:"]
-        #[method(findPlayersForHostedMatchRequest:withCompletionHandler:)]
-        pub unsafe fn findPlayersForHostedMatchRequest_withCompletionHandler(
-            &self,
-            request: &GKMatchRequest,
-            completion_handler: Option<&Block<(*mut NSArray<NSString>, *mut NSError), ()>>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "This is never invoked and its implementation does nothing, use cancelPendingInviteToPlayer:"]
+    #[objc2::method(sel = "cancelInviteToPlayer:")]
+    pub unsafe fn cancelInviteToPlayer(&self, player_id: &NSString);
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "GameKit_GKMatchRequest"
+    ))]
+    #[deprecated = "This is never invoked and its implementation does nothing, use findPlayersForHostedRequest:"]
+    #[objc2::method(sel = "findPlayersForHostedMatchRequest:withCompletionHandler:")]
+    pub unsafe fn findPlayersForHostedMatchRequest_withCompletionHandler(
+        &self,
+        request: &GKMatchRequest,
+        completion_handler: Option<&Block<(*mut NSArray<NSString>, *mut NSError), ()>>,
+    );
+}

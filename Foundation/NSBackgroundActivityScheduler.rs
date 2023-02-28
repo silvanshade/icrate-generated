@@ -3,78 +3,80 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSBackgroundActivityResult {
-        NSBackgroundActivityResultFinished = 1,
-        NSBackgroundActivityResultDeferred = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSBackgroundActivityResult {
+    NSBackgroundActivityResultFinished = 1,
+    NSBackgroundActivityResultDeferred = 2,
+}
 
 pub type NSBackgroundActivityCompletionHandler = *mut Block<(NSBackgroundActivityResult,), ()>;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSBackgroundActivityScheduler")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSBackgroundActivityScheduler")]
-    pub struct NSBackgroundActivityScheduler;
-
-    #[cfg(feature = "Foundation_NSBackgroundActivityScheduler")]
-    unsafe impl ClassType for NSBackgroundActivityScheduler {
-        type Super = NSObject;
-    }
-);
+    pub type NSBackgroundActivityScheduler;
+}
 
 #[cfg(feature = "Foundation_NSBackgroundActivityScheduler")]
 unsafe impl NSObjectProtocol for NSBackgroundActivityScheduler {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSBackgroundActivityScheduler")]
-    unsafe impl NSBackgroundActivityScheduler {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithIdentifier:)]
-        pub unsafe fn initWithIdentifier(
-            this: Option<Allocated<Self>>,
-            identifier: &NSString,
-        ) -> Id<Self>;
+    pub type NSBackgroundActivityScheduler;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithIdentifier:", managed = "Init")]
+    pub unsafe fn initWithIdentifier(
+        this: Option<Allocated<Self>>,
+        identifier: &NSString,
+    ) -> Id<Self>;
 
-        #[method(qualityOfService)]
-        pub unsafe fn qualityOfService(&self) -> NSQualityOfService;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
 
-        #[method(setQualityOfService:)]
-        pub unsafe fn setQualityOfService(&self, quality_of_service: NSQualityOfService);
+    #[objc2::method(sel = "qualityOfService")]
+    pub unsafe fn qualityOfService(&self) -> NSQualityOfService;
 
-        #[method(repeats)]
-        pub unsafe fn repeats(&self) -> bool;
+    #[objc2::method(sel = "setQualityOfService:")]
+    pub unsafe fn setQualityOfService(&self, quality_of_service: NSQualityOfService);
 
-        #[method(setRepeats:)]
-        pub unsafe fn setRepeats(&self, repeats: bool);
+    #[objc2::method(sel = "repeats")]
+    pub unsafe fn repeats(&self) -> bool;
 
-        #[method(interval)]
-        pub unsafe fn interval(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "setRepeats:")]
+    pub unsafe fn setRepeats(&self, repeats: bool);
 
-        #[method(setInterval:)]
-        pub unsafe fn setInterval(&self, interval: NSTimeInterval);
+    #[objc2::method(sel = "interval")]
+    pub unsafe fn interval(&self) -> NSTimeInterval;
 
-        #[method(tolerance)]
-        pub unsafe fn tolerance(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "setInterval:")]
+    pub unsafe fn setInterval(&self, interval: NSTimeInterval);
 
-        #[method(setTolerance:)]
-        pub unsafe fn setTolerance(&self, tolerance: NSTimeInterval);
+    #[objc2::method(sel = "tolerance")]
+    pub unsafe fn tolerance(&self) -> NSTimeInterval;
 
-        #[method(scheduleWithBlock:)]
-        pub unsafe fn scheduleWithBlock(
-            &self,
-            block: &Block<(NSBackgroundActivityCompletionHandler,), ()>,
-        );
+    #[objc2::method(sel = "setTolerance:")]
+    pub unsafe fn setTolerance(&self, tolerance: NSTimeInterval);
 
-        #[method(invalidate)]
-        pub unsafe fn invalidate(&self);
+    #[objc2::method(sel = "scheduleWithBlock:")]
+    pub unsafe fn scheduleWithBlock(
+        &self,
+        block: &Block<(NSBackgroundActivityCompletionHandler,), ()>,
+    );
 
-        #[method(shouldDefer)]
-        pub unsafe fn shouldDefer(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "invalidate")]
+    pub unsafe fn invalidate(&self);
+
+    #[objc2::method(sel = "shouldDefer")]
+    pub unsafe fn shouldDefer(&self) -> bool;
+}

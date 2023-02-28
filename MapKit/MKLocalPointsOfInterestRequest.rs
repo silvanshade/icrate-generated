@@ -9,57 +9,60 @@ use crate::MapKit::*;
 
 extern_static!(MKPointsOfInterestRequestMaxRadius: CLLocationDistance);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKLocalPointsOfInterestRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKLocalPointsOfInterestRequest")]
-    pub struct MKLocalPointsOfInterestRequest;
-
-    #[cfg(feature = "MapKit_MKLocalPointsOfInterestRequest")]
-    unsafe impl ClassType for MKLocalPointsOfInterestRequest {
-        type Super = NSObject;
-    }
-);
+    pub type MKLocalPointsOfInterestRequest;
+}
 
 #[cfg(feature = "MapKit_MKLocalPointsOfInterestRequest")]
 unsafe impl NSObjectProtocol for MKLocalPointsOfInterestRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKLocalPointsOfInterestRequest")]
-    unsafe impl MKLocalPointsOfInterestRequest {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type MKLocalPointsOfInterestRequest;
 
-        #[method_id(@__retain_semantics Init initWithCenterCoordinate:radius:)]
-        pub unsafe fn initWithCenterCoordinate_radius(
-            this: Option<Allocated<Self>>,
-            coordinate: CLLocationCoordinate2D,
-            radius: CLLocationDistance,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithCoordinateRegion:)]
-        pub unsafe fn initWithCoordinateRegion(
-            this: Option<Allocated<Self>>,
-            region: MKCoordinateRegion,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithCenterCoordinate:radius:", managed = "Init")]
+    pub unsafe fn initWithCenterCoordinate_radius(
+        this: Option<Allocated<Self>>,
+        coordinate: CLLocationCoordinate2D,
+        radius: CLLocationDistance,
+    ) -> Id<Self>;
 
-        #[method(coordinate)]
-        pub unsafe fn coordinate(&self) -> CLLocationCoordinate2D;
+    #[objc2::method(sel = "initWithCoordinateRegion:", managed = "Init")]
+    pub unsafe fn initWithCoordinateRegion(
+        this: Option<Allocated<Self>>,
+        region: MKCoordinateRegion,
+    ) -> Id<Self>;
 
-        #[method(radius)]
-        pub unsafe fn radius(&self) -> CLLocationDistance;
+    #[objc2::method(sel = "coordinate")]
+    pub unsafe fn coordinate(&self) -> CLLocationCoordinate2D;
 
-        #[method(region)]
-        pub unsafe fn region(&self) -> MKCoordinateRegion;
+    #[objc2::method(sel = "radius")]
+    pub unsafe fn radius(&self) -> CLLocationDistance;
 
-        #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-        #[method_id(@__retain_semantics Other pointOfInterestFilter)]
-        pub unsafe fn pointOfInterestFilter(&self) -> Option<Id<MKPointOfInterestFilter>>;
+    #[objc2::method(sel = "region")]
+    pub unsafe fn region(&self) -> MKCoordinateRegion;
 
-        #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-        #[method(setPointOfInterestFilter:)]
-        pub unsafe fn setPointOfInterestFilter(
-            &self,
-            point_of_interest_filter: Option<&MKPointOfInterestFilter>,
-        );
-    }
-);
+    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
+    #[objc2::method(sel = "pointOfInterestFilter", managed = "Other")]
+    pub unsafe fn pointOfInterestFilter(&self) -> Option<Id<MKPointOfInterestFilter>>;
+
+    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
+    #[objc2::method(sel = "setPointOfInterestFilter:")]
+    pub unsafe fn setPointOfInterestFilter(
+        &self,
+        point_of_interest_filter: Option<&MKPointOfInterestFilter>,
+    );
+}

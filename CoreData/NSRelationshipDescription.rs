@@ -4,27 +4,26 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSDeleteRule {
-        NSNoActionDeleteRule = 0,
-        NSNullifyDeleteRule = 1,
-        NSCascadeDeleteRule = 2,
-        NSDenyDeleteRule = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSDeleteRule {
+    NSNoActionDeleteRule = 0,
+    NSNullifyDeleteRule = 1,
+    NSCascadeDeleteRule = 2,
+    NSDenyDeleteRule = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSPropertyDescription,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSRelationshipDescription")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSRelationshipDescription")]
-    pub struct NSRelationshipDescription;
-
-    #[cfg(feature = "CoreData_NSRelationshipDescription")]
-    unsafe impl ClassType for NSRelationshipDescription {
-        #[inherits(NSObject)]
-        type Super = NSPropertyDescription;
-    }
-);
+    pub type NSRelationshipDescription;
+}
 
 #[cfg(feature = "CoreData_NSRelationshipDescription")]
 unsafe impl NSCoding for NSRelationshipDescription {}
@@ -32,55 +31,58 @@ unsafe impl NSCoding for NSRelationshipDescription {}
 #[cfg(feature = "CoreData_NSRelationshipDescription")]
 unsafe impl NSObjectProtocol for NSRelationshipDescription {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSRelationshipDescription")]
-    unsafe impl NSRelationshipDescription {
-        #[cfg(feature = "CoreData_NSEntityDescription")]
-        #[method_id(@__retain_semantics Other destinationEntity)]
-        pub unsafe fn destinationEntity(&self) -> Option<Id<NSEntityDescription>>;
+    pub type NSRelationshipDescription;
 
-        #[cfg(feature = "CoreData_NSEntityDescription")]
-        #[method(setDestinationEntity:)]
-        pub unsafe fn setDestinationEntity(&self, destination_entity: Option<&NSEntityDescription>);
+    #[cfg(feature = "CoreData_NSEntityDescription")]
+    #[objc2::method(sel = "destinationEntity", managed = "Other")]
+    pub unsafe fn destinationEntity(&self) -> Option<Id<NSEntityDescription>>;
 
-        #[method_id(@__retain_semantics Other inverseRelationship)]
-        pub unsafe fn inverseRelationship(&self) -> Option<Id<NSRelationshipDescription>>;
+    #[cfg(feature = "CoreData_NSEntityDescription")]
+    #[objc2::method(sel = "setDestinationEntity:")]
+    pub unsafe fn setDestinationEntity(&self, destination_entity: Option<&NSEntityDescription>);
 
-        #[method(setInverseRelationship:)]
-        pub unsafe fn setInverseRelationship(
-            &self,
-            inverse_relationship: Option<&NSRelationshipDescription>,
-        );
+    #[objc2::method(sel = "inverseRelationship", managed = "Other")]
+    pub unsafe fn inverseRelationship(&self) -> Option<Id<NSRelationshipDescription>>;
 
-        #[method(maxCount)]
-        pub unsafe fn maxCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "setInverseRelationship:")]
+    pub unsafe fn setInverseRelationship(
+        &self,
+        inverse_relationship: Option<&NSRelationshipDescription>,
+    );
 
-        #[method(setMaxCount:)]
-        pub unsafe fn setMaxCount(&self, max_count: NSUInteger);
+    #[objc2::method(sel = "maxCount")]
+    pub unsafe fn maxCount(&self) -> NSUInteger;
 
-        #[method(minCount)]
-        pub unsafe fn minCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "setMaxCount:")]
+    pub unsafe fn setMaxCount(&self, max_count: NSUInteger);
 
-        #[method(setMinCount:)]
-        pub unsafe fn setMinCount(&self, min_count: NSUInteger);
+    #[objc2::method(sel = "minCount")]
+    pub unsafe fn minCount(&self) -> NSUInteger;
 
-        #[method(deleteRule)]
-        pub unsafe fn deleteRule(&self) -> NSDeleteRule;
+    #[objc2::method(sel = "setMinCount:")]
+    pub unsafe fn setMinCount(&self, min_count: NSUInteger);
 
-        #[method(setDeleteRule:)]
-        pub unsafe fn setDeleteRule(&self, delete_rule: NSDeleteRule);
+    #[objc2::method(sel = "deleteRule")]
+    pub unsafe fn deleteRule(&self) -> NSDeleteRule;
 
-        #[method(isToMany)]
-        pub unsafe fn isToMany(&self) -> bool;
+    #[objc2::method(sel = "setDeleteRule:")]
+    pub unsafe fn setDeleteRule(&self, delete_rule: NSDeleteRule);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other versionHash)]
-        pub unsafe fn versionHash(&self) -> Id<NSData>;
+    #[objc2::method(sel = "isToMany")]
+    pub unsafe fn isToMany(&self) -> bool;
 
-        #[method(isOrdered)]
-        pub unsafe fn isOrdered(&self) -> bool;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "versionHash", managed = "Other")]
+    pub unsafe fn versionHash(&self) -> Id<NSData>;
 
-        #[method(setOrdered:)]
-        pub unsafe fn setOrdered(&self, ordered: bool);
-    }
-);
+    #[objc2::method(sel = "isOrdered")]
+    pub unsafe fn isOrdered(&self) -> bool;
+
+    #[objc2::method(sel = "setOrdered:")]
+    pub unsafe fn setOrdered(&self, ordered: bool);
+}

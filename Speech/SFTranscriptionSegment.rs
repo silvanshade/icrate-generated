@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Speech::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Speech_SFTranscriptionSegment")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Speech_SFTranscriptionSegment")]
-    pub struct SFTranscriptionSegment;
-
-    #[cfg(feature = "Speech_SFTranscriptionSegment")]
-    unsafe impl ClassType for SFTranscriptionSegment {
-        type Super = NSObject;
-    }
-);
+    pub type SFTranscriptionSegment;
+}
 
 #[cfg(feature = "Speech_SFTranscriptionSegment")]
 unsafe impl NSCoding for SFTranscriptionSegment {}
@@ -24,32 +24,35 @@ unsafe impl NSObjectProtocol for SFTranscriptionSegment {}
 #[cfg(feature = "Speech_SFTranscriptionSegment")]
 unsafe impl NSSecureCoding for SFTranscriptionSegment {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Speech_SFTranscriptionSegment")]
-    unsafe impl SFTranscriptionSegment {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other substring)]
-        pub unsafe fn substring(&self) -> Id<NSString>;
+    pub type SFTranscriptionSegment;
 
-        #[method(substringRange)]
-        pub unsafe fn substringRange(&self) -> NSRange;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "substring", managed = "Other")]
+    pub unsafe fn substring(&self) -> Id<NSString>;
 
-        #[method(timestamp)]
-        pub unsafe fn timestamp(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "substringRange")]
+    pub unsafe fn substringRange(&self) -> NSRange;
 
-        #[method(duration)]
-        pub unsafe fn duration(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "timestamp")]
+    pub unsafe fn timestamp(&self) -> NSTimeInterval;
 
-        #[method(confidence)]
-        pub unsafe fn confidence(&self) -> c_float;
+    #[objc2::method(sel = "duration")]
+    pub unsafe fn duration(&self) -> NSTimeInterval;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other alternativeSubstrings)]
-        pub unsafe fn alternativeSubstrings(&self) -> Id<NSArray<NSString>>;
+    #[objc2::method(sel = "confidence")]
+    pub unsafe fn confidence(&self) -> c_float;
 
-        #[cfg(feature = "Speech_SFVoiceAnalytics")]
-        #[deprecated = "voiceAnalytics is moved to SFSpeechRecognitionMetadata"]
-        #[method_id(@__retain_semantics Other voiceAnalytics)]
-        pub unsafe fn voiceAnalytics(&self) -> Option<Id<SFVoiceAnalytics>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "alternativeSubstrings", managed = "Other")]
+    pub unsafe fn alternativeSubstrings(&self) -> Id<NSArray<NSString>>;
+
+    #[cfg(feature = "Speech_SFVoiceAnalytics")]
+    #[deprecated = "voiceAnalytics is moved to SFSpeechRecognitionMetadata"]
+    #[objc2::method(sel = "voiceAnalytics", managed = "Other")]
+    pub unsafe fn voiceAnalytics(&self) -> Option<Id<SFVoiceAnalytics>>;
+}

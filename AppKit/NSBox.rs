@@ -5,39 +5,38 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSTitlePosition {
-        NSNoTitle = 0,
-        NSAboveTop = 1,
-        NSAtTop = 2,
-        NSBelowTop = 3,
-        NSAboveBottom = 4,
-        NSAtBottom = 5,
-        NSBelowBottom = 6,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSTitlePosition {
+    NSNoTitle = 0,
+    NSAboveTop = 1,
+    NSAtTop = 2,
+    NSBelowTop = 3,
+    NSAboveBottom = 4,
+    NSAtBottom = 5,
+    NSBelowBottom = 6,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSBoxType {
-        NSBoxPrimary = 0,
-        NSBoxSeparator = 2,
-        NSBoxCustom = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSBoxType {
+    NSBoxPrimary = 0,
+    NSBoxSeparator = 2,
+    NSBoxCustom = 4,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSBox")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSBox")]
-    pub struct NSBox;
-
-    #[cfg(feature = "AppKit_NSBox")]
-    unsafe impl ClassType for NSBox {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type NSBox;
+}
 
 #[cfg(feature = "AppKit_NSBox")]
 unsafe impl NSAccessibility for NSBox {}
@@ -63,128 +62,139 @@ unsafe impl NSObjectProtocol for NSBox {}
 #[cfg(feature = "AppKit_NSBox")]
 unsafe impl NSUserInterfaceItemIdentification for NSBox {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSBox")]
-    unsafe impl NSBox {
-        #[method(boxType)]
-        pub unsafe fn boxType(&self) -> NSBoxType;
+    pub type NSBox;
 
-        #[method(setBoxType:)]
-        pub unsafe fn setBoxType(&self, box_type: NSBoxType);
+    #[objc2::method(sel = "boxType")]
+    pub unsafe fn boxType(&self) -> NSBoxType;
 
-        #[method(titlePosition)]
-        pub unsafe fn titlePosition(&self) -> NSTitlePosition;
+    #[objc2::method(sel = "setBoxType:")]
+    pub unsafe fn setBoxType(&self, box_type: NSBoxType);
 
-        #[method(setTitlePosition:)]
-        pub unsafe fn setTitlePosition(&self, title_position: NSTitlePosition);
+    #[objc2::method(sel = "titlePosition")]
+    pub unsafe fn titlePosition(&self) -> NSTitlePosition;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setTitlePosition:")]
+    pub unsafe fn setTitlePosition(&self, title_position: NSTitlePosition);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "AppKit_NSFont")]
-        #[method_id(@__retain_semantics Other titleFont)]
-        pub unsafe fn titleFont(&self) -> Id<NSFont>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
 
-        #[cfg(feature = "AppKit_NSFont")]
-        #[method(setTitleFont:)]
-        pub unsafe fn setTitleFont(&self, title_font: &NSFont);
+    #[cfg(feature = "AppKit_NSFont")]
+    #[objc2::method(sel = "titleFont", managed = "Other")]
+    pub unsafe fn titleFont(&self) -> Id<NSFont>;
 
-        #[method(borderRect)]
-        pub unsafe fn borderRect(&self) -> NSRect;
+    #[cfg(feature = "AppKit_NSFont")]
+    #[objc2::method(sel = "setTitleFont:")]
+    pub unsafe fn setTitleFont(&self, title_font: &NSFont);
 
-        #[method(titleRect)]
-        pub unsafe fn titleRect(&self) -> NSRect;
+    #[objc2::method(sel = "borderRect")]
+    pub unsafe fn borderRect(&self) -> NSRect;
 
-        #[method_id(@__retain_semantics Other titleCell)]
-        pub unsafe fn titleCell(&self) -> Id<Object>;
+    #[objc2::method(sel = "titleRect")]
+    pub unsafe fn titleRect(&self) -> NSRect;
 
-        #[method(contentViewMargins)]
-        pub unsafe fn contentViewMargins(&self) -> NSSize;
+    #[objc2::method(sel = "titleCell", managed = "Other")]
+    pub unsafe fn titleCell(&self) -> Id<Object>;
 
-        #[method(setContentViewMargins:)]
-        pub unsafe fn setContentViewMargins(&self, content_view_margins: NSSize);
+    #[objc2::method(sel = "contentViewMargins")]
+    pub unsafe fn contentViewMargins(&self) -> NSSize;
 
-        #[method(sizeToFit)]
-        pub unsafe fn sizeToFit(&self);
+    #[objc2::method(sel = "setContentViewMargins:")]
+    pub unsafe fn setContentViewMargins(&self, content_view_margins: NSSize);
 
-        #[method(setFrameFromContentFrame:)]
-        pub unsafe fn setFrameFromContentFrame(&self, content_frame: NSRect);
+    #[objc2::method(sel = "sizeToFit")]
+    pub unsafe fn sizeToFit(&self);
 
-        #[method_id(@__retain_semantics Other contentView)]
-        pub unsafe fn contentView(&self) -> Option<Id<NSView>>;
+    #[objc2::method(sel = "setFrameFromContentFrame:")]
+    pub unsafe fn setFrameFromContentFrame(&self, content_frame: NSRect);
 
-        #[method(setContentView:)]
-        pub unsafe fn setContentView(&self, content_view: Option<&NSView>);
+    #[objc2::method(sel = "contentView", managed = "Other")]
+    pub unsafe fn contentView(&self) -> Option<Id<NSView>>;
 
-        #[method(isTransparent)]
-        pub unsafe fn isTransparent(&self) -> bool;
+    #[objc2::method(sel = "setContentView:")]
+    pub unsafe fn setContentView(&self, content_view: Option<&NSView>);
 
-        #[method(setTransparent:)]
-        pub unsafe fn setTransparent(&self, transparent: bool);
+    #[objc2::method(sel = "isTransparent")]
+    pub unsafe fn isTransparent(&self) -> bool;
 
-        #[method(borderWidth)]
-        pub unsafe fn borderWidth(&self) -> CGFloat;
+    #[objc2::method(sel = "setTransparent:")]
+    pub unsafe fn setTransparent(&self, transparent: bool);
 
-        #[method(setBorderWidth:)]
-        pub unsafe fn setBorderWidth(&self, border_width: CGFloat);
+    #[objc2::method(sel = "borderWidth")]
+    pub unsafe fn borderWidth(&self) -> CGFloat;
 
-        #[method(cornerRadius)]
-        pub unsafe fn cornerRadius(&self) -> CGFloat;
+    #[objc2::method(sel = "setBorderWidth:")]
+    pub unsafe fn setBorderWidth(&self, border_width: CGFloat);
 
-        #[method(setCornerRadius:)]
-        pub unsafe fn setCornerRadius(&self, corner_radius: CGFloat);
+    #[objc2::method(sel = "cornerRadius")]
+    pub unsafe fn cornerRadius(&self) -> CGFloat;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other borderColor)]
-        pub unsafe fn borderColor(&self) -> Id<NSColor>;
+    #[objc2::method(sel = "setCornerRadius:")]
+    pub unsafe fn setCornerRadius(&self, corner_radius: CGFloat);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setBorderColor:)]
-        pub unsafe fn setBorderColor(&self, border_color: &NSColor);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "borderColor", managed = "Other")]
+    pub unsafe fn borderColor(&self) -> Id<NSColor>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other fillColor)]
-        pub unsafe fn fillColor(&self) -> Id<NSColor>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setBorderColor:")]
+    pub unsafe fn setBorderColor(&self, border_color: &NSColor);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setFillColor:)]
-        pub unsafe fn setFillColor(&self, fill_color: &NSColor);
-    }
-);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "fillColor", managed = "Other")]
+    pub unsafe fn fillColor(&self) -> Id<NSColor>;
 
-extern_methods!(
-    /// NSDeprecated
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setFillColor:")]
+    pub unsafe fn setFillColor(&self, fill_color: &NSColor);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSBox")]
-    unsafe impl NSBox {
-        #[deprecated = "borderType is only applicable to NSBoxOldStyle, which is deprecated. To replace a borderType of NSNoBorder, use the `transparent` property."]
-        #[method(borderType)]
-        pub unsafe fn borderType(&self) -> NSBorderType;
+    pub type NSBox;
 
-        #[deprecated = "borderType is only applicable to NSBoxOldStyle, which is deprecated. To replace a borderType of NSNoBorder, use the `transparent` property."]
-        #[method(setBorderType:)]
-        pub unsafe fn setBorderType(&self, border_type: NSBorderType);
+    #[deprecated = "borderType is only applicable to NSBoxOldStyle, which is deprecated. To replace a borderType of NSNoBorder, use the `transparent` property."]
+    #[objc2::method(sel = "borderType")]
+    pub unsafe fn borderType(&self) -> NSBorderType;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(setTitleWithMnemonic:)]
-        pub unsafe fn setTitleWithMnemonic(&self, string_with_ampersand: Option<&NSString>);
-    }
-);
+    #[deprecated = "borderType is only applicable to NSBoxOldStyle, which is deprecated. To replace a borderType of NSNoBorder, use the `transparent` property."]
+    #[objc2::method(sel = "setBorderType:")]
+    pub unsafe fn setBorderType(&self, border_type: NSBorderType);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "setTitleWithMnemonic:")]
+    pub unsafe fn setTitleWithMnemonic(&self, string_with_ampersand: Option<&NSString>);
+}
 
 extern_static!(NSBoxSecondary: NSBoxType = 1);
 
 extern_static!(NSBoxOldStyle: NSBoxType = 3);
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "AppKit_NSBox")]
-    unsafe impl NSBox {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSBox")]
+    pub type NSBox;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

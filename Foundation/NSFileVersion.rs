@@ -3,139 +3,147 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSFileVersionAddingOptions {
-        NSFileVersionAddingByMoving = 1 << 0,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSFileVersionAddingOptions {
+    NSFileVersionAddingByMoving = 1 << 0,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSFileVersionReplacingOptions {
-        NSFileVersionReplacingByMoving = 1 << 0,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSFileVersionReplacingOptions {
+    NSFileVersionReplacingByMoving = 1 << 0,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSFileVersion")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSFileVersion")]
-    pub struct NSFileVersion;
-
-    #[cfg(feature = "Foundation_NSFileVersion")]
-    unsafe impl ClassType for NSFileVersion {
-        type Super = NSObject;
-    }
-);
+    pub type NSFileVersion;
+}
 
 #[cfg(feature = "Foundation_NSFileVersion")]
 unsafe impl NSObjectProtocol for NSFileVersion {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSFileVersion")]
-    unsafe impl NSFileVersion {
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other currentVersionOfItemAtURL:)]
-        pub unsafe fn currentVersionOfItemAtURL(url: &NSURL) -> Option<Id<NSFileVersion>>;
+    pub type NSFileVersion;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other otherVersionsOfItemAtURL:)]
-        pub unsafe fn otherVersionsOfItemAtURL(url: &NSURL) -> Option<Id<NSArray<NSFileVersion>>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "currentVersionOfItemAtURL:", managed = "Other")]
+    pub unsafe fn currentVersionOfItemAtURL(url: &NSURL) -> Option<Id<NSFileVersion>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other unresolvedConflictVersionsOfItemAtURL:)]
-        pub unsafe fn unresolvedConflictVersionsOfItemAtURL(
-            url: &NSURL,
-        ) -> Option<Id<NSArray<NSFileVersion>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "otherVersionsOfItemAtURL:", managed = "Other")]
+    pub unsafe fn otherVersionsOfItemAtURL(url: &NSURL) -> Option<Id<NSArray<NSFileVersion>>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(getNonlocalVersionsOfItemAtURL:completionHandler:)]
-        pub unsafe fn getNonlocalVersionsOfItemAtURL_completionHandler(
-            url: &NSURL,
-            completion_handler: &Block<(*mut NSArray<NSFileVersion>, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "unresolvedConflictVersionsOfItemAtURL:", managed = "Other")]
+    pub unsafe fn unresolvedConflictVersionsOfItemAtURL(
+        url: &NSURL,
+    ) -> Option<Id<NSArray<NSFileVersion>>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other versionOfItemAtURL:forPersistentIdentifier:)]
-        pub unsafe fn versionOfItemAtURL_forPersistentIdentifier(
-            url: &NSURL,
-            persistent_identifier: &Object,
-        ) -> Option<Id<NSFileVersion>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "getNonlocalVersionsOfItemAtURL:completionHandler:")]
+    pub unsafe fn getNonlocalVersionsOfItemAtURL_completionHandler(
+        url: &NSURL,
+        completion_handler: &Block<(*mut NSArray<NSFileVersion>, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other addVersionOfItemAtURL:withContentsOfURL:options:error:_)]
-        pub unsafe fn addVersionOfItemAtURL_withContentsOfURL_options_error(
-            url: &NSURL,
-            contents_url: &NSURL,
-            options: NSFileVersionAddingOptions,
-        ) -> Result<Id<NSFileVersion>, Id<NSError>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "versionOfItemAtURL:forPersistentIdentifier:", managed = "Other")]
+    pub unsafe fn versionOfItemAtURL_forPersistentIdentifier(
+        url: &NSURL,
+        persistent_identifier: &Object,
+    ) -> Option<Id<NSFileVersion>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other temporaryDirectoryURLForNewVersionOfItemAtURL:)]
-        pub unsafe fn temporaryDirectoryURLForNewVersionOfItemAtURL(url: &NSURL) -> Id<NSURL>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(
+        sel = "addVersionOfItemAtURL:withContentsOfURL:options:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn addVersionOfItemAtURL_withContentsOfURL_options_error(
+        url: &NSURL,
+        contents_url: &NSURL,
+        options: NSFileVersionAddingOptions,
+    ) -> Result<Id<NSFileVersion>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Id<NSURL>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(
+        sel = "temporaryDirectoryURLForNewVersionOfItemAtURL:",
+        managed = "Other"
+    )]
+    pub unsafe fn temporaryDirectoryURLForNewVersionOfItemAtURL(url: &NSURL) -> Id<NSURL>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedName)]
-        pub unsafe fn localizedName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Id<NSURL>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedNameOfSavingComputer)]
-        pub unsafe fn localizedNameOfSavingComputer(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedName", managed = "Other")]
+    pub unsafe fn localizedName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSPersonNameComponents")]
-        #[method_id(@__retain_semantics Other originatorNameComponents)]
-        pub unsafe fn originatorNameComponents(&self) -> Option<Id<NSPersonNameComponents>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedNameOfSavingComputer", managed = "Other")]
+    pub unsafe fn localizedNameOfSavingComputer(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other modificationDate)]
-        pub unsafe fn modificationDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSPersonNameComponents")]
+    #[objc2::method(sel = "originatorNameComponents", managed = "Other")]
+    pub unsafe fn originatorNameComponents(&self) -> Option<Id<NSPersonNameComponents>>;
 
-        #[method_id(@__retain_semantics Other persistentIdentifier)]
-        pub unsafe fn persistentIdentifier(&self) -> Id<ProtocolObject<dyn NSCoding>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "modificationDate", managed = "Other")]
+    pub unsafe fn modificationDate(&self) -> Option<Id<NSDate>>;
 
-        #[method(isConflict)]
-        pub unsafe fn isConflict(&self) -> bool;
+    #[objc2::method(sel = "persistentIdentifier", managed = "Other")]
+    pub unsafe fn persistentIdentifier(&self) -> Id<ProtocolObject<dyn NSCoding>>;
 
-        #[method(isResolved)]
-        pub unsafe fn isResolved(&self) -> bool;
+    #[objc2::method(sel = "isConflict")]
+    pub unsafe fn isConflict(&self) -> bool;
 
-        #[method(setResolved:)]
-        pub unsafe fn setResolved(&self, resolved: bool);
+    #[objc2::method(sel = "isResolved")]
+    pub unsafe fn isResolved(&self) -> bool;
 
-        #[method(isDiscardable)]
-        pub unsafe fn isDiscardable(&self) -> bool;
+    #[objc2::method(sel = "setResolved:")]
+    pub unsafe fn setResolved(&self, resolved: bool);
 
-        #[method(setDiscardable:)]
-        pub unsafe fn setDiscardable(&self, discardable: bool);
+    #[objc2::method(sel = "isDiscardable")]
+    pub unsafe fn isDiscardable(&self) -> bool;
 
-        #[method(hasLocalContents)]
-        pub unsafe fn hasLocalContents(&self) -> bool;
+    #[objc2::method(sel = "setDiscardable:")]
+    pub unsafe fn setDiscardable(&self, discardable: bool);
 
-        #[method(hasThumbnail)]
-        pub unsafe fn hasThumbnail(&self) -> bool;
+    #[objc2::method(sel = "hasLocalContents")]
+    pub unsafe fn hasLocalContents(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other replaceItemAtURL:options:error:_)]
-        pub unsafe fn replaceItemAtURL_options_error(
-            &self,
-            url: &NSURL,
-            options: NSFileVersionReplacingOptions,
-        ) -> Result<Id<NSURL>, Id<NSError>>;
+    #[objc2::method(sel = "hasThumbnail")]
+    pub unsafe fn hasThumbnail(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(removeAndReturnError:_)]
-        pub unsafe fn removeAndReturnError(&self) -> Result<(), Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "replaceItemAtURL:options:error:", managed = "Other", throws)]
+    pub unsafe fn replaceItemAtURL_options_error(
+        &self,
+        url: &NSURL,
+        options: NSFileVersionReplacingOptions,
+    ) -> Result<Id<NSURL>, Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method(removeOtherVersionsOfItemAtURL:error:_)]
-        pub unsafe fn removeOtherVersionsOfItemAtURL_error(url: &NSURL) -> Result<(), Id<NSError>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "removeAndReturnError:", throws)]
+    pub unsafe fn removeAndReturnError(&self) -> Result<(), Id<NSError>>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "removeOtherVersionsOfItemAtURL:error:", throws)]
+    pub unsafe fn removeOtherVersionsOfItemAtURL_error(url: &NSURL) -> Result<(), Id<NSError>>;
+}

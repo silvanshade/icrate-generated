@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMCDATASection")]
+#[objc2::interface(
+    unsafe super = DOMText,
+    unsafe inherits = [
+        DOMCharacterData,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMCDATASection;
-
     #[cfg(feature = "WebKit_DOMCDATASection")]
-    unsafe impl ClassType for DOMCDATASection {
-        #[inherits(DOMCharacterData, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMText;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMCDATASection;
+}
 
 #[cfg(feature = "WebKit_DOMCDATASection")]
 unsafe impl DOMEventTarget for DOMCDATASection {}
@@ -24,7 +28,11 @@ unsafe impl DOMEventTarget for DOMCDATASection {}
 #[cfg(feature = "WebKit_DOMCDATASection")]
 unsafe impl NSObjectProtocol for DOMCDATASection {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCDATASection")]
-    unsafe impl DOMCDATASection {}
-);
+    #[deprecated]
+    pub type DOMCDATASection;
+}

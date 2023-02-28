@@ -5,49 +5,57 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMCSSMediaRule")]
+#[objc2::interface(
+    unsafe super = DOMCSSRule,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMCSSMediaRule;
-
     #[cfg(feature = "WebKit_DOMCSSMediaRule")]
-    unsafe impl ClassType for DOMCSSMediaRule {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMCSSRule;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMCSSMediaRule;
+}
 
 #[cfg(feature = "WebKit_DOMCSSMediaRule")]
 unsafe impl NSObjectProtocol for DOMCSSMediaRule {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCSSMediaRule")]
-    unsafe impl DOMCSSMediaRule {
-        #[cfg(feature = "WebKit_DOMMediaList")]
-        #[method_id(@__retain_semantics Other media)]
-        pub unsafe fn media(&self) -> Option<Id<DOMMediaList>>;
+    #[deprecated]
+    pub type DOMCSSMediaRule;
 
-        #[cfg(feature = "WebKit_DOMCSSRuleList")]
-        #[method_id(@__retain_semantics Other cssRules)]
-        pub unsafe fn cssRules(&self) -> Option<Id<DOMCSSRuleList>>;
+    #[cfg(feature = "WebKit_DOMMediaList")]
+    #[objc2::method(sel = "media", managed = "Other")]
+    pub unsafe fn media(&self) -> Option<Id<DOMMediaList>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(insertRule:index:)]
-        pub unsafe fn insertRule_index(&self, rule: Option<&NSString>, index: c_uint) -> c_uint;
+    #[cfg(feature = "WebKit_DOMCSSRuleList")]
+    #[objc2::method(sel = "cssRules", managed = "Other")]
+    pub unsafe fn cssRules(&self) -> Option<Id<DOMCSSRuleList>>;
 
-        #[method(deleteRule:)]
-        pub unsafe fn deleteRule(&self, index: c_uint);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "insertRule:index:")]
+    pub unsafe fn insertRule_index(&self, rule: Option<&NSString>, index: c_uint) -> c_uint;
 
-extern_methods!(
-    /// DOMCSSMediaRuleDeprecated
+    #[objc2::method(sel = "deleteRule:")]
+    pub unsafe fn deleteRule(&self, index: c_uint);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCSSMediaRule")]
-    unsafe impl DOMCSSMediaRule {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(insertRule::)]
-        pub unsafe fn insertRule(&self, rule: Option<&NSString>, index: c_uint) -> c_uint;
-    }
-);
+    pub type DOMCSSMediaRule;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "insertRule::")]
+    pub unsafe fn insertRule(&self, rule: Option<&NSString>, index: c_uint) -> c_uint;
+}

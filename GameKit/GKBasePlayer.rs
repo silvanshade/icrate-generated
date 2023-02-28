@@ -5,30 +5,33 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameKit_GKBasePlayer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKBasePlayer")]
-    pub struct GKBasePlayer;
-
-    #[cfg(feature = "GameKit_GKBasePlayer")]
-    unsafe impl ClassType for GKBasePlayer {
-        type Super = NSObject;
-    }
-);
+    pub type GKBasePlayer;
+}
 
 #[cfg(feature = "GameKit_GKBasePlayer")]
 unsafe impl NSObjectProtocol for GKBasePlayer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKBasePlayer")]
-    unsafe impl GKBasePlayer {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "use the teamPlayerID property to identify a player"]
-        #[method_id(@__retain_semantics Other playerID)]
-        pub unsafe fn playerID(&self) -> Option<Id<NSString>>;
+    pub type GKBasePlayer;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other displayName)]
-        pub unsafe fn displayName(&self) -> Option<Id<NSString>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "use the teamPlayerID property to identify a player"]
+    #[objc2::method(sel = "playerID", managed = "Other")]
+    pub unsafe fn playerID(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "displayName", managed = "Other")]
+    pub unsafe fn displayName(&self) -> Option<Id<NSString>>;
+}

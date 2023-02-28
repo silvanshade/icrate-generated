@@ -4,24 +4,23 @@ use crate::common::*;
 use crate::Accessibility::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum AXCustomContentImportance {
-        AXCustomContentImportanceDefault = 0,
-        AXCustomContentImportanceHigh = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum AXCustomContentImportance {
+    AXCustomContentImportanceDefault = 0,
+    AXCustomContentImportanceHigh = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Accessibility_AXCustomContent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Accessibility_AXCustomContent")]
-    pub struct AXCustomContent;
-
-    #[cfg(feature = "Accessibility_AXCustomContent")]
-    unsafe impl ClassType for AXCustomContent {
-        type Super = NSObject;
-    }
-);
+    pub type AXCustomContent;
+}
 
 #[cfg(feature = "Accessibility_AXCustomContent")]
 unsafe impl NSCoding for AXCustomContent {}
@@ -32,69 +31,72 @@ unsafe impl NSObjectProtocol for AXCustomContent {}
 #[cfg(feature = "Accessibility_AXCustomContent")]
 unsafe impl NSSecureCoding for AXCustomContent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Accessibility_AXCustomContent")]
-    unsafe impl AXCustomContent {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other customContentWithLabel:value:)]
-        pub unsafe fn customContentWithLabel_value(label: &NSString, value: &NSString) -> Id<Self>;
+    pub type AXCustomContent;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other customContentWithAttributedLabel:attributedValue:)]
-        pub unsafe fn customContentWithAttributedLabel_attributedValue(
-            label: &NSAttributedString,
-            value: &NSAttributedString,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "customContentWithLabel:value:", managed = "Other")]
+    pub unsafe fn customContentWithLabel_value(label: &NSString, value: &NSString) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        pub unsafe fn label(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(
+        sel = "customContentWithAttributedLabel:attributedValue:",
+        managed = "Other"
+    )]
+    pub unsafe fn customContentWithAttributedLabel_attributedValue(
+        label: &NSAttributedString,
+        value: &NSAttributedString,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other attributedLabel)]
-        pub unsafe fn attributedLabel(&self) -> Id<NSAttributedString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    pub unsafe fn label(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other value)]
-        pub unsafe fn value(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "attributedLabel", managed = "Other")]
+    pub unsafe fn attributedLabel(&self) -> Id<NSAttributedString>;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other attributedValue)]
-        pub unsafe fn attributedValue(&self) -> Id<NSAttributedString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "value", managed = "Other")]
+    pub unsafe fn value(&self) -> Id<NSString>;
 
-        #[method(importance)]
-        pub unsafe fn importance(&self) -> AXCustomContentImportance;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "attributedValue", managed = "Other")]
+    pub unsafe fn attributedValue(&self) -> Id<NSAttributedString>;
 
-        #[method(setImportance:)]
-        pub unsafe fn setImportance(&self, importance: AXCustomContentImportance);
+    #[objc2::method(sel = "importance")]
+    pub unsafe fn importance(&self) -> AXCustomContentImportance;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "setImportance:")]
+    pub unsafe fn setImportance(&self, importance: AXCustomContentImportance);
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-extern_protocol!(
-    pub unsafe trait AXCustomContentProvider: NSObjectProtocol {
-        #[cfg(all(
-            feature = "Accessibility_AXCustomContent",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other accessibilityCustomContent)]
-        unsafe fn accessibilityCustomContent(&self) -> Id<NSArray<AXCustomContent>>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}
 
-        #[cfg(all(
-            feature = "Accessibility_AXCustomContent",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method(setAccessibilityCustomContent:)]
-        unsafe fn setAccessibilityCustomContent(
-            &self,
-            accessibility_custom_content: Option<&NSArray<AXCustomContent>>,
-        );
-    }
+#[objc2::protocol]
+pub unsafe trait AXCustomContentProvider: NSObjectProtocol {
+    #[cfg(all(
+        feature = "Accessibility_AXCustomContent",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "accessibilityCustomContent", managed = "Other")]
+    unsafe fn accessibilityCustomContent(&self) -> Id<NSArray<AXCustomContent>>;
 
-    unsafe impl ProtocolType for dyn AXCustomContentProvider {}
-);
+    #[cfg(all(
+        feature = "Accessibility_AXCustomContent",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "setAccessibilityCustomContent:")]
+    unsafe fn setAccessibilityCustomContent(
+        &self,
+        accessibility_custom_content: Option<&NSArray<AXCustomContent>>,
+    );
+}

@@ -5,17 +5,18 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSActionCell,
+    unsafe inherits = [
+        NSCell,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSegmentedCell")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSSegmentedCell")]
-    pub struct NSSegmentedCell;
-
-    #[cfg(feature = "AppKit_NSSegmentedCell")]
-    unsafe impl ClassType for NSSegmentedCell {
-        #[inherits(NSCell, NSObject)]
-        type Super = NSActionCell;
-    }
-);
+    pub type NSSegmentedCell;
+}
 
 #[cfg(feature = "AppKit_NSSegmentedCell")]
 unsafe impl NSAccessibility for NSSegmentedCell {}
@@ -32,144 +33,147 @@ unsafe impl NSObjectProtocol for NSSegmentedCell {}
 #[cfg(feature = "AppKit_NSSegmentedCell")]
 unsafe impl NSUserInterfaceItemIdentification for NSSegmentedCell {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSegmentedCell")]
-    unsafe impl NSSegmentedCell {
-        #[method(segmentCount)]
-        pub unsafe fn segmentCount(&self) -> NSInteger;
+    pub type NSSegmentedCell;
 
-        #[method(setSegmentCount:)]
-        pub unsafe fn setSegmentCount(&self, segment_count: NSInteger);
+    #[objc2::method(sel = "segmentCount")]
+    pub unsafe fn segmentCount(&self) -> NSInteger;
 
-        #[method(selectedSegment)]
-        pub unsafe fn selectedSegment(&self) -> NSInteger;
+    #[objc2::method(sel = "setSegmentCount:")]
+    pub unsafe fn setSegmentCount(&self, segment_count: NSInteger);
 
-        #[method(setSelectedSegment:)]
-        pub unsafe fn setSelectedSegment(&self, selected_segment: NSInteger);
+    #[objc2::method(sel = "selectedSegment")]
+    pub unsafe fn selectedSegment(&self) -> NSInteger;
 
-        #[method(selectSegmentWithTag:)]
-        pub unsafe fn selectSegmentWithTag(&self, tag: NSInteger) -> bool;
+    #[objc2::method(sel = "setSelectedSegment:")]
+    pub unsafe fn setSelectedSegment(&self, selected_segment: NSInteger);
 
-        #[method(makeNextSegmentKey)]
-        pub unsafe fn makeNextSegmentKey(&self);
+    #[objc2::method(sel = "selectSegmentWithTag:")]
+    pub unsafe fn selectSegmentWithTag(&self, tag: NSInteger) -> bool;
 
-        #[method(makePreviousSegmentKey)]
-        pub unsafe fn makePreviousSegmentKey(&self);
+    #[objc2::method(sel = "makeNextSegmentKey")]
+    pub unsafe fn makeNextSegmentKey(&self);
 
-        #[method(trackingMode)]
-        pub unsafe fn trackingMode(&self) -> NSSegmentSwitchTracking;
+    #[objc2::method(sel = "makePreviousSegmentKey")]
+    pub unsafe fn makePreviousSegmentKey(&self);
 
-        #[method(setTrackingMode:)]
-        pub unsafe fn setTrackingMode(&self, tracking_mode: NSSegmentSwitchTracking);
+    #[objc2::method(sel = "trackingMode")]
+    pub unsafe fn trackingMode(&self) -> NSSegmentSwitchTracking;
 
-        #[method(setWidth:forSegment:)]
-        pub unsafe fn setWidth_forSegment(&self, width: CGFloat, segment: NSInteger);
+    #[objc2::method(sel = "setTrackingMode:")]
+    pub unsafe fn setTrackingMode(&self, tracking_mode: NSSegmentSwitchTracking);
 
-        #[method(widthForSegment:)]
-        pub unsafe fn widthForSegment(&self, segment: NSInteger) -> CGFloat;
+    #[objc2::method(sel = "setWidth:forSegment:")]
+    pub unsafe fn setWidth_forSegment(&self, width: CGFloat, segment: NSInteger);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setImage:forSegment:)]
-        pub unsafe fn setImage_forSegment(&self, image: Option<&NSImage>, segment: NSInteger);
+    #[objc2::method(sel = "widthForSegment:")]
+    pub unsafe fn widthForSegment(&self, segment: NSInteger) -> CGFloat;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other imageForSegment:)]
-        pub unsafe fn imageForSegment(&self, segment: NSInteger) -> Option<Id<NSImage>>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setImage:forSegment:")]
+    pub unsafe fn setImage_forSegment(&self, image: Option<&NSImage>, segment: NSInteger);
 
-        #[method(setImageScaling:forSegment:)]
-        pub unsafe fn setImageScaling_forSegment(
-            &self,
-            scaling: NSImageScaling,
-            segment: NSInteger,
-        );
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "imageForSegment:", managed = "Other")]
+    pub unsafe fn imageForSegment(&self, segment: NSInteger) -> Option<Id<NSImage>>;
 
-        #[method(imageScalingForSegment:)]
-        pub unsafe fn imageScalingForSegment(&self, segment: NSInteger) -> NSImageScaling;
+    #[objc2::method(sel = "setImageScaling:forSegment:")]
+    pub unsafe fn setImageScaling_forSegment(&self, scaling: NSImageScaling, segment: NSInteger);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:forSegment:)]
-        pub unsafe fn setLabel_forSegment(&self, label: &NSString, segment: NSInteger);
+    #[objc2::method(sel = "imageScalingForSegment:")]
+    pub unsafe fn imageScalingForSegment(&self, segment: NSInteger) -> NSImageScaling;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other labelForSegment:)]
-        pub unsafe fn labelForSegment(&self, segment: NSInteger) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:forSegment:")]
+    pub unsafe fn setLabel_forSegment(&self, label: &NSString, segment: NSInteger);
 
-        #[method(setSelected:forSegment:)]
-        pub unsafe fn setSelected_forSegment(&self, selected: bool, segment: NSInteger);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "labelForSegment:", managed = "Other")]
+    pub unsafe fn labelForSegment(&self, segment: NSInteger) -> Option<Id<NSString>>;
 
-        #[method(isSelectedForSegment:)]
-        pub unsafe fn isSelectedForSegment(&self, segment: NSInteger) -> bool;
+    #[objc2::method(sel = "setSelected:forSegment:")]
+    pub unsafe fn setSelected_forSegment(&self, selected: bool, segment: NSInteger);
 
-        #[method(setEnabled:forSegment:)]
-        pub unsafe fn setEnabled_forSegment(&self, enabled: bool, segment: NSInteger);
+    #[objc2::method(sel = "isSelectedForSegment:")]
+    pub unsafe fn isSelectedForSegment(&self, segment: NSInteger) -> bool;
 
-        #[method(isEnabledForSegment:)]
-        pub unsafe fn isEnabledForSegment(&self, segment: NSInteger) -> bool;
+    #[objc2::method(sel = "setEnabled:forSegment:")]
+    pub unsafe fn setEnabled_forSegment(&self, enabled: bool, segment: NSInteger);
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method(setMenu:forSegment:)]
-        pub unsafe fn setMenu_forSegment(&self, menu: Option<&NSMenu>, segment: NSInteger);
+    #[objc2::method(sel = "isEnabledForSegment:")]
+    pub unsafe fn isEnabledForSegment(&self, segment: NSInteger) -> bool;
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method_id(@__retain_semantics Other menuForSegment:)]
-        pub unsafe fn menuForSegment(&self, segment: NSInteger) -> Option<Id<NSMenu>>;
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "setMenu:forSegment:")]
+    pub unsafe fn setMenu_forSegment(&self, menu: Option<&NSMenu>, segment: NSInteger);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setToolTip:forSegment:)]
-        pub unsafe fn setToolTip_forSegment(&self, tool_tip: Option<&NSString>, segment: NSInteger);
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "menuForSegment:", managed = "Other")]
+    pub unsafe fn menuForSegment(&self, segment: NSInteger) -> Option<Id<NSMenu>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other toolTipForSegment:)]
-        pub unsafe fn toolTipForSegment(&self, segment: NSInteger) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setToolTip:forSegment:")]
+    pub unsafe fn setToolTip_forSegment(&self, tool_tip: Option<&NSString>, segment: NSInteger);
 
-        #[method(setTag:forSegment:)]
-        pub unsafe fn setTag_forSegment(&self, tag: NSInteger, segment: NSInteger);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "toolTipForSegment:", managed = "Other")]
+    pub unsafe fn toolTipForSegment(&self, segment: NSInteger) -> Option<Id<NSString>>;
 
-        #[method(tagForSegment:)]
-        pub unsafe fn tagForSegment(&self, segment: NSInteger) -> NSInteger;
+    #[objc2::method(sel = "setTag:forSegment:")]
+    pub unsafe fn setTag_forSegment(&self, tag: NSInteger, segment: NSInteger);
 
-        #[method(segmentStyle)]
-        pub unsafe fn segmentStyle(&self) -> NSSegmentStyle;
+    #[objc2::method(sel = "tagForSegment:")]
+    pub unsafe fn tagForSegment(&self, segment: NSInteger) -> NSInteger;
 
-        #[method(setSegmentStyle:)]
-        pub unsafe fn setSegmentStyle(&self, segment_style: NSSegmentStyle);
+    #[objc2::method(sel = "segmentStyle")]
+    pub unsafe fn segmentStyle(&self) -> NSSegmentStyle;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(drawSegment:inFrame:withView:)]
-        pub unsafe fn drawSegment_inFrame_withView(
-            &self,
-            segment: NSInteger,
-            frame: NSRect,
-            control_view: &NSView,
-        );
-    }
-);
+    #[objc2::method(sel = "setSegmentStyle:")]
+    pub unsafe fn setSegmentStyle(&self, segment_style: NSSegmentStyle);
 
-extern_methods!(
-    /// NSSegmentBackgroundStyle
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "drawSegment:inFrame:withView:")]
+    pub unsafe fn drawSegment_inFrame_withView(
+        &self,
+        segment: NSInteger,
+        frame: NSRect,
+        control_view: &NSView,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSegmentedCell")]
-    unsafe impl NSSegmentedCell {
-        #[method(interiorBackgroundStyleForSegment:)]
-        pub unsafe fn interiorBackgroundStyleForSegment(
-            &self,
-            segment: NSInteger,
-        ) -> NSBackgroundStyle;
-    }
-);
+    pub type NSSegmentedCell;
 
-extern_methods!(
-    /// Methods declared on superclass `NSCell`
+    #[objc2::method(sel = "interiorBackgroundStyleForSegment:")]
+    pub unsafe fn interiorBackgroundStyleForSegment(&self, segment: NSInteger)
+        -> NSBackgroundStyle;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSCell`
     #[cfg(feature = "AppKit_NSSegmentedCell")]
-    unsafe impl NSSegmentedCell {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initTextCell:)]
-        pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Init initImageCell:)]
-        pub unsafe fn initImageCell(
-            this: Option<Allocated<Self>>,
-            image: Option<&NSImage>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSegmentedCell")]
+    pub type NSSegmentedCell;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initTextCell:", managed = "Init")]
+    pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "initImageCell:", managed = "Init")]
+    pub unsafe fn initImageCell(this: Option<Allocated<Self>>, image: Option<&NSImage>)
+        -> Id<Self>;
+}

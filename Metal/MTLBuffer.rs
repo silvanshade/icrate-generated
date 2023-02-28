@@ -4,45 +4,42 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-extern_protocol!(
-    pub unsafe trait MTLBuffer: MTLResource {
-        #[method(length)]
-        fn length(&self) -> NSUInteger;
+#[objc2::protocol]
+pub unsafe trait MTLBuffer: MTLResource {
+    #[objc2::method(sel = "length")]
+    fn length(&self) -> NSUInteger;
 
-        #[method(contents)]
-        fn contents(&self) -> NonNull<c_void>;
+    #[objc2::method(sel = "contents")]
+    fn contents(&self) -> NonNull<c_void>;
 
-        #[method(didModifyRange:)]
-        fn didModifyRange(&self, range: NSRange);
+    #[objc2::method(sel = "didModifyRange:")]
+    fn didModifyRange(&self, range: NSRange);
 
-        #[cfg(feature = "Metal_MTLTextureDescriptor")]
-        #[method_id(@__retain_semantics New newTextureWithDescriptor:offset:bytesPerRow:)]
-        fn newTextureWithDescriptor_offset_bytesPerRow(
-            &self,
-            descriptor: &MTLTextureDescriptor,
-            offset: NSUInteger,
-            bytes_per_row: NSUInteger,
-        ) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
+    #[cfg(feature = "Metal_MTLTextureDescriptor")]
+    #[objc2::method(sel = "newTextureWithDescriptor:offset:bytesPerRow:", managed = "New")]
+    fn newTextureWithDescriptor_offset_bytesPerRow(
+        &self,
+        descriptor: &MTLTextureDescriptor,
+        offset: NSUInteger,
+        bytes_per_row: NSUInteger,
+    ) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(addDebugMarker:range:)]
-        fn addDebugMarker_range(&self, marker: &NSString, range: NSRange);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "addDebugMarker:range:")]
+    fn addDebugMarker_range(&self, marker: &NSString, range: NSRange);
 
-        #[method(removeAllDebugMarkers)]
-        fn removeAllDebugMarkers(&self);
+    #[objc2::method(sel = "removeAllDebugMarkers")]
+    fn removeAllDebugMarkers(&self);
 
-        #[method_id(@__retain_semantics Other remoteStorageBuffer)]
-        fn remoteStorageBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+    #[objc2::method(sel = "remoteStorageBuffer", managed = "Other")]
+    fn remoteStorageBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
 
-        #[method_id(@__retain_semantics New newRemoteBufferViewForDevice:)]
-        fn newRemoteBufferViewForDevice(
-            &self,
-            device: &ProtocolObject<dyn MTLDevice>,
-        ) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+    #[objc2::method(sel = "newRemoteBufferViewForDevice:", managed = "New")]
+    fn newRemoteBufferViewForDevice(
+        &self,
+        device: &ProtocolObject<dyn MTLDevice>,
+    ) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
 
-        #[method(gpuAddress)]
-        fn gpuAddress(&self) -> u64;
-    }
-
-    unsafe impl ProtocolType for dyn MTLBuffer {}
-);
+    #[objc2::method(sel = "gpuAddress")]
+    fn gpuAddress(&self) -> u64;
+}

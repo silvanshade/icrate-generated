@@ -7,26 +7,26 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MKLookAroundBadgePosition {
-        MKLookAroundBadgePositionTopLeading = 0,
-        MKLookAroundBadgePositionTopTrailing = 1,
-        MKLookAroundBadgePositionBottomTrailing = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MKLookAroundBadgePosition {
+    MKLookAroundBadgePositionTopLeading = 0,
+    MKLookAroundBadgePositionTopTrailing = 1,
+    MKLookAroundBadgePositionBottomTrailing = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSViewController,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKLookAroundViewController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKLookAroundViewController")]
-    pub struct MKLookAroundViewController;
-
-    #[cfg(feature = "MapKit_MKLookAroundViewController")]
-    unsafe impl ClassType for MKLookAroundViewController {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSViewController;
-    }
-);
+    pub type MKLookAroundViewController;
+}
 
 #[cfg(feature = "MapKit_MKLookAroundViewController")]
 unsafe impl NSCoding for MKLookAroundViewController {}
@@ -46,131 +46,123 @@ unsafe impl NSSeguePerforming for MKLookAroundViewController {}
 #[cfg(feature = "MapKit_MKLookAroundViewController")]
 unsafe impl NSUserInterfaceItemIdentification for MKLookAroundViewController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKLookAroundViewController")]
-    unsafe impl MKLookAroundViewController {
-        #[cfg(feature = "MapKit_MKLookAroundScene")]
-        #[method_id(@__retain_semantics Init initWithScene:)]
-        pub unsafe fn initWithScene(
-            this: Option<Allocated<Self>>,
-            scene: &MKLookAroundScene,
-        ) -> Id<Self>;
+    pub type MKLookAroundViewController;
 
-        #[cfg(all(feature = "Foundation_NSBundle", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithNibName:bundle:)]
-        pub unsafe fn initWithNibName_bundle(
-            this: Option<Allocated<Self>>,
-            nib_name_or_nil: Option<&NSString>,
-            nib_bundle_or_nil: Option<&NSBundle>,
-        ) -> Id<Self>;
+    #[cfg(feature = "MapKit_MKLookAroundScene")]
+    #[objc2::method(sel = "initWithScene:", managed = "Init")]
+    pub unsafe fn initWithScene(
+        this: Option<Allocated<Self>>,
+        scene: &MKLookAroundScene,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[cfg(all(feature = "Foundation_NSBundle", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithNibName:bundle:", managed = "Init")]
+    pub unsafe fn initWithNibName_bundle(
+        this: Option<Allocated<Self>>,
+        nib_name_or_nil: Option<&NSString>,
+        nib_bundle_or_nil: Option<&NSBundle>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn MKLookAroundViewControllerDelegate>>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn MKLookAroundViewControllerDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn MKLookAroundViewControllerDelegate>>>;
 
-        #[cfg(feature = "MapKit_MKLookAroundScene")]
-        #[method_id(@__retain_semantics Other scene)]
-        pub unsafe fn scene(&self) -> Option<Id<MKLookAroundScene>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn MKLookAroundViewControllerDelegate>>,
+    );
 
-        #[cfg(feature = "MapKit_MKLookAroundScene")]
-        #[method(setScene:)]
-        pub unsafe fn setScene(&self, scene: Option<&MKLookAroundScene>);
+    #[cfg(feature = "MapKit_MKLookAroundScene")]
+    #[objc2::method(sel = "scene", managed = "Other")]
+    pub unsafe fn scene(&self) -> Option<Id<MKLookAroundScene>>;
 
-        #[method(isNavigationEnabled)]
-        pub unsafe fn isNavigationEnabled(&self) -> bool;
+    #[cfg(feature = "MapKit_MKLookAroundScene")]
+    #[objc2::method(sel = "setScene:")]
+    pub unsafe fn setScene(&self, scene: Option<&MKLookAroundScene>);
 
-        #[method(setNavigationEnabled:)]
-        pub unsafe fn setNavigationEnabled(&self, navigation_enabled: bool);
+    #[objc2::method(sel = "isNavigationEnabled")]
+    pub unsafe fn isNavigationEnabled(&self) -> bool;
 
-        #[method(showsRoadLabels)]
-        pub unsafe fn showsRoadLabels(&self) -> bool;
+    #[objc2::method(sel = "setNavigationEnabled:")]
+    pub unsafe fn setNavigationEnabled(&self, navigation_enabled: bool);
 
-        #[method(setShowsRoadLabels:)]
-        pub unsafe fn setShowsRoadLabels(&self, shows_road_labels: bool);
+    #[objc2::method(sel = "showsRoadLabels")]
+    pub unsafe fn showsRoadLabels(&self) -> bool;
 
-        #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-        #[method_id(@__retain_semantics Other pointOfInterestFilter)]
-        pub unsafe fn pointOfInterestFilter(&self) -> Option<Id<MKPointOfInterestFilter>>;
+    #[objc2::method(sel = "setShowsRoadLabels:")]
+    pub unsafe fn setShowsRoadLabels(&self, shows_road_labels: bool);
 
-        #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-        #[method(setPointOfInterestFilter:)]
-        pub unsafe fn setPointOfInterestFilter(
-            &self,
-            point_of_interest_filter: Option<&MKPointOfInterestFilter>,
-        );
+    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
+    #[objc2::method(sel = "pointOfInterestFilter", managed = "Other")]
+    pub unsafe fn pointOfInterestFilter(&self) -> Option<Id<MKPointOfInterestFilter>>;
 
-        #[method(badgePosition)]
-        pub unsafe fn badgePosition(&self) -> MKLookAroundBadgePosition;
+    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
+    #[objc2::method(sel = "setPointOfInterestFilter:")]
+    pub unsafe fn setPointOfInterestFilter(
+        &self,
+        point_of_interest_filter: Option<&MKPointOfInterestFilter>,
+    );
 
-        #[method(setBadgePosition:)]
-        pub unsafe fn setBadgePosition(&self, badge_position: MKLookAroundBadgePosition);
-    }
-);
+    #[objc2::method(sel = "badgePosition")]
+    pub unsafe fn badgePosition(&self) -> MKLookAroundBadgePosition;
 
-extern_protocol!(
-    pub unsafe trait MKLookAroundViewControllerDelegate: NSObjectProtocol {
-        #[cfg(feature = "MapKit_MKLookAroundViewController")]
-        #[optional]
-        #[method(lookAroundViewControllerWillUpdateScene:)]
-        unsafe fn lookAroundViewControllerWillUpdateScene(
-            &self,
-            view_controller: &MKLookAroundViewController,
-        );
+    #[objc2::method(sel = "setBadgePosition:")]
+    pub unsafe fn setBadgePosition(&self, badge_position: MKLookAroundBadgePosition);
+}
 
-        #[cfg(feature = "MapKit_MKLookAroundViewController")]
-        #[optional]
-        #[method(lookAroundViewControllerDidUpdateScene:)]
-        unsafe fn lookAroundViewControllerDidUpdateScene(
-            &self,
-            view_controller: &MKLookAroundViewController,
-        );
+#[objc2::protocol]
+pub unsafe trait MKLookAroundViewControllerDelegate: NSObjectProtocol {
+    #[cfg(feature = "MapKit_MKLookAroundViewController")]
+    #[objc2::method(optional, sel = "lookAroundViewControllerWillUpdateScene:")]
+    unsafe fn lookAroundViewControllerWillUpdateScene(
+        &self,
+        view_controller: &MKLookAroundViewController,
+    );
 
-        #[cfg(feature = "MapKit_MKLookAroundViewController")]
-        #[optional]
-        #[method(lookAroundViewControllerWillPresentFullScreen:)]
-        unsafe fn lookAroundViewControllerWillPresentFullScreen(
-            &self,
-            view_controller: &MKLookAroundViewController,
-        );
+    #[cfg(feature = "MapKit_MKLookAroundViewController")]
+    #[objc2::method(optional, sel = "lookAroundViewControllerDidUpdateScene:")]
+    unsafe fn lookAroundViewControllerDidUpdateScene(
+        &self,
+        view_controller: &MKLookAroundViewController,
+    );
 
-        #[cfg(feature = "MapKit_MKLookAroundViewController")]
-        #[optional]
-        #[method(lookAroundViewControllerDidPresentFullScreen:)]
-        unsafe fn lookAroundViewControllerDidPresentFullScreen(
-            &self,
-            view_controller: &MKLookAroundViewController,
-        );
+    #[cfg(feature = "MapKit_MKLookAroundViewController")]
+    #[objc2::method(optional, sel = "lookAroundViewControllerWillPresentFullScreen:")]
+    unsafe fn lookAroundViewControllerWillPresentFullScreen(
+        &self,
+        view_controller: &MKLookAroundViewController,
+    );
 
-        #[cfg(feature = "MapKit_MKLookAroundViewController")]
-        #[optional]
-        #[method(lookAroundViewControllerWillDismissFullScreen:)]
-        unsafe fn lookAroundViewControllerWillDismissFullScreen(
-            &self,
-            view_controller: &MKLookAroundViewController,
-        );
+    #[cfg(feature = "MapKit_MKLookAroundViewController")]
+    #[objc2::method(optional, sel = "lookAroundViewControllerDidPresentFullScreen:")]
+    unsafe fn lookAroundViewControllerDidPresentFullScreen(
+        &self,
+        view_controller: &MKLookAroundViewController,
+    );
 
-        #[cfg(feature = "MapKit_MKLookAroundViewController")]
-        #[optional]
-        #[method(lookAroundViewControllerDidDismissFullScreen:)]
-        unsafe fn lookAroundViewControllerDidDismissFullScreen(
-            &self,
-            view_controller: &MKLookAroundViewController,
-        );
-    }
+    #[cfg(feature = "MapKit_MKLookAroundViewController")]
+    #[objc2::method(optional, sel = "lookAroundViewControllerWillDismissFullScreen:")]
+    unsafe fn lookAroundViewControllerWillDismissFullScreen(
+        &self,
+        view_controller: &MKLookAroundViewController,
+    );
 
-    unsafe impl ProtocolType for dyn MKLookAroundViewControllerDelegate {}
-);
+    #[cfg(feature = "MapKit_MKLookAroundViewController")]
+    #[objc2::method(optional, sel = "lookAroundViewControllerDidDismissFullScreen:")]
+    unsafe fn lookAroundViewControllerDidDismissFullScreen(
+        &self,
+        view_controller: &MKLookAroundViewController,
+    );
+}

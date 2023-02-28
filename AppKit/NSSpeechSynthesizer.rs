@@ -95,202 +95,197 @@ extern_static!(NSSpeechOutputToFileURLProperty: &'static NSSpeechPropertyKey);
 
 extern_static!(NSVoiceLanguage: &'static NSVoiceAttributeKey);
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSSpeechBoundary {
-        NSSpeechImmediateBoundary = 0,
-        NSSpeechWordBoundary = 1,
-        NSSpeechSentenceBoundary = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSSpeechBoundary {
+    NSSpeechImmediateBoundary = 0,
+    NSSpeechWordBoundary = 1,
+    NSSpeechSentenceBoundary = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSpeechSynthesizer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSSpeechSynthesizer")]
-    pub struct NSSpeechSynthesizer;
-
-    #[cfg(feature = "AppKit_NSSpeechSynthesizer")]
-    unsafe impl ClassType for NSSpeechSynthesizer {
-        type Super = NSObject;
-    }
-);
+    pub type NSSpeechSynthesizer;
+}
 
 #[cfg(feature = "AppKit_NSSpeechSynthesizer")]
 unsafe impl NSObjectProtocol for NSSpeechSynthesizer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSpeechSynthesizer")]
-    unsafe impl NSSpeechSynthesizer {
-        #[method_id(@__retain_semantics Init initWithVoice:)]
-        pub unsafe fn initWithVoice(
-            this: Option<Allocated<Self>>,
-            voice: Option<&NSSpeechSynthesizerVoiceName>,
-        ) -> Option<Id<Self>>;
+    pub type NSSpeechSynthesizer;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(startSpeakingString:)]
-        pub unsafe fn startSpeakingString(&self, string: &NSString) -> bool;
+    #[objc2::method(sel = "initWithVoice:", managed = "Init")]
+    pub unsafe fn initWithVoice(
+        this: Option<Allocated<Self>>,
+        voice: Option<&NSSpeechSynthesizerVoiceName>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
-        #[method(startSpeakingString:toURL:)]
-        pub unsafe fn startSpeakingString_toURL(&self, string: &NSString, url: &NSURL) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "startSpeakingString:")]
+    pub unsafe fn startSpeakingString(&self, string: &NSString) -> bool;
 
-        #[method(isSpeaking)]
-        pub unsafe fn isSpeaking(&self) -> bool;
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "startSpeakingString:toURL:")]
+    pub unsafe fn startSpeakingString_toURL(&self, string: &NSString, url: &NSURL) -> bool;
 
-        #[method(stopSpeaking)]
-        pub unsafe fn stopSpeaking(&self);
+    #[objc2::method(sel = "isSpeaking")]
+    pub unsafe fn isSpeaking(&self) -> bool;
 
-        #[method(stopSpeakingAtBoundary:)]
-        pub unsafe fn stopSpeakingAtBoundary(&self, boundary: NSSpeechBoundary);
+    #[objc2::method(sel = "stopSpeaking")]
+    pub unsafe fn stopSpeaking(&self);
 
-        #[method(pauseSpeakingAtBoundary:)]
-        pub unsafe fn pauseSpeakingAtBoundary(&self, boundary: NSSpeechBoundary);
+    #[objc2::method(sel = "stopSpeakingAtBoundary:")]
+    pub unsafe fn stopSpeakingAtBoundary(&self, boundary: NSSpeechBoundary);
 
-        #[method(continueSpeaking)]
-        pub unsafe fn continueSpeaking(&self);
+    #[objc2::method(sel = "pauseSpeakingAtBoundary:")]
+    pub unsafe fn pauseSpeakingAtBoundary(&self, boundary: NSSpeechBoundary);
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn NSSpeechSynthesizerDelegate>>>;
+    #[objc2::method(sel = "continueSpeaking")]
+    pub unsafe fn continueSpeaking(&self);
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSSpeechSynthesizerDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSSpeechSynthesizerDelegate>>>;
 
-        #[method_id(@__retain_semantics Other voice)]
-        pub unsafe fn voice(&self) -> Option<Id<NSSpeechSynthesizerVoiceName>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn NSSpeechSynthesizerDelegate>>,
+    );
 
-        #[method(setVoice:)]
-        pub unsafe fn setVoice(&self, voice: Option<&NSSpeechSynthesizerVoiceName>) -> bool;
+    #[objc2::method(sel = "voice", managed = "Other")]
+    pub unsafe fn voice(&self) -> Option<Id<NSSpeechSynthesizerVoiceName>>;
 
-        #[method(rate)]
-        pub unsafe fn rate(&self) -> c_float;
+    #[objc2::method(sel = "setVoice:")]
+    pub unsafe fn setVoice(&self, voice: Option<&NSSpeechSynthesizerVoiceName>) -> bool;
 
-        #[method(setRate:)]
-        pub unsafe fn setRate(&self, rate: c_float);
+    #[objc2::method(sel = "rate")]
+    pub unsafe fn rate(&self) -> c_float;
 
-        #[method(volume)]
-        pub unsafe fn volume(&self) -> c_float;
+    #[objc2::method(sel = "setRate:")]
+    pub unsafe fn setRate(&self, rate: c_float);
 
-        #[method(setVolume:)]
-        pub unsafe fn setVolume(&self, volume: c_float);
+    #[objc2::method(sel = "volume")]
+    pub unsafe fn volume(&self) -> c_float;
 
-        #[method(usesFeedbackWindow)]
-        pub unsafe fn usesFeedbackWindow(&self) -> bool;
+    #[objc2::method(sel = "setVolume:")]
+    pub unsafe fn setVolume(&self, volume: c_float);
 
-        #[method(setUsesFeedbackWindow:)]
-        pub unsafe fn setUsesFeedbackWindow(&self, uses_feedback_window: bool);
+    #[objc2::method(sel = "usesFeedbackWindow")]
+    pub unsafe fn usesFeedbackWindow(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(addSpeechDictionary:)]
-        pub unsafe fn addSpeechDictionary(
-            &self,
-            speech_dictionary: &NSDictionary<NSSpeechDictionaryKey, Object>,
-        );
+    #[objc2::method(sel = "setUsesFeedbackWindow:")]
+    pub unsafe fn setUsesFeedbackWindow(&self, uses_feedback_window: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other phonemesFromText:)]
-        pub unsafe fn phonemesFromText(&self, text: &NSString) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "addSpeechDictionary:")]
+    pub unsafe fn addSpeechDictionary(
+        &self,
+        speech_dictionary: &NSDictionary<NSSpeechDictionaryKey, Object>,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other objectForProperty:error:_)]
-        pub unsafe fn objectForProperty_error(
-            &self,
-            property: &NSSpeechPropertyKey,
-        ) -> Result<Id<Object>, Id<NSError>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "phonemesFromText:", managed = "Other")]
+    pub unsafe fn phonemesFromText(&self, text: &NSString) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(setObject:forProperty:error:_)]
-        pub unsafe fn setObject_forProperty_error(
-            &self,
-            object: Option<&Object>,
-            property: &NSSpeechPropertyKey,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "objectForProperty:error:", managed = "Other", throws)]
+    pub unsafe fn objectForProperty_error(
+        &self,
+        property: &NSSpeechPropertyKey,
+    ) -> Result<Id<Object>, Id<NSError>>;
 
-        #[method(isAnyApplicationSpeaking)]
-        pub unsafe fn isAnyApplicationSpeaking() -> bool;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "setObject:forProperty:error:", throws)]
+    pub unsafe fn setObject_forProperty_error(
+        &self,
+        object: Option<&Object>,
+        property: &NSSpeechPropertyKey,
+    ) -> Result<(), Id<NSError>>;
 
-        #[method_id(@__retain_semantics Other defaultVoice)]
-        pub unsafe fn defaultVoice() -> Id<NSSpeechSynthesizerVoiceName>;
+    #[objc2::method(sel = "isAnyApplicationSpeaking")]
+    pub unsafe fn isAnyApplicationSpeaking() -> bool;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other availableVoices)]
-        pub unsafe fn availableVoices() -> Id<NSArray<NSSpeechSynthesizerVoiceName>>;
+    #[objc2::method(sel = "defaultVoice", managed = "Other")]
+    pub unsafe fn defaultVoice() -> Id<NSSpeechSynthesizerVoiceName>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other attributesForVoice:)]
-        pub unsafe fn attributesForVoice(
-            voice: &NSSpeechSynthesizerVoiceName,
-        ) -> Id<NSDictionary<NSVoiceAttributeKey, Object>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "availableVoices", managed = "Other")]
+    pub unsafe fn availableVoices() -> Id<NSArray<NSSpeechSynthesizerVoiceName>>;
 
-extern_protocol!(
-    pub unsafe trait NSSpeechSynthesizerDelegate: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSSpeechSynthesizer")]
-        #[optional]
-        #[method(speechSynthesizer:didFinishSpeaking:)]
-        unsafe fn speechSynthesizer_didFinishSpeaking(
-            &self,
-            sender: &NSSpeechSynthesizer,
-            finished_speaking: bool,
-        );
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "attributesForVoice:", managed = "Other")]
+    pub unsafe fn attributesForVoice(
+        voice: &NSSpeechSynthesizerVoiceName,
+    ) -> Id<NSDictionary<NSVoiceAttributeKey, Object>>;
+}
 
-        #[cfg(all(
-            feature = "AppKit_NSSpeechSynthesizer",
-            feature = "Foundation_NSString"
-        ))]
-        #[optional]
-        #[method(speechSynthesizer:willSpeakWord:ofString:)]
-        unsafe fn speechSynthesizer_willSpeakWord_ofString(
-            &self,
-            sender: &NSSpeechSynthesizer,
-            character_range: NSRange,
-            string: &NSString,
-        );
+#[objc2::protocol]
+pub unsafe trait NSSpeechSynthesizerDelegate: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSSpeechSynthesizer")]
+    #[objc2::method(optional, sel = "speechSynthesizer:didFinishSpeaking:")]
+    unsafe fn speechSynthesizer_didFinishSpeaking(
+        &self,
+        sender: &NSSpeechSynthesizer,
+        finished_speaking: bool,
+    );
 
-        #[cfg(feature = "AppKit_NSSpeechSynthesizer")]
-        #[optional]
-        #[method(speechSynthesizer:willSpeakPhoneme:)]
-        unsafe fn speechSynthesizer_willSpeakPhoneme(
-            &self,
-            sender: &NSSpeechSynthesizer,
-            phoneme_opcode: c_short,
-        );
+    #[cfg(all(
+        feature = "AppKit_NSSpeechSynthesizer",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(optional, sel = "speechSynthesizer:willSpeakWord:ofString:")]
+    unsafe fn speechSynthesizer_willSpeakWord_ofString(
+        &self,
+        sender: &NSSpeechSynthesizer,
+        character_range: NSRange,
+        string: &NSString,
+    );
 
-        #[cfg(all(
-            feature = "AppKit_NSSpeechSynthesizer",
-            feature = "Foundation_NSString"
-        ))]
-        #[optional]
-        #[method(speechSynthesizer:didEncounterErrorAtIndex:ofString:message:)]
-        unsafe fn speechSynthesizer_didEncounterErrorAtIndex_ofString_message(
-            &self,
-            sender: &NSSpeechSynthesizer,
-            character_index: NSUInteger,
-            string: &NSString,
-            message: &NSString,
-        );
+    #[cfg(feature = "AppKit_NSSpeechSynthesizer")]
+    #[objc2::method(optional, sel = "speechSynthesizer:willSpeakPhoneme:")]
+    unsafe fn speechSynthesizer_willSpeakPhoneme(
+        &self,
+        sender: &NSSpeechSynthesizer,
+        phoneme_opcode: c_short,
+    );
 
-        #[cfg(all(
-            feature = "AppKit_NSSpeechSynthesizer",
-            feature = "Foundation_NSString"
-        ))]
-        #[optional]
-        #[method(speechSynthesizer:didEncounterSyncMessage:)]
-        unsafe fn speechSynthesizer_didEncounterSyncMessage(
-            &self,
-            sender: &NSSpeechSynthesizer,
-            message: &NSString,
-        );
-    }
+    #[cfg(all(
+        feature = "AppKit_NSSpeechSynthesizer",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "speechSynthesizer:didEncounterErrorAtIndex:ofString:message:"
+    )]
+    unsafe fn speechSynthesizer_didEncounterErrorAtIndex_ofString_message(
+        &self,
+        sender: &NSSpeechSynthesizer,
+        character_index: NSUInteger,
+        string: &NSString,
+        message: &NSString,
+    );
 
-    unsafe impl ProtocolType for dyn NSSpeechSynthesizerDelegate {}
-);
+    #[cfg(all(
+        feature = "AppKit_NSSpeechSynthesizer",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(optional, sel = "speechSynthesizer:didEncounterSyncMessage:")]
+    unsafe fn speechSynthesizer_didEncounterSyncMessage(
+        &self,
+        sender: &NSSpeechSynthesizer,
+        message: &NSString,
+    );
+}
 
 typed_enum!(
     pub type NSSpeechMode = NSString;

@@ -5,74 +5,78 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CKOperation,
+    unsafe inherits = [
+        NSOperation,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKAcceptSharesOperation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKAcceptSharesOperation")]
-    pub struct CKAcceptSharesOperation;
-
-    #[cfg(feature = "CloudKit_CKAcceptSharesOperation")]
-    unsafe impl ClassType for CKAcceptSharesOperation {
-        #[inherits(NSOperation, NSObject)]
-        type Super = CKOperation;
-    }
-);
+    pub type CKAcceptSharesOperation;
+}
 
 #[cfg(feature = "CloudKit_CKAcceptSharesOperation")]
 unsafe impl NSObjectProtocol for CKAcceptSharesOperation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKAcceptSharesOperation")]
-    unsafe impl CKAcceptSharesOperation {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKAcceptSharesOperation;
 
-        #[cfg(all(feature = "CloudKit_CKShareMetadata", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Init initWithShareMetadatas:)]
-        pub unsafe fn initWithShareMetadatas(
-            this: Option<Allocated<Self>>,
-            share_metadatas: &NSArray<CKShareMetadata>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(feature = "CloudKit_CKShareMetadata", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other shareMetadatas)]
-        pub unsafe fn shareMetadatas(&self) -> Option<Id<NSArray<CKShareMetadata>>>;
+    #[cfg(all(feature = "CloudKit_CKShareMetadata", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "initWithShareMetadatas:", managed = "Init")]
+    pub unsafe fn initWithShareMetadatas(
+        this: Option<Allocated<Self>>,
+        share_metadatas: &NSArray<CKShareMetadata>,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "CloudKit_CKShareMetadata", feature = "Foundation_NSArray"))]
-        #[method(setShareMetadatas:)]
-        pub unsafe fn setShareMetadatas(&self, share_metadatas: Option<&NSArray<CKShareMetadata>>);
+    #[cfg(all(feature = "CloudKit_CKShareMetadata", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "shareMetadatas", managed = "Other")]
+    pub unsafe fn shareMetadatas(&self) -> Option<Id<NSArray<CKShareMetadata>>>;
 
-        #[cfg(all(
-            feature = "CloudKit_CKShare",
-            feature = "CloudKit_CKShareMetadata",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(perShareCompletionBlock)]
-        pub unsafe fn perShareCompletionBlock(
-            &self,
-        ) -> *mut Block<(NonNull<CKShareMetadata>, *mut CKShare, *mut NSError), ()>;
+    #[cfg(all(feature = "CloudKit_CKShareMetadata", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setShareMetadatas:")]
+    pub unsafe fn setShareMetadatas(&self, share_metadatas: Option<&NSArray<CKShareMetadata>>);
 
-        #[cfg(all(
-            feature = "CloudKit_CKShare",
-            feature = "CloudKit_CKShareMetadata",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(setPerShareCompletionBlock:)]
-        pub unsafe fn setPerShareCompletionBlock(
-            &self,
-            per_share_completion_block: Option<
-                &Block<(NonNull<CKShareMetadata>, *mut CKShare, *mut NSError), ()>,
-            >,
-        );
+    #[cfg(all(
+        feature = "CloudKit_CKShare",
+        feature = "CloudKit_CKShareMetadata",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "perShareCompletionBlock")]
+    pub unsafe fn perShareCompletionBlock(
+        &self,
+    ) -> *mut Block<(NonNull<CKShareMetadata>, *mut CKShare, *mut NSError), ()>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(acceptSharesCompletionBlock)]
-        pub unsafe fn acceptSharesCompletionBlock(&self) -> *mut Block<(*mut NSError,), ()>;
+    #[cfg(all(
+        feature = "CloudKit_CKShare",
+        feature = "CloudKit_CKShareMetadata",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "setPerShareCompletionBlock:")]
+    pub unsafe fn setPerShareCompletionBlock(
+        &self,
+        per_share_completion_block: Option<
+            &Block<(NonNull<CKShareMetadata>, *mut CKShare, *mut NSError), ()>,
+        >,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(setAcceptSharesCompletionBlock:)]
-        pub unsafe fn setAcceptSharesCompletionBlock(
-            &self,
-            accept_shares_completion_block: Option<&Block<(*mut NSError,), ()>>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "acceptSharesCompletionBlock")]
+    pub unsafe fn acceptSharesCompletionBlock(&self) -> *mut Block<(*mut NSError,), ()>;
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "setAcceptSharesCompletionBlock:")]
+    pub unsafe fn setAcceptSharesCompletionBlock(
+        &self,
+        accept_shares_completion_block: Option<&Block<(*mut NSError,), ()>>,
+    );
+}

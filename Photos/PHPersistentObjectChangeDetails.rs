@@ -6,42 +6,45 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHPersistentObjectChangeDetails")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHPersistentObjectChangeDetails")]
-    pub struct PHPersistentObjectChangeDetails;
-
-    #[cfg(feature = "PhotoKit_PHPersistentObjectChangeDetails")]
-    unsafe impl ClassType for PHPersistentObjectChangeDetails {
-        type Super = NSObject;
-    }
-);
+    pub type PHPersistentObjectChangeDetails;
+}
 
 #[cfg(feature = "PhotoKit_PHPersistentObjectChangeDetails")]
 unsafe impl NSObjectProtocol for PHPersistentObjectChangeDetails {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHPersistentObjectChangeDetails")]
-    unsafe impl PHPersistentObjectChangeDetails {
-        #[method(objectType)]
-        pub unsafe fn objectType(&self) -> PHObjectType;
+    pub type PHPersistentObjectChangeDetails;
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other insertedLocalIdentifiers)]
-        pub unsafe fn insertedLocalIdentifiers(&self) -> Id<NSSet<NSString>>;
+    #[objc2::method(sel = "objectType")]
+    pub unsafe fn objectType(&self) -> PHObjectType;
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other updatedLocalIdentifiers)]
-        pub unsafe fn updatedLocalIdentifiers(&self) -> Id<NSSet<NSString>>;
+    #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "insertedLocalIdentifiers", managed = "Other")]
+    pub unsafe fn insertedLocalIdentifiers(&self) -> Id<NSSet<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other deletedLocalIdentifiers)]
-        pub unsafe fn deletedLocalIdentifiers(&self) -> Id<NSSet<NSString>>;
+    #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "updatedLocalIdentifiers", managed = "Other")]
+    pub unsafe fn updatedLocalIdentifiers(&self) -> Id<NSSet<NSString>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "deletedLocalIdentifiers", managed = "Other")]
+    pub unsafe fn deletedLocalIdentifiers(&self) -> Id<NSSet<NSString>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

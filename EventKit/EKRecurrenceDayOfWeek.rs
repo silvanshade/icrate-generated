@@ -7,16 +7,16 @@ use crate::EventKit::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "EventKit_EKRecurrenceDayOfWeek")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "EventKit_EKRecurrenceDayOfWeek")]
-    pub struct EKRecurrenceDayOfWeek;
-
-    #[cfg(feature = "EventKit_EKRecurrenceDayOfWeek")]
-    unsafe impl ClassType for EKRecurrenceDayOfWeek {
-        type Super = NSObject;
-    }
-);
+    pub type EKRecurrenceDayOfWeek;
+}
 
 #[cfg(feature = "EventKit_EKRecurrenceDayOfWeek")]
 unsafe impl NSCoding for EKRecurrenceDayOfWeek {}
@@ -27,29 +27,32 @@ unsafe impl NSObjectProtocol for EKRecurrenceDayOfWeek {}
 #[cfg(feature = "EventKit_EKRecurrenceDayOfWeek")]
 unsafe impl NSSecureCoding for EKRecurrenceDayOfWeek {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "EventKit_EKRecurrenceDayOfWeek")]
-    unsafe impl EKRecurrenceDayOfWeek {
-        #[method_id(@__retain_semantics Other dayOfWeek:)]
-        pub unsafe fn dayOfWeek(day_of_the_week: EKWeekday) -> Id<Self>;
+    pub type EKRecurrenceDayOfWeek;
 
-        #[method_id(@__retain_semantics Other dayOfWeek:weekNumber:)]
-        pub unsafe fn dayOfWeek_weekNumber(
-            day_of_the_week: EKWeekday,
-            week_number: NSInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "dayOfWeek:", managed = "Other")]
+    pub unsafe fn dayOfWeek(day_of_the_week: EKWeekday) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithDayOfTheWeek:weekNumber:)]
-        pub unsafe fn initWithDayOfTheWeek_weekNumber(
-            this: Option<Allocated<Self>>,
-            day_of_the_week: EKWeekday,
-            week_number: NSInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "dayOfWeek:weekNumber:", managed = "Other")]
+    pub unsafe fn dayOfWeek_weekNumber(
+        day_of_the_week: EKWeekday,
+        week_number: NSInteger,
+    ) -> Id<Self>;
 
-        #[method(dayOfTheWeek)]
-        pub unsafe fn dayOfTheWeek(&self) -> EKWeekday;
+    #[objc2::method(sel = "initWithDayOfTheWeek:weekNumber:", managed = "Init")]
+    pub unsafe fn initWithDayOfTheWeek_weekNumber(
+        this: Option<Allocated<Self>>,
+        day_of_the_week: EKWeekday,
+        week_number: NSInteger,
+    ) -> Id<Self>;
 
-        #[method(weekNumber)]
-        pub unsafe fn weekNumber(&self) -> NSInteger;
-    }
-);
+    #[objc2::method(sel = "dayOfTheWeek")]
+    pub unsafe fn dayOfTheWeek(&self) -> EKWeekday;
+
+    #[objc2::method(sel = "weekNumber")]
+    pub unsafe fn weekNumber(&self) -> NSInteger;
+}

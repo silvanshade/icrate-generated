@@ -3,214 +3,227 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSXMLDocumentContentKind {
-        NSXMLDocumentXMLKind = 0,
-        NSXMLDocumentXHTMLKind = 1,
-        NSXMLDocumentHTMLKind = 2,
-        NSXMLDocumentTextKind = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSXMLDocumentContentKind {
+    NSXMLDocumentXMLKind = 0,
+    NSXMLDocumentXHTMLKind = 1,
+    NSXMLDocumentHTMLKind = 2,
+    NSXMLDocumentTextKind = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSXMLNode,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSXMLDocument")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSXMLDocument")]
-    pub struct NSXMLDocument;
-
-    #[cfg(feature = "Foundation_NSXMLDocument")]
-    unsafe impl ClassType for NSXMLDocument {
-        #[inherits(NSObject)]
-        type Super = NSXMLNode;
-    }
-);
+    pub type NSXMLDocument;
+}
 
 #[cfg(feature = "Foundation_NSXMLDocument")]
 unsafe impl NSObjectProtocol for NSXMLDocument {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSXMLDocument")]
-    unsafe impl NSXMLDocument {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSXMLDocument;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithXMLString:options:error:_)]
-        pub unsafe fn initWithXMLString_options_error(
-            this: Option<Allocated<Self>>,
-            string: &NSString,
-            mask: NSXMLNodeOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:options:error:_)]
-        pub unsafe fn initWithContentsOfURL_options_error(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            mask: NSXMLNodeOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithXMLString:options:error:", managed = "Init", throws)]
+    pub unsafe fn initWithXMLString_options_error(
+        this: Option<Allocated<Self>>,
+        string: &NSString,
+        mask: NSXMLNodeOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method_id(@__retain_semantics Init initWithData:options:error:_)]
-        pub unsafe fn initWithData_options_error(
-            this: Option<Allocated<Self>>,
-            data: &NSData,
-            mask: NSXMLNodeOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "initWithContentsOfURL:options:error:", managed = "Init", throws)]
+    pub unsafe fn initWithContentsOfURL_options_error(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        mask: NSXMLNodeOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSXMLElement")]
-        #[method_id(@__retain_semantics Init initWithRootElement:)]
-        pub unsafe fn initWithRootElement(
-            this: Option<Allocated<Self>>,
-            element: Option<&NSXMLElement>,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "initWithData:options:error:", managed = "Init", throws)]
+    pub unsafe fn initWithData_options_error(
+        this: Option<Allocated<Self>>,
+        data: &NSData,
+        mask: NSXMLNodeOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[method(replacementClassForClass:)]
-        pub unsafe fn replacementClassForClass(cls: &Class) -> &'static Class;
+    #[cfg(feature = "Foundation_NSXMLElement")]
+    #[objc2::method(sel = "initWithRootElement:", managed = "Init")]
+    pub unsafe fn initWithRootElement(
+        this: Option<Allocated<Self>>,
+        element: Option<&NSXMLElement>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other characterEncoding)]
-        pub unsafe fn characterEncoding(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "replacementClassForClass:")]
+    pub unsafe fn replacementClassForClass(cls: &Class) -> &'static Class;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCharacterEncoding:)]
-        pub unsafe fn setCharacterEncoding(&self, character_encoding: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "characterEncoding", managed = "Other")]
+    pub unsafe fn characterEncoding(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other version)]
-        pub unsafe fn version(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCharacterEncoding:")]
+    pub unsafe fn setCharacterEncoding(&self, character_encoding: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setVersion:)]
-        pub unsafe fn setVersion(&self, version: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "version", managed = "Other")]
+    pub unsafe fn version(&self) -> Option<Id<NSString>>;
 
-        #[method(isStandalone)]
-        pub unsafe fn isStandalone(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setVersion:")]
+    pub unsafe fn setVersion(&self, version: Option<&NSString>);
 
-        #[method(setStandalone:)]
-        pub unsafe fn setStandalone(&self, standalone: bool);
+    #[objc2::method(sel = "isStandalone")]
+    pub unsafe fn isStandalone(&self) -> bool;
 
-        #[method(documentContentKind)]
-        pub unsafe fn documentContentKind(&self) -> NSXMLDocumentContentKind;
+    #[objc2::method(sel = "setStandalone:")]
+    pub unsafe fn setStandalone(&self, standalone: bool);
 
-        #[method(setDocumentContentKind:)]
-        pub unsafe fn setDocumentContentKind(
-            &self,
-            document_content_kind: NSXMLDocumentContentKind,
-        );
+    #[objc2::method(sel = "documentContentKind")]
+    pub unsafe fn documentContentKind(&self) -> NSXMLDocumentContentKind;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other MIMEType)]
-        pub unsafe fn MIMEType(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setDocumentContentKind:")]
+    pub unsafe fn setDocumentContentKind(&self, document_content_kind: NSXMLDocumentContentKind);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMIMEType:)]
-        pub unsafe fn setMIMEType(&self, mime_type: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "MIMEType", managed = "Other")]
+    pub unsafe fn MIMEType(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSXMLDTD")]
-        #[method_id(@__retain_semantics Other DTD)]
-        pub unsafe fn DTD(&self) -> Option<Id<NSXMLDTD>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMIMEType:")]
+    pub unsafe fn setMIMEType(&self, mime_type: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSXMLDTD")]
-        #[method(setDTD:)]
-        pub unsafe fn setDTD(&self, dtd: Option<&NSXMLDTD>);
+    #[cfg(feature = "Foundation_NSXMLDTD")]
+    #[objc2::method(sel = "DTD", managed = "Other")]
+    pub unsafe fn DTD(&self) -> Option<Id<NSXMLDTD>>;
 
-        #[cfg(feature = "Foundation_NSXMLElement")]
-        #[method(setRootElement:)]
-        pub unsafe fn setRootElement(&self, root: &NSXMLElement);
+    #[cfg(feature = "Foundation_NSXMLDTD")]
+    #[objc2::method(sel = "setDTD:")]
+    pub unsafe fn setDTD(&self, dtd: Option<&NSXMLDTD>);
 
-        #[cfg(feature = "Foundation_NSXMLElement")]
-        #[method_id(@__retain_semantics Other rootElement)]
-        pub unsafe fn rootElement(&self) -> Option<Id<NSXMLElement>>;
+    #[cfg(feature = "Foundation_NSXMLElement")]
+    #[objc2::method(sel = "setRootElement:")]
+    pub unsafe fn setRootElement(&self, root: &NSXMLElement);
 
-        #[method(insertChild:atIndex:)]
-        pub unsafe fn insertChild_atIndex(&self, child: &NSXMLNode, index: NSUInteger);
+    #[cfg(feature = "Foundation_NSXMLElement")]
+    #[objc2::method(sel = "rootElement", managed = "Other")]
+    pub unsafe fn rootElement(&self) -> Option<Id<NSXMLElement>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(insertChildren:atIndex:)]
-        pub unsafe fn insertChildren_atIndex(
-            &self,
-            children: &NSArray<NSXMLNode>,
-            index: NSUInteger,
-        );
+    #[objc2::method(sel = "insertChild:atIndex:")]
+    pub unsafe fn insertChild_atIndex(&self, child: &NSXMLNode, index: NSUInteger);
 
-        #[method(removeChildAtIndex:)]
-        pub unsafe fn removeChildAtIndex(&self, index: NSUInteger);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "insertChildren:atIndex:")]
+    pub unsafe fn insertChildren_atIndex(&self, children: &NSArray<NSXMLNode>, index: NSUInteger);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setChildren:)]
-        pub unsafe fn setChildren(&self, children: Option<&NSArray<NSXMLNode>>);
+    #[objc2::method(sel = "removeChildAtIndex:")]
+    pub unsafe fn removeChildAtIndex(&self, index: NSUInteger);
 
-        #[method(addChild:)]
-        pub unsafe fn addChild(&self, child: &NSXMLNode);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setChildren:")]
+    pub unsafe fn setChildren(&self, children: Option<&NSArray<NSXMLNode>>);
 
-        #[method(replaceChildAtIndex:withNode:)]
-        pub unsafe fn replaceChildAtIndex_withNode(&self, index: NSUInteger, node: &NSXMLNode);
+    #[objc2::method(sel = "addChild:")]
+    pub unsafe fn addChild(&self, child: &NSXMLNode);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other XMLData)]
-        pub unsafe fn XMLData(&self) -> Id<NSData>;
+    #[objc2::method(sel = "replaceChildAtIndex:withNode:")]
+    pub unsafe fn replaceChildAtIndex_withNode(&self, index: NSUInteger, node: &NSXMLNode);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other XMLDataWithOptions:)]
-        pub unsafe fn XMLDataWithOptions(&self, options: NSXMLNodeOptions) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "XMLData", managed = "Other")]
+    pub unsafe fn XMLData(&self) -> Id<NSData>;
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other objectByApplyingXSLT:arguments:error:_)]
-        pub unsafe fn objectByApplyingXSLT_arguments_error(
-            &self,
-            xslt: &NSData,
-            arguments: Option<&NSDictionary<NSString, NSString>>,
-        ) -> Result<Id<Object>, Id<NSError>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "XMLDataWithOptions:", managed = "Other")]
+    pub unsafe fn XMLDataWithOptions(&self, options: NSXMLNodeOptions) -> Id<NSData>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other objectByApplyingXSLTString:arguments:error:_)]
-        pub unsafe fn objectByApplyingXSLTString_arguments_error(
-            &self,
-            xslt: &NSString,
-            arguments: Option<&NSDictionary<NSString, NSString>>,
-        ) -> Result<Id<Object>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "objectByApplyingXSLT:arguments:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn objectByApplyingXSLT_arguments_error(
+        &self,
+        xslt: &NSData,
+        arguments: Option<&NSDictionary<NSString, NSString>>,
+    ) -> Result<Id<Object>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other objectByApplyingXSLTAtURL:arguments:error:_)]
-        pub unsafe fn objectByApplyingXSLTAtURL_arguments_error(
-            &self,
-            xslt_url: &NSURL,
-            argument: Option<&NSDictionary<NSString, NSString>>,
-        ) -> Result<Id<Object>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "objectByApplyingXSLTString:arguments:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn objectByApplyingXSLTString_arguments_error(
+        &self,
+        xslt: &NSString,
+        arguments: Option<&NSDictionary<NSString, NSString>>,
+    ) -> Result<Id<Object>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(validateAndReturnError:_)]
-        pub unsafe fn validateAndReturnError(&self) -> Result<(), Id<NSError>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "objectByApplyingXSLTAtURL:arguments:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn objectByApplyingXSLTAtURL_arguments_error(
+        &self,
+        xslt_url: &NSURL,
+        argument: Option<&NSDictionary<NSString, NSString>>,
+    ) -> Result<Id<Object>, Id<NSError>>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSXMLNode`
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "validateAndReturnError:", throws)]
+    pub unsafe fn validateAndReturnError(&self) -> Result<(), Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSXMLNode`
     #[cfg(feature = "Foundation_NSXMLDocument")]
-    unsafe impl NSXMLDocument {
-        #[method_id(@__retain_semantics Init initWithKind:)]
-        pub unsafe fn initWithKind(this: Option<Allocated<Self>>, kind: NSXMLNodeKind) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Init initWithKind:options:)]
-        pub unsafe fn initWithKind_options(
-            this: Option<Allocated<Self>>,
-            kind: NSXMLNodeKind,
-            options: NSXMLNodeOptions,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSXMLDocument")]
+    pub type NSXMLDocument;
+
+    #[objc2::method(sel = "initWithKind:", managed = "Init")]
+    pub unsafe fn initWithKind(this: Option<Allocated<Self>>, kind: NSXMLNodeKind) -> Id<Self>;
+
+    #[objc2::method(sel = "initWithKind:options:", managed = "Init")]
+    pub unsafe fn initWithKind_options(
+        this: Option<Allocated<Self>>,
+        kind: NSXMLNodeKind,
+        options: NSXMLNodeOptions,
+    ) -> Id<Self>;
+}

@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MailKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MailKit_MEMessageSigner")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MailKit_MEMessageSigner")]
-    pub struct MEMessageSigner;
-
-    #[cfg(feature = "MailKit_MEMessageSigner")]
-    unsafe impl ClassType for MEMessageSigner {
-        type Super = NSObject;
-    }
-);
+    pub type MEMessageSigner;
+}
 
 #[cfg(feature = "MailKit_MEMessageSigner")]
 unsafe impl NSCoding for MEMessageSigner {}
@@ -25,39 +25,45 @@ unsafe impl NSObjectProtocol for MEMessageSigner {}
 #[cfg(feature = "MailKit_MEMessageSigner")]
 unsafe impl NSSecureCoding for MEMessageSigner {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MailKit_MEMessageSigner")]
-    unsafe impl MEMessageSigner {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEEmailAddress"))]
-        #[method_id(@__retain_semantics Other emailAddresses)]
-        pub unsafe fn emailAddresses(&self) -> Id<NSArray<MEEmailAddress>>;
+    pub type MEMessageSigner;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        pub unsafe fn label(&self) -> Id<NSString>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEEmailAddress"))]
+    #[objc2::method(sel = "emailAddresses", managed = "Other")]
+    pub unsafe fn emailAddresses(&self) -> Id<NSArray<MEEmailAddress>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other context)]
-        pub unsafe fn context(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    pub unsafe fn label(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "context", managed = "Other")]
+    pub unsafe fn context(&self) -> Id<NSData>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSString",
-            feature = "MailKit_MEEmailAddress"
-        ))]
-        #[method_id(@__retain_semantics Init initWithEmailAddresses:signatureLabel:context:)]
-        pub unsafe fn initWithEmailAddresses_signatureLabel_context(
-            this: Option<Allocated<Self>>,
-            email_addresses: &NSArray<MEEmailAddress>,
-            label: &NSString,
-            context: Option<&NSData>,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSString",
+        feature = "MailKit_MEEmailAddress"
+    ))]
+    #[objc2::method(
+        sel = "initWithEmailAddresses:signatureLabel:context:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithEmailAddresses_signatureLabel_context(
+        this: Option<Allocated<Self>>,
+        email_addresses: &NSArray<MEEmailAddress>,
+        label: &NSString,
+        context: Option<&NSData>,
+    ) -> Id<Self>;
+}

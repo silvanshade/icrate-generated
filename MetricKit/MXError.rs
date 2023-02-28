@@ -6,14 +6,13 @@ use crate::MetricKit::*;
 
 extern_static!(MXErrorDomain: Option<&'static NSErrorDomain>);
 
-ns_error_enum!(
-    #[underlying(NSInteger)]
-    pub enum MXErrorCode {
-        MXErrorLaunchTaskInvalidID = 0,
-        MXErrorLaunchTaskMaxCount = 1,
-        MXErrorLaunchTaskPastDeadline = 2,
-        MXErrorLaunchTaskDuplicated = 3,
-        MXErrorLaunchTaskUnknown = 4,
-        MXErrorLaunchTaskInternalFailure = 5,
-    }
-);
+#[ns_error_enum]
+#[underlying(NSInteger)]
+pub enum MXErrorCode {
+    MXErrorLaunchTaskInvalidID = 0,
+    MXErrorLaunchTaskMaxCount = 1,
+    MXErrorLaunchTaskPastDeadline = 2,
+    MXErrorLaunchTaskDuplicated = 3,
+    MXErrorLaunchTaskUnknown = 4,
+    MXErrorLaunchTaskInternalFailure = 5,
+}

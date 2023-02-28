@@ -5,51 +5,48 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::InputMethodKit::*;
 
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        kIMKSingleColumnScrollingCandidatePanel = 1,
-        kIMKScrollingGridCandidatePanel = 2,
-        kIMKSingleRowSteppingCandidatePanel = 3,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    kIMKSingleColumnScrollingCandidatePanel = 1,
+    kIMKScrollingGridCandidatePanel = 2,
+    kIMKSingleRowSteppingCandidatePanel = 3,
+}
 
 pub type IMKCandidatePanelType = NSUInteger;
 
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        kIMKMain = 0,
-        kIMKAnnotation = 1,
-        kIMKSubList = 2,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    kIMKMain = 0,
+    kIMKAnnotation = 1,
+    kIMKSubList = 2,
+}
 
 pub type IMKStyleType = NSUInteger;
 
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        kIMKLocateCandidatesAboveHint = 1,
-        kIMKLocateCandidatesBelowHint = 2,
-        kIMKLocateCandidatesLeftHint = 3,
-        kIMKLocateCandidatesRightHint = 4,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    kIMKLocateCandidatesAboveHint = 1,
+    kIMKLocateCandidatesBelowHint = 2,
+    kIMKLocateCandidatesLeftHint = 3,
+    kIMKLocateCandidatesRightHint = 4,
+}
 
 pub type IMKCandidatesLocationHint = NSUInteger;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSResponder,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "InputMethodKit_IMKCandidates")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "InputMethodKit_IMKCandidates")]
-    pub struct IMKCandidates;
-
-    #[cfg(feature = "InputMethodKit_IMKCandidates")]
-    unsafe impl ClassType for IMKCandidates {
-        #[inherits(NSObject)]
-        type Super = NSResponder;
-    }
-);
+    pub type IMKCandidates;
+}
 
 #[cfg(feature = "InputMethodKit_IMKCandidates")]
 unsafe impl NSCoding for IMKCandidates {}
@@ -57,138 +54,137 @@ unsafe impl NSCoding for IMKCandidates {}
 #[cfg(feature = "InputMethodKit_IMKCandidates")]
 unsafe impl NSObjectProtocol for IMKCandidates {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "InputMethodKit_IMKCandidates")]
-    unsafe impl IMKCandidates {
-        #[cfg(feature = "InputMethodKit_IMKServer")]
-        #[method_id(@__retain_semantics Init initWithServer:panelType:)]
-        pub unsafe fn initWithServer_panelType(
-            this: Option<Allocated<Self>>,
-            server: Option<&IMKServer>,
-            panel_type: IMKCandidatePanelType,
-        ) -> Option<Id<Self>>;
+    pub type IMKCandidates;
 
-        #[cfg(feature = "InputMethodKit_IMKServer")]
-        #[method_id(@__retain_semantics Init initWithServer:panelType:styleType:)]
-        pub unsafe fn initWithServer_panelType_styleType(
-            this: Option<Allocated<Self>>,
-            server: Option<&IMKServer>,
-            panel_type: IMKCandidatePanelType,
-            style: IMKStyleType,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "InputMethodKit_IMKServer")]
+    #[objc2::method(sel = "initWithServer:panelType:", managed = "Init")]
+    pub unsafe fn initWithServer_panelType(
+        this: Option<Allocated<Self>>,
+        server: Option<&IMKServer>,
+        panel_type: IMKCandidatePanelType,
+    ) -> Option<Id<Self>>;
 
-        #[method(panelType)]
-        pub unsafe fn panelType(&self) -> IMKCandidatePanelType;
+    #[cfg(feature = "InputMethodKit_IMKServer")]
+    #[objc2::method(sel = "initWithServer:panelType:styleType:", managed = "Init")]
+    pub unsafe fn initWithServer_panelType_styleType(
+        this: Option<Allocated<Self>>,
+        server: Option<&IMKServer>,
+        panel_type: IMKCandidatePanelType,
+        style: IMKStyleType,
+    ) -> Option<Id<Self>>;
 
-        #[method(setPanelType:)]
-        pub unsafe fn setPanelType(&self, panel_type: IMKCandidatePanelType);
+    #[objc2::method(sel = "panelType")]
+    pub unsafe fn panelType(&self) -> IMKCandidatePanelType;
 
-        #[method(show:)]
-        pub unsafe fn show(&self, location_hint: IMKCandidatesLocationHint);
+    #[objc2::method(sel = "setPanelType:")]
+    pub unsafe fn setPanelType(&self, panel_type: IMKCandidatePanelType);
 
-        #[method(hide)]
-        pub unsafe fn hide(&self);
+    #[objc2::method(sel = "show:")]
+    pub unsafe fn show(&self, location_hint: IMKCandidatesLocationHint);
 
-        #[method(isVisible)]
-        pub unsafe fn isVisible(&self) -> bool;
+    #[objc2::method(sel = "hide")]
+    pub unsafe fn hide(&self);
 
-        #[method(updateCandidates)]
-        pub unsafe fn updateCandidates(&self);
+    #[objc2::method(sel = "isVisible")]
+    pub unsafe fn isVisible(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(showAnnotation:)]
-        pub unsafe fn showAnnotation(&self, annotation_string: Option<&NSAttributedString>);
+    #[objc2::method(sel = "updateCandidates")]
+    pub unsafe fn updateCandidates(&self);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(showSublist:subListDelegate:)]
-        pub unsafe fn showSublist_subListDelegate(
-            &self,
-            candidates: Option<&NSArray>,
-            delegate: Option<&Object>,
-        );
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "showAnnotation:")]
+    pub unsafe fn showAnnotation(&self, annotation_string: Option<&NSAttributedString>);
 
-        #[method(candidateFrame)]
-        pub unsafe fn candidateFrame(&self) -> NSRect;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "showSublist:subListDelegate:")]
+    pub unsafe fn showSublist_subListDelegate(
+        &self,
+        candidates: Option<&NSArray>,
+        delegate: Option<&Object>,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setSelectionKeys:)]
-        pub unsafe fn setSelectionKeys(&self, key_codes: Option<&NSArray>);
+    #[objc2::method(sel = "candidateFrame")]
+    pub unsafe fn candidateFrame(&self) -> NSRect;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other selectionKeys)]
-        pub unsafe fn selectionKeys(&self) -> Option<Id<NSArray>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setSelectionKeys:")]
+    pub unsafe fn setSelectionKeys(&self, key_codes: Option<&NSArray>);
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(setAttributes:)]
-        pub unsafe fn setAttributes(&self, attributes: Option<&NSDictionary>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "selectionKeys", managed = "Other")]
+    pub unsafe fn selectionKeys(&self) -> Option<Id<NSArray>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other attributes)]
-        pub unsafe fn attributes(&self) -> Option<Id<NSDictionary>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "setAttributes:")]
+    pub unsafe fn setAttributes(&self, attributes: Option<&NSDictionary>);
 
-        #[method(setDismissesAutomatically:)]
-        pub unsafe fn setDismissesAutomatically(&self, flag: bool);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "attributes", managed = "Other")]
+    pub unsafe fn attributes(&self) -> Option<Id<NSDictionary>>;
 
-        #[method(dismissesAutomatically)]
-        pub unsafe fn dismissesAutomatically(&self) -> bool;
+    #[objc2::method(sel = "setDismissesAutomatically:")]
+    pub unsafe fn setDismissesAutomatically(&self, flag: bool);
 
-        #[method(selectedCandidate)]
-        pub unsafe fn selectedCandidate(&self) -> NSInteger;
+    #[objc2::method(sel = "dismissesAutomatically")]
+    pub unsafe fn dismissesAutomatically(&self) -> bool;
 
-        #[method(setCandidateFrameTopLeft:)]
-        pub unsafe fn setCandidateFrameTopLeft(&self, point: NSPoint);
+    #[objc2::method(sel = "selectedCandidate")]
+    pub unsafe fn selectedCandidate(&self) -> NSInteger;
 
-        #[method(showChild)]
-        pub unsafe fn showChild(&self);
+    #[objc2::method(sel = "setCandidateFrameTopLeft:")]
+    pub unsafe fn setCandidateFrameTopLeft(&self, point: NSPoint);
 
-        #[method(hideChild)]
-        pub unsafe fn hideChild(&self);
+    #[objc2::method(sel = "showChild")]
+    pub unsafe fn showChild(&self);
 
-        #[method(attachChild:toCandidate:type:)]
-        pub unsafe fn attachChild_toCandidate_type(
-            &self,
-            child: Option<&IMKCandidates>,
-            candidate_identifier: NSInteger,
-            the_type: IMKStyleType,
-        );
+    #[objc2::method(sel = "hideChild")]
+    pub unsafe fn hideChild(&self);
 
-        #[method(detachChild:)]
-        pub unsafe fn detachChild(&self, candidate_identifier: NSInteger);
+    #[objc2::method(sel = "attachChild:toCandidate:type:")]
+    pub unsafe fn attachChild_toCandidate_type(
+        &self,
+        child: Option<&IMKCandidates>,
+        candidate_identifier: NSInteger,
+        the_type: IMKStyleType,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setCandidateData:)]
-        pub unsafe fn setCandidateData(&self, candidates_array: Option<&NSArray>);
+    #[objc2::method(sel = "detachChild:")]
+    pub unsafe fn detachChild(&self, candidate_identifier: NSInteger);
 
-        #[method(selectCandidateWithIdentifier:)]
-        pub unsafe fn selectCandidateWithIdentifier(&self, candidate_identifier: NSInteger)
-            -> bool;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setCandidateData:")]
+    pub unsafe fn setCandidateData(&self, candidates_array: Option<&NSArray>);
 
-        #[method(selectCandidate:)]
-        pub unsafe fn selectCandidate(&self, candidate_identifier: NSInteger);
+    #[objc2::method(sel = "selectCandidateWithIdentifier:")]
+    pub unsafe fn selectCandidateWithIdentifier(&self, candidate_identifier: NSInteger) -> bool;
 
-        #[method(showCandidates)]
-        pub unsafe fn showCandidates(&self);
+    #[objc2::method(sel = "selectCandidate:")]
+    pub unsafe fn selectCandidate(&self, candidate_identifier: NSInteger);
 
-        #[method(candidateStringIdentifier:)]
-        pub unsafe fn candidateStringIdentifier(
-            &self,
-            candidate_string: Option<&Object>,
-        ) -> NSInteger;
+    #[objc2::method(sel = "showCandidates")]
+    pub unsafe fn showCandidates(&self);
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other selectedCandidateString)]
-        pub unsafe fn selectedCandidateString(&self) -> Option<Id<NSAttributedString>>;
+    #[objc2::method(sel = "candidateStringIdentifier:")]
+    pub unsafe fn candidateStringIdentifier(&self, candidate_string: Option<&Object>) -> NSInteger;
 
-        #[method(candidateIdentifierAtLineNumber:)]
-        pub unsafe fn candidateIdentifierAtLineNumber(&self, line_number: NSInteger) -> NSInteger;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "selectedCandidateString", managed = "Other")]
+    pub unsafe fn selectedCandidateString(&self) -> Option<Id<NSAttributedString>>;
 
-        #[method(lineNumberForCandidateWithIdentifier:)]
-        pub unsafe fn lineNumberForCandidateWithIdentifier(
-            &self,
-            candidate_identifier: NSInteger,
-        ) -> NSInteger;
+    #[objc2::method(sel = "candidateIdentifierAtLineNumber:")]
+    pub unsafe fn candidateIdentifierAtLineNumber(&self, line_number: NSInteger) -> NSInteger;
 
-        #[method(clearSelection)]
-        pub unsafe fn clearSelection(&self);
-    }
-);
+    #[objc2::method(sel = "lineNumberForCandidateWithIdentifier:")]
+    pub unsafe fn lineNumberForCandidateWithIdentifier(
+        &self,
+        candidate_identifier: NSInteger,
+    ) -> NSInteger;
+
+    #[objc2::method(sel = "clearSelection")]
+    pub unsafe fn clearSelection(&self);
+}

@@ -10,71 +10,66 @@ extern_static!(HKMetadataKeyDeviceSerialNumber: &'static NSString);
 
 extern_static!(HKMetadataKeyBodyTemperatureSensorLocation: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKBodyTemperatureSensorLocation {
-        HKBodyTemperatureSensorLocationOther = 0,
-        HKBodyTemperatureSensorLocationArmpit = 1,
-        HKBodyTemperatureSensorLocationBody = 2,
-        HKBodyTemperatureSensorLocationEar = 3,
-        HKBodyTemperatureSensorLocationFinger = 4,
-        HKBodyTemperatureSensorLocationGastroIntestinal = 5,
-        HKBodyTemperatureSensorLocationMouth = 6,
-        HKBodyTemperatureSensorLocationRectum = 7,
-        HKBodyTemperatureSensorLocationToe = 8,
-        HKBodyTemperatureSensorLocationEarDrum = 9,
-        HKBodyTemperatureSensorLocationTemporalArtery = 10,
-        HKBodyTemperatureSensorLocationForehead = 11,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKBodyTemperatureSensorLocation {
+    HKBodyTemperatureSensorLocationOther = 0,
+    HKBodyTemperatureSensorLocationArmpit = 1,
+    HKBodyTemperatureSensorLocationBody = 2,
+    HKBodyTemperatureSensorLocationEar = 3,
+    HKBodyTemperatureSensorLocationFinger = 4,
+    HKBodyTemperatureSensorLocationGastroIntestinal = 5,
+    HKBodyTemperatureSensorLocationMouth = 6,
+    HKBodyTemperatureSensorLocationRectum = 7,
+    HKBodyTemperatureSensorLocationToe = 8,
+    HKBodyTemperatureSensorLocationEarDrum = 9,
+    HKBodyTemperatureSensorLocationTemporalArtery = 10,
+    HKBodyTemperatureSensorLocationForehead = 11,
+}
 
 extern_static!(HKMetadataKeyHeartRateSensorLocation: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKHeartRateSensorLocation {
-        HKHeartRateSensorLocationOther = 0,
-        HKHeartRateSensorLocationChest = 1,
-        HKHeartRateSensorLocationWrist = 2,
-        HKHeartRateSensorLocationFinger = 3,
-        HKHeartRateSensorLocationHand = 4,
-        HKHeartRateSensorLocationEarLobe = 5,
-        HKHeartRateSensorLocationFoot = 6,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKHeartRateSensorLocation {
+    HKHeartRateSensorLocationOther = 0,
+    HKHeartRateSensorLocationChest = 1,
+    HKHeartRateSensorLocationWrist = 2,
+    HKHeartRateSensorLocationFinger = 3,
+    HKHeartRateSensorLocationHand = 4,
+    HKHeartRateSensorLocationEarLobe = 5,
+    HKHeartRateSensorLocationFoot = 6,
+}
 
 extern_static!(HKMetadataKeyHeartRateMotionContext: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKHeartRateMotionContext {
-        HKHeartRateMotionContextNotSet = 0,
-        HKHeartRateMotionContextSedentary = 1,
-        HKHeartRateMotionContextActive = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKHeartRateMotionContext {
+    HKHeartRateMotionContextNotSet = 0,
+    HKHeartRateMotionContextSedentary = 1,
+    HKHeartRateMotionContextActive = 2,
+}
 
 extern_static!(HKMetadataKeyUserMotionContext: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKUserMotionContext {
-        HKUserMotionContextNotSet = 0,
-        HKUserMotionContextStationary = 1,
-        HKUserMotionContextActive = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKUserMotionContext {
+    HKUserMotionContextNotSet = 0,
+    HKUserMotionContextStationary = 1,
+    HKUserMotionContextActive = 2,
+}
 
 extern_static!(HKMetadataKeySessionEstimate: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKHeartRateRecoveryTestType {
-        HKHeartRateRecoveryTestTypeMaxExercise = 1,
-        HKHeartRateRecoveryTestTypePredictionSubMaxExercise = 2,
-        HKHeartRateRecoveryTestTypePredictionNonExercise = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKHeartRateRecoveryTestType {
+    HKHeartRateRecoveryTestTypeMaxExercise = 1,
+    HKHeartRateRecoveryTestTypePredictionSubMaxExercise = 2,
+    HKHeartRateRecoveryTestTypePredictionNonExercise = 3,
+}
 
 extern_static!(HKMetadataKeyHeartRateRecoveryTestType: &'static NSString);
 
@@ -120,39 +115,38 @@ extern_static!(HKMetadataKeyIndoorWorkout: &'static NSString);
 
 extern_static!(HKMetadataKeyCoachedWorkout: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKWeatherCondition {
-        HKWeatherConditionNone = 0,
-        HKWeatherConditionClear = 1,
-        HKWeatherConditionFair = 2,
-        HKWeatherConditionPartlyCloudy = 3,
-        HKWeatherConditionMostlyCloudy = 4,
-        HKWeatherConditionCloudy = 5,
-        HKWeatherConditionFoggy = 6,
-        HKWeatherConditionHaze = 7,
-        HKWeatherConditionWindy = 8,
-        HKWeatherConditionBlustery = 9,
-        HKWeatherConditionSmoky = 10,
-        HKWeatherConditionDust = 11,
-        HKWeatherConditionSnow = 12,
-        HKWeatherConditionHail = 13,
-        HKWeatherConditionSleet = 14,
-        HKWeatherConditionFreezingDrizzle = 15,
-        HKWeatherConditionFreezingRain = 16,
-        HKWeatherConditionMixedRainAndHail = 17,
-        HKWeatherConditionMixedRainAndSnow = 18,
-        HKWeatherConditionMixedRainAndSleet = 19,
-        HKWeatherConditionMixedSnowAndSleet = 20,
-        HKWeatherConditionDrizzle = 21,
-        HKWeatherConditionScatteredShowers = 22,
-        HKWeatherConditionShowers = 23,
-        HKWeatherConditionThunderstorms = 24,
-        HKWeatherConditionTropicalStorm = 25,
-        HKWeatherConditionHurricane = 26,
-        HKWeatherConditionTornado = 27,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKWeatherCondition {
+    HKWeatherConditionNone = 0,
+    HKWeatherConditionClear = 1,
+    HKWeatherConditionFair = 2,
+    HKWeatherConditionPartlyCloudy = 3,
+    HKWeatherConditionMostlyCloudy = 4,
+    HKWeatherConditionCloudy = 5,
+    HKWeatherConditionFoggy = 6,
+    HKWeatherConditionHaze = 7,
+    HKWeatherConditionWindy = 8,
+    HKWeatherConditionBlustery = 9,
+    HKWeatherConditionSmoky = 10,
+    HKWeatherConditionDust = 11,
+    HKWeatherConditionSnow = 12,
+    HKWeatherConditionHail = 13,
+    HKWeatherConditionSleet = 14,
+    HKWeatherConditionFreezingDrizzle = 15,
+    HKWeatherConditionFreezingRain = 16,
+    HKWeatherConditionMixedRainAndHail = 17,
+    HKWeatherConditionMixedRainAndSnow = 18,
+    HKWeatherConditionMixedRainAndSleet = 19,
+    HKWeatherConditionMixedSnowAndSleet = 20,
+    HKWeatherConditionDrizzle = 21,
+    HKWeatherConditionScatteredShowers = 22,
+    HKWeatherConditionShowers = 23,
+    HKWeatherConditionThunderstorms = 24,
+    HKWeatherConditionTropicalStorm = 25,
+    HKWeatherConditionHurricane = 26,
+    HKWeatherConditionTornado = 27,
+}
 
 extern_static!(HKMetadataKeyWeatherCondition: &'static NSString);
 
@@ -166,60 +160,55 @@ extern_static!(HKMetadataKeyMenstrualCycleStart: &'static NSString);
 
 extern_static!(HKMetadataKeyLapLength: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKWorkoutSwimmingLocationType {
-        HKWorkoutSwimmingLocationTypeUnknown = 0,
-        HKWorkoutSwimmingLocationTypePool = 1,
-        HKWorkoutSwimmingLocationTypeOpenWater = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKWorkoutSwimmingLocationType {
+    HKWorkoutSwimmingLocationTypeUnknown = 0,
+    HKWorkoutSwimmingLocationTypePool = 1,
+    HKWorkoutSwimmingLocationTypeOpenWater = 2,
+}
 
 extern_static!(HKMetadataKeySwimmingLocationType: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKSwimmingStrokeStyle {
-        HKSwimmingStrokeStyleUnknown = 0,
-        HKSwimmingStrokeStyleMixed = 1,
-        HKSwimmingStrokeStyleFreestyle = 2,
-        HKSwimmingStrokeStyleBackstroke = 3,
-        HKSwimmingStrokeStyleBreaststroke = 4,
-        HKSwimmingStrokeStyleButterfly = 5,
-        HKSwimmingStrokeStyleKickboard = 6,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKSwimmingStrokeStyle {
+    HKSwimmingStrokeStyleUnknown = 0,
+    HKSwimmingStrokeStyleMixed = 1,
+    HKSwimmingStrokeStyleFreestyle = 2,
+    HKSwimmingStrokeStyleBackstroke = 3,
+    HKSwimmingStrokeStyleBreaststroke = 4,
+    HKSwimmingStrokeStyleButterfly = 5,
+    HKSwimmingStrokeStyleKickboard = 6,
+}
 
 extern_static!(HKMetadataKeySwimmingStrokeStyle: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKInsulinDeliveryReason {
-        HKInsulinDeliveryReasonBasal = 1,
-        HKInsulinDeliveryReasonBolus = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKInsulinDeliveryReason {
+    HKInsulinDeliveryReasonBasal = 1,
+    HKInsulinDeliveryReasonBolus = 2,
+}
 
 extern_static!(HKMetadataKeyInsulinDeliveryReason: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKBloodGlucoseMealTime {
-        HKBloodGlucoseMealTimePreprandial = 1,
-        HKBloodGlucoseMealTimePostprandial = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKBloodGlucoseMealTime {
+    HKBloodGlucoseMealTimePreprandial = 1,
+    HKBloodGlucoseMealTimePostprandial = 2,
+}
 
 extern_static!(HKMetadataKeyBloodGlucoseMealTime: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKVO2MaxTestType {
-        HKVO2MaxTestTypeMaxExercise = 1,
-        HKVO2MaxTestTypePredictionSubMaxExercise = 2,
-        HKVO2MaxTestTypePredictionNonExercise = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKVO2MaxTestType {
+    HKVO2MaxTestTypeMaxExercise = 1,
+    HKVO2MaxTestTypePredictionSubMaxExercise = 2,
+    HKVO2MaxTestTypePredictionNonExercise = 3,
+}
 
 extern_static!(HKMetadataKeyVO2MaxTestType: &'static NSString);
 
@@ -247,25 +236,23 @@ extern_static!(HKMetadataKeyAudioExposureLevel: &'static NSString);
 
 extern_static!(HKMetadataKeyAudioExposureDuration: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKAppleECGAlgorithmVersion {
-        HKAppleECGAlgorithmVersion1 = 1,
-        HKAppleECGAlgorithmVersion2 = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKAppleECGAlgorithmVersion {
+    HKAppleECGAlgorithmVersion1 = 1,
+    HKAppleECGAlgorithmVersion2 = 2,
+}
 
 extern_static!(HKMetadataKeyAppleECGAlgorithmVersion: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKDevicePlacementSide {
-        HKDevicePlacementSideUnknown = 0,
-        HKDevicePlacementSideLeft = 1,
-        HKDevicePlacementSideRight = 2,
-        HKDevicePlacementSideCentral = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKDevicePlacementSide {
+    HKDevicePlacementSideUnknown = 0,
+    HKDevicePlacementSideLeft = 1,
+    HKDevicePlacementSideRight = 2,
+    HKDevicePlacementSideCentral = 3,
+}
 
 extern_static!(HKMetadataKeyDevicePlacementSide: &'static NSString);
 

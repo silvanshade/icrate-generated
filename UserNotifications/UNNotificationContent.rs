@@ -5,32 +5,28 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::UserNotifications::*;
 
-extern_protocol!(
-    pub unsafe trait UNNotificationContentProviding: NSObjectProtocol {}
+#[objc2::protocol]
+pub unsafe trait UNNotificationContentProviding: NSObjectProtocol {}
 
-    unsafe impl ProtocolType for dyn UNNotificationContentProviding {}
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum UNNotificationInterruptionLevel {
+    UNNotificationInterruptionLevelPassive = 0,
+    UNNotificationInterruptionLevelActive = 1,
+    UNNotificationInterruptionLevelTimeSensitive = 2,
+    UNNotificationInterruptionLevelCritical = 3,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum UNNotificationInterruptionLevel {
-        UNNotificationInterruptionLevelPassive = 0,
-        UNNotificationInterruptionLevelActive = 1,
-        UNNotificationInterruptionLevelTimeSensitive = 2,
-        UNNotificationInterruptionLevelCritical = 3,
-    }
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNNotificationContent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "UserNotifications_UNNotificationContent")]
-    pub struct UNNotificationContent;
-
-    #[cfg(feature = "UserNotifications_UNNotificationContent")]
-    unsafe impl ClassType for UNNotificationContent {
-        type Super = NSObject;
-    }
-);
+    pub type UNNotificationContent;
+}
 
 #[cfg(feature = "UserNotifications_UNNotificationContent")]
 unsafe impl NSCoding for UNNotificationContent {}
@@ -41,95 +37,102 @@ unsafe impl NSObjectProtocol for UNNotificationContent {}
 #[cfg(feature = "UserNotifications_UNNotificationContent")]
 unsafe impl NSSecureCoding for UNNotificationContent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "UserNotifications_UNNotificationContent")]
-    unsafe impl UNNotificationContent {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "UserNotifications_UNNotificationAttachment"
-        ))]
-        #[method_id(@__retain_semantics Other attachments)]
-        pub unsafe fn attachments(&self) -> Id<NSArray<UNNotificationAttachment>>;
+    pub type UNNotificationContent;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other badge)]
-        pub unsafe fn badge(&self) -> Option<Id<NSNumber>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "UserNotifications_UNNotificationAttachment"
+    ))]
+    #[objc2::method(sel = "attachments", managed = "Other")]
+    pub unsafe fn attachments(&self) -> Id<NSArray<UNNotificationAttachment>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other body)]
-        pub unsafe fn body(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "badge", managed = "Other")]
+    pub unsafe fn badge(&self) -> Option<Id<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other categoryIdentifier)]
-        pub unsafe fn categoryIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "body", managed = "Other")]
+    pub unsafe fn body(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other launchImageName)]
-        pub unsafe fn launchImageName(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "categoryIdentifier", managed = "Other")]
+    pub unsafe fn categoryIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "UserNotifications_UNNotificationSound")]
-        #[method_id(@__retain_semantics Other sound)]
-        pub unsafe fn sound(&self) -> Option<Id<UNNotificationSound>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "launchImageName", managed = "Other")]
+    pub unsafe fn launchImageName(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subtitle)]
-        pub unsafe fn subtitle(&self) -> Id<NSString>;
+    #[cfg(feature = "UserNotifications_UNNotificationSound")]
+    #[objc2::method(sel = "sound", managed = "Other")]
+    pub unsafe fn sound(&self) -> Option<Id<UNNotificationSound>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other threadIdentifier)]
-        pub unsafe fn threadIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subtitle", managed = "Other")]
+    pub unsafe fn subtitle(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "threadIdentifier", managed = "Other")]
+    pub unsafe fn threadIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other userInfo)]
-        pub unsafe fn userInfo(&self) -> Id<NSDictionary>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "summaryArgument is ignored"]
-        #[method_id(@__retain_semantics Other summaryArgument)]
-        pub unsafe fn summaryArgument(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "userInfo", managed = "Other")]
+    pub unsafe fn userInfo(&self) -> Id<NSDictionary>;
 
-        #[deprecated = "summaryArgumentCount is ignored"]
-        #[method(summaryArgumentCount)]
-        pub unsafe fn summaryArgumentCount(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "summaryArgument is ignored"]
+    #[objc2::method(sel = "summaryArgument", managed = "Other")]
+    pub unsafe fn summaryArgument(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other targetContentIdentifier)]
-        pub unsafe fn targetContentIdentifier(&self) -> Option<Id<NSString>>;
+    #[deprecated = "summaryArgumentCount is ignored"]
+    #[objc2::method(sel = "summaryArgumentCount")]
+    pub unsafe fn summaryArgumentCount(&self) -> NSUInteger;
 
-        #[method(interruptionLevel)]
-        pub unsafe fn interruptionLevel(&self) -> UNNotificationInterruptionLevel;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "targetContentIdentifier", managed = "Other")]
+    pub unsafe fn targetContentIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[method(relevanceScore)]
-        pub unsafe fn relevanceScore(&self) -> c_double;
+    #[objc2::method(sel = "interruptionLevel")]
+    pub unsafe fn interruptionLevel(&self) -> UNNotificationInterruptionLevel;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other filterCriteria)]
-        pub unsafe fn filterCriteria(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "relevanceScore")]
+    pub unsafe fn relevanceScore(&self) -> c_double;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other contentByUpdatingWithProvider:error:_)]
-        pub unsafe fn contentByUpdatingWithProvider_error(
-            &self,
-            provider: &ProtocolObject<dyn UNNotificationContentProviding>,
-        ) -> Result<Id<UNNotificationContent>, Id<NSError>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "filterCriteria", managed = "Other")]
+    pub unsafe fn filterCriteria(&self) -> Option<Id<NSString>>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(
+        sel = "contentByUpdatingWithProvider:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn contentByUpdatingWithProvider_error(
+        &self,
+        provider: &ProtocolObject<dyn UNNotificationContentProviding>,
+    ) -> Result<Id<UNNotificationContent>, Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe super = UNNotificationContent,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNMutableNotificationContent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "UserNotifications_UNMutableNotificationContent")]
-    pub struct UNMutableNotificationContent;
-
-    #[cfg(feature = "UserNotifications_UNMutableNotificationContent")]
-    unsafe impl ClassType for UNMutableNotificationContent {
-        #[inherits(NSObject)]
-        type Super = UNNotificationContent;
-    }
-);
+    pub type UNMutableNotificationContent;
+}
 
 #[cfg(feature = "UserNotifications_UNMutableNotificationContent")]
 unsafe impl NSCoding for UNMutableNotificationContent {}
@@ -140,145 +143,142 @@ unsafe impl NSObjectProtocol for UNMutableNotificationContent {}
 #[cfg(feature = "UserNotifications_UNMutableNotificationContent")]
 unsafe impl NSSecureCoding for UNMutableNotificationContent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "UserNotifications_UNMutableNotificationContent")]
-    unsafe impl UNMutableNotificationContent {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "UserNotifications_UNNotificationAttachment"
-        ))]
-        #[method_id(@__retain_semantics Other attachments)]
-        pub unsafe fn attachments(&self) -> Id<NSArray<UNNotificationAttachment>>;
+    pub type UNMutableNotificationContent;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "UserNotifications_UNNotificationAttachment"
-        ))]
-        #[method(setAttachments:)]
-        pub unsafe fn setAttachments(&self, attachments: &NSArray<UNNotificationAttachment>);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "UserNotifications_UNNotificationAttachment"
+    ))]
+    #[objc2::method(sel = "attachments", managed = "Other")]
+    pub unsafe fn attachments(&self) -> Id<NSArray<UNNotificationAttachment>>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other badge)]
-        pub unsafe fn badge(&self) -> Option<Id<NSNumber>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "UserNotifications_UNNotificationAttachment"
+    ))]
+    #[objc2::method(sel = "setAttachments:")]
+    pub unsafe fn setAttachments(&self, attachments: &NSArray<UNNotificationAttachment>);
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method(setBadge:)]
-        pub unsafe fn setBadge(&self, badge: Option<&NSNumber>);
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "badge", managed = "Other")]
+    pub unsafe fn badge(&self) -> Option<Id<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other body)]
-        pub unsafe fn body(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "setBadge:")]
+    pub unsafe fn setBadge(&self, badge: Option<&NSNumber>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBody:)]
-        pub unsafe fn setBody(&self, body: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "body", managed = "Other")]
+    pub unsafe fn body(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other categoryIdentifier)]
-        pub unsafe fn categoryIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBody:")]
+    pub unsafe fn setBody(&self, body: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCategoryIdentifier:)]
-        pub unsafe fn setCategoryIdentifier(&self, category_identifier: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "categoryIdentifier", managed = "Other")]
+    pub unsafe fn categoryIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other launchImageName)]
-        pub unsafe fn launchImageName(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCategoryIdentifier:")]
+    pub unsafe fn setCategoryIdentifier(&self, category_identifier: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLaunchImageName:)]
-        pub unsafe fn setLaunchImageName(&self, launch_image_name: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "launchImageName", managed = "Other")]
+    pub unsafe fn launchImageName(&self) -> Id<NSString>;
 
-        #[cfg(feature = "UserNotifications_UNNotificationSound")]
-        #[method_id(@__retain_semantics Other sound)]
-        pub unsafe fn sound(&self) -> Option<Id<UNNotificationSound>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLaunchImageName:")]
+    pub unsafe fn setLaunchImageName(&self, launch_image_name: &NSString);
 
-        #[cfg(feature = "UserNotifications_UNNotificationSound")]
-        #[method(setSound:)]
-        pub unsafe fn setSound(&self, sound: Option<&UNNotificationSound>);
+    #[cfg(feature = "UserNotifications_UNNotificationSound")]
+    #[objc2::method(sel = "sound", managed = "Other")]
+    pub unsafe fn sound(&self) -> Option<Id<UNNotificationSound>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subtitle)]
-        pub unsafe fn subtitle(&self) -> Id<NSString>;
+    #[cfg(feature = "UserNotifications_UNNotificationSound")]
+    #[objc2::method(sel = "setSound:")]
+    pub unsafe fn setSound(&self, sound: Option<&UNNotificationSound>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSubtitle:)]
-        pub unsafe fn setSubtitle(&self, subtitle: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subtitle", managed = "Other")]
+    pub unsafe fn subtitle(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other threadIdentifier)]
-        pub unsafe fn threadIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSubtitle:")]
+    pub unsafe fn setSubtitle(&self, subtitle: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setThreadIdentifier:)]
-        pub unsafe fn setThreadIdentifier(&self, thread_identifier: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "threadIdentifier", managed = "Other")]
+    pub unsafe fn threadIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setThreadIdentifier:")]
+    pub unsafe fn setThreadIdentifier(&self, thread_identifier: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other userInfo)]
-        pub unsafe fn userInfo(&self) -> Id<NSDictionary>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(setUserInfo:)]
-        pub unsafe fn setUserInfo(&self, user_info: &NSDictionary);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "userInfo", managed = "Other")]
+    pub unsafe fn userInfo(&self) -> Id<NSDictionary>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "summaryArgument is ignored"]
-        #[method_id(@__retain_semantics Other summaryArgument)]
-        pub unsafe fn summaryArgument(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "setUserInfo:")]
+    pub unsafe fn setUserInfo(&self, user_info: &NSDictionary);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "summaryArgument is ignored"]
-        #[method(setSummaryArgument:)]
-        pub unsafe fn setSummaryArgument(&self, summary_argument: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "summaryArgument is ignored"]
+    #[objc2::method(sel = "summaryArgument", managed = "Other")]
+    pub unsafe fn summaryArgument(&self) -> Id<NSString>;
 
-        #[deprecated = "summaryArgumentCount is ignored"]
-        #[method(summaryArgumentCount)]
-        pub unsafe fn summaryArgumentCount(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "summaryArgument is ignored"]
+    #[objc2::method(sel = "setSummaryArgument:")]
+    pub unsafe fn setSummaryArgument(&self, summary_argument: &NSString);
 
-        #[deprecated = "summaryArgumentCount is ignored"]
-        #[method(setSummaryArgumentCount:)]
-        pub unsafe fn setSummaryArgumentCount(&self, summary_argument_count: NSUInteger);
+    #[deprecated = "summaryArgumentCount is ignored"]
+    #[objc2::method(sel = "summaryArgumentCount")]
+    pub unsafe fn summaryArgumentCount(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other targetContentIdentifier)]
-        pub unsafe fn targetContentIdentifier(&self) -> Option<Id<NSString>>;
+    #[deprecated = "summaryArgumentCount is ignored"]
+    #[objc2::method(sel = "setSummaryArgumentCount:")]
+    pub unsafe fn setSummaryArgumentCount(&self, summary_argument_count: NSUInteger);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTargetContentIdentifier:)]
-        pub unsafe fn setTargetContentIdentifier(
-            &self,
-            target_content_identifier: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "targetContentIdentifier", managed = "Other")]
+    pub unsafe fn targetContentIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[method(interruptionLevel)]
-        pub unsafe fn interruptionLevel(&self) -> UNNotificationInterruptionLevel;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTargetContentIdentifier:")]
+    pub unsafe fn setTargetContentIdentifier(&self, target_content_identifier: Option<&NSString>);
 
-        #[method(setInterruptionLevel:)]
-        pub unsafe fn setInterruptionLevel(
-            &self,
-            interruption_level: UNNotificationInterruptionLevel,
-        );
+    #[objc2::method(sel = "interruptionLevel")]
+    pub unsafe fn interruptionLevel(&self) -> UNNotificationInterruptionLevel;
 
-        #[method(relevanceScore)]
-        pub unsafe fn relevanceScore(&self) -> c_double;
+    #[objc2::method(sel = "setInterruptionLevel:")]
+    pub unsafe fn setInterruptionLevel(&self, interruption_level: UNNotificationInterruptionLevel);
 
-        #[method(setRelevanceScore:)]
-        pub unsafe fn setRelevanceScore(&self, relevance_score: c_double);
+    #[objc2::method(sel = "relevanceScore")]
+    pub unsafe fn relevanceScore(&self) -> c_double;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other filterCriteria)]
-        pub unsafe fn filterCriteria(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setRelevanceScore:")]
+    pub unsafe fn setRelevanceScore(&self, relevance_score: c_double);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setFilterCriteria:)]
-        pub unsafe fn setFilterCriteria(&self, filter_criteria: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "filterCriteria", managed = "Other")]
+    pub unsafe fn filterCriteria(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setFilterCriteria:")]
+    pub unsafe fn setFilterCriteria(&self, filter_criteria: Option<&NSString>);
+}

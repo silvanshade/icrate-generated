@@ -6,66 +6,68 @@ use crate::Foundation::*;
 
 extern_static!(BGTaskSchedulerErrorDomain: &'static NSErrorDomain);
 
-ns_error_enum!(
-    #[underlying(NSInteger)]
-    pub enum BGTaskSchedulerErrorCode {
-        BGTaskSchedulerErrorCodeUnavailable = 1,
-        BGTaskSchedulerErrorCodeTooManyPendingTaskRequests = 2,
-        BGTaskSchedulerErrorCodeNotPermitted = 3,
-    }
-);
+#[ns_error_enum]
+#[underlying(NSInteger)]
+pub enum BGTaskSchedulerErrorCode {
+    BGTaskSchedulerErrorCodeUnavailable = 1,
+    BGTaskSchedulerErrorCodeTooManyPendingTaskRequests = 2,
+    BGTaskSchedulerErrorCodeNotPermitted = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "BackgroundTasks_BGTaskScheduler")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "BackgroundTasks_BGTaskScheduler")]
-    pub struct BGTaskScheduler;
-
-    #[cfg(feature = "BackgroundTasks_BGTaskScheduler")]
-    unsafe impl ClassType for BGTaskScheduler {
-        type Super = NSObject;
-    }
-);
+    pub type BGTaskScheduler;
+}
 
 #[cfg(feature = "BackgroundTasks_BGTaskScheduler")]
 unsafe impl NSObjectProtocol for BGTaskScheduler {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "BackgroundTasks_BGTaskScheduler")]
-    unsafe impl BGTaskScheduler {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type BGTaskScheduler;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other sharedScheduler)]
-        pub unsafe fn sharedScheduler() -> Id<BGTaskScheduler>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(all(
-            feature = "BackgroundTasks_BGTaskRequest",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(submitTaskRequest:error:_)]
-        pub unsafe fn submitTaskRequest_error(
-            &self,
-            task_request: &BGTaskRequest,
-        ) -> Result<(), Id<NSError>>;
+    #[objc2::method(sel = "sharedScheduler", managed = "Other")]
+    pub unsafe fn sharedScheduler() -> Id<BGTaskScheduler>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(cancelTaskRequestWithIdentifier:)]
-        pub unsafe fn cancelTaskRequestWithIdentifier(&self, identifier: &NSString);
+    #[cfg(all(
+        feature = "BackgroundTasks_BGTaskRequest",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "submitTaskRequest:error:", throws)]
+    pub unsafe fn submitTaskRequest_error(
+        &self,
+        task_request: &BGTaskRequest,
+    ) -> Result<(), Id<NSError>>;
 
-        #[method(cancelAllTaskRequests)]
-        pub unsafe fn cancelAllTaskRequests(&self);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "cancelTaskRequestWithIdentifier:")]
+    pub unsafe fn cancelTaskRequestWithIdentifier(&self, identifier: &NSString);
 
-        #[cfg(all(
-            feature = "BackgroundTasks_BGTaskRequest",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method(getPendingTaskRequestsWithCompletionHandler:)]
-        pub unsafe fn getPendingTaskRequestsWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(NonNull<NSArray<BGTaskRequest>>,), ()>,
-        );
-    }
-);
+    #[objc2::method(sel = "cancelAllTaskRequests")]
+    pub unsafe fn cancelAllTaskRequests(&self);
+
+    #[cfg(all(
+        feature = "BackgroundTasks_BGTaskRequest",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "getPendingTaskRequestsWithCompletionHandler:")]
+    pub unsafe fn getPendingTaskRequestsWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(NonNull<NSArray<BGTaskRequest>>,), ()>,
+    );
+}

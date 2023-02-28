@@ -5,52 +5,57 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMStyleSheet")]
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMStyleSheet;
-
     #[cfg(feature = "WebKit_DOMStyleSheet")]
-    unsafe impl ClassType for DOMStyleSheet {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMStyleSheet;
+}
 
 #[cfg(feature = "WebKit_DOMStyleSheet")]
 unsafe impl NSObjectProtocol for DOMStyleSheet {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMStyleSheet")]
-    unsafe impl DOMStyleSheet {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other type)]
-        pub unsafe fn r#type(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMStyleSheet;
 
-        #[method(disabled)]
-        pub unsafe fn disabled(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "type", managed = "Other")]
+    pub unsafe fn r#type(&self) -> Id<NSString>;
 
-        #[method(setDisabled:)]
-        pub unsafe fn setDisabled(&self, disabled: bool);
+    #[objc2::method(sel = "disabled")]
+    pub unsafe fn disabled(&self) -> bool;
 
-        #[cfg(feature = "WebKit_DOMNode")]
-        #[method_id(@__retain_semantics Other ownerNode)]
-        pub unsafe fn ownerNode(&self) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "setDisabled:")]
+    pub unsafe fn setDisabled(&self, disabled: bool);
 
-        #[method_id(@__retain_semantics Other parentStyleSheet)]
-        pub unsafe fn parentStyleSheet(&self) -> Option<Id<DOMStyleSheet>>;
+    #[cfg(feature = "WebKit_DOMNode")]
+    #[objc2::method(sel = "ownerNode", managed = "Other")]
+    pub unsafe fn ownerNode(&self) -> Option<Id<DOMNode>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other href)]
-        pub unsafe fn href(&self) -> Id<NSString>;
+    #[objc2::method(sel = "parentStyleSheet", managed = "Other")]
+    pub unsafe fn parentStyleSheet(&self) -> Option<Id<DOMStyleSheet>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "href", managed = "Other")]
+    pub unsafe fn href(&self) -> Id<NSString>;
 
-        #[cfg(feature = "WebKit_DOMMediaList")]
-        #[method_id(@__retain_semantics Other media)]
-        pub unsafe fn media(&self) -> Option<Id<DOMMediaList>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
+
+    #[cfg(feature = "WebKit_DOMMediaList")]
+    #[objc2::method(sel = "media", managed = "Other")]
+    pub unsafe fn media(&self) -> Option<Id<DOMMediaList>>;
+}

@@ -5,227 +5,214 @@ use crate::Foundation::*;
 
 pub type NSUserActivityPersistentIdentifier = NSString;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUserActivity")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUserActivity")]
-    pub struct NSUserActivity;
-
-    #[cfg(feature = "Foundation_NSUserActivity")]
-    unsafe impl ClassType for NSUserActivity {
-        type Super = NSObject;
-    }
-);
+    pub type NSUserActivity;
+}
 
 #[cfg(feature = "Foundation_NSUserActivity")]
 unsafe impl NSObjectProtocol for NSUserActivity {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUserActivity")]
-    unsafe impl NSUserActivity {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithActivityType:)]
-        pub unsafe fn initWithActivityType(
-            this: Option<Allocated<Self>>,
-            activity_type: &NSString,
-        ) -> Id<Self>;
+    pub type NSUserActivity;
 
-        #[deprecated = "Use initWithActivityType: with a specific activity type string"]
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithActivityType:", managed = "Init")]
+    pub unsafe fn initWithActivityType(
+        this: Option<Allocated<Self>>,
+        activity_type: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other activityType)]
-        pub unsafe fn activityType(&self) -> Id<NSString>;
+    #[deprecated = "Use initWithActivityType: with a specific activity type string"]
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "activityType", managed = "Other")]
+    pub unsafe fn activityType(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other userInfo)]
-        pub unsafe fn userInfo(&self) -> Option<Id<NSDictionary>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(setUserInfo:)]
-        pub unsafe fn setUserInfo(&self, user_info: Option<&NSDictionary>);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "userInfo", managed = "Other")]
+    pub unsafe fn userInfo(&self) -> Option<Id<NSDictionary>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(addUserInfoEntriesFromDictionary:)]
-        pub unsafe fn addUserInfoEntriesFromDictionary(&self, other_dictionary: &NSDictionary);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "setUserInfo:")]
+    pub unsafe fn setUserInfo(&self, user_info: Option<&NSDictionary>);
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other requiredUserInfoKeys)]
-        pub unsafe fn requiredUserInfoKeys(&self) -> Option<Id<NSSet<NSString>>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "addUserInfoEntriesFromDictionary:")]
+    pub unsafe fn addUserInfoEntriesFromDictionary(&self, other_dictionary: &NSDictionary);
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
-        #[method(setRequiredUserInfoKeys:)]
-        pub unsafe fn setRequiredUserInfoKeys(
-            &self,
-            required_user_info_keys: Option<&NSSet<NSString>>,
-        );
+    #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "requiredUserInfoKeys", managed = "Other")]
+    pub unsafe fn requiredUserInfoKeys(&self) -> Option<Id<NSSet<NSString>>>;
 
-        #[method(needsSave)]
-        pub unsafe fn needsSave(&self) -> bool;
+    #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setRequiredUserInfoKeys:")]
+    pub unsafe fn setRequiredUserInfoKeys(&self, required_user_info_keys: Option<&NSSet<NSString>>);
 
-        #[method(setNeedsSave:)]
-        pub unsafe fn setNeedsSave(&self, needs_save: bool);
+    #[objc2::method(sel = "needsSave")]
+    pub unsafe fn needsSave(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other webpageURL)]
-        pub unsafe fn webpageURL(&self) -> Option<Id<NSURL>>;
+    #[objc2::method(sel = "setNeedsSave:")]
+    pub unsafe fn setNeedsSave(&self, needs_save: bool);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setWebpageURL:)]
-        pub unsafe fn setWebpageURL(&self, webpage_url: Option<&NSURL>);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "webpageURL", managed = "Other")]
+    pub unsafe fn webpageURL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other referrerURL)]
-        pub unsafe fn referrerURL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setWebpageURL:")]
+    pub unsafe fn setWebpageURL(&self, webpage_url: Option<&NSURL>);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setReferrerURL:)]
-        pub unsafe fn setReferrerURL(&self, referrer_url: Option<&NSURL>);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "referrerURL", managed = "Other")]
+    pub unsafe fn referrerURL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other expirationDate)]
-        pub unsafe fn expirationDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setReferrerURL:")]
+    pub unsafe fn setReferrerURL(&self, referrer_url: Option<&NSURL>);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(setExpirationDate:)]
-        pub unsafe fn setExpirationDate(&self, expiration_date: Option<&NSDate>);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "expirationDate", managed = "Other")]
+    pub unsafe fn expirationDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other keywords)]
-        pub unsafe fn keywords(&self) -> Id<NSSet<NSString>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "setExpirationDate:")]
+    pub unsafe fn setExpirationDate(&self, expiration_date: Option<&NSDate>);
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
-        #[method(setKeywords:)]
-        pub unsafe fn setKeywords(&self, keywords: &NSSet<NSString>);
+    #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "keywords", managed = "Other")]
+    pub unsafe fn keywords(&self) -> Id<NSSet<NSString>>;
 
-        #[method(supportsContinuationStreams)]
-        pub unsafe fn supportsContinuationStreams(&self) -> bool;
+    #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setKeywords:")]
+    pub unsafe fn setKeywords(&self, keywords: &NSSet<NSString>);
 
-        #[method(setSupportsContinuationStreams:)]
-        pub unsafe fn setSupportsContinuationStreams(&self, supports_continuation_streams: bool);
+    #[objc2::method(sel = "supportsContinuationStreams")]
+    pub unsafe fn supportsContinuationStreams(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSUserActivityDelegate>>>;
+    #[objc2::method(sel = "setSupportsContinuationStreams:")]
+    pub unsafe fn setSupportsContinuationStreams(&self, supports_continuation_streams: bool);
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSUserActivityDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSUserActivityDelegate>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other targetContentIdentifier)]
-        pub unsafe fn targetContentIdentifier(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSUserActivityDelegate>>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTargetContentIdentifier:)]
-        pub unsafe fn setTargetContentIdentifier(
-            &self,
-            target_content_identifier: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "targetContentIdentifier", managed = "Other")]
+    pub unsafe fn targetContentIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[method(becomeCurrent)]
-        pub unsafe fn becomeCurrent(&self);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTargetContentIdentifier:")]
+    pub unsafe fn setTargetContentIdentifier(&self, target_content_identifier: Option<&NSString>);
 
-        #[method(resignCurrent)]
-        pub unsafe fn resignCurrent(&self);
+    #[objc2::method(sel = "becomeCurrent")]
+    pub unsafe fn becomeCurrent(&self);
 
-        #[method(invalidate)]
-        pub unsafe fn invalidate(&self);
+    #[objc2::method(sel = "resignCurrent")]
+    pub unsafe fn resignCurrent(&self);
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSInputStream",
-            feature = "Foundation_NSOutputStream"
-        ))]
-        #[method(getContinuationStreamsWithCompletionHandler:)]
-        pub unsafe fn getContinuationStreamsWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(*mut NSInputStream, *mut NSOutputStream, *mut NSError), ()>,
-        );
+    #[objc2::method(sel = "invalidate")]
+    pub unsafe fn invalidate(&self);
 
-        #[method(isEligibleForHandoff)]
-        pub unsafe fn isEligibleForHandoff(&self) -> bool;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSInputStream",
+        feature = "Foundation_NSOutputStream"
+    ))]
+    #[objc2::method(sel = "getContinuationStreamsWithCompletionHandler:")]
+    pub unsafe fn getContinuationStreamsWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(*mut NSInputStream, *mut NSOutputStream, *mut NSError), ()>,
+    );
 
-        #[method(setEligibleForHandoff:)]
-        pub unsafe fn setEligibleForHandoff(&self, eligible_for_handoff: bool);
+    #[objc2::method(sel = "isEligibleForHandoff")]
+    pub unsafe fn isEligibleForHandoff(&self) -> bool;
 
-        #[method(isEligibleForSearch)]
-        pub unsafe fn isEligibleForSearch(&self) -> bool;
+    #[objc2::method(sel = "setEligibleForHandoff:")]
+    pub unsafe fn setEligibleForHandoff(&self, eligible_for_handoff: bool);
 
-        #[method(setEligibleForSearch:)]
-        pub unsafe fn setEligibleForSearch(&self, eligible_for_search: bool);
+    #[objc2::method(sel = "isEligibleForSearch")]
+    pub unsafe fn isEligibleForSearch(&self) -> bool;
 
-        #[method(isEligibleForPublicIndexing)]
-        pub unsafe fn isEligibleForPublicIndexing(&self) -> bool;
+    #[objc2::method(sel = "setEligibleForSearch:")]
+    pub unsafe fn setEligibleForSearch(&self, eligible_for_search: bool);
 
-        #[method(setEligibleForPublicIndexing:)]
-        pub unsafe fn setEligibleForPublicIndexing(&self, eligible_for_public_indexing: bool);
+    #[objc2::method(sel = "isEligibleForPublicIndexing")]
+    pub unsafe fn isEligibleForPublicIndexing(&self) -> bool;
 
-        #[method(isEligibleForPrediction)]
-        pub unsafe fn isEligibleForPrediction(&self) -> bool;
+    #[objc2::method(sel = "setEligibleForPublicIndexing:")]
+    pub unsafe fn setEligibleForPublicIndexing(&self, eligible_for_public_indexing: bool);
 
-        #[method(setEligibleForPrediction:)]
-        pub unsafe fn setEligibleForPrediction(&self, eligible_for_prediction: bool);
+    #[objc2::method(sel = "isEligibleForPrediction")]
+    pub unsafe fn isEligibleForPrediction(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other persistentIdentifier)]
-        pub unsafe fn persistentIdentifier(&self)
-            -> Option<Id<NSUserActivityPersistentIdentifier>>;
+    #[objc2::method(sel = "setEligibleForPrediction:")]
+    pub unsafe fn setEligibleForPrediction(&self, eligible_for_prediction: bool);
 
-        #[method(setPersistentIdentifier:)]
-        pub unsafe fn setPersistentIdentifier(
-            &self,
-            persistent_identifier: Option<&NSUserActivityPersistentIdentifier>,
-        );
+    #[objc2::method(sel = "persistentIdentifier", managed = "Other")]
+    pub unsafe fn persistentIdentifier(&self) -> Option<Id<NSUserActivityPersistentIdentifier>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(deleteSavedUserActivitiesWithPersistentIdentifiers:completionHandler:)]
-        pub unsafe fn deleteSavedUserActivitiesWithPersistentIdentifiers_completionHandler(
-            persistent_identifiers: &NSArray<NSUserActivityPersistentIdentifier>,
-            handler: &Block<(), ()>,
-        );
+    #[objc2::method(sel = "setPersistentIdentifier:")]
+    pub unsafe fn setPersistentIdentifier(
+        &self,
+        persistent_identifier: Option<&NSUserActivityPersistentIdentifier>,
+    );
 
-        #[method(deleteAllSavedUserActivitiesWithCompletionHandler:)]
-        pub unsafe fn deleteAllSavedUserActivitiesWithCompletionHandler(handler: &Block<(), ()>);
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "deleteSavedUserActivitiesWithPersistentIdentifiers:completionHandler:")]
+    pub unsafe fn deleteSavedUserActivitiesWithPersistentIdentifiers_completionHandler(
+        persistent_identifiers: &NSArray<NSUserActivityPersistentIdentifier>,
+        handler: &Block<(), ()>,
+    );
+
+    #[objc2::method(sel = "deleteAllSavedUserActivitiesWithCompletionHandler:")]
+    pub unsafe fn deleteAllSavedUserActivitiesWithCompletionHandler(handler: &Block<(), ()>);
+}
 
 extern_static!(NSUserActivityTypeBrowsingWeb: &'static NSString);
 
-extern_protocol!(
-    pub unsafe trait NSUserActivityDelegate: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSUserActivity")]
-        #[optional]
-        #[method(userActivityWillSave:)]
-        unsafe fn userActivityWillSave(&self, user_activity: &NSUserActivity);
+#[objc2::protocol]
+pub unsafe trait NSUserActivityDelegate: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSUserActivity")]
+    #[objc2::method(optional, sel = "userActivityWillSave:")]
+    unsafe fn userActivityWillSave(&self, user_activity: &NSUserActivity);
 
-        #[cfg(feature = "Foundation_NSUserActivity")]
-        #[optional]
-        #[method(userActivityWasContinued:)]
-        unsafe fn userActivityWasContinued(&self, user_activity: &NSUserActivity);
+    #[cfg(feature = "Foundation_NSUserActivity")]
+    #[objc2::method(optional, sel = "userActivityWasContinued:")]
+    unsafe fn userActivityWasContinued(&self, user_activity: &NSUserActivity);
 
-        #[cfg(all(
-            feature = "Foundation_NSInputStream",
-            feature = "Foundation_NSOutputStream",
-            feature = "Foundation_NSUserActivity"
-        ))]
-        #[optional]
-        #[method(userActivity:didReceiveInputStream:outputStream:)]
-        unsafe fn userActivity_didReceiveInputStream_outputStream(
-            &self,
-            user_activity: &NSUserActivity,
-            input_stream: &NSInputStream,
-            output_stream: &NSOutputStream,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn NSUserActivityDelegate {}
-);
+    #[cfg(all(
+        feature = "Foundation_NSInputStream",
+        feature = "Foundation_NSOutputStream",
+        feature = "Foundation_NSUserActivity"
+    ))]
+    #[objc2::method(optional, sel = "userActivity:didReceiveInputStream:outputStream:")]
+    unsafe fn userActivity_didReceiveInputStream_outputStream(
+        &self,
+        user_activity: &NSUserActivity,
+        input_stream: &NSInputStream,
+        output_stream: &NSOutputStream,
+    );
+}

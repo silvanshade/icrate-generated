@@ -6,17 +6,17 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKLensSpecification,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKGlassesLensSpecification")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKGlassesLensSpecification")]
-    pub struct HKGlassesLensSpecification;
-
-    #[cfg(feature = "HealthKit_HKGlassesLensSpecification")]
-    unsafe impl ClassType for HKGlassesLensSpecification {
-        #[inherits(NSObject)]
-        type Super = HKLensSpecification;
-    }
-);
+    pub type HKGlassesLensSpecification;
+}
 
 #[cfg(feature = "HealthKit_HKGlassesLensSpecification")]
 unsafe impl NSCoding for HKGlassesLensSpecification {}
@@ -27,43 +27,49 @@ unsafe impl NSObjectProtocol for HKGlassesLensSpecification {}
 #[cfg(feature = "HealthKit_HKGlassesLensSpecification")]
 unsafe impl NSSecureCoding for HKGlassesLensSpecification {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKGlassesLensSpecification")]
-    unsafe impl HKGlassesLensSpecification {
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other vertexDistance)]
-        pub unsafe fn vertexDistance(&self) -> Option<Id<HKQuantity>>;
+    pub type HKGlassesLensSpecification;
 
-        #[cfg(feature = "HealthKit_HKVisionPrism")]
-        #[method_id(@__retain_semantics Other prism)]
-        pub unsafe fn prism(&self) -> Option<Id<HKVisionPrism>>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "vertexDistance", managed = "Other")]
+    pub unsafe fn vertexDistance(&self) -> Option<Id<HKQuantity>>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other farPupillaryDistance)]
-        pub unsafe fn farPupillaryDistance(&self) -> Option<Id<HKQuantity>>;
+    #[cfg(feature = "HealthKit_HKVisionPrism")]
+    #[objc2::method(sel = "prism", managed = "Other")]
+    pub unsafe fn prism(&self) -> Option<Id<HKVisionPrism>>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other nearPupillaryDistance)]
-        pub unsafe fn nearPupillaryDistance(&self) -> Option<Id<HKQuantity>>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "farPupillaryDistance", managed = "Other")]
+    pub unsafe fn farPupillaryDistance(&self) -> Option<Id<HKQuantity>>;
 
-        #[cfg(all(feature = "HealthKit_HKQuantity", feature = "HealthKit_HKVisionPrism"))]
-        #[method_id(@__retain_semantics Init initWithSphere:cylinder:axis:addPower:vertexDistance:prism:farPupillaryDistance:nearPupillaryDistance:)]
-        pub unsafe fn initWithSphere_cylinder_axis_addPower_vertexDistance_prism_farPupillaryDistance_nearPupillaryDistance(
-            this: Option<Allocated<Self>>,
-            sphere: &HKQuantity,
-            cylinder: Option<&HKQuantity>,
-            axis: Option<&HKQuantity>,
-            add_power: Option<&HKQuantity>,
-            vertex_distance: Option<&HKQuantity>,
-            prism: Option<&HKVisionPrism>,
-            far_pupillary_distance: Option<&HKQuantity>,
-            near_pupillary_distance: Option<&HKQuantity>,
-        ) -> Id<Self>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "nearPupillaryDistance", managed = "Other")]
+    pub unsafe fn nearPupillaryDistance(&self) -> Option<Id<HKQuantity>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(all(feature = "HealthKit_HKQuantity", feature = "HealthKit_HKVisionPrism"))]
+    #[objc2::method(
+        sel = "initWithSphere:cylinder:axis:addPower:vertexDistance:prism:farPupillaryDistance:nearPupillaryDistance:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithSphere_cylinder_axis_addPower_vertexDistance_prism_farPupillaryDistance_nearPupillaryDistance(
+        this: Option<Allocated<Self>>,
+        sphere: &HKQuantity,
+        cylinder: Option<&HKQuantity>,
+        axis: Option<&HKQuantity>,
+        add_power: Option<&HKQuantity>,
+        vertex_distance: Option<&HKQuantity>,
+        prism: Option<&HKVisionPrism>,
+        far_pupillary_distance: Option<&HKQuantity>,
+        near_pupillary_distance: Option<&HKQuantity>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

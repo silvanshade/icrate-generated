@@ -4,56 +4,59 @@ use crate::common::*;
 use crate::AutomaticAssessmentConfiguration::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentApplication")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentApplication")]
-    pub struct AEAssessmentApplication;
-
-    #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentApplication")]
-    unsafe impl ClassType for AEAssessmentApplication {
-        type Super = NSObject;
-    }
-);
+    pub type AEAssessmentApplication;
+}
 
 #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentApplication")]
 unsafe impl NSObjectProtocol for AEAssessmentApplication {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AutomaticAssessmentConfiguration_AEAssessmentApplication")]
-    unsafe impl AEAssessmentApplication {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other bundleIdentifier)]
-        pub unsafe fn bundleIdentifier(&self) -> Id<NSString>;
+    pub type AEAssessmentApplication;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other teamIdentifier)]
-        pub unsafe fn teamIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "bundleIdentifier", managed = "Other")]
+    pub unsafe fn bundleIdentifier(&self) -> Id<NSString>;
 
-        #[method(requiresSignatureValidation)]
-        pub unsafe fn requiresSignatureValidation(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "teamIdentifier", managed = "Other")]
+    pub unsafe fn teamIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[method(setRequiresSignatureValidation:)]
-        pub unsafe fn setRequiresSignatureValidation(&self, requires_signature_validation: bool);
+    #[objc2::method(sel = "requiresSignatureValidation")]
+    pub unsafe fn requiresSignatureValidation(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithBundleIdentifier:)]
-        pub unsafe fn initWithBundleIdentifier(
-            this: Option<Allocated<Self>>,
-            bundle_identifier: &NSString,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "setRequiresSignatureValidation:")]
+    pub unsafe fn setRequiresSignatureValidation(&self, requires_signature_validation: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithBundleIdentifier:teamIdentifier:)]
-        pub unsafe fn initWithBundleIdentifier_teamIdentifier(
-            this: Option<Allocated<Self>>,
-            bundle_identifier: &NSString,
-            team_identifier: Option<&NSString>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithBundleIdentifier:", managed = "Init")]
+    pub unsafe fn initWithBundleIdentifier(
+        this: Option<Allocated<Self>>,
+        bundle_identifier: &NSString,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithBundleIdentifier:teamIdentifier:", managed = "Init")]
+    pub unsafe fn initWithBundleIdentifier_teamIdentifier(
+        this: Option<Allocated<Self>>,
+        bundle_identifier: &NSString,
+        team_identifier: Option<&NSString>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

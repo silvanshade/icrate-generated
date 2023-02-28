@@ -4,21 +4,19 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = ASAuthorizationRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(
+        feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialRegistrationRequest"
+    )]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(
-        feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialRegistrationRequest"
-    )]
-    pub struct ASAuthorizationSecurityKeyPublicKeyCredentialRegistrationRequest;
-
-    #[cfg(
-        feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialRegistrationRequest"
-    )]
-    unsafe impl ClassType for ASAuthorizationSecurityKeyPublicKeyCredentialRegistrationRequest {
-        #[inherits(NSObject)]
-        type Super = ASAuthorizationRequest;
-    }
-);
+    pub type ASAuthorizationSecurityKeyPublicKeyCredentialRegistrationRequest;
+}
 
 #[cfg(
     feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialRegistrationRequest"
@@ -43,64 +41,67 @@ unsafe impl NSObjectProtocol for ASAuthorizationSecurityKeyPublicKeyCredentialRe
 )]
 unsafe impl NSSecureCoding for ASAuthorizationSecurityKeyPublicKeyCredentialRegistrationRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(
         feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialRegistrationRequest"
     )]
-    unsafe impl ASAuthorizationSecurityKeyPublicKeyCredentialRegistrationRequest {
-        #[cfg(all(
-            feature = "AuthenticationServices_ASAuthorizationPublicKeyCredentialParameters",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other credentialParameters)]
-        pub unsafe fn credentialParameters(
-            &self,
-        ) -> Id<NSArray<ASAuthorizationPublicKeyCredentialParameters>>;
+    pub type ASAuthorizationSecurityKeyPublicKeyCredentialRegistrationRequest;
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASAuthorizationPublicKeyCredentialParameters",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method(setCredentialParameters:)]
-        pub unsafe fn setCredentialParameters(
-            &self,
-            credential_parameters: &NSArray<ASAuthorizationPublicKeyCredentialParameters>,
-        );
+    #[cfg(all(
+        feature = "AuthenticationServices_ASAuthorizationPublicKeyCredentialParameters",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "credentialParameters", managed = "Other")]
+    pub unsafe fn credentialParameters(
+        &self,
+    ) -> Id<NSArray<ASAuthorizationPublicKeyCredentialParameters>>;
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other excludedCredentials)]
-        pub unsafe fn excludedCredentials(
-            &self,
-        ) -> Id<NSArray<ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor>>;
+    #[cfg(all(
+        feature = "AuthenticationServices_ASAuthorizationPublicKeyCredentialParameters",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "setCredentialParameters:")]
+    pub unsafe fn setCredentialParameters(
+        &self,
+        credential_parameters: &NSArray<ASAuthorizationPublicKeyCredentialParameters>,
+    );
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method(setExcludedCredentials:)]
-        pub unsafe fn setExcludedCredentials(
-            &self,
-            excluded_credentials: &NSArray<ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor>,
-        );
+    #[cfg(all(
+        feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "excludedCredentials", managed = "Other")]
+    pub unsafe fn excludedCredentials(
+        &self,
+    ) -> Id<NSArray<ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor>>;
 
-        #[method_id(@__retain_semantics Other residentKeyPreference)]
-        pub unsafe fn residentKeyPreference(
-            &self,
-        ) -> Id<ASAuthorizationPublicKeyCredentialResidentKeyPreference>;
+    #[cfg(all(
+        feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "setExcludedCredentials:")]
+    pub unsafe fn setExcludedCredentials(
+        &self,
+        excluded_credentials: &NSArray<ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor>,
+    );
 
-        #[method(setResidentKeyPreference:)]
-        pub unsafe fn setResidentKeyPreference(
-            &self,
-            resident_key_preference: &ASAuthorizationPublicKeyCredentialResidentKeyPreference,
-        );
+    #[objc2::method(sel = "residentKeyPreference", managed = "Other")]
+    pub unsafe fn residentKeyPreference(
+        &self,
+    ) -> Id<ASAuthorizationPublicKeyCredentialResidentKeyPreference>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "setResidentKeyPreference:")]
+    pub unsafe fn setResidentKeyPreference(
+        &self,
+        resident_key_preference: &ASAuthorizationPublicKeyCredentialResidentKeyPreference,
+    );
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

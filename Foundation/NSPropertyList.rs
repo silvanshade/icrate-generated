@@ -3,73 +3,86 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSPropertyListMutabilityOptions {
-        NSPropertyListImmutable = 0,
-        NSPropertyListMutableContainers = 1,
-        NSPropertyListMutableContainersAndLeaves = 2,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSPropertyListMutabilityOptions {
+    NSPropertyListImmutable = 0,
+    NSPropertyListMutableContainers = 1,
+    NSPropertyListMutableContainersAndLeaves = 2,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSPropertyListFormat {
-        NSPropertyListOpenStepFormat = 1,
-        NSPropertyListXMLFormat_v1_0 = 100,
-        NSPropertyListBinaryFormat_v1_0 = 200,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSPropertyListFormat {
+    NSPropertyListOpenStepFormat = 1,
+    NSPropertyListXMLFormat_v1_0 = 100,
+    NSPropertyListBinaryFormat_v1_0 = 200,
+}
 
 pub type NSPropertyListReadOptions = NSPropertyListMutabilityOptions;
 
 pub type NSPropertyListWriteOptions = NSUInteger;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSPropertyListSerialization")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSPropertyListSerialization")]
-    pub struct NSPropertyListSerialization;
-
-    #[cfg(feature = "Foundation_NSPropertyListSerialization")]
-    unsafe impl ClassType for NSPropertyListSerialization {
-        type Super = NSObject;
-    }
-);
+    pub type NSPropertyListSerialization;
+}
 
 #[cfg(feature = "Foundation_NSPropertyListSerialization")]
 unsafe impl NSObjectProtocol for NSPropertyListSerialization {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSPropertyListSerialization")]
-    unsafe impl NSPropertyListSerialization {
-        #[method(propertyList:isValidForFormat:)]
-        pub unsafe fn propertyList_isValidForFormat(
-            plist: &Object,
-            format: NSPropertyListFormat,
-        ) -> bool;
+    pub type NSPropertyListSerialization;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method_id(@__retain_semantics Other dataWithPropertyList:format:options:error:_)]
-        pub unsafe fn dataWithPropertyList_format_options_error(
-            plist: &Object,
-            format: NSPropertyListFormat,
-            opt: NSPropertyListWriteOptions,
-        ) -> Result<Id<NSData>, Id<NSError>>;
+    #[objc2::method(sel = "propertyList:isValidForFormat:")]
+    pub unsafe fn propertyList_isValidForFormat(
+        plist: &Object,
+        format: NSPropertyListFormat,
+    ) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method_id(@__retain_semantics Other propertyListWithData:options:format:error:_)]
-        pub unsafe fn propertyListWithData_options_format_error(
-            data: &NSData,
-            opt: NSPropertyListReadOptions,
-            format: *mut NSPropertyListFormat,
-        ) -> Result<Id<Object>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(
+        sel = "dataWithPropertyList:format:options:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn dataWithPropertyList_format_options_error(
+        plist: &Object,
+        format: NSPropertyListFormat,
+        opt: NSPropertyListWriteOptions,
+    ) -> Result<Id<NSData>, Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSInputStream"))]
-        #[method_id(@__retain_semantics Other propertyListWithStream:options:format:error:_)]
-        pub unsafe fn propertyListWithStream_options_format_error(
-            stream: &NSInputStream,
-            opt: NSPropertyListReadOptions,
-            format: *mut NSPropertyListFormat,
-        ) -> Result<Id<Object>, Id<NSError>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(
+        sel = "propertyListWithData:options:format:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn propertyListWithData_options_format_error(
+        data: &NSData,
+        opt: NSPropertyListReadOptions,
+        format: *mut NSPropertyListFormat,
+    ) -> Result<Id<Object>, Id<NSError>>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSInputStream"))]
+    #[objc2::method(
+        sel = "propertyListWithStream:options:format:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn propertyListWithStream_options_format_error(
+        stream: &NSInputStream,
+        opt: NSPropertyListReadOptions,
+        format: *mut NSPropertyListFormat,
+    ) -> Result<Id<Object>, Id<NSError>>;
+}

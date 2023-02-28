@@ -8,16 +8,16 @@ typed_enum!(
     pub type CAMediaTimingFunctionName = NSString;
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAMediaTimingFunction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CAMediaTimingFunction")]
-    pub struct CAMediaTimingFunction;
-
-    #[cfg(feature = "CoreAnimation_CAMediaTimingFunction")]
-    unsafe impl ClassType for CAMediaTimingFunction {
-        type Super = NSObject;
-    }
-);
+    pub type CAMediaTimingFunction;
+}
 
 #[cfg(feature = "CoreAnimation_CAMediaTimingFunction")]
 unsafe impl NSCoding for CAMediaTimingFunction {}
@@ -28,30 +28,33 @@ unsafe impl NSObjectProtocol for CAMediaTimingFunction {}
 #[cfg(feature = "CoreAnimation_CAMediaTimingFunction")]
 unsafe impl NSSecureCoding for CAMediaTimingFunction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CAMediaTimingFunction")]
-    unsafe impl CAMediaTimingFunction {
-        #[method_id(@__retain_semantics Other functionWithName:)]
-        pub unsafe fn functionWithName(name: &CAMediaTimingFunctionName) -> Id<Self>;
+    pub type CAMediaTimingFunction;
 
-        #[method_id(@__retain_semantics Other functionWithControlPoints::::)]
-        pub unsafe fn functionWithControlPoints(
-            c1x: c_float,
-            c1y: c_float,
-            c2x: c_float,
-            c2y: c_float,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "functionWithName:", managed = "Other")]
+    pub unsafe fn functionWithName(name: &CAMediaTimingFunctionName) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithControlPoints::::)]
-        pub unsafe fn initWithControlPoints(
-            this: Option<Allocated<Self>>,
-            c1x: c_float,
-            c1y: c_float,
-            c2x: c_float,
-            c2y: c_float,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "functionWithControlPoints::::", managed = "Other")]
+    pub unsafe fn functionWithControlPoints(
+        c1x: c_float,
+        c1y: c_float,
+        c2x: c_float,
+        c2y: c_float,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "initWithControlPoints::::", managed = "Init")]
+    pub unsafe fn initWithControlPoints(
+        this: Option<Allocated<Self>>,
+        c1x: c_float,
+        c1y: c_float,
+        c2x: c_float,
+        c2y: c_float,
+    ) -> Id<Self>;
+}
 
 extern_static!(kCAMediaTimingFunctionLinear: &'static CAMediaTimingFunctionName);
 

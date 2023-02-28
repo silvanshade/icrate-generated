@@ -3,42 +3,45 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitConverter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitConverter")]
-    pub struct NSUnitConverter;
-
-    #[cfg(feature = "Foundation_NSUnitConverter")]
-    unsafe impl ClassType for NSUnitConverter {
-        type Super = NSObject;
-    }
-);
+    pub type NSUnitConverter;
+}
 
 #[cfg(feature = "Foundation_NSUnitConverter")]
 unsafe impl NSObjectProtocol for NSUnitConverter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitConverter")]
-    unsafe impl NSUnitConverter {
-        #[method(baseUnitValueFromValue:)]
-        pub unsafe fn baseUnitValueFromValue(&self, value: c_double) -> c_double;
+    pub type NSUnitConverter;
 
-        #[method(valueFromBaseUnitValue:)]
-        pub unsafe fn valueFromBaseUnitValue(&self, base_unit_value: c_double) -> c_double;
-    }
-);
+    #[objc2::method(sel = "baseUnitValueFromValue:")]
+    pub unsafe fn baseUnitValueFromValue(&self, value: c_double) -> c_double;
 
-extern_class!(
+    #[objc2::method(sel = "valueFromBaseUnitValue:")]
+    pub unsafe fn valueFromBaseUnitValue(&self, base_unit_value: c_double) -> c_double;
+}
+
+#[objc2::interface(
+    unsafe super = NSUnitConverter,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitConverterLinear")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitConverterLinear")]
-    pub struct NSUnitConverterLinear;
-
-    #[cfg(feature = "Foundation_NSUnitConverterLinear")]
-    unsafe impl ClassType for NSUnitConverterLinear {
-        #[inherits(NSObject)]
-        type Super = NSUnitConverter;
-    }
-);
+    pub type NSUnitConverterLinear;
+}
 
 #[cfg(feature = "Foundation_NSUnitConverterLinear")]
 unsafe impl NSCoding for NSUnitConverterLinear {}
@@ -49,40 +52,43 @@ unsafe impl NSObjectProtocol for NSUnitConverterLinear {}
 #[cfg(feature = "Foundation_NSUnitConverterLinear")]
 unsafe impl NSSecureCoding for NSUnitConverterLinear {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitConverterLinear")]
-    unsafe impl NSUnitConverterLinear {
-        #[method(coefficient)]
-        pub unsafe fn coefficient(&self) -> c_double;
+    pub type NSUnitConverterLinear;
 
-        #[method(constant)]
-        pub unsafe fn constant(&self) -> c_double;
+    #[objc2::method(sel = "coefficient")]
+    pub unsafe fn coefficient(&self) -> c_double;
 
-        #[method_id(@__retain_semantics Init initWithCoefficient:)]
-        pub unsafe fn initWithCoefficient(
-            this: Option<Allocated<Self>>,
-            coefficient: c_double,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "constant")]
+    pub unsafe fn constant(&self) -> c_double;
 
-        #[method_id(@__retain_semantics Init initWithCoefficient:constant:)]
-        pub unsafe fn initWithCoefficient_constant(
-            this: Option<Allocated<Self>>,
-            coefficient: c_double,
-            constant: c_double,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "initWithCoefficient:", managed = "Init")]
+    pub unsafe fn initWithCoefficient(
+        this: Option<Allocated<Self>>,
+        coefficient: c_double,
+    ) -> Id<Self>;
 
-extern_class!(
+    #[objc2::method(sel = "initWithCoefficient:constant:", managed = "Init")]
+    pub unsafe fn initWithCoefficient_constant(
+        this: Option<Allocated<Self>>,
+        coefficient: c_double,
+        constant: c_double,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnit")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnit")]
-    pub struct NSUnit;
-
-    #[cfg(feature = "Foundation_NSUnit")]
-    unsafe impl ClassType for NSUnit {
-        type Super = NSObject;
-    }
-);
+    pub type NSUnit;
+}
 
 #[cfg(feature = "Foundation_NSUnit")]
 unsafe impl NSCoding for NSUnit {}
@@ -93,36 +99,39 @@ unsafe impl NSObjectProtocol for NSUnit {}
 #[cfg(feature = "Foundation_NSUnit")]
 unsafe impl NSSecureCoding for NSUnit {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnit")]
-    unsafe impl NSUnit {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other symbol)]
-        pub unsafe fn symbol(&self) -> Id<NSString>;
+    pub type NSUnit;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "symbol", managed = "Other")]
+    pub unsafe fn symbol(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = NSUnit,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSDimension")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSDimension")]
-    pub struct NSDimension;
-
-    #[cfg(feature = "Foundation_NSDimension")]
-    unsafe impl ClassType for NSDimension {
-        #[inherits(NSObject)]
-        type Super = NSUnit;
-    }
-);
+    pub type NSDimension;
+}
 
 #[cfg(feature = "Foundation_NSDimension")]
 unsafe impl NSCoding for NSDimension {}
@@ -133,40 +142,44 @@ unsafe impl NSObjectProtocol for NSDimension {}
 #[cfg(feature = "Foundation_NSDimension")]
 unsafe impl NSSecureCoding for NSDimension {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSDimension")]
-    unsafe impl NSDimension {
-        #[cfg(feature = "Foundation_NSUnitConverter")]
-        #[method_id(@__retain_semantics Other converter)]
-        pub unsafe fn converter(&self) -> Id<NSUnitConverter>;
+    pub type NSDimension;
 
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSUnitConverter")]
+    #[objc2::method(sel = "converter", managed = "Other")]
+    pub unsafe fn converter(&self) -> Id<NSUnitConverter>;
 
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
 
-extern_class!(
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitAcceleration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitAcceleration")]
-    pub struct NSUnitAcceleration;
-
-    #[cfg(feature = "Foundation_NSUnitAcceleration")]
-    unsafe impl ClassType for NSUnitAcceleration {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitAcceleration;
+}
 
 #[cfg(feature = "Foundation_NSUnitAcceleration")]
 unsafe impl NSCoding for NSUnitAcceleration {}
@@ -177,28 +190,32 @@ unsafe impl NSObjectProtocol for NSUnitAcceleration {}
 #[cfg(feature = "Foundation_NSUnitAcceleration")]
 unsafe impl NSSecureCoding for NSUnitAcceleration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitAcceleration")]
-    unsafe impl NSUnitAcceleration {
-        #[method_id(@__retain_semantics Other metersPerSecondSquared)]
-        pub unsafe fn metersPerSecondSquared() -> Id<NSUnitAcceleration>;
+    pub type NSUnitAcceleration;
 
-        #[method_id(@__retain_semantics Other gravity)]
-        pub unsafe fn gravity() -> Id<NSUnitAcceleration>;
-    }
-);
+    #[objc2::method(sel = "metersPerSecondSquared", managed = "Other")]
+    pub unsafe fn metersPerSecondSquared() -> Id<NSUnitAcceleration>;
 
-extern_class!(
+    #[objc2::method(sel = "gravity", managed = "Other")]
+    pub unsafe fn gravity() -> Id<NSUnitAcceleration>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitAngle")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitAngle")]
-    pub struct NSUnitAngle;
-
-    #[cfg(feature = "Foundation_NSUnitAngle")]
-    unsafe impl ClassType for NSUnitAngle {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitAngle;
+}
 
 #[cfg(feature = "Foundation_NSUnitAngle")]
 unsafe impl NSCoding for NSUnitAngle {}
@@ -209,40 +226,44 @@ unsafe impl NSObjectProtocol for NSUnitAngle {}
 #[cfg(feature = "Foundation_NSUnitAngle")]
 unsafe impl NSSecureCoding for NSUnitAngle {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitAngle")]
-    unsafe impl NSUnitAngle {
-        #[method_id(@__retain_semantics Other degrees)]
-        pub unsafe fn degrees() -> Id<NSUnitAngle>;
+    pub type NSUnitAngle;
 
-        #[method_id(@__retain_semantics Other arcMinutes)]
-        pub unsafe fn arcMinutes() -> Id<NSUnitAngle>;
+    #[objc2::method(sel = "degrees", managed = "Other")]
+    pub unsafe fn degrees() -> Id<NSUnitAngle>;
 
-        #[method_id(@__retain_semantics Other arcSeconds)]
-        pub unsafe fn arcSeconds() -> Id<NSUnitAngle>;
+    #[objc2::method(sel = "arcMinutes", managed = "Other")]
+    pub unsafe fn arcMinutes() -> Id<NSUnitAngle>;
 
-        #[method_id(@__retain_semantics Other radians)]
-        pub unsafe fn radians() -> Id<NSUnitAngle>;
+    #[objc2::method(sel = "arcSeconds", managed = "Other")]
+    pub unsafe fn arcSeconds() -> Id<NSUnitAngle>;
 
-        #[method_id(@__retain_semantics Other gradians)]
-        pub unsafe fn gradians() -> Id<NSUnitAngle>;
+    #[objc2::method(sel = "radians", managed = "Other")]
+    pub unsafe fn radians() -> Id<NSUnitAngle>;
 
-        #[method_id(@__retain_semantics Other revolutions)]
-        pub unsafe fn revolutions() -> Id<NSUnitAngle>;
-    }
-);
+    #[objc2::method(sel = "gradians", managed = "Other")]
+    pub unsafe fn gradians() -> Id<NSUnitAngle>;
 
-extern_class!(
+    #[objc2::method(sel = "revolutions", managed = "Other")]
+    pub unsafe fn revolutions() -> Id<NSUnitAngle>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitArea")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitArea")]
-    pub struct NSUnitArea;
-
-    #[cfg(feature = "Foundation_NSUnitArea")]
-    unsafe impl ClassType for NSUnitArea {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitArea;
+}
 
 #[cfg(feature = "Foundation_NSUnitArea")]
 unsafe impl NSCoding for NSUnitArea {}
@@ -253,64 +274,68 @@ unsafe impl NSObjectProtocol for NSUnitArea {}
 #[cfg(feature = "Foundation_NSUnitArea")]
 unsafe impl NSSecureCoding for NSUnitArea {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitArea")]
-    unsafe impl NSUnitArea {
-        #[method_id(@__retain_semantics Other squareMegameters)]
-        pub unsafe fn squareMegameters() -> Id<NSUnitArea>;
+    pub type NSUnitArea;
 
-        #[method_id(@__retain_semantics Other squareKilometers)]
-        pub unsafe fn squareKilometers() -> Id<NSUnitArea>;
+    #[objc2::method(sel = "squareMegameters", managed = "Other")]
+    pub unsafe fn squareMegameters() -> Id<NSUnitArea>;
 
-        #[method_id(@__retain_semantics Other squareMeters)]
-        pub unsafe fn squareMeters() -> Id<NSUnitArea>;
+    #[objc2::method(sel = "squareKilometers", managed = "Other")]
+    pub unsafe fn squareKilometers() -> Id<NSUnitArea>;
 
-        #[method_id(@__retain_semantics Other squareCentimeters)]
-        pub unsafe fn squareCentimeters() -> Id<NSUnitArea>;
+    #[objc2::method(sel = "squareMeters", managed = "Other")]
+    pub unsafe fn squareMeters() -> Id<NSUnitArea>;
 
-        #[method_id(@__retain_semantics Other squareMillimeters)]
-        pub unsafe fn squareMillimeters() -> Id<NSUnitArea>;
+    #[objc2::method(sel = "squareCentimeters", managed = "Other")]
+    pub unsafe fn squareCentimeters() -> Id<NSUnitArea>;
 
-        #[method_id(@__retain_semantics Other squareMicrometers)]
-        pub unsafe fn squareMicrometers() -> Id<NSUnitArea>;
+    #[objc2::method(sel = "squareMillimeters", managed = "Other")]
+    pub unsafe fn squareMillimeters() -> Id<NSUnitArea>;
 
-        #[method_id(@__retain_semantics Other squareNanometers)]
-        pub unsafe fn squareNanometers() -> Id<NSUnitArea>;
+    #[objc2::method(sel = "squareMicrometers", managed = "Other")]
+    pub unsafe fn squareMicrometers() -> Id<NSUnitArea>;
 
-        #[method_id(@__retain_semantics Other squareInches)]
-        pub unsafe fn squareInches() -> Id<NSUnitArea>;
+    #[objc2::method(sel = "squareNanometers", managed = "Other")]
+    pub unsafe fn squareNanometers() -> Id<NSUnitArea>;
 
-        #[method_id(@__retain_semantics Other squareFeet)]
-        pub unsafe fn squareFeet() -> Id<NSUnitArea>;
+    #[objc2::method(sel = "squareInches", managed = "Other")]
+    pub unsafe fn squareInches() -> Id<NSUnitArea>;
 
-        #[method_id(@__retain_semantics Other squareYards)]
-        pub unsafe fn squareYards() -> Id<NSUnitArea>;
+    #[objc2::method(sel = "squareFeet", managed = "Other")]
+    pub unsafe fn squareFeet() -> Id<NSUnitArea>;
 
-        #[method_id(@__retain_semantics Other squareMiles)]
-        pub unsafe fn squareMiles() -> Id<NSUnitArea>;
+    #[objc2::method(sel = "squareYards", managed = "Other")]
+    pub unsafe fn squareYards() -> Id<NSUnitArea>;
 
-        #[method_id(@__retain_semantics Other acres)]
-        pub unsafe fn acres() -> Id<NSUnitArea>;
+    #[objc2::method(sel = "squareMiles", managed = "Other")]
+    pub unsafe fn squareMiles() -> Id<NSUnitArea>;
 
-        #[method_id(@__retain_semantics Other ares)]
-        pub unsafe fn ares() -> Id<NSUnitArea>;
+    #[objc2::method(sel = "acres", managed = "Other")]
+    pub unsafe fn acres() -> Id<NSUnitArea>;
 
-        #[method_id(@__retain_semantics Other hectares)]
-        pub unsafe fn hectares() -> Id<NSUnitArea>;
-    }
-);
+    #[objc2::method(sel = "ares", managed = "Other")]
+    pub unsafe fn ares() -> Id<NSUnitArea>;
 
-extern_class!(
+    #[objc2::method(sel = "hectares", managed = "Other")]
+    pub unsafe fn hectares() -> Id<NSUnitArea>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitConcentrationMass")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitConcentrationMass")]
-    pub struct NSUnitConcentrationMass;
-
-    #[cfg(feature = "Foundation_NSUnitConcentrationMass")]
-    unsafe impl ClassType for NSUnitConcentrationMass {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitConcentrationMass;
+}
 
 #[cfg(feature = "Foundation_NSUnitConcentrationMass")]
 unsafe impl NSCoding for NSUnitConcentrationMass {}
@@ -321,33 +346,37 @@ unsafe impl NSObjectProtocol for NSUnitConcentrationMass {}
 #[cfg(feature = "Foundation_NSUnitConcentrationMass")]
 unsafe impl NSSecureCoding for NSUnitConcentrationMass {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitConcentrationMass")]
-    unsafe impl NSUnitConcentrationMass {
-        #[method_id(@__retain_semantics Other gramsPerLiter)]
-        pub unsafe fn gramsPerLiter() -> Id<NSUnitConcentrationMass>;
+    pub type NSUnitConcentrationMass;
 
-        #[method_id(@__retain_semantics Other milligramsPerDeciliter)]
-        pub unsafe fn milligramsPerDeciliter() -> Id<NSUnitConcentrationMass>;
+    #[objc2::method(sel = "gramsPerLiter", managed = "Other")]
+    pub unsafe fn gramsPerLiter() -> Id<NSUnitConcentrationMass>;
 
-        #[method_id(@__retain_semantics Other millimolesPerLiterWithGramsPerMole:)]
-        pub unsafe fn millimolesPerLiterWithGramsPerMole(
-            grams_per_mole: c_double,
-        ) -> Id<NSUnitConcentrationMass>;
-    }
-);
+    #[objc2::method(sel = "milligramsPerDeciliter", managed = "Other")]
+    pub unsafe fn milligramsPerDeciliter() -> Id<NSUnitConcentrationMass>;
 
-extern_class!(
+    #[objc2::method(sel = "millimolesPerLiterWithGramsPerMole:", managed = "Other")]
+    pub unsafe fn millimolesPerLiterWithGramsPerMole(
+        grams_per_mole: c_double,
+    ) -> Id<NSUnitConcentrationMass>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitDispersion")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitDispersion")]
-    pub struct NSUnitDispersion;
-
-    #[cfg(feature = "Foundation_NSUnitDispersion")]
-    unsafe impl ClassType for NSUnitDispersion {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitDispersion;
+}
 
 #[cfg(feature = "Foundation_NSUnitDispersion")]
 unsafe impl NSCoding for NSUnitDispersion {}
@@ -358,25 +387,29 @@ unsafe impl NSObjectProtocol for NSUnitDispersion {}
 #[cfg(feature = "Foundation_NSUnitDispersion")]
 unsafe impl NSSecureCoding for NSUnitDispersion {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitDispersion")]
-    unsafe impl NSUnitDispersion {
-        #[method_id(@__retain_semantics Other partsPerMillion)]
-        pub unsafe fn partsPerMillion() -> Id<NSUnitDispersion>;
-    }
-);
+    pub type NSUnitDispersion;
 
-extern_class!(
+    #[objc2::method(sel = "partsPerMillion", managed = "Other")]
+    pub unsafe fn partsPerMillion() -> Id<NSUnitDispersion>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitDuration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitDuration")]
-    pub struct NSUnitDuration;
-
-    #[cfg(feature = "Foundation_NSUnitDuration")]
-    unsafe impl ClassType for NSUnitDuration {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitDuration;
+}
 
 #[cfg(feature = "Foundation_NSUnitDuration")]
 unsafe impl NSCoding for NSUnitDuration {}
@@ -387,43 +420,47 @@ unsafe impl NSObjectProtocol for NSUnitDuration {}
 #[cfg(feature = "Foundation_NSUnitDuration")]
 unsafe impl NSSecureCoding for NSUnitDuration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitDuration")]
-    unsafe impl NSUnitDuration {
-        #[method_id(@__retain_semantics Other hours)]
-        pub unsafe fn hours() -> Id<NSUnitDuration>;
+    pub type NSUnitDuration;
 
-        #[method_id(@__retain_semantics Other minutes)]
-        pub unsafe fn minutes() -> Id<NSUnitDuration>;
+    #[objc2::method(sel = "hours", managed = "Other")]
+    pub unsafe fn hours() -> Id<NSUnitDuration>;
 
-        #[method_id(@__retain_semantics Other seconds)]
-        pub unsafe fn seconds() -> Id<NSUnitDuration>;
+    #[objc2::method(sel = "minutes", managed = "Other")]
+    pub unsafe fn minutes() -> Id<NSUnitDuration>;
 
-        #[method_id(@__retain_semantics Other milliseconds)]
-        pub unsafe fn milliseconds() -> Id<NSUnitDuration>;
+    #[objc2::method(sel = "seconds", managed = "Other")]
+    pub unsafe fn seconds() -> Id<NSUnitDuration>;
 
-        #[method_id(@__retain_semantics Other microseconds)]
-        pub unsafe fn microseconds() -> Id<NSUnitDuration>;
+    #[objc2::method(sel = "milliseconds", managed = "Other")]
+    pub unsafe fn milliseconds() -> Id<NSUnitDuration>;
 
-        #[method_id(@__retain_semantics Other nanoseconds)]
-        pub unsafe fn nanoseconds() -> Id<NSUnitDuration>;
+    #[objc2::method(sel = "microseconds", managed = "Other")]
+    pub unsafe fn microseconds() -> Id<NSUnitDuration>;
 
-        #[method_id(@__retain_semantics Other picoseconds)]
-        pub unsafe fn picoseconds() -> Id<NSUnitDuration>;
-    }
-);
+    #[objc2::method(sel = "nanoseconds", managed = "Other")]
+    pub unsafe fn nanoseconds() -> Id<NSUnitDuration>;
 
-extern_class!(
+    #[objc2::method(sel = "picoseconds", managed = "Other")]
+    pub unsafe fn picoseconds() -> Id<NSUnitDuration>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitElectricCharge")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitElectricCharge")]
-    pub struct NSUnitElectricCharge;
-
-    #[cfg(feature = "Foundation_NSUnitElectricCharge")]
-    unsafe impl ClassType for NSUnitElectricCharge {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitElectricCharge;
+}
 
 #[cfg(feature = "Foundation_NSUnitElectricCharge")]
 unsafe impl NSCoding for NSUnitElectricCharge {}
@@ -434,40 +471,44 @@ unsafe impl NSObjectProtocol for NSUnitElectricCharge {}
 #[cfg(feature = "Foundation_NSUnitElectricCharge")]
 unsafe impl NSSecureCoding for NSUnitElectricCharge {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitElectricCharge")]
-    unsafe impl NSUnitElectricCharge {
-        #[method_id(@__retain_semantics Other coulombs)]
-        pub unsafe fn coulombs() -> Id<NSUnitElectricCharge>;
+    pub type NSUnitElectricCharge;
 
-        #[method_id(@__retain_semantics Other megaampereHours)]
-        pub unsafe fn megaampereHours() -> Id<NSUnitElectricCharge>;
+    #[objc2::method(sel = "coulombs", managed = "Other")]
+    pub unsafe fn coulombs() -> Id<NSUnitElectricCharge>;
 
-        #[method_id(@__retain_semantics Other kiloampereHours)]
-        pub unsafe fn kiloampereHours() -> Id<NSUnitElectricCharge>;
+    #[objc2::method(sel = "megaampereHours", managed = "Other")]
+    pub unsafe fn megaampereHours() -> Id<NSUnitElectricCharge>;
 
-        #[method_id(@__retain_semantics Other ampereHours)]
-        pub unsafe fn ampereHours() -> Id<NSUnitElectricCharge>;
+    #[objc2::method(sel = "kiloampereHours", managed = "Other")]
+    pub unsafe fn kiloampereHours() -> Id<NSUnitElectricCharge>;
 
-        #[method_id(@__retain_semantics Other milliampereHours)]
-        pub unsafe fn milliampereHours() -> Id<NSUnitElectricCharge>;
+    #[objc2::method(sel = "ampereHours", managed = "Other")]
+    pub unsafe fn ampereHours() -> Id<NSUnitElectricCharge>;
 
-        #[method_id(@__retain_semantics Other microampereHours)]
-        pub unsafe fn microampereHours() -> Id<NSUnitElectricCharge>;
-    }
-);
+    #[objc2::method(sel = "milliampereHours", managed = "Other")]
+    pub unsafe fn milliampereHours() -> Id<NSUnitElectricCharge>;
 
-extern_class!(
+    #[objc2::method(sel = "microampereHours", managed = "Other")]
+    pub unsafe fn microampereHours() -> Id<NSUnitElectricCharge>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitElectricCurrent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitElectricCurrent")]
-    pub struct NSUnitElectricCurrent;
-
-    #[cfg(feature = "Foundation_NSUnitElectricCurrent")]
-    unsafe impl ClassType for NSUnitElectricCurrent {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitElectricCurrent;
+}
 
 #[cfg(feature = "Foundation_NSUnitElectricCurrent")]
 unsafe impl NSCoding for NSUnitElectricCurrent {}
@@ -478,37 +519,41 @@ unsafe impl NSObjectProtocol for NSUnitElectricCurrent {}
 #[cfg(feature = "Foundation_NSUnitElectricCurrent")]
 unsafe impl NSSecureCoding for NSUnitElectricCurrent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitElectricCurrent")]
-    unsafe impl NSUnitElectricCurrent {
-        #[method_id(@__retain_semantics Other megaamperes)]
-        pub unsafe fn megaamperes() -> Id<NSUnitElectricCurrent>;
+    pub type NSUnitElectricCurrent;
 
-        #[method_id(@__retain_semantics Other kiloamperes)]
-        pub unsafe fn kiloamperes() -> Id<NSUnitElectricCurrent>;
+    #[objc2::method(sel = "megaamperes", managed = "Other")]
+    pub unsafe fn megaamperes() -> Id<NSUnitElectricCurrent>;
 
-        #[method_id(@__retain_semantics Other amperes)]
-        pub unsafe fn amperes() -> Id<NSUnitElectricCurrent>;
+    #[objc2::method(sel = "kiloamperes", managed = "Other")]
+    pub unsafe fn kiloamperes() -> Id<NSUnitElectricCurrent>;
 
-        #[method_id(@__retain_semantics Other milliamperes)]
-        pub unsafe fn milliamperes() -> Id<NSUnitElectricCurrent>;
+    #[objc2::method(sel = "amperes", managed = "Other")]
+    pub unsafe fn amperes() -> Id<NSUnitElectricCurrent>;
 
-        #[method_id(@__retain_semantics Other microamperes)]
-        pub unsafe fn microamperes() -> Id<NSUnitElectricCurrent>;
-    }
-);
+    #[objc2::method(sel = "milliamperes", managed = "Other")]
+    pub unsafe fn milliamperes() -> Id<NSUnitElectricCurrent>;
 
-extern_class!(
+    #[objc2::method(sel = "microamperes", managed = "Other")]
+    pub unsafe fn microamperes() -> Id<NSUnitElectricCurrent>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitElectricPotentialDifference")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitElectricPotentialDifference")]
-    pub struct NSUnitElectricPotentialDifference;
-
-    #[cfg(feature = "Foundation_NSUnitElectricPotentialDifference")]
-    unsafe impl ClassType for NSUnitElectricPotentialDifference {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitElectricPotentialDifference;
+}
 
 #[cfg(feature = "Foundation_NSUnitElectricPotentialDifference")]
 unsafe impl NSCoding for NSUnitElectricPotentialDifference {}
@@ -519,37 +564,41 @@ unsafe impl NSObjectProtocol for NSUnitElectricPotentialDifference {}
 #[cfg(feature = "Foundation_NSUnitElectricPotentialDifference")]
 unsafe impl NSSecureCoding for NSUnitElectricPotentialDifference {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitElectricPotentialDifference")]
-    unsafe impl NSUnitElectricPotentialDifference {
-        #[method_id(@__retain_semantics Other megavolts)]
-        pub unsafe fn megavolts() -> Id<NSUnitElectricPotentialDifference>;
+    pub type NSUnitElectricPotentialDifference;
 
-        #[method_id(@__retain_semantics Other kilovolts)]
-        pub unsafe fn kilovolts() -> Id<NSUnitElectricPotentialDifference>;
+    #[objc2::method(sel = "megavolts", managed = "Other")]
+    pub unsafe fn megavolts() -> Id<NSUnitElectricPotentialDifference>;
 
-        #[method_id(@__retain_semantics Other volts)]
-        pub unsafe fn volts() -> Id<NSUnitElectricPotentialDifference>;
+    #[objc2::method(sel = "kilovolts", managed = "Other")]
+    pub unsafe fn kilovolts() -> Id<NSUnitElectricPotentialDifference>;
 
-        #[method_id(@__retain_semantics Other millivolts)]
-        pub unsafe fn millivolts() -> Id<NSUnitElectricPotentialDifference>;
+    #[objc2::method(sel = "volts", managed = "Other")]
+    pub unsafe fn volts() -> Id<NSUnitElectricPotentialDifference>;
 
-        #[method_id(@__retain_semantics Other microvolts)]
-        pub unsafe fn microvolts() -> Id<NSUnitElectricPotentialDifference>;
-    }
-);
+    #[objc2::method(sel = "millivolts", managed = "Other")]
+    pub unsafe fn millivolts() -> Id<NSUnitElectricPotentialDifference>;
 
-extern_class!(
+    #[objc2::method(sel = "microvolts", managed = "Other")]
+    pub unsafe fn microvolts() -> Id<NSUnitElectricPotentialDifference>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitElectricResistance")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitElectricResistance")]
-    pub struct NSUnitElectricResistance;
-
-    #[cfg(feature = "Foundation_NSUnitElectricResistance")]
-    unsafe impl ClassType for NSUnitElectricResistance {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitElectricResistance;
+}
 
 #[cfg(feature = "Foundation_NSUnitElectricResistance")]
 unsafe impl NSCoding for NSUnitElectricResistance {}
@@ -560,37 +609,41 @@ unsafe impl NSObjectProtocol for NSUnitElectricResistance {}
 #[cfg(feature = "Foundation_NSUnitElectricResistance")]
 unsafe impl NSSecureCoding for NSUnitElectricResistance {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitElectricResistance")]
-    unsafe impl NSUnitElectricResistance {
-        #[method_id(@__retain_semantics Other megaohms)]
-        pub unsafe fn megaohms() -> Id<NSUnitElectricResistance>;
+    pub type NSUnitElectricResistance;
 
-        #[method_id(@__retain_semantics Other kiloohms)]
-        pub unsafe fn kiloohms() -> Id<NSUnitElectricResistance>;
+    #[objc2::method(sel = "megaohms", managed = "Other")]
+    pub unsafe fn megaohms() -> Id<NSUnitElectricResistance>;
 
-        #[method_id(@__retain_semantics Other ohms)]
-        pub unsafe fn ohms() -> Id<NSUnitElectricResistance>;
+    #[objc2::method(sel = "kiloohms", managed = "Other")]
+    pub unsafe fn kiloohms() -> Id<NSUnitElectricResistance>;
 
-        #[method_id(@__retain_semantics Other milliohms)]
-        pub unsafe fn milliohms() -> Id<NSUnitElectricResistance>;
+    #[objc2::method(sel = "ohms", managed = "Other")]
+    pub unsafe fn ohms() -> Id<NSUnitElectricResistance>;
 
-        #[method_id(@__retain_semantics Other microohms)]
-        pub unsafe fn microohms() -> Id<NSUnitElectricResistance>;
-    }
-);
+    #[objc2::method(sel = "milliohms", managed = "Other")]
+    pub unsafe fn milliohms() -> Id<NSUnitElectricResistance>;
 
-extern_class!(
+    #[objc2::method(sel = "microohms", managed = "Other")]
+    pub unsafe fn microohms() -> Id<NSUnitElectricResistance>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitEnergy")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitEnergy")]
-    pub struct NSUnitEnergy;
-
-    #[cfg(feature = "Foundation_NSUnitEnergy")]
-    unsafe impl ClassType for NSUnitEnergy {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitEnergy;
+}
 
 #[cfg(feature = "Foundation_NSUnitEnergy")]
 unsafe impl NSCoding for NSUnitEnergy {}
@@ -601,37 +654,41 @@ unsafe impl NSObjectProtocol for NSUnitEnergy {}
 #[cfg(feature = "Foundation_NSUnitEnergy")]
 unsafe impl NSSecureCoding for NSUnitEnergy {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitEnergy")]
-    unsafe impl NSUnitEnergy {
-        #[method_id(@__retain_semantics Other kilojoules)]
-        pub unsafe fn kilojoules() -> Id<NSUnitEnergy>;
+    pub type NSUnitEnergy;
 
-        #[method_id(@__retain_semantics Other joules)]
-        pub unsafe fn joules() -> Id<NSUnitEnergy>;
+    #[objc2::method(sel = "kilojoules", managed = "Other")]
+    pub unsafe fn kilojoules() -> Id<NSUnitEnergy>;
 
-        #[method_id(@__retain_semantics Other kilocalories)]
-        pub unsafe fn kilocalories() -> Id<NSUnitEnergy>;
+    #[objc2::method(sel = "joules", managed = "Other")]
+    pub unsafe fn joules() -> Id<NSUnitEnergy>;
 
-        #[method_id(@__retain_semantics Other calories)]
-        pub unsafe fn calories() -> Id<NSUnitEnergy>;
+    #[objc2::method(sel = "kilocalories", managed = "Other")]
+    pub unsafe fn kilocalories() -> Id<NSUnitEnergy>;
 
-        #[method_id(@__retain_semantics Other kilowattHours)]
-        pub unsafe fn kilowattHours() -> Id<NSUnitEnergy>;
-    }
-);
+    #[objc2::method(sel = "calories", managed = "Other")]
+    pub unsafe fn calories() -> Id<NSUnitEnergy>;
 
-extern_class!(
+    #[objc2::method(sel = "kilowattHours", managed = "Other")]
+    pub unsafe fn kilowattHours() -> Id<NSUnitEnergy>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitFrequency")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitFrequency")]
-    pub struct NSUnitFrequency;
-
-    #[cfg(feature = "Foundation_NSUnitFrequency")]
-    unsafe impl ClassType for NSUnitFrequency {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitFrequency;
+}
 
 #[cfg(feature = "Foundation_NSUnitFrequency")]
 unsafe impl NSCoding for NSUnitFrequency {}
@@ -642,49 +699,53 @@ unsafe impl NSObjectProtocol for NSUnitFrequency {}
 #[cfg(feature = "Foundation_NSUnitFrequency")]
 unsafe impl NSSecureCoding for NSUnitFrequency {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitFrequency")]
-    unsafe impl NSUnitFrequency {
-        #[method_id(@__retain_semantics Other terahertz)]
-        pub unsafe fn terahertz() -> Id<NSUnitFrequency>;
+    pub type NSUnitFrequency;
 
-        #[method_id(@__retain_semantics Other gigahertz)]
-        pub unsafe fn gigahertz() -> Id<NSUnitFrequency>;
+    #[objc2::method(sel = "terahertz", managed = "Other")]
+    pub unsafe fn terahertz() -> Id<NSUnitFrequency>;
 
-        #[method_id(@__retain_semantics Other megahertz)]
-        pub unsafe fn megahertz() -> Id<NSUnitFrequency>;
+    #[objc2::method(sel = "gigahertz", managed = "Other")]
+    pub unsafe fn gigahertz() -> Id<NSUnitFrequency>;
 
-        #[method_id(@__retain_semantics Other kilohertz)]
-        pub unsafe fn kilohertz() -> Id<NSUnitFrequency>;
+    #[objc2::method(sel = "megahertz", managed = "Other")]
+    pub unsafe fn megahertz() -> Id<NSUnitFrequency>;
 
-        #[method_id(@__retain_semantics Other hertz)]
-        pub unsafe fn hertz() -> Id<NSUnitFrequency>;
+    #[objc2::method(sel = "kilohertz", managed = "Other")]
+    pub unsafe fn kilohertz() -> Id<NSUnitFrequency>;
 
-        #[method_id(@__retain_semantics Other millihertz)]
-        pub unsafe fn millihertz() -> Id<NSUnitFrequency>;
+    #[objc2::method(sel = "hertz", managed = "Other")]
+    pub unsafe fn hertz() -> Id<NSUnitFrequency>;
 
-        #[method_id(@__retain_semantics Other microhertz)]
-        pub unsafe fn microhertz() -> Id<NSUnitFrequency>;
+    #[objc2::method(sel = "millihertz", managed = "Other")]
+    pub unsafe fn millihertz() -> Id<NSUnitFrequency>;
 
-        #[method_id(@__retain_semantics Other nanohertz)]
-        pub unsafe fn nanohertz() -> Id<NSUnitFrequency>;
+    #[objc2::method(sel = "microhertz", managed = "Other")]
+    pub unsafe fn microhertz() -> Id<NSUnitFrequency>;
 
-        #[method_id(@__retain_semantics Other framesPerSecond)]
-        pub unsafe fn framesPerSecond() -> Id<NSUnitFrequency>;
-    }
-);
+    #[objc2::method(sel = "nanohertz", managed = "Other")]
+    pub unsafe fn nanohertz() -> Id<NSUnitFrequency>;
 
-extern_class!(
+    #[objc2::method(sel = "framesPerSecond", managed = "Other")]
+    pub unsafe fn framesPerSecond() -> Id<NSUnitFrequency>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitFuelEfficiency")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitFuelEfficiency")]
-    pub struct NSUnitFuelEfficiency;
-
-    #[cfg(feature = "Foundation_NSUnitFuelEfficiency")]
-    unsafe impl ClassType for NSUnitFuelEfficiency {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitFuelEfficiency;
+}
 
 #[cfg(feature = "Foundation_NSUnitFuelEfficiency")]
 unsafe impl NSCoding for NSUnitFuelEfficiency {}
@@ -695,31 +756,35 @@ unsafe impl NSObjectProtocol for NSUnitFuelEfficiency {}
 #[cfg(feature = "Foundation_NSUnitFuelEfficiency")]
 unsafe impl NSSecureCoding for NSUnitFuelEfficiency {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitFuelEfficiency")]
-    unsafe impl NSUnitFuelEfficiency {
-        #[method_id(@__retain_semantics Other litersPer100Kilometers)]
-        pub unsafe fn litersPer100Kilometers() -> Id<NSUnitFuelEfficiency>;
+    pub type NSUnitFuelEfficiency;
 
-        #[method_id(@__retain_semantics Other milesPerImperialGallon)]
-        pub unsafe fn milesPerImperialGallon() -> Id<NSUnitFuelEfficiency>;
+    #[objc2::method(sel = "litersPer100Kilometers", managed = "Other")]
+    pub unsafe fn litersPer100Kilometers() -> Id<NSUnitFuelEfficiency>;
 
-        #[method_id(@__retain_semantics Other milesPerGallon)]
-        pub unsafe fn milesPerGallon() -> Id<NSUnitFuelEfficiency>;
-    }
-);
+    #[objc2::method(sel = "milesPerImperialGallon", managed = "Other")]
+    pub unsafe fn milesPerImperialGallon() -> Id<NSUnitFuelEfficiency>;
 
-extern_class!(
+    #[objc2::method(sel = "milesPerGallon", managed = "Other")]
+    pub unsafe fn milesPerGallon() -> Id<NSUnitFuelEfficiency>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitInformationStorage")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitInformationStorage")]
-    pub struct NSUnitInformationStorage;
-
-    #[cfg(feature = "Foundation_NSUnitInformationStorage")]
-    unsafe impl ClassType for NSUnitInformationStorage {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitInformationStorage;
+}
 
 #[cfg(feature = "Foundation_NSUnitInformationStorage")]
 unsafe impl NSCoding for NSUnitInformationStorage {}
@@ -730,127 +795,131 @@ unsafe impl NSObjectProtocol for NSUnitInformationStorage {}
 #[cfg(feature = "Foundation_NSUnitInformationStorage")]
 unsafe impl NSSecureCoding for NSUnitInformationStorage {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitInformationStorage")]
-    unsafe impl NSUnitInformationStorage {
-        #[method_id(@__retain_semantics Other bytes)]
-        pub unsafe fn bytes() -> Id<NSUnitInformationStorage>;
+    pub type NSUnitInformationStorage;
 
-        #[method_id(@__retain_semantics Other bits)]
-        pub unsafe fn bits() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "bytes", managed = "Other")]
+    pub unsafe fn bytes() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other nibbles)]
-        pub unsafe fn nibbles() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "bits", managed = "Other")]
+    pub unsafe fn bits() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other yottabytes)]
-        pub unsafe fn yottabytes() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "nibbles", managed = "Other")]
+    pub unsafe fn nibbles() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other zettabytes)]
-        pub unsafe fn zettabytes() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "yottabytes", managed = "Other")]
+    pub unsafe fn yottabytes() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other exabytes)]
-        pub unsafe fn exabytes() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "zettabytes", managed = "Other")]
+    pub unsafe fn zettabytes() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other petabytes)]
-        pub unsafe fn petabytes() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "exabytes", managed = "Other")]
+    pub unsafe fn exabytes() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other terabytes)]
-        pub unsafe fn terabytes() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "petabytes", managed = "Other")]
+    pub unsafe fn petabytes() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other gigabytes)]
-        pub unsafe fn gigabytes() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "terabytes", managed = "Other")]
+    pub unsafe fn terabytes() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other megabytes)]
-        pub unsafe fn megabytes() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "gigabytes", managed = "Other")]
+    pub unsafe fn gigabytes() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other kilobytes)]
-        pub unsafe fn kilobytes() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "megabytes", managed = "Other")]
+    pub unsafe fn megabytes() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other yottabits)]
-        pub unsafe fn yottabits() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "kilobytes", managed = "Other")]
+    pub unsafe fn kilobytes() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other zettabits)]
-        pub unsafe fn zettabits() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "yottabits", managed = "Other")]
+    pub unsafe fn yottabits() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other exabits)]
-        pub unsafe fn exabits() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "zettabits", managed = "Other")]
+    pub unsafe fn zettabits() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other petabits)]
-        pub unsafe fn petabits() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "exabits", managed = "Other")]
+    pub unsafe fn exabits() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other terabits)]
-        pub unsafe fn terabits() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "petabits", managed = "Other")]
+    pub unsafe fn petabits() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other gigabits)]
-        pub unsafe fn gigabits() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "terabits", managed = "Other")]
+    pub unsafe fn terabits() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other megabits)]
-        pub unsafe fn megabits() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "gigabits", managed = "Other")]
+    pub unsafe fn gigabits() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other kilobits)]
-        pub unsafe fn kilobits() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "megabits", managed = "Other")]
+    pub unsafe fn megabits() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other yobibytes)]
-        pub unsafe fn yobibytes() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "kilobits", managed = "Other")]
+    pub unsafe fn kilobits() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other zebibytes)]
-        pub unsafe fn zebibytes() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "yobibytes", managed = "Other")]
+    pub unsafe fn yobibytes() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other exbibytes)]
-        pub unsafe fn exbibytes() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "zebibytes", managed = "Other")]
+    pub unsafe fn zebibytes() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other pebibytes)]
-        pub unsafe fn pebibytes() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "exbibytes", managed = "Other")]
+    pub unsafe fn exbibytes() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other tebibytes)]
-        pub unsafe fn tebibytes() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "pebibytes", managed = "Other")]
+    pub unsafe fn pebibytes() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other gibibytes)]
-        pub unsafe fn gibibytes() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "tebibytes", managed = "Other")]
+    pub unsafe fn tebibytes() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other mebibytes)]
-        pub unsafe fn mebibytes() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "gibibytes", managed = "Other")]
+    pub unsafe fn gibibytes() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other kibibytes)]
-        pub unsafe fn kibibytes() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "mebibytes", managed = "Other")]
+    pub unsafe fn mebibytes() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other yobibits)]
-        pub unsafe fn yobibits() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "kibibytes", managed = "Other")]
+    pub unsafe fn kibibytes() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other zebibits)]
-        pub unsafe fn zebibits() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "yobibits", managed = "Other")]
+    pub unsafe fn yobibits() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other exbibits)]
-        pub unsafe fn exbibits() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "zebibits", managed = "Other")]
+    pub unsafe fn zebibits() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other pebibits)]
-        pub unsafe fn pebibits() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "exbibits", managed = "Other")]
+    pub unsafe fn exbibits() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other tebibits)]
-        pub unsafe fn tebibits() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "pebibits", managed = "Other")]
+    pub unsafe fn pebibits() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other gibibits)]
-        pub unsafe fn gibibits() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "tebibits", managed = "Other")]
+    pub unsafe fn tebibits() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other mebibits)]
-        pub unsafe fn mebibits() -> Id<NSUnitInformationStorage>;
+    #[objc2::method(sel = "gibibits", managed = "Other")]
+    pub unsafe fn gibibits() -> Id<NSUnitInformationStorage>;
 
-        #[method_id(@__retain_semantics Other kibibits)]
-        pub unsafe fn kibibits() -> Id<NSUnitInformationStorage>;
-    }
-);
+    #[objc2::method(sel = "mebibits", managed = "Other")]
+    pub unsafe fn mebibits() -> Id<NSUnitInformationStorage>;
 
-extern_class!(
+    #[objc2::method(sel = "kibibits", managed = "Other")]
+    pub unsafe fn kibibits() -> Id<NSUnitInformationStorage>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitLength")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitLength")]
-    pub struct NSUnitLength;
-
-    #[cfg(feature = "Foundation_NSUnitLength")]
-    unsafe impl ClassType for NSUnitLength {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitLength;
+}
 
 #[cfg(feature = "Foundation_NSUnitLength")]
 unsafe impl NSCoding for NSUnitLength {}
@@ -861,88 +930,92 @@ unsafe impl NSObjectProtocol for NSUnitLength {}
 #[cfg(feature = "Foundation_NSUnitLength")]
 unsafe impl NSSecureCoding for NSUnitLength {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitLength")]
-    unsafe impl NSUnitLength {
-        #[method_id(@__retain_semantics Other megameters)]
-        pub unsafe fn megameters() -> Id<NSUnitLength>;
+    pub type NSUnitLength;
 
-        #[method_id(@__retain_semantics Other kilometers)]
-        pub unsafe fn kilometers() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "megameters", managed = "Other")]
+    pub unsafe fn megameters() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other hectometers)]
-        pub unsafe fn hectometers() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "kilometers", managed = "Other")]
+    pub unsafe fn kilometers() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other decameters)]
-        pub unsafe fn decameters() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "hectometers", managed = "Other")]
+    pub unsafe fn hectometers() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other meters)]
-        pub unsafe fn meters() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "decameters", managed = "Other")]
+    pub unsafe fn decameters() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other decimeters)]
-        pub unsafe fn decimeters() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "meters", managed = "Other")]
+    pub unsafe fn meters() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other centimeters)]
-        pub unsafe fn centimeters() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "decimeters", managed = "Other")]
+    pub unsafe fn decimeters() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other millimeters)]
-        pub unsafe fn millimeters() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "centimeters", managed = "Other")]
+    pub unsafe fn centimeters() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other micrometers)]
-        pub unsafe fn micrometers() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "millimeters", managed = "Other")]
+    pub unsafe fn millimeters() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other nanometers)]
-        pub unsafe fn nanometers() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "micrometers", managed = "Other")]
+    pub unsafe fn micrometers() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other picometers)]
-        pub unsafe fn picometers() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "nanometers", managed = "Other")]
+    pub unsafe fn nanometers() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other inches)]
-        pub unsafe fn inches() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "picometers", managed = "Other")]
+    pub unsafe fn picometers() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other feet)]
-        pub unsafe fn feet() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "inches", managed = "Other")]
+    pub unsafe fn inches() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other yards)]
-        pub unsafe fn yards() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "feet", managed = "Other")]
+    pub unsafe fn feet() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other miles)]
-        pub unsafe fn miles() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "yards", managed = "Other")]
+    pub unsafe fn yards() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other scandinavianMiles)]
-        pub unsafe fn scandinavianMiles() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "miles", managed = "Other")]
+    pub unsafe fn miles() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other lightyears)]
-        pub unsafe fn lightyears() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "scandinavianMiles", managed = "Other")]
+    pub unsafe fn scandinavianMiles() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other nauticalMiles)]
-        pub unsafe fn nauticalMiles() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "lightyears", managed = "Other")]
+    pub unsafe fn lightyears() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other fathoms)]
-        pub unsafe fn fathoms() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "nauticalMiles", managed = "Other")]
+    pub unsafe fn nauticalMiles() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other furlongs)]
-        pub unsafe fn furlongs() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "fathoms", managed = "Other")]
+    pub unsafe fn fathoms() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other astronomicalUnits)]
-        pub unsafe fn astronomicalUnits() -> Id<NSUnitLength>;
+    #[objc2::method(sel = "furlongs", managed = "Other")]
+    pub unsafe fn furlongs() -> Id<NSUnitLength>;
 
-        #[method_id(@__retain_semantics Other parsecs)]
-        pub unsafe fn parsecs() -> Id<NSUnitLength>;
-    }
-);
+    #[objc2::method(sel = "astronomicalUnits", managed = "Other")]
+    pub unsafe fn astronomicalUnits() -> Id<NSUnitLength>;
 
-extern_class!(
+    #[objc2::method(sel = "parsecs", managed = "Other")]
+    pub unsafe fn parsecs() -> Id<NSUnitLength>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitIlluminance")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitIlluminance")]
-    pub struct NSUnitIlluminance;
-
-    #[cfg(feature = "Foundation_NSUnitIlluminance")]
-    unsafe impl ClassType for NSUnitIlluminance {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitIlluminance;
+}
 
 #[cfg(feature = "Foundation_NSUnitIlluminance")]
 unsafe impl NSCoding for NSUnitIlluminance {}
@@ -953,25 +1026,29 @@ unsafe impl NSObjectProtocol for NSUnitIlluminance {}
 #[cfg(feature = "Foundation_NSUnitIlluminance")]
 unsafe impl NSSecureCoding for NSUnitIlluminance {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitIlluminance")]
-    unsafe impl NSUnitIlluminance {
-        #[method_id(@__retain_semantics Other lux)]
-        pub unsafe fn lux() -> Id<NSUnitIlluminance>;
-    }
-);
+    pub type NSUnitIlluminance;
 
-extern_class!(
+    #[objc2::method(sel = "lux", managed = "Other")]
+    pub unsafe fn lux() -> Id<NSUnitIlluminance>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitMass")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitMass")]
-    pub struct NSUnitMass;
-
-    #[cfg(feature = "Foundation_NSUnitMass")]
-    unsafe impl ClassType for NSUnitMass {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitMass;
+}
 
 #[cfg(feature = "Foundation_NSUnitMass")]
 unsafe impl NSCoding for NSUnitMass {}
@@ -982,70 +1059,74 @@ unsafe impl NSObjectProtocol for NSUnitMass {}
 #[cfg(feature = "Foundation_NSUnitMass")]
 unsafe impl NSSecureCoding for NSUnitMass {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitMass")]
-    unsafe impl NSUnitMass {
-        #[method_id(@__retain_semantics Other kilograms)]
-        pub unsafe fn kilograms() -> Id<NSUnitMass>;
+    pub type NSUnitMass;
 
-        #[method_id(@__retain_semantics Other grams)]
-        pub unsafe fn grams() -> Id<NSUnitMass>;
+    #[objc2::method(sel = "kilograms", managed = "Other")]
+    pub unsafe fn kilograms() -> Id<NSUnitMass>;
 
-        #[method_id(@__retain_semantics Other decigrams)]
-        pub unsafe fn decigrams() -> Id<NSUnitMass>;
+    #[objc2::method(sel = "grams", managed = "Other")]
+    pub unsafe fn grams() -> Id<NSUnitMass>;
 
-        #[method_id(@__retain_semantics Other centigrams)]
-        pub unsafe fn centigrams() -> Id<NSUnitMass>;
+    #[objc2::method(sel = "decigrams", managed = "Other")]
+    pub unsafe fn decigrams() -> Id<NSUnitMass>;
 
-        #[method_id(@__retain_semantics Other milligrams)]
-        pub unsafe fn milligrams() -> Id<NSUnitMass>;
+    #[objc2::method(sel = "centigrams", managed = "Other")]
+    pub unsafe fn centigrams() -> Id<NSUnitMass>;
 
-        #[method_id(@__retain_semantics Other micrograms)]
-        pub unsafe fn micrograms() -> Id<NSUnitMass>;
+    #[objc2::method(sel = "milligrams", managed = "Other")]
+    pub unsafe fn milligrams() -> Id<NSUnitMass>;
 
-        #[method_id(@__retain_semantics Other nanograms)]
-        pub unsafe fn nanograms() -> Id<NSUnitMass>;
+    #[objc2::method(sel = "micrograms", managed = "Other")]
+    pub unsafe fn micrograms() -> Id<NSUnitMass>;
 
-        #[method_id(@__retain_semantics Other picograms)]
-        pub unsafe fn picograms() -> Id<NSUnitMass>;
+    #[objc2::method(sel = "nanograms", managed = "Other")]
+    pub unsafe fn nanograms() -> Id<NSUnitMass>;
 
-        #[method_id(@__retain_semantics Other ounces)]
-        pub unsafe fn ounces() -> Id<NSUnitMass>;
+    #[objc2::method(sel = "picograms", managed = "Other")]
+    pub unsafe fn picograms() -> Id<NSUnitMass>;
 
-        #[method_id(@__retain_semantics Other poundsMass)]
-        pub unsafe fn poundsMass() -> Id<NSUnitMass>;
+    #[objc2::method(sel = "ounces", managed = "Other")]
+    pub unsafe fn ounces() -> Id<NSUnitMass>;
 
-        #[method_id(@__retain_semantics Other stones)]
-        pub unsafe fn stones() -> Id<NSUnitMass>;
+    #[objc2::method(sel = "poundsMass", managed = "Other")]
+    pub unsafe fn poundsMass() -> Id<NSUnitMass>;
 
-        #[method_id(@__retain_semantics Other metricTons)]
-        pub unsafe fn metricTons() -> Id<NSUnitMass>;
+    #[objc2::method(sel = "stones", managed = "Other")]
+    pub unsafe fn stones() -> Id<NSUnitMass>;
 
-        #[method_id(@__retain_semantics Other shortTons)]
-        pub unsafe fn shortTons() -> Id<NSUnitMass>;
+    #[objc2::method(sel = "metricTons", managed = "Other")]
+    pub unsafe fn metricTons() -> Id<NSUnitMass>;
 
-        #[method_id(@__retain_semantics Other carats)]
-        pub unsafe fn carats() -> Id<NSUnitMass>;
+    #[objc2::method(sel = "shortTons", managed = "Other")]
+    pub unsafe fn shortTons() -> Id<NSUnitMass>;
 
-        #[method_id(@__retain_semantics Other ouncesTroy)]
-        pub unsafe fn ouncesTroy() -> Id<NSUnitMass>;
+    #[objc2::method(sel = "carats", managed = "Other")]
+    pub unsafe fn carats() -> Id<NSUnitMass>;
 
-        #[method_id(@__retain_semantics Other slugs)]
-        pub unsafe fn slugs() -> Id<NSUnitMass>;
-    }
-);
+    #[objc2::method(sel = "ouncesTroy", managed = "Other")]
+    pub unsafe fn ouncesTroy() -> Id<NSUnitMass>;
 
-extern_class!(
+    #[objc2::method(sel = "slugs", managed = "Other")]
+    pub unsafe fn slugs() -> Id<NSUnitMass>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitPower")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitPower")]
-    pub struct NSUnitPower;
-
-    #[cfg(feature = "Foundation_NSUnitPower")]
-    unsafe impl ClassType for NSUnitPower {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitPower;
+}
 
 #[cfg(feature = "Foundation_NSUnitPower")]
 unsafe impl NSCoding for NSUnitPower {}
@@ -1056,55 +1137,59 @@ unsafe impl NSObjectProtocol for NSUnitPower {}
 #[cfg(feature = "Foundation_NSUnitPower")]
 unsafe impl NSSecureCoding for NSUnitPower {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitPower")]
-    unsafe impl NSUnitPower {
-        #[method_id(@__retain_semantics Other terawatts)]
-        pub unsafe fn terawatts() -> Id<NSUnitPower>;
+    pub type NSUnitPower;
 
-        #[method_id(@__retain_semantics Other gigawatts)]
-        pub unsafe fn gigawatts() -> Id<NSUnitPower>;
+    #[objc2::method(sel = "terawatts", managed = "Other")]
+    pub unsafe fn terawatts() -> Id<NSUnitPower>;
 
-        #[method_id(@__retain_semantics Other megawatts)]
-        pub unsafe fn megawatts() -> Id<NSUnitPower>;
+    #[objc2::method(sel = "gigawatts", managed = "Other")]
+    pub unsafe fn gigawatts() -> Id<NSUnitPower>;
 
-        #[method_id(@__retain_semantics Other kilowatts)]
-        pub unsafe fn kilowatts() -> Id<NSUnitPower>;
+    #[objc2::method(sel = "megawatts", managed = "Other")]
+    pub unsafe fn megawatts() -> Id<NSUnitPower>;
 
-        #[method_id(@__retain_semantics Other watts)]
-        pub unsafe fn watts() -> Id<NSUnitPower>;
+    #[objc2::method(sel = "kilowatts", managed = "Other")]
+    pub unsafe fn kilowatts() -> Id<NSUnitPower>;
 
-        #[method_id(@__retain_semantics Other milliwatts)]
-        pub unsafe fn milliwatts() -> Id<NSUnitPower>;
+    #[objc2::method(sel = "watts", managed = "Other")]
+    pub unsafe fn watts() -> Id<NSUnitPower>;
 
-        #[method_id(@__retain_semantics Other microwatts)]
-        pub unsafe fn microwatts() -> Id<NSUnitPower>;
+    #[objc2::method(sel = "milliwatts", managed = "Other")]
+    pub unsafe fn milliwatts() -> Id<NSUnitPower>;
 
-        #[method_id(@__retain_semantics Other nanowatts)]
-        pub unsafe fn nanowatts() -> Id<NSUnitPower>;
+    #[objc2::method(sel = "microwatts", managed = "Other")]
+    pub unsafe fn microwatts() -> Id<NSUnitPower>;
 
-        #[method_id(@__retain_semantics Other picowatts)]
-        pub unsafe fn picowatts() -> Id<NSUnitPower>;
+    #[objc2::method(sel = "nanowatts", managed = "Other")]
+    pub unsafe fn nanowatts() -> Id<NSUnitPower>;
 
-        #[method_id(@__retain_semantics Other femtowatts)]
-        pub unsafe fn femtowatts() -> Id<NSUnitPower>;
+    #[objc2::method(sel = "picowatts", managed = "Other")]
+    pub unsafe fn picowatts() -> Id<NSUnitPower>;
 
-        #[method_id(@__retain_semantics Other horsepower)]
-        pub unsafe fn horsepower() -> Id<NSUnitPower>;
-    }
-);
+    #[objc2::method(sel = "femtowatts", managed = "Other")]
+    pub unsafe fn femtowatts() -> Id<NSUnitPower>;
 
-extern_class!(
+    #[objc2::method(sel = "horsepower", managed = "Other")]
+    pub unsafe fn horsepower() -> Id<NSUnitPower>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitPressure")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitPressure")]
-    pub struct NSUnitPressure;
-
-    #[cfg(feature = "Foundation_NSUnitPressure")]
-    unsafe impl ClassType for NSUnitPressure {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitPressure;
+}
 
 #[cfg(feature = "Foundation_NSUnitPressure")]
 unsafe impl NSCoding for NSUnitPressure {}
@@ -1115,52 +1200,56 @@ unsafe impl NSObjectProtocol for NSUnitPressure {}
 #[cfg(feature = "Foundation_NSUnitPressure")]
 unsafe impl NSSecureCoding for NSUnitPressure {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitPressure")]
-    unsafe impl NSUnitPressure {
-        #[method_id(@__retain_semantics Other newtonsPerMetersSquared)]
-        pub unsafe fn newtonsPerMetersSquared() -> Id<NSUnitPressure>;
+    pub type NSUnitPressure;
 
-        #[method_id(@__retain_semantics Other gigapascals)]
-        pub unsafe fn gigapascals() -> Id<NSUnitPressure>;
+    #[objc2::method(sel = "newtonsPerMetersSquared", managed = "Other")]
+    pub unsafe fn newtonsPerMetersSquared() -> Id<NSUnitPressure>;
 
-        #[method_id(@__retain_semantics Other megapascals)]
-        pub unsafe fn megapascals() -> Id<NSUnitPressure>;
+    #[objc2::method(sel = "gigapascals", managed = "Other")]
+    pub unsafe fn gigapascals() -> Id<NSUnitPressure>;
 
-        #[method_id(@__retain_semantics Other kilopascals)]
-        pub unsafe fn kilopascals() -> Id<NSUnitPressure>;
+    #[objc2::method(sel = "megapascals", managed = "Other")]
+    pub unsafe fn megapascals() -> Id<NSUnitPressure>;
 
-        #[method_id(@__retain_semantics Other hectopascals)]
-        pub unsafe fn hectopascals() -> Id<NSUnitPressure>;
+    #[objc2::method(sel = "kilopascals", managed = "Other")]
+    pub unsafe fn kilopascals() -> Id<NSUnitPressure>;
 
-        #[method_id(@__retain_semantics Other inchesOfMercury)]
-        pub unsafe fn inchesOfMercury() -> Id<NSUnitPressure>;
+    #[objc2::method(sel = "hectopascals", managed = "Other")]
+    pub unsafe fn hectopascals() -> Id<NSUnitPressure>;
 
-        #[method_id(@__retain_semantics Other bars)]
-        pub unsafe fn bars() -> Id<NSUnitPressure>;
+    #[objc2::method(sel = "inchesOfMercury", managed = "Other")]
+    pub unsafe fn inchesOfMercury() -> Id<NSUnitPressure>;
 
-        #[method_id(@__retain_semantics Other millibars)]
-        pub unsafe fn millibars() -> Id<NSUnitPressure>;
+    #[objc2::method(sel = "bars", managed = "Other")]
+    pub unsafe fn bars() -> Id<NSUnitPressure>;
 
-        #[method_id(@__retain_semantics Other millimetersOfMercury)]
-        pub unsafe fn millimetersOfMercury() -> Id<NSUnitPressure>;
+    #[objc2::method(sel = "millibars", managed = "Other")]
+    pub unsafe fn millibars() -> Id<NSUnitPressure>;
 
-        #[method_id(@__retain_semantics Other poundsForcePerSquareInch)]
-        pub unsafe fn poundsForcePerSquareInch() -> Id<NSUnitPressure>;
-    }
-);
+    #[objc2::method(sel = "millimetersOfMercury", managed = "Other")]
+    pub unsafe fn millimetersOfMercury() -> Id<NSUnitPressure>;
 
-extern_class!(
+    #[objc2::method(sel = "poundsForcePerSquareInch", managed = "Other")]
+    pub unsafe fn poundsForcePerSquareInch() -> Id<NSUnitPressure>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitSpeed")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitSpeed")]
-    pub struct NSUnitSpeed;
-
-    #[cfg(feature = "Foundation_NSUnitSpeed")]
-    unsafe impl ClassType for NSUnitSpeed {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitSpeed;
+}
 
 #[cfg(feature = "Foundation_NSUnitSpeed")]
 unsafe impl NSCoding for NSUnitSpeed {}
@@ -1171,34 +1260,38 @@ unsafe impl NSObjectProtocol for NSUnitSpeed {}
 #[cfg(feature = "Foundation_NSUnitSpeed")]
 unsafe impl NSSecureCoding for NSUnitSpeed {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitSpeed")]
-    unsafe impl NSUnitSpeed {
-        #[method_id(@__retain_semantics Other metersPerSecond)]
-        pub unsafe fn metersPerSecond() -> Id<NSUnitSpeed>;
+    pub type NSUnitSpeed;
 
-        #[method_id(@__retain_semantics Other kilometersPerHour)]
-        pub unsafe fn kilometersPerHour() -> Id<NSUnitSpeed>;
+    #[objc2::method(sel = "metersPerSecond", managed = "Other")]
+    pub unsafe fn metersPerSecond() -> Id<NSUnitSpeed>;
 
-        #[method_id(@__retain_semantics Other milesPerHour)]
-        pub unsafe fn milesPerHour() -> Id<NSUnitSpeed>;
+    #[objc2::method(sel = "kilometersPerHour", managed = "Other")]
+    pub unsafe fn kilometersPerHour() -> Id<NSUnitSpeed>;
 
-        #[method_id(@__retain_semantics Other knots)]
-        pub unsafe fn knots() -> Id<NSUnitSpeed>;
-    }
-);
+    #[objc2::method(sel = "milesPerHour", managed = "Other")]
+    pub unsafe fn milesPerHour() -> Id<NSUnitSpeed>;
 
-extern_class!(
+    #[objc2::method(sel = "knots", managed = "Other")]
+    pub unsafe fn knots() -> Id<NSUnitSpeed>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitTemperature")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitTemperature")]
-    pub struct NSUnitTemperature;
-
-    #[cfg(feature = "Foundation_NSUnitTemperature")]
-    unsafe impl ClassType for NSUnitTemperature {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitTemperature;
+}
 
 #[cfg(feature = "Foundation_NSUnitTemperature")]
 unsafe impl NSCoding for NSUnitTemperature {}
@@ -1209,31 +1302,35 @@ unsafe impl NSObjectProtocol for NSUnitTemperature {}
 #[cfg(feature = "Foundation_NSUnitTemperature")]
 unsafe impl NSSecureCoding for NSUnitTemperature {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitTemperature")]
-    unsafe impl NSUnitTemperature {
-        #[method_id(@__retain_semantics Other kelvin)]
-        pub unsafe fn kelvin() -> Id<NSUnitTemperature>;
+    pub type NSUnitTemperature;
 
-        #[method_id(@__retain_semantics Other celsius)]
-        pub unsafe fn celsius() -> Id<NSUnitTemperature>;
+    #[objc2::method(sel = "kelvin", managed = "Other")]
+    pub unsafe fn kelvin() -> Id<NSUnitTemperature>;
 
-        #[method_id(@__retain_semantics Other fahrenheit)]
-        pub unsafe fn fahrenheit() -> Id<NSUnitTemperature>;
-    }
-);
+    #[objc2::method(sel = "celsius", managed = "Other")]
+    pub unsafe fn celsius() -> Id<NSUnitTemperature>;
 
-extern_class!(
+    #[objc2::method(sel = "fahrenheit", managed = "Other")]
+    pub unsafe fn fahrenheit() -> Id<NSUnitTemperature>;
+}
+
+#[objc2::interface(
+    unsafe super = NSDimension,
+    unsafe inherits = [
+        NSUnit,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitVolume")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnitVolume")]
-    pub struct NSUnitVolume;
-
-    #[cfg(feature = "Foundation_NSUnitVolume")]
-    unsafe impl ClassType for NSUnitVolume {
-        #[inherits(NSUnit, NSObject)]
-        type Super = NSDimension;
-    }
-);
+    pub type NSUnitVolume;
+}
 
 #[cfg(feature = "Foundation_NSUnitVolume")]
 unsafe impl NSCoding for NSUnitVolume {}
@@ -1244,770 +1341,1043 @@ unsafe impl NSObjectProtocol for NSUnitVolume {}
 #[cfg(feature = "Foundation_NSUnitVolume")]
 unsafe impl NSSecureCoding for NSUnitVolume {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitVolume")]
-    unsafe impl NSUnitVolume {
-        #[method_id(@__retain_semantics Other megaliters)]
-        pub unsafe fn megaliters() -> Id<NSUnitVolume>;
+    pub type NSUnitVolume;
 
-        #[method_id(@__retain_semantics Other kiloliters)]
-        pub unsafe fn kiloliters() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "megaliters", managed = "Other")]
+    pub unsafe fn megaliters() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other liters)]
-        pub unsafe fn liters() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "kiloliters", managed = "Other")]
+    pub unsafe fn kiloliters() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other deciliters)]
-        pub unsafe fn deciliters() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "liters", managed = "Other")]
+    pub unsafe fn liters() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other centiliters)]
-        pub unsafe fn centiliters() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "deciliters", managed = "Other")]
+    pub unsafe fn deciliters() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other milliliters)]
-        pub unsafe fn milliliters() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "centiliters", managed = "Other")]
+    pub unsafe fn centiliters() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other cubicKilometers)]
-        pub unsafe fn cubicKilometers() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "milliliters", managed = "Other")]
+    pub unsafe fn milliliters() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other cubicMeters)]
-        pub unsafe fn cubicMeters() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "cubicKilometers", managed = "Other")]
+    pub unsafe fn cubicKilometers() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other cubicDecimeters)]
-        pub unsafe fn cubicDecimeters() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "cubicMeters", managed = "Other")]
+    pub unsafe fn cubicMeters() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other cubicCentimeters)]
-        pub unsafe fn cubicCentimeters() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "cubicDecimeters", managed = "Other")]
+    pub unsafe fn cubicDecimeters() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other cubicMillimeters)]
-        pub unsafe fn cubicMillimeters() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "cubicCentimeters", managed = "Other")]
+    pub unsafe fn cubicCentimeters() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other cubicInches)]
-        pub unsafe fn cubicInches() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "cubicMillimeters", managed = "Other")]
+    pub unsafe fn cubicMillimeters() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other cubicFeet)]
-        pub unsafe fn cubicFeet() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "cubicInches", managed = "Other")]
+    pub unsafe fn cubicInches() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other cubicYards)]
-        pub unsafe fn cubicYards() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "cubicFeet", managed = "Other")]
+    pub unsafe fn cubicFeet() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other cubicMiles)]
-        pub unsafe fn cubicMiles() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "cubicYards", managed = "Other")]
+    pub unsafe fn cubicYards() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other acreFeet)]
-        pub unsafe fn acreFeet() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "cubicMiles", managed = "Other")]
+    pub unsafe fn cubicMiles() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other bushels)]
-        pub unsafe fn bushels() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "acreFeet", managed = "Other")]
+    pub unsafe fn acreFeet() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other teaspoons)]
-        pub unsafe fn teaspoons() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "bushels", managed = "Other")]
+    pub unsafe fn bushels() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other tablespoons)]
-        pub unsafe fn tablespoons() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "teaspoons", managed = "Other")]
+    pub unsafe fn teaspoons() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other fluidOunces)]
-        pub unsafe fn fluidOunces() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "tablespoons", managed = "Other")]
+    pub unsafe fn tablespoons() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other cups)]
-        pub unsafe fn cups() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "fluidOunces", managed = "Other")]
+    pub unsafe fn fluidOunces() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other pints)]
-        pub unsafe fn pints() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "cups", managed = "Other")]
+    pub unsafe fn cups() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other quarts)]
-        pub unsafe fn quarts() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "pints", managed = "Other")]
+    pub unsafe fn pints() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other gallons)]
-        pub unsafe fn gallons() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "quarts", managed = "Other")]
+    pub unsafe fn quarts() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other imperialTeaspoons)]
-        pub unsafe fn imperialTeaspoons() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "gallons", managed = "Other")]
+    pub unsafe fn gallons() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other imperialTablespoons)]
-        pub unsafe fn imperialTablespoons() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "imperialTeaspoons", managed = "Other")]
+    pub unsafe fn imperialTeaspoons() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other imperialFluidOunces)]
-        pub unsafe fn imperialFluidOunces() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "imperialTablespoons", managed = "Other")]
+    pub unsafe fn imperialTablespoons() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other imperialPints)]
-        pub unsafe fn imperialPints() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "imperialFluidOunces", managed = "Other")]
+    pub unsafe fn imperialFluidOunces() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other imperialQuarts)]
-        pub unsafe fn imperialQuarts() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "imperialPints", managed = "Other")]
+    pub unsafe fn imperialPints() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other imperialGallons)]
-        pub unsafe fn imperialGallons() -> Id<NSUnitVolume>;
+    #[objc2::method(sel = "imperialQuarts", managed = "Other")]
+    pub unsafe fn imperialQuarts() -> Id<NSUnitVolume>;
 
-        #[method_id(@__retain_semantics Other metricCups)]
-        pub unsafe fn metricCups() -> Id<NSUnitVolume>;
-    }
-);
+    #[objc2::method(sel = "imperialGallons", managed = "Other")]
+    pub unsafe fn imperialGallons() -> Id<NSUnitVolume>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+    #[objc2::method(sel = "metricCups", managed = "Other")]
+    pub unsafe fn metricCups() -> Id<NSUnitVolume>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
     #[cfg(feature = "Foundation_NSDimension")]
-    unsafe impl NSDimension {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSDimension")]
+    pub type NSDimension;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitAcceleration")]
-    unsafe impl NSUnitAcceleration {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitAcceleration")]
-    unsafe impl NSUnitAcceleration {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitAcceleration;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitAcceleration")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitAcceleration")]
+    pub type NSUnitAcceleration;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitAngle")]
-    unsafe impl NSUnitAngle {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitAngle")]
-    unsafe impl NSUnitAngle {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitAngle;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitAngle")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitAngle")]
+    pub type NSUnitAngle;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitArea")]
-    unsafe impl NSUnitArea {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitArea")]
-    unsafe impl NSUnitArea {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitArea;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitArea")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitArea")]
+    pub type NSUnitArea;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitConcentrationMass")]
-    unsafe impl NSUnitConcentrationMass {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitConcentrationMass")]
-    unsafe impl NSUnitConcentrationMass {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitConcentrationMass;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitConcentrationMass")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitConcentrationMass")]
+    pub type NSUnitConcentrationMass;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitDispersion")]
-    unsafe impl NSUnitDispersion {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitDispersion")]
-    unsafe impl NSUnitDispersion {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitDispersion;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitDispersion")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitDispersion")]
+    pub type NSUnitDispersion;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitDuration")]
-    unsafe impl NSUnitDuration {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitDuration")]
-    unsafe impl NSUnitDuration {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitDuration;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitDuration")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitDuration")]
+    pub type NSUnitDuration;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitElectricCharge")]
-    unsafe impl NSUnitElectricCharge {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitElectricCharge")]
-    unsafe impl NSUnitElectricCharge {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitElectricCharge;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitElectricCharge")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitElectricCharge")]
+    pub type NSUnitElectricCharge;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitElectricCurrent")]
-    unsafe impl NSUnitElectricCurrent {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitElectricCurrent")]
-    unsafe impl NSUnitElectricCurrent {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitElectricCurrent;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitElectricCurrent")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitElectricCurrent")]
+    pub type NSUnitElectricCurrent;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitElectricPotentialDifference")]
-    unsafe impl NSUnitElectricPotentialDifference {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitElectricPotentialDifference")]
-    unsafe impl NSUnitElectricPotentialDifference {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitElectricPotentialDifference;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitElectricPotentialDifference")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitElectricPotentialDifference")]
+    pub type NSUnitElectricPotentialDifference;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitElectricResistance")]
-    unsafe impl NSUnitElectricResistance {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitElectricResistance")]
-    unsafe impl NSUnitElectricResistance {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitElectricResistance;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitElectricResistance")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitElectricResistance")]
+    pub type NSUnitElectricResistance;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitEnergy")]
-    unsafe impl NSUnitEnergy {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitEnergy")]
-    unsafe impl NSUnitEnergy {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitEnergy;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitEnergy")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitEnergy")]
+    pub type NSUnitEnergy;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitFrequency")]
-    unsafe impl NSUnitFrequency {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitFrequency")]
-    unsafe impl NSUnitFrequency {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitFrequency;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitFrequency")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitFrequency")]
+    pub type NSUnitFrequency;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitFuelEfficiency")]
-    unsafe impl NSUnitFuelEfficiency {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitFuelEfficiency")]
-    unsafe impl NSUnitFuelEfficiency {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitFuelEfficiency;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitFuelEfficiency")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitFuelEfficiency")]
+    pub type NSUnitFuelEfficiency;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitInformationStorage")]
-    unsafe impl NSUnitInformationStorage {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitInformationStorage")]
-    unsafe impl NSUnitInformationStorage {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitInformationStorage;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitInformationStorage")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitInformationStorage")]
+    pub type NSUnitInformationStorage;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitLength")]
-    unsafe impl NSUnitLength {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitLength")]
-    unsafe impl NSUnitLength {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitLength;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitLength")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitLength")]
+    pub type NSUnitLength;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitIlluminance")]
-    unsafe impl NSUnitIlluminance {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitIlluminance")]
-    unsafe impl NSUnitIlluminance {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitIlluminance;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitIlluminance")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitIlluminance")]
+    pub type NSUnitIlluminance;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitMass")]
-    unsafe impl NSUnitMass {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitMass")]
-    unsafe impl NSUnitMass {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitMass;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitMass")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitMass")]
+    pub type NSUnitMass;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitPower")]
-    unsafe impl NSUnitPower {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitPower")]
-    unsafe impl NSUnitPower {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitPower;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitPower")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitPower")]
+    pub type NSUnitPower;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitPressure")]
-    unsafe impl NSUnitPressure {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitPressure")]
-    unsafe impl NSUnitPressure {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitPressure;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitPressure")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitPressure")]
+    pub type NSUnitPressure;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitSpeed")]
-    unsafe impl NSUnitSpeed {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitSpeed")]
-    unsafe impl NSUnitSpeed {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitSpeed;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitSpeed")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitSpeed")]
+    pub type NSUnitSpeed;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitTemperature")]
-    unsafe impl NSUnitTemperature {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitTemperature")]
-    unsafe impl NSUnitTemperature {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
-    }
-);
+    pub type NSUnitTemperature;
 
-extern_methods!(
-    /// Methods declared on superclass `NSDimension`
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitTemperature")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitTemperature")]
+    pub type NSUnitTemperature;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSDimension`
     #[cfg(feature = "Foundation_NSUnitVolume")]
-    unsafe impl NSUnitVolume {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUnitConverter"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSymbol:converter:)]
-        pub unsafe fn initWithSymbol_converter(
-            this: Option<Allocated<Self>>,
-            symbol: &NSString,
-            converter: &NSUnitConverter,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other baseUnit)]
-        pub unsafe fn baseUnit() -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSUnit`
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnitVolume")]
-    unsafe impl NSUnitVolume {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSymbol:)]
-        pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+    pub type NSUnitVolume;
+
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUnitConverter"
+    ))]
+    #[objc2::method(sel = "initWithSymbol:converter:", managed = "Init")]
+    pub unsafe fn initWithSymbol_converter(
+        this: Option<Allocated<Self>>,
+        symbol: &NSString,
+        converter: &NSUnitConverter,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "baseUnit", managed = "Other")]
+    pub unsafe fn baseUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSUnit`
+    #[cfg(feature = "Foundation_NSUnitVolume")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUnitVolume")]
+    pub type NSUnitVolume;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSymbol:", managed = "Init")]
+    pub unsafe fn initWithSymbol(this: Option<Allocated<Self>>, symbol: &NSString) -> Id<Self>;
+}

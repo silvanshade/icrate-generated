@@ -7,16 +7,16 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKTileOverlay")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKTileOverlay")]
-    pub struct MKTileOverlay;
-
-    #[cfg(feature = "MapKit_MKTileOverlay")]
-    unsafe impl ClassType for MKTileOverlay {
-        type Super = NSObject;
-    }
-);
+    pub type MKTileOverlay;
+}
 
 #[cfg(feature = "MapKit_MKTileOverlay")]
 unsafe impl MKAnnotation for MKTileOverlay {}
@@ -27,51 +27,54 @@ unsafe impl MKOverlay for MKTileOverlay {}
 #[cfg(feature = "MapKit_MKTileOverlay")]
 unsafe impl NSObjectProtocol for MKTileOverlay {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKTileOverlay")]
-    unsafe impl MKTileOverlay {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithURLTemplate:)]
-        pub unsafe fn initWithURLTemplate(
-            this: Option<Allocated<Self>>,
-            url_template: Option<&NSString>,
-        ) -> Id<Self>;
+    pub type MKTileOverlay;
 
-        #[method(tileSize)]
-        pub unsafe fn tileSize(&self) -> CGSize;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithURLTemplate:", managed = "Init")]
+    pub unsafe fn initWithURLTemplate(
+        this: Option<Allocated<Self>>,
+        url_template: Option<&NSString>,
+    ) -> Id<Self>;
 
-        #[method(setTileSize:)]
-        pub unsafe fn setTileSize(&self, tile_size: CGSize);
+    #[objc2::method(sel = "tileSize")]
+    pub unsafe fn tileSize(&self) -> CGSize;
 
-        #[method(isGeometryFlipped)]
-        pub unsafe fn isGeometryFlipped(&self) -> bool;
+    #[objc2::method(sel = "setTileSize:")]
+    pub unsafe fn setTileSize(&self, tile_size: CGSize);
 
-        #[method(setGeometryFlipped:)]
-        pub unsafe fn setGeometryFlipped(&self, geometry_flipped: bool);
+    #[objc2::method(sel = "isGeometryFlipped")]
+    pub unsafe fn isGeometryFlipped(&self) -> bool;
 
-        #[method(minimumZ)]
-        pub unsafe fn minimumZ(&self) -> NSInteger;
+    #[objc2::method(sel = "setGeometryFlipped:")]
+    pub unsafe fn setGeometryFlipped(&self, geometry_flipped: bool);
 
-        #[method(setMinimumZ:)]
-        pub unsafe fn setMinimumZ(&self, minimum_z: NSInteger);
+    #[objc2::method(sel = "minimumZ")]
+    pub unsafe fn minimumZ(&self) -> NSInteger;
 
-        #[method(maximumZ)]
-        pub unsafe fn maximumZ(&self) -> NSInteger;
+    #[objc2::method(sel = "setMinimumZ:")]
+    pub unsafe fn setMinimumZ(&self, minimum_z: NSInteger);
 
-        #[method(setMaximumZ:)]
-        pub unsafe fn setMaximumZ(&self, maximum_z: NSInteger);
+    #[objc2::method(sel = "maximumZ")]
+    pub unsafe fn maximumZ(&self) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other URLTemplate)]
-        pub unsafe fn URLTemplate(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setMaximumZ:")]
+    pub unsafe fn setMaximumZ(&self, maximum_z: NSInteger);
 
-        #[method(canReplaceMapContent)]
-        pub unsafe fn canReplaceMapContent(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "URLTemplate", managed = "Other")]
+    pub unsafe fn URLTemplate(&self) -> Option<Id<NSString>>;
 
-        #[method(setCanReplaceMapContent:)]
-        pub unsafe fn setCanReplaceMapContent(&self, can_replace_map_content: bool);
-    }
-);
+    #[objc2::method(sel = "canReplaceMapContent")]
+    pub unsafe fn canReplaceMapContent(&self) -> bool;
+
+    #[objc2::method(sel = "setCanReplaceMapContent:")]
+    pub unsafe fn setCanReplaceMapContent(&self, can_replace_map_content: bool);
+}
 
 extern_struct!(
     #[encoding_name("?")]
@@ -83,20 +86,22 @@ extern_struct!(
     }
 );
 
-extern_methods!(
-    /// CustomLoading
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKTileOverlay")]
-    unsafe impl MKTileOverlay {
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URLForTilePath:)]
-        pub unsafe fn URLForTilePath(&self, path: MKTileOverlayPath) -> Id<NSURL>;
+    pub type MKTileOverlay;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method(loadTileAtPath:result:)]
-        pub unsafe fn loadTileAtPath_result(
-            &self,
-            path: MKTileOverlayPath,
-            result: &Block<(*mut NSData, *mut NSError), ()>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URLForTilePath:", managed = "Other")]
+    pub unsafe fn URLForTilePath(&self, path: MKTileOverlayPath) -> Id<NSURL>;
+
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "loadTileAtPath:result:")]
+    pub unsafe fn loadTileAtPath_result(
+        &self,
+        path: MKTileOverlayPath,
+        result: &Block<(*mut NSData, *mut NSError), ()>,
+    );
+}

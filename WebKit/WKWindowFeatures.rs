@@ -5,53 +5,56 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKWindowFeatures")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKWindowFeatures")]
-    pub struct WKWindowFeatures;
-
-    #[cfg(feature = "WebKit_WKWindowFeatures")]
-    unsafe impl ClassType for WKWindowFeatures {
-        type Super = NSObject;
-    }
-);
+    pub type WKWindowFeatures;
+}
 
 #[cfg(feature = "WebKit_WKWindowFeatures")]
 unsafe impl NSObjectProtocol for WKWindowFeatures {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKWindowFeatures")]
-    unsafe impl WKWindowFeatures {
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other menuBarVisibility)]
-        pub unsafe fn menuBarVisibility(&self) -> Option<Id<NSNumber>>;
+    pub type WKWindowFeatures;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other statusBarVisibility)]
-        pub unsafe fn statusBarVisibility(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "menuBarVisibility", managed = "Other")]
+    pub unsafe fn menuBarVisibility(&self) -> Option<Id<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other toolbarsVisibility)]
-        pub unsafe fn toolbarsVisibility(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "statusBarVisibility", managed = "Other")]
+    pub unsafe fn statusBarVisibility(&self) -> Option<Id<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other allowsResizing)]
-        pub unsafe fn allowsResizing(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "toolbarsVisibility", managed = "Other")]
+    pub unsafe fn toolbarsVisibility(&self) -> Option<Id<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other x)]
-        pub unsafe fn x(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "allowsResizing", managed = "Other")]
+    pub unsafe fn allowsResizing(&self) -> Option<Id<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other y)]
-        pub unsafe fn y(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "x", managed = "Other")]
+    pub unsafe fn x(&self) -> Option<Id<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other width)]
-        pub unsafe fn width(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "y", managed = "Other")]
+    pub unsafe fn y(&self) -> Option<Id<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other height)]
-        pub unsafe fn height(&self) -> Option<Id<NSNumber>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "width", managed = "Other")]
+    pub unsafe fn width(&self) -> Option<Id<NSNumber>>;
+
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "height", managed = "Other")]
+    pub unsafe fn height(&self) -> Option<Id<NSNumber>>;
+}

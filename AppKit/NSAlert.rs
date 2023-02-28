@@ -5,14 +5,13 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSAlertStyle {
-        NSAlertStyleWarning = 0,
-        NSAlertStyleInformational = 1,
-        NSAlertStyleCritical = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSAlertStyle {
+    NSAlertStyleWarning = 0,
+    NSAlertStyleInformational = 1,
+    NSAlertStyleCritical = 2,
+}
 
 extern_static!(NSAlertFirstButtonReturn: NSModalResponse = 1000);
 
@@ -20,148 +19,149 @@ extern_static!(NSAlertSecondButtonReturn: NSModalResponse = 1001);
 
 extern_static!(NSAlertThirdButtonReturn: NSModalResponse = 1002);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSAlert")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSAlert")]
-    pub struct NSAlert;
-
-    #[cfg(feature = "AppKit_NSAlert")]
-    unsafe impl ClassType for NSAlert {
-        type Super = NSObject;
-    }
-);
+    pub type NSAlert;
+}
 
 #[cfg(feature = "AppKit_NSAlert")]
 unsafe impl NSObjectProtocol for NSAlert {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSAlert")]
-    unsafe impl NSAlert {
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other alertWithError:)]
-        pub unsafe fn alertWithError(error: &NSError) -> Id<NSAlert>;
+    pub type NSAlert;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other messageText)]
-        pub unsafe fn messageText(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "alertWithError:", managed = "Other")]
+    pub unsafe fn alertWithError(error: &NSError) -> Id<NSAlert>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMessageText:)]
-        pub unsafe fn setMessageText(&self, message_text: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "messageText", managed = "Other")]
+    pub unsafe fn messageText(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other informativeText)]
-        pub unsafe fn informativeText(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMessageText:")]
+    pub unsafe fn setMessageText(&self, message_text: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setInformativeText:)]
-        pub unsafe fn setInformativeText(&self, informative_text: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "informativeText", managed = "Other")]
+    pub unsafe fn informativeText(&self) -> Id<NSString>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other icon)]
-        pub unsafe fn icon(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setInformativeText:")]
+    pub unsafe fn setInformativeText(&self, informative_text: &NSString);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setIcon:)]
-        pub unsafe fn setIcon(&self, icon: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "icon", managed = "Other")]
+    pub unsafe fn icon(&self) -> Option<Id<NSImage>>;
 
-        #[cfg(all(feature = "AppKit_NSButton", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other addButtonWithTitle:)]
-        pub unsafe fn addButtonWithTitle(&self, title: &NSString) -> Id<NSButton>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setIcon:")]
+    pub unsafe fn setIcon(&self, icon: Option<&NSImage>);
 
-        #[cfg(all(feature = "AppKit_NSButton", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other buttons)]
-        pub unsafe fn buttons(&self) -> Id<NSArray<NSButton>>;
+    #[cfg(all(feature = "AppKit_NSButton", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "addButtonWithTitle:", managed = "Other")]
+    pub unsafe fn addButtonWithTitle(&self, title: &NSString) -> Id<NSButton>;
 
-        #[method(showsHelp)]
-        pub unsafe fn showsHelp(&self) -> bool;
+    #[cfg(all(feature = "AppKit_NSButton", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "buttons", managed = "Other")]
+    pub unsafe fn buttons(&self) -> Id<NSArray<NSButton>>;
 
-        #[method(setShowsHelp:)]
-        pub unsafe fn setShowsHelp(&self, shows_help: bool);
+    #[objc2::method(sel = "showsHelp")]
+    pub unsafe fn showsHelp(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other helpAnchor)]
-        pub unsafe fn helpAnchor(&self) -> Option<Id<NSHelpAnchorName>>;
+    #[objc2::method(sel = "setShowsHelp:")]
+    pub unsafe fn setShowsHelp(&self, shows_help: bool);
 
-        #[method(setHelpAnchor:)]
-        pub unsafe fn setHelpAnchor(&self, help_anchor: Option<&NSHelpAnchorName>);
+    #[objc2::method(sel = "helpAnchor", managed = "Other")]
+    pub unsafe fn helpAnchor(&self) -> Option<Id<NSHelpAnchorName>>;
 
-        #[method(alertStyle)]
-        pub unsafe fn alertStyle(&self) -> NSAlertStyle;
+    #[objc2::method(sel = "setHelpAnchor:")]
+    pub unsafe fn setHelpAnchor(&self, help_anchor: Option<&NSHelpAnchorName>);
 
-        #[method(setAlertStyle:)]
-        pub unsafe fn setAlertStyle(&self, alert_style: NSAlertStyle);
+    #[objc2::method(sel = "alertStyle")]
+    pub unsafe fn alertStyle(&self) -> NSAlertStyle;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSAlertDelegate>>>;
+    #[objc2::method(sel = "setAlertStyle:")]
+    pub unsafe fn setAlertStyle(&self, alert_style: NSAlertStyle);
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSAlertDelegate>>);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSAlertDelegate>>>;
 
-        #[method(showsSuppressionButton)]
-        pub unsafe fn showsSuppressionButton(&self) -> bool;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSAlertDelegate>>);
 
-        #[method(setShowsSuppressionButton:)]
-        pub unsafe fn setShowsSuppressionButton(&self, shows_suppression_button: bool);
+    #[objc2::method(sel = "showsSuppressionButton")]
+    pub unsafe fn showsSuppressionButton(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSButton")]
-        #[method_id(@__retain_semantics Other suppressionButton)]
-        pub unsafe fn suppressionButton(&self) -> Option<Id<NSButton>>;
+    #[objc2::method(sel = "setShowsSuppressionButton:")]
+    pub unsafe fn setShowsSuppressionButton(&self, shows_suppression_button: bool);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other accessoryView)]
-        pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
+    #[cfg(feature = "AppKit_NSButton")]
+    #[objc2::method(sel = "suppressionButton", managed = "Other")]
+    pub unsafe fn suppressionButton(&self) -> Option<Id<NSButton>>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setAccessoryView:)]
-        pub unsafe fn setAccessoryView(&self, accessory_view: Option<&NSView>);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "accessoryView", managed = "Other")]
+    pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
 
-        #[method(layout)]
-        pub unsafe fn layout(&self);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setAccessoryView:")]
+    pub unsafe fn setAccessoryView(&self, accessory_view: Option<&NSView>);
 
-        #[method(runModal)]
-        pub unsafe fn runModal(&self) -> NSModalResponse;
+    #[objc2::method(sel = "layout")]
+    pub unsafe fn layout(&self);
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(beginSheetModalForWindow:completionHandler:)]
-        pub unsafe fn beginSheetModalForWindow_completionHandler(
-            &self,
-            sheet_window: &NSWindow,
-            handler: Option<&Block<(NSModalResponse,), ()>>,
-        );
+    #[objc2::method(sel = "runModal")]
+    pub unsafe fn runModal(&self) -> NSModalResponse;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method_id(@__retain_semantics Other window)]
-        pub unsafe fn window(&self) -> Id<NSWindow>;
-    }
-);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "beginSheetModalForWindow:completionHandler:")]
+    pub unsafe fn beginSheetModalForWindow_completionHandler(
+        &self,
+        sheet_window: &NSWindow,
+        handler: Option<&Block<(NSModalResponse,), ()>>,
+    );
 
-extern_protocol!(
-    pub unsafe trait NSAlertDelegate: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSAlert")]
-        #[optional]
-        #[method(alertShowHelp:)]
-        unsafe fn alertShowHelp(&self, alert: &NSAlert) -> bool;
-    }
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "window", managed = "Other")]
+    pub unsafe fn window(&self) -> Id<NSWindow>;
+}
 
-    unsafe impl ProtocolType for dyn NSAlertDelegate {}
-);
-
-extern_methods!(
-    /// NSAlertDeprecated
+#[objc2::protocol]
+pub unsafe trait NSAlertDelegate: NSObjectProtocol {
     #[cfg(feature = "AppKit_NSAlert")]
-    unsafe impl NSAlert {
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[deprecated = "Use -beginSheetModalForWindow:completionHandler: instead"]
-        #[method(beginSheetModalForWindow:modalDelegate:didEndSelector:contextInfo:)]
-        pub unsafe fn beginSheetModalForWindow_modalDelegate_didEndSelector_contextInfo(
-            &self,
-            window: &NSWindow,
-            delegate: Option<&Object>,
-            did_end_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
-    }
-);
+    #[objc2::method(optional, sel = "alertShowHelp:")]
+    unsafe fn alertShowHelp(&self, alert: &NSAlert) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSAlert")]
+    pub type NSAlert;
+
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[deprecated = "Use -beginSheetModalForWindow:completionHandler: instead"]
+    #[objc2::method(sel = "beginSheetModalForWindow:modalDelegate:didEndSelector:contextInfo:")]
+    pub unsafe fn beginSheetModalForWindow_modalDelegate_didEndSelector_contextInfo(
+        &self,
+        window: &NSWindow,
+        delegate: Option<&Object>,
+        did_end_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
+}
 
 extern_static!(NSWarningAlertStyle: NSAlertStyle = NSAlertStyleWarning);
 

@@ -5,37 +5,35 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSSplitViewItemBehavior {
-        NSSplitViewItemBehaviorDefault = 0,
-        NSSplitViewItemBehaviorSidebar = 1,
-        NSSplitViewItemBehaviorContentList = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSSplitViewItemBehavior {
+    NSSplitViewItemBehaviorDefault = 0,
+    NSSplitViewItemBehaviorSidebar = 1,
+    NSSplitViewItemBehaviorContentList = 2,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSSplitViewItemCollapseBehavior {
-        NSSplitViewItemCollapseBehaviorDefault = 0,
-        NSSplitViewItemCollapseBehaviorPreferResizingSplitViewWithFixedSiblings = 1,
-        NSSplitViewItemCollapseBehaviorPreferResizingSiblingsWithFixedSplitView = 2,
-        NSSplitViewItemCollapseBehaviorUseConstraints = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSSplitViewItemCollapseBehavior {
+    NSSplitViewItemCollapseBehaviorDefault = 0,
+    NSSplitViewItemCollapseBehaviorPreferResizingSplitViewWithFixedSiblings = 1,
+    NSSplitViewItemCollapseBehaviorPreferResizingSiblingsWithFixedSplitView = 2,
+    NSSplitViewItemCollapseBehaviorUseConstraints = 3,
+}
 
 extern_static!(NSSplitViewItemUnspecifiedDimension: CGFloat);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSplitViewItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSSplitViewItem")]
-    pub struct NSSplitViewItem;
-
-    #[cfg(feature = "AppKit_NSSplitViewItem")]
-    unsafe impl ClassType for NSSplitViewItem {
-        type Super = NSObject;
-    }
-);
+    pub type NSSplitViewItem;
+}
 
 #[cfg(feature = "AppKit_NSSplitViewItem")]
 unsafe impl NSAnimatablePropertyContainer for NSSplitViewItem {}
@@ -46,105 +44,102 @@ unsafe impl NSCoding for NSSplitViewItem {}
 #[cfg(feature = "AppKit_NSSplitViewItem")]
 unsafe impl NSObjectProtocol for NSSplitViewItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSplitViewItem")]
-    unsafe impl NSSplitViewItem {
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other splitViewItemWithViewController:)]
-        pub unsafe fn splitViewItemWithViewController(
-            view_controller: &NSViewController,
-        ) -> Id<Self>;
+    pub type NSSplitViewItem;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other sidebarWithViewController:)]
-        pub unsafe fn sidebarWithViewController(view_controller: &NSViewController) -> Id<Self>;
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "splitViewItemWithViewController:", managed = "Other")]
+    pub unsafe fn splitViewItemWithViewController(view_controller: &NSViewController) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other contentListWithViewController:)]
-        pub unsafe fn contentListWithViewController(view_controller: &NSViewController)
-            -> Id<Self>;
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "sidebarWithViewController:", managed = "Other")]
+    pub unsafe fn sidebarWithViewController(view_controller: &NSViewController) -> Id<Self>;
 
-        #[method(behavior)]
-        pub unsafe fn behavior(&self) -> NSSplitViewItemBehavior;
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "contentListWithViewController:", managed = "Other")]
+    pub unsafe fn contentListWithViewController(view_controller: &NSViewController) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other viewController)]
-        pub unsafe fn viewController(&self) -> Id<NSViewController>;
+    #[objc2::method(sel = "behavior")]
+    pub unsafe fn behavior(&self) -> NSSplitViewItemBehavior;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method(setViewController:)]
-        pub unsafe fn setViewController(&self, view_controller: &NSViewController);
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "viewController", managed = "Other")]
+    pub unsafe fn viewController(&self) -> Id<NSViewController>;
 
-        #[method(isCollapsed)]
-        pub unsafe fn isCollapsed(&self) -> bool;
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "setViewController:")]
+    pub unsafe fn setViewController(&self, view_controller: &NSViewController);
 
-        #[method(setCollapsed:)]
-        pub unsafe fn setCollapsed(&self, collapsed: bool);
+    #[objc2::method(sel = "isCollapsed")]
+    pub unsafe fn isCollapsed(&self) -> bool;
 
-        #[method(canCollapse)]
-        pub unsafe fn canCollapse(&self) -> bool;
+    #[objc2::method(sel = "setCollapsed:")]
+    pub unsafe fn setCollapsed(&self, collapsed: bool);
 
-        #[method(setCanCollapse:)]
-        pub unsafe fn setCanCollapse(&self, can_collapse: bool);
+    #[objc2::method(sel = "canCollapse")]
+    pub unsafe fn canCollapse(&self) -> bool;
 
-        #[method(collapseBehavior)]
-        pub unsafe fn collapseBehavior(&self) -> NSSplitViewItemCollapseBehavior;
+    #[objc2::method(sel = "setCanCollapse:")]
+    pub unsafe fn setCanCollapse(&self, can_collapse: bool);
 
-        #[method(setCollapseBehavior:)]
-        pub unsafe fn setCollapseBehavior(
-            &self,
-            collapse_behavior: NSSplitViewItemCollapseBehavior,
-        );
+    #[objc2::method(sel = "collapseBehavior")]
+    pub unsafe fn collapseBehavior(&self) -> NSSplitViewItemCollapseBehavior;
 
-        #[method(minimumThickness)]
-        pub unsafe fn minimumThickness(&self) -> CGFloat;
+    #[objc2::method(sel = "setCollapseBehavior:")]
+    pub unsafe fn setCollapseBehavior(&self, collapse_behavior: NSSplitViewItemCollapseBehavior);
 
-        #[method(setMinimumThickness:)]
-        pub unsafe fn setMinimumThickness(&self, minimum_thickness: CGFloat);
+    #[objc2::method(sel = "minimumThickness")]
+    pub unsafe fn minimumThickness(&self) -> CGFloat;
 
-        #[method(maximumThickness)]
-        pub unsafe fn maximumThickness(&self) -> CGFloat;
+    #[objc2::method(sel = "setMinimumThickness:")]
+    pub unsafe fn setMinimumThickness(&self, minimum_thickness: CGFloat);
 
-        #[method(setMaximumThickness:)]
-        pub unsafe fn setMaximumThickness(&self, maximum_thickness: CGFloat);
+    #[objc2::method(sel = "maximumThickness")]
+    pub unsafe fn maximumThickness(&self) -> CGFloat;
 
-        #[method(preferredThicknessFraction)]
-        pub unsafe fn preferredThicknessFraction(&self) -> CGFloat;
+    #[objc2::method(sel = "setMaximumThickness:")]
+    pub unsafe fn setMaximumThickness(&self, maximum_thickness: CGFloat);
 
-        #[method(setPreferredThicknessFraction:)]
-        pub unsafe fn setPreferredThicknessFraction(&self, preferred_thickness_fraction: CGFloat);
+    #[objc2::method(sel = "preferredThicknessFraction")]
+    pub unsafe fn preferredThicknessFraction(&self) -> CGFloat;
 
-        #[method(holdingPriority)]
-        pub unsafe fn holdingPriority(&self) -> NSLayoutPriority;
+    #[objc2::method(sel = "setPreferredThicknessFraction:")]
+    pub unsafe fn setPreferredThicknessFraction(&self, preferred_thickness_fraction: CGFloat);
 
-        #[method(setHoldingPriority:)]
-        pub unsafe fn setHoldingPriority(&self, holding_priority: NSLayoutPriority);
+    #[objc2::method(sel = "holdingPriority")]
+    pub unsafe fn holdingPriority(&self) -> NSLayoutPriority;
 
-        #[method(automaticMaximumThickness)]
-        pub unsafe fn automaticMaximumThickness(&self) -> CGFloat;
+    #[objc2::method(sel = "setHoldingPriority:")]
+    pub unsafe fn setHoldingPriority(&self, holding_priority: NSLayoutPriority);
 
-        #[method(setAutomaticMaximumThickness:)]
-        pub unsafe fn setAutomaticMaximumThickness(&self, automatic_maximum_thickness: CGFloat);
+    #[objc2::method(sel = "automaticMaximumThickness")]
+    pub unsafe fn automaticMaximumThickness(&self) -> CGFloat;
 
-        #[method(isSpringLoaded)]
-        pub unsafe fn isSpringLoaded(&self) -> bool;
+    #[objc2::method(sel = "setAutomaticMaximumThickness:")]
+    pub unsafe fn setAutomaticMaximumThickness(&self, automatic_maximum_thickness: CGFloat);
 
-        #[method(setSpringLoaded:)]
-        pub unsafe fn setSpringLoaded(&self, spring_loaded: bool);
+    #[objc2::method(sel = "isSpringLoaded")]
+    pub unsafe fn isSpringLoaded(&self) -> bool;
 
-        #[method(allowsFullHeightLayout)]
-        pub unsafe fn allowsFullHeightLayout(&self) -> bool;
+    #[objc2::method(sel = "setSpringLoaded:")]
+    pub unsafe fn setSpringLoaded(&self, spring_loaded: bool);
 
-        #[method(setAllowsFullHeightLayout:)]
-        pub unsafe fn setAllowsFullHeightLayout(&self, allows_full_height_layout: bool);
+    #[objc2::method(sel = "allowsFullHeightLayout")]
+    pub unsafe fn allowsFullHeightLayout(&self) -> bool;
 
-        #[method(titlebarSeparatorStyle)]
-        pub unsafe fn titlebarSeparatorStyle(&self) -> NSTitlebarSeparatorStyle;
+    #[objc2::method(sel = "setAllowsFullHeightLayout:")]
+    pub unsafe fn setAllowsFullHeightLayout(&self, allows_full_height_layout: bool);
 
-        #[method(setTitlebarSeparatorStyle:)]
-        pub unsafe fn setTitlebarSeparatorStyle(
-            &self,
-            titlebar_separator_style: NSTitlebarSeparatorStyle,
-        );
-    }
-);
+    #[objc2::method(sel = "titlebarSeparatorStyle")]
+    pub unsafe fn titlebarSeparatorStyle(&self) -> NSTitlebarSeparatorStyle;
+
+    #[objc2::method(sel = "setTitlebarSeparatorStyle:")]
+    pub unsafe fn setTitlebarSeparatorStyle(
+        &self,
+        titlebar_separator_style: NSTitlebarSeparatorStyle,
+    );
+}

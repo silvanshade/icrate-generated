@@ -6,21 +6,16 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-__inner_extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHFetchResult")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHFetchResult")]
-    pub struct PHFetchResult<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared> {
-        _inner0: PhantomData<*mut (ObjectType, ObjectTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "PhotoKit_PHFetchResult")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> ClassType
-        for PHFetchResult<ObjectType, ObjectTypeOwnership>
-    {
-        type Super = NSObject;
-    }
-);
+    pub type PHFetchResult<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
+}
 
 #[cfg(feature = "PhotoKit_PHFetchResult")]
 unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSFastEnumeration
@@ -34,73 +29,70 @@ unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSObjectProtoco
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHFetchResult")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        PHFetchResult<ObjectType, ObjectTypeOwnership>
-    {
-        #[method(count)]
-        pub unsafe fn count(&self) -> NSUInteger;
+    pub type PHFetchResult<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[method_id(@__retain_semantics Other objectAtIndex:)]
-        pub unsafe fn objectAtIndex(
-            &self,
-            index: NSUInteger,
-        ) -> Id<ObjectType, ObjectTypeOwnership>;
+    #[objc2::method(sel = "count")]
+    pub unsafe fn count(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other objectAtIndexedSubscript:)]
-        pub unsafe fn objectAtIndexedSubscript(
-            &self,
-            idx: NSUInteger,
-        ) -> Id<ObjectType, ObjectTypeOwnership>;
+    #[objc2::method(sel = "objectAtIndex:", managed = "Other")]
+    pub unsafe fn objectAtIndex(&self, index: NSUInteger) -> Id<ObjectType, ObjectTypeOwnership>;
 
-        #[method(containsObject:)]
-        pub unsafe fn containsObject(&self, an_object: &ObjectType) -> bool;
+    #[objc2::method(sel = "objectAtIndexedSubscript:", managed = "Other")]
+    pub unsafe fn objectAtIndexedSubscript(
+        &self,
+        idx: NSUInteger,
+    ) -> Id<ObjectType, ObjectTypeOwnership>;
 
-        #[method(indexOfObject:)]
-        pub unsafe fn indexOfObject(&self, an_object: &ObjectType) -> NSUInteger;
+    #[objc2::method(sel = "containsObject:")]
+    pub unsafe fn containsObject(&self, an_object: &ObjectType) -> bool;
 
-        #[method(indexOfObject:inRange:)]
-        pub unsafe fn indexOfObject_inRange(
-            &self,
-            an_object: &ObjectType,
-            range: NSRange,
-        ) -> NSUInteger;
+    #[objc2::method(sel = "indexOfObject:")]
+    pub unsafe fn indexOfObject(&self, an_object: &ObjectType) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other firstObject)]
-        pub unsafe fn firstObject(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
+    #[objc2::method(sel = "indexOfObject:inRange:")]
+    pub unsafe fn indexOfObject_inRange(
+        &self,
+        an_object: &ObjectType,
+        range: NSRange,
+    ) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other lastObject)]
-        pub unsafe fn lastObject(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
+    #[objc2::method(sel = "firstObject", managed = "Other")]
+    pub unsafe fn firstObject(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSIndexSet"))]
-        #[method_id(@__retain_semantics Other objectsAtIndexes:)]
-        pub unsafe fn objectsAtIndexes(&self, indexes: &NSIndexSet) -> Id<NSArray<ObjectType>>;
+    #[objc2::method(sel = "lastObject", managed = "Other")]
+    pub unsafe fn lastObject(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
 
-        #[method(enumerateObjectsUsingBlock:)]
-        pub unsafe fn enumerateObjectsUsingBlock(
-            &self,
-            block: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSIndexSet"))]
+    #[objc2::method(sel = "objectsAtIndexes:", managed = "Other")]
+    pub unsafe fn objectsAtIndexes(&self, indexes: &NSIndexSet) -> Id<NSArray<ObjectType>>;
 
-        #[method(enumerateObjectsWithOptions:usingBlock:)]
-        pub unsafe fn enumerateObjectsWithOptions_usingBlock(
-            &self,
-            opts: NSEnumerationOptions,
-            block: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), ()>,
-        );
+    #[objc2::method(sel = "enumerateObjectsUsingBlock:")]
+    pub unsafe fn enumerateObjectsUsingBlock(
+        &self,
+        block: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(enumerateObjectsAtIndexes:options:usingBlock:)]
-        pub unsafe fn enumerateObjectsAtIndexes_options_usingBlock(
-            &self,
-            s: &NSIndexSet,
-            opts: NSEnumerationOptions,
-            block: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), ()>,
-        );
+    #[objc2::method(sel = "enumerateObjectsWithOptions:usingBlock:")]
+    pub unsafe fn enumerateObjectsWithOptions_usingBlock(
+        &self,
+        opts: NSEnumerationOptions,
+        block: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), ()>,
+    );
 
-        #[method(countOfAssetsWithMediaType:)]
-        pub unsafe fn countOfAssetsWithMediaType(&self, media_type: PHAssetMediaType)
-            -> NSUInteger;
-    }
-);
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "enumerateObjectsAtIndexes:options:usingBlock:")]
+    pub unsafe fn enumerateObjectsAtIndexes_options_usingBlock(
+        &self,
+        s: &NSIndexSet,
+        opts: NSEnumerationOptions,
+        block: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), ()>,
+    );
+
+    #[objc2::method(sel = "countOfAssetsWithMediaType:")]
+    pub unsafe fn countOfAssetsWithMediaType(&self, media_type: PHAssetMediaType) -> NSUInteger;
+}

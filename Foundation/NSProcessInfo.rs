@@ -3,26 +3,25 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_enum!(
-    #[underlying(c_uint)]
+#[extern_enum]
+#[underlying(c_uint)]
+#[deprecated = "Not supported"]
+pub enum __anonymous__ {
     #[deprecated = "Not supported"]
-    pub enum __anonymous__ {
-        #[deprecated = "Not supported"]
-        NSWindowsNTOperatingSystem = 1,
-        #[deprecated = "Not supported"]
-        NSWindows95OperatingSystem = 2,
-        #[deprecated = "Not supported"]
-        NSSolarisOperatingSystem = 3,
-        #[deprecated = "Not supported"]
-        NSHPUXOperatingSystem = 4,
-        #[deprecated = "Not supported"]
-        NSMACHOperatingSystem = 5,
-        #[deprecated = "Not supported"]
-        NSSunOSOperatingSystem = 6,
-        #[deprecated = "Not supported"]
-        NSOSF1OperatingSystem = 7,
-    }
-);
+    NSWindowsNTOperatingSystem = 1,
+    #[deprecated = "Not supported"]
+    NSWindows95OperatingSystem = 2,
+    #[deprecated = "Not supported"]
+    NSSolarisOperatingSystem = 3,
+    #[deprecated = "Not supported"]
+    NSHPUXOperatingSystem = 4,
+    #[deprecated = "Not supported"]
+    NSMACHOperatingSystem = 5,
+    #[deprecated = "Not supported"]
+    NSSunOSOperatingSystem = 6,
+    #[deprecated = "Not supported"]
+    NSOSF1OperatingSystem = 7,
+}
 
 extern_struct!(
     #[encoding_name("?")]
@@ -33,218 +32,227 @@ extern_struct!(
     }
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSProcessInfo")]
     #[derive(PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSProcessInfo")]
-    pub struct NSProcessInfo;
-
-    #[cfg(feature = "Foundation_NSProcessInfo")]
-    unsafe impl ClassType for NSProcessInfo {
-        type Super = NSObject;
-    }
-);
+    pub type NSProcessInfo;
+}
 
 #[cfg(feature = "Foundation_NSProcessInfo")]
 unsafe impl NSObjectProtocol for NSProcessInfo {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSProcessInfo")]
-    unsafe impl NSProcessInfo {
-        #[method_id(@__retain_semantics Other processInfo)]
-        pub fn processInfo() -> Id<NSProcessInfo>;
+    pub type NSProcessInfo;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other environment)]
-        pub unsafe fn environment(&self) -> Id<NSDictionary<NSString, NSString>>;
+    #[objc2::method(sel = "processInfo", managed = "Other")]
+    pub fn processInfo() -> Id<NSProcessInfo>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other arguments)]
-        pub unsafe fn arguments(&self) -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "environment", managed = "Other")]
+    pub unsafe fn environment(&self) -> Id<NSDictionary<NSString, NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other hostName)]
-        pub unsafe fn hostName(&self) -> Id<NSString>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "arguments", managed = "Other")]
+    pub unsafe fn arguments(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other processName)]
-        pub fn processName(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "hostName", managed = "Other")]
+    pub unsafe fn hostName(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setProcessName:)]
-        pub unsafe fn setProcessName(&self, process_name: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "processName", managed = "Other")]
+    pub fn processName(&self) -> Id<NSString>;
 
-        #[method(processIdentifier)]
-        pub unsafe fn processIdentifier(&self) -> c_int;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setProcessName:")]
+    pub unsafe fn setProcessName(&self, process_name: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other globallyUniqueString)]
-        pub unsafe fn globallyUniqueString(&self) -> Id<NSString>;
+    #[objc2::method(sel = "processIdentifier")]
+    pub unsafe fn processIdentifier(&self) -> c_int;
 
-        #[deprecated = "-operatingSystem always returns NSMACHOperatingSystem, use -operatingSystemVersion or -isOperatingSystemAtLeastVersion: instead"]
-        #[method(operatingSystem)]
-        pub unsafe fn operatingSystem(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "globallyUniqueString", managed = "Other")]
+    pub unsafe fn globallyUniqueString(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "-operatingSystemName always returns NSMACHOperatingSystem, use -operatingSystemVersionString instead"]
-        #[method_id(@__retain_semantics Other operatingSystemName)]
-        pub unsafe fn operatingSystemName(&self) -> Id<NSString>;
+    #[deprecated = "-operatingSystem always returns NSMACHOperatingSystem, use -operatingSystemVersion or -isOperatingSystemAtLeastVersion: instead"]
+    #[objc2::method(sel = "operatingSystem")]
+    pub unsafe fn operatingSystem(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other operatingSystemVersionString)]
-        pub unsafe fn operatingSystemVersionString(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "-operatingSystemName always returns NSMACHOperatingSystem, use -operatingSystemVersionString instead"]
+    #[objc2::method(sel = "operatingSystemName", managed = "Other")]
+    pub unsafe fn operatingSystemName(&self) -> Id<NSString>;
 
-        #[method(operatingSystemVersion)]
-        pub fn operatingSystemVersion(&self) -> NSOperatingSystemVersion;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "operatingSystemVersionString", managed = "Other")]
+    pub unsafe fn operatingSystemVersionString(&self) -> Id<NSString>;
 
-        #[method(processorCount)]
-        pub unsafe fn processorCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "operatingSystemVersion")]
+    pub fn operatingSystemVersion(&self) -> NSOperatingSystemVersion;
 
-        #[method(activeProcessorCount)]
-        pub unsafe fn activeProcessorCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "processorCount")]
+    pub unsafe fn processorCount(&self) -> NSUInteger;
 
-        #[method(physicalMemory)]
-        pub unsafe fn physicalMemory(&self) -> c_ulonglong;
+    #[objc2::method(sel = "activeProcessorCount")]
+    pub unsafe fn activeProcessorCount(&self) -> NSUInteger;
 
-        #[method(isOperatingSystemAtLeastVersion:)]
-        pub unsafe fn isOperatingSystemAtLeastVersion(
-            &self,
-            version: NSOperatingSystemVersion,
-        ) -> bool;
+    #[objc2::method(sel = "physicalMemory")]
+    pub unsafe fn physicalMemory(&self) -> c_ulonglong;
 
-        #[method(systemUptime)]
-        pub unsafe fn systemUptime(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "isOperatingSystemAtLeastVersion:")]
+    pub unsafe fn isOperatingSystemAtLeastVersion(&self, version: NSOperatingSystemVersion)
+        -> bool;
 
-        #[method(disableSuddenTermination)]
-        pub unsafe fn disableSuddenTermination(&self);
+    #[objc2::method(sel = "systemUptime")]
+    pub unsafe fn systemUptime(&self) -> NSTimeInterval;
 
-        #[method(enableSuddenTermination)]
-        pub unsafe fn enableSuddenTermination(&self);
+    #[objc2::method(sel = "disableSuddenTermination")]
+    pub unsafe fn disableSuddenTermination(&self);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(disableAutomaticTermination:)]
-        pub unsafe fn disableAutomaticTermination(&self, reason: &NSString);
+    #[objc2::method(sel = "enableSuddenTermination")]
+    pub unsafe fn enableSuddenTermination(&self);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(enableAutomaticTermination:)]
-        pub unsafe fn enableAutomaticTermination(&self, reason: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "disableAutomaticTermination:")]
+    pub unsafe fn disableAutomaticTermination(&self, reason: &NSString);
 
-        #[method(automaticTerminationSupportEnabled)]
-        pub unsafe fn automaticTerminationSupportEnabled(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "enableAutomaticTermination:")]
+    pub unsafe fn enableAutomaticTermination(&self, reason: &NSString);
 
-        #[method(setAutomaticTerminationSupportEnabled:)]
-        pub unsafe fn setAutomaticTerminationSupportEnabled(
-            &self,
-            automatic_termination_support_enabled: bool,
-        );
-    }
-);
+    #[objc2::method(sel = "automaticTerminationSupportEnabled")]
+    pub unsafe fn automaticTerminationSupportEnabled(&self) -> bool;
 
-ns_options!(
-    #[underlying(u64)]
-    pub enum NSActivityOptions {
-        NSActivityIdleDisplaySleepDisabled = 1 << 40,
-        NSActivityIdleSystemSleepDisabled = 1 << 20,
-        NSActivitySuddenTerminationDisabled = 1 << 14,
-        NSActivityAutomaticTerminationDisabled = 1 << 15,
-        NSActivityAnimationTrackingEnabled = 1 << 45,
-        NSActivityTrackingEnabled = 1 << 46,
-        NSActivityUserInitiated = 0x00FFFFFF | NSActivityIdleSystemSleepDisabled,
-        NSActivityUserInitiatedAllowingIdleSystemSleep =
-            NSActivityUserInitiated & !NSActivityIdleSystemSleepDisabled,
-        NSActivityBackground = 0x000000FF,
-        NSActivityLatencyCritical = 0xFF00000000,
-        NSActivityUserInteractive = NSActivityUserInitiated | NSActivityLatencyCritical,
-    }
-);
+    #[objc2::method(sel = "setAutomaticTerminationSupportEnabled:")]
+    pub unsafe fn setAutomaticTerminationSupportEnabled(
+        &self,
+        automatic_termination_support_enabled: bool,
+    );
+}
 
-extern_methods!(
-    /// NSProcessInfoActivity
+#[ns_options]
+#[underlying(u64)]
+pub enum NSActivityOptions {
+    NSActivityIdleDisplaySleepDisabled = 1 << 40,
+    NSActivityIdleSystemSleepDisabled = 1 << 20,
+    NSActivitySuddenTerminationDisabled = 1 << 14,
+    NSActivityAutomaticTerminationDisabled = 1 << 15,
+    NSActivityAnimationTrackingEnabled = 1 << 45,
+    NSActivityTrackingEnabled = 1 << 46,
+    NSActivityUserInitiated = 0x00FFFFFF | NSActivityIdleSystemSleepDisabled,
+    NSActivityUserInitiatedAllowingIdleSystemSleep =
+        NSActivityUserInitiated & !NSActivityIdleSystemSleepDisabled,
+    NSActivityBackground = 0x000000FF,
+    NSActivityLatencyCritical = 0xFF00000000,
+    NSActivityUserInteractive = NSActivityUserInitiated | NSActivityLatencyCritical,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSProcessInfo")]
-    unsafe impl NSProcessInfo {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other beginActivityWithOptions:reason:)]
-        pub unsafe fn beginActivityWithOptions_reason(
-            &self,
-            options: NSActivityOptions,
-            reason: &NSString,
-        ) -> Id<NSObject>;
+    pub type NSProcessInfo;
 
-        #[method(endActivity:)]
-        pub unsafe fn endActivity(&self, activity: &NSObject);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "beginActivityWithOptions:reason:", managed = "Other")]
+    pub unsafe fn beginActivityWithOptions_reason(
+        &self,
+        options: NSActivityOptions,
+        reason: &NSString,
+    ) -> Id<NSObject>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(performActivityWithOptions:reason:usingBlock:)]
-        pub unsafe fn performActivityWithOptions_reason_usingBlock(
-            &self,
-            options: NSActivityOptions,
-            reason: &NSString,
-            block: &Block<(), ()>,
-        );
+    #[objc2::method(sel = "endActivity:")]
+    pub unsafe fn endActivity(&self, activity: &NSObject);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(performExpiringActivityWithReason:usingBlock:)]
-        pub unsafe fn performExpiringActivityWithReason_usingBlock(
-            &self,
-            reason: &NSString,
-            block: &Block<(Bool,), ()>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "performActivityWithOptions:reason:usingBlock:")]
+    pub unsafe fn performActivityWithOptions_reason_usingBlock(
+        &self,
+        options: NSActivityOptions,
+        reason: &NSString,
+        block: &Block<(), ()>,
+    );
 
-extern_methods!(
-    /// NSUserInformation
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "performExpiringActivityWithReason:usingBlock:")]
+    pub unsafe fn performExpiringActivityWithReason_usingBlock(
+        &self,
+        reason: &NSString,
+        block: &Block<(Bool,), ()>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSProcessInfo")]
-    unsafe impl NSProcessInfo {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other userName)]
-        pub unsafe fn userName(&self) -> Id<NSString>;
+    pub type NSProcessInfo;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fullUserName)]
-        pub unsafe fn fullUserName(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "userName", managed = "Other")]
+    pub unsafe fn userName(&self) -> Id<NSString>;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSProcessInfoThermalState {
-        NSProcessInfoThermalStateNominal = 0,
-        NSProcessInfoThermalStateFair = 1,
-        NSProcessInfoThermalStateSerious = 2,
-        NSProcessInfoThermalStateCritical = 3,
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fullUserName", managed = "Other")]
+    pub unsafe fn fullUserName(&self) -> Id<NSString>;
+}
 
-extern_methods!(
-    /// NSProcessInfoThermalState
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSProcessInfoThermalState {
+    NSProcessInfoThermalStateNominal = 0,
+    NSProcessInfoThermalStateFair = 1,
+    NSProcessInfoThermalStateSerious = 2,
+    NSProcessInfoThermalStateCritical = 3,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSProcessInfo")]
-    unsafe impl NSProcessInfo {
-        #[method(thermalState)]
-        pub unsafe fn thermalState(&self) -> NSProcessInfoThermalState;
-    }
-);
+    pub type NSProcessInfo;
 
-extern_methods!(
-    /// NSProcessInfoPowerState
+    #[objc2::method(sel = "thermalState")]
+    pub unsafe fn thermalState(&self) -> NSProcessInfoThermalState;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSProcessInfo")]
-    unsafe impl NSProcessInfo {
-        #[method(isLowPowerModeEnabled)]
-        pub unsafe fn isLowPowerModeEnabled(&self) -> bool;
-    }
-);
+    pub type NSProcessInfo;
+
+    #[objc2::method(sel = "isLowPowerModeEnabled")]
+    pub unsafe fn isLowPowerModeEnabled(&self) -> bool;
+}
 
 extern_static!(NSProcessInfoThermalStateDidChangeNotification: &'static NSNotificationName);
 
 extern_static!(NSProcessInfoPowerStateDidChangeNotification: &'static NSNotificationName);
 
-extern_methods!(
-    /// NSProcessInfoPlatform
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSProcessInfo")]
-    unsafe impl NSProcessInfo {
-        #[method(isMacCatalystApp)]
-        pub unsafe fn isMacCatalystApp(&self) -> bool;
+    pub type NSProcessInfo;
 
-        #[method(isiOSAppOnMac)]
-        pub unsafe fn isiOSAppOnMac(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "isMacCatalystApp")]
+    pub unsafe fn isMacCatalystApp(&self) -> bool;
+
+    #[objc2::method(sel = "isiOSAppOnMac")]
+    pub unsafe fn isiOSAppOnMac(&self) -> bool;
+}

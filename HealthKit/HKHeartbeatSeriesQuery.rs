@@ -6,42 +6,45 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKQuery,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKHeartbeatSeriesQuery")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKHeartbeatSeriesQuery")]
-    pub struct HKHeartbeatSeriesQuery;
-
-    #[cfg(feature = "HealthKit_HKHeartbeatSeriesQuery")]
-    unsafe impl ClassType for HKHeartbeatSeriesQuery {
-        #[inherits(NSObject)]
-        type Super = HKQuery;
-    }
-);
+    pub type HKHeartbeatSeriesQuery;
+}
 
 #[cfg(feature = "HealthKit_HKHeartbeatSeriesQuery")]
 unsafe impl NSObjectProtocol for HKHeartbeatSeriesQuery {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKHeartbeatSeriesQuery")]
-    unsafe impl HKHeartbeatSeriesQuery {
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKHeartbeatSeriesSample"
-        ))]
-        #[method_id(@__retain_semantics Init initWithHeartbeatSeries:dataHandler:)]
-        pub unsafe fn initWithHeartbeatSeries_dataHandler(
-            this: Option<Allocated<Self>>,
-            heartbeat_series: &HKHeartbeatSeriesSample,
-            data_handler: &Block<
-                (
-                    NonNull<HKHeartbeatSeriesQuery>,
-                    NSTimeInterval,
-                    Bool,
-                    Bool,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        ) -> Id<Self>;
-    }
-);
+    pub type HKHeartbeatSeriesQuery;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKHeartbeatSeriesSample"
+    ))]
+    #[objc2::method(sel = "initWithHeartbeatSeries:dataHandler:", managed = "Init")]
+    pub unsafe fn initWithHeartbeatSeries_dataHandler(
+        this: Option<Allocated<Self>>,
+        heartbeat_series: &HKHeartbeatSeriesSample,
+        data_handler: &Block<
+            (
+                NonNull<HKHeartbeatSeriesQuery>,
+                NSTimeInterval,
+                Bool,
+                Bool,
+                *mut NSError,
+            ),
+            (),
+        >,
+    ) -> Id<Self>;
+}

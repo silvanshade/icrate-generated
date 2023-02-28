@@ -5,36 +5,39 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKBackForwardListItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKBackForwardListItem")]
-    pub struct WKBackForwardListItem;
-
-    #[cfg(feature = "WebKit_WKBackForwardListItem")]
-    unsafe impl ClassType for WKBackForwardListItem {
-        type Super = NSObject;
-    }
-);
+    pub type WKBackForwardListItem;
+}
 
 #[cfg(feature = "WebKit_WKBackForwardListItem")]
 unsafe impl NSObjectProtocol for WKBackForwardListItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKBackForwardListItem")]
-    unsafe impl WKBackForwardListItem {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type WKBackForwardListItem;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Id<NSURL>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Id<NSURL>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other initialURL)]
-        pub unsafe fn initialURL(&self) -> Id<NSURL>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initialURL", managed = "Other")]
+    pub unsafe fn initialURL(&self) -> Id<NSURL>;
+}

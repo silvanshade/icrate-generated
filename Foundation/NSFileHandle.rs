@@ -3,16 +3,16 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSFileHandle")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSFileHandle")]
-    pub struct NSFileHandle;
-
-    #[cfg(feature = "Foundation_NSFileHandle")]
-    unsafe impl ClassType for NSFileHandle {
-        type Super = NSObject;
-    }
-);
+    pub type NSFileHandle;
+}
 
 #[cfg(feature = "Foundation_NSFileHandle")]
 unsafe impl NSCoding for NSFileHandle {}
@@ -23,119 +23,118 @@ unsafe impl NSObjectProtocol for NSFileHandle {}
 #[cfg(feature = "Foundation_NSFileHandle")]
 unsafe impl NSSecureCoding for NSFileHandle {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSFileHandle")]
-    unsafe impl NSFileHandle {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other availableData)]
-        pub unsafe fn availableData(&self) -> Id<NSData>;
+    pub type NSFileHandle;
 
-        #[method_id(@__retain_semantics Init initWithFileDescriptor:closeOnDealloc:)]
-        pub unsafe fn initWithFileDescriptor_closeOnDealloc(
-            this: Option<Allocated<Self>>,
-            fd: c_int,
-            closeopt: bool,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "availableData", managed = "Other")]
+    pub unsafe fn availableData(&self) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "initWithFileDescriptor:closeOnDealloc:", managed = "Init")]
+    pub unsafe fn initWithFileDescriptor_closeOnDealloc(
+        this: Option<Allocated<Self>>,
+        fd: c_int,
+        closeopt: bool,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method_id(@__retain_semantics Other readDataToEndOfFileAndReturnError:_)]
-        pub unsafe fn readDataToEndOfFileAndReturnError(&self) -> Result<Id<NSData>, Id<NSError>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method_id(@__retain_semantics Other readDataUpToLength:error:_)]
-        pub unsafe fn readDataUpToLength_error(
-            &self,
-            length: NSUInteger,
-        ) -> Result<Id<NSData>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "readDataToEndOfFileAndReturnError:", managed = "Other", throws)]
+    pub unsafe fn readDataToEndOfFileAndReturnError(&self) -> Result<Id<NSData>, Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method(writeData:error:_)]
-        pub unsafe fn writeData_error(&self, data: &NSData) -> Result<(), Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "readDataUpToLength:error:", managed = "Other", throws)]
+    pub unsafe fn readDataUpToLength_error(
+        &self,
+        length: NSUInteger,
+    ) -> Result<Id<NSData>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(getOffset:error:_)]
-        pub unsafe fn getOffset_error(
-            &self,
-            offset_in_file: NonNull<c_ulonglong>,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "writeData:error:", throws)]
+    pub unsafe fn writeData_error(&self, data: &NSData) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(seekToEndReturningOffset:error:_)]
-        pub unsafe fn seekToEndReturningOffset_error(
-            &self,
-            offset_in_file: *mut c_ulonglong,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "getOffset:error:", throws)]
+    pub unsafe fn getOffset_error(
+        &self,
+        offset_in_file: NonNull<c_ulonglong>,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(seekToOffset:error:_)]
-        pub unsafe fn seekToOffset_error(&self, offset: c_ulonglong) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "seekToEndReturningOffset:error:", throws)]
+    pub unsafe fn seekToEndReturningOffset_error(
+        &self,
+        offset_in_file: *mut c_ulonglong,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(truncateAtOffset:error:_)]
-        pub unsafe fn truncateAtOffset_error(&self, offset: c_ulonglong)
-            -> Result<(), Id<NSError>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "seekToOffset:error:", throws)]
+    pub unsafe fn seekToOffset_error(&self, offset: c_ulonglong) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(synchronizeAndReturnError:_)]
-        pub unsafe fn synchronizeAndReturnError(&self) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "truncateAtOffset:error:", throws)]
+    pub unsafe fn truncateAtOffset_error(&self, offset: c_ulonglong) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(closeAndReturnError:_)]
-        pub unsafe fn closeAndReturnError(&self) -> Result<(), Id<NSError>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "synchronizeAndReturnError:", throws)]
+    pub unsafe fn synchronizeAndReturnError(&self) -> Result<(), Id<NSError>>;
 
-extern_methods!(
-    /// NSFileHandleCreation
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "closeAndReturnError:", throws)]
+    pub unsafe fn closeAndReturnError(&self) -> Result<(), Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSFileHandle")]
-    unsafe impl NSFileHandle {
-        #[method_id(@__retain_semantics Other fileHandleWithStandardInput)]
-        pub unsafe fn fileHandleWithStandardInput() -> Id<NSFileHandle>;
+    pub type NSFileHandle;
 
-        #[method_id(@__retain_semantics Other fileHandleWithStandardOutput)]
-        pub unsafe fn fileHandleWithStandardOutput() -> Id<NSFileHandle>;
+    #[objc2::method(sel = "fileHandleWithStandardInput", managed = "Other")]
+    pub unsafe fn fileHandleWithStandardInput() -> Id<NSFileHandle>;
 
-        #[method_id(@__retain_semantics Other fileHandleWithStandardError)]
-        pub unsafe fn fileHandleWithStandardError() -> Id<NSFileHandle>;
+    #[objc2::method(sel = "fileHandleWithStandardOutput", managed = "Other")]
+    pub unsafe fn fileHandleWithStandardOutput() -> Id<NSFileHandle>;
 
-        #[method_id(@__retain_semantics Other fileHandleWithNullDevice)]
-        pub unsafe fn fileHandleWithNullDevice() -> Id<NSFileHandle>;
+    #[objc2::method(sel = "fileHandleWithStandardError", managed = "Other")]
+    pub unsafe fn fileHandleWithStandardError() -> Id<NSFileHandle>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fileHandleForReadingAtPath:)]
-        pub unsafe fn fileHandleForReadingAtPath(path: &NSString) -> Option<Id<Self>>;
+    #[objc2::method(sel = "fileHandleWithNullDevice", managed = "Other")]
+    pub unsafe fn fileHandleWithNullDevice() -> Id<NSFileHandle>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fileHandleForWritingAtPath:)]
-        pub unsafe fn fileHandleForWritingAtPath(path: &NSString) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fileHandleForReadingAtPath:", managed = "Other")]
+    pub unsafe fn fileHandleForReadingAtPath(path: &NSString) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fileHandleForUpdatingAtPath:)]
-        pub unsafe fn fileHandleForUpdatingAtPath(path: &NSString) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fileHandleForWritingAtPath:", managed = "Other")]
+    pub unsafe fn fileHandleForWritingAtPath(path: &NSString) -> Option<Id<Self>>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other fileHandleForReadingFromURL:error:_)]
-        pub unsafe fn fileHandleForReadingFromURL_error(
-            url: &NSURL,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fileHandleForUpdatingAtPath:", managed = "Other")]
+    pub unsafe fn fileHandleForUpdatingAtPath(path: &NSString) -> Option<Id<Self>>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other fileHandleForWritingToURL:error:_)]
-        pub unsafe fn fileHandleForWritingToURL_error(url: &NSURL)
-            -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "fileHandleForReadingFromURL:error:", managed = "Other", throws)]
+    pub unsafe fn fileHandleForReadingFromURL_error(url: &NSURL) -> Result<Id<Self>, Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other fileHandleForUpdatingURL:error:_)]
-        pub unsafe fn fileHandleForUpdatingURL_error(url: &NSURL) -> Result<Id<Self>, Id<NSError>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "fileHandleForWritingToURL:error:", managed = "Other", throws)]
+    pub unsafe fn fileHandleForWritingToURL_error(url: &NSURL) -> Result<Id<Self>, Id<NSError>>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "fileHandleForUpdatingURL:error:", managed = "Other", throws)]
+    pub unsafe fn fileHandleForUpdatingURL_error(url: &NSURL) -> Result<Id<Self>, Id<NSError>>;
+}
 
 extern_static!(NSFileHandleOperationException: &'static NSExceptionName);
 
@@ -153,152 +152,159 @@ extern_static!(NSFileHandleNotificationFileHandleItem: &'static NSString);
 
 extern_static!(NSFileHandleNotificationMonitorModes: &'static NSString);
 
-extern_methods!(
-    /// NSFileHandleAsynchronousAccess
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSFileHandle")]
-    unsafe impl NSFileHandle {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(readInBackgroundAndNotifyForModes:)]
-        pub unsafe fn readInBackgroundAndNotifyForModes(
-            &self,
-            modes: Option<&NSArray<NSRunLoopMode>>,
-        );
+    pub type NSFileHandle;
 
-        #[method(readInBackgroundAndNotify)]
-        pub unsafe fn readInBackgroundAndNotify(&self);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "readInBackgroundAndNotifyForModes:")]
+    pub unsafe fn readInBackgroundAndNotifyForModes(&self, modes: Option<&NSArray<NSRunLoopMode>>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(readToEndOfFileInBackgroundAndNotifyForModes:)]
-        pub unsafe fn readToEndOfFileInBackgroundAndNotifyForModes(
-            &self,
-            modes: Option<&NSArray<NSRunLoopMode>>,
-        );
+    #[objc2::method(sel = "readInBackgroundAndNotify")]
+    pub unsafe fn readInBackgroundAndNotify(&self);
 
-        #[method(readToEndOfFileInBackgroundAndNotify)]
-        pub unsafe fn readToEndOfFileInBackgroundAndNotify(&self);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "readToEndOfFileInBackgroundAndNotifyForModes:")]
+    pub unsafe fn readToEndOfFileInBackgroundAndNotifyForModes(
+        &self,
+        modes: Option<&NSArray<NSRunLoopMode>>,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(acceptConnectionInBackgroundAndNotifyForModes:)]
-        pub unsafe fn acceptConnectionInBackgroundAndNotifyForModes(
-            &self,
-            modes: Option<&NSArray<NSRunLoopMode>>,
-        );
+    #[objc2::method(sel = "readToEndOfFileInBackgroundAndNotify")]
+    pub unsafe fn readToEndOfFileInBackgroundAndNotify(&self);
 
-        #[method(acceptConnectionInBackgroundAndNotify)]
-        pub unsafe fn acceptConnectionInBackgroundAndNotify(&self);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "acceptConnectionInBackgroundAndNotifyForModes:")]
+    pub unsafe fn acceptConnectionInBackgroundAndNotifyForModes(
+        &self,
+        modes: Option<&NSArray<NSRunLoopMode>>,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(waitForDataInBackgroundAndNotifyForModes:)]
-        pub unsafe fn waitForDataInBackgroundAndNotifyForModes(
-            &self,
-            modes: Option<&NSArray<NSRunLoopMode>>,
-        );
+    #[objc2::method(sel = "acceptConnectionInBackgroundAndNotify")]
+    pub unsafe fn acceptConnectionInBackgroundAndNotify(&self);
 
-        #[method(waitForDataInBackgroundAndNotify)]
-        pub unsafe fn waitForDataInBackgroundAndNotify(&self);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "waitForDataInBackgroundAndNotifyForModes:")]
+    pub unsafe fn waitForDataInBackgroundAndNotifyForModes(
+        &self,
+        modes: Option<&NSArray<NSRunLoopMode>>,
+    );
 
-        #[method(readabilityHandler)]
-        pub unsafe fn readabilityHandler(&self) -> *mut Block<(NonNull<NSFileHandle>,), ()>;
+    #[objc2::method(sel = "waitForDataInBackgroundAndNotify")]
+    pub unsafe fn waitForDataInBackgroundAndNotify(&self);
 
-        #[method(setReadabilityHandler:)]
-        pub unsafe fn setReadabilityHandler(
-            &self,
-            readability_handler: Option<&Block<(NonNull<NSFileHandle>,), ()>>,
-        );
+    #[objc2::method(sel = "readabilityHandler")]
+    pub unsafe fn readabilityHandler(&self) -> *mut Block<(NonNull<NSFileHandle>,), ()>;
 
-        #[method(writeabilityHandler)]
-        pub unsafe fn writeabilityHandler(&self) -> *mut Block<(NonNull<NSFileHandle>,), ()>;
+    #[objc2::method(sel = "setReadabilityHandler:")]
+    pub unsafe fn setReadabilityHandler(
+        &self,
+        readability_handler: Option<&Block<(NonNull<NSFileHandle>,), ()>>,
+    );
 
-        #[method(setWriteabilityHandler:)]
-        pub unsafe fn setWriteabilityHandler(
-            &self,
-            writeability_handler: Option<&Block<(NonNull<NSFileHandle>,), ()>>,
-        );
-    }
-);
+    #[objc2::method(sel = "writeabilityHandler")]
+    pub unsafe fn writeabilityHandler(&self) -> *mut Block<(NonNull<NSFileHandle>,), ()>;
 
-extern_methods!(
-    /// NSFileHandlePlatformSpecific
+    #[objc2::method(sel = "setWriteabilityHandler:")]
+    pub unsafe fn setWriteabilityHandler(
+        &self,
+        writeability_handler: Option<&Block<(NonNull<NSFileHandle>,), ()>>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSFileHandle")]
-    unsafe impl NSFileHandle {
-        #[method_id(@__retain_semantics Init initWithFileDescriptor:)]
-        pub unsafe fn initWithFileDescriptor(this: Option<Allocated<Self>>, fd: c_int) -> Id<Self>;
+    pub type NSFileHandle;
 
-        #[method(fileDescriptor)]
-        pub unsafe fn fileDescriptor(&self) -> c_int;
-    }
-);
+    #[objc2::method(sel = "initWithFileDescriptor:", managed = "Init")]
+    pub unsafe fn initWithFileDescriptor(this: Option<Allocated<Self>>, fd: c_int) -> Id<Self>;
 
-extern_methods!(
+    #[objc2::method(sel = "fileDescriptor")]
+    pub unsafe fn fileDescriptor(&self) -> c_int;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSFileHandle")]
-    unsafe impl NSFileHandle {
-        #[cfg(feature = "Foundation_NSData")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other readDataToEndOfFile)]
-        pub unsafe fn readDataToEndOfFile(&self) -> Id<NSData>;
+    pub type NSFileHandle;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other readDataOfLength:)]
-        pub unsafe fn readDataOfLength(&self, length: NSUInteger) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[deprecated]
+    #[objc2::method(sel = "readDataToEndOfFile", managed = "Other")]
+    pub unsafe fn readDataToEndOfFile(&self) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[deprecated]
-        #[method(writeData:)]
-        pub unsafe fn writeData(&self, data: &NSData);
+    #[cfg(feature = "Foundation_NSData")]
+    #[deprecated]
+    #[objc2::method(sel = "readDataOfLength:", managed = "Other")]
+    pub unsafe fn readDataOfLength(&self, length: NSUInteger) -> Id<NSData>;
 
-        #[deprecated]
-        #[method(offsetInFile)]
-        pub unsafe fn offsetInFile(&self) -> c_ulonglong;
+    #[cfg(feature = "Foundation_NSData")]
+    #[deprecated]
+    #[objc2::method(sel = "writeData:")]
+    pub unsafe fn writeData(&self, data: &NSData);
 
-        #[deprecated]
-        #[method(seekToEndOfFile)]
-        pub unsafe fn seekToEndOfFile(&self) -> c_ulonglong;
+    #[deprecated]
+    #[objc2::method(sel = "offsetInFile")]
+    pub unsafe fn offsetInFile(&self) -> c_ulonglong;
 
-        #[deprecated]
-        #[method(seekToFileOffset:)]
-        pub unsafe fn seekToFileOffset(&self, offset: c_ulonglong);
+    #[deprecated]
+    #[objc2::method(sel = "seekToEndOfFile")]
+    pub unsafe fn seekToEndOfFile(&self) -> c_ulonglong;
 
-        #[deprecated]
-        #[method(truncateFileAtOffset:)]
-        pub unsafe fn truncateFileAtOffset(&self, offset: c_ulonglong);
+    #[deprecated]
+    #[objc2::method(sel = "seekToFileOffset:")]
+    pub unsafe fn seekToFileOffset(&self, offset: c_ulonglong);
 
-        #[deprecated]
-        #[method(synchronizeFile)]
-        pub unsafe fn synchronizeFile(&self);
+    #[deprecated]
+    #[objc2::method(sel = "truncateFileAtOffset:")]
+    pub unsafe fn truncateFileAtOffset(&self, offset: c_ulonglong);
 
-        #[deprecated]
-        #[method(closeFile)]
-        pub unsafe fn closeFile(&self);
-    }
-);
+    #[deprecated]
+    #[objc2::method(sel = "synchronizeFile")]
+    pub unsafe fn synchronizeFile(&self);
 
-extern_class!(
+    #[deprecated]
+    #[objc2::method(sel = "closeFile")]
+    pub unsafe fn closeFile(&self);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSPipe")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSPipe")]
-    pub struct NSPipe;
-
-    #[cfg(feature = "Foundation_NSPipe")]
-    unsafe impl ClassType for NSPipe {
-        type Super = NSObject;
-    }
-);
+    pub type NSPipe;
+}
 
 #[cfg(feature = "Foundation_NSPipe")]
 unsafe impl NSObjectProtocol for NSPipe {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSPipe")]
-    unsafe impl NSPipe {
-        #[cfg(feature = "Foundation_NSFileHandle")]
-        #[method_id(@__retain_semantics Other fileHandleForReading)]
-        pub unsafe fn fileHandleForReading(&self) -> Id<NSFileHandle>;
+    pub type NSPipe;
 
-        #[cfg(feature = "Foundation_NSFileHandle")]
-        #[method_id(@__retain_semantics Other fileHandleForWriting)]
-        pub unsafe fn fileHandleForWriting(&self) -> Id<NSFileHandle>;
+    #[cfg(feature = "Foundation_NSFileHandle")]
+    #[objc2::method(sel = "fileHandleForReading", managed = "Other")]
+    pub unsafe fn fileHandleForReading(&self) -> Id<NSFileHandle>;
 
-        #[method_id(@__retain_semantics Other pipe)]
-        pub unsafe fn pipe() -> Id<NSPipe>;
-    }
-);
+    #[cfg(feature = "Foundation_NSFileHandle")]
+    #[objc2::method(sel = "fileHandleForWriting", managed = "Other")]
+    pub unsafe fn fileHandleForWriting(&self) -> Id<NSFileHandle>;
+
+    #[objc2::method(sel = "pipe", managed = "Other")]
+    pub unsafe fn pipe() -> Id<NSPipe>;
+}

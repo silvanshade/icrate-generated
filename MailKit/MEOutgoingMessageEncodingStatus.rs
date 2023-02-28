@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MailKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MailKit_MEOutgoingMessageEncodingStatus")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MailKit_MEOutgoingMessageEncodingStatus")]
-    pub struct MEOutgoingMessageEncodingStatus;
-
-    #[cfg(feature = "MailKit_MEOutgoingMessageEncodingStatus")]
-    unsafe impl ClassType for MEOutgoingMessageEncodingStatus {
-        type Super = NSObject;
-    }
-);
+    pub type MEOutgoingMessageEncodingStatus;
+}
 
 #[cfg(feature = "MailKit_MEOutgoingMessageEncodingStatus")]
 unsafe impl NSCoding for MEOutgoingMessageEncodingStatus {}
@@ -25,41 +25,47 @@ unsafe impl NSObjectProtocol for MEOutgoingMessageEncodingStatus {}
 #[cfg(feature = "MailKit_MEOutgoingMessageEncodingStatus")]
 unsafe impl NSSecureCoding for MEOutgoingMessageEncodingStatus {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MailKit_MEOutgoingMessageEncodingStatus")]
-    unsafe impl MEOutgoingMessageEncodingStatus {
-        #[method(canSign)]
-        pub unsafe fn canSign(&self) -> bool;
+    pub type MEOutgoingMessageEncodingStatus;
 
-        #[method(canEncrypt)]
-        pub unsafe fn canEncrypt(&self) -> bool;
+    #[objc2::method(sel = "canSign")]
+    pub unsafe fn canSign(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other securityError)]
-        pub unsafe fn securityError(&self) -> Option<Id<NSError>>;
+    #[objc2::method(sel = "canEncrypt")]
+    pub unsafe fn canEncrypt(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEEmailAddress"))]
-        #[method_id(@__retain_semantics Other addressesFailingEncryption)]
-        pub unsafe fn addressesFailingEncryption(&self) -> Id<NSArray<MEEmailAddress>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "securityError", managed = "Other")]
+    pub unsafe fn securityError(&self) -> Option<Id<NSError>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEEmailAddress"))]
+    #[objc2::method(sel = "addressesFailingEncryption", managed = "Other")]
+    pub unsafe fn addressesFailingEncryption(&self) -> Id<NSArray<MEEmailAddress>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "MailKit_MEEmailAddress"
-        ))]
-        #[method_id(@__retain_semantics Init initWithCanSign:canEncrypt:securityError:addressesFailingEncryption:)]
-        pub unsafe fn initWithCanSign_canEncrypt_securityError_addressesFailingEncryption(
-            this: Option<Allocated<Self>>,
-            can_sign: bool,
-            can_encrypt: bool,
-            security_error: Option<&NSError>,
-            addresses_failing_encryption: &NSArray<MEEmailAddress>,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "MailKit_MEEmailAddress"
+    ))]
+    #[objc2::method(
+        sel = "initWithCanSign:canEncrypt:securityError:addressesFailingEncryption:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithCanSign_canEncrypt_securityError_addressesFailingEncryption(
+        this: Option<Allocated<Self>>,
+        can_sign: bool,
+        can_encrypt: bool,
+        security_error: Option<&NSError>,
+        addresses_failing_encryption: &NSArray<MEEmailAddress>,
+    ) -> Id<Self>;
+}

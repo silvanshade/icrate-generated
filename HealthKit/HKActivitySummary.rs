@@ -6,16 +6,16 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKActivitySummary")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKActivitySummary")]
-    pub struct HKActivitySummary;
-
-    #[cfg(feature = "HealthKit_HKActivitySummary")]
-    unsafe impl ClassType for HKActivitySummary {
-        type Super = NSObject;
-    }
-);
+    pub type HKActivitySummary;
+}
 
 #[cfg(feature = "HealthKit_HKActivitySummary")]
 unsafe impl NSCoding for HKActivitySummary {}
@@ -26,109 +26,109 @@ unsafe impl NSObjectProtocol for HKActivitySummary {}
 #[cfg(feature = "HealthKit_HKActivitySummary")]
 unsafe impl NSSecureCoding for HKActivitySummary {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKActivitySummary")]
-    unsafe impl HKActivitySummary {
-        #[cfg(all(
-            feature = "Foundation_NSCalendar",
-            feature = "Foundation_NSDateComponents"
-        ))]
-        #[method_id(@__retain_semantics Other dateComponentsForCalendar:)]
-        pub unsafe fn dateComponentsForCalendar(
-            &self,
-            calendar: &NSCalendar,
-        ) -> Id<NSDateComponents>;
+    pub type HKActivitySummary;
 
-        #[method(activityMoveMode)]
-        pub unsafe fn activityMoveMode(&self) -> HKActivityMoveMode;
+    #[cfg(all(
+        feature = "Foundation_NSCalendar",
+        feature = "Foundation_NSDateComponents"
+    ))]
+    #[objc2::method(sel = "dateComponentsForCalendar:", managed = "Other")]
+    pub unsafe fn dateComponentsForCalendar(&self, calendar: &NSCalendar) -> Id<NSDateComponents>;
 
-        #[method(setActivityMoveMode:)]
-        pub unsafe fn setActivityMoveMode(&self, activity_move_mode: HKActivityMoveMode);
+    #[objc2::method(sel = "activityMoveMode")]
+    pub unsafe fn activityMoveMode(&self) -> HKActivityMoveMode;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other activeEnergyBurned)]
-        pub unsafe fn activeEnergyBurned(&self) -> Id<HKQuantity>;
+    #[objc2::method(sel = "setActivityMoveMode:")]
+    pub unsafe fn setActivityMoveMode(&self, activity_move_mode: HKActivityMoveMode);
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method(setActiveEnergyBurned:)]
-        pub unsafe fn setActiveEnergyBurned(&self, active_energy_burned: &HKQuantity);
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "activeEnergyBurned", managed = "Other")]
+    pub unsafe fn activeEnergyBurned(&self) -> Id<HKQuantity>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other appleMoveTime)]
-        pub unsafe fn appleMoveTime(&self) -> Id<HKQuantity>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "setActiveEnergyBurned:")]
+    pub unsafe fn setActiveEnergyBurned(&self, active_energy_burned: &HKQuantity);
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method(setAppleMoveTime:)]
-        pub unsafe fn setAppleMoveTime(&self, apple_move_time: &HKQuantity);
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "appleMoveTime", managed = "Other")]
+    pub unsafe fn appleMoveTime(&self) -> Id<HKQuantity>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other appleExerciseTime)]
-        pub unsafe fn appleExerciseTime(&self) -> Id<HKQuantity>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "setAppleMoveTime:")]
+    pub unsafe fn setAppleMoveTime(&self, apple_move_time: &HKQuantity);
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method(setAppleExerciseTime:)]
-        pub unsafe fn setAppleExerciseTime(&self, apple_exercise_time: &HKQuantity);
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "appleExerciseTime", managed = "Other")]
+    pub unsafe fn appleExerciseTime(&self) -> Id<HKQuantity>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other appleStandHours)]
-        pub unsafe fn appleStandHours(&self) -> Id<HKQuantity>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "setAppleExerciseTime:")]
+    pub unsafe fn setAppleExerciseTime(&self, apple_exercise_time: &HKQuantity);
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method(setAppleStandHours:)]
-        pub unsafe fn setAppleStandHours(&self, apple_stand_hours: &HKQuantity);
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "appleStandHours", managed = "Other")]
+    pub unsafe fn appleStandHours(&self) -> Id<HKQuantity>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other activeEnergyBurnedGoal)]
-        pub unsafe fn activeEnergyBurnedGoal(&self) -> Id<HKQuantity>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "setAppleStandHours:")]
+    pub unsafe fn setAppleStandHours(&self, apple_stand_hours: &HKQuantity);
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method(setActiveEnergyBurnedGoal:)]
-        pub unsafe fn setActiveEnergyBurnedGoal(&self, active_energy_burned_goal: &HKQuantity);
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "activeEnergyBurnedGoal", managed = "Other")]
+    pub unsafe fn activeEnergyBurnedGoal(&self) -> Id<HKQuantity>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other appleMoveTimeGoal)]
-        pub unsafe fn appleMoveTimeGoal(&self) -> Id<HKQuantity>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "setActiveEnergyBurnedGoal:")]
+    pub unsafe fn setActiveEnergyBurnedGoal(&self, active_energy_burned_goal: &HKQuantity);
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method(setAppleMoveTimeGoal:)]
-        pub unsafe fn setAppleMoveTimeGoal(&self, apple_move_time_goal: &HKQuantity);
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "appleMoveTimeGoal", managed = "Other")]
+    pub unsafe fn appleMoveTimeGoal(&self) -> Id<HKQuantity>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other appleExerciseTimeGoal)]
-        pub unsafe fn appleExerciseTimeGoal(&self) -> Id<HKQuantity>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "setAppleMoveTimeGoal:")]
+    pub unsafe fn setAppleMoveTimeGoal(&self, apple_move_time_goal: &HKQuantity);
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[deprecated]
-        #[method(setAppleExerciseTimeGoal:)]
-        pub unsafe fn setAppleExerciseTimeGoal(&self, apple_exercise_time_goal: &HKQuantity);
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[deprecated]
+    #[objc2::method(sel = "appleExerciseTimeGoal", managed = "Other")]
+    pub unsafe fn appleExerciseTimeGoal(&self) -> Id<HKQuantity>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other exerciseTimeGoal)]
-        pub unsafe fn exerciseTimeGoal(&self) -> Option<Id<HKQuantity>>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[deprecated]
+    #[objc2::method(sel = "setAppleExerciseTimeGoal:")]
+    pub unsafe fn setAppleExerciseTimeGoal(&self, apple_exercise_time_goal: &HKQuantity);
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method(setExerciseTimeGoal:)]
-        pub unsafe fn setExerciseTimeGoal(&self, exercise_time_goal: Option<&HKQuantity>);
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "exerciseTimeGoal", managed = "Other")]
+    pub unsafe fn exerciseTimeGoal(&self) -> Option<Id<HKQuantity>>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other appleStandHoursGoal)]
-        pub unsafe fn appleStandHoursGoal(&self) -> Id<HKQuantity>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "setExerciseTimeGoal:")]
+    pub unsafe fn setExerciseTimeGoal(&self, exercise_time_goal: Option<&HKQuantity>);
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[deprecated]
-        #[method(setAppleStandHoursGoal:)]
-        pub unsafe fn setAppleStandHoursGoal(&self, apple_stand_hours_goal: &HKQuantity);
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[deprecated]
+    #[objc2::method(sel = "appleStandHoursGoal", managed = "Other")]
+    pub unsafe fn appleStandHoursGoal(&self) -> Id<HKQuantity>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other standHoursGoal)]
-        pub unsafe fn standHoursGoal(&self) -> Option<Id<HKQuantity>>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[deprecated]
+    #[objc2::method(sel = "setAppleStandHoursGoal:")]
+    pub unsafe fn setAppleStandHoursGoal(&self, apple_stand_hours_goal: &HKQuantity);
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method(setStandHoursGoal:)]
-        pub unsafe fn setStandHoursGoal(&self, stand_hours_goal: Option<&HKQuantity>);
-    }
-);
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "standHoursGoal", managed = "Other")]
+    pub unsafe fn standHoursGoal(&self) -> Option<Id<HKQuantity>>;
+
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "setStandHoursGoal:")]
+    pub unsafe fn setStandHoursGoal(&self, stand_hours_goal: Option<&HKQuantity>);
+}
 
 extern_static!(HKPredicateKeyPathDateComponents: &'static NSString);

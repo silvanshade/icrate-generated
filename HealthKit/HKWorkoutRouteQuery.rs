@@ -6,66 +6,69 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKQuery,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKWorkoutRouteQuery")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKWorkoutRouteQuery")]
-    pub struct HKWorkoutRouteQuery;
-
-    #[cfg(feature = "HealthKit_HKWorkoutRouteQuery")]
-    unsafe impl ClassType for HKWorkoutRouteQuery {
-        #[inherits(NSObject)]
-        type Super = HKQuery;
-    }
-);
+    pub type HKWorkoutRouteQuery;
+}
 
 #[cfg(feature = "HealthKit_HKWorkoutRouteQuery")]
 unsafe impl NSObjectProtocol for HKWorkoutRouteQuery {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKWorkoutRouteQuery")]
-    unsafe impl HKWorkoutRouteQuery {
-        #[cfg(all(
-            feature = "CoreLocation_CLLocation",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKWorkoutRoute"
-        ))]
-        #[method_id(@__retain_semantics Init initWithRoute:dataHandler:)]
-        pub unsafe fn initWithRoute_dataHandler(
-            this: Option<Allocated<Self>>,
-            workout_route: &HKWorkoutRoute,
-            data_handler: &Block<
-                (
-                    NonNull<HKWorkoutRouteQuery>,
-                    *mut NSArray<CLLocation>,
-                    Bool,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        ) -> Id<Self>;
+    pub type HKWorkoutRouteQuery;
 
-        #[cfg(all(
-            feature = "CoreLocation_CLLocation",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDateInterval",
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKWorkoutRoute"
-        ))]
-        #[method_id(@__retain_semantics Init initWithRoute:dateInterval:dataHandler:)]
-        pub unsafe fn initWithRoute_dateInterval_dataHandler(
-            this: Option<Allocated<Self>>,
-            workout_route: &HKWorkoutRoute,
-            date_interval: &NSDateInterval,
-            data_handler: &Block<
-                (
-                    NonNull<HKWorkoutRouteQuery>,
-                    *mut NSArray<CLLocation>,
-                    Bool,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "CoreLocation_CLLocation",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKWorkoutRoute"
+    ))]
+    #[objc2::method(sel = "initWithRoute:dataHandler:", managed = "Init")]
+    pub unsafe fn initWithRoute_dataHandler(
+        this: Option<Allocated<Self>>,
+        workout_route: &HKWorkoutRoute,
+        data_handler: &Block<
+            (
+                NonNull<HKWorkoutRouteQuery>,
+                *mut NSArray<CLLocation>,
+                Bool,
+                *mut NSError,
+            ),
+            (),
+        >,
+    ) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "CoreLocation_CLLocation",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDateInterval",
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKWorkoutRoute"
+    ))]
+    #[objc2::method(sel = "initWithRoute:dateInterval:dataHandler:", managed = "Init")]
+    pub unsafe fn initWithRoute_dateInterval_dataHandler(
+        this: Option<Allocated<Self>>,
+        workout_route: &HKWorkoutRoute,
+        date_interval: &NSDateInterval,
+        data_handler: &Block<
+            (
+                NonNull<HKWorkoutRouteQuery>,
+                *mut NSArray<CLLocation>,
+                Bool,
+                *mut NSError,
+            ),
+            (),
+        >,
+    ) -> Id<Self>;
+}

@@ -29,20 +29,18 @@ extern_fn!(
     ) -> NonNull<NSArray<ASAuthorizationSecurityKeyPublicKeyCredentialDescriptorTransport>>;
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(
+        feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor"
+    )]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(
-        feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor"
-    )]
-    pub struct ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor;
-
-    #[cfg(
-        feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor"
-    )]
-    unsafe impl ClassType for ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor")]
 unsafe impl ASAuthorizationPublicKeyCredentialDescriptor
@@ -59,38 +57,41 @@ unsafe impl NSObjectProtocol for ASAuthorizationSecurityKeyPublicKeyCredentialDe
 #[cfg(feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor")]
 unsafe impl NSSecureCoding for ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(
         feature = "AuthenticationServices_ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor"
     )]
-    unsafe impl ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSData"))]
-        #[method_id(@__retain_semantics Init initWithCredentialID:transports:)]
-        pub unsafe fn initWithCredentialID_transports(
-            this: Option<Allocated<Self>>,
-            credential_id: &NSData,
-            allowed_transports: &NSArray<
-                ASAuthorizationSecurityKeyPublicKeyCredentialDescriptorTransport,
-            >,
-        ) -> Id<Self>;
+    pub type ASAuthorizationSecurityKeyPublicKeyCredentialDescriptor;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other transports)]
-        pub unsafe fn transports(
-            &self,
-        ) -> Id<NSArray<ASAuthorizationSecurityKeyPublicKeyCredentialDescriptorTransport>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSData"))]
+    #[objc2::method(sel = "initWithCredentialID:transports:", managed = "Init")]
+    pub unsafe fn initWithCredentialID_transports(
+        this: Option<Allocated<Self>>,
+        credential_id: &NSData,
+        allowed_transports: &NSArray<
+            ASAuthorizationSecurityKeyPublicKeyCredentialDescriptorTransport,
+        >,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setTransports:)]
-        pub unsafe fn setTransports(
-            &self,
-            transports: &NSArray<ASAuthorizationSecurityKeyPublicKeyCredentialDescriptorTransport>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "transports", managed = "Other")]
+    pub unsafe fn transports(
+        &self,
+    ) -> Id<NSArray<ASAuthorizationSecurityKeyPublicKeyCredentialDescriptorTransport>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setTransports:")]
+    pub unsafe fn setTransports(
+        &self,
+        transports: &NSArray<ASAuthorizationSecurityKeyPublicKeyCredentialDescriptorTransport>,
+    );
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

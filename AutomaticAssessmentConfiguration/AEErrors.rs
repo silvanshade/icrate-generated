@@ -6,10 +6,9 @@ use crate::Foundation::*;
 
 extern_static!(AEAssessmentErrorDomain: &'static NSErrorDomain);
 
-ns_error_enum!(
-    #[underlying(NSInteger)]
-    pub enum AEAssessmentErrorCode {
-        AEAssessmentErrorUnknown = 1,
-        AEAssessmentErrorUnsupportedPlatform = 2,
-    }
-);
+#[ns_error_enum]
+#[underlying(NSInteger)]
+pub enum AEAssessmentErrorCode {
+    AEAssessmentErrorUnknown = 1,
+    AEAssessmentErrorUnsupportedPlatform = 2,
+}

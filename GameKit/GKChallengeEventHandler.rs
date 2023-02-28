@@ -5,90 +5,84 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-extern_protocol!(
+#[objc2::protocol]
+#[deprecated = "You should instead implement the GKChallengeListener protocol and register a listener with GKLocalPlayer."]
+pub unsafe trait GKChallengeEventHandlerDelegate: NSObjectProtocol {
+    #[cfg(feature = "GameKit_GKChallenge")]
+    #[objc2::method(optional, sel = "localPlayerDidSelectChallenge:")]
+    unsafe fn localPlayerDidSelectChallenge(&self, challenge: Option<&GKChallenge>);
+
+    #[cfg(feature = "GameKit_GKChallenge")]
+    #[objc2::method(optional, sel = "shouldShowBannerForLocallyReceivedChallenge:")]
+    unsafe fn shouldShowBannerForLocallyReceivedChallenge(
+        &self,
+        challenge: Option<&GKChallenge>,
+    ) -> bool;
+
+    #[cfg(feature = "GameKit_GKChallenge")]
+    #[objc2::method(optional, sel = "localPlayerDidReceiveChallenge:")]
+    unsafe fn localPlayerDidReceiveChallenge(&self, challenge: Option<&GKChallenge>);
+
+    #[cfg(feature = "GameKit_GKChallenge")]
+    #[objc2::method(optional, sel = "shouldShowBannerForLocallyCompletedChallenge:")]
+    unsafe fn shouldShowBannerForLocallyCompletedChallenge(
+        &self,
+        challenge: Option<&GKChallenge>,
+    ) -> bool;
+
+    #[cfg(feature = "GameKit_GKChallenge")]
+    #[objc2::method(optional, sel = "localPlayerDidCompleteChallenge:")]
+    unsafe fn localPlayerDidCompleteChallenge(&self, challenge: Option<&GKChallenge>);
+
+    #[cfg(feature = "GameKit_GKChallenge")]
+    #[objc2::method(optional, sel = "shouldShowBannerForRemotelyCompletedChallenge:")]
+    unsafe fn shouldShowBannerForRemotelyCompletedChallenge(
+        &self,
+        challenge: Option<&GKChallenge>,
+    ) -> bool;
+
+    #[cfg(feature = "GameKit_GKChallenge")]
+    #[objc2::method(optional, sel = "remotePlayerDidCompleteChallenge:")]
+    unsafe fn remotePlayerDidCompleteChallenge(&self, challenge: Option<&GKChallenge>);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[deprecated = "You should instead implement the GKChallengeListener protocol and register a listener with GKLocalPlayer."]
-    pub unsafe trait GKChallengeEventHandlerDelegate: NSObjectProtocol {
-        #[cfg(feature = "GameKit_GKChallenge")]
-        #[optional]
-        #[method(localPlayerDidSelectChallenge:)]
-        unsafe fn localPlayerDidSelectChallenge(&self, challenge: Option<&GKChallenge>);
-
-        #[cfg(feature = "GameKit_GKChallenge")]
-        #[optional]
-        #[method(shouldShowBannerForLocallyReceivedChallenge:)]
-        unsafe fn shouldShowBannerForLocallyReceivedChallenge(
-            &self,
-            challenge: Option<&GKChallenge>,
-        ) -> bool;
-
-        #[cfg(feature = "GameKit_GKChallenge")]
-        #[optional]
-        #[method(localPlayerDidReceiveChallenge:)]
-        unsafe fn localPlayerDidReceiveChallenge(&self, challenge: Option<&GKChallenge>);
-
-        #[cfg(feature = "GameKit_GKChallenge")]
-        #[optional]
-        #[method(shouldShowBannerForLocallyCompletedChallenge:)]
-        unsafe fn shouldShowBannerForLocallyCompletedChallenge(
-            &self,
-            challenge: Option<&GKChallenge>,
-        ) -> bool;
-
-        #[cfg(feature = "GameKit_GKChallenge")]
-        #[optional]
-        #[method(localPlayerDidCompleteChallenge:)]
-        unsafe fn localPlayerDidCompleteChallenge(&self, challenge: Option<&GKChallenge>);
-
-        #[cfg(feature = "GameKit_GKChallenge")]
-        #[optional]
-        #[method(shouldShowBannerForRemotelyCompletedChallenge:)]
-        unsafe fn shouldShowBannerForRemotelyCompletedChallenge(
-            &self,
-            challenge: Option<&GKChallenge>,
-        ) -> bool;
-
-        #[cfg(feature = "GameKit_GKChallenge")]
-        #[optional]
-        #[method(remotePlayerDidCompleteChallenge:)]
-        unsafe fn remotePlayerDidCompleteChallenge(&self, challenge: Option<&GKChallenge>);
-    }
-
-    unsafe impl ProtocolType for dyn GKChallengeEventHandlerDelegate {}
-);
-
-extern_class!(
+    #[cfg(feature = "GameKit_GKChallengeEventHandler")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKChallengeEventHandler")]
-    #[deprecated = "You should instead implement the GKChallengeListener protocol and register a listener with GKLocalPlayer."]
-    pub struct GKChallengeEventHandler;
-
-    #[cfg(feature = "GameKit_GKChallengeEventHandler")]
-    unsafe impl ClassType for GKChallengeEventHandler {
-        type Super = NSObject;
-    }
-);
+    pub type GKChallengeEventHandler;
+}
 
 #[cfg(feature = "GameKit_GKChallengeEventHandler")]
 unsafe impl NSObjectProtocol for GKChallengeEventHandler {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKChallengeEventHandler")]
-    unsafe impl GKChallengeEventHandler {
-        #[deprecated]
-        #[method_id(@__retain_semantics Other challengeEventHandler)]
-        pub unsafe fn challengeEventHandler() -> Option<Id<GKChallengeEventHandler>>;
+    #[deprecated = "You should instead implement the GKChallengeListener protocol and register a listener with GKLocalPlayer."]
+    pub type GKChallengeEventHandler;
 
-        #[deprecated]
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn GKChallengeEventHandlerDelegate>>>;
+    #[deprecated]
+    #[objc2::method(sel = "challengeEventHandler", managed = "Other")]
+    pub unsafe fn challengeEventHandler() -> Option<Id<GKChallengeEventHandler>>;
 
-        #[deprecated]
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn GKChallengeEventHandlerDelegate>>,
-        );
-    }
-);
+    #[deprecated]
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn GKChallengeEventHandlerDelegate>>>;
+
+    #[deprecated]
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn GKChallengeEventHandlerDelegate>>,
+    );
+}

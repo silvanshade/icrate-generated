@@ -9,14 +9,11 @@ typed_extensible_enum!(
     pub type NSUserInterfaceItemIdentifier = NSString;
 );
 
-extern_protocol!(
-    pub unsafe trait NSUserInterfaceItemIdentification {
-        #[method_id(@__retain_semantics Other identifier)]
-        unsafe fn identifier(&self) -> Option<Id<NSUserInterfaceItemIdentifier>>;
+#[objc2::protocol]
+pub unsafe trait NSUserInterfaceItemIdentification {
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    unsafe fn identifier(&self) -> Option<Id<NSUserInterfaceItemIdentifier>>;
 
-        #[method(setIdentifier:)]
-        unsafe fn setIdentifier(&self, identifier: Option<&NSUserInterfaceItemIdentifier>);
-    }
-
-    unsafe impl ProtocolType for dyn NSUserInterfaceItemIdentification {}
-);
+    #[objc2::method(sel = "setIdentifier:")]
+    unsafe fn setIdentifier(&self, identifier: Option<&NSUserInterfaceItemIdentifier>);
+}

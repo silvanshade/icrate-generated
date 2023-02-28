@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::IdentityLookup::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = ILCommunication,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "IdentityLookup_ILMessageCommunication")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "IdentityLookup_ILMessageCommunication")]
-    pub struct ILMessageCommunication;
-
-    #[cfg(feature = "IdentityLookup_ILMessageCommunication")]
-    unsafe impl ClassType for ILMessageCommunication {
-        #[inherits(NSObject)]
-        type Super = ILCommunication;
-    }
-);
+    pub type ILMessageCommunication;
+}
 
 #[cfg(feature = "IdentityLookup_ILMessageCommunication")]
 unsafe impl NSCoding for ILMessageCommunication {}
@@ -25,20 +25,23 @@ unsafe impl NSObjectProtocol for ILMessageCommunication {}
 #[cfg(feature = "IdentityLookup_ILMessageCommunication")]
 unsafe impl NSSecureCoding for ILMessageCommunication {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "IdentityLookup_ILMessageCommunication")]
-    unsafe impl ILMessageCommunication {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other messageBody)]
-        pub unsafe fn messageBody(&self) -> Option<Id<NSString>>;
+    pub type ILMessageCommunication;
 
-        #[method(isEqualToMessageCommunication:)]
-        pub unsafe fn isEqualToMessageCommunication(
-            &self,
-            communication: &ILMessageCommunication,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "messageBody", managed = "Other")]
+    pub unsafe fn messageBody(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "isEqualToMessageCommunication:")]
+    pub unsafe fn isEqualToMessageCommunication(
+        &self,
+        communication: &ILMessageCommunication,
+    ) -> bool;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

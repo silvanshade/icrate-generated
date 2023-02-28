@@ -6,17 +6,18 @@ use crate::Automator::*;
 use crate::Foundation::*;
 use crate::OSAKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = AMBundleAction,
+    unsafe inherits = [
+        AMAction,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Automator_AMShellScriptAction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Automator_AMShellScriptAction")]
-    pub struct AMShellScriptAction;
-
-    #[cfg(feature = "Automator_AMShellScriptAction")]
-    unsafe impl ClassType for AMShellScriptAction {
-        #[inherits(AMAction, NSObject)]
-        type Super = AMBundleAction;
-    }
-);
+    pub type AMShellScriptAction;
+}
 
 #[cfg(feature = "Automator_AMShellScriptAction")]
 unsafe impl NSCoding for AMShellScriptAction {}
@@ -27,39 +28,48 @@ unsafe impl NSObjectProtocol for AMShellScriptAction {}
 #[cfg(feature = "Automator_AMShellScriptAction")]
 unsafe impl NSSecureCoding for AMShellScriptAction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Automator_AMShellScriptAction")]
-    unsafe impl AMShellScriptAction {
-        #[method(remapLineEndings)]
-        pub unsafe fn remapLineEndings(&self) -> bool;
+    pub type AMShellScriptAction;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other inputFieldSeparator)]
-        pub unsafe fn inputFieldSeparator(&self) -> Id<NSString>;
+    #[objc2::method(sel = "remapLineEndings")]
+    pub unsafe fn remapLineEndings(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other outputFieldSeparator)]
-        pub unsafe fn outputFieldSeparator(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "inputFieldSeparator", managed = "Other")]
+    pub unsafe fn inputFieldSeparator(&self) -> Id<NSString>;
 
-extern_methods!(
-    /// Methods declared on superclass `AMAction`
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "outputFieldSeparator", managed = "Other")]
+    pub unsafe fn outputFieldSeparator(&self) -> Id<NSString>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `AMAction`
     #[cfg(feature = "Automator_AMShellScriptAction")]
-    unsafe impl AMShellScriptAction {
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithDefinition:fromArchive:)]
-        pub unsafe fn initWithDefinition_fromArchive(
-            this: Option<Allocated<Self>>,
-            dict: Option<&NSDictionary<NSString, Object>>,
-            archived: bool,
-        ) -> Option<Id<Self>>;
-
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:error:_)]
-        pub unsafe fn initWithContentsOfURL_error(
-            this: Option<Allocated<Self>>,
-            file_url: &NSURL,
-        ) -> Result<Id<Self>, Id<NSError>>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Automator_AMShellScriptAction")]
+    pub type AMShellScriptAction;
+
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithDefinition:fromArchive:", managed = "Init")]
+    pub unsafe fn initWithDefinition_fromArchive(
+        this: Option<Allocated<Self>>,
+        dict: Option<&NSDictionary<NSString, Object>>,
+        archived: bool,
+    ) -> Option<Id<Self>>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "initWithContentsOfURL:error:", managed = "Init", throws)]
+    pub unsafe fn initWithContentsOfURL_error(
+        this: Option<Allocated<Self>>,
+        file_url: &NSURL,
+    ) -> Result<Id<Self>, Id<NSError>>;
+}

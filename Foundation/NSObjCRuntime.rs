@@ -53,29 +53,26 @@ extern_fn!(
 
 pub type NSComparator = *mut Block<(NonNull<Object>, NonNull<Object>), NSComparisonResult>;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSEnumerationOptions {
-        NSEnumerationConcurrent = 1 << 0,
-        NSEnumerationReverse = 1 << 1,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSEnumerationOptions {
+    NSEnumerationConcurrent = 1 << 0,
+    NSEnumerationReverse = 1 << 1,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSSortOptions {
-        NSSortConcurrent = 1 << 0,
-        NSSortStable = 1 << 4,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSSortOptions {
+    NSSortConcurrent = 1 << 0,
+    NSSortStable = 1 << 4,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSQualityOfService {
-        NSQualityOfServiceUserInteractive = 0x21,
-        NSQualityOfServiceUserInitiated = 0x19,
-        NSQualityOfServiceUtility = 0x11,
-        NSQualityOfServiceBackground = 0x09,
-        NSQualityOfServiceDefault = -1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSQualityOfService {
+    NSQualityOfServiceUserInteractive = 0x21,
+    NSQualityOfServiceUserInitiated = 0x19,
+    NSQualityOfServiceUtility = 0x11,
+    NSQualityOfServiceBackground = 0x09,
+    NSQualityOfServiceDefault = -1,
+}

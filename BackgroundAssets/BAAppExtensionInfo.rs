@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::BackgroundAssets::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "BackgroundAssets_BAAppExtensionInfo")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "BackgroundAssets_BAAppExtensionInfo")]
-    pub struct BAAppExtensionInfo;
-
-    #[cfg(feature = "BackgroundAssets_BAAppExtensionInfo")]
-    unsafe impl ClassType for BAAppExtensionInfo {
-        type Super = NSObject;
-    }
-);
+    pub type BAAppExtensionInfo;
+}
 
 #[cfg(feature = "BackgroundAssets_BAAppExtensionInfo")]
 unsafe impl NSCoding for BAAppExtensionInfo {}
@@ -24,17 +24,20 @@ unsafe impl NSObjectProtocol for BAAppExtensionInfo {}
 #[cfg(feature = "BackgroundAssets_BAAppExtensionInfo")]
 unsafe impl NSSecureCoding for BAAppExtensionInfo {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "BackgroundAssets_BAAppExtensionInfo")]
-    unsafe impl BAAppExtensionInfo {
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other restrictedDownloadSizeRemaining)]
-        pub unsafe fn restrictedDownloadSizeRemaining(&self) -> Option<Id<NSNumber>>;
+    pub type BAAppExtensionInfo;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "restrictedDownloadSizeRemaining", managed = "Other")]
+    pub unsafe fn restrictedDownloadSizeRemaining(&self) -> Option<Id<NSNumber>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

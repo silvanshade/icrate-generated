@@ -5,18 +5,21 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMText")]
+#[objc2::interface(
+    unsafe super = DOMCharacterData,
+    unsafe inherits = [
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMText;
-
     #[cfg(feature = "WebKit_DOMText")]
-    unsafe impl ClassType for DOMText {
-        #[inherits(DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMCharacterData;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMText;
+}
 
 #[cfg(feature = "WebKit_DOMText")]
 unsafe impl DOMEventTarget for DOMText {}
@@ -24,18 +27,22 @@ unsafe impl DOMEventTarget for DOMText {}
 #[cfg(feature = "WebKit_DOMText")]
 unsafe impl NSObjectProtocol for DOMText {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMText")]
-    unsafe impl DOMText {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other wholeText)]
-        pub unsafe fn wholeText(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMText;
 
-        #[method_id(@__retain_semantics Other splitText:)]
-        pub unsafe fn splitText(&self, offset: c_uint) -> Option<Id<DOMText>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "wholeText", managed = "Other")]
+    pub unsafe fn wholeText(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other replaceWholeText:)]
-        pub unsafe fn replaceWholeText(&self, content: Option<&NSString>) -> Option<Id<DOMText>>;
-    }
-);
+    #[objc2::method(sel = "splitText:", managed = "Other")]
+    pub unsafe fn splitText(&self, offset: c_uint) -> Option<Id<DOMText>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "replaceWholeText:", managed = "Other")]
+    pub unsafe fn replaceWholeText(&self, content: Option<&NSString>) -> Option<Id<DOMText>>;
+}

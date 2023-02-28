@@ -5,343 +5,344 @@ use crate::Contacts::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(c_int)]
-    pub enum CLDeviceOrientation {
-        CLDeviceOrientationUnknown = 0,
-        CLDeviceOrientationPortrait = 1,
-        CLDeviceOrientationPortraitUpsideDown = 2,
-        CLDeviceOrientationLandscapeLeft = 3,
-        CLDeviceOrientationLandscapeRight = 4,
-        CLDeviceOrientationFaceUp = 5,
-        CLDeviceOrientationFaceDown = 6,
-    }
-);
+#[ns_enum]
+#[underlying(c_int)]
+pub enum CLDeviceOrientation {
+    CLDeviceOrientationUnknown = 0,
+    CLDeviceOrientationPortrait = 1,
+    CLDeviceOrientationPortraitUpsideDown = 2,
+    CLDeviceOrientationLandscapeLeft = 3,
+    CLDeviceOrientationLandscapeRight = 4,
+    CLDeviceOrientationFaceUp = 5,
+    CLDeviceOrientationFaceDown = 6,
+}
 
-ns_enum!(
-    #[underlying(c_int)]
-    pub enum CLAuthorizationStatus {
-        kCLAuthorizationStatusNotDetermined = 0,
-        kCLAuthorizationStatusRestricted = 1,
-        kCLAuthorizationStatusDenied = 2,
-        kCLAuthorizationStatusAuthorizedAlways = 3,
-        kCLAuthorizationStatusAuthorizedWhenInUse = 4,
-        #[deprecated = "Use kCLAuthorizationStatusAuthorizedAlways"]
-        kCLAuthorizationStatusAuthorized = kCLAuthorizationStatusAuthorizedAlways,
-    }
-);
+#[ns_enum]
+#[underlying(c_int)]
+pub enum CLAuthorizationStatus {
+    kCLAuthorizationStatusNotDetermined = 0,
+    kCLAuthorizationStatusRestricted = 1,
+    kCLAuthorizationStatusDenied = 2,
+    kCLAuthorizationStatusAuthorizedAlways = 3,
+    kCLAuthorizationStatusAuthorizedWhenInUse = 4,
+    #[deprecated = "Use kCLAuthorizationStatusAuthorizedAlways"]
+    kCLAuthorizationStatusAuthorized = kCLAuthorizationStatusAuthorizedAlways,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CLAccuracyAuthorization {
-        CLAccuracyAuthorizationFullAccuracy = 0,
-        CLAccuracyAuthorizationReducedAccuracy = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CLAccuracyAuthorization {
+    CLAccuracyAuthorizationFullAccuracy = 0,
+    CLAccuracyAuthorizationReducedAccuracy = 1,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CLActivityType {
-        CLActivityTypeOther = 1,
-        CLActivityTypeAutomotiveNavigation = 2,
-        CLActivityTypeFitness = 3,
-        CLActivityTypeOtherNavigation = 4,
-        CLActivityTypeAirborne = 5,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CLActivityType {
+    CLActivityTypeOther = 1,
+    CLActivityTypeAutomotiveNavigation = 2,
+    CLActivityTypeFitness = 3,
+    CLActivityTypeOtherNavigation = 4,
+    CLActivityTypeAirborne = 5,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreLocation_CLLocationManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreLocation_CLLocationManager")]
-    pub struct CLLocationManager;
-
-    #[cfg(feature = "CoreLocation_CLLocationManager")]
-    unsafe impl ClassType for CLLocationManager {
-        type Super = NSObject;
-    }
-);
+    pub type CLLocationManager;
+}
 
 #[cfg(feature = "CoreLocation_CLLocationManager")]
 unsafe impl NSObjectProtocol for CLLocationManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreLocation_CLLocationManager")]
-    unsafe impl CLLocationManager {
-        #[method(locationServicesEnabled)]
-        pub unsafe fn locationServicesEnabled_class() -> bool;
+    pub type CLLocationManager;
 
-        #[method(headingAvailable)]
-        pub unsafe fn headingAvailable_class() -> bool;
+    #[objc2::method(sel = "locationServicesEnabled")]
+    pub unsafe fn locationServicesEnabled_class() -> bool;
 
-        #[method(significantLocationChangeMonitoringAvailable)]
-        pub unsafe fn significantLocationChangeMonitoringAvailable() -> bool;
+    #[objc2::method(sel = "headingAvailable")]
+    pub unsafe fn headingAvailable_class() -> bool;
 
-        #[method(isMonitoringAvailableForClass:)]
-        pub unsafe fn isMonitoringAvailableForClass(region_class: &Class) -> bool;
+    #[objc2::method(sel = "significantLocationChangeMonitoringAvailable")]
+    pub unsafe fn significantLocationChangeMonitoringAvailable() -> bool;
 
-        #[deprecated]
-        #[method(regionMonitoringAvailable)]
-        pub unsafe fn regionMonitoringAvailable() -> bool;
+    #[objc2::method(sel = "isMonitoringAvailableForClass:")]
+    pub unsafe fn isMonitoringAvailableForClass(region_class: &Class) -> bool;
 
-        #[deprecated = "Use +isMonitoringAvailableForClass: and -authorizationStatus instead"]
-        #[method(regionMonitoringEnabled)]
-        pub unsafe fn regionMonitoringEnabled() -> bool;
+    #[deprecated]
+    #[objc2::method(sel = "regionMonitoringAvailable")]
+    pub unsafe fn regionMonitoringAvailable() -> bool;
 
-        #[method(isRangingAvailable)]
-        pub unsafe fn isRangingAvailable() -> bool;
+    #[deprecated = "Use +isMonitoringAvailableForClass: and -authorizationStatus instead"]
+    #[objc2::method(sel = "regionMonitoringEnabled")]
+    pub unsafe fn regionMonitoringEnabled() -> bool;
 
-        #[method(authorizationStatus)]
-        pub unsafe fn authorizationStatus(&self) -> CLAuthorizationStatus;
+    #[objc2::method(sel = "isRangingAvailable")]
+    pub unsafe fn isRangingAvailable() -> bool;
 
-        #[deprecated]
-        #[method(authorizationStatus)]
-        pub unsafe fn authorizationStatus_class() -> CLAuthorizationStatus;
+    #[objc2::method(sel = "authorizationStatus")]
+    pub unsafe fn authorizationStatus(&self) -> CLAuthorizationStatus;
 
-        #[method(accuracyAuthorization)]
-        pub unsafe fn accuracyAuthorization(&self) -> CLAccuracyAuthorization;
+    #[deprecated]
+    #[objc2::method(sel = "authorizationStatus")]
+    pub unsafe fn authorizationStatus_class() -> CLAuthorizationStatus;
 
-        #[method(isAuthorizedForWidgetUpdates)]
-        pub unsafe fn isAuthorizedForWidgetUpdates(&self) -> bool;
+    #[objc2::method(sel = "accuracyAuthorization")]
+    pub unsafe fn accuracyAuthorization(&self) -> CLAccuracyAuthorization;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn CLLocationManagerDelegate>>>;
+    #[objc2::method(sel = "isAuthorizedForWidgetUpdates")]
+    pub unsafe fn isAuthorizedForWidgetUpdates(&self) -> bool;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn CLLocationManagerDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn CLLocationManagerDelegate>>>;
 
-        #[deprecated]
-        #[method(locationServicesEnabled)]
-        pub unsafe fn locationServicesEnabled(&self) -> bool;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn CLLocationManagerDelegate>>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Set the purpose string in Info.plist using key NSLocationUsageDescription"]
-        #[method_id(@__retain_semantics Other purpose)]
-        pub unsafe fn purpose(&self) -> Option<Id<NSString>>;
+    #[deprecated]
+    #[objc2::method(sel = "locationServicesEnabled")]
+    pub unsafe fn locationServicesEnabled(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Set the purpose string in Info.plist using key NSLocationUsageDescription"]
-        #[method(setPurpose:)]
-        pub unsafe fn setPurpose(&self, purpose: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Set the purpose string in Info.plist using key NSLocationUsageDescription"]
+    #[objc2::method(sel = "purpose", managed = "Other")]
+    pub unsafe fn purpose(&self) -> Option<Id<NSString>>;
 
-        #[method(activityType)]
-        pub unsafe fn activityType(&self) -> CLActivityType;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Set the purpose string in Info.plist using key NSLocationUsageDescription"]
+    #[objc2::method(sel = "setPurpose:")]
+    pub unsafe fn setPurpose(&self, purpose: Option<&NSString>);
 
-        #[method(setActivityType:)]
-        pub unsafe fn setActivityType(&self, activity_type: CLActivityType);
+    #[objc2::method(sel = "activityType")]
+    pub unsafe fn activityType(&self) -> CLActivityType;
 
-        #[method(distanceFilter)]
-        pub unsafe fn distanceFilter(&self) -> CLLocationDistance;
+    #[objc2::method(sel = "setActivityType:")]
+    pub unsafe fn setActivityType(&self, activity_type: CLActivityType);
 
-        #[method(setDistanceFilter:)]
-        pub unsafe fn setDistanceFilter(&self, distance_filter: CLLocationDistance);
+    #[objc2::method(sel = "distanceFilter")]
+    pub unsafe fn distanceFilter(&self) -> CLLocationDistance;
 
-        #[method(desiredAccuracy)]
-        pub unsafe fn desiredAccuracy(&self) -> CLLocationAccuracy;
+    #[objc2::method(sel = "setDistanceFilter:")]
+    pub unsafe fn setDistanceFilter(&self, distance_filter: CLLocationDistance);
 
-        #[method(setDesiredAccuracy:)]
-        pub unsafe fn setDesiredAccuracy(&self, desired_accuracy: CLLocationAccuracy);
+    #[objc2::method(sel = "desiredAccuracy")]
+    pub unsafe fn desiredAccuracy(&self) -> CLLocationAccuracy;
 
-        #[method(pausesLocationUpdatesAutomatically)]
-        pub unsafe fn pausesLocationUpdatesAutomatically(&self) -> bool;
+    #[objc2::method(sel = "setDesiredAccuracy:")]
+    pub unsafe fn setDesiredAccuracy(&self, desired_accuracy: CLLocationAccuracy);
 
-        #[method(setPausesLocationUpdatesAutomatically:)]
-        pub unsafe fn setPausesLocationUpdatesAutomatically(
-            &self,
-            pauses_location_updates_automatically: bool,
-        );
+    #[objc2::method(sel = "pausesLocationUpdatesAutomatically")]
+    pub unsafe fn pausesLocationUpdatesAutomatically(&self) -> bool;
 
-        #[method(allowsBackgroundLocationUpdates)]
-        pub unsafe fn allowsBackgroundLocationUpdates(&self) -> bool;
+    #[objc2::method(sel = "setPausesLocationUpdatesAutomatically:")]
+    pub unsafe fn setPausesLocationUpdatesAutomatically(
+        &self,
+        pauses_location_updates_automatically: bool,
+    );
 
-        #[method(setAllowsBackgroundLocationUpdates:)]
-        pub unsafe fn setAllowsBackgroundLocationUpdates(
-            &self,
-            allows_background_location_updates: bool,
-        );
+    #[objc2::method(sel = "allowsBackgroundLocationUpdates")]
+    pub unsafe fn allowsBackgroundLocationUpdates(&self) -> bool;
 
-        #[method(showsBackgroundLocationIndicator)]
-        pub unsafe fn showsBackgroundLocationIndicator(&self) -> bool;
+    #[objc2::method(sel = "setAllowsBackgroundLocationUpdates:")]
+    pub unsafe fn setAllowsBackgroundLocationUpdates(
+        &self,
+        allows_background_location_updates: bool,
+    );
 
-        #[method(setShowsBackgroundLocationIndicator:)]
-        pub unsafe fn setShowsBackgroundLocationIndicator(
-            &self,
-            shows_background_location_indicator: bool,
-        );
+    #[objc2::method(sel = "showsBackgroundLocationIndicator")]
+    pub unsafe fn showsBackgroundLocationIndicator(&self) -> bool;
 
-        #[cfg(feature = "CoreLocation_CLLocation")]
-        #[method_id(@__retain_semantics Other location)]
-        pub unsafe fn location(&self) -> Option<Id<CLLocation>>;
-
-        #[deprecated]
-        #[method(headingAvailable)]
-        pub unsafe fn headingAvailable(&self) -> bool;
-
-        #[method(headingFilter)]
-        pub unsafe fn headingFilter(&self) -> CLLocationDegrees;
-
-        #[method(setHeadingFilter:)]
-        pub unsafe fn setHeadingFilter(&self, heading_filter: CLLocationDegrees);
-
-        #[method(headingOrientation)]
-        pub unsafe fn headingOrientation(&self) -> CLDeviceOrientation;
-
-        #[method(setHeadingOrientation:)]
-        pub unsafe fn setHeadingOrientation(&self, heading_orientation: CLDeviceOrientation);
-
-        #[cfg(feature = "CoreLocation_CLHeading")]
-        #[method_id(@__retain_semantics Other heading)]
-        pub unsafe fn heading(&self) -> Option<Id<CLHeading>>;
-
-        #[method(maximumRegionMonitoringDistance)]
-        pub unsafe fn maximumRegionMonitoringDistance(&self) -> CLLocationDistance;
-
-        #[cfg(all(feature = "CoreLocation_CLRegion", feature = "Foundation_NSSet"))]
-        #[method_id(@__retain_semantics Other monitoredRegions)]
-        pub unsafe fn monitoredRegions(&self) -> Id<NSSet<CLRegion>>;
-
-        #[cfg(all(feature = "CoreLocation_CLRegion", feature = "Foundation_NSSet"))]
-        #[deprecated = "Use -rangedBeaconConstraints"]
-        #[method_id(@__retain_semantics Other rangedRegions)]
-        pub unsafe fn rangedRegions(&self) -> Id<NSSet<CLRegion>>;
-
-        #[cfg(all(
-            feature = "CoreLocation_CLBeaconIdentityConstraint",
-            feature = "Foundation_NSSet"
-        ))]
-        #[method_id(@__retain_semantics Other rangedBeaconConstraints)]
-        pub unsafe fn rangedBeaconConstraints(&self) -> Id<NSSet<CLBeaconIdentityConstraint>>;
-
-        #[method(requestWhenInUseAuthorization)]
-        pub unsafe fn requestWhenInUseAuthorization(&self);
-
-        #[method(requestAlwaysAuthorization)]
-        pub unsafe fn requestAlwaysAuthorization(&self);
-
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(requestTemporaryFullAccuracyAuthorizationWithPurposeKey:completion:)]
-        pub unsafe fn requestTemporaryFullAccuracyAuthorizationWithPurposeKey_completion(
-            &self,
-            purpose_key: &NSString,
-            completion: Option<&Block<(*mut NSError,), ()>>,
-        );
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(requestTemporaryFullAccuracyAuthorizationWithPurposeKey:)]
-        pub unsafe fn requestTemporaryFullAccuracyAuthorizationWithPurposeKey(
-            &self,
-            purpose_key: &NSString,
-        );
-
-        #[method(startUpdatingLocation)]
-        pub unsafe fn startUpdatingLocation(&self);
-
-        #[method(stopUpdatingLocation)]
-        pub unsafe fn stopUpdatingLocation(&self);
-
-        #[method(requestLocation)]
-        pub unsafe fn requestLocation(&self);
-
-        #[method(startUpdatingHeading)]
-        pub unsafe fn startUpdatingHeading(&self);
-
-        #[method(stopUpdatingHeading)]
-        pub unsafe fn stopUpdatingHeading(&self);
-
-        #[method(dismissHeadingCalibrationDisplay)]
-        pub unsafe fn dismissHeadingCalibrationDisplay(&self);
-
-        #[method(startMonitoringSignificantLocationChanges)]
-        pub unsafe fn startMonitoringSignificantLocationChanges(&self);
-
-        #[method(stopMonitoringSignificantLocationChanges)]
-        pub unsafe fn stopMonitoringSignificantLocationChanges(&self);
-
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method(startMonitoringLocationPushesWithCompletion:)]
-        pub unsafe fn startMonitoringLocationPushesWithCompletion(
-            &self,
-            completion: Option<&Block<(*mut NSData, *mut NSError), ()>>,
-        );
-
-        #[method(stopMonitoringLocationPushes)]
-        pub unsafe fn stopMonitoringLocationPushes(&self);
-
-        #[cfg(feature = "CoreLocation_CLRegion")]
-        #[deprecated]
-        #[method(startMonitoringForRegion:desiredAccuracy:)]
-        pub unsafe fn startMonitoringForRegion_desiredAccuracy(
-            &self,
-            region: &CLRegion,
-            accuracy: CLLocationAccuracy,
-        );
-
-        #[cfg(feature = "CoreLocation_CLRegion")]
-        #[method(stopMonitoringForRegion:)]
-        pub unsafe fn stopMonitoringForRegion(&self, region: &CLRegion);
-
-        #[cfg(feature = "CoreLocation_CLRegion")]
-        #[method(startMonitoringForRegion:)]
-        pub unsafe fn startMonitoringForRegion(&self, region: &CLRegion);
-
-        #[cfg(feature = "CoreLocation_CLRegion")]
-        #[method(requestStateForRegion:)]
-        pub unsafe fn requestStateForRegion(&self, region: &CLRegion);
-
-        #[cfg(feature = "CoreLocation_CLBeaconRegion")]
-        #[deprecated = "Use -startRangingBeaconsSatisfyingConstraint:"]
-        #[method(startRangingBeaconsInRegion:)]
-        pub unsafe fn startRangingBeaconsInRegion(&self, region: &CLBeaconRegion);
-
-        #[cfg(feature = "CoreLocation_CLBeaconRegion")]
-        #[deprecated = "Use -stopRangingBeaconsSatisfyingConstraint:"]
-        #[method(stopRangingBeaconsInRegion:)]
-        pub unsafe fn stopRangingBeaconsInRegion(&self, region: &CLBeaconRegion);
-
-        #[cfg(feature = "CoreLocation_CLBeaconIdentityConstraint")]
-        #[method(startRangingBeaconsSatisfyingConstraint:)]
-        pub unsafe fn startRangingBeaconsSatisfyingConstraint(
-            &self,
-            constraint: &CLBeaconIdentityConstraint,
-        );
-
-        #[cfg(feature = "CoreLocation_CLBeaconIdentityConstraint")]
-        #[method(stopRangingBeaconsSatisfyingConstraint:)]
-        pub unsafe fn stopRangingBeaconsSatisfyingConstraint(
-            &self,
-            constraint: &CLBeaconIdentityConstraint,
-        );
-
-        #[deprecated = "You can remove calls to this method"]
-        #[method(allowDeferredLocationUpdatesUntilTraveled:timeout:)]
-        pub unsafe fn allowDeferredLocationUpdatesUntilTraveled_timeout(
-            &self,
-            distance: CLLocationDistance,
-            timeout: NSTimeInterval,
-        );
-
-        #[deprecated = "You can remove calls to this method"]
-        #[method(disallowDeferredLocationUpdates)]
-        pub unsafe fn disallowDeferredLocationUpdates(&self);
-
-        #[deprecated = "You can remove calls to this method"]
-        #[method(deferredLocationUpdatesAvailable)]
-        pub unsafe fn deferredLocationUpdatesAvailable() -> bool;
-
-        #[cfg(all(
-            feature = "CoreLocation_CLLocation",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(requestHistoricalLocationsWithPurposeKey:sampleCount:completionHandler:)]
-        pub unsafe fn requestHistoricalLocationsWithPurposeKey_sampleCount_completionHandler(
-            &self,
-            purpose_key: &NSString,
-            sample_count: NSInteger,
-            handler: &Block<(NonNull<NSArray<CLLocation>>, *mut NSError), ()>,
-        );
-    }
-);
+    #[objc2::method(sel = "setShowsBackgroundLocationIndicator:")]
+    pub unsafe fn setShowsBackgroundLocationIndicator(
+        &self,
+        shows_background_location_indicator: bool,
+    );
+
+    #[cfg(feature = "CoreLocation_CLLocation")]
+    #[objc2::method(sel = "location", managed = "Other")]
+    pub unsafe fn location(&self) -> Option<Id<CLLocation>>;
+
+    #[deprecated]
+    #[objc2::method(sel = "headingAvailable")]
+    pub unsafe fn headingAvailable(&self) -> bool;
+
+    #[objc2::method(sel = "headingFilter")]
+    pub unsafe fn headingFilter(&self) -> CLLocationDegrees;
+
+    #[objc2::method(sel = "setHeadingFilter:")]
+    pub unsafe fn setHeadingFilter(&self, heading_filter: CLLocationDegrees);
+
+    #[objc2::method(sel = "headingOrientation")]
+    pub unsafe fn headingOrientation(&self) -> CLDeviceOrientation;
+
+    #[objc2::method(sel = "setHeadingOrientation:")]
+    pub unsafe fn setHeadingOrientation(&self, heading_orientation: CLDeviceOrientation);
+
+    #[cfg(feature = "CoreLocation_CLHeading")]
+    #[objc2::method(sel = "heading", managed = "Other")]
+    pub unsafe fn heading(&self) -> Option<Id<CLHeading>>;
+
+    #[objc2::method(sel = "maximumRegionMonitoringDistance")]
+    pub unsafe fn maximumRegionMonitoringDistance(&self) -> CLLocationDistance;
+
+    #[cfg(all(feature = "CoreLocation_CLRegion", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "monitoredRegions", managed = "Other")]
+    pub unsafe fn monitoredRegions(&self) -> Id<NSSet<CLRegion>>;
+
+    #[cfg(all(feature = "CoreLocation_CLRegion", feature = "Foundation_NSSet"))]
+    #[deprecated = "Use -rangedBeaconConstraints"]
+    #[objc2::method(sel = "rangedRegions", managed = "Other")]
+    pub unsafe fn rangedRegions(&self) -> Id<NSSet<CLRegion>>;
+
+    #[cfg(all(
+        feature = "CoreLocation_CLBeaconIdentityConstraint",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(sel = "rangedBeaconConstraints", managed = "Other")]
+    pub unsafe fn rangedBeaconConstraints(&self) -> Id<NSSet<CLBeaconIdentityConstraint>>;
+
+    #[objc2::method(sel = "requestWhenInUseAuthorization")]
+    pub unsafe fn requestWhenInUseAuthorization(&self);
+
+    #[objc2::method(sel = "requestAlwaysAuthorization")]
+    pub unsafe fn requestAlwaysAuthorization(&self);
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "requestTemporaryFullAccuracyAuthorizationWithPurposeKey:completion:")]
+    pub unsafe fn requestTemporaryFullAccuracyAuthorizationWithPurposeKey_completion(
+        &self,
+        purpose_key: &NSString,
+        completion: Option<&Block<(*mut NSError,), ()>>,
+    );
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "requestTemporaryFullAccuracyAuthorizationWithPurposeKey:")]
+    pub unsafe fn requestTemporaryFullAccuracyAuthorizationWithPurposeKey(
+        &self,
+        purpose_key: &NSString,
+    );
+
+    #[objc2::method(sel = "startUpdatingLocation")]
+    pub unsafe fn startUpdatingLocation(&self);
+
+    #[objc2::method(sel = "stopUpdatingLocation")]
+    pub unsafe fn stopUpdatingLocation(&self);
+
+    #[objc2::method(sel = "requestLocation")]
+    pub unsafe fn requestLocation(&self);
+
+    #[objc2::method(sel = "startUpdatingHeading")]
+    pub unsafe fn startUpdatingHeading(&self);
+
+    #[objc2::method(sel = "stopUpdatingHeading")]
+    pub unsafe fn stopUpdatingHeading(&self);
+
+    #[objc2::method(sel = "dismissHeadingCalibrationDisplay")]
+    pub unsafe fn dismissHeadingCalibrationDisplay(&self);
+
+    #[objc2::method(sel = "startMonitoringSignificantLocationChanges")]
+    pub unsafe fn startMonitoringSignificantLocationChanges(&self);
+
+    #[objc2::method(sel = "stopMonitoringSignificantLocationChanges")]
+    pub unsafe fn stopMonitoringSignificantLocationChanges(&self);
+
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "startMonitoringLocationPushesWithCompletion:")]
+    pub unsafe fn startMonitoringLocationPushesWithCompletion(
+        &self,
+        completion: Option<&Block<(*mut NSData, *mut NSError), ()>>,
+    );
+
+    #[objc2::method(sel = "stopMonitoringLocationPushes")]
+    pub unsafe fn stopMonitoringLocationPushes(&self);
+
+    #[cfg(feature = "CoreLocation_CLRegion")]
+    #[deprecated]
+    #[objc2::method(sel = "startMonitoringForRegion:desiredAccuracy:")]
+    pub unsafe fn startMonitoringForRegion_desiredAccuracy(
+        &self,
+        region: &CLRegion,
+        accuracy: CLLocationAccuracy,
+    );
+
+    #[cfg(feature = "CoreLocation_CLRegion")]
+    #[objc2::method(sel = "stopMonitoringForRegion:")]
+    pub unsafe fn stopMonitoringForRegion(&self, region: &CLRegion);
+
+    #[cfg(feature = "CoreLocation_CLRegion")]
+    #[objc2::method(sel = "startMonitoringForRegion:")]
+    pub unsafe fn startMonitoringForRegion(&self, region: &CLRegion);
+
+    #[cfg(feature = "CoreLocation_CLRegion")]
+    #[objc2::method(sel = "requestStateForRegion:")]
+    pub unsafe fn requestStateForRegion(&self, region: &CLRegion);
+
+    #[cfg(feature = "CoreLocation_CLBeaconRegion")]
+    #[deprecated = "Use -startRangingBeaconsSatisfyingConstraint:"]
+    #[objc2::method(sel = "startRangingBeaconsInRegion:")]
+    pub unsafe fn startRangingBeaconsInRegion(&self, region: &CLBeaconRegion);
+
+    #[cfg(feature = "CoreLocation_CLBeaconRegion")]
+    #[deprecated = "Use -stopRangingBeaconsSatisfyingConstraint:"]
+    #[objc2::method(sel = "stopRangingBeaconsInRegion:")]
+    pub unsafe fn stopRangingBeaconsInRegion(&self, region: &CLBeaconRegion);
+
+    #[cfg(feature = "CoreLocation_CLBeaconIdentityConstraint")]
+    #[objc2::method(sel = "startRangingBeaconsSatisfyingConstraint:")]
+    pub unsafe fn startRangingBeaconsSatisfyingConstraint(
+        &self,
+        constraint: &CLBeaconIdentityConstraint,
+    );
+
+    #[cfg(feature = "CoreLocation_CLBeaconIdentityConstraint")]
+    #[objc2::method(sel = "stopRangingBeaconsSatisfyingConstraint:")]
+    pub unsafe fn stopRangingBeaconsSatisfyingConstraint(
+        &self,
+        constraint: &CLBeaconIdentityConstraint,
+    );
+
+    #[deprecated = "You can remove calls to this method"]
+    #[objc2::method(sel = "allowDeferredLocationUpdatesUntilTraveled:timeout:")]
+    pub unsafe fn allowDeferredLocationUpdatesUntilTraveled_timeout(
+        &self,
+        distance: CLLocationDistance,
+        timeout: NSTimeInterval,
+    );
+
+    #[deprecated = "You can remove calls to this method"]
+    #[objc2::method(sel = "disallowDeferredLocationUpdates")]
+    pub unsafe fn disallowDeferredLocationUpdates(&self);
+
+    #[deprecated = "You can remove calls to this method"]
+    #[objc2::method(sel = "deferredLocationUpdatesAvailable")]
+    pub unsafe fn deferredLocationUpdatesAvailable() -> bool;
+
+    #[cfg(all(
+        feature = "CoreLocation_CLLocation",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "requestHistoricalLocationsWithPurposeKey:sampleCount:completionHandler:"
+    )]
+    pub unsafe fn requestHistoricalLocationsWithPurposeKey_sampleCount_completionHandler(
+        &self,
+        purpose_key: &NSString,
+        sample_count: NSInteger,
+        handler: &Block<(NonNull<NSArray<CLLocation>>, *mut NSError), ()>,
+    );
+}

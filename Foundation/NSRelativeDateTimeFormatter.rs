@@ -3,35 +3,33 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSRelativeDateTimeFormatterStyle {
-        NSRelativeDateTimeFormatterStyleNumeric = 0,
-        NSRelativeDateTimeFormatterStyleNamed = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSRelativeDateTimeFormatterStyle {
+    NSRelativeDateTimeFormatterStyleNumeric = 0,
+    NSRelativeDateTimeFormatterStyleNamed = 1,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSRelativeDateTimeFormatterUnitsStyle {
-        NSRelativeDateTimeFormatterUnitsStyleFull = 0,
-        NSRelativeDateTimeFormatterUnitsStyleSpellOut = 1,
-        NSRelativeDateTimeFormatterUnitsStyleShort = 2,
-        NSRelativeDateTimeFormatterUnitsStyleAbbreviated = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSRelativeDateTimeFormatterUnitsStyle {
+    NSRelativeDateTimeFormatterUnitsStyleFull = 0,
+    NSRelativeDateTimeFormatterUnitsStyleSpellOut = 1,
+    NSRelativeDateTimeFormatterUnitsStyleShort = 2,
+    NSRelativeDateTimeFormatterUnitsStyleAbbreviated = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSFormatter,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSRelativeDateTimeFormatter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSRelativeDateTimeFormatter")]
-    pub struct NSRelativeDateTimeFormatter;
-
-    #[cfg(feature = "Foundation_NSRelativeDateTimeFormatter")]
-    unsafe impl ClassType for NSRelativeDateTimeFormatter {
-        #[inherits(NSObject)]
-        type Super = NSFormatter;
-    }
-);
+    pub type NSRelativeDateTimeFormatter;
+}
 
 #[cfg(feature = "Foundation_NSRelativeDateTimeFormatter")]
 unsafe impl NSCoding for NSRelativeDateTimeFormatter {}
@@ -39,70 +37,73 @@ unsafe impl NSCoding for NSRelativeDateTimeFormatter {}
 #[cfg(feature = "Foundation_NSRelativeDateTimeFormatter")]
 unsafe impl NSObjectProtocol for NSRelativeDateTimeFormatter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSRelativeDateTimeFormatter")]
-    unsafe impl NSRelativeDateTimeFormatter {
-        #[method(dateTimeStyle)]
-        pub unsafe fn dateTimeStyle(&self) -> NSRelativeDateTimeFormatterStyle;
+    pub type NSRelativeDateTimeFormatter;
 
-        #[method(setDateTimeStyle:)]
-        pub unsafe fn setDateTimeStyle(&self, date_time_style: NSRelativeDateTimeFormatterStyle);
+    #[objc2::method(sel = "dateTimeStyle")]
+    pub unsafe fn dateTimeStyle(&self) -> NSRelativeDateTimeFormatterStyle;
 
-        #[method(unitsStyle)]
-        pub unsafe fn unitsStyle(&self) -> NSRelativeDateTimeFormatterUnitsStyle;
+    #[objc2::method(sel = "setDateTimeStyle:")]
+    pub unsafe fn setDateTimeStyle(&self, date_time_style: NSRelativeDateTimeFormatterStyle);
 
-        #[method(setUnitsStyle:)]
-        pub unsafe fn setUnitsStyle(&self, units_style: NSRelativeDateTimeFormatterUnitsStyle);
+    #[objc2::method(sel = "unitsStyle")]
+    pub unsafe fn unitsStyle(&self) -> NSRelativeDateTimeFormatterUnitsStyle;
 
-        #[method(formattingContext)]
-        pub unsafe fn formattingContext(&self) -> NSFormattingContext;
+    #[objc2::method(sel = "setUnitsStyle:")]
+    pub unsafe fn setUnitsStyle(&self, units_style: NSRelativeDateTimeFormatterUnitsStyle);
 
-        #[method(setFormattingContext:)]
-        pub unsafe fn setFormattingContext(&self, formatting_context: NSFormattingContext);
+    #[objc2::method(sel = "formattingContext")]
+    pub unsafe fn formattingContext(&self) -> NSFormattingContext;
 
-        #[cfg(feature = "Foundation_NSCalendar")]
-        #[method_id(@__retain_semantics Other calendar)]
-        pub unsafe fn calendar(&self) -> Id<NSCalendar>;
+    #[objc2::method(sel = "setFormattingContext:")]
+    pub unsafe fn setFormattingContext(&self, formatting_context: NSFormattingContext);
 
-        #[cfg(feature = "Foundation_NSCalendar")]
-        #[method(setCalendar:)]
-        pub unsafe fn setCalendar(&self, calendar: Option<&NSCalendar>);
+    #[cfg(feature = "Foundation_NSCalendar")]
+    #[objc2::method(sel = "calendar", managed = "Other")]
+    pub unsafe fn calendar(&self) -> Id<NSCalendar>;
 
-        #[cfg(feature = "Foundation_NSLocale")]
-        #[method_id(@__retain_semantics Other locale)]
-        pub unsafe fn locale(&self) -> Id<NSLocale>;
+    #[cfg(feature = "Foundation_NSCalendar")]
+    #[objc2::method(sel = "setCalendar:")]
+    pub unsafe fn setCalendar(&self, calendar: Option<&NSCalendar>);
 
-        #[cfg(feature = "Foundation_NSLocale")]
-        #[method(setLocale:)]
-        pub unsafe fn setLocale(&self, locale: Option<&NSLocale>);
+    #[cfg(feature = "Foundation_NSLocale")]
+    #[objc2::method(sel = "locale", managed = "Other")]
+    pub unsafe fn locale(&self) -> Id<NSLocale>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDateComponents",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other localizedStringFromDateComponents:)]
-        pub unsafe fn localizedStringFromDateComponents(
-            &self,
-            date_components: &NSDateComponents,
-        ) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSLocale")]
+    #[objc2::method(sel = "setLocale:")]
+    pub unsafe fn setLocale(&self, locale: Option<&NSLocale>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedStringFromTimeInterval:)]
-        pub unsafe fn localizedStringFromTimeInterval(
-            &self,
-            time_interval: NSTimeInterval,
-        ) -> Id<NSString>;
+    #[cfg(all(
+        feature = "Foundation_NSDateComponents",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "localizedStringFromDateComponents:", managed = "Other")]
+    pub unsafe fn localizedStringFromDateComponents(
+        &self,
+        date_components: &NSDateComponents,
+    ) -> Id<NSString>;
 
-        #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other localizedStringForDate:relativeToDate:)]
-        pub unsafe fn localizedStringForDate_relativeToDate(
-            &self,
-            date: &NSDate,
-            reference_date: &NSDate,
-        ) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedStringFromTimeInterval:", managed = "Other")]
+    pub unsafe fn localizedStringFromTimeInterval(
+        &self,
+        time_interval: NSTimeInterval,
+    ) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringForObjectValue:)]
-        pub unsafe fn stringForObjectValue(&self, obj: Option<&Object>) -> Option<Id<NSString>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "localizedStringForDate:relativeToDate:", managed = "Other")]
+    pub unsafe fn localizedStringForDate_relativeToDate(
+        &self,
+        date: &NSDate,
+        reference_date: &NSDate,
+    ) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringForObjectValue:", managed = "Other")]
+    pub unsafe fn stringForObjectValue(&self, obj: Option<&Object>) -> Option<Id<NSString>>;
+}

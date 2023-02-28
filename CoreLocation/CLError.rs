@@ -5,30 +5,29 @@ use crate::Contacts::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CLError {
-        kCLErrorLocationUnknown = 0,
-        kCLErrorDenied = 1,
-        kCLErrorNetwork = 2,
-        kCLErrorHeadingFailure = 3,
-        kCLErrorRegionMonitoringDenied = 4,
-        kCLErrorRegionMonitoringFailure = 5,
-        kCLErrorRegionMonitoringSetupDelayed = 6,
-        kCLErrorRegionMonitoringResponseDelayed = 7,
-        kCLErrorGeocodeFoundNoResult = 8,
-        kCLErrorGeocodeFoundPartialResult = 9,
-        kCLErrorGeocodeCanceled = 10,
-        kCLErrorDeferredFailed = 11,
-        kCLErrorDeferredNotUpdatingLocation = 12,
-        kCLErrorDeferredAccuracyTooLow = 13,
-        kCLErrorDeferredDistanceFiltered = 14,
-        kCLErrorDeferredCanceled = 15,
-        kCLErrorRangingUnavailable = 16,
-        kCLErrorRangingFailure = 17,
-        kCLErrorPromptDeclined = 18,
-        kCLErrorHistoricalLocationError = 19,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CLError {
+    kCLErrorLocationUnknown = 0,
+    kCLErrorDenied = 1,
+    kCLErrorNetwork = 2,
+    kCLErrorHeadingFailure = 3,
+    kCLErrorRegionMonitoringDenied = 4,
+    kCLErrorRegionMonitoringFailure = 5,
+    kCLErrorRegionMonitoringSetupDelayed = 6,
+    kCLErrorRegionMonitoringResponseDelayed = 7,
+    kCLErrorGeocodeFoundNoResult = 8,
+    kCLErrorGeocodeFoundPartialResult = 9,
+    kCLErrorGeocodeCanceled = 10,
+    kCLErrorDeferredFailed = 11,
+    kCLErrorDeferredNotUpdatingLocation = 12,
+    kCLErrorDeferredAccuracyTooLow = 13,
+    kCLErrorDeferredDistanceFiltered = 14,
+    kCLErrorDeferredCanceled = 15,
+    kCLErrorRangingUnavailable = 16,
+    kCLErrorRangingFailure = 17,
+    kCLErrorPromptDeclined = 18,
+    kCLErrorHistoricalLocationError = 19,
+}
 
 extern_static!(kCLErrorUserInfoAlternateRegionKey: &'static NSString);

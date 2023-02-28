@@ -8,64 +8,67 @@ use crate::UniformTypeIdentifiers::*;
 
 pub type HKObserverQueryCompletionHandler = *mut Block<(), ()>;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKQuery,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKObserverQuery")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKObserverQuery")]
-    pub struct HKObserverQuery;
-
-    #[cfg(feature = "HealthKit_HKObserverQuery")]
-    unsafe impl ClassType for HKObserverQuery {
-        #[inherits(NSObject)]
-        type Super = HKQuery;
-    }
-);
+    pub type HKObserverQuery;
+}
 
 #[cfg(feature = "HealthKit_HKObserverQuery")]
 unsafe impl NSObjectProtocol for HKObserverQuery {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKObserverQuery")]
-    unsafe impl HKObserverQuery {
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKSampleType"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSampleType:predicate:updateHandler:)]
-        pub unsafe fn initWithSampleType_predicate_updateHandler(
-            this: Option<Allocated<Self>>,
-            sample_type: &HKSampleType,
-            predicate: Option<&NSPredicate>,
-            update_handler: &Block<
-                (
-                    NonNull<HKObserverQuery>,
-                    HKObserverQueryCompletionHandler,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        ) -> Id<Self>;
+    pub type HKObserverQuery;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSSet",
-            feature = "HealthKit_HKQueryDescriptor",
-            feature = "HealthKit_HKSampleType"
-        ))]
-        #[method_id(@__retain_semantics Init initWithQueryDescriptors:updateHandler:)]
-        pub unsafe fn initWithQueryDescriptors_updateHandler(
-            this: Option<Allocated<Self>>,
-            query_descriptors: &NSArray<HKQueryDescriptor>,
-            update_handler: &Block<
-                (
-                    NonNull<HKObserverQuery>,
-                    *mut NSSet<HKSampleType>,
-                    HKObserverQueryCompletionHandler,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKSampleType"
+    ))]
+    #[objc2::method(sel = "initWithSampleType:predicate:updateHandler:", managed = "Init")]
+    pub unsafe fn initWithSampleType_predicate_updateHandler(
+        this: Option<Allocated<Self>>,
+        sample_type: &HKSampleType,
+        predicate: Option<&NSPredicate>,
+        update_handler: &Block<
+            (
+                NonNull<HKObserverQuery>,
+                HKObserverQueryCompletionHandler,
+                *mut NSError,
+            ),
+            (),
+        >,
+    ) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSSet",
+        feature = "HealthKit_HKQueryDescriptor",
+        feature = "HealthKit_HKSampleType"
+    ))]
+    #[objc2::method(sel = "initWithQueryDescriptors:updateHandler:", managed = "Init")]
+    pub unsafe fn initWithQueryDescriptors_updateHandler(
+        this: Option<Allocated<Self>>,
+        query_descriptors: &NSArray<HKQueryDescriptor>,
+        update_handler: &Block<
+            (
+                NonNull<HKObserverQuery>,
+                *mut NSSet<HKSampleType>,
+                HKObserverQueryCompletionHandler,
+                *mut NSError,
+            ),
+            (),
+        >,
+    ) -> Id<Self>;
+}

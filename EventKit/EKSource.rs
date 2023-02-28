@@ -7,47 +7,48 @@ use crate::EventKit::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = EKObject,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "EventKit_EKSource")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "EventKit_EKSource")]
-    pub struct EKSource;
-
-    #[cfg(feature = "EventKit_EKSource")]
-    unsafe impl ClassType for EKSource {
-        #[inherits(NSObject)]
-        type Super = EKObject;
-    }
-);
+    pub type EKSource;
+}
 
 #[cfg(feature = "EventKit_EKSource")]
 unsafe impl NSObjectProtocol for EKSource {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "EventKit_EKSource")]
-    unsafe impl EKSource {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other sourceIdentifier)]
-        pub unsafe fn sourceIdentifier(&self) -> Id<NSString>;
+    pub type EKSource;
 
-        #[method(sourceType)]
-        pub unsafe fn sourceType(&self) -> EKSourceType;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "sourceIdentifier", managed = "Other")]
+    pub unsafe fn sourceIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[objc2::method(sel = "sourceType")]
+    pub unsafe fn sourceType(&self) -> EKSourceType;
 
-        #[cfg(all(feature = "EventKit_EKCalendar", feature = "Foundation_NSSet"))]
-        #[method_id(@__retain_semantics Other calendars)]
-        pub unsafe fn calendars(&self) -> Id<NSSet<EKCalendar>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(all(feature = "EventKit_EKCalendar", feature = "Foundation_NSSet"))]
-        #[method_id(@__retain_semantics Other calendarsForEntityType:)]
-        pub unsafe fn calendarsForEntityType(
-            &self,
-            entity_type: EKEntityType,
-        ) -> Id<NSSet<EKCalendar>>;
+    #[cfg(all(feature = "EventKit_EKCalendar", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "calendars", managed = "Other")]
+    pub unsafe fn calendars(&self) -> Id<NSSet<EKCalendar>>;
 
-        #[method(isDelegate)]
-        pub unsafe fn isDelegate(&self) -> bool;
-    }
-);
+    #[cfg(all(feature = "EventKit_EKCalendar", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "calendarsForEntityType:", managed = "Other")]
+    pub unsafe fn calendarsForEntityType(&self, entity_type: EKEntityType)
+        -> Id<NSSet<EKCalendar>>;
+
+    #[objc2::method(sel = "isDelegate")]
+    pub unsafe fn isDelegate(&self) -> bool;
+}

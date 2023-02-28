@@ -4,107 +4,105 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MTLIOStatus {
-        MTLIOStatusPending = 0,
-        MTLIOStatusCancelled = 1,
-        MTLIOStatusError = 2,
-        MTLIOStatusComplete = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MTLIOStatus {
+    MTLIOStatusPending = 0,
+    MTLIOStatusCancelled = 1,
+    MTLIOStatusError = 2,
+    MTLIOStatusComplete = 3,
+}
 
 pub type MTLIOCommandBufferHandler =
     *mut Block<(NonNull<ProtocolObject<dyn MTLIOCommandBuffer>>,), ()>;
 
-extern_protocol!(
-    pub unsafe trait MTLIOCommandBuffer: NSObjectProtocol {
-        #[method(addCompletedHandler:)]
-        unsafe fn addCompletedHandler(&self, block: MTLIOCommandBufferHandler);
+#[objc2::protocol]
+pub unsafe trait MTLIOCommandBuffer: NSObjectProtocol {
+    #[objc2::method(sel = "addCompletedHandler:")]
+    unsafe fn addCompletedHandler(&self, block: MTLIOCommandBufferHandler);
 
-        #[method(loadBytes:size:sourceHandle:sourceHandleOffset:)]
-        unsafe fn loadBytes_size_sourceHandle_sourceHandleOffset(
-            &self,
-            pointer: NonNull<c_void>,
-            size: NSUInteger,
-            source_handle: &ProtocolObject<dyn MTLIOFileHandle>,
-            source_handle_offset: NSUInteger,
-        );
+    #[objc2::method(sel = "loadBytes:size:sourceHandle:sourceHandleOffset:")]
+    unsafe fn loadBytes_size_sourceHandle_sourceHandleOffset(
+        &self,
+        pointer: NonNull<c_void>,
+        size: NSUInteger,
+        source_handle: &ProtocolObject<dyn MTLIOFileHandle>,
+        source_handle_offset: NSUInteger,
+    );
 
-        #[method(loadBuffer:offset:size:sourceHandle:sourceHandleOffset:)]
-        unsafe fn loadBuffer_offset_size_sourceHandle_sourceHandleOffset(
-            &self,
-            buffer: &ProtocolObject<dyn MTLBuffer>,
-            offset: NSUInteger,
-            size: NSUInteger,
-            source_handle: &ProtocolObject<dyn MTLIOFileHandle>,
-            source_handle_offset: NSUInteger,
-        );
+    #[objc2::method(sel = "loadBuffer:offset:size:sourceHandle:sourceHandleOffset:")]
+    unsafe fn loadBuffer_offset_size_sourceHandle_sourceHandleOffset(
+        &self,
+        buffer: &ProtocolObject<dyn MTLBuffer>,
+        offset: NSUInteger,
+        size: NSUInteger,
+        source_handle: &ProtocolObject<dyn MTLIOFileHandle>,
+        source_handle_offset: NSUInteger,
+    );
 
-        #[method(loadTexture:slice:level:size:sourceBytesPerRow:sourceBytesPerImage:destinationOrigin:sourceHandle:sourceHandleOffset:)]
-        unsafe fn loadTexture_slice_level_size_sourceBytesPerRow_sourceBytesPerImage_destinationOrigin_sourceHandle_sourceHandleOffset(
-            &self,
-            texture: &ProtocolObject<dyn MTLTexture>,
-            slice: NSUInteger,
-            level: NSUInteger,
-            size: MTLSize,
-            source_bytes_per_row: NSUInteger,
-            source_bytes_per_image: NSUInteger,
-            destination_origin: MTLOrigin,
-            source_handle: &ProtocolObject<dyn MTLIOFileHandle>,
-            source_handle_offset: NSUInteger,
-        );
+    #[objc2::method(
+        sel = "loadTexture:slice:level:size:sourceBytesPerRow:sourceBytesPerImage:destinationOrigin:sourceHandle:sourceHandleOffset:"
+    )]
+    unsafe fn loadTexture_slice_level_size_sourceBytesPerRow_sourceBytesPerImage_destinationOrigin_sourceHandle_sourceHandleOffset(
+        &self,
+        texture: &ProtocolObject<dyn MTLTexture>,
+        slice: NSUInteger,
+        level: NSUInteger,
+        size: MTLSize,
+        source_bytes_per_row: NSUInteger,
+        source_bytes_per_image: NSUInteger,
+        destination_origin: MTLOrigin,
+        source_handle: &ProtocolObject<dyn MTLIOFileHandle>,
+        source_handle_offset: NSUInteger,
+    );
 
-        #[method(copyStatusToBuffer:offset:)]
-        unsafe fn copyStatusToBuffer_offset(
-            &self,
-            buffer: &ProtocolObject<dyn MTLBuffer>,
-            offset: NSUInteger,
-        );
+    #[objc2::method(sel = "copyStatusToBuffer:offset:")]
+    unsafe fn copyStatusToBuffer_offset(
+        &self,
+        buffer: &ProtocolObject<dyn MTLBuffer>,
+        offset: NSUInteger,
+    );
 
-        #[method(commit)]
-        unsafe fn commit(&self);
+    #[objc2::method(sel = "commit")]
+    unsafe fn commit(&self);
 
-        #[method(waitUntilCompleted)]
-        unsafe fn waitUntilCompleted(&self);
+    #[objc2::method(sel = "waitUntilCompleted")]
+    unsafe fn waitUntilCompleted(&self);
 
-        #[method(tryCancel)]
-        unsafe fn tryCancel(&self);
+    #[objc2::method(sel = "tryCancel")]
+    unsafe fn tryCancel(&self);
 
-        #[method(addBarrier)]
-        unsafe fn addBarrier(&self);
+    #[objc2::method(sel = "addBarrier")]
+    unsafe fn addBarrier(&self);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(pushDebugGroup:)]
-        unsafe fn pushDebugGroup(&self, string: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "pushDebugGroup:")]
+    unsafe fn pushDebugGroup(&self, string: &NSString);
 
-        #[method(popDebugGroup)]
-        unsafe fn popDebugGroup(&self);
+    #[objc2::method(sel = "popDebugGroup")]
+    unsafe fn popDebugGroup(&self);
 
-        #[method(enqueue)]
-        unsafe fn enqueue(&self);
+    #[objc2::method(sel = "enqueue")]
+    unsafe fn enqueue(&self);
 
-        #[method(waitForEvent:value:)]
-        unsafe fn waitForEvent_value(&self, event: &ProtocolObject<dyn MTLSharedEvent>, value: u64);
+    #[objc2::method(sel = "waitForEvent:value:")]
+    unsafe fn waitForEvent_value(&self, event: &ProtocolObject<dyn MTLSharedEvent>, value: u64);
 
-        #[method(signalEvent:value:)]
-        unsafe fn signalEvent_value(&self, event: &ProtocolObject<dyn MTLSharedEvent>, value: u64);
+    #[objc2::method(sel = "signalEvent:value:")]
+    unsafe fn signalEvent_value(&self, event: &ProtocolObject<dyn MTLSharedEvent>, value: u64);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        unsafe fn label(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    unsafe fn label(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        unsafe fn setLabel(&self, label: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    unsafe fn setLabel(&self, label: Option<&NSString>);
 
-        #[method(status)]
-        unsafe fn status(&self) -> MTLIOStatus;
+    #[objc2::method(sel = "status")]
+    unsafe fn status(&self) -> MTLIOStatus;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other error)]
-        unsafe fn error(&self) -> Option<Id<NSError>>;
-    }
-
-    unsafe impl ProtocolType for dyn MTLIOCommandBuffer {}
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "error", managed = "Other")]
+    unsafe fn error(&self) -> Option<Id<NSError>>;
+}

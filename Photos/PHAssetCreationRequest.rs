@@ -6,120 +6,129 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHAssetResourceCreationOptions")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHAssetResourceCreationOptions")]
-    pub struct PHAssetResourceCreationOptions;
-
-    #[cfg(feature = "PhotoKit_PHAssetResourceCreationOptions")]
-    unsafe impl ClassType for PHAssetResourceCreationOptions {
-        type Super = NSObject;
-    }
-);
+    pub type PHAssetResourceCreationOptions;
+}
 
 #[cfg(feature = "PhotoKit_PHAssetResourceCreationOptions")]
 unsafe impl NSObjectProtocol for PHAssetResourceCreationOptions {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHAssetResourceCreationOptions")]
-    unsafe impl PHAssetResourceCreationOptions {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other originalFilename)]
-        pub unsafe fn originalFilename(&self) -> Option<Id<NSString>>;
+    pub type PHAssetResourceCreationOptions;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setOriginalFilename:)]
-        pub unsafe fn setOriginalFilename(&self, original_filename: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "originalFilename", managed = "Other")]
+    pub unsafe fn originalFilename(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other uniformTypeIdentifier)]
-        pub unsafe fn uniformTypeIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setOriginalFilename:")]
+    pub unsafe fn setOriginalFilename(&self, original_filename: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setUniformTypeIdentifier:)]
-        pub unsafe fn setUniformTypeIdentifier(&self, uniform_type_identifier: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "uniformTypeIdentifier", managed = "Other")]
+    pub unsafe fn uniformTypeIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[method(shouldMoveFile)]
-        pub unsafe fn shouldMoveFile(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setUniformTypeIdentifier:")]
+    pub unsafe fn setUniformTypeIdentifier(&self, uniform_type_identifier: Option<&NSString>);
 
-        #[method(setShouldMoveFile:)]
-        pub unsafe fn setShouldMoveFile(&self, should_move_file: bool);
-    }
-);
+    #[objc2::method(sel = "shouldMoveFile")]
+    pub unsafe fn shouldMoveFile(&self) -> bool;
 
-extern_class!(
+    #[objc2::method(sel = "setShouldMoveFile:")]
+    pub unsafe fn setShouldMoveFile(&self, should_move_file: bool);
+}
+
+#[objc2::interface(
+    unsafe super = PHAssetChangeRequest,
+    unsafe inherits = [
+        PHChangeRequest,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHAssetCreationRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHAssetCreationRequest")]
-    pub struct PHAssetCreationRequest;
-
-    #[cfg(feature = "PhotoKit_PHAssetCreationRequest")]
-    unsafe impl ClassType for PHAssetCreationRequest {
-        #[inherits(PHChangeRequest, NSObject)]
-        type Super = PHAssetChangeRequest;
-    }
-);
+    pub type PHAssetCreationRequest;
+}
 
 #[cfg(feature = "PhotoKit_PHAssetCreationRequest")]
 unsafe impl NSObjectProtocol for PHAssetCreationRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHAssetCreationRequest")]
-    unsafe impl PHAssetCreationRequest {
-        #[method_id(@__retain_semantics Other creationRequestForAsset)]
-        pub unsafe fn creationRequestForAsset() -> Id<Self>;
+    pub type PHAssetCreationRequest;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method(supportsAssetResourceTypes:)]
-        pub unsafe fn supportsAssetResourceTypes(types: &NSArray<NSNumber>) -> bool;
+    #[objc2::method(sel = "creationRequestForAsset", managed = "Other")]
+    pub unsafe fn creationRequestForAsset() -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSURL",
-            feature = "PhotoKit_PHAssetResourceCreationOptions"
-        ))]
-        #[method(addResourceWithType:fileURL:options:)]
-        pub unsafe fn addResourceWithType_fileURL_options(
-            &self,
-            r#type: PHAssetResourceType,
-            file_url: &NSURL,
-            options: Option<&PHAssetResourceCreationOptions>,
-        );
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "supportsAssetResourceTypes:")]
+    pub unsafe fn supportsAssetResourceTypes(types: &NSArray<NSNumber>) -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "PhotoKit_PHAssetResourceCreationOptions"
-        ))]
-        #[method(addResourceWithType:data:options:)]
-        pub unsafe fn addResourceWithType_data_options(
-            &self,
-            r#type: PHAssetResourceType,
-            data: &NSData,
-            options: Option<&PHAssetResourceCreationOptions>,
-        );
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSURL",
+        feature = "PhotoKit_PHAssetResourceCreationOptions"
+    ))]
+    #[objc2::method(sel = "addResourceWithType:fileURL:options:")]
+    pub unsafe fn addResourceWithType_fileURL_options(
+        &self,
+        r#type: PHAssetResourceType,
+        file_url: &NSURL,
+        options: Option<&PHAssetResourceCreationOptions>,
+    );
 
-extern_methods!(
-    /// Methods declared on superclass `PHAssetChangeRequest`
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "PhotoKit_PHAssetResourceCreationOptions"
+    ))]
+    #[objc2::method(sel = "addResourceWithType:data:options:")]
+    pub unsafe fn addResourceWithType_data_options(
+        &self,
+        r#type: PHAssetResourceType,
+        data: &NSData,
+        options: Option<&PHAssetResourceCreationOptions>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `PHAssetChangeRequest`
     #[cfg(feature = "PhotoKit_PHAssetCreationRequest")]
-    unsafe impl PHAssetCreationRequest {
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other creationRequestForAssetFromImage:)]
-        pub unsafe fn creationRequestForAssetFromImage(image: &NSImage) -> Id<Self>;
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other creationRequestForAssetFromImageAtFileURL:)]
-        pub unsafe fn creationRequestForAssetFromImageAtFileURL(
-            file_url: &NSURL,
-        ) -> Option<Id<Self>>;
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other creationRequestForAssetFromVideoAtFileURL:)]
-        pub unsafe fn creationRequestForAssetFromVideoAtFileURL(
-            file_url: &NSURL,
-        ) -> Option<Id<Self>>;
-
-        #[cfg(feature = "PhotoKit_PHAsset")]
-        #[method_id(@__retain_semantics Other changeRequestForAsset:)]
-        pub unsafe fn changeRequestForAsset(asset: &PHAsset) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHAssetCreationRequest")]
+    pub type PHAssetCreationRequest;
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "creationRequestForAssetFromImage:", managed = "Other")]
+    pub unsafe fn creationRequestForAssetFromImage(image: &NSImage) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "creationRequestForAssetFromImageAtFileURL:", managed = "Other")]
+    pub unsafe fn creationRequestForAssetFromImageAtFileURL(file_url: &NSURL) -> Option<Id<Self>>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "creationRequestForAssetFromVideoAtFileURL:", managed = "Other")]
+    pub unsafe fn creationRequestForAssetFromVideoAtFileURL(file_url: &NSURL) -> Option<Id<Self>>;
+
+    #[cfg(feature = "PhotoKit_PHAsset")]
+    #[objc2::method(sel = "changeRequestForAsset:", managed = "Other")]
+    pub unsafe fn changeRequestForAsset(asset: &PHAsset) -> Id<Self>;
+}

@@ -6,14 +6,13 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKQuantityAggregationStyle {
-        HKQuantityAggregationStyleCumulative = 0,
-        HKQuantityAggregationStyleDiscreteArithmetic = 1,
-        #[deprecated]
-        HKQuantityAggregationStyleDiscrete = HKQuantityAggregationStyleDiscreteArithmetic,
-        HKQuantityAggregationStyleDiscreteTemporallyWeighted = 2,
-        HKQuantityAggregationStyleDiscreteEquivalentContinuousLevel = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKQuantityAggregationStyle {
+    HKQuantityAggregationStyleCumulative = 0,
+    HKQuantityAggregationStyleDiscreteArithmetic = 1,
+    #[deprecated]
+    HKQuantityAggregationStyleDiscrete = HKQuantityAggregationStyleDiscreteArithmetic,
+    HKQuantityAggregationStyleDiscreteTemporallyWeighted = 2,
+    HKQuantityAggregationStyleDiscreteEquivalentContinuousLevel = 3,
+}

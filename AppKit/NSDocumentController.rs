@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSDocumentController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSDocumentController")]
-    pub struct NSDocumentController;
-
-    #[cfg(feature = "AppKit_NSDocumentController")]
-    unsafe impl ClassType for NSDocumentController {
-        type Super = NSObject;
-    }
-);
+    pub type NSDocumentController;
+}
 
 #[cfg(feature = "AppKit_NSDocumentController")]
 unsafe impl NSCoding for NSDocumentController {}
@@ -28,389 +28,414 @@ unsafe impl NSObjectProtocol for NSDocumentController {}
 #[cfg(feature = "AppKit_NSDocumentController")]
 unsafe impl NSUserInterfaceValidations for NSDocumentController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSDocumentController")]
-    unsafe impl NSDocumentController {
-        #[method_id(@__retain_semantics Other sharedDocumentController)]
-        pub unsafe fn sharedDocumentController() -> Id<NSDocumentController>;
+    pub type NSDocumentController;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "sharedDocumentController", managed = "Other")]
+    pub unsafe fn sharedDocumentController() -> Id<NSDocumentController>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(feature = "AppKit_NSDocument", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other documents)]
-        pub unsafe fn documents(&self) -> Id<NSArray<NSDocument>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[cfg(feature = "AppKit_NSDocument")]
-        #[method_id(@__retain_semantics Other currentDocument)]
-        pub unsafe fn currentDocument(&self) -> Option<Id<NSDocument>>;
+    #[cfg(all(feature = "AppKit_NSDocument", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "documents", managed = "Other")]
+    pub unsafe fn documents(&self) -> Id<NSArray<NSDocument>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other currentDirectory)]
-        pub unsafe fn currentDirectory(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "AppKit_NSDocument")]
+    #[objc2::method(sel = "currentDocument", managed = "Other")]
+    pub unsafe fn currentDocument(&self) -> Option<Id<NSDocument>>;
 
-        #[cfg(all(feature = "AppKit_NSDocument", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other documentForURL:)]
-        pub unsafe fn documentForURL(&self, url: &NSURL) -> Option<Id<NSDocument>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "currentDirectory", managed = "Other")]
+    pub unsafe fn currentDirectory(&self) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "AppKit_NSDocument", feature = "AppKit_NSWindow"))]
-        #[method_id(@__retain_semantics Other documentForWindow:)]
-        pub unsafe fn documentForWindow(&self, window: &NSWindow) -> Option<Id<NSDocument>>;
+    #[cfg(all(feature = "AppKit_NSDocument", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "documentForURL:", managed = "Other")]
+    pub unsafe fn documentForURL(&self, url: &NSURL) -> Option<Id<NSDocument>>;
 
-        #[cfg(feature = "AppKit_NSDocument")]
-        #[method(addDocument:)]
-        pub unsafe fn addDocument(&self, document: &NSDocument);
+    #[cfg(all(feature = "AppKit_NSDocument", feature = "AppKit_NSWindow"))]
+    #[objc2::method(sel = "documentForWindow:", managed = "Other")]
+    pub unsafe fn documentForWindow(&self, window: &NSWindow) -> Option<Id<NSDocument>>;
 
-        #[cfg(feature = "AppKit_NSDocument")]
-        #[method(removeDocument:)]
-        pub unsafe fn removeDocument(&self, document: &NSDocument);
+    #[cfg(feature = "AppKit_NSDocument")]
+    #[objc2::method(sel = "addDocument:")]
+    pub unsafe fn addDocument(&self, document: &NSDocument);
 
-        #[method(newDocument:)]
-        pub unsafe fn newDocument(&self, sender: Option<&Object>);
+    #[cfg(feature = "AppKit_NSDocument")]
+    #[objc2::method(sel = "removeDocument:")]
+    pub unsafe fn removeDocument(&self, document: &NSDocument);
 
-        #[cfg(all(feature = "AppKit_NSDocument", feature = "Foundation_NSError"))]
-        #[method_id(@__retain_semantics Other openUntitledDocumentAndDisplay:error:_)]
-        pub unsafe fn openUntitledDocumentAndDisplay_error(
-            &self,
-            display_document: bool,
-        ) -> Result<Id<NSDocument>, Id<NSError>>;
+    #[objc2::method(sel = "newDocument:")]
+    pub unsafe fn newDocument(&self, sender: Option<&Object>);
 
-        #[cfg(all(
-            feature = "AppKit_NSDocument",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other makeUntitledDocumentOfType:error:_)]
-        pub unsafe fn makeUntitledDocumentOfType_error(
-            &self,
-            type_name: &NSString,
-        ) -> Result<Id<NSDocument>, Id<NSError>>;
+    #[cfg(all(feature = "AppKit_NSDocument", feature = "Foundation_NSError"))]
+    #[objc2::method(
+        sel = "openUntitledDocumentAndDisplay:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn openUntitledDocumentAndDisplay_error(
+        &self,
+        display_document: bool,
+    ) -> Result<Id<NSDocument>, Id<NSError>>;
 
-        #[method(openDocument:)]
-        pub unsafe fn openDocument(&self, sender: Option<&Object>);
+    #[cfg(all(
+        feature = "AppKit_NSDocument",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "makeUntitledDocumentOfType:error:", managed = "Other", throws)]
+    pub unsafe fn makeUntitledDocumentOfType_error(
+        &self,
+        type_name: &NSString,
+    ) -> Result<Id<NSDocument>, Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other URLsFromRunningOpenPanel)]
-        pub unsafe fn URLsFromRunningOpenPanel(&self) -> Option<Id<NSArray<NSURL>>>;
+    #[objc2::method(sel = "openDocument:")]
+    pub unsafe fn openDocument(&self, sender: Option<&Object>);
 
-        #[cfg(all(
-            feature = "AppKit_NSOpenPanel",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(runModalOpenPanel:forTypes:)]
-        pub unsafe fn runModalOpenPanel_forTypes(
-            &self,
-            open_panel: &NSOpenPanel,
-            types: Option<&NSArray<NSString>>,
-        ) -> NSInteger;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "URLsFromRunningOpenPanel", managed = "Other")]
+    pub unsafe fn URLsFromRunningOpenPanel(&self) -> Option<Id<NSArray<NSURL>>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
-        #[method(beginOpenPanelWithCompletionHandler:)]
-        pub unsafe fn beginOpenPanelWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(*mut NSArray<NSURL>,), ()>,
-        );
+    #[cfg(all(
+        feature = "AppKit_NSOpenPanel",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "runModalOpenPanel:forTypes:")]
+    pub unsafe fn runModalOpenPanel_forTypes(
+        &self,
+        open_panel: &NSOpenPanel,
+        types: Option<&NSArray<NSString>>,
+    ) -> NSInteger;
 
-        #[cfg(all(
-            feature = "AppKit_NSOpenPanel",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(beginOpenPanel:forTypes:completionHandler:)]
-        pub unsafe fn beginOpenPanel_forTypes_completionHandler(
-            &self,
-            open_panel: &NSOpenPanel,
-            in_types: Option<&NSArray<NSString>>,
-            completion_handler: &Block<(NSInteger,), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "beginOpenPanelWithCompletionHandler:")]
+    pub unsafe fn beginOpenPanelWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(*mut NSArray<NSURL>,), ()>,
+    );
 
-        #[cfg(all(
-            feature = "AppKit_NSDocument",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(openDocumentWithContentsOfURL:display:completionHandler:)]
-        pub unsafe fn openDocumentWithContentsOfURL_display_completionHandler(
-            &self,
-            url: &NSURL,
-            display_document: bool,
-            completion_handler: &Block<(*mut NSDocument, Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "AppKit_NSOpenPanel",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "beginOpenPanel:forTypes:completionHandler:")]
+    pub unsafe fn beginOpenPanel_forTypes_completionHandler(
+        &self,
+        open_panel: &NSOpenPanel,
+        in_types: Option<&NSArray<NSString>>,
+        completion_handler: &Block<(NSInteger,), ()>,
+    );
 
-        #[cfg(all(
-            feature = "AppKit_NSDocument",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other makeDocumentWithContentsOfURL:ofType:error:_)]
-        pub unsafe fn makeDocumentWithContentsOfURL_ofType_error(
-            &self,
-            url: &NSURL,
-            type_name: &NSString,
-        ) -> Result<Id<NSDocument>, Id<NSError>>;
+    #[cfg(all(
+        feature = "AppKit_NSDocument",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "openDocumentWithContentsOfURL:display:completionHandler:")]
+    pub unsafe fn openDocumentWithContentsOfURL_display_completionHandler(
+        &self,
+        url: &NSURL,
+        display_document: bool,
+        completion_handler: &Block<(*mut NSDocument, Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "AppKit_NSDocument",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(reopenDocumentForURL:withContentsOfURL:display:completionHandler:)]
-        pub unsafe fn reopenDocumentForURL_withContentsOfURL_display_completionHandler(
-            &self,
-            url_or_nil: Option<&NSURL>,
-            contents_url: &NSURL,
-            display_document: bool,
-            completion_handler: &Block<(*mut NSDocument, Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "AppKit_NSDocument",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "makeDocumentWithContentsOfURL:ofType:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn makeDocumentWithContentsOfURL_ofType_error(
+        &self,
+        url: &NSURL,
+        type_name: &NSString,
+    ) -> Result<Id<NSDocument>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "AppKit_NSDocument",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other makeDocumentForURL:withContentsOfURL:ofType:error:_)]
-        pub unsafe fn makeDocumentForURL_withContentsOfURL_ofType_error(
-            &self,
-            url_or_nil: Option<&NSURL>,
-            contents_url: &NSURL,
-            type_name: &NSString,
-        ) -> Result<Id<NSDocument>, Id<NSError>>;
+    #[cfg(all(
+        feature = "AppKit_NSDocument",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "reopenDocumentForURL:withContentsOfURL:display:completionHandler:")]
+    pub unsafe fn reopenDocumentForURL_withContentsOfURL_display_completionHandler(
+        &self,
+        url_or_nil: Option<&NSURL>,
+        contents_url: &NSURL,
+        display_document: bool,
+        completion_handler: &Block<(*mut NSDocument, Bool, *mut NSError), ()>,
+    );
 
-        #[method(autosavingDelay)]
-        pub unsafe fn autosavingDelay(&self) -> NSTimeInterval;
+    #[cfg(all(
+        feature = "AppKit_NSDocument",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "makeDocumentForURL:withContentsOfURL:ofType:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn makeDocumentForURL_withContentsOfURL_ofType_error(
+        &self,
+        url_or_nil: Option<&NSURL>,
+        contents_url: &NSURL,
+        type_name: &NSString,
+    ) -> Result<Id<NSDocument>, Id<NSError>>;
 
-        #[method(setAutosavingDelay:)]
-        pub unsafe fn setAutosavingDelay(&self, autosaving_delay: NSTimeInterval);
+    #[objc2::method(sel = "autosavingDelay")]
+    pub unsafe fn autosavingDelay(&self) -> NSTimeInterval;
 
-        #[method(saveAllDocuments:)]
-        pub unsafe fn saveAllDocuments(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "setAutosavingDelay:")]
+    pub unsafe fn setAutosavingDelay(&self, autosaving_delay: NSTimeInterval);
 
-        #[method(hasEditedDocuments)]
-        pub unsafe fn hasEditedDocuments(&self) -> bool;
+    #[objc2::method(sel = "saveAllDocuments:")]
+    pub unsafe fn saveAllDocuments(&self, sender: Option<&Object>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(reviewUnsavedDocumentsWithAlertTitle:cancellable:delegate:didReviewAllSelector:contextInfo:)]
-        pub unsafe fn reviewUnsavedDocumentsWithAlertTitle_cancellable_delegate_didReviewAllSelector_contextInfo(
-            &self,
-            title: Option<&NSString>,
-            cancellable: bool,
-            delegate: Option<&Object>,
-            did_review_all_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
+    #[objc2::method(sel = "hasEditedDocuments")]
+    pub unsafe fn hasEditedDocuments(&self) -> bool;
 
-        #[method(closeAllDocumentsWithDelegate:didCloseAllSelector:contextInfo:)]
-        pub unsafe fn closeAllDocumentsWithDelegate_didCloseAllSelector_contextInfo(
-            &self,
-            delegate: Option<&Object>,
-            did_close_all_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "reviewUnsavedDocumentsWithAlertTitle:cancellable:delegate:didReviewAllSelector:contextInfo:"
+    )]
+    pub unsafe fn reviewUnsavedDocumentsWithAlertTitle_cancellable_delegate_didReviewAllSelector_contextInfo(
+        &self,
+        title: Option<&NSString>,
+        cancellable: bool,
+        delegate: Option<&Object>,
+        did_review_all_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
 
-        #[cfg(all(
-            feature = "AppKit_NSDocument",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other duplicateDocumentWithContentsOfURL:copying:displayName:error:_)]
-        pub unsafe fn duplicateDocumentWithContentsOfURL_copying_displayName_error(
-            &self,
-            url: &NSURL,
-            duplicate_by_copying: bool,
-            display_name_or_nil: Option<&NSString>,
-        ) -> Result<Id<NSDocument>, Id<NSError>>;
+    #[objc2::method(sel = "closeAllDocumentsWithDelegate:didCloseAllSelector:contextInfo:")]
+    pub unsafe fn closeAllDocumentsWithDelegate_didCloseAllSelector_contextInfo(
+        &self,
+        delegate: Option<&Object>,
+        did_close_all_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
 
-        #[method(allowsAutomaticShareMenu)]
-        pub unsafe fn allowsAutomaticShareMenu(&self) -> bool;
+    #[cfg(all(
+        feature = "AppKit_NSDocument",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "duplicateDocumentWithContentsOfURL:copying:displayName:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn duplicateDocumentWithContentsOfURL_copying_displayName_error(
+        &self,
+        url: &NSURL,
+        duplicate_by_copying: bool,
+        display_name_or_nil: Option<&NSString>,
+    ) -> Result<Id<NSDocument>, Id<NSError>>;
 
-        #[cfg(feature = "AppKit_NSMenuItem")]
-        #[method_id(@__retain_semantics Other standardShareMenuItem)]
-        pub unsafe fn standardShareMenuItem(&self) -> Id<NSMenuItem>;
+    #[objc2::method(sel = "allowsAutomaticShareMenu")]
+    pub unsafe fn allowsAutomaticShareMenu(&self) -> bool;
 
-        #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSError"))]
-        #[method(presentError:modalForWindow:delegate:didPresentSelector:contextInfo:)]
-        pub unsafe fn presentError_modalForWindow_delegate_didPresentSelector_contextInfo(
-            &self,
-            error: &NSError,
-            window: &NSWindow,
-            delegate: Option<&Object>,
-            did_present_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
+    #[cfg(feature = "AppKit_NSMenuItem")]
+    #[objc2::method(sel = "standardShareMenuItem", managed = "Other")]
+    pub unsafe fn standardShareMenuItem(&self) -> Id<NSMenuItem>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(presentError:)]
-        pub unsafe fn presentError(&self, error: &NSError) -> bool;
+    #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "presentError:modalForWindow:delegate:didPresentSelector:contextInfo:")]
+    pub unsafe fn presentError_modalForWindow_delegate_didPresentSelector_contextInfo(
+        &self,
+        error: &NSError,
+        window: &NSWindow,
+        delegate: Option<&Object>,
+        did_present_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other willPresentError:)]
-        pub unsafe fn willPresentError(&self, error: &NSError) -> Id<NSError>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "presentError:")]
+    pub unsafe fn presentError(&self, error: &NSError) -> bool;
 
-        #[method(maximumRecentDocumentCount)]
-        pub unsafe fn maximumRecentDocumentCount(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "willPresentError:", managed = "Other")]
+    pub unsafe fn willPresentError(&self, error: &NSError) -> Id<NSError>;
 
-        #[method(clearRecentDocuments:)]
-        pub unsafe fn clearRecentDocuments(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "maximumRecentDocumentCount")]
+    pub unsafe fn maximumRecentDocumentCount(&self) -> NSUInteger;
 
-        #[cfg(feature = "AppKit_NSDocument")]
-        #[method(noteNewRecentDocument:)]
-        pub unsafe fn noteNewRecentDocument(&self, document: &NSDocument);
+    #[objc2::method(sel = "clearRecentDocuments:")]
+    pub unsafe fn clearRecentDocuments(&self, sender: Option<&Object>);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(noteNewRecentDocumentURL:)]
-        pub unsafe fn noteNewRecentDocumentURL(&self, url: &NSURL);
+    #[cfg(feature = "AppKit_NSDocument")]
+    #[objc2::method(sel = "noteNewRecentDocument:")]
+    pub unsafe fn noteNewRecentDocument(&self, document: &NSDocument);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other recentDocumentURLs)]
-        pub unsafe fn recentDocumentURLs(&self) -> Id<NSArray<NSURL>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "noteNewRecentDocumentURL:")]
+    pub unsafe fn noteNewRecentDocumentURL(&self, url: &NSURL);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other defaultType)]
-        pub unsafe fn defaultType(&self) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "recentDocumentURLs", managed = "Other")]
+    pub unsafe fn recentDocumentURLs(&self) -> Id<NSArray<NSURL>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other typeForContentsOfURL:error:_)]
-        pub unsafe fn typeForContentsOfURL_error(
-            &self,
-            url: &NSURL,
-        ) -> Result<Id<NSString>, Id<NSError>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "defaultType", managed = "Other")]
+    pub unsafe fn defaultType(&self) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other documentClassNames)]
-        pub unsafe fn documentClassNames(&self) -> Id<NSArray<NSString>>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "typeForContentsOfURL:error:", managed = "Other", throws)]
+    pub unsafe fn typeForContentsOfURL_error(
+        &self,
+        url: &NSURL,
+    ) -> Result<Id<NSString>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(documentClassForType:)]
-        pub unsafe fn documentClassForType(&self, type_name: &NSString) -> Option<&'static Class>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "documentClassNames", managed = "Other")]
+    pub unsafe fn documentClassNames(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other displayNameForType:)]
-        pub unsafe fn displayNameForType(&self, type_name: &NSString) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "documentClassForType:")]
+    pub unsafe fn documentClassForType(&self, type_name: &NSString) -> Option<&'static Class>;
 
-        #[method(validateUserInterfaceItem:)]
-        pub unsafe fn validateUserInterfaceItem(
-            &self,
-            item: &ProtocolObject<dyn NSValidatedUserInterfaceItem>,
-        ) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "displayNameForType:", managed = "Other")]
+    pub unsafe fn displayNameForType(&self, type_name: &NSString) -> Option<Id<NSString>>;
 
-extern_methods!(
-    /// NSDeprecated
+    #[objc2::method(sel = "validateUserInterfaceItem:")]
+    pub unsafe fn validateUserInterfaceItem(
+        &self,
+        item: &ProtocolObject<dyn NSValidatedUserInterfaceItem>,
+    ) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSDocumentController")]
-    unsafe impl NSDocumentController {
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[deprecated = "Use -openDocumentWithContentsOfURL:display:completionHandler: instead"]
-        #[method_id(@__retain_semantics Other openDocumentWithContentsOfURL:display:error:_)]
-        pub unsafe fn openDocumentWithContentsOfURL_display_error(
-            &self,
-            url: &NSURL,
-            display_document: bool,
-        ) -> Result<Id<Object>, Id<NSError>>;
+    pub type NSDocumentController;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[deprecated = "Use -reopenDocumentForURL:withContentsOfURL:display:completionHandler: instead"]
-        #[method(reopenDocumentForURL:withContentsOfURL:error:_)]
-        pub unsafe fn reopenDocumentForURL_withContentsOfURL_error(
-            &self,
-            url: Option<&NSURL>,
-            contents_url: &NSURL,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[deprecated = "Use -openDocumentWithContentsOfURL:display:completionHandler: instead"]
+    #[objc2::method(
+        sel = "openDocumentWithContentsOfURL:display:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn openDocumentWithContentsOfURL_display_error(
+        &self,
+        url: &NSURL,
+        display_document: bool,
+    ) -> Result<Id<Object>, Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other fileExtensionsFromType:)]
-        pub unsafe fn fileExtensionsFromType(&self, type_name: &NSString) -> Option<Id<NSArray>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[deprecated = "Use -reopenDocumentForURL:withContentsOfURL:display:completionHandler: instead"]
+    #[objc2::method(sel = "reopenDocumentForURL:withContentsOfURL:error:", throws)]
+    pub unsafe fn reopenDocumentForURL_withContentsOfURL_error(
+        &self,
+        url: Option<&NSURL>,
+        contents_url: &NSURL,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other typeFromFileExtension:)]
-        pub unsafe fn typeFromFileExtension(
-            &self,
-            file_name_extension_or_hfs_file_type: &NSString,
-        ) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[deprecated]
+    #[objc2::method(sel = "fileExtensionsFromType:", managed = "Other")]
+    pub unsafe fn fileExtensionsFromType(&self, type_name: &NSString) -> Option<Id<NSArray>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other documentForFileName:)]
-        pub unsafe fn documentForFileName(&self, file_name: &NSString) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "typeFromFileExtension:", managed = "Other")]
+    pub unsafe fn typeFromFileExtension(
+        &self,
+        file_name_extension_or_hfs_file_type: &NSString,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other fileNamesFromRunningOpenPanel)]
-        pub unsafe fn fileNamesFromRunningOpenPanel(&self) -> Option<Id<NSArray>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "documentForFileName:", managed = "Other")]
+    pub unsafe fn documentForFileName(&self, file_name: &NSString) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other makeDocumentWithContentsOfFile:ofType:)]
-        pub unsafe fn makeDocumentWithContentsOfFile_ofType(
-            &self,
-            file_name: &NSString,
-            r#type: &NSString,
-        ) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[deprecated]
+    #[objc2::method(sel = "fileNamesFromRunningOpenPanel", managed = "Other")]
+    pub unsafe fn fileNamesFromRunningOpenPanel(&self) -> Option<Id<NSArray>>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other makeDocumentWithContentsOfURL:ofType:)]
-        pub unsafe fn makeDocumentWithContentsOfURL_ofType(
-            &self,
-            url: &NSURL,
-            r#type: Option<&NSString>,
-        ) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "makeDocumentWithContentsOfFile:ofType:", managed = "Other")]
+    pub unsafe fn makeDocumentWithContentsOfFile_ofType(
+        &self,
+        file_name: &NSString,
+        r#type: &NSString,
+    ) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other makeUntitledDocumentOfType:)]
-        pub unsafe fn makeUntitledDocumentOfType(&self, r#type: &NSString) -> Option<Id<Object>>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
+    #[deprecated]
+    #[objc2::method(sel = "makeDocumentWithContentsOfURL:ofType:", managed = "Other")]
+    pub unsafe fn makeDocumentWithContentsOfURL_ofType(
+        &self,
+        url: &NSURL,
+        r#type: Option<&NSString>,
+    ) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other openDocumentWithContentsOfFile:display:)]
-        pub unsafe fn openDocumentWithContentsOfFile_display(
-            &self,
-            file_name: &NSString,
-            display: bool,
-        ) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "makeUntitledDocumentOfType:", managed = "Other")]
+    pub unsafe fn makeUntitledDocumentOfType(&self, r#type: &NSString) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other openDocumentWithContentsOfURL:display:)]
-        pub unsafe fn openDocumentWithContentsOfURL_display(
-            &self,
-            url: &NSURL,
-            display: bool,
-        ) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "openDocumentWithContentsOfFile:display:", managed = "Other")]
+    pub unsafe fn openDocumentWithContentsOfFile_display(
+        &self,
+        file_name: &NSString,
+        display: bool,
+    ) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other openUntitledDocumentOfType:display:)]
-        pub unsafe fn openUntitledDocumentOfType_display(
-            &self,
-            r#type: &NSString,
-            display: bool,
-        ) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[deprecated]
+    #[objc2::method(sel = "openDocumentWithContentsOfURL:display:", managed = "Other")]
+    pub unsafe fn openDocumentWithContentsOfURL_display(
+        &self,
+        url: &NSURL,
+        display: bool,
+    ) -> Option<Id<Object>>;
 
-        #[deprecated]
-        #[method(setShouldCreateUI:)]
-        pub unsafe fn setShouldCreateUI(&self, flag: bool);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "openUntitledDocumentOfType:display:", managed = "Other")]
+    pub unsafe fn openUntitledDocumentOfType_display(
+        &self,
+        r#type: &NSString,
+        display: bool,
+    ) -> Option<Id<Object>>;
 
-        #[deprecated]
-        #[method(shouldCreateUI)]
-        pub unsafe fn shouldCreateUI(&self) -> bool;
-    }
-);
+    #[deprecated]
+    #[objc2::method(sel = "setShouldCreateUI:")]
+    pub unsafe fn setShouldCreateUI(&self, flag: bool);
+
+    #[deprecated]
+    #[objc2::method(sel = "shouldCreateUI")]
+    pub unsafe fn shouldCreateUI(&self) -> bool;
+}

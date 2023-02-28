@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKPreferences")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKPreferences")]
-    pub struct WKPreferences;
-
-    #[cfg(feature = "WebKit_WKPreferences")]
-    unsafe impl ClassType for WKPreferences {
-        type Super = NSObject;
-    }
-);
+    pub type WKPreferences;
+}
 
 #[cfg(feature = "WebKit_WKPreferences")]
 unsafe impl NSCoding for WKPreferences {}
@@ -25,88 +25,90 @@ unsafe impl NSObjectProtocol for WKPreferences {}
 #[cfg(feature = "WebKit_WKPreferences")]
 unsafe impl NSSecureCoding for WKPreferences {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKPreferences")]
-    unsafe impl WKPreferences {
-        #[method(minimumFontSize)]
-        pub unsafe fn minimumFontSize(&self) -> CGFloat;
+    pub type WKPreferences;
 
-        #[method(setMinimumFontSize:)]
-        pub unsafe fn setMinimumFontSize(&self, minimum_font_size: CGFloat);
+    #[objc2::method(sel = "minimumFontSize")]
+    pub unsafe fn minimumFontSize(&self) -> CGFloat;
 
-        #[method(javaScriptCanOpenWindowsAutomatically)]
-        pub unsafe fn javaScriptCanOpenWindowsAutomatically(&self) -> bool;
+    #[objc2::method(sel = "setMinimumFontSize:")]
+    pub unsafe fn setMinimumFontSize(&self, minimum_font_size: CGFloat);
 
-        #[method(setJavaScriptCanOpenWindowsAutomatically:)]
-        pub unsafe fn setJavaScriptCanOpenWindowsAutomatically(
-            &self,
-            java_script_can_open_windows_automatically: bool,
-        );
+    #[objc2::method(sel = "javaScriptCanOpenWindowsAutomatically")]
+    pub unsafe fn javaScriptCanOpenWindowsAutomatically(&self) -> bool;
 
-        #[method(isFraudulentWebsiteWarningEnabled)]
-        pub unsafe fn isFraudulentWebsiteWarningEnabled(&self) -> bool;
+    #[objc2::method(sel = "setJavaScriptCanOpenWindowsAutomatically:")]
+    pub unsafe fn setJavaScriptCanOpenWindowsAutomatically(
+        &self,
+        java_script_can_open_windows_automatically: bool,
+    );
 
-        #[method(setFraudulentWebsiteWarningEnabled:)]
-        pub unsafe fn setFraudulentWebsiteWarningEnabled(
-            &self,
-            fraudulent_website_warning_enabled: bool,
-        );
+    #[objc2::method(sel = "isFraudulentWebsiteWarningEnabled")]
+    pub unsafe fn isFraudulentWebsiteWarningEnabled(&self) -> bool;
 
-        #[method(tabFocusesLinks)]
-        pub unsafe fn tabFocusesLinks(&self) -> bool;
+    #[objc2::method(sel = "setFraudulentWebsiteWarningEnabled:")]
+    pub unsafe fn setFraudulentWebsiteWarningEnabled(
+        &self,
+        fraudulent_website_warning_enabled: bool,
+    );
 
-        #[method(setTabFocusesLinks:)]
-        pub unsafe fn setTabFocusesLinks(&self, tab_focuses_links: bool);
+    #[objc2::method(sel = "tabFocusesLinks")]
+    pub unsafe fn tabFocusesLinks(&self) -> bool;
 
-        #[method(isTextInteractionEnabled)]
-        pub unsafe fn isTextInteractionEnabled(&self) -> bool;
+    #[objc2::method(sel = "setTabFocusesLinks:")]
+    pub unsafe fn setTabFocusesLinks(&self, tab_focuses_links: bool);
 
-        #[method(setTextInteractionEnabled:)]
-        pub unsafe fn setTextInteractionEnabled(&self, text_interaction_enabled: bool);
+    #[objc2::method(sel = "isTextInteractionEnabled")]
+    pub unsafe fn isTextInteractionEnabled(&self) -> bool;
 
-        #[method(isSiteSpecificQuirksModeEnabled)]
-        pub unsafe fn isSiteSpecificQuirksModeEnabled(&self) -> bool;
+    #[objc2::method(sel = "setTextInteractionEnabled:")]
+    pub unsafe fn setTextInteractionEnabled(&self, text_interaction_enabled: bool);
 
-        #[method(setSiteSpecificQuirksModeEnabled:)]
-        pub unsafe fn setSiteSpecificQuirksModeEnabled(
-            &self,
-            site_specific_quirks_mode_enabled: bool,
-        );
+    #[objc2::method(sel = "isSiteSpecificQuirksModeEnabled")]
+    pub unsafe fn isSiteSpecificQuirksModeEnabled(&self) -> bool;
 
-        #[method(isElementFullscreenEnabled)]
-        pub unsafe fn isElementFullscreenEnabled(&self) -> bool;
+    #[objc2::method(sel = "setSiteSpecificQuirksModeEnabled:")]
+    pub unsafe fn setSiteSpecificQuirksModeEnabled(&self, site_specific_quirks_mode_enabled: bool);
 
-        #[method(setElementFullscreenEnabled:)]
-        pub unsafe fn setElementFullscreenEnabled(&self, element_fullscreen_enabled: bool);
-    }
-);
+    #[objc2::method(sel = "isElementFullscreenEnabled")]
+    pub unsafe fn isElementFullscreenEnabled(&self) -> bool;
 
-extern_methods!(
-    /// WKDeprecated
+    #[objc2::method(sel = "setElementFullscreenEnabled:")]
+    pub unsafe fn setElementFullscreenEnabled(&self, element_fullscreen_enabled: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKPreferences")]
-    unsafe impl WKPreferences {
-        #[deprecated = "Java is no longer supported"]
-        #[method(javaEnabled)]
-        pub unsafe fn javaEnabled(&self) -> bool;
+    pub type WKPreferences;
 
-        #[deprecated = "Java is no longer supported"]
-        #[method(setJavaEnabled:)]
-        pub unsafe fn setJavaEnabled(&self, java_enabled: bool);
+    #[deprecated = "Java is no longer supported"]
+    #[objc2::method(sel = "javaEnabled")]
+    pub unsafe fn javaEnabled(&self) -> bool;
 
-        #[deprecated = "Plug-ins are no longer supported"]
-        #[method(plugInsEnabled)]
-        pub unsafe fn plugInsEnabled(&self) -> bool;
+    #[deprecated = "Java is no longer supported"]
+    #[objc2::method(sel = "setJavaEnabled:")]
+    pub unsafe fn setJavaEnabled(&self, java_enabled: bool);
 
-        #[deprecated = "Plug-ins are no longer supported"]
-        #[method(setPlugInsEnabled:)]
-        pub unsafe fn setPlugInsEnabled(&self, plug_ins_enabled: bool);
+    #[deprecated = "Plug-ins are no longer supported"]
+    #[objc2::method(sel = "plugInsEnabled")]
+    pub unsafe fn plugInsEnabled(&self) -> bool;
 
-        #[deprecated = "Use WKWebPagePreferences.allowsContentJavaScript to disable content JavaScript on a per-navigation basis"]
-        #[method(javaScriptEnabled)]
-        pub unsafe fn javaScriptEnabled(&self) -> bool;
+    #[deprecated = "Plug-ins are no longer supported"]
+    #[objc2::method(sel = "setPlugInsEnabled:")]
+    pub unsafe fn setPlugInsEnabled(&self, plug_ins_enabled: bool);
 
-        #[deprecated = "Use WKWebPagePreferences.allowsContentJavaScript to disable content JavaScript on a per-navigation basis"]
-        #[method(setJavaScriptEnabled:)]
-        pub unsafe fn setJavaScriptEnabled(&self, java_script_enabled: bool);
-    }
-);
+    #[deprecated = "Use WKWebPagePreferences.allowsContentJavaScript to disable content JavaScript on a per-navigation basis"]
+    #[objc2::method(sel = "javaScriptEnabled")]
+    pub unsafe fn javaScriptEnabled(&self) -> bool;
+
+    #[deprecated = "Use WKWebPagePreferences.allowsContentJavaScript to disable content JavaScript on a per-navigation basis"]
+    #[objc2::method(sel = "setJavaScriptEnabled:")]
+    pub unsafe fn setJavaScriptEnabled(&self, java_script_enabled: bool);
+}

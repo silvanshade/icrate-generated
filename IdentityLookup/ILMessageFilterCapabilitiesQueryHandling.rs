@@ -4,21 +4,18 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::IdentityLookup::*;
 
-extern_protocol!(
-    pub unsafe trait ILMessageFilterCapabilitiesQueryHandling: NSObjectProtocol {
-        #[cfg(all(
-            feature = "IdentityLookup_ILMessageFilterCapabilitiesQueryRequest",
-            feature = "IdentityLookup_ILMessageFilterCapabilitiesQueryResponse",
-            feature = "IdentityLookup_ILMessageFilterExtensionContext"
-        ))]
-        #[method(handleCapabilitiesQueryRequest:context:completion:)]
-        unsafe fn handleCapabilitiesQueryRequest_context_completion(
-            &self,
-            capabilities_query_request: &ILMessageFilterCapabilitiesQueryRequest,
-            context: &ILMessageFilterExtensionContext,
-            completion: &Block<(NonNull<ILMessageFilterCapabilitiesQueryResponse>,), ()>,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn ILMessageFilterCapabilitiesQueryHandling {}
-);
+#[objc2::protocol]
+pub unsafe trait ILMessageFilterCapabilitiesQueryHandling: NSObjectProtocol {
+    #[cfg(all(
+        feature = "IdentityLookup_ILMessageFilterCapabilitiesQueryRequest",
+        feature = "IdentityLookup_ILMessageFilterCapabilitiesQueryResponse",
+        feature = "IdentityLookup_ILMessageFilterExtensionContext"
+    ))]
+    #[objc2::method(sel = "handleCapabilitiesQueryRequest:context:completion:")]
+    unsafe fn handleCapabilitiesQueryRequest_context_completion(
+        &self,
+        capabilities_query_request: &ILMessageFilterCapabilitiesQueryRequest,
+        context: &ILMessageFilterExtensionContext,
+        completion: &Block<(NonNull<ILMessageFilterCapabilitiesQueryResponse>,), ()>,
+    );
+}

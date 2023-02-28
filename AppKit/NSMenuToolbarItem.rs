@@ -5,48 +5,57 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSToolbarItem,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSMenuToolbarItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSMenuToolbarItem")]
-    pub struct NSMenuToolbarItem;
-
-    #[cfg(feature = "AppKit_NSMenuToolbarItem")]
-    unsafe impl ClassType for NSMenuToolbarItem {
-        #[inherits(NSObject)]
-        type Super = NSToolbarItem;
-    }
-);
+    pub type NSMenuToolbarItem;
+}
 
 #[cfg(feature = "AppKit_NSMenuToolbarItem")]
 unsafe impl NSObjectProtocol for NSMenuToolbarItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSMenuToolbarItem")]
-    unsafe impl NSMenuToolbarItem {
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method_id(@__retain_semantics Other menu)]
-        pub unsafe fn menu(&self) -> Id<NSMenu>;
+    pub type NSMenuToolbarItem;
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method(setMenu:)]
-        pub unsafe fn setMenu(&self, menu: &NSMenu);
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "menu", managed = "Other")]
+    pub unsafe fn menu(&self) -> Id<NSMenu>;
 
-        #[method(showsIndicator)]
-        pub unsafe fn showsIndicator(&self) -> bool;
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "setMenu:")]
+    pub unsafe fn setMenu(&self, menu: &NSMenu);
 
-        #[method(setShowsIndicator:)]
-        pub unsafe fn setShowsIndicator(&self, shows_indicator: bool);
-    }
-);
+    #[objc2::method(sel = "showsIndicator")]
+    pub unsafe fn showsIndicator(&self) -> bool;
 
-extern_methods!(
-    /// Methods declared on superclass `NSToolbarItem`
+    #[objc2::method(sel = "setShowsIndicator:")]
+    pub unsafe fn setShowsIndicator(&self, shows_indicator: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSToolbarItem`
     #[cfg(feature = "AppKit_NSMenuToolbarItem")]
-    unsafe impl NSMenuToolbarItem {
-        #[method_id(@__retain_semantics Init initWithItemIdentifier:)]
-        pub unsafe fn initWithItemIdentifier(
-            this: Option<Allocated<Self>>,
-            item_identifier: &NSToolbarItemIdentifier,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSMenuToolbarItem")]
+    pub type NSMenuToolbarItem;
+
+    #[objc2::method(sel = "initWithItemIdentifier:", managed = "Init")]
+    pub unsafe fn initWithItemIdentifier(
+        this: Option<Allocated<Self>>,
+        item_identifier: &NSToolbarItemIdentifier,
+    ) -> Id<Self>;
+}

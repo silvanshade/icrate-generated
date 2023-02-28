@@ -5,72 +5,75 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKSystemSharingUIObserver")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKSystemSharingUIObserver")]
-    pub struct CKSystemSharingUIObserver;
-
-    #[cfg(feature = "CloudKit_CKSystemSharingUIObserver")]
-    unsafe impl ClassType for CKSystemSharingUIObserver {
-        type Super = NSObject;
-    }
-);
+    pub type CKSystemSharingUIObserver;
+}
 
 #[cfg(feature = "CloudKit_CKSystemSharingUIObserver")]
 unsafe impl NSObjectProtocol for CKSystemSharingUIObserver {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKSystemSharingUIObserver")]
-    unsafe impl CKSystemSharingUIObserver {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKSystemSharingUIObserver;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKContainer")]
-        #[method_id(@__retain_semantics Init initWithContainer:)]
-        pub unsafe fn initWithContainer(
-            this: Option<Allocated<Self>>,
-            container: &CKContainer,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(all(
-            feature = "CloudKit_CKRecordID",
-            feature = "CloudKit_CKShare",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(systemSharingUIDidSaveShareBlock)]
-        pub unsafe fn systemSharingUIDidSaveShareBlock(
-            &self,
-        ) -> *mut Block<(NonNull<CKRecordID>, *mut CKShare, *mut NSError), ()>;
+    #[cfg(feature = "CloudKit_CKContainer")]
+    #[objc2::method(sel = "initWithContainer:", managed = "Init")]
+    pub unsafe fn initWithContainer(
+        this: Option<Allocated<Self>>,
+        container: &CKContainer,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "CloudKit_CKRecordID",
-            feature = "CloudKit_CKShare",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(setSystemSharingUIDidSaveShareBlock:)]
-        pub unsafe fn setSystemSharingUIDidSaveShareBlock(
-            &self,
-            system_sharing_ui_did_save_share_block: Option<
-                &Block<(NonNull<CKRecordID>, *mut CKShare, *mut NSError), ()>,
-            >,
-        );
+    #[cfg(all(
+        feature = "CloudKit_CKRecordID",
+        feature = "CloudKit_CKShare",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "systemSharingUIDidSaveShareBlock")]
+    pub unsafe fn systemSharingUIDidSaveShareBlock(
+        &self,
+    ) -> *mut Block<(NonNull<CKRecordID>, *mut CKShare, *mut NSError), ()>;
 
-        #[cfg(all(feature = "CloudKit_CKRecordID", feature = "Foundation_NSError"))]
-        #[method(systemSharingUIDidStopSharingBlock)]
-        pub unsafe fn systemSharingUIDidStopSharingBlock(
-            &self,
-        ) -> *mut Block<(NonNull<CKRecordID>, *mut NSError), ()>;
+    #[cfg(all(
+        feature = "CloudKit_CKRecordID",
+        feature = "CloudKit_CKShare",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "setSystemSharingUIDidSaveShareBlock:")]
+    pub unsafe fn setSystemSharingUIDidSaveShareBlock(
+        &self,
+        system_sharing_ui_did_save_share_block: Option<
+            &Block<(NonNull<CKRecordID>, *mut CKShare, *mut NSError), ()>,
+        >,
+    );
 
-        #[cfg(all(feature = "CloudKit_CKRecordID", feature = "Foundation_NSError"))]
-        #[method(setSystemSharingUIDidStopSharingBlock:)]
-        pub unsafe fn setSystemSharingUIDidStopSharingBlock(
-            &self,
-            system_sharing_ui_did_stop_sharing_block: Option<
-                &Block<(NonNull<CKRecordID>, *mut NSError), ()>,
-            >,
-        );
-    }
-);
+    #[cfg(all(feature = "CloudKit_CKRecordID", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "systemSharingUIDidStopSharingBlock")]
+    pub unsafe fn systemSharingUIDidStopSharingBlock(
+        &self,
+    ) -> *mut Block<(NonNull<CKRecordID>, *mut NSError), ()>;
+
+    #[cfg(all(feature = "CloudKit_CKRecordID", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "setSystemSharingUIDidStopSharingBlock:")]
+    pub unsafe fn setSystemSharingUIDidStopSharingBlock(
+        &self,
+        system_sharing_ui_did_stop_sharing_block: Option<
+            &Block<(NonNull<CKRecordID>, *mut NSError), ()>,
+        >,
+    );
+}

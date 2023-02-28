@@ -6,17 +6,18 @@ use crate::Foundation::*;
 use crate::Metal::*;
 use crate::MetalKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetalKit_MTKView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetalKit_MTKView")]
-    pub struct MTKView;
-
-    #[cfg(feature = "MetalKit_MTKView")]
-    unsafe impl ClassType for MTKView {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type MTKView;
+}
 
 #[cfg(feature = "MetalKit_MTKView")]
 unsafe impl NSAccessibility for MTKView {}
@@ -42,177 +43,183 @@ unsafe impl NSObjectProtocol for MTKView {}
 #[cfg(feature = "MetalKit_MTKView")]
 unsafe impl NSUserInterfaceItemIdentification for MTKView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetalKit_MTKView")]
-    unsafe impl MTKView {
-        #[method_id(@__retain_semantics Init initWithFrame:device:)]
-        pub unsafe fn initWithFrame_device(
-            this: Option<Allocated<Self>>,
-            frame_rect: CGRect,
-            device: Option<&ProtocolObject<dyn MTLDevice>>,
-        ) -> Id<Self>;
+    pub type MTKView;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+    #[objc2::method(sel = "initWithFrame:device:", managed = "Init")]
+    pub unsafe fn initWithFrame_device(
+        this: Option<Allocated<Self>>,
+        frame_rect: CGRect,
+        device: Option<&ProtocolObject<dyn MTLDevice>>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn MTKViewDelegate>>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn MTKViewDelegate>>);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn MTKViewDelegate>>>;
 
-        #[method_id(@__retain_semantics Other device)]
-        pub unsafe fn device(&self) -> Option<Id<ProtocolObject<dyn MTLDevice>>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn MTKViewDelegate>>);
 
-        #[method(setDevice:)]
-        pub unsafe fn setDevice(&self, device: Option<&ProtocolObject<dyn MTLDevice>>);
+    #[objc2::method(sel = "device", managed = "Other")]
+    pub unsafe fn device(&self) -> Option<Id<ProtocolObject<dyn MTLDevice>>>;
 
-        #[method(framebufferOnly)]
-        pub unsafe fn framebufferOnly(&self) -> bool;
+    #[objc2::method(sel = "setDevice:")]
+    pub unsafe fn setDevice(&self, device: Option<&ProtocolObject<dyn MTLDevice>>);
 
-        #[method(setFramebufferOnly:)]
-        pub unsafe fn setFramebufferOnly(&self, framebuffer_only: bool);
+    #[objc2::method(sel = "framebufferOnly")]
+    pub unsafe fn framebufferOnly(&self) -> bool;
 
-        #[method(depthStencilAttachmentTextureUsage)]
-        pub unsafe fn depthStencilAttachmentTextureUsage(&self) -> MTLTextureUsage;
+    #[objc2::method(sel = "setFramebufferOnly:")]
+    pub unsafe fn setFramebufferOnly(&self, framebuffer_only: bool);
 
-        #[method(setDepthStencilAttachmentTextureUsage:)]
-        pub unsafe fn setDepthStencilAttachmentTextureUsage(
-            &self,
-            depth_stencil_attachment_texture_usage: MTLTextureUsage,
-        );
+    #[objc2::method(sel = "depthStencilAttachmentTextureUsage")]
+    pub unsafe fn depthStencilAttachmentTextureUsage(&self) -> MTLTextureUsage;
 
-        #[method(multisampleColorAttachmentTextureUsage)]
-        pub unsafe fn multisampleColorAttachmentTextureUsage(&self) -> MTLTextureUsage;
+    #[objc2::method(sel = "setDepthStencilAttachmentTextureUsage:")]
+    pub unsafe fn setDepthStencilAttachmentTextureUsage(
+        &self,
+        depth_stencil_attachment_texture_usage: MTLTextureUsage,
+    );
 
-        #[method(setMultisampleColorAttachmentTextureUsage:)]
-        pub unsafe fn setMultisampleColorAttachmentTextureUsage(
-            &self,
-            multisample_color_attachment_texture_usage: MTLTextureUsage,
-        );
+    #[objc2::method(sel = "multisampleColorAttachmentTextureUsage")]
+    pub unsafe fn multisampleColorAttachmentTextureUsage(&self) -> MTLTextureUsage;
 
-        #[method(presentsWithTransaction)]
-        pub unsafe fn presentsWithTransaction(&self) -> bool;
+    #[objc2::method(sel = "setMultisampleColorAttachmentTextureUsage:")]
+    pub unsafe fn setMultisampleColorAttachmentTextureUsage(
+        &self,
+        multisample_color_attachment_texture_usage: MTLTextureUsage,
+    );
 
-        #[method(setPresentsWithTransaction:)]
-        pub unsafe fn setPresentsWithTransaction(&self, presents_with_transaction: bool);
+    #[objc2::method(sel = "presentsWithTransaction")]
+    pub unsafe fn presentsWithTransaction(&self) -> bool;
 
-        #[method(colorPixelFormat)]
-        pub unsafe fn colorPixelFormat(&self) -> MTLPixelFormat;
+    #[objc2::method(sel = "setPresentsWithTransaction:")]
+    pub unsafe fn setPresentsWithTransaction(&self, presents_with_transaction: bool);
 
-        #[method(setColorPixelFormat:)]
-        pub unsafe fn setColorPixelFormat(&self, color_pixel_format: MTLPixelFormat);
+    #[objc2::method(sel = "colorPixelFormat")]
+    pub unsafe fn colorPixelFormat(&self) -> MTLPixelFormat;
 
-        #[method(depthStencilPixelFormat)]
-        pub unsafe fn depthStencilPixelFormat(&self) -> MTLPixelFormat;
+    #[objc2::method(sel = "setColorPixelFormat:")]
+    pub unsafe fn setColorPixelFormat(&self, color_pixel_format: MTLPixelFormat);
 
-        #[method(setDepthStencilPixelFormat:)]
-        pub unsafe fn setDepthStencilPixelFormat(&self, depth_stencil_pixel_format: MTLPixelFormat);
+    #[objc2::method(sel = "depthStencilPixelFormat")]
+    pub unsafe fn depthStencilPixelFormat(&self) -> MTLPixelFormat;
 
-        #[method(depthStencilStorageMode)]
-        pub unsafe fn depthStencilStorageMode(&self) -> MTLStorageMode;
+    #[objc2::method(sel = "setDepthStencilPixelFormat:")]
+    pub unsafe fn setDepthStencilPixelFormat(&self, depth_stencil_pixel_format: MTLPixelFormat);
 
-        #[method(setDepthStencilStorageMode:)]
-        pub unsafe fn setDepthStencilStorageMode(&self, depth_stencil_storage_mode: MTLStorageMode);
+    #[objc2::method(sel = "depthStencilStorageMode")]
+    pub unsafe fn depthStencilStorageMode(&self) -> MTLStorageMode;
 
-        #[method(sampleCount)]
-        pub unsafe fn sampleCount(&self) -> NSUInteger;
+    #[objc2::method(sel = "setDepthStencilStorageMode:")]
+    pub unsafe fn setDepthStencilStorageMode(&self, depth_stencil_storage_mode: MTLStorageMode);
 
-        #[method(setSampleCount:)]
-        pub unsafe fn setSampleCount(&self, sample_count: NSUInteger);
+    #[objc2::method(sel = "sampleCount")]
+    pub unsafe fn sampleCount(&self) -> NSUInteger;
 
-        #[method(clearColor)]
-        pub unsafe fn clearColor(&self) -> MTLClearColor;
+    #[objc2::method(sel = "setSampleCount:")]
+    pub unsafe fn setSampleCount(&self, sample_count: NSUInteger);
 
-        #[method(setClearColor:)]
-        pub unsafe fn setClearColor(&self, clear_color: MTLClearColor);
+    #[objc2::method(sel = "clearColor")]
+    pub unsafe fn clearColor(&self) -> MTLClearColor;
 
-        #[method(clearDepth)]
-        pub unsafe fn clearDepth(&self) -> c_double;
+    #[objc2::method(sel = "setClearColor:")]
+    pub unsafe fn setClearColor(&self, clear_color: MTLClearColor);
 
-        #[method(setClearDepth:)]
-        pub unsafe fn setClearDepth(&self, clear_depth: c_double);
+    #[objc2::method(sel = "clearDepth")]
+    pub unsafe fn clearDepth(&self) -> c_double;
 
-        #[method(clearStencil)]
-        pub unsafe fn clearStencil(&self) -> u32;
+    #[objc2::method(sel = "setClearDepth:")]
+    pub unsafe fn setClearDepth(&self, clear_depth: c_double);
 
-        #[method(setClearStencil:)]
-        pub unsafe fn setClearStencil(&self, clear_stencil: u32);
+    #[objc2::method(sel = "clearStencil")]
+    pub unsafe fn clearStencil(&self) -> u32;
 
-        #[method_id(@__retain_semantics Other depthStencilTexture)]
-        pub unsafe fn depthStencilTexture(&self) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
+    #[objc2::method(sel = "setClearStencil:")]
+    pub unsafe fn setClearStencil(&self, clear_stencil: u32);
 
-        #[method_id(@__retain_semantics Other multisampleColorTexture)]
-        pub unsafe fn multisampleColorTexture(&self) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
+    #[objc2::method(sel = "depthStencilTexture", managed = "Other")]
+    pub unsafe fn depthStencilTexture(&self) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
 
-        #[method(releaseDrawables)]
-        pub unsafe fn releaseDrawables(&self);
+    #[objc2::method(sel = "multisampleColorTexture", managed = "Other")]
+    pub unsafe fn multisampleColorTexture(&self) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
 
-        #[cfg(feature = "Metal_MTLRenderPassDescriptor")]
-        #[method_id(@__retain_semantics Other currentRenderPassDescriptor)]
-        pub unsafe fn currentRenderPassDescriptor(&self) -> Option<Id<MTLRenderPassDescriptor>>;
+    #[objc2::method(sel = "releaseDrawables")]
+    pub unsafe fn releaseDrawables(&self);
 
-        #[method(preferredFramesPerSecond)]
-        pub unsafe fn preferredFramesPerSecond(&self) -> NSInteger;
+    #[cfg(feature = "Metal_MTLRenderPassDescriptor")]
+    #[objc2::method(sel = "currentRenderPassDescriptor", managed = "Other")]
+    pub unsafe fn currentRenderPassDescriptor(&self) -> Option<Id<MTLRenderPassDescriptor>>;
 
-        #[method(setPreferredFramesPerSecond:)]
-        pub unsafe fn setPreferredFramesPerSecond(&self, preferred_frames_per_second: NSInteger);
+    #[objc2::method(sel = "preferredFramesPerSecond")]
+    pub unsafe fn preferredFramesPerSecond(&self) -> NSInteger;
 
-        #[method(enableSetNeedsDisplay)]
-        pub unsafe fn enableSetNeedsDisplay(&self) -> bool;
+    #[objc2::method(sel = "setPreferredFramesPerSecond:")]
+    pub unsafe fn setPreferredFramesPerSecond(&self, preferred_frames_per_second: NSInteger);
 
-        #[method(setEnableSetNeedsDisplay:)]
-        pub unsafe fn setEnableSetNeedsDisplay(&self, enable_set_needs_display: bool);
+    #[objc2::method(sel = "enableSetNeedsDisplay")]
+    pub unsafe fn enableSetNeedsDisplay(&self) -> bool;
 
-        #[method(autoResizeDrawable)]
-        pub unsafe fn autoResizeDrawable(&self) -> bool;
+    #[objc2::method(sel = "setEnableSetNeedsDisplay:")]
+    pub unsafe fn setEnableSetNeedsDisplay(&self, enable_set_needs_display: bool);
 
-        #[method(setAutoResizeDrawable:)]
-        pub unsafe fn setAutoResizeDrawable(&self, auto_resize_drawable: bool);
+    #[objc2::method(sel = "autoResizeDrawable")]
+    pub unsafe fn autoResizeDrawable(&self) -> bool;
 
-        #[method(drawableSize)]
-        pub unsafe fn drawableSize(&self) -> CGSize;
+    #[objc2::method(sel = "setAutoResizeDrawable:")]
+    pub unsafe fn setAutoResizeDrawable(&self, auto_resize_drawable: bool);
 
-        #[method(setDrawableSize:)]
-        pub unsafe fn setDrawableSize(&self, drawable_size: CGSize);
+    #[objc2::method(sel = "drawableSize")]
+    pub unsafe fn drawableSize(&self) -> CGSize;
 
-        #[method(preferredDrawableSize)]
-        pub unsafe fn preferredDrawableSize(&self) -> CGSize;
+    #[objc2::method(sel = "setDrawableSize:")]
+    pub unsafe fn setDrawableSize(&self, drawable_size: CGSize);
 
-        #[method_id(@__retain_semantics Other preferredDevice)]
-        pub unsafe fn preferredDevice(&self) -> Option<Id<ProtocolObject<dyn MTLDevice>>>;
+    #[objc2::method(sel = "preferredDrawableSize")]
+    pub unsafe fn preferredDrawableSize(&self) -> CGSize;
 
-        #[method(isPaused)]
-        pub unsafe fn isPaused(&self) -> bool;
+    #[objc2::method(sel = "preferredDevice", managed = "Other")]
+    pub unsafe fn preferredDevice(&self) -> Option<Id<ProtocolObject<dyn MTLDevice>>>;
 
-        #[method(setPaused:)]
-        pub unsafe fn setPaused(&self, paused: bool);
+    #[objc2::method(sel = "isPaused")]
+    pub unsafe fn isPaused(&self) -> bool;
 
-        #[method(draw)]
-        pub unsafe fn draw(&self);
-    }
-);
+    #[objc2::method(sel = "setPaused:")]
+    pub unsafe fn setPaused(&self, paused: bool);
 
-extern_protocol!(
-    pub unsafe trait MTKViewDelegate: NSObjectProtocol {
-        #[cfg(feature = "MetalKit_MTKView")]
-        #[method(mtkView:drawableSizeWillChange:)]
-        unsafe fn mtkView_drawableSizeWillChange(&self, view: &MTKView, size: CGSize);
+    #[objc2::method(sel = "draw")]
+    pub unsafe fn draw(&self);
+}
 
-        #[cfg(feature = "MetalKit_MTKView")]
-        #[method(drawInMTKView:)]
-        unsafe fn drawInMTKView(&self, view: &MTKView);
-    }
-
-    unsafe impl ProtocolType for dyn MTKViewDelegate {}
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+#[objc2::protocol]
+pub unsafe trait MTKViewDelegate: NSObjectProtocol {
     #[cfg(feature = "MetalKit_MTKView")]
-    unsafe impl MTKView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+    #[objc2::method(sel = "mtkView:drawableSizeWillChange:")]
+    unsafe fn mtkView_drawableSizeWillChange(&self, view: &MTKView, size: CGSize);
+
+    #[cfg(feature = "MetalKit_MTKView")]
+    #[objc2::method(sel = "drawInMTKView:")]
+    unsafe fn drawInMTKView(&self, view: &MTKView);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
+    #[cfg(feature = "MetalKit_MTKView")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetalKit_MTKView")]
+    pub type MTKView;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

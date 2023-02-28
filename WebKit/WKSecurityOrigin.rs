@@ -5,35 +5,38 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKSecurityOrigin")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKSecurityOrigin")]
-    pub struct WKSecurityOrigin;
-
-    #[cfg(feature = "WebKit_WKSecurityOrigin")]
-    unsafe impl ClassType for WKSecurityOrigin {
-        type Super = NSObject;
-    }
-);
+    pub type WKSecurityOrigin;
+}
 
 #[cfg(feature = "WebKit_WKSecurityOrigin")]
 unsafe impl NSObjectProtocol for WKSecurityOrigin {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKSecurityOrigin")]
-    unsafe impl WKSecurityOrigin {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type WKSecurityOrigin;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other protocol)]
-        pub unsafe fn protocol(&self) -> Id<NSString>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other host)]
-        pub unsafe fn host(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "protocol", managed = "Other")]
+    pub unsafe fn protocol(&self) -> Id<NSString>;
 
-        #[method(port)]
-        pub unsafe fn port(&self) -> NSInteger;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "host", managed = "Other")]
+    pub unsafe fn host(&self) -> Id<NSString>;
+
+    #[objc2::method(sel = "port")]
+    pub unsafe fn port(&self) -> NSInteger;
+}

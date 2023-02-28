@@ -4,99 +4,99 @@ use crate::common::*;
 use crate::CallKit::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait CXCallDirectoryExtensionContextDelegate: NSObjectProtocol {
-        #[cfg(all(
-            feature = "CallKit_CXCallDirectoryExtensionContext",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(requestFailedForExtensionContext:withError:)]
-        unsafe fn requestFailedForExtensionContext_withError(
-            &self,
-            extension_context: &CXCallDirectoryExtensionContext,
-            error: &NSError,
-        );
-    }
+#[objc2::protocol]
+pub unsafe trait CXCallDirectoryExtensionContextDelegate: NSObjectProtocol {
+    #[cfg(all(
+        feature = "CallKit_CXCallDirectoryExtensionContext",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "requestFailedForExtensionContext:withError:")]
+    unsafe fn requestFailedForExtensionContext_withError(
+        &self,
+        extension_context: &CXCallDirectoryExtensionContext,
+        error: &NSError,
+    );
+}
 
-    unsafe impl ProtocolType for dyn CXCallDirectoryExtensionContextDelegate {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSExtensionContext,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CallKit_CXCallDirectoryExtensionContext")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CallKit_CXCallDirectoryExtensionContext")]
-    pub struct CXCallDirectoryExtensionContext;
-
-    #[cfg(feature = "CallKit_CXCallDirectoryExtensionContext")]
-    unsafe impl ClassType for CXCallDirectoryExtensionContext {
-        #[inherits(NSObject)]
-        type Super = NSExtensionContext;
-    }
-);
+    pub type CXCallDirectoryExtensionContext;
+}
 
 #[cfg(feature = "CallKit_CXCallDirectoryExtensionContext")]
 unsafe impl NSObjectProtocol for CXCallDirectoryExtensionContext {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CallKit_CXCallDirectoryExtensionContext")]
-    unsafe impl CXCallDirectoryExtensionContext {
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn CXCallDirectoryExtensionContextDelegate>>>;
+    pub type CXCallDirectoryExtensionContext;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn CXCallDirectoryExtensionContextDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn CXCallDirectoryExtensionContextDelegate>>>;
 
-        #[method(isIncremental)]
-        pub unsafe fn isIncremental(&self) -> bool;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn CXCallDirectoryExtensionContextDelegate>>,
+    );
 
-        #[method(addBlockingEntryWithNextSequentialPhoneNumber:)]
-        pub unsafe fn addBlockingEntryWithNextSequentialPhoneNumber(
-            &self,
-            phone_number: CXCallDirectoryPhoneNumber,
-        );
+    #[objc2::method(sel = "isIncremental")]
+    pub unsafe fn isIncremental(&self) -> bool;
 
-        #[method(removeBlockingEntryWithPhoneNumber:)]
-        pub unsafe fn removeBlockingEntryWithPhoneNumber(
-            &self,
-            phone_number: CXCallDirectoryPhoneNumber,
-        );
+    #[objc2::method(sel = "addBlockingEntryWithNextSequentialPhoneNumber:")]
+    pub unsafe fn addBlockingEntryWithNextSequentialPhoneNumber(
+        &self,
+        phone_number: CXCallDirectoryPhoneNumber,
+    );
 
-        #[method(removeAllBlockingEntries)]
-        pub unsafe fn removeAllBlockingEntries(&self);
+    #[objc2::method(sel = "removeBlockingEntryWithPhoneNumber:")]
+    pub unsafe fn removeBlockingEntryWithPhoneNumber(
+        &self,
+        phone_number: CXCallDirectoryPhoneNumber,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(addIdentificationEntryWithNextSequentialPhoneNumber:label:)]
-        pub unsafe fn addIdentificationEntryWithNextSequentialPhoneNumber_label(
-            &self,
-            phone_number: CXCallDirectoryPhoneNumber,
-            label: &NSString,
-        );
+    #[objc2::method(sel = "removeAllBlockingEntries")]
+    pub unsafe fn removeAllBlockingEntries(&self);
 
-        #[method(removeIdentificationEntryWithPhoneNumber:)]
-        pub unsafe fn removeIdentificationEntryWithPhoneNumber(
-            &self,
-            phone_number: CXCallDirectoryPhoneNumber,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "addIdentificationEntryWithNextSequentialPhoneNumber:label:")]
+    pub unsafe fn addIdentificationEntryWithNextSequentialPhoneNumber_label(
+        &self,
+        phone_number: CXCallDirectoryPhoneNumber,
+        label: &NSString,
+    );
 
-        #[method(removeAllIdentificationEntries)]
-        pub unsafe fn removeAllIdentificationEntries(&self);
+    #[objc2::method(sel = "removeIdentificationEntryWithPhoneNumber:")]
+    pub unsafe fn removeIdentificationEntryWithPhoneNumber(
+        &self,
+        phone_number: CXCallDirectoryPhoneNumber,
+    );
 
-        #[method(completeRequestWithCompletionHandler:)]
-        pub unsafe fn completeRequestWithCompletionHandler(
-            &self,
-            completion: Option<&Block<(Bool,), ()>>,
-        );
+    #[objc2::method(sel = "removeAllIdentificationEntries")]
+    pub unsafe fn removeAllIdentificationEntries(&self);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(completeRequestReturningItems:completionHandler:)]
-        pub unsafe fn completeRequestReturningItems_completionHandler(
-            &self,
-            items: Option<&NSArray>,
-            completion_handler: Option<&Block<(Bool,), ()>>,
-        );
-    }
-);
+    #[objc2::method(sel = "completeRequestWithCompletionHandler:")]
+    pub unsafe fn completeRequestWithCompletionHandler(
+        &self,
+        completion: Option<&Block<(Bool,), ()>>,
+    );
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "completeRequestReturningItems:completionHandler:")]
+    pub unsafe fn completeRequestReturningItems_completionHandler(
+        &self,
+        items: Option<&NSArray>,
+        completion_handler: Option<&Block<(Bool,), ()>>,
+    );
+}

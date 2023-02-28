@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::SoundAnalysis::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "SoundAnalysis_SNClassifySoundRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "SoundAnalysis_SNClassifySoundRequest")]
-    pub struct SNClassifySoundRequest;
-
-    #[cfg(feature = "SoundAnalysis_SNClassifySoundRequest")]
-    unsafe impl ClassType for SNClassifySoundRequest {
-        type Super = NSObject;
-    }
-);
+    pub type SNClassifySoundRequest;
+}
 
 #[cfg(feature = "SoundAnalysis_SNClassifySoundRequest")]
 unsafe impl NSObjectProtocol for SNClassifySoundRequest {}
@@ -21,41 +21,44 @@ unsafe impl NSObjectProtocol for SNClassifySoundRequest {}
 #[cfg(feature = "SoundAnalysis_SNClassifySoundRequest")]
 unsafe impl SNRequest for SNClassifySoundRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "SoundAnalysis_SNClassifySoundRequest")]
-    unsafe impl SNClassifySoundRequest {
-        #[method(overlapFactor)]
-        pub unsafe fn overlapFactor(&self) -> c_double;
+    pub type SNClassifySoundRequest;
 
-        #[method(setOverlapFactor:)]
-        pub unsafe fn setOverlapFactor(&self, overlap_factor: c_double);
+    #[objc2::method(sel = "overlapFactor")]
+    pub unsafe fn overlapFactor(&self) -> c_double;
 
-        #[cfg(feature = "SoundAnalysis_SNTimeDurationConstraint")]
-        #[method_id(@__retain_semantics Other windowDurationConstraint)]
-        pub unsafe fn windowDurationConstraint(&self) -> Id<SNTimeDurationConstraint>;
+    #[objc2::method(sel = "setOverlapFactor:")]
+    pub unsafe fn setOverlapFactor(&self, overlap_factor: c_double);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other knownClassifications)]
-        pub unsafe fn knownClassifications(&self) -> Id<NSArray<NSString>>;
+    #[cfg(feature = "SoundAnalysis_SNTimeDurationConstraint")]
+    #[objc2::method(sel = "windowDurationConstraint", managed = "Other")]
+    pub unsafe fn windowDurationConstraint(&self) -> Id<SNTimeDurationConstraint>;
 
-        #[cfg(all(feature = "CoreML_MLModel", feature = "Foundation_NSError"))]
-        #[method_id(@__retain_semantics Init initWithMLModel:error:_)]
-        pub unsafe fn initWithMLModel_error(
-            this: Option<Allocated<Self>>,
-            ml_model: &MLModel,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "knownClassifications", managed = "Other")]
+    pub unsafe fn knownClassifications(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Init initWithClassifierIdentifier:error:_)]
-        pub unsafe fn initWithClassifierIdentifier_error(
-            this: Option<Allocated<Self>>,
-            classifier_identifier: &SNClassifierIdentifier,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(all(feature = "CoreML_MLModel", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "initWithMLModel:error:", managed = "Init", throws)]
+    pub unsafe fn initWithMLModel_error(
+        this: Option<Allocated<Self>>,
+        ml_model: &MLModel,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "initWithClassifierIdentifier:error:", managed = "Init", throws)]
+    pub unsafe fn initWithClassifierIdentifier_error(
+        this: Option<Allocated<Self>>,
+        classifier_identifier: &SNClassifierIdentifier,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

@@ -4,17 +4,18 @@ use crate::common::*;
 use crate::ClassKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CLSActivityItem,
+    unsafe inherits = [
+        CLSObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "ClassKit_CLSScoreItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "ClassKit_CLSScoreItem")]
-    pub struct CLSScoreItem;
-
-    #[cfg(feature = "ClassKit_CLSScoreItem")]
-    unsafe impl ClassType for CLSScoreItem {
-        #[inherits(CLSObject, NSObject)]
-        type Super = CLSActivityItem;
-    }
-);
+    pub type CLSScoreItem;
+}
 
 #[cfg(feature = "ClassKit_CLSScoreItem")]
 unsafe impl NSCoding for CLSScoreItem {}
@@ -25,29 +26,32 @@ unsafe impl NSObjectProtocol for CLSScoreItem {}
 #[cfg(feature = "ClassKit_CLSScoreItem")]
 unsafe impl NSSecureCoding for CLSScoreItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ClassKit_CLSScoreItem")]
-    unsafe impl CLSScoreItem {
-        #[method(score)]
-        pub unsafe fn score(&self) -> c_double;
+    pub type CLSScoreItem;
 
-        #[method(setScore:)]
-        pub unsafe fn setScore(&self, score: c_double);
+    #[objc2::method(sel = "score")]
+    pub unsafe fn score(&self) -> c_double;
 
-        #[method(maxScore)]
-        pub unsafe fn maxScore(&self) -> c_double;
+    #[objc2::method(sel = "setScore:")]
+    pub unsafe fn setScore(&self, score: c_double);
 
-        #[method(setMaxScore:)]
-        pub unsafe fn setMaxScore(&self, max_score: c_double);
+    #[objc2::method(sel = "maxScore")]
+    pub unsafe fn maxScore(&self) -> c_double;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithIdentifier:title:score:maxScore:)]
-        pub unsafe fn initWithIdentifier_title_score_maxScore(
-            this: Option<Allocated<Self>>,
-            identifier: &NSString,
-            title: &NSString,
-            score: c_double,
-            max_score: c_double,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "setMaxScore:")]
+    pub unsafe fn setMaxScore(&self, max_score: c_double);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithIdentifier:title:score:maxScore:", managed = "Init")]
+    pub unsafe fn initWithIdentifier_title_score_maxScore(
+        this: Option<Allocated<Self>>,
+        identifier: &NSString,
+        title: &NSString,
+        score: c_double,
+        max_score: c_double,
+    ) -> Id<Self>;
+}

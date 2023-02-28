@@ -4,118 +4,116 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSBatchInsertRequestResultType {
-        NSBatchInsertRequestResultTypeStatusOnly = 0x0,
-        NSBatchInsertRequestResultTypeObjectIDs = 0x1,
-        NSBatchInsertRequestResultTypeCount = 0x2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSBatchInsertRequestResultType {
+    NSBatchInsertRequestResultTypeStatusOnly = 0x0,
+    NSBatchInsertRequestResultTypeObjectIDs = 0x1,
+    NSBatchInsertRequestResultTypeCount = 0x2,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSBatchUpdateRequestResultType {
-        NSStatusOnlyResultType = 0x0,
-        NSUpdatedObjectIDsResultType = 0x1,
-        NSUpdatedObjectsCountResultType = 0x2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSBatchUpdateRequestResultType {
+    NSStatusOnlyResultType = 0x0,
+    NSUpdatedObjectIDsResultType = 0x1,
+    NSUpdatedObjectsCountResultType = 0x2,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSBatchDeleteRequestResultType {
-        NSBatchDeleteResultTypeStatusOnly = 0x0,
-        NSBatchDeleteResultTypeObjectIDs = 0x1,
-        NSBatchDeleteResultTypeCount = 0x2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSBatchDeleteRequestResultType {
+    NSBatchDeleteResultTypeStatusOnly = 0x0,
+    NSBatchDeleteResultTypeObjectIDs = 0x1,
+    NSBatchDeleteResultTypeCount = 0x2,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSPersistentHistoryResultType {
-        NSPersistentHistoryResultTypeStatusOnly = 0x0,
-        NSPersistentHistoryResultTypeObjectIDs = 0x1,
-        NSPersistentHistoryResultTypeCount = 0x2,
-        NSPersistentHistoryResultTypeTransactionsOnly = 0x3,
-        NSPersistentHistoryResultTypeChangesOnly = 0x4,
-        NSPersistentHistoryResultTypeTransactionsAndChanges = 0x5,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSPersistentHistoryResultType {
+    NSPersistentHistoryResultTypeStatusOnly = 0x0,
+    NSPersistentHistoryResultTypeObjectIDs = 0x1,
+    NSPersistentHistoryResultTypeCount = 0x2,
+    NSPersistentHistoryResultTypeTransactionsOnly = 0x3,
+    NSPersistentHistoryResultTypeChangesOnly = 0x4,
+    NSPersistentHistoryResultTypeTransactionsAndChanges = 0x5,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPersistentStoreResult")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSPersistentStoreResult")]
-    pub struct NSPersistentStoreResult;
-
-    #[cfg(feature = "CoreData_NSPersistentStoreResult")]
-    unsafe impl ClassType for NSPersistentStoreResult {
-        type Super = NSObject;
-    }
-);
+    pub type NSPersistentStoreResult;
+}
 
 #[cfg(feature = "CoreData_NSPersistentStoreResult")]
 unsafe impl NSObjectProtocol for NSPersistentStoreResult {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPersistentStoreResult")]
-    unsafe impl NSPersistentStoreResult {}
-);
+    pub type NSPersistentStoreResult;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSPersistentStoreResult,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPersistentStoreAsynchronousResult")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSPersistentStoreAsynchronousResult")]
-    pub struct NSPersistentStoreAsynchronousResult;
-
-    #[cfg(feature = "CoreData_NSPersistentStoreAsynchronousResult")]
-    unsafe impl ClassType for NSPersistentStoreAsynchronousResult {
-        #[inherits(NSObject)]
-        type Super = NSPersistentStoreResult;
-    }
-);
+    pub type NSPersistentStoreAsynchronousResult;
+}
 
 #[cfg(feature = "CoreData_NSPersistentStoreAsynchronousResult")]
 unsafe impl NSObjectProtocol for NSPersistentStoreAsynchronousResult {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPersistentStoreAsynchronousResult")]
-    unsafe impl NSPersistentStoreAsynchronousResult {
-        #[cfg(feature = "CoreData_NSManagedObjectContext")]
-        #[method_id(@__retain_semantics Other managedObjectContext)]
-        pub unsafe fn managedObjectContext(&self) -> Id<NSManagedObjectContext>;
+    pub type NSPersistentStoreAsynchronousResult;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other operationError)]
-        pub unsafe fn operationError(&self) -> Option<Id<NSError>>;
+    #[cfg(feature = "CoreData_NSManagedObjectContext")]
+    #[objc2::method(sel = "managedObjectContext", managed = "Other")]
+    pub unsafe fn managedObjectContext(&self) -> Id<NSManagedObjectContext>;
 
-        #[cfg(feature = "Foundation_NSProgress")]
-        #[method_id(@__retain_semantics Other progress)]
-        pub unsafe fn progress(&self) -> Option<Id<NSProgress>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "operationError", managed = "Other")]
+    pub unsafe fn operationError(&self) -> Option<Id<NSError>>;
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
-    }
-);
+    #[cfg(feature = "Foundation_NSProgress")]
+    #[objc2::method(sel = "progress", managed = "Other")]
+    pub unsafe fn progress(&self) -> Option<Id<NSProgress>>;
 
-__inner_extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
+}
+
+#[objc2::interface(
+    unsafe super = NSPersistentStoreAsynchronousResult,
+    unsafe inherits = [
+        NSPersistentStoreResult,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSAsynchronousFetchResult")]
-    pub struct NSAsynchronousFetchResult<
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type NSAsynchronousFetchResult<
         ResultType: Message = Object,
         ResultTypeOwnership: Ownership = Shared,
-    > {
-        _inner0: PhantomData<*mut (ResultType, ResultTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "CoreData_NSAsynchronousFetchResult")]
-    unsafe impl<ResultType: Message, ResultTypeOwnership: Ownership> ClassType
-        for NSAsynchronousFetchResult<ResultType, ResultTypeOwnership>
-    {
-        #[inherits(NSPersistentStoreResult, NSObject)]
-        type Super = NSPersistentStoreAsynchronousResult;
-    }
-);
+    >;
+}
 
 #[cfg(feature = "CoreData_NSAsynchronousFetchResult")]
 unsafe impl<ResultType: Message, ResultTypeOwnership: Ownership> NSObjectProtocol
@@ -123,161 +121,179 @@ unsafe impl<ResultType: Message, ResultTypeOwnership: Ownership> NSObjectProtoco
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSAsynchronousFetchResult")]
-    unsafe impl<ResultType: Message, ResultTypeOwnership: Ownership>
-        NSAsynchronousFetchResult<ResultType, ResultTypeOwnership>
-    {
-        #[cfg(feature = "CoreData_NSAsynchronousFetchRequest")]
-        #[method_id(@__retain_semantics Other fetchRequest)]
-        pub unsafe fn fetchRequest(&self) -> Id<NSAsynchronousFetchRequest<ResultType>>;
+    pub type NSAsynchronousFetchResult<
+        ResultType: Message = Object,
+        ResultTypeOwnership: Ownership = Shared,
+    >;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other finalResult)]
-        pub unsafe fn finalResult(&self) -> Option<Id<NSArray<ResultType>>>;
-    }
-);
+    #[cfg(feature = "CoreData_NSAsynchronousFetchRequest")]
+    #[objc2::method(sel = "fetchRequest", managed = "Other")]
+    pub unsafe fn fetchRequest(&self) -> Id<NSAsynchronousFetchRequest<ResultType>>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "finalResult", managed = "Other")]
+    pub unsafe fn finalResult(&self) -> Option<Id<NSArray<ResultType>>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSPersistentStoreResult,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSBatchInsertResult")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSBatchInsertResult")]
-    pub struct NSBatchInsertResult;
-
-    #[cfg(feature = "CoreData_NSBatchInsertResult")]
-    unsafe impl ClassType for NSBatchInsertResult {
-        #[inherits(NSObject)]
-        type Super = NSPersistentStoreResult;
-    }
-);
+    pub type NSBatchInsertResult;
+}
 
 #[cfg(feature = "CoreData_NSBatchInsertResult")]
 unsafe impl NSObjectProtocol for NSBatchInsertResult {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSBatchInsertResult")]
-    unsafe impl NSBatchInsertResult {
-        #[method_id(@__retain_semantics Other result)]
-        pub unsafe fn result(&self) -> Option<Id<Object>>;
+    pub type NSBatchInsertResult;
 
-        #[method(resultType)]
-        pub unsafe fn resultType(&self) -> NSBatchInsertRequestResultType;
-    }
-);
+    #[objc2::method(sel = "result", managed = "Other")]
+    pub unsafe fn result(&self) -> Option<Id<Object>>;
 
-extern_class!(
+    #[objc2::method(sel = "resultType")]
+    pub unsafe fn resultType(&self) -> NSBatchInsertRequestResultType;
+}
+
+#[objc2::interface(
+    unsafe super = NSPersistentStoreResult,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSBatchUpdateResult")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSBatchUpdateResult")]
-    pub struct NSBatchUpdateResult;
-
-    #[cfg(feature = "CoreData_NSBatchUpdateResult")]
-    unsafe impl ClassType for NSBatchUpdateResult {
-        #[inherits(NSObject)]
-        type Super = NSPersistentStoreResult;
-    }
-);
+    pub type NSBatchUpdateResult;
+}
 
 #[cfg(feature = "CoreData_NSBatchUpdateResult")]
 unsafe impl NSObjectProtocol for NSBatchUpdateResult {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSBatchUpdateResult")]
-    unsafe impl NSBatchUpdateResult {
-        #[method_id(@__retain_semantics Other result)]
-        pub unsafe fn result(&self) -> Option<Id<Object>>;
+    pub type NSBatchUpdateResult;
 
-        #[method(resultType)]
-        pub unsafe fn resultType(&self) -> NSBatchUpdateRequestResultType;
-    }
-);
+    #[objc2::method(sel = "result", managed = "Other")]
+    pub unsafe fn result(&self) -> Option<Id<Object>>;
 
-extern_class!(
+    #[objc2::method(sel = "resultType")]
+    pub unsafe fn resultType(&self) -> NSBatchUpdateRequestResultType;
+}
+
+#[objc2::interface(
+    unsafe super = NSPersistentStoreResult,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSBatchDeleteResult")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSBatchDeleteResult")]
-    pub struct NSBatchDeleteResult;
-
-    #[cfg(feature = "CoreData_NSBatchDeleteResult")]
-    unsafe impl ClassType for NSBatchDeleteResult {
-        #[inherits(NSObject)]
-        type Super = NSPersistentStoreResult;
-    }
-);
+    pub type NSBatchDeleteResult;
+}
 
 #[cfg(feature = "CoreData_NSBatchDeleteResult")]
 unsafe impl NSObjectProtocol for NSBatchDeleteResult {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSBatchDeleteResult")]
-    unsafe impl NSBatchDeleteResult {
-        #[method_id(@__retain_semantics Other result)]
-        pub unsafe fn result(&self) -> Option<Id<Object>>;
+    pub type NSBatchDeleteResult;
 
-        #[method(resultType)]
-        pub unsafe fn resultType(&self) -> NSBatchDeleteRequestResultType;
-    }
-);
+    #[objc2::method(sel = "result", managed = "Other")]
+    pub unsafe fn result(&self) -> Option<Id<Object>>;
 
-extern_class!(
+    #[objc2::method(sel = "resultType")]
+    pub unsafe fn resultType(&self) -> NSBatchDeleteRequestResultType;
+}
+
+#[objc2::interface(
+    unsafe super = NSPersistentStoreResult,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPersistentHistoryResult")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSPersistentHistoryResult")]
-    pub struct NSPersistentHistoryResult;
-
-    #[cfg(feature = "CoreData_NSPersistentHistoryResult")]
-    unsafe impl ClassType for NSPersistentHistoryResult {
-        #[inherits(NSObject)]
-        type Super = NSPersistentStoreResult;
-    }
-);
+    pub type NSPersistentHistoryResult;
+}
 
 #[cfg(feature = "CoreData_NSPersistentHistoryResult")]
 unsafe impl NSObjectProtocol for NSPersistentHistoryResult {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPersistentHistoryResult")]
-    unsafe impl NSPersistentHistoryResult {
-        #[method_id(@__retain_semantics Other result)]
-        pub unsafe fn result(&self) -> Option<Id<Object>>;
+    pub type NSPersistentHistoryResult;
 
-        #[method(resultType)]
-        pub unsafe fn resultType(&self) -> NSPersistentHistoryResultType;
-    }
-);
+    #[objc2::method(sel = "result", managed = "Other")]
+    pub unsafe fn result(&self) -> Option<Id<Object>>;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSPersistentCloudKitContainerEventResultType {
-        NSPersistentCloudKitContainerEventResultTypeEvents = 0,
-        NSPersistentCloudKitContainerEventResultTypeCountEvents = 1,
-    }
-);
+    #[objc2::method(sel = "resultType")]
+    pub unsafe fn resultType(&self) -> NSPersistentHistoryResultType;
+}
 
-extern_class!(
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSPersistentCloudKitContainerEventResultType {
+    NSPersistentCloudKitContainerEventResultTypeEvents = 0,
+    NSPersistentCloudKitContainerEventResultTypeCountEvents = 1,
+}
+
+#[objc2::interface(
+    unsafe super = NSPersistentStoreResult,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPersistentCloudKitContainerEventResult")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSPersistentCloudKitContainerEventResult")]
-    pub struct NSPersistentCloudKitContainerEventResult;
-
-    #[cfg(feature = "CoreData_NSPersistentCloudKitContainerEventResult")]
-    unsafe impl ClassType for NSPersistentCloudKitContainerEventResult {
-        #[inherits(NSObject)]
-        type Super = NSPersistentStoreResult;
-    }
-);
+    pub type NSPersistentCloudKitContainerEventResult;
+}
 
 #[cfg(feature = "CoreData_NSPersistentCloudKitContainerEventResult")]
 unsafe impl NSObjectProtocol for NSPersistentCloudKitContainerEventResult {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPersistentCloudKitContainerEventResult")]
-    unsafe impl NSPersistentCloudKitContainerEventResult {
-        #[method_id(@__retain_semantics Other result)]
-        pub unsafe fn result(&self) -> Option<Id<Object>>;
+    pub type NSPersistentCloudKitContainerEventResult;
 
-        #[method(resultType)]
-        pub unsafe fn resultType(&self) -> NSPersistentCloudKitContainerEventResultType;
+    #[objc2::method(sel = "result", managed = "Other")]
+    pub unsafe fn result(&self) -> Option<Id<Object>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "resultType")]
+    pub unsafe fn resultType(&self) -> NSPersistentCloudKitContainerEventResultType;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

@@ -5,45 +5,44 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSEventType {
-        NSEventTypeLeftMouseDown = 1,
-        NSEventTypeLeftMouseUp = 2,
-        NSEventTypeRightMouseDown = 3,
-        NSEventTypeRightMouseUp = 4,
-        NSEventTypeMouseMoved = 5,
-        NSEventTypeLeftMouseDragged = 6,
-        NSEventTypeRightMouseDragged = 7,
-        NSEventTypeMouseEntered = 8,
-        NSEventTypeMouseExited = 9,
-        NSEventTypeKeyDown = 10,
-        NSEventTypeKeyUp = 11,
-        NSEventTypeFlagsChanged = 12,
-        NSEventTypeAppKitDefined = 13,
-        NSEventTypeSystemDefined = 14,
-        NSEventTypeApplicationDefined = 15,
-        NSEventTypePeriodic = 16,
-        NSEventTypeCursorUpdate = 17,
-        NSEventTypeScrollWheel = 22,
-        NSEventTypeTabletPoint = 23,
-        NSEventTypeTabletProximity = 24,
-        NSEventTypeOtherMouseDown = 25,
-        NSEventTypeOtherMouseUp = 26,
-        NSEventTypeOtherMouseDragged = 27,
-        NSEventTypeGesture = 29,
-        NSEventTypeMagnify = 30,
-        NSEventTypeSwipe = 31,
-        NSEventTypeRotate = 18,
-        NSEventTypeBeginGesture = 19,
-        NSEventTypeEndGesture = 20,
-        NSEventTypeSmartMagnify = 32,
-        NSEventTypeQuickLook = 33,
-        NSEventTypePressure = 34,
-        NSEventTypeDirectTouch = 37,
-        NSEventTypeChangeMode = 38,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSEventType {
+    NSEventTypeLeftMouseDown = 1,
+    NSEventTypeLeftMouseUp = 2,
+    NSEventTypeRightMouseDown = 3,
+    NSEventTypeRightMouseUp = 4,
+    NSEventTypeMouseMoved = 5,
+    NSEventTypeLeftMouseDragged = 6,
+    NSEventTypeRightMouseDragged = 7,
+    NSEventTypeMouseEntered = 8,
+    NSEventTypeMouseExited = 9,
+    NSEventTypeKeyDown = 10,
+    NSEventTypeKeyUp = 11,
+    NSEventTypeFlagsChanged = 12,
+    NSEventTypeAppKitDefined = 13,
+    NSEventTypeSystemDefined = 14,
+    NSEventTypeApplicationDefined = 15,
+    NSEventTypePeriodic = 16,
+    NSEventTypeCursorUpdate = 17,
+    NSEventTypeScrollWheel = 22,
+    NSEventTypeTabletPoint = 23,
+    NSEventTypeTabletProximity = 24,
+    NSEventTypeOtherMouseDown = 25,
+    NSEventTypeOtherMouseUp = 26,
+    NSEventTypeOtherMouseDragged = 27,
+    NSEventTypeGesture = 29,
+    NSEventTypeMagnify = 30,
+    NSEventTypeSwipe = 31,
+    NSEventTypeRotate = 18,
+    NSEventTypeBeginGesture = 19,
+    NSEventTypeEndGesture = 20,
+    NSEventTypeSmartMagnify = 32,
+    NSEventTypeQuickLook = 33,
+    NSEventTypePressure = 34,
+    NSEventTypeDirectTouch = 37,
+    NSEventTypeChangeMode = 38,
+}
 
 extern_static!(NSLeftMouseDown: NSEventType = NSEventTypeLeftMouseDown);
 
@@ -91,45 +90,44 @@ extern_static!(NSOtherMouseUp: NSEventType = NSEventTypeOtherMouseUp);
 
 extern_static!(NSOtherMouseDragged: NSEventType = NSEventTypeOtherMouseDragged);
 
-ns_options!(
-    #[underlying(c_ulonglong)]
-    pub enum NSEventMask {
-        NSEventMaskLeftMouseDown = 1 << NSEventTypeLeftMouseDown,
-        NSEventMaskLeftMouseUp = 1 << NSEventTypeLeftMouseUp,
-        NSEventMaskRightMouseDown = 1 << NSEventTypeRightMouseDown,
-        NSEventMaskRightMouseUp = 1 << NSEventTypeRightMouseUp,
-        NSEventMaskMouseMoved = 1 << NSEventTypeMouseMoved,
-        NSEventMaskLeftMouseDragged = 1 << NSEventTypeLeftMouseDragged,
-        NSEventMaskRightMouseDragged = 1 << NSEventTypeRightMouseDragged,
-        NSEventMaskMouseEntered = 1 << NSEventTypeMouseEntered,
-        NSEventMaskMouseExited = 1 << NSEventTypeMouseExited,
-        NSEventMaskKeyDown = 1 << NSEventTypeKeyDown,
-        NSEventMaskKeyUp = 1 << NSEventTypeKeyUp,
-        NSEventMaskFlagsChanged = 1 << NSEventTypeFlagsChanged,
-        NSEventMaskAppKitDefined = 1 << NSEventTypeAppKitDefined,
-        NSEventMaskSystemDefined = 1 << NSEventTypeSystemDefined,
-        NSEventMaskApplicationDefined = 1 << NSEventTypeApplicationDefined,
-        NSEventMaskPeriodic = 1 << NSEventTypePeriodic,
-        NSEventMaskCursorUpdate = 1 << NSEventTypeCursorUpdate,
-        NSEventMaskScrollWheel = 1 << NSEventTypeScrollWheel,
-        NSEventMaskTabletPoint = 1 << NSEventTypeTabletPoint,
-        NSEventMaskTabletProximity = 1 << NSEventTypeTabletProximity,
-        NSEventMaskOtherMouseDown = 1 << NSEventTypeOtherMouseDown,
-        NSEventMaskOtherMouseUp = 1 << NSEventTypeOtherMouseUp,
-        NSEventMaskOtherMouseDragged = 1 << NSEventTypeOtherMouseDragged,
-        NSEventMaskGesture = 1 << NSEventTypeGesture,
-        NSEventMaskMagnify = 1 << NSEventTypeMagnify,
-        NSEventMaskSwipe = 1 << NSEventTypeSwipe,
-        NSEventMaskRotate = 1 << NSEventTypeRotate,
-        NSEventMaskBeginGesture = 1 << NSEventTypeBeginGesture,
-        NSEventMaskEndGesture = 1 << NSEventTypeEndGesture,
-        NSEventMaskSmartMagnify = 1 << NSEventTypeSmartMagnify,
-        NSEventMaskPressure = 1 << NSEventTypePressure,
-        NSEventMaskDirectTouch = 1 << NSEventTypeDirectTouch,
-        NSEventMaskChangeMode = 1 << NSEventTypeChangeMode,
-        NSEventMaskAny = NSUIntegerMax as _,
-    }
-);
+#[ns_options]
+#[underlying(c_ulonglong)]
+pub enum NSEventMask {
+    NSEventMaskLeftMouseDown = 1 << NSEventTypeLeftMouseDown,
+    NSEventMaskLeftMouseUp = 1 << NSEventTypeLeftMouseUp,
+    NSEventMaskRightMouseDown = 1 << NSEventTypeRightMouseDown,
+    NSEventMaskRightMouseUp = 1 << NSEventTypeRightMouseUp,
+    NSEventMaskMouseMoved = 1 << NSEventTypeMouseMoved,
+    NSEventMaskLeftMouseDragged = 1 << NSEventTypeLeftMouseDragged,
+    NSEventMaskRightMouseDragged = 1 << NSEventTypeRightMouseDragged,
+    NSEventMaskMouseEntered = 1 << NSEventTypeMouseEntered,
+    NSEventMaskMouseExited = 1 << NSEventTypeMouseExited,
+    NSEventMaskKeyDown = 1 << NSEventTypeKeyDown,
+    NSEventMaskKeyUp = 1 << NSEventTypeKeyUp,
+    NSEventMaskFlagsChanged = 1 << NSEventTypeFlagsChanged,
+    NSEventMaskAppKitDefined = 1 << NSEventTypeAppKitDefined,
+    NSEventMaskSystemDefined = 1 << NSEventTypeSystemDefined,
+    NSEventMaskApplicationDefined = 1 << NSEventTypeApplicationDefined,
+    NSEventMaskPeriodic = 1 << NSEventTypePeriodic,
+    NSEventMaskCursorUpdate = 1 << NSEventTypeCursorUpdate,
+    NSEventMaskScrollWheel = 1 << NSEventTypeScrollWheel,
+    NSEventMaskTabletPoint = 1 << NSEventTypeTabletPoint,
+    NSEventMaskTabletProximity = 1 << NSEventTypeTabletProximity,
+    NSEventMaskOtherMouseDown = 1 << NSEventTypeOtherMouseDown,
+    NSEventMaskOtherMouseUp = 1 << NSEventTypeOtherMouseUp,
+    NSEventMaskOtherMouseDragged = 1 << NSEventTypeOtherMouseDragged,
+    NSEventMaskGesture = 1 << NSEventTypeGesture,
+    NSEventMaskMagnify = 1 << NSEventTypeMagnify,
+    NSEventMaskSwipe = 1 << NSEventTypeSwipe,
+    NSEventMaskRotate = 1 << NSEventTypeRotate,
+    NSEventMaskBeginGesture = 1 << NSEventTypeBeginGesture,
+    NSEventMaskEndGesture = 1 << NSEventTypeEndGesture,
+    NSEventMaskSmartMagnify = 1 << NSEventTypeSmartMagnify,
+    NSEventMaskPressure = 1 << NSEventTypePressure,
+    NSEventMaskDirectTouch = 1 << NSEventTypeDirectTouch,
+    NSEventMaskChangeMode = 1 << NSEventTypeChangeMode,
+    NSEventMaskAny = NSUIntegerMax as _,
+}
 
 extern_static!(NSLeftMouseDownMask: NSEventMask = NSEventMaskLeftMouseDown);
 
@@ -183,20 +181,19 @@ inline_fn!(
     }
 );
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSEventModifierFlags {
-        NSEventModifierFlagCapsLock = 1 << 16,
-        NSEventModifierFlagShift = 1 << 17,
-        NSEventModifierFlagControl = 1 << 18,
-        NSEventModifierFlagOption = 1 << 19,
-        NSEventModifierFlagCommand = 1 << 20,
-        NSEventModifierFlagNumericPad = 1 << 21,
-        NSEventModifierFlagHelp = 1 << 22,
-        NSEventModifierFlagFunction = 1 << 23,
-        NSEventModifierFlagDeviceIndependentFlagsMask = 0xffff0000,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSEventModifierFlags {
+    NSEventModifierFlagCapsLock = 1 << 16,
+    NSEventModifierFlagShift = 1 << 17,
+    NSEventModifierFlagControl = 1 << 18,
+    NSEventModifierFlagOption = 1 << 19,
+    NSEventModifierFlagCommand = 1 << 20,
+    NSEventModifierFlagNumericPad = 1 << 21,
+    NSEventModifierFlagHelp = 1 << 22,
+    NSEventModifierFlagFunction = 1 << 23,
+    NSEventModifierFlagDeviceIndependentFlagsMask = 0xffff0000,
+}
 
 extern_static!(NSAlphaShiftKeyMask: NSEventModifierFlags = NSEventModifierFlagCapsLock);
 
@@ -219,15 +216,14 @@ extern_static!(
         NSEventModifierFlagDeviceIndependentFlagsMask
 );
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSPointingDeviceType {
-        NSPointingDeviceTypeUnknown = 0,
-        NSPointingDeviceTypePen = 1,
-        NSPointingDeviceTypeCursor = 2,
-        NSPointingDeviceTypeEraser = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSPointingDeviceType {
+    NSPointingDeviceTypeUnknown = 0,
+    NSPointingDeviceTypePen = 1,
+    NSPointingDeviceTypeCursor = 2,
+    NSPointingDeviceTypeEraser = 3,
+}
 
 extern_static!(NSUnknownPointingDevice: NSPointingDeviceType = NSPointingDeviceTypeUnknown);
 
@@ -237,14 +233,13 @@ extern_static!(NSCursorPointingDevice: NSPointingDeviceType = NSPointingDeviceTy
 
 extern_static!(NSEraserPointingDevice: NSPointingDeviceType = NSPointingDeviceTypeEraser);
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSEventButtonMask {
-        NSEventButtonMaskPenTip = 1,
-        NSEventButtonMaskPenLowerSide = 2,
-        NSEventButtonMaskPenUpperSide = 4,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSEventButtonMask {
+    NSEventButtonMaskPenTip = 1,
+    NSEventButtonMaskPenLowerSide = 2,
+    NSEventButtonMaskPenUpperSide = 4,
+}
 
 extern_static!(NSPenTipMask: NSEventButtonMask = NSEventButtonMaskPenTip);
 
@@ -252,51 +247,47 @@ extern_static!(NSPenLowerSideMask: NSEventButtonMask = NSEventButtonMaskPenLower
 
 extern_static!(NSPenUpperSideMask: NSEventButtonMask = NSEventButtonMaskPenUpperSide);
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSEventPhase {
-        NSEventPhaseNone = 0,
-        NSEventPhaseBegan = 0x1 << 0,
-        NSEventPhaseStationary = 0x1 << 1,
-        NSEventPhaseChanged = 0x1 << 2,
-        NSEventPhaseEnded = 0x1 << 3,
-        NSEventPhaseCancelled = 0x1 << 4,
-        NSEventPhaseMayBegin = 0x1 << 5,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSEventPhase {
+    NSEventPhaseNone = 0,
+    NSEventPhaseBegan = 0x1 << 0,
+    NSEventPhaseStationary = 0x1 << 1,
+    NSEventPhaseChanged = 0x1 << 2,
+    NSEventPhaseEnded = 0x1 << 3,
+    NSEventPhaseCancelled = 0x1 << 4,
+    NSEventPhaseMayBegin = 0x1 << 5,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSEventGestureAxis {
-        NSEventGestureAxisNone = 0,
-        NSEventGestureAxisHorizontal = 1,
-        NSEventGestureAxisVertical = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSEventGestureAxis {
+    NSEventGestureAxisNone = 0,
+    NSEventGestureAxisHorizontal = 1,
+    NSEventGestureAxisVertical = 2,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSEventSwipeTrackingOptions {
-        NSEventSwipeTrackingLockDirection = 0x1 << 0,
-        NSEventSwipeTrackingClampGestureAmount = 0x1 << 1,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSEventSwipeTrackingOptions {
+    NSEventSwipeTrackingLockDirection = 0x1 << 0,
+    NSEventSwipeTrackingClampGestureAmount = 0x1 << 1,
+}
 
-ns_enum!(
-    #[underlying(c_short)]
-    pub enum NSEventSubtype {
-        NSEventSubtypeWindowExposed = 0,
-        NSEventSubtypeApplicationActivated = 1,
-        NSEventSubtypeApplicationDeactivated = 2,
-        NSEventSubtypeWindowMoved = 4,
-        NSEventSubtypeScreenChanged = 8,
-        NSEventSubtypePowerOff = 1,
-        NSEventSubtypeMouseEvent = 0,
-        NSEventSubtypeTabletPoint = 1,
-        NSEventSubtypeTabletProximity = 2,
-        NSEventSubtypeTouch = 3,
-    }
-);
+#[ns_enum]
+#[underlying(c_short)]
+pub enum NSEventSubtype {
+    NSEventSubtypeWindowExposed = 0,
+    NSEventSubtypeApplicationActivated = 1,
+    NSEventSubtypeApplicationDeactivated = 2,
+    NSEventSubtypeWindowMoved = 4,
+    NSEventSubtypeScreenChanged = 8,
+    NSEventSubtypePowerOff = 1,
+    NSEventSubtypeMouseEvent = 0,
+    NSEventSubtypeTabletPoint = 1,
+    NSEventSubtypeTabletProximity = 2,
+    NSEventSubtypeTouch = 3,
+}
 
 extern_static!(NSWindowExposedEventType: NSEventSubtype = NSEventSubtypeWindowExposed);
 
@@ -324,29 +315,28 @@ extern_static!(NSTabletProximityEventSubtype: NSEventSubtype = NSEventSubtypeTab
 
 extern_static!(NSTouchEventSubtype: NSEventSubtype = NSEventSubtypeTouch);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSPressureBehavior {
-        NSPressureBehaviorUnknown = -1,
-        NSPressureBehaviorPrimaryDefault = 0,
-        NSPressureBehaviorPrimaryClick = 1,
-        NSPressureBehaviorPrimaryGeneric = 2,
-        NSPressureBehaviorPrimaryAccelerator = 3,
-        NSPressureBehaviorPrimaryDeepClick = 5,
-        NSPressureBehaviorPrimaryDeepDrag = 6,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSPressureBehavior {
+    NSPressureBehaviorUnknown = -1,
+    NSPressureBehaviorPrimaryDefault = 0,
+    NSPressureBehaviorPrimaryClick = 1,
+    NSPressureBehaviorPrimaryGeneric = 2,
+    NSPressureBehaviorPrimaryAccelerator = 3,
+    NSPressureBehaviorPrimaryDeepClick = 5,
+    NSPressureBehaviorPrimaryDeepDrag = 6,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSEvent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSEvent")]
-    pub struct NSEvent;
-
-    #[cfg(feature = "AppKit_NSEvent")]
-    unsafe impl ClassType for NSEvent {
-        type Super = NSObject;
-    }
-);
+    pub type NSEvent;
+}
 
 #[cfg(feature = "AppKit_NSEvent")]
 unsafe impl NSCoding for NSEvent {}
@@ -354,411 +344,431 @@ unsafe impl NSCoding for NSEvent {}
 #[cfg(feature = "AppKit_NSEvent")]
 unsafe impl NSObjectProtocol for NSEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSEvent")]
-    unsafe impl NSEvent {
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> NSEventType;
+    pub type NSEvent;
 
-        #[method(modifierFlags)]
-        pub unsafe fn modifierFlags(&self) -> NSEventModifierFlags;
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> NSEventType;
 
-        #[method(timestamp)]
-        pub unsafe fn timestamp(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "modifierFlags")]
+    pub unsafe fn modifierFlags(&self) -> NSEventModifierFlags;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method_id(@__retain_semantics Other window)]
-        pub unsafe fn window(&self) -> Option<Id<NSWindow>>;
+    #[objc2::method(sel = "timestamp")]
+    pub unsafe fn timestamp(&self) -> NSTimeInterval;
 
-        #[method(windowNumber)]
-        pub unsafe fn windowNumber(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "window", managed = "Other")]
+    pub unsafe fn window(&self) -> Option<Id<NSWindow>>;
 
-        #[cfg(feature = "AppKit_NSGraphicsContext")]
-        #[deprecated = "This method always returns nil. If you need access to the current drawing context, use [NSGraphicsContext currentContext] inside of a draw operation."]
-        #[method_id(@__retain_semantics Other context)]
-        pub unsafe fn context(&self) -> Option<Id<NSGraphicsContext>>;
+    #[objc2::method(sel = "windowNumber")]
+    pub unsafe fn windowNumber(&self) -> NSInteger;
 
-        #[method(clickCount)]
-        pub unsafe fn clickCount(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSGraphicsContext")]
+    #[deprecated = "This method always returns nil. If you need access to the current drawing context, use [NSGraphicsContext currentContext] inside of a draw operation."]
+    #[objc2::method(sel = "context", managed = "Other")]
+    pub unsafe fn context(&self) -> Option<Id<NSGraphicsContext>>;
 
-        #[method(buttonNumber)]
-        pub unsafe fn buttonNumber(&self) -> NSInteger;
+    #[objc2::method(sel = "clickCount")]
+    pub unsafe fn clickCount(&self) -> NSInteger;
 
-        #[method(eventNumber)]
-        pub unsafe fn eventNumber(&self) -> NSInteger;
+    #[objc2::method(sel = "buttonNumber")]
+    pub unsafe fn buttonNumber(&self) -> NSInteger;
 
-        #[method(pressure)]
-        pub unsafe fn pressure(&self) -> c_float;
+    #[objc2::method(sel = "eventNumber")]
+    pub unsafe fn eventNumber(&self) -> NSInteger;
 
-        #[method(locationInWindow)]
-        pub unsafe fn locationInWindow(&self) -> NSPoint;
+    #[objc2::method(sel = "pressure")]
+    pub unsafe fn pressure(&self) -> c_float;
 
-        #[method(deltaX)]
-        pub unsafe fn deltaX(&self) -> CGFloat;
+    #[objc2::method(sel = "locationInWindow")]
+    pub unsafe fn locationInWindow(&self) -> NSPoint;
 
-        #[method(deltaY)]
-        pub unsafe fn deltaY(&self) -> CGFloat;
+    #[objc2::method(sel = "deltaX")]
+    pub unsafe fn deltaX(&self) -> CGFloat;
 
-        #[method(deltaZ)]
-        pub unsafe fn deltaZ(&self) -> CGFloat;
+    #[objc2::method(sel = "deltaY")]
+    pub unsafe fn deltaY(&self) -> CGFloat;
 
-        #[method(hasPreciseScrollingDeltas)]
-        pub unsafe fn hasPreciseScrollingDeltas(&self) -> bool;
+    #[objc2::method(sel = "deltaZ")]
+    pub unsafe fn deltaZ(&self) -> CGFloat;
 
-        #[method(scrollingDeltaX)]
-        pub unsafe fn scrollingDeltaX(&self) -> CGFloat;
+    #[objc2::method(sel = "hasPreciseScrollingDeltas")]
+    pub unsafe fn hasPreciseScrollingDeltas(&self) -> bool;
 
-        #[method(scrollingDeltaY)]
-        pub unsafe fn scrollingDeltaY(&self) -> CGFloat;
+    #[objc2::method(sel = "scrollingDeltaX")]
+    pub unsafe fn scrollingDeltaX(&self) -> CGFloat;
 
-        #[method(momentumPhase)]
-        pub unsafe fn momentumPhase(&self) -> NSEventPhase;
+    #[objc2::method(sel = "scrollingDeltaY")]
+    pub unsafe fn scrollingDeltaY(&self) -> CGFloat;
 
-        #[method(isDirectionInvertedFromDevice)]
-        pub unsafe fn isDirectionInvertedFromDevice(&self) -> bool;
+    #[objc2::method(sel = "momentumPhase")]
+    pub unsafe fn momentumPhase(&self) -> NSEventPhase;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other characters)]
-        pub unsafe fn characters(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "isDirectionInvertedFromDevice")]
+    pub unsafe fn isDirectionInvertedFromDevice(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other charactersIgnoringModifiers)]
-        pub unsafe fn charactersIgnoringModifiers(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "characters", managed = "Other")]
+    pub unsafe fn characters(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other charactersByApplyingModifiers:)]
-        pub unsafe fn charactersByApplyingModifiers(
-            &self,
-            modifiers: NSEventModifierFlags,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "charactersIgnoringModifiers", managed = "Other")]
+    pub unsafe fn charactersIgnoringModifiers(&self) -> Option<Id<NSString>>;
 
-        #[method(isARepeat)]
-        pub unsafe fn isARepeat(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "charactersByApplyingModifiers:", managed = "Other")]
+    pub unsafe fn charactersByApplyingModifiers(
+        &self,
+        modifiers: NSEventModifierFlags,
+    ) -> Option<Id<NSString>>;
 
-        #[method(keyCode)]
-        pub unsafe fn keyCode(&self) -> c_ushort;
+    #[objc2::method(sel = "isARepeat")]
+    pub unsafe fn isARepeat(&self) -> bool;
 
-        #[method(trackingNumber)]
-        pub unsafe fn trackingNumber(&self) -> NSInteger;
+    #[objc2::method(sel = "keyCode")]
+    pub unsafe fn keyCode(&self) -> c_ushort;
 
-        #[method(userData)]
-        pub unsafe fn userData(&self) -> *mut c_void;
+    #[objc2::method(sel = "trackingNumber")]
+    pub unsafe fn trackingNumber(&self) -> NSInteger;
 
-        #[cfg(feature = "AppKit_NSTrackingArea")]
-        #[method_id(@__retain_semantics Other trackingArea)]
-        pub unsafe fn trackingArea(&self) -> Option<Id<NSTrackingArea>>;
+    #[objc2::method(sel = "userData")]
+    pub unsafe fn userData(&self) -> *mut c_void;
 
-        #[method(subtype)]
-        pub unsafe fn subtype(&self) -> NSEventSubtype;
+    #[cfg(feature = "AppKit_NSTrackingArea")]
+    #[objc2::method(sel = "trackingArea", managed = "Other")]
+    pub unsafe fn trackingArea(&self) -> Option<Id<NSTrackingArea>>;
 
-        #[method(data1)]
-        pub unsafe fn data1(&self) -> NSInteger;
+    #[objc2::method(sel = "subtype")]
+    pub unsafe fn subtype(&self) -> NSEventSubtype;
 
-        #[method(data2)]
-        pub unsafe fn data2(&self) -> NSInteger;
+    #[objc2::method(sel = "data1")]
+    pub unsafe fn data1(&self) -> NSInteger;
 
-        #[method(eventRef)]
-        pub unsafe fn eventRef(&self) -> *mut c_void;
+    #[objc2::method(sel = "data2")]
+    pub unsafe fn data2(&self) -> NSInteger;
 
-        #[method_id(@__retain_semantics Other eventWithEventRef:)]
-        pub unsafe fn eventWithEventRef(event_ref: NonNull<c_void>) -> Option<Id<NSEvent>>;
+    #[objc2::method(sel = "eventRef")]
+    pub unsafe fn eventRef(&self) -> *mut c_void;
 
-        #[method(isMouseCoalescingEnabled)]
-        pub unsafe fn isMouseCoalescingEnabled() -> bool;
+    #[objc2::method(sel = "eventWithEventRef:", managed = "Other")]
+    pub unsafe fn eventWithEventRef(event_ref: NonNull<c_void>) -> Option<Id<NSEvent>>;
 
-        #[method(setMouseCoalescingEnabled:)]
-        pub unsafe fn setMouseCoalescingEnabled(mouse_coalescing_enabled: bool);
+    #[objc2::method(sel = "isMouseCoalescingEnabled")]
+    pub unsafe fn isMouseCoalescingEnabled() -> bool;
 
-        #[method(magnification)]
-        pub unsafe fn magnification(&self) -> CGFloat;
+    #[objc2::method(sel = "setMouseCoalescingEnabled:")]
+    pub unsafe fn setMouseCoalescingEnabled(mouse_coalescing_enabled: bool);
 
-        #[method(deviceID)]
-        pub unsafe fn deviceID(&self) -> NSUInteger;
+    #[objc2::method(sel = "magnification")]
+    pub unsafe fn magnification(&self) -> CGFloat;
 
-        #[method(rotation)]
-        pub unsafe fn rotation(&self) -> c_float;
+    #[objc2::method(sel = "deviceID")]
+    pub unsafe fn deviceID(&self) -> NSUInteger;
 
-        #[method(absoluteX)]
-        pub unsafe fn absoluteX(&self) -> NSInteger;
+    #[objc2::method(sel = "rotation")]
+    pub unsafe fn rotation(&self) -> c_float;
 
-        #[method(absoluteY)]
-        pub unsafe fn absoluteY(&self) -> NSInteger;
+    #[objc2::method(sel = "absoluteX")]
+    pub unsafe fn absoluteX(&self) -> NSInteger;
 
-        #[method(absoluteZ)]
-        pub unsafe fn absoluteZ(&self) -> NSInteger;
+    #[objc2::method(sel = "absoluteY")]
+    pub unsafe fn absoluteY(&self) -> NSInteger;
 
-        #[method(buttonMask)]
-        pub unsafe fn buttonMask(&self) -> NSEventButtonMask;
+    #[objc2::method(sel = "absoluteZ")]
+    pub unsafe fn absoluteZ(&self) -> NSInteger;
 
-        #[method(tilt)]
-        pub unsafe fn tilt(&self) -> NSPoint;
+    #[objc2::method(sel = "buttonMask")]
+    pub unsafe fn buttonMask(&self) -> NSEventButtonMask;
 
-        #[method(tangentialPressure)]
-        pub unsafe fn tangentialPressure(&self) -> c_float;
+    #[objc2::method(sel = "tilt")]
+    pub unsafe fn tilt(&self) -> NSPoint;
 
-        #[method_id(@__retain_semantics Other vendorDefined)]
-        pub unsafe fn vendorDefined(&self) -> Id<Object>;
+    #[objc2::method(sel = "tangentialPressure")]
+    pub unsafe fn tangentialPressure(&self) -> c_float;
 
-        #[method(vendorID)]
-        pub unsafe fn vendorID(&self) -> NSUInteger;
+    #[objc2::method(sel = "vendorDefined", managed = "Other")]
+    pub unsafe fn vendorDefined(&self) -> Id<Object>;
 
-        #[method(tabletID)]
-        pub unsafe fn tabletID(&self) -> NSUInteger;
+    #[objc2::method(sel = "vendorID")]
+    pub unsafe fn vendorID(&self) -> NSUInteger;
 
-        #[method(pointingDeviceID)]
-        pub unsafe fn pointingDeviceID(&self) -> NSUInteger;
+    #[objc2::method(sel = "tabletID")]
+    pub unsafe fn tabletID(&self) -> NSUInteger;
 
-        #[method(systemTabletID)]
-        pub unsafe fn systemTabletID(&self) -> NSUInteger;
+    #[objc2::method(sel = "pointingDeviceID")]
+    pub unsafe fn pointingDeviceID(&self) -> NSUInteger;
 
-        #[method(vendorPointingDeviceType)]
-        pub unsafe fn vendorPointingDeviceType(&self) -> NSUInteger;
-
-        #[method(pointingDeviceSerialNumber)]
-        pub unsafe fn pointingDeviceSerialNumber(&self) -> NSUInteger;
-
-        #[method(uniqueID)]
-        pub unsafe fn uniqueID(&self) -> c_ulonglong;
-
-        #[method(capabilityMask)]
-        pub unsafe fn capabilityMask(&self) -> NSUInteger;
-
-        #[method(pointingDeviceType)]
-        pub unsafe fn pointingDeviceType(&self) -> NSPointingDeviceType;
-
-        #[method(isEnteringProximity)]
-        pub unsafe fn isEnteringProximity(&self) -> bool;
-
-        #[cfg(all(
-            feature = "AppKit_NSTouch",
-            feature = "AppKit_NSView",
-            feature = "Foundation_NSSet"
-        ))]
-        #[method_id(@__retain_semantics Other touchesMatchingPhase:inView:)]
-        pub unsafe fn touchesMatchingPhase_inView(
-            &self,
-            phase: NSTouchPhase,
-            view: Option<&NSView>,
-        ) -> Id<NSSet<NSTouch>>;
-
-        #[cfg(all(feature = "AppKit_NSTouch", feature = "Foundation_NSSet"))]
-        #[method_id(@__retain_semantics Other allTouches)]
-        pub unsafe fn allTouches(&self) -> Id<NSSet<NSTouch>>;
-
-        #[cfg(all(
-            feature = "AppKit_NSTouch",
-            feature = "AppKit_NSView",
-            feature = "Foundation_NSSet"
-        ))]
-        #[method_id(@__retain_semantics Other touchesForView:)]
-        pub unsafe fn touchesForView(&self, view: &NSView) -> Id<NSSet<NSTouch>>;
-
-        #[cfg(all(feature = "AppKit_NSTouch", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other coalescedTouchesForTouch:)]
-        pub unsafe fn coalescedTouchesForTouch(&self, touch: &NSTouch) -> Id<NSArray<NSTouch>>;
-
-        #[method(phase)]
-        pub unsafe fn phase(&self) -> NSEventPhase;
-
-        #[method(stage)]
-        pub unsafe fn stage(&self) -> NSInteger;
-
-        #[method(stageTransition)]
-        pub unsafe fn stageTransition(&self) -> CGFloat;
-
-        #[method(associatedEventsMask)]
-        pub unsafe fn associatedEventsMask(&self) -> NSEventMask;
-
-        #[method(pressureBehavior)]
-        pub unsafe fn pressureBehavior(&self) -> NSPressureBehavior;
-
-        #[method(isSwipeTrackingFromScrollEventsEnabled)]
-        pub unsafe fn isSwipeTrackingFromScrollEventsEnabled() -> bool;
-
-        #[method(trackSwipeEventWithOptions:dampenAmountThresholdMin:max:usingHandler:)]
-        pub unsafe fn trackSwipeEventWithOptions_dampenAmountThresholdMin_max_usingHandler(
-            &self,
-            options: NSEventSwipeTrackingOptions,
-            min_dampen_threshold: CGFloat,
-            max_dampen_threshold: CGFloat,
-            tracking_handler: &Block<(CGFloat, NSEventPhase, Bool, NonNull<Bool>), ()>,
-        );
-
-        #[method(startPeriodicEventsAfterDelay:withPeriod:)]
-        pub unsafe fn startPeriodicEventsAfterDelay_withPeriod(
-            delay: NSTimeInterval,
-            period: NSTimeInterval,
-        );
-
-        #[method(stopPeriodicEvents)]
-        pub unsafe fn stopPeriodicEvents();
-
-        #[cfg(feature = "AppKit_NSGraphicsContext")]
-        #[method_id(@__retain_semantics Other mouseEventWithType:location:modifierFlags:timestamp:windowNumber:context:eventNumber:clickCount:pressure:)]
-        pub unsafe fn mouseEventWithType_location_modifierFlags_timestamp_windowNumber_context_eventNumber_clickCount_pressure(
-            r#type: NSEventType,
-            location: NSPoint,
-            flags: NSEventModifierFlags,
-            time: NSTimeInterval,
-            w_num: NSInteger,
-            unused_pass_nil: Option<&NSGraphicsContext>,
-            e_num: NSInteger,
-            c_num: NSInteger,
-            pressure: c_float,
-        ) -> Option<Id<NSEvent>>;
-
-        #[cfg(all(feature = "AppKit_NSGraphicsContext", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other keyEventWithType:location:modifierFlags:timestamp:windowNumber:context:characters:charactersIgnoringModifiers:isARepeat:keyCode:)]
-        pub unsafe fn keyEventWithType_location_modifierFlags_timestamp_windowNumber_context_characters_charactersIgnoringModifiers_isARepeat_keyCode(
-            r#type: NSEventType,
-            location: NSPoint,
-            flags: NSEventModifierFlags,
-            time: NSTimeInterval,
-            w_num: NSInteger,
-            unused_pass_nil: Option<&NSGraphicsContext>,
-            keys: &NSString,
-            ukeys: &NSString,
-            flag: bool,
-            code: c_ushort,
-        ) -> Option<Id<NSEvent>>;
-
-        #[cfg(feature = "AppKit_NSGraphicsContext")]
-        #[method_id(@__retain_semantics Other enterExitEventWithType:location:modifierFlags:timestamp:windowNumber:context:eventNumber:trackingNumber:userData:)]
-        pub unsafe fn enterExitEventWithType_location_modifierFlags_timestamp_windowNumber_context_eventNumber_trackingNumber_userData(
-            r#type: NSEventType,
-            location: NSPoint,
-            flags: NSEventModifierFlags,
-            time: NSTimeInterval,
-            w_num: NSInteger,
-            unused_pass_nil: Option<&NSGraphicsContext>,
-            e_num: NSInteger,
-            t_num: NSInteger,
-            data: *mut c_void,
-        ) -> Option<Id<NSEvent>>;
-
-        #[cfg(feature = "AppKit_NSGraphicsContext")]
-        #[method_id(@__retain_semantics Other otherEventWithType:location:modifierFlags:timestamp:windowNumber:context:subtype:data1:data2:)]
-        pub unsafe fn otherEventWithType_location_modifierFlags_timestamp_windowNumber_context_subtype_data1_data2(
-            r#type: NSEventType,
-            location: NSPoint,
-            flags: NSEventModifierFlags,
-            time: NSTimeInterval,
-            w_num: NSInteger,
-            unused_pass_nil: Option<&NSGraphicsContext>,
-            subtype: c_short,
-            d1: NSInteger,
-            d2: NSInteger,
-        ) -> Option<Id<NSEvent>>;
-
-        #[method(mouseLocation)]
-        pub unsafe fn mouseLocation() -> NSPoint;
-
-        #[method(modifierFlags)]
-        pub unsafe fn modifierFlags_class() -> NSEventModifierFlags;
-
-        #[method(pressedMouseButtons)]
-        pub unsafe fn pressedMouseButtons() -> NSUInteger;
-
-        #[method(doubleClickInterval)]
-        pub unsafe fn doubleClickInterval() -> NSTimeInterval;
-
-        #[method(keyRepeatDelay)]
-        pub unsafe fn keyRepeatDelay() -> NSTimeInterval;
-
-        #[method(keyRepeatInterval)]
-        pub unsafe fn keyRepeatInterval() -> NSTimeInterval;
-
-        #[method_id(@__retain_semantics Other addGlobalMonitorForEventsMatchingMask:handler:)]
-        pub unsafe fn addGlobalMonitorForEventsMatchingMask_handler(
-            mask: NSEventMask,
-            block: &Block<(NonNull<NSEvent>,), ()>,
-        ) -> Option<Id<Object>>;
-
-        #[method_id(@__retain_semantics Other addLocalMonitorForEventsMatchingMask:handler:)]
-        pub unsafe fn addLocalMonitorForEventsMatchingMask_handler(
-            mask: NSEventMask,
-            block: &Block<(NonNull<NSEvent>,), *mut NSEvent>,
-        ) -> Option<Id<Object>>;
-
-        #[method(removeMonitor:)]
-        pub unsafe fn removeMonitor(event_monitor: &Object);
-    }
-);
-
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        NSUpArrowFunctionKey = 0xF700,
-        NSDownArrowFunctionKey = 0xF701,
-        NSLeftArrowFunctionKey = 0xF702,
-        NSRightArrowFunctionKey = 0xF703,
-        NSF1FunctionKey = 0xF704,
-        NSF2FunctionKey = 0xF705,
-        NSF3FunctionKey = 0xF706,
-        NSF4FunctionKey = 0xF707,
-        NSF5FunctionKey = 0xF708,
-        NSF6FunctionKey = 0xF709,
-        NSF7FunctionKey = 0xF70A,
-        NSF8FunctionKey = 0xF70B,
-        NSF9FunctionKey = 0xF70C,
-        NSF10FunctionKey = 0xF70D,
-        NSF11FunctionKey = 0xF70E,
-        NSF12FunctionKey = 0xF70F,
-        NSF13FunctionKey = 0xF710,
-        NSF14FunctionKey = 0xF711,
-        NSF15FunctionKey = 0xF712,
-        NSF16FunctionKey = 0xF713,
-        NSF17FunctionKey = 0xF714,
-        NSF18FunctionKey = 0xF715,
-        NSF19FunctionKey = 0xF716,
-        NSF20FunctionKey = 0xF717,
-        NSF21FunctionKey = 0xF718,
-        NSF22FunctionKey = 0xF719,
-        NSF23FunctionKey = 0xF71A,
-        NSF24FunctionKey = 0xF71B,
-        NSF25FunctionKey = 0xF71C,
-        NSF26FunctionKey = 0xF71D,
-        NSF27FunctionKey = 0xF71E,
-        NSF28FunctionKey = 0xF71F,
-        NSF29FunctionKey = 0xF720,
-        NSF30FunctionKey = 0xF721,
-        NSF31FunctionKey = 0xF722,
-        NSF32FunctionKey = 0xF723,
-        NSF33FunctionKey = 0xF724,
-        NSF34FunctionKey = 0xF725,
-        NSF35FunctionKey = 0xF726,
-        NSInsertFunctionKey = 0xF727,
-        NSDeleteFunctionKey = 0xF728,
-        NSHomeFunctionKey = 0xF729,
-        NSBeginFunctionKey = 0xF72A,
-        NSEndFunctionKey = 0xF72B,
-        NSPageUpFunctionKey = 0xF72C,
-        NSPageDownFunctionKey = 0xF72D,
-        NSPrintScreenFunctionKey = 0xF72E,
-        NSScrollLockFunctionKey = 0xF72F,
-        NSPauseFunctionKey = 0xF730,
-        NSSysReqFunctionKey = 0xF731,
-        NSBreakFunctionKey = 0xF732,
-        NSResetFunctionKey = 0xF733,
-        NSStopFunctionKey = 0xF734,
-        NSMenuFunctionKey = 0xF735,
-        NSUserFunctionKey = 0xF736,
-        NSSystemFunctionKey = 0xF737,
-        NSPrintFunctionKey = 0xF738,
-        NSClearLineFunctionKey = 0xF739,
-        NSClearDisplayFunctionKey = 0xF73A,
-        NSInsertLineFunctionKey = 0xF73B,
-        NSDeleteLineFunctionKey = 0xF73C,
-        NSInsertCharFunctionKey = 0xF73D,
-        NSDeleteCharFunctionKey = 0xF73E,
-        NSPrevFunctionKey = 0xF73F,
-        NSNextFunctionKey = 0xF740,
-        NSSelectFunctionKey = 0xF741,
-        NSExecuteFunctionKey = 0xF742,
-        NSUndoFunctionKey = 0xF743,
-        NSRedoFunctionKey = 0xF744,
-        NSFindFunctionKey = 0xF745,
-        NSHelpFunctionKey = 0xF746,
-        NSModeSwitchFunctionKey = 0xF747,
-    }
-);
+    #[objc2::method(sel = "systemTabletID")]
+    pub unsafe fn systemTabletID(&self) -> NSUInteger;
+
+    #[objc2::method(sel = "vendorPointingDeviceType")]
+    pub unsafe fn vendorPointingDeviceType(&self) -> NSUInteger;
+
+    #[objc2::method(sel = "pointingDeviceSerialNumber")]
+    pub unsafe fn pointingDeviceSerialNumber(&self) -> NSUInteger;
+
+    #[objc2::method(sel = "uniqueID")]
+    pub unsafe fn uniqueID(&self) -> c_ulonglong;
+
+    #[objc2::method(sel = "capabilityMask")]
+    pub unsafe fn capabilityMask(&self) -> NSUInteger;
+
+    #[objc2::method(sel = "pointingDeviceType")]
+    pub unsafe fn pointingDeviceType(&self) -> NSPointingDeviceType;
+
+    #[objc2::method(sel = "isEnteringProximity")]
+    pub unsafe fn isEnteringProximity(&self) -> bool;
+
+    #[cfg(all(
+        feature = "AppKit_NSTouch",
+        feature = "AppKit_NSView",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(sel = "touchesMatchingPhase:inView:", managed = "Other")]
+    pub unsafe fn touchesMatchingPhase_inView(
+        &self,
+        phase: NSTouchPhase,
+        view: Option<&NSView>,
+    ) -> Id<NSSet<NSTouch>>;
+
+    #[cfg(all(feature = "AppKit_NSTouch", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "allTouches", managed = "Other")]
+    pub unsafe fn allTouches(&self) -> Id<NSSet<NSTouch>>;
+
+    #[cfg(all(
+        feature = "AppKit_NSTouch",
+        feature = "AppKit_NSView",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(sel = "touchesForView:", managed = "Other")]
+    pub unsafe fn touchesForView(&self, view: &NSView) -> Id<NSSet<NSTouch>>;
+
+    #[cfg(all(feature = "AppKit_NSTouch", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "coalescedTouchesForTouch:", managed = "Other")]
+    pub unsafe fn coalescedTouchesForTouch(&self, touch: &NSTouch) -> Id<NSArray<NSTouch>>;
+
+    #[objc2::method(sel = "phase")]
+    pub unsafe fn phase(&self) -> NSEventPhase;
+
+    #[objc2::method(sel = "stage")]
+    pub unsafe fn stage(&self) -> NSInteger;
+
+    #[objc2::method(sel = "stageTransition")]
+    pub unsafe fn stageTransition(&self) -> CGFloat;
+
+    #[objc2::method(sel = "associatedEventsMask")]
+    pub unsafe fn associatedEventsMask(&self) -> NSEventMask;
+
+    #[objc2::method(sel = "pressureBehavior")]
+    pub unsafe fn pressureBehavior(&self) -> NSPressureBehavior;
+
+    #[objc2::method(sel = "isSwipeTrackingFromScrollEventsEnabled")]
+    pub unsafe fn isSwipeTrackingFromScrollEventsEnabled() -> bool;
+
+    #[objc2::method(sel = "trackSwipeEventWithOptions:dampenAmountThresholdMin:max:usingHandler:")]
+    pub unsafe fn trackSwipeEventWithOptions_dampenAmountThresholdMin_max_usingHandler(
+        &self,
+        options: NSEventSwipeTrackingOptions,
+        min_dampen_threshold: CGFloat,
+        max_dampen_threshold: CGFloat,
+        tracking_handler: &Block<(CGFloat, NSEventPhase, Bool, NonNull<Bool>), ()>,
+    );
+
+    #[objc2::method(sel = "startPeriodicEventsAfterDelay:withPeriod:")]
+    pub unsafe fn startPeriodicEventsAfterDelay_withPeriod(
+        delay: NSTimeInterval,
+        period: NSTimeInterval,
+    );
+
+    #[objc2::method(sel = "stopPeriodicEvents")]
+    pub unsafe fn stopPeriodicEvents();
+
+    #[cfg(feature = "AppKit_NSGraphicsContext")]
+    #[objc2::method(
+        sel = "mouseEventWithType:location:modifierFlags:timestamp:windowNumber:context:eventNumber:clickCount:pressure:",
+        managed = "Other"
+    )]
+    pub unsafe fn mouseEventWithType_location_modifierFlags_timestamp_windowNumber_context_eventNumber_clickCount_pressure(
+        r#type: NSEventType,
+        location: NSPoint,
+        flags: NSEventModifierFlags,
+        time: NSTimeInterval,
+        w_num: NSInteger,
+        unused_pass_nil: Option<&NSGraphicsContext>,
+        e_num: NSInteger,
+        c_num: NSInteger,
+        pressure: c_float,
+    ) -> Option<Id<NSEvent>>;
+
+    #[cfg(all(feature = "AppKit_NSGraphicsContext", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "keyEventWithType:location:modifierFlags:timestamp:windowNumber:context:characters:charactersIgnoringModifiers:isARepeat:keyCode:",
+        managed = "Other"
+    )]
+    pub unsafe fn keyEventWithType_location_modifierFlags_timestamp_windowNumber_context_characters_charactersIgnoringModifiers_isARepeat_keyCode(
+        r#type: NSEventType,
+        location: NSPoint,
+        flags: NSEventModifierFlags,
+        time: NSTimeInterval,
+        w_num: NSInteger,
+        unused_pass_nil: Option<&NSGraphicsContext>,
+        keys: &NSString,
+        ukeys: &NSString,
+        flag: bool,
+        code: c_ushort,
+    ) -> Option<Id<NSEvent>>;
+
+    #[cfg(feature = "AppKit_NSGraphicsContext")]
+    #[objc2::method(
+        sel = "enterExitEventWithType:location:modifierFlags:timestamp:windowNumber:context:eventNumber:trackingNumber:userData:",
+        managed = "Other"
+    )]
+    pub unsafe fn enterExitEventWithType_location_modifierFlags_timestamp_windowNumber_context_eventNumber_trackingNumber_userData(
+        r#type: NSEventType,
+        location: NSPoint,
+        flags: NSEventModifierFlags,
+        time: NSTimeInterval,
+        w_num: NSInteger,
+        unused_pass_nil: Option<&NSGraphicsContext>,
+        e_num: NSInteger,
+        t_num: NSInteger,
+        data: *mut c_void,
+    ) -> Option<Id<NSEvent>>;
+
+    #[cfg(feature = "AppKit_NSGraphicsContext")]
+    #[objc2::method(
+        sel = "otherEventWithType:location:modifierFlags:timestamp:windowNumber:context:subtype:data1:data2:",
+        managed = "Other"
+    )]
+    pub unsafe fn otherEventWithType_location_modifierFlags_timestamp_windowNumber_context_subtype_data1_data2(
+        r#type: NSEventType,
+        location: NSPoint,
+        flags: NSEventModifierFlags,
+        time: NSTimeInterval,
+        w_num: NSInteger,
+        unused_pass_nil: Option<&NSGraphicsContext>,
+        subtype: c_short,
+        d1: NSInteger,
+        d2: NSInteger,
+    ) -> Option<Id<NSEvent>>;
+
+    #[objc2::method(sel = "mouseLocation")]
+    pub unsafe fn mouseLocation() -> NSPoint;
+
+    #[objc2::method(sel = "modifierFlags")]
+    pub unsafe fn modifierFlags_class() -> NSEventModifierFlags;
+
+    #[objc2::method(sel = "pressedMouseButtons")]
+    pub unsafe fn pressedMouseButtons() -> NSUInteger;
+
+    #[objc2::method(sel = "doubleClickInterval")]
+    pub unsafe fn doubleClickInterval() -> NSTimeInterval;
+
+    #[objc2::method(sel = "keyRepeatDelay")]
+    pub unsafe fn keyRepeatDelay() -> NSTimeInterval;
+
+    #[objc2::method(sel = "keyRepeatInterval")]
+    pub unsafe fn keyRepeatInterval() -> NSTimeInterval;
+
+    #[objc2::method(
+        sel = "addGlobalMonitorForEventsMatchingMask:handler:",
+        managed = "Other"
+    )]
+    pub unsafe fn addGlobalMonitorForEventsMatchingMask_handler(
+        mask: NSEventMask,
+        block: &Block<(NonNull<NSEvent>,), ()>,
+    ) -> Option<Id<Object>>;
+
+    #[objc2::method(
+        sel = "addLocalMonitorForEventsMatchingMask:handler:",
+        managed = "Other"
+    )]
+    pub unsafe fn addLocalMonitorForEventsMatchingMask_handler(
+        mask: NSEventMask,
+        block: &Block<(NonNull<NSEvent>,), *mut NSEvent>,
+    ) -> Option<Id<Object>>;
+
+    #[objc2::method(sel = "removeMonitor:")]
+    pub unsafe fn removeMonitor(event_monitor: &Object);
+}
+
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    NSUpArrowFunctionKey = 0xF700,
+    NSDownArrowFunctionKey = 0xF701,
+    NSLeftArrowFunctionKey = 0xF702,
+    NSRightArrowFunctionKey = 0xF703,
+    NSF1FunctionKey = 0xF704,
+    NSF2FunctionKey = 0xF705,
+    NSF3FunctionKey = 0xF706,
+    NSF4FunctionKey = 0xF707,
+    NSF5FunctionKey = 0xF708,
+    NSF6FunctionKey = 0xF709,
+    NSF7FunctionKey = 0xF70A,
+    NSF8FunctionKey = 0xF70B,
+    NSF9FunctionKey = 0xF70C,
+    NSF10FunctionKey = 0xF70D,
+    NSF11FunctionKey = 0xF70E,
+    NSF12FunctionKey = 0xF70F,
+    NSF13FunctionKey = 0xF710,
+    NSF14FunctionKey = 0xF711,
+    NSF15FunctionKey = 0xF712,
+    NSF16FunctionKey = 0xF713,
+    NSF17FunctionKey = 0xF714,
+    NSF18FunctionKey = 0xF715,
+    NSF19FunctionKey = 0xF716,
+    NSF20FunctionKey = 0xF717,
+    NSF21FunctionKey = 0xF718,
+    NSF22FunctionKey = 0xF719,
+    NSF23FunctionKey = 0xF71A,
+    NSF24FunctionKey = 0xF71B,
+    NSF25FunctionKey = 0xF71C,
+    NSF26FunctionKey = 0xF71D,
+    NSF27FunctionKey = 0xF71E,
+    NSF28FunctionKey = 0xF71F,
+    NSF29FunctionKey = 0xF720,
+    NSF30FunctionKey = 0xF721,
+    NSF31FunctionKey = 0xF722,
+    NSF32FunctionKey = 0xF723,
+    NSF33FunctionKey = 0xF724,
+    NSF34FunctionKey = 0xF725,
+    NSF35FunctionKey = 0xF726,
+    NSInsertFunctionKey = 0xF727,
+    NSDeleteFunctionKey = 0xF728,
+    NSHomeFunctionKey = 0xF729,
+    NSBeginFunctionKey = 0xF72A,
+    NSEndFunctionKey = 0xF72B,
+    NSPageUpFunctionKey = 0xF72C,
+    NSPageDownFunctionKey = 0xF72D,
+    NSPrintScreenFunctionKey = 0xF72E,
+    NSScrollLockFunctionKey = 0xF72F,
+    NSPauseFunctionKey = 0xF730,
+    NSSysReqFunctionKey = 0xF731,
+    NSBreakFunctionKey = 0xF732,
+    NSResetFunctionKey = 0xF733,
+    NSStopFunctionKey = 0xF734,
+    NSMenuFunctionKey = 0xF735,
+    NSUserFunctionKey = 0xF736,
+    NSSystemFunctionKey = 0xF737,
+    NSPrintFunctionKey = 0xF738,
+    NSClearLineFunctionKey = 0xF739,
+    NSClearDisplayFunctionKey = 0xF73A,
+    NSInsertLineFunctionKey = 0xF73B,
+    NSDeleteLineFunctionKey = 0xF73C,
+    NSInsertCharFunctionKey = 0xF73D,
+    NSDeleteCharFunctionKey = 0xF73E,
+    NSPrevFunctionKey = 0xF73F,
+    NSNextFunctionKey = 0xF740,
+    NSSelectFunctionKey = 0xF741,
+    NSExecuteFunctionKey = 0xF742,
+    NSUndoFunctionKey = 0xF743,
+    NSRedoFunctionKey = 0xF744,
+    NSFindFunctionKey = 0xF745,
+    NSHelpFunctionKey = 0xF746,
+    NSModeSwitchFunctionKey = 0xF747,
+}

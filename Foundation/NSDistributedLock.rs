@@ -3,48 +3,48 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSDistributedLock")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSDistributedLock")]
-    pub struct NSDistributedLock;
-
-    #[cfg(feature = "Foundation_NSDistributedLock")]
-    unsafe impl ClassType for NSDistributedLock {
-        type Super = NSObject;
-    }
-);
+    pub type NSDistributedLock;
+}
 
 #[cfg(feature = "Foundation_NSDistributedLock")]
 unsafe impl NSObjectProtocol for NSDistributedLock {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSDistributedLock")]
-    unsafe impl NSDistributedLock {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other lockWithPath:)]
-        pub unsafe fn lockWithPath(path: &NSString) -> Option<Id<NSDistributedLock>>;
+    pub type NSDistributedLock;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "lockWithPath:", managed = "Other")]
+    pub unsafe fn lockWithPath(path: &NSString) -> Option<Id<NSDistributedLock>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithPath:)]
-        pub unsafe fn initWithPath(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(tryLock)]
-        pub unsafe fn tryLock(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithPath:", managed = "Init")]
+    pub unsafe fn initWithPath(this: Option<Allocated<Self>>, path: &NSString) -> Option<Id<Self>>;
 
-        #[method(unlock)]
-        pub unsafe fn unlock(&self);
+    #[objc2::method(sel = "tryLock")]
+    pub unsafe fn tryLock(&self) -> bool;
 
-        #[method(breakLock)]
-        pub unsafe fn breakLock(&self);
+    #[objc2::method(sel = "unlock")]
+    pub unsafe fn unlock(&self);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other lockDate)]
-        pub unsafe fn lockDate(&self) -> Id<NSDate>;
-    }
-);
+    #[objc2::method(sel = "breakLock")]
+    pub unsafe fn breakLock(&self);
+
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "lockDate", managed = "Other")]
+    pub unsafe fn lockDate(&self) -> Id<NSDate>;
+}

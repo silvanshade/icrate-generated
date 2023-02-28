@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::IdentityLookup::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "IdentityLookup_ILClassificationResponse")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "IdentityLookup_ILClassificationResponse")]
-    pub struct ILClassificationResponse;
-
-    #[cfg(feature = "IdentityLookup_ILClassificationResponse")]
-    unsafe impl ClassType for ILClassificationResponse {
-        type Super = NSObject;
-    }
-);
+    pub type ILClassificationResponse;
+}
 
 #[cfg(feature = "IdentityLookup_ILClassificationResponse")]
 unsafe impl NSCoding for ILClassificationResponse {}
@@ -24,35 +24,38 @@ unsafe impl NSObjectProtocol for ILClassificationResponse {}
 #[cfg(feature = "IdentityLookup_ILClassificationResponse")]
 unsafe impl NSSecureCoding for ILClassificationResponse {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "IdentityLookup_ILClassificationResponse")]
-    unsafe impl ILClassificationResponse {
-        #[method(action)]
-        pub unsafe fn action(&self) -> ILClassificationAction;
+    pub type ILClassificationResponse;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other userString)]
-        pub unsafe fn userString(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "action")]
+    pub unsafe fn action(&self) -> ILClassificationAction;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setUserString:)]
-        pub unsafe fn setUserString(&self, user_string: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "userString", managed = "Other")]
+    pub unsafe fn userString(&self) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other userInfo)]
-        pub unsafe fn userInfo(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setUserString:")]
+    pub unsafe fn setUserString(&self, user_string: Option<&NSString>);
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(setUserInfo:)]
-        pub unsafe fn setUserInfo(&self, user_info: Option<&NSDictionary<NSString, Object>>);
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "userInfo", managed = "Other")]
+    pub unsafe fn userInfo(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
 
-        #[method_id(@__retain_semantics Init initWithClassificationAction:)]
-        pub unsafe fn initWithClassificationAction(
-            this: Option<Allocated<Self>>,
-            action: ILClassificationAction,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setUserInfo:")]
+    pub unsafe fn setUserInfo(&self, user_info: Option<&NSDictionary<NSString, Object>>);
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "initWithClassificationAction:", managed = "Init")]
+    pub unsafe fn initWithClassificationAction(
+        this: Option<Allocated<Self>>,
+        action: ILClassificationAction,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

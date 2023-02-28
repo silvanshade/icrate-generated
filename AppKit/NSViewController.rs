@@ -5,32 +5,31 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSViewControllerTransitionOptions {
-        NSViewControllerTransitionNone = 0x0,
-        NSViewControllerTransitionCrossfade = 0x1,
-        NSViewControllerTransitionSlideUp = 0x10,
-        NSViewControllerTransitionSlideDown = 0x20,
-        NSViewControllerTransitionSlideLeft = 0x40,
-        NSViewControllerTransitionSlideRight = 0x80,
-        NSViewControllerTransitionSlideForward = 0x140,
-        NSViewControllerTransitionSlideBackward = 0x180,
-        NSViewControllerTransitionAllowUserInteraction = 0x1000,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSViewControllerTransitionOptions {
+    NSViewControllerTransitionNone = 0x0,
+    NSViewControllerTransitionCrossfade = 0x1,
+    NSViewControllerTransitionSlideUp = 0x10,
+    NSViewControllerTransitionSlideDown = 0x20,
+    NSViewControllerTransitionSlideLeft = 0x40,
+    NSViewControllerTransitionSlideRight = 0x80,
+    NSViewControllerTransitionSlideForward = 0x140,
+    NSViewControllerTransitionSlideBackward = 0x180,
+    NSViewControllerTransitionAllowUserInteraction = 0x1000,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSResponder,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSViewController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSViewController")]
-    pub struct NSViewController;
-
-    #[cfg(feature = "AppKit_NSViewController")]
-    unsafe impl ClassType for NSViewController {
-        #[inherits(NSObject)]
-        type Super = NSResponder;
-    }
-);
+    pub type NSViewController;
+}
 
 #[cfg(feature = "AppKit_NSViewController")]
 unsafe impl NSCoding for NSViewController {}
@@ -47,269 +46,281 @@ unsafe impl NSSeguePerforming for NSViewController {}
 #[cfg(feature = "AppKit_NSViewController")]
 unsafe impl NSUserInterfaceItemIdentification for NSViewController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSViewController")]
-    unsafe impl NSViewController {
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Init initWithNibName:bundle:)]
-        pub unsafe fn initWithNibName_bundle(
-            this: Option<Allocated<Self>>,
-            nib_name_or_nil: Option<&NSNibName>,
-            nib_bundle_or_nil: Option<&NSBundle>,
-        ) -> Id<Self>;
+    pub type NSViewController;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "initWithNibName:bundle:", managed = "Init")]
+    pub unsafe fn initWithNibName_bundle(
+        this: Option<Allocated<Self>>,
+        nib_name_or_nil: Option<&NSNibName>,
+        nib_bundle_or_nil: Option<&NSBundle>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other nibName)]
-        pub unsafe fn nibName(&self) -> Option<Id<NSNibName>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Other nibBundle)]
-        pub unsafe fn nibBundle(&self) -> Option<Id<NSBundle>>;
+    #[objc2::method(sel = "nibName", managed = "Other")]
+    pub unsafe fn nibName(&self) -> Option<Id<NSNibName>>;
 
-        #[method_id(@__retain_semantics Other representedObject)]
-        pub unsafe fn representedObject(&self) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "nibBundle", managed = "Other")]
+    pub unsafe fn nibBundle(&self) -> Option<Id<NSBundle>>;
 
-        #[method(setRepresentedObject:)]
-        pub unsafe fn setRepresentedObject(&self, represented_object: Option<&Object>);
+    #[objc2::method(sel = "representedObject", managed = "Other")]
+    pub unsafe fn representedObject(&self) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setRepresentedObject:")]
+    pub unsafe fn setRepresentedObject(&self, represented_object: Option<&Object>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other view)]
-        pub unsafe fn view(&self) -> Id<NSView>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: Option<&NSString>);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setView:)]
-        pub unsafe fn setView(&self, view: &NSView);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "view", managed = "Other")]
+    pub unsafe fn view(&self) -> Id<NSView>;
 
-        #[method(loadView)]
-        pub unsafe fn loadView(&self);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setView:")]
+    pub unsafe fn setView(&self, view: &NSView);
 
-        #[method(commitEditingWithDelegate:didCommitSelector:contextInfo:)]
-        pub unsafe fn commitEditingWithDelegate_didCommitSelector_contextInfo(
-            &self,
-            delegate: Option<&Object>,
-            did_commit_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
+    #[objc2::method(sel = "loadView")]
+    pub unsafe fn loadView(&self);
 
-        #[method(commitEditing)]
-        pub unsafe fn commitEditing(&self) -> bool;
+    #[objc2::method(sel = "commitEditingWithDelegate:didCommitSelector:contextInfo:")]
+    pub unsafe fn commitEditingWithDelegate_didCommitSelector_contextInfo(
+        &self,
+        delegate: Option<&Object>,
+        did_commit_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
 
-        #[method(discardEditing)]
-        pub unsafe fn discardEditing(&self);
+    #[objc2::method(sel = "commitEditing")]
+    pub unsafe fn commitEditing(&self) -> bool;
 
-        #[method(viewDidLoad)]
-        pub unsafe fn viewDidLoad(&self);
+    #[objc2::method(sel = "discardEditing")]
+    pub unsafe fn discardEditing(&self);
 
-        #[method(isViewLoaded)]
-        pub unsafe fn isViewLoaded(&self) -> bool;
+    #[objc2::method(sel = "viewDidLoad")]
+    pub unsafe fn viewDidLoad(&self);
 
-        #[method(viewWillAppear)]
-        pub unsafe fn viewWillAppear(&self);
+    #[objc2::method(sel = "isViewLoaded")]
+    pub unsafe fn isViewLoaded(&self) -> bool;
 
-        #[method(viewDidAppear)]
-        pub unsafe fn viewDidAppear(&self);
+    #[objc2::method(sel = "viewWillAppear")]
+    pub unsafe fn viewWillAppear(&self);
 
-        #[method(viewWillDisappear)]
-        pub unsafe fn viewWillDisappear(&self);
+    #[objc2::method(sel = "viewDidAppear")]
+    pub unsafe fn viewDidAppear(&self);
 
-        #[method(viewDidDisappear)]
-        pub unsafe fn viewDidDisappear(&self);
+    #[objc2::method(sel = "viewWillDisappear")]
+    pub unsafe fn viewWillDisappear(&self);
 
-        #[method(preferredContentSize)]
-        pub unsafe fn preferredContentSize(&self) -> NSSize;
+    #[objc2::method(sel = "viewDidDisappear")]
+    pub unsafe fn viewDidDisappear(&self);
 
-        #[method(setPreferredContentSize:)]
-        pub unsafe fn setPreferredContentSize(&self, preferred_content_size: NSSize);
+    #[objc2::method(sel = "preferredContentSize")]
+    pub unsafe fn preferredContentSize(&self) -> NSSize;
 
-        #[method(updateViewConstraints)]
-        pub unsafe fn updateViewConstraints(&self);
+    #[objc2::method(sel = "setPreferredContentSize:")]
+    pub unsafe fn setPreferredContentSize(&self, preferred_content_size: NSSize);
 
-        #[method(viewWillLayout)]
-        pub unsafe fn viewWillLayout(&self);
+    #[objc2::method(sel = "updateViewConstraints")]
+    pub unsafe fn updateViewConstraints(&self);
 
-        #[method(viewDidLayout)]
-        pub unsafe fn viewDidLayout(&self);
-    }
-);
+    #[objc2::method(sel = "viewWillLayout")]
+    pub unsafe fn viewWillLayout(&self);
 
-extern_methods!(
-    /// NSViewControllerPresentation
+    #[objc2::method(sel = "viewDidLayout")]
+    pub unsafe fn viewDidLayout(&self);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSViewController")]
-    unsafe impl NSViewController {
-        #[method(presentViewController:animator:)]
-        pub unsafe fn presentViewController_animator(
-            &self,
-            view_controller: &NSViewController,
-            animator: &ProtocolObject<dyn NSViewControllerPresentationAnimator>,
-        );
+    pub type NSViewController;
 
-        #[method(dismissViewController:)]
-        pub unsafe fn dismissViewController(&self, view_controller: &NSViewController);
+    #[objc2::method(sel = "presentViewController:animator:")]
+    pub unsafe fn presentViewController_animator(
+        &self,
+        view_controller: &NSViewController,
+        animator: &ProtocolObject<dyn NSViewControllerPresentationAnimator>,
+    );
 
-        #[method(dismissController:)]
-        pub unsafe fn dismissController(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "dismissViewController:")]
+    pub unsafe fn dismissViewController(&self, view_controller: &NSViewController);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other presentedViewControllers)]
-        pub unsafe fn presentedViewControllers(&self) -> Option<Id<NSArray<NSViewController>>>;
+    #[objc2::method(sel = "dismissController:")]
+    pub unsafe fn dismissController(&self, sender: Option<&Object>);
 
-        #[method_id(@__retain_semantics Other presentingViewController)]
-        pub unsafe fn presentingViewController(&self) -> Option<Id<NSViewController>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "presentedViewControllers", managed = "Other")]
+    pub unsafe fn presentedViewControllers(&self) -> Option<Id<NSArray<NSViewController>>>;
 
-extern_methods!(
-    /// NSViewControllerPresentationAndTransitionStyles
+    #[objc2::method(sel = "presentingViewController", managed = "Other")]
+    pub unsafe fn presentingViewController(&self) -> Option<Id<NSViewController>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSViewController")]
-    unsafe impl NSViewController {
-        #[method(presentViewControllerAsSheet:)]
-        pub unsafe fn presentViewControllerAsSheet(&self, view_controller: &NSViewController);
+    pub type NSViewController;
 
-        #[method(presentViewControllerAsModalWindow:)]
-        pub unsafe fn presentViewControllerAsModalWindow(&self, view_controller: &NSViewController);
+    #[objc2::method(sel = "presentViewControllerAsSheet:")]
+    pub unsafe fn presentViewControllerAsSheet(&self, view_controller: &NSViewController);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(presentViewController:asPopoverRelativeToRect:ofView:preferredEdge:behavior:)]
-        pub unsafe fn presentViewController_asPopoverRelativeToRect_ofView_preferredEdge_behavior(
-            &self,
-            view_controller: &NSViewController,
-            positioning_rect: NSRect,
-            positioning_view: &NSView,
-            preferred_edge: NSRectEdge,
-            behavior: NSPopoverBehavior,
-        );
+    #[objc2::method(sel = "presentViewControllerAsModalWindow:")]
+    pub unsafe fn presentViewControllerAsModalWindow(&self, view_controller: &NSViewController);
 
-        #[method(transitionFromViewController:toViewController:options:completionHandler:)]
-        pub unsafe fn transitionFromViewController_toViewController_options_completionHandler(
-            &self,
-            from_view_controller: &NSViewController,
-            to_view_controller: &NSViewController,
-            options: NSViewControllerTransitionOptions,
-            completion: Option<&Block<(), ()>>,
-        );
-    }
-);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(
+        sel = "presentViewController:asPopoverRelativeToRect:ofView:preferredEdge:behavior:"
+    )]
+    pub unsafe fn presentViewController_asPopoverRelativeToRect_ofView_preferredEdge_behavior(
+        &self,
+        view_controller: &NSViewController,
+        positioning_rect: NSRect,
+        positioning_view: &NSView,
+        preferred_edge: NSRectEdge,
+        behavior: NSPopoverBehavior,
+    );
 
-extern_methods!(
-    /// NSViewControllerContainer
+    #[objc2::method(
+        sel = "transitionFromViewController:toViewController:options:completionHandler:"
+    )]
+    pub unsafe fn transitionFromViewController_toViewController_options_completionHandler(
+        &self,
+        from_view_controller: &NSViewController,
+        to_view_controller: &NSViewController,
+        options: NSViewControllerTransitionOptions,
+        completion: Option<&Block<(), ()>>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSViewController")]
-    unsafe impl NSViewController {
-        #[method_id(@__retain_semantics Other parentViewController)]
-        pub unsafe fn parentViewController(&self) -> Option<Id<NSViewController>>;
+    pub type NSViewController;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other childViewControllers)]
-        pub unsafe fn childViewControllers(&self) -> Id<NSArray<NSViewController>>;
+    #[objc2::method(sel = "parentViewController", managed = "Other")]
+    pub unsafe fn parentViewController(&self) -> Option<Id<NSViewController>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setChildViewControllers:)]
-        pub unsafe fn setChildViewControllers(
-            &self,
-            child_view_controllers: &NSArray<NSViewController>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "childViewControllers", managed = "Other")]
+    pub unsafe fn childViewControllers(&self) -> Id<NSArray<NSViewController>>;
 
-        #[method(addChildViewController:)]
-        pub unsafe fn addChildViewController(&self, child_view_controller: &NSViewController);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setChildViewControllers:")]
+    pub unsafe fn setChildViewControllers(
+        &self,
+        child_view_controllers: &NSArray<NSViewController>,
+    );
 
-        #[method(removeFromParentViewController)]
-        pub unsafe fn removeFromParentViewController(&self);
+    #[objc2::method(sel = "addChildViewController:")]
+    pub unsafe fn addChildViewController(&self, child_view_controller: &NSViewController);
 
-        #[method(insertChildViewController:atIndex:)]
-        pub unsafe fn insertChildViewController_atIndex(
-            &self,
-            child_view_controller: &NSViewController,
-            index: NSInteger,
-        );
+    #[objc2::method(sel = "removeFromParentViewController")]
+    pub unsafe fn removeFromParentViewController(&self);
 
-        #[method(removeChildViewControllerAtIndex:)]
-        pub unsafe fn removeChildViewControllerAtIndex(&self, index: NSInteger);
+    #[objc2::method(sel = "insertChildViewController:atIndex:")]
+    pub unsafe fn insertChildViewController_atIndex(
+        &self,
+        child_view_controller: &NSViewController,
+        index: NSInteger,
+    );
 
-        #[method(preferredContentSizeDidChangeForViewController:)]
-        pub unsafe fn preferredContentSizeDidChangeForViewController(
-            &self,
-            view_controller: &NSViewController,
-        );
+    #[objc2::method(sel = "removeChildViewControllerAtIndex:")]
+    pub unsafe fn removeChildViewControllerAtIndex(&self, index: NSInteger);
 
-        #[method(viewWillTransitionToSize:)]
-        pub unsafe fn viewWillTransitionToSize(&self, new_size: NSSize);
-    }
-);
+    #[objc2::method(sel = "preferredContentSizeDidChangeForViewController:")]
+    pub unsafe fn preferredContentSizeDidChangeForViewController(
+        &self,
+        view_controller: &NSViewController,
+    );
 
-extern_protocol!(
-    pub unsafe trait NSViewControllerPresentationAnimator: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method(animatePresentationOfViewController:fromViewController:)]
-        unsafe fn animatePresentationOfViewController_fromViewController(
-            &self,
-            view_controller: &NSViewController,
-            from_view_controller: &NSViewController,
-        );
+    #[objc2::method(sel = "viewWillTransitionToSize:")]
+    pub unsafe fn viewWillTransitionToSize(&self, new_size: NSSize);
+}
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method(animateDismissalOfViewController:fromViewController:)]
-        unsafe fn animateDismissalOfViewController_fromViewController(
-            &self,
-            view_controller: &NSViewController,
-            from_view_controller: &NSViewController,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn NSViewControllerPresentationAnimator {}
-);
-
-extern_methods!(
-    /// NSViewControllerStoryboardingMethods
+#[objc2::protocol]
+pub unsafe trait NSViewControllerPresentationAnimator: NSObjectProtocol {
     #[cfg(feature = "AppKit_NSViewController")]
-    unsafe impl NSViewController {
-        #[cfg(feature = "AppKit_NSStoryboard")]
-        #[method_id(@__retain_semantics Other storyboard)]
-        pub unsafe fn storyboard(&self) -> Option<Id<NSStoryboard>>;
-    }
-);
+    #[objc2::method(sel = "animatePresentationOfViewController:fromViewController:")]
+    unsafe fn animatePresentationOfViewController_fromViewController(
+        &self,
+        view_controller: &NSViewController,
+        from_view_controller: &NSViewController,
+    );
 
-extern_methods!(
-    /// NSExtensionAdditions
     #[cfg(feature = "AppKit_NSViewController")]
-    unsafe impl NSViewController {
-        #[cfg(feature = "Foundation_NSExtensionContext")]
-        #[method_id(@__retain_semantics Other extensionContext)]
-        pub unsafe fn extensionContext(&self) -> Option<Id<NSExtensionContext>>;
+    #[objc2::method(sel = "animateDismissalOfViewController:fromViewController:")]
+    unsafe fn animateDismissalOfViewController_fromViewController(
+        &self,
+        view_controller: &NSViewController,
+        from_view_controller: &NSViewController,
+    );
+}
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other sourceItemView)]
-        pub unsafe fn sourceItemView(&self) -> Option<Id<NSView>>;
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSViewController")]
+    pub type NSViewController;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setSourceItemView:)]
-        pub unsafe fn setSourceItemView(&self, source_item_view: Option<&NSView>);
+    #[cfg(feature = "AppKit_NSStoryboard")]
+    #[objc2::method(sel = "storyboard", managed = "Other")]
+    pub unsafe fn storyboard(&self) -> Option<Id<NSStoryboard>>;
+}
 
-        #[method(preferredScreenOrigin)]
-        pub unsafe fn preferredScreenOrigin(&self) -> NSPoint;
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSViewController")]
+    pub type NSViewController;
 
-        #[method(setPreferredScreenOrigin:)]
-        pub unsafe fn setPreferredScreenOrigin(&self, preferred_screen_origin: NSPoint);
+    #[cfg(feature = "Foundation_NSExtensionContext")]
+    #[objc2::method(sel = "extensionContext", managed = "Other")]
+    pub unsafe fn extensionContext(&self) -> Option<Id<NSExtensionContext>>;
 
-        #[method(preferredMinimumSize)]
-        pub unsafe fn preferredMinimumSize(&self) -> NSSize;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "sourceItemView", managed = "Other")]
+    pub unsafe fn sourceItemView(&self) -> Option<Id<NSView>>;
 
-        #[method(preferredMaximumSize)]
-        pub unsafe fn preferredMaximumSize(&self) -> NSSize;
-    }
-);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setSourceItemView:")]
+    pub unsafe fn setSourceItemView(&self, source_item_view: Option<&NSView>);
+
+    #[objc2::method(sel = "preferredScreenOrigin")]
+    pub unsafe fn preferredScreenOrigin(&self) -> NSPoint;
+
+    #[objc2::method(sel = "setPreferredScreenOrigin:")]
+    pub unsafe fn setPreferredScreenOrigin(&self, preferred_screen_origin: NSPoint);
+
+    #[objc2::method(sel = "preferredMinimumSize")]
+    pub unsafe fn preferredMinimumSize(&self) -> NSSize;
+
+    #[objc2::method(sel = "preferredMaximumSize")]
+    pub unsafe fn preferredMaximumSize(&self) -> NSSize;
+}
 
 #[cfg(feature = "AppKit_NSViewController")]
 unsafe impl NSExtensionRequestHandling for NSViewController {}

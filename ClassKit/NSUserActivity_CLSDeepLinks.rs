@@ -4,15 +4,17 @@ use crate::common::*;
 use crate::ClassKit::*;
 use crate::Foundation::*;
 
-extern_methods!(
-    /// CLSDeepLinks
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUserActivity")]
-    unsafe impl NSUserActivity {
-        #[method(isClassKitDeepLink)]
-        pub unsafe fn isClassKitDeepLink(&self) -> bool;
+    pub type NSUserActivity;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other contextIdentifierPath)]
-        pub unsafe fn contextIdentifierPath(&self) -> Option<Id<NSArray<NSString>>>;
-    }
-);
+    #[objc2::method(sel = "isClassKitDeepLink")]
+    pub unsafe fn isClassKitDeepLink(&self) -> bool;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "contextIdentifierPath", managed = "Other")]
+    pub unsafe fn contextIdentifierPath(&self) -> Option<Id<NSArray<NSString>>>;
+}

@@ -7,63 +7,63 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKLookAroundSceneRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKLookAroundSceneRequest")]
-    pub struct MKLookAroundSceneRequest;
-
-    #[cfg(feature = "MapKit_MKLookAroundSceneRequest")]
-    unsafe impl ClassType for MKLookAroundSceneRequest {
-        type Super = NSObject;
-    }
-);
+    pub type MKLookAroundSceneRequest;
+}
 
 #[cfg(feature = "MapKit_MKLookAroundSceneRequest")]
 unsafe impl NSObjectProtocol for MKLookAroundSceneRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKLookAroundSceneRequest")]
-    unsafe impl MKLookAroundSceneRequest {
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    pub type MKLookAroundSceneRequest;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithCoordinate:)]
-        pub unsafe fn initWithCoordinate(
-            this: Option<Allocated<Self>>,
-            coordinate: CLLocationCoordinate2D,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "MapKit_MKMapItem")]
-        #[method_id(@__retain_semantics Init initWithMapItem:)]
-        pub unsafe fn initWithMapItem(
-            this: Option<Allocated<Self>>,
-            map_item: &MKMapItem,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithCoordinate:", managed = "Init")]
+    pub unsafe fn initWithCoordinate(
+        this: Option<Allocated<Self>>,
+        coordinate: CLLocationCoordinate2D,
+    ) -> Id<Self>;
 
-        #[method(coordinate)]
-        pub unsafe fn coordinate(&self) -> CLLocationCoordinate2D;
+    #[cfg(feature = "MapKit_MKMapItem")]
+    #[objc2::method(sel = "initWithMapItem:", managed = "Init")]
+    pub unsafe fn initWithMapItem(this: Option<Allocated<Self>>, map_item: &MKMapItem) -> Id<Self>;
 
-        #[cfg(feature = "MapKit_MKMapItem")]
-        #[method_id(@__retain_semantics Other mapItem)]
-        pub unsafe fn mapItem(&self) -> Option<Id<MKMapItem>>;
+    #[objc2::method(sel = "coordinate")]
+    pub unsafe fn coordinate(&self) -> CLLocationCoordinate2D;
 
-        #[method(isCancelled)]
-        pub unsafe fn isCancelled(&self) -> bool;
+    #[cfg(feature = "MapKit_MKMapItem")]
+    #[objc2::method(sel = "mapItem", managed = "Other")]
+    pub unsafe fn mapItem(&self) -> Option<Id<MKMapItem>>;
 
-        #[method(isLoading)]
-        pub unsafe fn isLoading(&self) -> bool;
+    #[objc2::method(sel = "isCancelled")]
+    pub unsafe fn isCancelled(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "MapKit_MKLookAroundScene"))]
-        #[method(getSceneWithCompletionHandler:)]
-        pub unsafe fn getSceneWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(*mut MKLookAroundScene, *mut NSError), ()>,
-        );
+    #[objc2::method(sel = "isLoading")]
+    pub unsafe fn isLoading(&self) -> bool;
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
-    }
-);
+    #[cfg(all(feature = "Foundation_NSError", feature = "MapKit_MKLookAroundScene"))]
+    #[objc2::method(sel = "getSceneWithCompletionHandler:")]
+    pub unsafe fn getSceneWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(*mut MKLookAroundScene, *mut NSError), ()>,
+    );
+
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
+}

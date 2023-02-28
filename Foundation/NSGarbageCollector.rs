@@ -3,53 +3,57 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSGarbageCollector")]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[deprecated = "Building Garbage Collected apps is no longer supported."]
-    pub struct NSGarbageCollector;
-
     #[cfg(feature = "Foundation_NSGarbageCollector")]
-    unsafe impl ClassType for NSGarbageCollector {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type NSGarbageCollector;
+}
 
 #[cfg(feature = "Foundation_NSGarbageCollector")]
 unsafe impl NSObjectProtocol for NSGarbageCollector {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSGarbageCollector")]
-    unsafe impl NSGarbageCollector {
-        #[method_id(@__retain_semantics Other defaultCollector)]
-        pub unsafe fn defaultCollector() -> Id<Object>;
+    #[deprecated = "Building Garbage Collected apps is no longer supported."]
+    pub type NSGarbageCollector;
 
-        #[deprecated]
-        #[method(isCollecting)]
-        pub unsafe fn isCollecting(&self) -> bool;
+    #[objc2::method(sel = "defaultCollector", managed = "Other")]
+    pub unsafe fn defaultCollector() -> Id<Object>;
 
-        #[method(disable)]
-        pub unsafe fn disable(&self);
+    #[deprecated]
+    #[objc2::method(sel = "isCollecting")]
+    pub unsafe fn isCollecting(&self) -> bool;
 
-        #[method(enable)]
-        pub unsafe fn enable(&self);
+    #[objc2::method(sel = "disable")]
+    pub unsafe fn disable(&self);
 
-        #[method(isEnabled)]
-        pub unsafe fn isEnabled(&self) -> bool;
+    #[objc2::method(sel = "enable")]
+    pub unsafe fn enable(&self);
 
-        #[method(collectIfNeeded)]
-        pub unsafe fn collectIfNeeded(&self);
+    #[objc2::method(sel = "isEnabled")]
+    pub unsafe fn isEnabled(&self) -> bool;
 
-        #[method(collectExhaustively)]
-        pub unsafe fn collectExhaustively(&self);
+    #[objc2::method(sel = "collectIfNeeded")]
+    pub unsafe fn collectIfNeeded(&self);
 
-        #[method(disableCollectorForPointer:)]
-        pub unsafe fn disableCollectorForPointer(&self, ptr: NonNull<c_void>);
+    #[objc2::method(sel = "collectExhaustively")]
+    pub unsafe fn collectExhaustively(&self);
 
-        #[method(enableCollectorForPointer:)]
-        pub unsafe fn enableCollectorForPointer(&self, ptr: NonNull<c_void>);
+    #[objc2::method(sel = "disableCollectorForPointer:")]
+    pub unsafe fn disableCollectorForPointer(&self, ptr: NonNull<c_void>);
 
-        #[method(zone)]
-        pub unsafe fn zone(&self) -> NonNull<NSZone>;
-    }
-);
+    #[objc2::method(sel = "enableCollectorForPointer:")]
+    pub unsafe fn enableCollectorForPointer(&self, ptr: NonNull<c_void>);
+
+    #[objc2::method(sel = "zone")]
+    pub unsafe fn zone(&self) -> NonNull<NSZone>;
+}

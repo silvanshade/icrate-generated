@@ -5,49 +5,47 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::StoreKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKRequest")]
-    pub struct SKRequest;
-
-    #[cfg(feature = "StoreKit_SKRequest")]
-    unsafe impl ClassType for SKRequest {
-        type Super = NSObject;
-    }
-);
+    pub type SKRequest;
+}
 
 #[cfg(feature = "StoreKit_SKRequest")]
 unsafe impl NSObjectProtocol for SKRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKRequest")]
-    unsafe impl SKRequest {
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn SKRequestDelegate>>>;
+    pub type SKRequest;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn SKRequestDelegate>>);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn SKRequestDelegate>>>;
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn SKRequestDelegate>>);
 
-        #[method(start)]
-        pub unsafe fn start(&self);
-    }
-);
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
 
-extern_protocol!(
-    pub unsafe trait SKRequestDelegate: NSObjectProtocol {
-        #[cfg(feature = "StoreKit_SKRequest")]
-        #[optional]
-        #[method(requestDidFinish:)]
-        unsafe fn requestDidFinish(&self, request: &SKRequest);
+    #[objc2::method(sel = "start")]
+    pub unsafe fn start(&self);
+}
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "StoreKit_SKRequest"))]
-        #[optional]
-        #[method(request:didFailWithError:)]
-        unsafe fn request_didFailWithError(&self, request: &SKRequest, error: &NSError);
-    }
+#[objc2::protocol]
+pub unsafe trait SKRequestDelegate: NSObjectProtocol {
+    #[cfg(feature = "StoreKit_SKRequest")]
+    #[objc2::method(optional, sel = "requestDidFinish:")]
+    unsafe fn requestDidFinish(&self, request: &SKRequest);
 
-    unsafe impl ProtocolType for dyn SKRequestDelegate {}
-);
+    #[cfg(all(feature = "Foundation_NSError", feature = "StoreKit_SKRequest"))]
+    #[objc2::method(optional, sel = "request:didFailWithError:")]
+    unsafe fn request_didFailWithError(&self, request: &SKRequest, error: &NSError);
+}

@@ -6,16 +6,16 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKQueryAnchor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKQueryAnchor")]
-    pub struct HKQueryAnchor;
-
-    #[cfg(feature = "HealthKit_HKQueryAnchor")]
-    unsafe impl ClassType for HKQueryAnchor {
-        type Super = NSObject;
-    }
-);
+    pub type HKQueryAnchor;
+}
 
 #[cfg(feature = "HealthKit_HKQueryAnchor")]
 unsafe impl NSCoding for HKQueryAnchor {}
@@ -26,13 +26,16 @@ unsafe impl NSObjectProtocol for HKQueryAnchor {}
 #[cfg(feature = "HealthKit_HKQueryAnchor")]
 unsafe impl NSSecureCoding for HKQueryAnchor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQueryAnchor")]
-    unsafe impl HKQueryAnchor {
-        #[method_id(@__retain_semantics Other anchorFromValue:)]
-        pub unsafe fn anchorFromValue(value: NSUInteger) -> Id<Self>;
+    pub type HKQueryAnchor;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "anchorFromValue:", managed = "Other")]
+    pub unsafe fn anchorFromValue(value: NSUInteger) -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

@@ -16,71 +16,74 @@ extern_static!(GCInputMicroGamepadButtonMenu: &'static NSString);
 pub type GCMicroGamepadValueChangedHandler =
     *mut Block<(NonNull<GCMicroGamepad>, NonNull<GCControllerElement>), ()>;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = GCPhysicalInputProfile,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCMicroGamepad")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCMicroGamepad")]
-    pub struct GCMicroGamepad;
-
-    #[cfg(feature = "GameController_GCMicroGamepad")]
-    unsafe impl ClassType for GCMicroGamepad {
-        #[inherits(NSObject)]
-        type Super = GCPhysicalInputProfile;
-    }
-);
+    pub type GCMicroGamepad;
+}
 
 #[cfg(feature = "GameController_GCMicroGamepad")]
 unsafe impl NSObjectProtocol for GCMicroGamepad {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCMicroGamepad")]
-    unsafe impl GCMicroGamepad {
-        #[cfg(feature = "GameController_GCController")]
-        #[method_id(@__retain_semantics Other controller)]
-        pub unsafe fn controller(&self) -> Option<Id<GCController>>;
+    pub type GCMicroGamepad;
 
-        #[method(valueChangedHandler)]
-        pub unsafe fn valueChangedHandler(&self) -> GCMicroGamepadValueChangedHandler;
+    #[cfg(feature = "GameController_GCController")]
+    #[objc2::method(sel = "controller", managed = "Other")]
+    pub unsafe fn controller(&self) -> Option<Id<GCController>>;
 
-        #[method(setValueChangedHandler:)]
-        pub unsafe fn setValueChangedHandler(
-            &self,
-            value_changed_handler: GCMicroGamepadValueChangedHandler,
-        );
+    #[objc2::method(sel = "valueChangedHandler")]
+    pub unsafe fn valueChangedHandler(&self) -> GCMicroGamepadValueChangedHandler;
 
-        #[cfg(feature = "GameController_GCMicroGamepadSnapshot")]
-        #[deprecated = "GCMicroGamepadSnapshot has been deprecated, use [GCController capture] instead"]
-        #[method_id(@__retain_semantics Other saveSnapshot)]
-        pub unsafe fn saveSnapshot(&self) -> Id<GCMicroGamepadSnapshot>;
+    #[objc2::method(sel = "setValueChangedHandler:")]
+    pub unsafe fn setValueChangedHandler(
+        &self,
+        value_changed_handler: GCMicroGamepadValueChangedHandler,
+    );
 
-        #[cfg(feature = "GameController_GCControllerDirectionPad")]
-        #[method_id(@__retain_semantics Other dpad)]
-        pub unsafe fn dpad(&self) -> Id<GCControllerDirectionPad>;
+    #[cfg(feature = "GameController_GCMicroGamepadSnapshot")]
+    #[deprecated = "GCMicroGamepadSnapshot has been deprecated, use [GCController capture] instead"]
+    #[objc2::method(sel = "saveSnapshot", managed = "Other")]
+    pub unsafe fn saveSnapshot(&self) -> Id<GCMicroGamepadSnapshot>;
 
-        #[cfg(feature = "GameController_GCControllerButtonInput")]
-        #[method_id(@__retain_semantics Other buttonA)]
-        pub unsafe fn buttonA(&self) -> Id<GCControllerButtonInput>;
+    #[cfg(feature = "GameController_GCControllerDirectionPad")]
+    #[objc2::method(sel = "dpad", managed = "Other")]
+    pub unsafe fn dpad(&self) -> Id<GCControllerDirectionPad>;
 
-        #[cfg(feature = "GameController_GCControllerButtonInput")]
-        #[method_id(@__retain_semantics Other buttonX)]
-        pub unsafe fn buttonX(&self) -> Id<GCControllerButtonInput>;
+    #[cfg(feature = "GameController_GCControllerButtonInput")]
+    #[objc2::method(sel = "buttonA", managed = "Other")]
+    pub unsafe fn buttonA(&self) -> Id<GCControllerButtonInput>;
 
-        #[cfg(feature = "GameController_GCControllerButtonInput")]
-        #[method_id(@__retain_semantics Other buttonMenu)]
-        pub unsafe fn buttonMenu(&self) -> Id<GCControllerButtonInput>;
+    #[cfg(feature = "GameController_GCControllerButtonInput")]
+    #[objc2::method(sel = "buttonX", managed = "Other")]
+    pub unsafe fn buttonX(&self) -> Id<GCControllerButtonInput>;
 
-        #[method(reportsAbsoluteDpadValues)]
-        pub unsafe fn reportsAbsoluteDpadValues(&self) -> bool;
+    #[cfg(feature = "GameController_GCControllerButtonInput")]
+    #[objc2::method(sel = "buttonMenu", managed = "Other")]
+    pub unsafe fn buttonMenu(&self) -> Id<GCControllerButtonInput>;
 
-        #[method(setReportsAbsoluteDpadValues:)]
-        pub unsafe fn setReportsAbsoluteDpadValues(&self, reports_absolute_dpad_values: bool);
+    #[objc2::method(sel = "reportsAbsoluteDpadValues")]
+    pub unsafe fn reportsAbsoluteDpadValues(&self) -> bool;
 
-        #[method(allowsRotation)]
-        pub unsafe fn allowsRotation(&self) -> bool;
+    #[objc2::method(sel = "setReportsAbsoluteDpadValues:")]
+    pub unsafe fn setReportsAbsoluteDpadValues(&self, reports_absolute_dpad_values: bool);
 
-        #[method(setAllowsRotation:)]
-        pub unsafe fn setAllowsRotation(&self, allows_rotation: bool);
+    #[objc2::method(sel = "allowsRotation")]
+    pub unsafe fn allowsRotation(&self) -> bool;
 
-        #[method(setStateFromMicroGamepad:)]
-        pub unsafe fn setStateFromMicroGamepad(&self, micro_gamepad: &GCMicroGamepad);
-    }
-);
+    #[objc2::method(sel = "setAllowsRotation:")]
+    pub unsafe fn setAllowsRotation(&self, allows_rotation: bool);
+
+    #[objc2::method(sel = "setStateFromMicroGamepad:")]
+    pub unsafe fn setStateFromMicroGamepad(&self, micro_gamepad: &GCMicroGamepad);
+}

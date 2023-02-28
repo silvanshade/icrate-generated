@@ -6,81 +6,90 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKQuery,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKVerifiableClinicalRecordQuery")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKVerifiableClinicalRecordQuery")]
-    pub struct HKVerifiableClinicalRecordQuery;
-
-    #[cfg(feature = "HealthKit_HKVerifiableClinicalRecordQuery")]
-    unsafe impl ClassType for HKVerifiableClinicalRecordQuery {
-        #[inherits(NSObject)]
-        type Super = HKQuery;
-    }
-);
+    pub type HKVerifiableClinicalRecordQuery;
+}
 
 #[cfg(feature = "HealthKit_HKVerifiableClinicalRecordQuery")]
 unsafe impl NSObjectProtocol for HKVerifiableClinicalRecordQuery {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKVerifiableClinicalRecordQuery")]
-    unsafe impl HKVerifiableClinicalRecordQuery {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other recordTypes)]
-        pub unsafe fn recordTypes(&self) -> Id<NSArray<NSString>>;
+    pub type HKVerifiableClinicalRecordQuery;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other sourceTypes)]
-        pub unsafe fn sourceTypes(&self) -> Id<NSArray<HKVerifiableClinicalRecordSourceType>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "recordTypes", managed = "Other")]
+    pub unsafe fn recordTypes(&self) -> Id<NSArray<NSString>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "sourceTypes", managed = "Other")]
+    pub unsafe fn sourceTypes(&self) -> Id<NSArray<HKVerifiableClinicalRecordSourceType>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSPredicate",
-            feature = "Foundation_NSString",
-            feature = "HealthKit_HKVerifiableClinicalRecord"
-        ))]
-        #[method_id(@__retain_semantics Init initWithRecordTypes:predicate:resultsHandler:)]
-        pub unsafe fn initWithRecordTypes_predicate_resultsHandler(
-            this: Option<Allocated<Self>>,
-            record_types: &NSArray<NSString>,
-            predicate: Option<&NSPredicate>,
-            results_handler: &Block<
-                (
-                    NonNull<HKVerifiableClinicalRecordQuery>,
-                    *mut NSArray<HKVerifiableClinicalRecord>,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSPredicate",
-            feature = "Foundation_NSString",
-            feature = "HealthKit_HKVerifiableClinicalRecord"
-        ))]
-        #[method_id(@__retain_semantics Init initWithRecordTypes:sourceTypes:predicate:resultsHandler:)]
-        pub unsafe fn initWithRecordTypes_sourceTypes_predicate_resultsHandler(
-            this: Option<Allocated<Self>>,
-            record_types: &NSArray<NSString>,
-            source_types: &NSArray<HKVerifiableClinicalRecordSourceType>,
-            predicate: Option<&NSPredicate>,
-            results_handler: &Block<
-                (
-                    NonNull<HKVerifiableClinicalRecordQuery>,
-                    *mut NSArray<HKVerifiableClinicalRecord>,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSPredicate",
+        feature = "Foundation_NSString",
+        feature = "HealthKit_HKVerifiableClinicalRecord"
+    ))]
+    #[objc2::method(
+        sel = "initWithRecordTypes:predicate:resultsHandler:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithRecordTypes_predicate_resultsHandler(
+        this: Option<Allocated<Self>>,
+        record_types: &NSArray<NSString>,
+        predicate: Option<&NSPredicate>,
+        results_handler: &Block<
+            (
+                NonNull<HKVerifiableClinicalRecordQuery>,
+                *mut NSArray<HKVerifiableClinicalRecord>,
+                *mut NSError,
+            ),
+            (),
+        >,
+    ) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSPredicate",
+        feature = "Foundation_NSString",
+        feature = "HealthKit_HKVerifiableClinicalRecord"
+    ))]
+    #[objc2::method(
+        sel = "initWithRecordTypes:sourceTypes:predicate:resultsHandler:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithRecordTypes_sourceTypes_predicate_resultsHandler(
+        this: Option<Allocated<Self>>,
+        record_types: &NSArray<NSString>,
+        source_types: &NSArray<HKVerifiableClinicalRecordSourceType>,
+        predicate: Option<&NSPredicate>,
+        results_handler: &Block<
+            (
+                NonNull<HKVerifiableClinicalRecordQuery>,
+                *mut NSArray<HKVerifiableClinicalRecord>,
+                *mut NSError,
+            ),
+            (),
+        >,
+    ) -> Id<Self>;
+}

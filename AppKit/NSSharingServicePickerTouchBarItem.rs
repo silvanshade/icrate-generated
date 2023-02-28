@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSTouchBarItem,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSharingServicePickerTouchBarItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSSharingServicePickerTouchBarItem")]
-    pub struct NSSharingServicePickerTouchBarItem;
-
-    #[cfg(feature = "AppKit_NSSharingServicePickerTouchBarItem")]
-    unsafe impl ClassType for NSSharingServicePickerTouchBarItem {
-        #[inherits(NSObject)]
-        type Super = NSTouchBarItem;
-    }
-);
+    pub type NSSharingServicePickerTouchBarItem;
+}
 
 #[cfg(feature = "AppKit_NSSharingServicePickerTouchBarItem")]
 unsafe impl NSCoding for NSSharingServicePickerTouchBarItem {}
@@ -23,70 +23,76 @@ unsafe impl NSCoding for NSSharingServicePickerTouchBarItem {}
 #[cfg(feature = "AppKit_NSSharingServicePickerTouchBarItem")]
 unsafe impl NSObjectProtocol for NSSharingServicePickerTouchBarItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSharingServicePickerTouchBarItem")]
-    unsafe impl NSSharingServicePickerTouchBarItem {
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn NSSharingServicePickerTouchBarItemDelegate>>>;
+    pub type NSSharingServicePickerTouchBarItem;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSSharingServicePickerTouchBarItemDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn NSSharingServicePickerTouchBarItemDelegate>>>;
 
-        #[method(isEnabled)]
-        pub unsafe fn isEnabled(&self) -> bool;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn NSSharingServicePickerTouchBarItemDelegate>>,
+    );
 
-        #[method(setEnabled:)]
-        pub unsafe fn setEnabled(&self, enabled: bool);
+    #[objc2::method(sel = "isEnabled")]
+    pub unsafe fn isEnabled(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other buttonTitle)]
-        pub unsafe fn buttonTitle(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setEnabled:")]
+    pub unsafe fn setEnabled(&self, enabled: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setButtonTitle:)]
-        pub unsafe fn setButtonTitle(&self, button_title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "buttonTitle", managed = "Other")]
+    pub unsafe fn buttonTitle(&self) -> Id<NSString>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other buttonImage)]
-        pub unsafe fn buttonImage(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setButtonTitle:")]
+    pub unsafe fn setButtonTitle(&self, button_title: &NSString);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setButtonImage:)]
-        pub unsafe fn setButtonImage(&self, button_image: Option<&NSImage>);
-    }
-);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "buttonImage", managed = "Other")]
+    pub unsafe fn buttonImage(&self) -> Option<Id<NSImage>>;
 
-extern_protocol!(
-    pub unsafe trait NSSharingServicePickerTouchBarItemDelegate:
-        NSSharingServicePickerDelegate
-    {
-        #[cfg(all(
-            feature = "AppKit_NSSharingServicePickerTouchBarItem",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other itemsForSharingServicePickerTouchBarItem:)]
-        unsafe fn itemsForSharingServicePickerTouchBarItem(
-            &self,
-            picker_touch_bar_item: &NSSharingServicePickerTouchBarItem,
-        ) -> Id<NSArray>;
-    }
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setButtonImage:")]
+    pub unsafe fn setButtonImage(&self, button_image: Option<&NSImage>);
+}
 
-    unsafe impl ProtocolType for dyn NSSharingServicePickerTouchBarItemDelegate {}
-);
+#[objc2::protocol]
+pub unsafe trait NSSharingServicePickerTouchBarItemDelegate:
+    NSSharingServicePickerDelegate
+{
+    #[cfg(all(
+        feature = "AppKit_NSSharingServicePickerTouchBarItem",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "itemsForSharingServicePickerTouchBarItem:", managed = "Other")]
+    unsafe fn itemsForSharingServicePickerTouchBarItem(
+        &self,
+        picker_touch_bar_item: &NSSharingServicePickerTouchBarItem,
+    ) -> Id<NSArray>;
+}
 
-extern_methods!(
-    /// Methods declared on superclass `NSTouchBarItem`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSTouchBarItem`
     #[cfg(feature = "AppKit_NSSharingServicePickerTouchBarItem")]
-    unsafe impl NSSharingServicePickerTouchBarItem {
-        #[method_id(@__retain_semantics Init initWithIdentifier:)]
-        pub unsafe fn initWithIdentifier(
-            this: Option<Allocated<Self>>,
-            identifier: &NSTouchBarItemIdentifier,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSharingServicePickerTouchBarItem")]
+    pub type NSSharingServicePickerTouchBarItem;
+
+    #[objc2::method(sel = "initWithIdentifier:", managed = "Init")]
+    pub unsafe fn initWithIdentifier(
+        this: Option<Allocated<Self>>,
+        identifier: &NSTouchBarItemIdentifier,
+    ) -> Id<Self>;
+}

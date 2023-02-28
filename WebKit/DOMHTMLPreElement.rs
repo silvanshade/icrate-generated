@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLPreElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLPreElement;
-
     #[cfg(feature = "WebKit_DOMHTMLPreElement")]
-    unsafe impl ClassType for DOMHTMLPreElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLPreElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLPreElement")]
 unsafe impl DOMEventTarget for DOMHTMLPreElement {}
@@ -24,19 +28,23 @@ unsafe impl DOMEventTarget for DOMHTMLPreElement {}
 #[cfg(feature = "WebKit_DOMHTMLPreElement")]
 unsafe impl NSObjectProtocol for DOMHTMLPreElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLPreElement")]
-    unsafe impl DOMHTMLPreElement {
-        #[method(width)]
-        pub unsafe fn width(&self) -> c_int;
+    #[deprecated]
+    pub type DOMHTMLPreElement;
 
-        #[method(setWidth:)]
-        pub unsafe fn setWidth(&self, width: c_int);
+    #[objc2::method(sel = "width")]
+    pub unsafe fn width(&self) -> c_int;
 
-        #[method(wrap)]
-        pub unsafe fn wrap(&self) -> bool;
+    #[objc2::method(sel = "setWidth:")]
+    pub unsafe fn setWidth(&self, width: c_int);
 
-        #[method(setWrap:)]
-        pub unsafe fn setWrap(&self, wrap: bool);
-    }
-);
+    #[objc2::method(sel = "wrap")]
+    pub unsafe fn wrap(&self) -> bool;
+
+    #[objc2::method(sel = "setWrap:")]
+    pub unsafe fn setWrap(&self, wrap: bool);
+}

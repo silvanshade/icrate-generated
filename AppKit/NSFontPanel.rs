@@ -5,50 +5,46 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSFontPanelModeMask {
-        NSFontPanelModeMaskFace = 1 << 0,
-        NSFontPanelModeMaskSize = 1 << 1,
-        NSFontPanelModeMaskCollection = 1 << 2,
-        NSFontPanelModeMaskUnderlineEffect = 1 << 8,
-        NSFontPanelModeMaskStrikethroughEffect = 1 << 9,
-        NSFontPanelModeMaskTextColorEffect = 1 << 10,
-        NSFontPanelModeMaskDocumentColorEffect = 1 << 11,
-        NSFontPanelModeMaskShadowEffect = 1 << 12,
-        NSFontPanelModeMaskAllEffects = 0xFFF00,
-        NSFontPanelModesMaskStandardModes = 0xFFFF,
-        NSFontPanelModesMaskAllModes = 0xFFFFFFFF,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSFontPanelModeMask {
+    NSFontPanelModeMaskFace = 1 << 0,
+    NSFontPanelModeMaskSize = 1 << 1,
+    NSFontPanelModeMaskCollection = 1 << 2,
+    NSFontPanelModeMaskUnderlineEffect = 1 << 8,
+    NSFontPanelModeMaskStrikethroughEffect = 1 << 9,
+    NSFontPanelModeMaskTextColorEffect = 1 << 10,
+    NSFontPanelModeMaskDocumentColorEffect = 1 << 11,
+    NSFontPanelModeMaskShadowEffect = 1 << 12,
+    NSFontPanelModeMaskAllEffects = 0xFFF00,
+    NSFontPanelModesMaskStandardModes = 0xFFFF,
+    NSFontPanelModesMaskAllModes = 0xFFFFFFFF,
+}
 
-extern_protocol!(
-    pub unsafe trait NSFontChanging: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSFontManager")]
-        #[optional]
-        #[method(changeFont:)]
-        unsafe fn changeFont(&self, sender: Option<&NSFontManager>);
+#[objc2::protocol]
+pub unsafe trait NSFontChanging: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSFontManager")]
+    #[objc2::method(optional, sel = "changeFont:")]
+    unsafe fn changeFont(&self, sender: Option<&NSFontManager>);
 
-        #[cfg(feature = "AppKit_NSFontPanel")]
-        #[optional]
-        #[method(validModesForFontPanel:)]
-        unsafe fn validModesForFontPanel(&self, font_panel: &NSFontPanel) -> NSFontPanelModeMask;
-    }
+    #[cfg(feature = "AppKit_NSFontPanel")]
+    #[objc2::method(optional, sel = "validModesForFontPanel:")]
+    unsafe fn validModesForFontPanel(&self, font_panel: &NSFontPanel) -> NSFontPanelModeMask;
+}
 
-    unsafe impl ProtocolType for dyn NSFontChanging {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSPanel,
+    unsafe inherits = [
+        NSWindow,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSFontPanel")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSFontPanel")]
-    pub struct NSFontPanel;
-
-    #[cfg(feature = "AppKit_NSFontPanel")]
-    unsafe impl ClassType for NSFontPanel {
-        #[inherits(NSWindow, NSResponder, NSObject)]
-        type Super = NSPanel;
-    }
-);
+    pub type NSFontPanel;
+}
 
 #[cfg(feature = "AppKit_NSFontPanel")]
 unsafe impl NSAccessibility for NSFontPanel {}
@@ -77,107 +73,117 @@ unsafe impl NSUserInterfaceItemIdentification for NSFontPanel {}
 #[cfg(feature = "AppKit_NSFontPanel")]
 unsafe impl NSUserInterfaceValidations for NSFontPanel {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSFontPanel")]
-    unsafe impl NSFontPanel {
-        #[method_id(@__retain_semantics Other sharedFontPanel)]
-        pub unsafe fn sharedFontPanel() -> Id<NSFontPanel>;
+    pub type NSFontPanel;
 
-        #[method(sharedFontPanelExists)]
-        pub unsafe fn sharedFontPanelExists() -> bool;
+    #[objc2::method(sel = "sharedFontPanel", managed = "Other")]
+    pub unsafe fn sharedFontPanel() -> Id<NSFontPanel>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other accessoryView)]
-        pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
+    #[objc2::method(sel = "sharedFontPanelExists")]
+    pub unsafe fn sharedFontPanelExists() -> bool;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setAccessoryView:)]
-        pub unsafe fn setAccessoryView(&self, accessory_view: Option<&NSView>);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "accessoryView", managed = "Other")]
+    pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
 
-        #[cfg(feature = "AppKit_NSFont")]
-        #[method(setPanelFont:isMultiple:)]
-        pub unsafe fn setPanelFont_isMultiple(&self, font_obj: &NSFont, flag: bool);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setAccessoryView:")]
+    pub unsafe fn setAccessoryView(&self, accessory_view: Option<&NSView>);
 
-        #[cfg(feature = "AppKit_NSFont")]
-        #[method_id(@__retain_semantics Other panelConvertFont:)]
-        pub unsafe fn panelConvertFont(&self, font_obj: &NSFont) -> Id<NSFont>;
+    #[cfg(feature = "AppKit_NSFont")]
+    #[objc2::method(sel = "setPanelFont:isMultiple:")]
+    pub unsafe fn setPanelFont_isMultiple(&self, font_obj: &NSFont, flag: bool);
 
-        #[method(worksWhenModal)]
-        pub unsafe fn worksWhenModal(&self) -> bool;
+    #[cfg(feature = "AppKit_NSFont")]
+    #[objc2::method(sel = "panelConvertFont:", managed = "Other")]
+    pub unsafe fn panelConvertFont(&self, font_obj: &NSFont) -> Id<NSFont>;
 
-        #[method(setWorksWhenModal:)]
-        pub unsafe fn setWorksWhenModal(&self, works_when_modal: bool);
+    #[objc2::method(sel = "worksWhenModal")]
+    pub unsafe fn worksWhenModal(&self) -> bool;
 
-        #[method(isEnabled)]
-        pub unsafe fn isEnabled(&self) -> bool;
+    #[objc2::method(sel = "setWorksWhenModal:")]
+    pub unsafe fn setWorksWhenModal(&self, works_when_modal: bool);
 
-        #[method(setEnabled:)]
-        pub unsafe fn setEnabled(&self, enabled: bool);
+    #[objc2::method(sel = "isEnabled")]
+    pub unsafe fn isEnabled(&self) -> bool;
 
-        #[method(reloadDefaultFontFamilies)]
-        pub unsafe fn reloadDefaultFontFamilies(&self);
-    }
-);
+    #[objc2::method(sel = "setEnabled:")]
+    pub unsafe fn setEnabled(&self, enabled: bool);
 
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        NSFontPanelFaceModeMask = 1 << 0,
-        NSFontPanelSizeModeMask = 1 << 1,
-        NSFontPanelCollectionModeMask = 1 << 2,
-        NSFontPanelUnderlineEffectModeMask = 1 << 8,
-        NSFontPanelStrikethroughEffectModeMask = 1 << 9,
-        NSFontPanelTextColorEffectModeMask = 1 << 10,
-        NSFontPanelDocumentColorEffectModeMask = 1 << 11,
-        NSFontPanelShadowEffectModeMask = 1 << 12,
-        NSFontPanelAllEffectsModeMask = 0xFFF00,
-        NSFontPanelStandardModesMask = 0xFFFF,
-        NSFontPanelAllModesMask = 0xFFFFFFFF,
-    }
-);
+    #[objc2::method(sel = "reloadDefaultFontFamilies")]
+    pub unsafe fn reloadDefaultFontFamilies(&self);
+}
 
-extern_enum!(
-    #[underlying(c_uint)]
-    #[deprecated]
-    pub enum __anonymous__ {
-        NSFPPreviewButton = 131,
-        NSFPRevertButton = 130,
-        NSFPSetButton = 132,
-        NSFPPreviewField = 128,
-        NSFPSizeField = 129,
-        NSFPSizeTitle = 133,
-        NSFPCurrentField = 134,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    NSFontPanelFaceModeMask = 1 << 0,
+    NSFontPanelSizeModeMask = 1 << 1,
+    NSFontPanelCollectionModeMask = 1 << 2,
+    NSFontPanelUnderlineEffectModeMask = 1 << 8,
+    NSFontPanelStrikethroughEffectModeMask = 1 << 9,
+    NSFontPanelTextColorEffectModeMask = 1 << 10,
+    NSFontPanelDocumentColorEffectModeMask = 1 << 11,
+    NSFontPanelShadowEffectModeMask = 1 << 12,
+    NSFontPanelAllEffectsModeMask = 0xFFF00,
+    NSFontPanelStandardModesMask = 0xFFFF,
+    NSFontPanelAllModesMask = 0xFFFFFFFF,
+}
 
-extern_methods!(
-    /// Methods declared on superclass `NSWindow`
+#[extern_enum]
+#[underlying(c_uint)]
+#[deprecated]
+pub enum __anonymous__ {
+    NSFPPreviewButton = 131,
+    NSFPRevertButton = 130,
+    NSFPSetButton = 132,
+    NSFPPreviewField = 128,
+    NSFPSizeField = 129,
+    NSFPSizeTitle = 133,
+    NSFPCurrentField = 134,
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSWindow`
     #[cfg(feature = "AppKit_NSFontPanel")]
-    unsafe impl NSFontPanel {
-        #[method_id(@__retain_semantics Init initWithContentRect:styleMask:backing:defer:)]
-        pub unsafe fn initWithContentRect_styleMask_backing_defer(
-            this: Option<Allocated<Self>>,
-            content_rect: NSRect,
-            style: NSWindowStyleMask,
-            backing_store_type: NSBackingStoreType,
-            flag: bool,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSScreen")]
-        #[method_id(@__retain_semantics Init initWithContentRect:styleMask:backing:defer:screen:)]
-        pub unsafe fn initWithContentRect_styleMask_backing_defer_screen(
-            this: Option<Allocated<Self>>,
-            content_rect: NSRect,
-            style: NSWindowStyleMask,
-            backing_store_type: NSBackingStoreType,
-            flag: bool,
-            screen: Option<&NSScreen>,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other windowWithContentViewController:)]
-        pub unsafe fn windowWithContentViewController(
-            content_view_controller: &NSViewController,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSFontPanel")]
+    pub type NSFontPanel;
+
+    #[objc2::method(sel = "initWithContentRect:styleMask:backing:defer:", managed = "Init")]
+    pub unsafe fn initWithContentRect_styleMask_backing_defer(
+        this: Option<Allocated<Self>>,
+        content_rect: NSRect,
+        style: NSWindowStyleMask,
+        backing_store_type: NSBackingStoreType,
+        flag: bool,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSScreen")]
+    #[objc2::method(
+        sel = "initWithContentRect:styleMask:backing:defer:screen:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithContentRect_styleMask_backing_defer_screen(
+        this: Option<Allocated<Self>>,
+        content_rect: NSRect,
+        style: NSWindowStyleMask,
+        backing_store_type: NSBackingStoreType,
+        flag: bool,
+        screen: Option<&NSScreen>,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "windowWithContentViewController:", managed = "Other")]
+    pub unsafe fn windowWithContentViewController(
+        content_view_controller: &NSViewController,
+    ) -> Id<Self>;
+}

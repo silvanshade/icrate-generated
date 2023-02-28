@@ -5,36 +5,39 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::StoreKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = SKRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKReceiptRefreshRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKReceiptRefreshRequest")]
-    pub struct SKReceiptRefreshRequest;
-
-    #[cfg(feature = "StoreKit_SKReceiptRefreshRequest")]
-    unsafe impl ClassType for SKReceiptRefreshRequest {
-        #[inherits(NSObject)]
-        type Super = SKRequest;
-    }
-);
+    pub type SKReceiptRefreshRequest;
+}
 
 #[cfg(feature = "StoreKit_SKReceiptRefreshRequest")]
 unsafe impl NSObjectProtocol for SKReceiptRefreshRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKReceiptRefreshRequest")]
-    unsafe impl SKReceiptRefreshRequest {
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithReceiptProperties:)]
-        pub unsafe fn initWithReceiptProperties(
-            this: Option<Allocated<Self>>,
-            properties: Option<&NSDictionary<NSString, Object>>,
-        ) -> Id<Self>;
+    pub type SKReceiptRefreshRequest;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other receiptProperties)]
-        pub unsafe fn receiptProperties(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithReceiptProperties:", managed = "Init")]
+    pub unsafe fn initWithReceiptProperties(
+        this: Option<Allocated<Self>>,
+        properties: Option<&NSDictionary<NSString, Object>>,
+    ) -> Id<Self>;
+
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "receiptProperties", managed = "Other")]
+    pub unsafe fn receiptProperties(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
+}
 
 extern_fn!(
     pub unsafe fn SKTerminateForInvalidReceipt();

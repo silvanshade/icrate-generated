@@ -5,25 +5,28 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::StoreKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKStoreReviewController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKStoreReviewController")]
-    pub struct SKStoreReviewController;
-
-    #[cfg(feature = "StoreKit_SKStoreReviewController")]
-    unsafe impl ClassType for SKStoreReviewController {
-        type Super = NSObject;
-    }
-);
+    pub type SKStoreReviewController;
+}
 
 #[cfg(feature = "StoreKit_SKStoreReviewController")]
 unsafe impl NSObjectProtocol for SKStoreReviewController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKStoreReviewController")]
-    unsafe impl SKStoreReviewController {
-        #[deprecated]
-        #[method(requestReview)]
-        pub unsafe fn requestReview();
-    }
-);
+    pub type SKStoreReviewController;
+
+    #[deprecated]
+    #[objc2::method(sel = "requestReview")]
+    pub unsafe fn requestReview();
+}

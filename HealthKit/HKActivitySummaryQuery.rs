@@ -6,72 +6,55 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKQuery,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKActivitySummaryQuery")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKActivitySummaryQuery")]
-    pub struct HKActivitySummaryQuery;
-
-    #[cfg(feature = "HealthKit_HKActivitySummaryQuery")]
-    unsafe impl ClassType for HKActivitySummaryQuery {
-        #[inherits(NSObject)]
-        type Super = HKQuery;
-    }
-);
+    pub type HKActivitySummaryQuery;
+}
 
 #[cfg(feature = "HealthKit_HKActivitySummaryQuery")]
 unsafe impl NSObjectProtocol for HKActivitySummaryQuery {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKActivitySummaryQuery")]
-    unsafe impl HKActivitySummaryQuery {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKActivitySummary"
-        ))]
-        #[method(updateHandler)]
-        pub unsafe fn updateHandler(
-            &self,
-        ) -> *mut Block<
-            (
-                NonNull<HKActivitySummaryQuery>,
-                *mut NSArray<HKActivitySummary>,
-                *mut NSError,
-            ),
-            (),
-        >;
+    pub type HKActivitySummaryQuery;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKActivitySummary"
-        ))]
-        #[method(setUpdateHandler:)]
-        pub unsafe fn setUpdateHandler(
-            &self,
-            update_handler: Option<
-                &Block<
-                    (
-                        NonNull<HKActivitySummaryQuery>,
-                        *mut NSArray<HKActivitySummary>,
-                        *mut NSError,
-                    ),
-                    (),
-                >,
-            >,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKActivitySummary"
+    ))]
+    #[objc2::method(sel = "updateHandler")]
+    pub unsafe fn updateHandler(
+        &self,
+    ) -> *mut Block<
+        (
+            NonNull<HKActivitySummaryQuery>,
+            *mut NSArray<HKActivitySummary>,
+            *mut NSError,
+        ),
+        (),
+    >;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKActivitySummary"
-        ))]
-        #[method_id(@__retain_semantics Init initWithPredicate:resultsHandler:)]
-        pub unsafe fn initWithPredicate_resultsHandler(
-            this: Option<Allocated<Self>>,
-            predicate: Option<&NSPredicate>,
-            handler: &Block<
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKActivitySummary"
+    ))]
+    #[objc2::method(sel = "setUpdateHandler:")]
+    pub unsafe fn setUpdateHandler(
+        &self,
+        update_handler: Option<
+            &Block<
                 (
                     NonNull<HKActivitySummaryQuery>,
                     *mut NSArray<HKActivitySummary>,
@@ -79,6 +62,26 @@ extern_methods!(
                 ),
                 (),
             >,
-        ) -> Id<Self>;
-    }
-);
+        >,
+    );
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKActivitySummary"
+    ))]
+    #[objc2::method(sel = "initWithPredicate:resultsHandler:", managed = "Init")]
+    pub unsafe fn initWithPredicate_resultsHandler(
+        this: Option<Allocated<Self>>,
+        predicate: Option<&NSPredicate>,
+        handler: &Block<
+            (
+                NonNull<HKActivitySummaryQuery>,
+                *mut NSArray<HKActivitySummary>,
+                *mut NSError,
+            ),
+            (),
+        >,
+    ) -> Id<Self>;
+}

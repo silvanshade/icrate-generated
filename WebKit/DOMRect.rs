@@ -5,39 +5,44 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMRect")]
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMRect;
-
     #[cfg(feature = "WebKit_DOMRect")]
-    unsafe impl ClassType for DOMRect {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMRect;
+}
 
 #[cfg(feature = "WebKit_DOMRect")]
 unsafe impl NSObjectProtocol for DOMRect {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMRect")]
-    unsafe impl DOMRect {
-        #[cfg(feature = "WebKit_DOMCSSPrimitiveValue")]
-        #[method_id(@__retain_semantics Other top)]
-        pub unsafe fn top(&self) -> Option<Id<DOMCSSPrimitiveValue>>;
+    #[deprecated]
+    pub type DOMRect;
 
-        #[cfg(feature = "WebKit_DOMCSSPrimitiveValue")]
-        #[method_id(@__retain_semantics Other right)]
-        pub unsafe fn right(&self) -> Option<Id<DOMCSSPrimitiveValue>>;
+    #[cfg(feature = "WebKit_DOMCSSPrimitiveValue")]
+    #[objc2::method(sel = "top", managed = "Other")]
+    pub unsafe fn top(&self) -> Option<Id<DOMCSSPrimitiveValue>>;
 
-        #[cfg(feature = "WebKit_DOMCSSPrimitiveValue")]
-        #[method_id(@__retain_semantics Other bottom)]
-        pub unsafe fn bottom(&self) -> Option<Id<DOMCSSPrimitiveValue>>;
+    #[cfg(feature = "WebKit_DOMCSSPrimitiveValue")]
+    #[objc2::method(sel = "right", managed = "Other")]
+    pub unsafe fn right(&self) -> Option<Id<DOMCSSPrimitiveValue>>;
 
-        #[cfg(feature = "WebKit_DOMCSSPrimitiveValue")]
-        #[method_id(@__retain_semantics Other left)]
-        pub unsafe fn left(&self) -> Option<Id<DOMCSSPrimitiveValue>>;
-    }
-);
+    #[cfg(feature = "WebKit_DOMCSSPrimitiveValue")]
+    #[objc2::method(sel = "bottom", managed = "Other")]
+    pub unsafe fn bottom(&self) -> Option<Id<DOMCSSPrimitiveValue>>;
+
+    #[cfg(feature = "WebKit_DOMCSSPrimitiveValue")]
+    #[objc2::method(sel = "left", managed = "Other")]
+    pub unsafe fn left(&self) -> Option<Id<DOMCSSPrimitiveValue>>;
+}

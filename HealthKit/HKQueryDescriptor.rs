@@ -6,16 +6,16 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKQueryDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKQueryDescriptor")]
-    pub struct HKQueryDescriptor;
-
-    #[cfg(feature = "HealthKit_HKQueryDescriptor")]
-    unsafe impl ClassType for HKQueryDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type HKQueryDescriptor;
+}
 
 #[cfg(feature = "HealthKit_HKQueryDescriptor")]
 unsafe impl NSCoding for HKQueryDescriptor {}
@@ -26,29 +26,32 @@ unsafe impl NSObjectProtocol for HKQueryDescriptor {}
 #[cfg(feature = "HealthKit_HKQueryDescriptor")]
 unsafe impl NSSecureCoding for HKQueryDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQueryDescriptor")]
-    unsafe impl HKQueryDescriptor {
-        #[cfg(feature = "HealthKit_HKSampleType")]
-        #[method_id(@__retain_semantics Other sampleType)]
-        pub unsafe fn sampleType(&self) -> Id<HKSampleType>;
+    pub type HKQueryDescriptor;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicate)]
-        pub unsafe fn predicate(&self) -> Option<Id<NSPredicate>>;
+    #[cfg(feature = "HealthKit_HKSampleType")]
+    #[objc2::method(sel = "sampleType", managed = "Other")]
+    pub unsafe fn sampleType(&self) -> Id<HKSampleType>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "predicate", managed = "Other")]
+    pub unsafe fn predicate(&self) -> Option<Id<NSPredicate>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSPredicate", feature = "HealthKit_HKSampleType"))]
-        #[method_id(@__retain_semantics Init initWithSampleType:predicate:)]
-        pub unsafe fn initWithSampleType_predicate(
-            this: Option<Allocated<Self>>,
-            sample_type: &HKSampleType,
-            predicate: Option<&NSPredicate>,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[cfg(all(feature = "Foundation_NSPredicate", feature = "HealthKit_HKSampleType"))]
+    #[objc2::method(sel = "initWithSampleType:predicate:", managed = "Init")]
+    pub unsafe fn initWithSampleType_predicate(
+        this: Option<Allocated<Self>>,
+        sample_type: &HKSampleType,
+        predicate: Option<&NSPredicate>,
+    ) -> Id<Self>;
+}

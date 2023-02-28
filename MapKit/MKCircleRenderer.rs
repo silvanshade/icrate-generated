@@ -7,54 +7,64 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKOverlayPathRenderer,
+    unsafe inherits = [
+        MKOverlayRenderer,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKCircleRenderer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKCircleRenderer")]
-    pub struct MKCircleRenderer;
-
-    #[cfg(feature = "MapKit_MKCircleRenderer")]
-    unsafe impl ClassType for MKCircleRenderer {
-        #[inherits(MKOverlayRenderer, NSObject)]
-        type Super = MKOverlayPathRenderer;
-    }
-);
+    pub type MKCircleRenderer;
+}
 
 #[cfg(feature = "MapKit_MKCircleRenderer")]
 unsafe impl NSObjectProtocol for MKCircleRenderer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKCircleRenderer")]
-    unsafe impl MKCircleRenderer {
-        #[cfg(feature = "MapKit_MKCircle")]
-        #[method_id(@__retain_semantics Init initWithCircle:)]
-        pub unsafe fn initWithCircle(this: Option<Allocated<Self>>, circle: &MKCircle) -> Id<Self>;
+    pub type MKCircleRenderer;
 
-        #[cfg(feature = "MapKit_MKCircle")]
-        #[method_id(@__retain_semantics Other circle)]
-        pub unsafe fn circle(&self) -> Id<MKCircle>;
+    #[cfg(feature = "MapKit_MKCircle")]
+    #[objc2::method(sel = "initWithCircle:", managed = "Init")]
+    pub unsafe fn initWithCircle(this: Option<Allocated<Self>>, circle: &MKCircle) -> Id<Self>;
 
-        #[method(strokeStart)]
-        pub unsafe fn strokeStart(&self) -> CGFloat;
+    #[cfg(feature = "MapKit_MKCircle")]
+    #[objc2::method(sel = "circle", managed = "Other")]
+    pub unsafe fn circle(&self) -> Id<MKCircle>;
 
-        #[method(setStrokeStart:)]
-        pub unsafe fn setStrokeStart(&self, stroke_start: CGFloat);
+    #[objc2::method(sel = "strokeStart")]
+    pub unsafe fn strokeStart(&self) -> CGFloat;
 
-        #[method(strokeEnd)]
-        pub unsafe fn strokeEnd(&self) -> CGFloat;
+    #[objc2::method(sel = "setStrokeStart:")]
+    pub unsafe fn setStrokeStart(&self, stroke_start: CGFloat);
 
-        #[method(setStrokeEnd:)]
-        pub unsafe fn setStrokeEnd(&self, stroke_end: CGFloat);
-    }
-);
+    #[objc2::method(sel = "strokeEnd")]
+    pub unsafe fn strokeEnd(&self) -> CGFloat;
 
-extern_methods!(
-    /// Methods declared on superclass `MKOverlayRenderer`
+    #[objc2::method(sel = "setStrokeEnd:")]
+    pub unsafe fn setStrokeEnd(&self, stroke_end: CGFloat);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `MKOverlayRenderer`
     #[cfg(feature = "MapKit_MKCircleRenderer")]
-    unsafe impl MKCircleRenderer {
-        #[method_id(@__retain_semantics Init initWithOverlay:)]
-        pub unsafe fn initWithOverlay(
-            this: Option<Allocated<Self>>,
-            overlay: &ProtocolObject<dyn MKOverlay>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKCircleRenderer")]
+    pub type MKCircleRenderer;
+
+    #[objc2::method(sel = "initWithOverlay:", managed = "Init")]
+    pub unsafe fn initWithOverlay(
+        this: Option<Allocated<Self>>,
+        overlay: &ProtocolObject<dyn MKOverlay>,
+    ) -> Id<Self>;
+}

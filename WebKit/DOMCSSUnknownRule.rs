@@ -5,23 +5,29 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMCSSUnknownRule")]
+#[objc2::interface(
+    unsafe super = DOMCSSRule,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMCSSUnknownRule;
-
     #[cfg(feature = "WebKit_DOMCSSUnknownRule")]
-    unsafe impl ClassType for DOMCSSUnknownRule {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMCSSRule;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMCSSUnknownRule;
+}
 
 #[cfg(feature = "WebKit_DOMCSSUnknownRule")]
 unsafe impl NSObjectProtocol for DOMCSSUnknownRule {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCSSUnknownRule")]
-    unsafe impl DOMCSSUnknownRule {}
-);
+    #[deprecated]
+    pub type DOMCSSUnknownRule;
+}

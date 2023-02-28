@@ -5,64 +5,66 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::StoreKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum SKPaymentTransactionState {
-        SKPaymentTransactionStatePurchasing = 0,
-        SKPaymentTransactionStatePurchased = 1,
-        SKPaymentTransactionStateFailed = 2,
-        SKPaymentTransactionStateRestored = 3,
-        SKPaymentTransactionStateDeferred = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum SKPaymentTransactionState {
+    SKPaymentTransactionStatePurchasing = 0,
+    SKPaymentTransactionStatePurchased = 1,
+    SKPaymentTransactionStateFailed = 2,
+    SKPaymentTransactionStateRestored = 3,
+    SKPaymentTransactionStateDeferred = 4,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKPaymentTransaction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKPaymentTransaction")]
-    pub struct SKPaymentTransaction;
-
-    #[cfg(feature = "StoreKit_SKPaymentTransaction")]
-    unsafe impl ClassType for SKPaymentTransaction {
-        type Super = NSObject;
-    }
-);
+    pub type SKPaymentTransaction;
+}
 
 #[cfg(feature = "StoreKit_SKPaymentTransaction")]
 unsafe impl NSObjectProtocol for SKPaymentTransaction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKPaymentTransaction")]
-    unsafe impl SKPaymentTransaction {
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other error)]
-        pub unsafe fn error(&self) -> Option<Id<NSError>>;
+    pub type SKPaymentTransaction;
 
-        #[method_id(@__retain_semantics Other originalTransaction)]
-        pub unsafe fn originalTransaction(&self) -> Option<Id<SKPaymentTransaction>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "error", managed = "Other")]
+    pub unsafe fn error(&self) -> Option<Id<NSError>>;
 
-        #[cfg(feature = "StoreKit_SKPayment")]
-        #[method_id(@__retain_semantics Other payment)]
-        pub unsafe fn payment(&self) -> Id<SKPayment>;
+    #[objc2::method(sel = "originalTransaction", managed = "Other")]
+    pub unsafe fn originalTransaction(&self) -> Option<Id<SKPaymentTransaction>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "StoreKit_SKDownload"))]
-        #[deprecated = "Hosted content is no longer supported"]
-        #[method_id(@__retain_semantics Other downloads)]
-        pub unsafe fn downloads(&self) -> Id<NSArray<SKDownload>>;
+    #[cfg(feature = "StoreKit_SKPayment")]
+    #[objc2::method(sel = "payment", managed = "Other")]
+    pub unsafe fn payment(&self) -> Id<SKPayment>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other transactionDate)]
-        pub unsafe fn transactionDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "StoreKit_SKDownload"))]
+    #[deprecated = "Hosted content is no longer supported"]
+    #[objc2::method(sel = "downloads", managed = "Other")]
+    pub unsafe fn downloads(&self) -> Id<NSArray<SKDownload>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other transactionIdentifier)]
-        pub unsafe fn transactionIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "transactionDate", managed = "Other")]
+    pub unsafe fn transactionDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other transactionReceipt)]
-        pub unsafe fn transactionReceipt(&self) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "transactionIdentifier", managed = "Other")]
+    pub unsafe fn transactionIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[method(transactionState)]
-        pub unsafe fn transactionState(&self) -> SKPaymentTransactionState;
-    }
-);
+    #[cfg(feature = "Foundation_NSData")]
+    #[deprecated]
+    #[objc2::method(sel = "transactionReceipt", managed = "Other")]
+    pub unsafe fn transactionReceipt(&self) -> Option<Id<NSData>>;
+
+    #[objc2::method(sel = "transactionState")]
+    pub unsafe fn transactionState(&self) -> SKPaymentTransactionState;
+}

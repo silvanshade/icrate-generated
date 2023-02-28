@@ -5,72 +5,73 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        NSShowControlGlyphs = 1 << 0,
-        NSShowInvisibleGlyphs = 1 << 1,
-        NSWantsBidiLevels = 1 << 2,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    NSShowControlGlyphs = 1 << 0,
+    NSShowInvisibleGlyphs = 1 << 1,
+    NSWantsBidiLevels = 1 << 2,
+}
 
-extern_protocol!(
-    pub unsafe trait NSGlyphStorage {
-        #[method(insertGlyphs:length:forStartingGlyphAtIndex:characterIndex:)]
-        unsafe fn insertGlyphs_length_forStartingGlyphAtIndex_characterIndex(
-            &self,
-            glyphs: NonNull<NSGlyph>,
-            length: NSUInteger,
-            glyph_index: NSUInteger,
-            char_index: NSUInteger,
-        );
+#[objc2::protocol]
+pub unsafe trait NSGlyphStorage {
+    #[objc2::method(sel = "insertGlyphs:length:forStartingGlyphAtIndex:characterIndex:")]
+    unsafe fn insertGlyphs_length_forStartingGlyphAtIndex_characterIndex(
+        &self,
+        glyphs: NonNull<NSGlyph>,
+        length: NSUInteger,
+        glyph_index: NSUInteger,
+        char_index: NSUInteger,
+    );
 
-        #[method(setIntAttribute:value:forGlyphAtIndex:)]
-        unsafe fn setIntAttribute_value_forGlyphAtIndex(
-            &self,
-            attribute_tag: NSInteger,
-            val: NSInteger,
-            glyph_index: NSUInteger,
-        );
+    #[objc2::method(sel = "setIntAttribute:value:forGlyphAtIndex:")]
+    unsafe fn setIntAttribute_value_forGlyphAtIndex(
+        &self,
+        attribute_tag: NSInteger,
+        val: NSInteger,
+        glyph_index: NSUInteger,
+    );
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other attributedString)]
-        unsafe fn attributedString(&self) -> Id<NSAttributedString>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "attributedString", managed = "Other")]
+    unsafe fn attributedString(&self) -> Id<NSAttributedString>;
 
-        #[method(layoutOptions)]
-        unsafe fn layoutOptions(&self) -> NSUInteger;
-    }
+    #[objc2::method(sel = "layoutOptions")]
+    unsafe fn layoutOptions(&self) -> NSUInteger;
+}
 
-    unsafe impl ProtocolType for dyn NSGlyphStorage {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSGlyphGenerator")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSGlyphGenerator")]
-    pub struct NSGlyphGenerator;
-
-    #[cfg(feature = "AppKit_NSGlyphGenerator")]
-    unsafe impl ClassType for NSGlyphGenerator {
-        type Super = NSObject;
-    }
-);
+    pub type NSGlyphGenerator;
+}
 
 #[cfg(feature = "AppKit_NSGlyphGenerator")]
 unsafe impl NSObjectProtocol for NSGlyphGenerator {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSGlyphGenerator")]
-    unsafe impl NSGlyphGenerator {
-        #[method(generateGlyphsForGlyphStorage:desiredNumberOfCharacters:glyphIndex:characterIndex:)]
-        pub unsafe fn generateGlyphsForGlyphStorage_desiredNumberOfCharacters_glyphIndex_characterIndex(
-            &self,
-            glyph_storage: &ProtocolObject<dyn NSGlyphStorage>,
-            n_chars: NSUInteger,
-            glyph_index: *mut NSUInteger,
-            char_index: *mut NSUInteger,
-        );
+    pub type NSGlyphGenerator;
 
-        #[method_id(@__retain_semantics Other sharedGlyphGenerator)]
-        pub unsafe fn sharedGlyphGenerator() -> Id<NSGlyphGenerator>;
-    }
-);
+    #[objc2::method(
+        sel = "generateGlyphsForGlyphStorage:desiredNumberOfCharacters:glyphIndex:characterIndex:"
+    )]
+    pub unsafe fn generateGlyphsForGlyphStorage_desiredNumberOfCharacters_glyphIndex_characterIndex(
+        &self,
+        glyph_storage: &ProtocolObject<dyn NSGlyphStorage>,
+        n_chars: NSUInteger,
+        glyph_index: *mut NSUInteger,
+        char_index: *mut NSUInteger,
+    );
+
+    #[objc2::method(sel = "sharedGlyphGenerator", managed = "Other")]
+    pub unsafe fn sharedGlyphGenerator() -> Id<NSGlyphGenerator>;
+}

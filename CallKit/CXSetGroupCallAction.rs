@@ -4,17 +4,18 @@ use crate::common::*;
 use crate::CallKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CXCallAction,
+    unsafe inherits = [
+        CXAction,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CallKit_CXSetGroupCallAction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CallKit_CXSetGroupCallAction")]
-    pub struct CXSetGroupCallAction;
-
-    #[cfg(feature = "CallKit_CXSetGroupCallAction")]
-    unsafe impl ClassType for CXSetGroupCallAction {
-        #[inherits(CXAction, NSObject)]
-        type Super = CXCallAction;
-    }
-);
+    pub type CXSetGroupCallAction;
+}
 
 #[cfg(feature = "CallKit_CXSetGroupCallAction")]
 unsafe impl NSCoding for CXSetGroupCallAction {}
@@ -25,37 +26,37 @@ unsafe impl NSObjectProtocol for CXSetGroupCallAction {}
 #[cfg(feature = "CallKit_CXSetGroupCallAction")]
 unsafe impl NSSecureCoding for CXSetGroupCallAction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CallKit_CXSetGroupCallAction")]
-    unsafe impl CXSetGroupCallAction {
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Init initWithCallUUID:callUUIDToGroupWith:)]
-        pub unsafe fn initWithCallUUID_callUUIDToGroupWith(
-            this: Option<Allocated<Self>>,
-            call_uuid: &NSUUID,
-            call_uuid_to_group_with: Option<&NSUUID>,
-        ) -> Id<Self>;
+    pub type CXSetGroupCallAction;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            a_decoder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "initWithCallUUID:callUUIDToGroupWith:", managed = "Init")]
+    pub unsafe fn initWithCallUUID_callUUIDToGroupWith(
+        this: Option<Allocated<Self>>,
+        call_uuid: &NSUUID,
+        call_uuid_to_group_with: Option<&NSUUID>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Init initWithCallUUID:)]
-        pub unsafe fn initWithCallUUID(
-            this: Option<Allocated<Self>>,
-            call_uuid: &NSUUID,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(
+        this: Option<Allocated<Self>>,
+        a_decoder: &NSCoder,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Other callUUIDToGroupWith)]
-        pub unsafe fn callUUIDToGroupWith(&self) -> Option<Id<NSUUID>>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "initWithCallUUID:", managed = "Init")]
+    pub unsafe fn initWithCallUUID(this: Option<Allocated<Self>>, call_uuid: &NSUUID) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method(setCallUUIDToGroupWith:)]
-        pub unsafe fn setCallUUIDToGroupWith(&self, call_uuid_to_group_with: Option<&NSUUID>);
-    }
-);
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "callUUIDToGroupWith", managed = "Other")]
+    pub unsafe fn callUUIDToGroupWith(&self) -> Option<Id<NSUUID>>;
+
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "setCallUUIDToGroupWith:")]
+    pub unsafe fn setCallUUIDToGroupWith(&self, call_uuid_to_group_with: Option<&NSUUID>);
+}

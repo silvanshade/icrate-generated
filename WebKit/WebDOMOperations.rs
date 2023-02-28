@@ -5,71 +5,82 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_methods!(
-    /// WebDOMNodeOperations
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMNode")]
-    unsafe impl DOMNode {
-        #[cfg(feature = "WebKit_WebArchive")]
-        #[method_id(@__retain_semantics Other webArchive)]
-        pub unsafe fn webArchive(&self) -> Option<Id<WebArchive>>;
-    }
-);
+    pub type DOMNode;
 
-extern_methods!(
-    /// WebDOMDocumentOperations
+    #[cfg(feature = "WebKit_WebArchive")]
+    #[objc2::method(sel = "webArchive", managed = "Other")]
+    pub unsafe fn webArchive(&self) -> Option<Id<WebArchive>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMDocument")]
-    unsafe impl DOMDocument {
-        #[cfg(feature = "WebKit_WebFrame")]
-        #[method_id(@__retain_semantics Other webFrame)]
-        pub unsafe fn webFrame(&self) -> Option<Id<WebFrame>>;
+    pub type DOMDocument;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other URLWithAttributeString:)]
-        pub unsafe fn URLWithAttributeString(&self, string: Option<&NSString>)
-            -> Option<Id<NSURL>>;
-    }
-);
+    #[cfg(feature = "WebKit_WebFrame")]
+    #[objc2::method(sel = "webFrame", managed = "Other")]
+    pub unsafe fn webFrame(&self) -> Option<Id<WebFrame>>;
 
-extern_methods!(
-    /// WebDOMRangeOperations
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "URLWithAttributeString:", managed = "Other")]
+    pub unsafe fn URLWithAttributeString(&self, string: Option<&NSString>) -> Option<Id<NSURL>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMRange")]
-    unsafe impl DOMRange {
-        #[cfg(feature = "WebKit_WebArchive")]
-        #[method_id(@__retain_semantics Other webArchive)]
-        pub unsafe fn webArchive(&self) -> Option<Id<WebArchive>>;
+    pub type DOMRange;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other markupString)]
-        pub unsafe fn markupString(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "WebKit_WebArchive")]
+    #[objc2::method(sel = "webArchive", managed = "Other")]
+    pub unsafe fn webArchive(&self) -> Option<Id<WebArchive>>;
 
-extern_methods!(
-    /// WebDOMHTMLFrameElementOperations
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "markupString", managed = "Other")]
+    pub unsafe fn markupString(&self) -> Id<NSString>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLFrameElement")]
-    unsafe impl DOMHTMLFrameElement {
-        #[cfg(feature = "WebKit_WebFrame")]
-        #[method_id(@__retain_semantics Other contentFrame)]
-        pub unsafe fn contentFrame(&self) -> Option<Id<WebFrame>>;
-    }
-);
+    pub type DOMHTMLFrameElement;
 
-extern_methods!(
-    /// WebDOMHTMLIFrameElementOperations
+    #[cfg(feature = "WebKit_WebFrame")]
+    #[objc2::method(sel = "contentFrame", managed = "Other")]
+    pub unsafe fn contentFrame(&self) -> Option<Id<WebFrame>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLIFrameElement")]
-    unsafe impl DOMHTMLIFrameElement {
-        #[cfg(feature = "WebKit_WebFrame")]
-        #[method_id(@__retain_semantics Other contentFrame)]
-        pub unsafe fn contentFrame(&self) -> Option<Id<WebFrame>>;
-    }
-);
+    pub type DOMHTMLIFrameElement;
 
-extern_methods!(
-    /// WebDOMHTMLObjectElementOperations
+    #[cfg(feature = "WebKit_WebFrame")]
+    #[objc2::method(sel = "contentFrame", managed = "Other")]
+    pub unsafe fn contentFrame(&self) -> Option<Id<WebFrame>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLObjectElement")]
-    unsafe impl DOMHTMLObjectElement {
-        #[cfg(feature = "WebKit_WebFrame")]
-        #[method_id(@__retain_semantics Other contentFrame)]
-        pub unsafe fn contentFrame(&self) -> Option<Id<WebFrame>>;
-    }
-);
+    pub type DOMHTMLObjectElement;
+
+    #[cfg(feature = "WebKit_WebFrame")]
+    #[objc2::method(sel = "contentFrame", managed = "Other")]
+    pub unsafe fn contentFrame(&self) -> Option<Id<WebFrame>>;
+}

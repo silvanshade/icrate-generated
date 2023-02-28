@@ -5,42 +5,46 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = GCExtendedGamepad,
+    unsafe inherits = [
+        GCPhysicalInputProfile,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCXboxGamepad")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCXboxGamepad")]
-    pub struct GCXboxGamepad;
-
-    #[cfg(feature = "GameController_GCXboxGamepad")]
-    unsafe impl ClassType for GCXboxGamepad {
-        #[inherits(GCPhysicalInputProfile, NSObject)]
-        type Super = GCExtendedGamepad;
-    }
-);
+    pub type GCXboxGamepad;
+}
 
 #[cfg(feature = "GameController_GCXboxGamepad")]
 unsafe impl NSObjectProtocol for GCXboxGamepad {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCXboxGamepad")]
-    unsafe impl GCXboxGamepad {
-        #[cfg(feature = "GameController_GCControllerButtonInput")]
-        #[method_id(@__retain_semantics Other paddleButton1)]
-        pub unsafe fn paddleButton1(&self) -> Option<Id<GCControllerButtonInput>>;
+    pub type GCXboxGamepad;
 
-        #[cfg(feature = "GameController_GCControllerButtonInput")]
-        #[method_id(@__retain_semantics Other paddleButton2)]
-        pub unsafe fn paddleButton2(&self) -> Option<Id<GCControllerButtonInput>>;
+    #[cfg(feature = "GameController_GCControllerButtonInput")]
+    #[objc2::method(sel = "paddleButton1", managed = "Other")]
+    pub unsafe fn paddleButton1(&self) -> Option<Id<GCControllerButtonInput>>;
 
-        #[cfg(feature = "GameController_GCControllerButtonInput")]
-        #[method_id(@__retain_semantics Other paddleButton3)]
-        pub unsafe fn paddleButton3(&self) -> Option<Id<GCControllerButtonInput>>;
+    #[cfg(feature = "GameController_GCControllerButtonInput")]
+    #[objc2::method(sel = "paddleButton2", managed = "Other")]
+    pub unsafe fn paddleButton2(&self) -> Option<Id<GCControllerButtonInput>>;
 
-        #[cfg(feature = "GameController_GCControllerButtonInput")]
-        #[method_id(@__retain_semantics Other paddleButton4)]
-        pub unsafe fn paddleButton4(&self) -> Option<Id<GCControllerButtonInput>>;
+    #[cfg(feature = "GameController_GCControllerButtonInput")]
+    #[objc2::method(sel = "paddleButton3", managed = "Other")]
+    pub unsafe fn paddleButton3(&self) -> Option<Id<GCControllerButtonInput>>;
 
-        #[cfg(feature = "GameController_GCControllerButtonInput")]
-        #[method_id(@__retain_semantics Other buttonShare)]
-        pub unsafe fn buttonShare(&self) -> Option<Id<GCControllerButtonInput>>;
-    }
-);
+    #[cfg(feature = "GameController_GCControllerButtonInput")]
+    #[objc2::method(sel = "paddleButton4", managed = "Other")]
+    pub unsafe fn paddleButton4(&self) -> Option<Id<GCControllerButtonInput>>;
+
+    #[cfg(feature = "GameController_GCControllerButtonInput")]
+    #[objc2::method(sel = "buttonShare", managed = "Other")]
+    pub unsafe fn buttonShare(&self) -> Option<Id<GCControllerButtonInput>>;
+}

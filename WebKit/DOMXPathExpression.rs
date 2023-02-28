@@ -5,48 +5,55 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMXPathExpression")]
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMXPathExpression;
-
     #[cfg(feature = "WebKit_DOMXPathExpression")]
-    unsafe impl ClassType for DOMXPathExpression {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMXPathExpression;
+}
 
 #[cfg(feature = "WebKit_DOMXPathExpression")]
 unsafe impl NSObjectProtocol for DOMXPathExpression {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMXPathExpression")]
-    unsafe impl DOMXPathExpression {
-        #[cfg(all(feature = "WebKit_DOMNode", feature = "WebKit_DOMXPathResult"))]
-        #[method_id(@__retain_semantics Other evaluate:type:inResult:)]
-        pub unsafe fn evaluate_type_inResult(
-            &self,
-            context_node: Option<&DOMNode>,
-            r#type: c_ushort,
-            in_result: Option<&DOMXPathResult>,
-        ) -> Option<Id<DOMXPathResult>>;
-    }
-);
+    #[deprecated]
+    pub type DOMXPathExpression;
 
-extern_methods!(
-    /// DOMXPathExpressionDeprecated
+    #[cfg(all(feature = "WebKit_DOMNode", feature = "WebKit_DOMXPathResult"))]
+    #[objc2::method(sel = "evaluate:type:inResult:", managed = "Other")]
+    pub unsafe fn evaluate_type_inResult(
+        &self,
+        context_node: Option<&DOMNode>,
+        r#type: c_ushort,
+        in_result: Option<&DOMXPathResult>,
+    ) -> Option<Id<DOMXPathResult>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMXPathExpression")]
-    unsafe impl DOMXPathExpression {
-        #[cfg(all(feature = "WebKit_DOMNode", feature = "WebKit_DOMXPathResult"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other evaluate:::)]
-        pub unsafe fn evaluate(
-            &self,
-            context_node: Option<&DOMNode>,
-            r#type: c_ushort,
-            in_result: Option<&DOMXPathResult>,
-        ) -> Option<Id<DOMXPathResult>>;
-    }
-);
+    pub type DOMXPathExpression;
+
+    #[cfg(all(feature = "WebKit_DOMNode", feature = "WebKit_DOMXPathResult"))]
+    #[deprecated]
+    #[objc2::method(sel = "evaluate:::", managed = "Other")]
+    pub unsafe fn evaluate(
+        &self,
+        context_node: Option<&DOMNode>,
+        r#type: c_ushort,
+        in_result: Option<&DOMXPathResult>,
+    ) -> Option<Id<DOMXPathResult>>;
+}

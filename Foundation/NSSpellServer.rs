@@ -3,52 +3,52 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSSpellServer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSSpellServer")]
-    pub struct NSSpellServer;
-
-    #[cfg(feature = "Foundation_NSSpellServer")]
-    unsafe impl ClassType for NSSpellServer {
-        type Super = NSObject;
-    }
-);
+    pub type NSSpellServer;
+}
 
 #[cfg(feature = "Foundation_NSSpellServer")]
 unsafe impl NSObjectProtocol for NSSpellServer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSSpellServer")]
-    unsafe impl NSSpellServer {
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSSpellServerDelegate>>>;
+    pub type NSSpellServer;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSSpellServerDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSSpellServerDelegate>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(registerLanguage:byVendor:)]
-        pub unsafe fn registerLanguage_byVendor(
-            &self,
-            language: Option<&NSString>,
-            vendor: Option<&NSString>,
-        ) -> bool;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSSpellServerDelegate>>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(isWordInUserDictionaries:caseSensitive:)]
-        pub unsafe fn isWordInUserDictionaries_caseSensitive(
-            &self,
-            word: &NSString,
-            flag: bool,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "registerLanguage:byVendor:")]
+    pub unsafe fn registerLanguage_byVendor(
+        &self,
+        language: Option<&NSString>,
+        vendor: Option<&NSString>,
+    ) -> bool;
 
-        #[method(run)]
-        pub unsafe fn run(&self);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "isWordInUserDictionaries:caseSensitive:")]
+    pub unsafe fn isWordInUserDictionaries_caseSensitive(
+        &self,
+        word: &NSString,
+        flag: bool,
+    ) -> bool;
+
+    #[objc2::method(sel = "run")]
+    pub unsafe fn run(&self);
+}
 
 extern_static!(NSGrammarRange: &'static NSString);
 
@@ -56,118 +56,125 @@ extern_static!(NSGrammarUserDescription: &'static NSString);
 
 extern_static!(NSGrammarCorrections: &'static NSString);
 
-extern_protocol!(
-    pub unsafe trait NSSpellServerDelegate: NSObjectProtocol {
-        #[cfg(all(feature = "Foundation_NSSpellServer", feature = "Foundation_NSString"))]
-        #[optional]
-        #[method(spellServer:findMisspelledWordInString:language:wordCount:countOnly:)]
-        unsafe fn spellServer_findMisspelledWordInString_language_wordCount_countOnly(
-            &self,
-            sender: &NSSpellServer,
-            string_to_check: &NSString,
-            language: &NSString,
-            word_count: NonNull<NSInteger>,
-            count_only: bool,
-        ) -> NSRange;
+#[objc2::protocol]
+pub unsafe trait NSSpellServerDelegate: NSObjectProtocol {
+    #[cfg(all(feature = "Foundation_NSSpellServer", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        optional,
+        sel = "spellServer:findMisspelledWordInString:language:wordCount:countOnly:"
+    )]
+    unsafe fn spellServer_findMisspelledWordInString_language_wordCount_countOnly(
+        &self,
+        sender: &NSSpellServer,
+        string_to_check: &NSString,
+        language: &NSString,
+        word_count: NonNull<NSInteger>,
+        count_only: bool,
+    ) -> NSRange;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSSpellServer",
-            feature = "Foundation_NSString"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other spellServer:suggestGuessesForWord:inLanguage:)]
-        unsafe fn spellServer_suggestGuessesForWord_inLanguage(
-            &self,
-            sender: &NSSpellServer,
-            word: &NSString,
-            language: &NSString,
-        ) -> Option<Id<NSArray<NSString>>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSSpellServer",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "spellServer:suggestGuessesForWord:inLanguage:",
+        managed = "Other"
+    )]
+    unsafe fn spellServer_suggestGuessesForWord_inLanguage(
+        &self,
+        sender: &NSSpellServer,
+        word: &NSString,
+        language: &NSString,
+    ) -> Option<Id<NSArray<NSString>>>;
 
-        #[cfg(all(feature = "Foundation_NSSpellServer", feature = "Foundation_NSString"))]
-        #[optional]
-        #[method(spellServer:didLearnWord:inLanguage:)]
-        unsafe fn spellServer_didLearnWord_inLanguage(
-            &self,
-            sender: &NSSpellServer,
-            word: &NSString,
-            language: &NSString,
-        );
+    #[cfg(all(feature = "Foundation_NSSpellServer", feature = "Foundation_NSString"))]
+    #[objc2::method(optional, sel = "spellServer:didLearnWord:inLanguage:")]
+    unsafe fn spellServer_didLearnWord_inLanguage(
+        &self,
+        sender: &NSSpellServer,
+        word: &NSString,
+        language: &NSString,
+    );
 
-        #[cfg(all(feature = "Foundation_NSSpellServer", feature = "Foundation_NSString"))]
-        #[optional]
-        #[method(spellServer:didForgetWord:inLanguage:)]
-        unsafe fn spellServer_didForgetWord_inLanguage(
-            &self,
-            sender: &NSSpellServer,
-            word: &NSString,
-            language: &NSString,
-        );
+    #[cfg(all(feature = "Foundation_NSSpellServer", feature = "Foundation_NSString"))]
+    #[objc2::method(optional, sel = "spellServer:didForgetWord:inLanguage:")]
+    unsafe fn spellServer_didForgetWord_inLanguage(
+        &self,
+        sender: &NSSpellServer,
+        word: &NSString,
+        language: &NSString,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSSpellServer",
-            feature = "Foundation_NSString"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other spellServer:suggestCompletionsForPartialWordRange:inString:language:)]
-        unsafe fn spellServer_suggestCompletionsForPartialWordRange_inString_language(
-            &self,
-            sender: &NSSpellServer,
-            range: NSRange,
-            string: &NSString,
-            language: &NSString,
-        ) -> Option<Id<NSArray<NSString>>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSSpellServer",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "spellServer:suggestCompletionsForPartialWordRange:inString:language:",
+        managed = "Other"
+    )]
+    unsafe fn spellServer_suggestCompletionsForPartialWordRange_inString_language(
+        &self,
+        sender: &NSSpellServer,
+        range: NSRange,
+        string: &NSString,
+        language: &NSString,
+    ) -> Option<Id<NSArray<NSString>>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSSpellServer",
-            feature = "Foundation_NSString"
-        ))]
-        #[optional]
-        #[method(spellServer:checkGrammarInString:language:details:)]
-        unsafe fn spellServer_checkGrammarInString_language_details(
-            &self,
-            sender: &NSSpellServer,
-            string_to_check: &NSString,
-            language: Option<&NSString>,
-            details: Option<&mut Option<Id<NSArray<NSDictionary<NSString, Object>>>>>,
-        ) -> NSRange;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSSpellServer",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(optional, sel = "spellServer:checkGrammarInString:language:details:")]
+    unsafe fn spellServer_checkGrammarInString_language_details(
+        &self,
+        sender: &NSSpellServer,
+        string_to_check: &NSString,
+        language: Option<&NSString>,
+        details: Option<&mut Option<Id<NSArray<NSDictionary<NSString, Object>>>>>,
+    ) -> NSRange;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSOrthography",
-            feature = "Foundation_NSSpellServer",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSTextCheckingResult"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other spellServer:checkString:offset:types:options:orthography:wordCount:)]
-        unsafe fn spellServer_checkString_offset_types_options_orthography_wordCount(
-            &self,
-            sender: &NSSpellServer,
-            string_to_check: &NSString,
-            offset: NSUInteger,
-            checking_types: NSTextCheckingTypes,
-            options: Option<&NSDictionary<NSString, Object>>,
-            orthography: Option<&NSOrthography>,
-            word_count: NonNull<NSInteger>,
-        ) -> Option<Id<NSArray<NSTextCheckingResult>>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSOrthography",
+        feature = "Foundation_NSSpellServer",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSTextCheckingResult"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "spellServer:checkString:offset:types:options:orthography:wordCount:",
+        managed = "Other"
+    )]
+    unsafe fn spellServer_checkString_offset_types_options_orthography_wordCount(
+        &self,
+        sender: &NSSpellServer,
+        string_to_check: &NSString,
+        offset: NSUInteger,
+        checking_types: NSTextCheckingTypes,
+        options: Option<&NSDictionary<NSString, Object>>,
+        orthography: Option<&NSOrthography>,
+        word_count: NonNull<NSInteger>,
+    ) -> Option<Id<NSArray<NSTextCheckingResult>>>;
 
-        #[cfg(all(feature = "Foundation_NSSpellServer", feature = "Foundation_NSString"))]
-        #[optional]
-        #[method(spellServer:recordResponse:toCorrection:forWord:language:)]
-        unsafe fn spellServer_recordResponse_toCorrection_forWord_language(
-            &self,
-            sender: &NSSpellServer,
-            response: NSUInteger,
-            correction: &NSString,
-            word: &NSString,
-            language: &NSString,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn NSSpellServerDelegate {}
-);
+    #[cfg(all(feature = "Foundation_NSSpellServer", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        optional,
+        sel = "spellServer:recordResponse:toCorrection:forWord:language:"
+    )]
+    unsafe fn spellServer_recordResponse_toCorrection_forWord_language(
+        &self,
+        sender: &NSSpellServer,
+        response: NSUInteger,
+        correction: &NSString,
+        word: &NSString,
+        language: &NSString,
+    );
+}

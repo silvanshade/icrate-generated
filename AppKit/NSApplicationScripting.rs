@@ -5,16 +5,18 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_methods!(
-    /// NSScripting
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[cfg(all(feature = "AppKit_NSDocument", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other orderedDocuments)]
-        pub unsafe fn orderedDocuments(&self) -> Id<NSArray<NSDocument>>;
+    pub type NSApplication;
 
-        #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other orderedWindows)]
-        pub unsafe fn orderedWindows(&self) -> Id<NSArray<NSWindow>>;
-    }
-);
+    #[cfg(all(feature = "AppKit_NSDocument", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "orderedDocuments", managed = "Other")]
+    pub unsafe fn orderedDocuments(&self) -> Id<NSArray<NSDocument>>;
+
+    #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "orderedWindows", managed = "Other")]
+    pub unsafe fn orderedWindows(&self) -> Id<NSArray<NSWindow>>;
+}

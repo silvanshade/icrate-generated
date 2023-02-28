@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLTitleElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLTitleElement;
-
     #[cfg(feature = "WebKit_DOMHTMLTitleElement")]
-    unsafe impl ClassType for DOMHTMLTitleElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLTitleElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLTitleElement")]
 unsafe impl DOMEventTarget for DOMHTMLTitleElement {}
@@ -24,15 +28,19 @@ unsafe impl DOMEventTarget for DOMHTMLTitleElement {}
 #[cfg(feature = "WebKit_DOMHTMLTitleElement")]
 unsafe impl NSObjectProtocol for DOMHTMLTitleElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLTitleElement")]
-    unsafe impl DOMHTMLTitleElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other text)]
-        pub unsafe fn text(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMHTMLTitleElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setText:)]
-        pub unsafe fn setText(&self, text: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "text", managed = "Other")]
+    pub unsafe fn text(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setText:")]
+    pub unsafe fn setText(&self, text: Option<&NSString>);
+}

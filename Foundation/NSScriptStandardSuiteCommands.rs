@@ -3,26 +3,25 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSSaveOptions {
-        NSSaveOptionsYes = 0,
-        NSSaveOptionsNo = 1,
-        NSSaveOptionsAsk = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSSaveOptions {
+    NSSaveOptionsYes = 0,
+    NSSaveOptionsNo = 1,
+    NSSaveOptionsAsk = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSScriptCommand,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSCloneCommand")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSCloneCommand")]
-    pub struct NSCloneCommand;
-
-    #[cfg(feature = "Foundation_NSCloneCommand")]
-    unsafe impl ClassType for NSCloneCommand {
-        #[inherits(NSObject)]
-        type Super = NSScriptCommand;
-    }
-);
+    pub type NSCloneCommand;
+}
 
 #[cfg(feature = "Foundation_NSCloneCommand")]
 unsafe impl NSCoding for NSCloneCommand {}
@@ -30,30 +29,33 @@ unsafe impl NSCoding for NSCloneCommand {}
 #[cfg(feature = "Foundation_NSCloneCommand")]
 unsafe impl NSObjectProtocol for NSCloneCommand {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCloneCommand")]
-    unsafe impl NSCloneCommand {
-        #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
-        #[method(setReceiversSpecifier:)]
-        pub unsafe fn setReceiversSpecifier(&self, receivers_ref: Option<&NSScriptObjectSpecifier>);
+    pub type NSCloneCommand;
 
-        #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
-        #[method_id(@__retain_semantics Other keySpecifier)]
-        pub unsafe fn keySpecifier(&self) -> Id<NSScriptObjectSpecifier>;
-    }
-);
+    #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
+    #[objc2::method(sel = "setReceiversSpecifier:")]
+    pub unsafe fn setReceiversSpecifier(&self, receivers_ref: Option<&NSScriptObjectSpecifier>);
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
+    #[objc2::method(sel = "keySpecifier", managed = "Other")]
+    pub unsafe fn keySpecifier(&self) -> Id<NSScriptObjectSpecifier>;
+}
+
+#[objc2::interface(
+    unsafe super = NSScriptCommand,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSCloseCommand")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSCloseCommand")]
-    pub struct NSCloseCommand;
-
-    #[cfg(feature = "Foundation_NSCloseCommand")]
-    unsafe impl ClassType for NSCloseCommand {
-        #[inherits(NSObject)]
-        type Super = NSScriptCommand;
-    }
-);
+    pub type NSCloseCommand;
+}
 
 #[cfg(feature = "Foundation_NSCloseCommand")]
 unsafe impl NSCoding for NSCloseCommand {}
@@ -61,25 +63,28 @@ unsafe impl NSCoding for NSCloseCommand {}
 #[cfg(feature = "Foundation_NSCloseCommand")]
 unsafe impl NSObjectProtocol for NSCloseCommand {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCloseCommand")]
-    unsafe impl NSCloseCommand {
-        #[method(saveOptions)]
-        pub unsafe fn saveOptions(&self) -> NSSaveOptions;
-    }
-);
+    pub type NSCloseCommand;
 
-extern_class!(
+    #[objc2::method(sel = "saveOptions")]
+    pub unsafe fn saveOptions(&self) -> NSSaveOptions;
+}
+
+#[objc2::interface(
+    unsafe super = NSScriptCommand,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSCountCommand")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSCountCommand")]
-    pub struct NSCountCommand;
-
-    #[cfg(feature = "Foundation_NSCountCommand")]
-    unsafe impl ClassType for NSCountCommand {
-        #[inherits(NSObject)]
-        type Super = NSScriptCommand;
-    }
-);
+    pub type NSCountCommand;
+}
 
 #[cfg(feature = "Foundation_NSCountCommand")]
 unsafe impl NSCoding for NSCountCommand {}
@@ -87,22 +92,25 @@ unsafe impl NSCoding for NSCountCommand {}
 #[cfg(feature = "Foundation_NSCountCommand")]
 unsafe impl NSObjectProtocol for NSCountCommand {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCountCommand")]
-    unsafe impl NSCountCommand {}
-);
+    pub type NSCountCommand;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSScriptCommand,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSCreateCommand")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSCreateCommand")]
-    pub struct NSCreateCommand;
-
-    #[cfg(feature = "Foundation_NSCreateCommand")]
-    unsafe impl ClassType for NSCreateCommand {
-        #[inherits(NSObject)]
-        type Super = NSScriptCommand;
-    }
-);
+    pub type NSCreateCommand;
+}
 
 #[cfg(feature = "Foundation_NSCreateCommand")]
 unsafe impl NSCoding for NSCreateCommand {}
@@ -110,30 +118,33 @@ unsafe impl NSCoding for NSCreateCommand {}
 #[cfg(feature = "Foundation_NSCreateCommand")]
 unsafe impl NSObjectProtocol for NSCreateCommand {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCreateCommand")]
-    unsafe impl NSCreateCommand {
-        #[cfg(feature = "Foundation_NSScriptClassDescription")]
-        #[method_id(@__retain_semantics Other createClassDescription)]
-        pub unsafe fn createClassDescription(&self) -> Id<NSScriptClassDescription>;
+    pub type NSCreateCommand;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other resolvedKeyDictionary)]
-        pub unsafe fn resolvedKeyDictionary(&self) -> Id<NSDictionary<NSString, Object>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSScriptClassDescription")]
+    #[objc2::method(sel = "createClassDescription", managed = "Other")]
+    pub unsafe fn createClassDescription(&self) -> Id<NSScriptClassDescription>;
 
-extern_class!(
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "resolvedKeyDictionary", managed = "Other")]
+    pub unsafe fn resolvedKeyDictionary(&self) -> Id<NSDictionary<NSString, Object>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSScriptCommand,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSDeleteCommand")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSDeleteCommand")]
-    pub struct NSDeleteCommand;
-
-    #[cfg(feature = "Foundation_NSDeleteCommand")]
-    unsafe impl ClassType for NSDeleteCommand {
-        #[inherits(NSObject)]
-        type Super = NSScriptCommand;
-    }
-);
+    pub type NSDeleteCommand;
+}
 
 #[cfg(feature = "Foundation_NSDeleteCommand")]
 unsafe impl NSCoding for NSDeleteCommand {}
@@ -141,30 +152,33 @@ unsafe impl NSCoding for NSDeleteCommand {}
 #[cfg(feature = "Foundation_NSDeleteCommand")]
 unsafe impl NSObjectProtocol for NSDeleteCommand {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSDeleteCommand")]
-    unsafe impl NSDeleteCommand {
-        #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
-        #[method(setReceiversSpecifier:)]
-        pub unsafe fn setReceiversSpecifier(&self, receivers_ref: Option<&NSScriptObjectSpecifier>);
+    pub type NSDeleteCommand;
 
-        #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
-        #[method_id(@__retain_semantics Other keySpecifier)]
-        pub unsafe fn keySpecifier(&self) -> Id<NSScriptObjectSpecifier>;
-    }
-);
+    #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
+    #[objc2::method(sel = "setReceiversSpecifier:")]
+    pub unsafe fn setReceiversSpecifier(&self, receivers_ref: Option<&NSScriptObjectSpecifier>);
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
+    #[objc2::method(sel = "keySpecifier", managed = "Other")]
+    pub unsafe fn keySpecifier(&self) -> Id<NSScriptObjectSpecifier>;
+}
+
+#[objc2::interface(
+    unsafe super = NSScriptCommand,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSExistsCommand")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSExistsCommand")]
-    pub struct NSExistsCommand;
-
-    #[cfg(feature = "Foundation_NSExistsCommand")]
-    unsafe impl ClassType for NSExistsCommand {
-        #[inherits(NSObject)]
-        type Super = NSScriptCommand;
-    }
-);
+    pub type NSExistsCommand;
+}
 
 #[cfg(feature = "Foundation_NSExistsCommand")]
 unsafe impl NSCoding for NSExistsCommand {}
@@ -172,22 +186,25 @@ unsafe impl NSCoding for NSExistsCommand {}
 #[cfg(feature = "Foundation_NSExistsCommand")]
 unsafe impl NSObjectProtocol for NSExistsCommand {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSExistsCommand")]
-    unsafe impl NSExistsCommand {}
-);
+    pub type NSExistsCommand;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSScriptCommand,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSGetCommand")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSGetCommand")]
-    pub struct NSGetCommand;
-
-    #[cfg(feature = "Foundation_NSGetCommand")]
-    unsafe impl ClassType for NSGetCommand {
-        #[inherits(NSObject)]
-        type Super = NSScriptCommand;
-    }
-);
+    pub type NSGetCommand;
+}
 
 #[cfg(feature = "Foundation_NSGetCommand")]
 unsafe impl NSCoding for NSGetCommand {}
@@ -195,22 +212,25 @@ unsafe impl NSCoding for NSGetCommand {}
 #[cfg(feature = "Foundation_NSGetCommand")]
 unsafe impl NSObjectProtocol for NSGetCommand {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSGetCommand")]
-    unsafe impl NSGetCommand {}
-);
+    pub type NSGetCommand;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSScriptCommand,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMoveCommand")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSMoveCommand")]
-    pub struct NSMoveCommand;
-
-    #[cfg(feature = "Foundation_NSMoveCommand")]
-    unsafe impl ClassType for NSMoveCommand {
-        #[inherits(NSObject)]
-        type Super = NSScriptCommand;
-    }
-);
+    pub type NSMoveCommand;
+}
 
 #[cfg(feature = "Foundation_NSMoveCommand")]
 unsafe impl NSCoding for NSMoveCommand {}
@@ -218,30 +238,33 @@ unsafe impl NSCoding for NSMoveCommand {}
 #[cfg(feature = "Foundation_NSMoveCommand")]
 unsafe impl NSObjectProtocol for NSMoveCommand {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMoveCommand")]
-    unsafe impl NSMoveCommand {
-        #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
-        #[method(setReceiversSpecifier:)]
-        pub unsafe fn setReceiversSpecifier(&self, receivers_ref: Option<&NSScriptObjectSpecifier>);
+    pub type NSMoveCommand;
 
-        #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
-        #[method_id(@__retain_semantics Other keySpecifier)]
-        pub unsafe fn keySpecifier(&self) -> Id<NSScriptObjectSpecifier>;
-    }
-);
+    #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
+    #[objc2::method(sel = "setReceiversSpecifier:")]
+    pub unsafe fn setReceiversSpecifier(&self, receivers_ref: Option<&NSScriptObjectSpecifier>);
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
+    #[objc2::method(sel = "keySpecifier", managed = "Other")]
+    pub unsafe fn keySpecifier(&self) -> Id<NSScriptObjectSpecifier>;
+}
+
+#[objc2::interface(
+    unsafe super = NSScriptCommand,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSQuitCommand")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSQuitCommand")]
-    pub struct NSQuitCommand;
-
-    #[cfg(feature = "Foundation_NSQuitCommand")]
-    unsafe impl ClassType for NSQuitCommand {
-        #[inherits(NSObject)]
-        type Super = NSScriptCommand;
-    }
-);
+    pub type NSQuitCommand;
+}
 
 #[cfg(feature = "Foundation_NSQuitCommand")]
 unsafe impl NSCoding for NSQuitCommand {}
@@ -249,25 +272,28 @@ unsafe impl NSCoding for NSQuitCommand {}
 #[cfg(feature = "Foundation_NSQuitCommand")]
 unsafe impl NSObjectProtocol for NSQuitCommand {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSQuitCommand")]
-    unsafe impl NSQuitCommand {
-        #[method(saveOptions)]
-        pub unsafe fn saveOptions(&self) -> NSSaveOptions;
-    }
-);
+    pub type NSQuitCommand;
 
-extern_class!(
+    #[objc2::method(sel = "saveOptions")]
+    pub unsafe fn saveOptions(&self) -> NSSaveOptions;
+}
+
+#[objc2::interface(
+    unsafe super = NSScriptCommand,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSSetCommand")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSSetCommand")]
-    pub struct NSSetCommand;
-
-    #[cfg(feature = "Foundation_NSSetCommand")]
-    unsafe impl ClassType for NSSetCommand {
-        #[inherits(NSObject)]
-        type Super = NSScriptCommand;
-    }
-);
+    pub type NSSetCommand;
+}
 
 #[cfg(feature = "Foundation_NSSetCommand")]
 unsafe impl NSCoding for NSSetCommand {}
@@ -275,145 +301,208 @@ unsafe impl NSCoding for NSSetCommand {}
 #[cfg(feature = "Foundation_NSSetCommand")]
 unsafe impl NSObjectProtocol for NSSetCommand {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSSetCommand")]
-    unsafe impl NSSetCommand {
-        #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
-        #[method(setReceiversSpecifier:)]
-        pub unsafe fn setReceiversSpecifier(&self, receivers_ref: Option<&NSScriptObjectSpecifier>);
+    pub type NSSetCommand;
 
-        #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
-        #[method_id(@__retain_semantics Other keySpecifier)]
-        pub unsafe fn keySpecifier(&self) -> Id<NSScriptObjectSpecifier>;
-    }
-);
+    #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
+    #[objc2::method(sel = "setReceiversSpecifier:")]
+    pub unsafe fn setReceiversSpecifier(&self, receivers_ref: Option<&NSScriptObjectSpecifier>);
 
-extern_methods!(
-    /// Methods declared on superclass `NSScriptCommand`
+    #[cfg(feature = "Foundation_NSScriptObjectSpecifier")]
+    #[objc2::method(sel = "keySpecifier", managed = "Other")]
+    pub unsafe fn keySpecifier(&self) -> Id<NSScriptObjectSpecifier>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSScriptCommand`
     #[cfg(feature = "Foundation_NSCloneCommand")]
-    unsafe impl NSCloneCommand {
-        #[cfg(feature = "Foundation_NSScriptCommandDescription")]
-        #[method_id(@__retain_semantics Init initWithCommandDescription:)]
-        pub unsafe fn initWithCommandDescription(
-            this: Option<Allocated<Self>>,
-            command_def: &NSScriptCommandDescription,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSCloneCommand")]
+    pub type NSCloneCommand;
 
-extern_methods!(
-    /// Methods declared on superclass `NSScriptCommand`
+    #[cfg(feature = "Foundation_NSScriptCommandDescription")]
+    #[objc2::method(sel = "initWithCommandDescription:", managed = "Init")]
+    pub unsafe fn initWithCommandDescription(
+        this: Option<Allocated<Self>>,
+        command_def: &NSScriptCommandDescription,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSScriptCommand`
     #[cfg(feature = "Foundation_NSCloseCommand")]
-    unsafe impl NSCloseCommand {
-        #[cfg(feature = "Foundation_NSScriptCommandDescription")]
-        #[method_id(@__retain_semantics Init initWithCommandDescription:)]
-        pub unsafe fn initWithCommandDescription(
-            this: Option<Allocated<Self>>,
-            command_def: &NSScriptCommandDescription,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSCloseCommand")]
+    pub type NSCloseCommand;
 
-extern_methods!(
-    /// Methods declared on superclass `NSScriptCommand`
+    #[cfg(feature = "Foundation_NSScriptCommandDescription")]
+    #[objc2::method(sel = "initWithCommandDescription:", managed = "Init")]
+    pub unsafe fn initWithCommandDescription(
+        this: Option<Allocated<Self>>,
+        command_def: &NSScriptCommandDescription,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSScriptCommand`
     #[cfg(feature = "Foundation_NSCountCommand")]
-    unsafe impl NSCountCommand {
-        #[cfg(feature = "Foundation_NSScriptCommandDescription")]
-        #[method_id(@__retain_semantics Init initWithCommandDescription:)]
-        pub unsafe fn initWithCommandDescription(
-            this: Option<Allocated<Self>>,
-            command_def: &NSScriptCommandDescription,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSCountCommand")]
+    pub type NSCountCommand;
 
-extern_methods!(
-    /// Methods declared on superclass `NSScriptCommand`
+    #[cfg(feature = "Foundation_NSScriptCommandDescription")]
+    #[objc2::method(sel = "initWithCommandDescription:", managed = "Init")]
+    pub unsafe fn initWithCommandDescription(
+        this: Option<Allocated<Self>>,
+        command_def: &NSScriptCommandDescription,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSScriptCommand`
     #[cfg(feature = "Foundation_NSCreateCommand")]
-    unsafe impl NSCreateCommand {
-        #[cfg(feature = "Foundation_NSScriptCommandDescription")]
-        #[method_id(@__retain_semantics Init initWithCommandDescription:)]
-        pub unsafe fn initWithCommandDescription(
-            this: Option<Allocated<Self>>,
-            command_def: &NSScriptCommandDescription,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSCreateCommand")]
+    pub type NSCreateCommand;
 
-extern_methods!(
-    /// Methods declared on superclass `NSScriptCommand`
+    #[cfg(feature = "Foundation_NSScriptCommandDescription")]
+    #[objc2::method(sel = "initWithCommandDescription:", managed = "Init")]
+    pub unsafe fn initWithCommandDescription(
+        this: Option<Allocated<Self>>,
+        command_def: &NSScriptCommandDescription,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSScriptCommand`
     #[cfg(feature = "Foundation_NSDeleteCommand")]
-    unsafe impl NSDeleteCommand {
-        #[cfg(feature = "Foundation_NSScriptCommandDescription")]
-        #[method_id(@__retain_semantics Init initWithCommandDescription:)]
-        pub unsafe fn initWithCommandDescription(
-            this: Option<Allocated<Self>>,
-            command_def: &NSScriptCommandDescription,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSDeleteCommand")]
+    pub type NSDeleteCommand;
 
-extern_methods!(
-    /// Methods declared on superclass `NSScriptCommand`
+    #[cfg(feature = "Foundation_NSScriptCommandDescription")]
+    #[objc2::method(sel = "initWithCommandDescription:", managed = "Init")]
+    pub unsafe fn initWithCommandDescription(
+        this: Option<Allocated<Self>>,
+        command_def: &NSScriptCommandDescription,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSScriptCommand`
     #[cfg(feature = "Foundation_NSExistsCommand")]
-    unsafe impl NSExistsCommand {
-        #[cfg(feature = "Foundation_NSScriptCommandDescription")]
-        #[method_id(@__retain_semantics Init initWithCommandDescription:)]
-        pub unsafe fn initWithCommandDescription(
-            this: Option<Allocated<Self>>,
-            command_def: &NSScriptCommandDescription,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSExistsCommand")]
+    pub type NSExistsCommand;
 
-extern_methods!(
-    /// Methods declared on superclass `NSScriptCommand`
+    #[cfg(feature = "Foundation_NSScriptCommandDescription")]
+    #[objc2::method(sel = "initWithCommandDescription:", managed = "Init")]
+    pub unsafe fn initWithCommandDescription(
+        this: Option<Allocated<Self>>,
+        command_def: &NSScriptCommandDescription,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSScriptCommand`
     #[cfg(feature = "Foundation_NSGetCommand")]
-    unsafe impl NSGetCommand {
-        #[cfg(feature = "Foundation_NSScriptCommandDescription")]
-        #[method_id(@__retain_semantics Init initWithCommandDescription:)]
-        pub unsafe fn initWithCommandDescription(
-            this: Option<Allocated<Self>>,
-            command_def: &NSScriptCommandDescription,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSGetCommand")]
+    pub type NSGetCommand;
 
-extern_methods!(
-    /// Methods declared on superclass `NSScriptCommand`
+    #[cfg(feature = "Foundation_NSScriptCommandDescription")]
+    #[objc2::method(sel = "initWithCommandDescription:", managed = "Init")]
+    pub unsafe fn initWithCommandDescription(
+        this: Option<Allocated<Self>>,
+        command_def: &NSScriptCommandDescription,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSScriptCommand`
     #[cfg(feature = "Foundation_NSMoveCommand")]
-    unsafe impl NSMoveCommand {
-        #[cfg(feature = "Foundation_NSScriptCommandDescription")]
-        #[method_id(@__retain_semantics Init initWithCommandDescription:)]
-        pub unsafe fn initWithCommandDescription(
-            this: Option<Allocated<Self>>,
-            command_def: &NSScriptCommandDescription,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMoveCommand")]
+    pub type NSMoveCommand;
 
-extern_methods!(
-    /// Methods declared on superclass `NSScriptCommand`
+    #[cfg(feature = "Foundation_NSScriptCommandDescription")]
+    #[objc2::method(sel = "initWithCommandDescription:", managed = "Init")]
+    pub unsafe fn initWithCommandDescription(
+        this: Option<Allocated<Self>>,
+        command_def: &NSScriptCommandDescription,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSScriptCommand`
     #[cfg(feature = "Foundation_NSQuitCommand")]
-    unsafe impl NSQuitCommand {
-        #[cfg(feature = "Foundation_NSScriptCommandDescription")]
-        #[method_id(@__retain_semantics Init initWithCommandDescription:)]
-        pub unsafe fn initWithCommandDescription(
-            this: Option<Allocated<Self>>,
-            command_def: &NSScriptCommandDescription,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSQuitCommand")]
+    pub type NSQuitCommand;
 
-extern_methods!(
-    /// Methods declared on superclass `NSScriptCommand`
+    #[cfg(feature = "Foundation_NSScriptCommandDescription")]
+    #[objc2::method(sel = "initWithCommandDescription:", managed = "Init")]
+    pub unsafe fn initWithCommandDescription(
+        this: Option<Allocated<Self>>,
+        command_def: &NSScriptCommandDescription,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSScriptCommand`
     #[cfg(feature = "Foundation_NSSetCommand")]
-    unsafe impl NSSetCommand {
-        #[cfg(feature = "Foundation_NSScriptCommandDescription")]
-        #[method_id(@__retain_semantics Init initWithCommandDescription:)]
-        pub unsafe fn initWithCommandDescription(
-            this: Option<Allocated<Self>>,
-            command_def: &NSScriptCommandDescription,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSSetCommand")]
+    pub type NSSetCommand;
+
+    #[cfg(feature = "Foundation_NSScriptCommandDescription")]
+    #[objc2::method(sel = "initWithCommandDescription:", managed = "Init")]
+    pub unsafe fn initWithCommandDescription(
+        this: Option<Allocated<Self>>,
+        command_def: &NSScriptCommandDescription,
+    ) -> Id<Self>;
+}

@@ -17,17 +17,18 @@ typed_enum!(
     pub type SKCloudServiceSetupMessageIdentifier = NSString;
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSViewController,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKCloudServiceSetupViewController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKCloudServiceSetupViewController")]
-    pub struct SKCloudServiceSetupViewController;
-
-    #[cfg(feature = "StoreKit_SKCloudServiceSetupViewController")]
-    unsafe impl ClassType for SKCloudServiceSetupViewController {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSViewController;
-    }
-);
+    pub type SKCloudServiceSetupViewController;
+}
 
 #[cfg(feature = "StoreKit_SKCloudServiceSetupViewController")]
 unsafe impl NSCoding for SKCloudServiceSetupViewController {}
@@ -44,43 +45,42 @@ unsafe impl NSSeguePerforming for SKCloudServiceSetupViewController {}
 #[cfg(feature = "StoreKit_SKCloudServiceSetupViewController")]
 unsafe impl NSUserInterfaceItemIdentification for SKCloudServiceSetupViewController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKCloudServiceSetupViewController")]
-    unsafe impl SKCloudServiceSetupViewController {
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn SKCloudServiceSetupViewControllerDelegate>>>;
+    pub type SKCloudServiceSetupViewController;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn SKCloudServiceSetupViewControllerDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn SKCloudServiceSetupViewControllerDelegate>>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSError"))]
-        #[method(loadWithOptions:completionHandler:)]
-        pub unsafe fn loadWithOptions_completionHandler(
-            &self,
-            options: &NSDictionary<SKCloudServiceSetupOptionsKey, Object>,
-            completion_handler: Option<&Block<(Bool, *mut NSError), ()>>,
-        );
-    }
-);
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn SKCloudServiceSetupViewControllerDelegate>>,
+    );
 
-extern_protocol!(
-    pub unsafe trait SKCloudServiceSetupViewControllerDelegate: NSObjectProtocol {
-        #[cfg(feature = "StoreKit_SKCloudServiceSetupViewController")]
-        #[optional]
-        #[method(cloudServiceSetupViewControllerDidDismiss:)]
-        unsafe fn cloudServiceSetupViewControllerDidDismiss(
-            &self,
-            cloud_service_setup_view_controller: &SKCloudServiceSetupViewController,
-        );
-    }
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "loadWithOptions:completionHandler:")]
+    pub unsafe fn loadWithOptions_completionHandler(
+        &self,
+        options: &NSDictionary<SKCloudServiceSetupOptionsKey, Object>,
+        completion_handler: Option<&Block<(Bool, *mut NSError), ()>>,
+    );
+}
 
-    unsafe impl ProtocolType for dyn SKCloudServiceSetupViewControllerDelegate {}
-);
+#[objc2::protocol]
+pub unsafe trait SKCloudServiceSetupViewControllerDelegate: NSObjectProtocol {
+    #[cfg(feature = "StoreKit_SKCloudServiceSetupViewController")]
+    #[objc2::method(optional, sel = "cloudServiceSetupViewControllerDidDismiss:")]
+    unsafe fn cloudServiceSetupViewControllerDidDismiss(
+        &self,
+        cloud_service_setup_view_controller: &SKCloudServiceSetupViewController,
+    );
+}
 
 extern_static!(SKCloudServiceSetupOptionsActionKey: &'static SKCloudServiceSetupOptionsKey);
 
@@ -114,16 +114,22 @@ extern_static!(
     SKCloudServiceSetupMessageIdentifierPlayMusic: &'static SKCloudServiceSetupMessageIdentifier
 );
 
-extern_methods!(
-    /// Methods declared on superclass `NSViewController`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSViewController`
     #[cfg(feature = "StoreKit_SKCloudServiceSetupViewController")]
-    unsafe impl SKCloudServiceSetupViewController {
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Init initWithNibName:bundle:)]
-        pub unsafe fn initWithNibName_bundle(
-            this: Option<Allocated<Self>>,
-            nib_name_or_nil: Option<&NSNibName>,
-            nib_bundle_or_nil: Option<&NSBundle>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKCloudServiceSetupViewController")]
+    pub type SKCloudServiceSetupViewController;
+
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "initWithNibName:bundle:", managed = "Init")]
+    pub unsafe fn initWithNibName_bundle(
+        this: Option<Allocated<Self>>,
+        nib_name_or_nil: Option<&NSNibName>,
+        nib_bundle_or_nil: Option<&NSBundle>,
+    ) -> Id<Self>;
+}

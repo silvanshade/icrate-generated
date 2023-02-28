@@ -5,56 +5,62 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::StoreKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKPaymentDiscount")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKPaymentDiscount")]
-    pub struct SKPaymentDiscount;
-
-    #[cfg(feature = "StoreKit_SKPaymentDiscount")]
-    unsafe impl ClassType for SKPaymentDiscount {
-        type Super = NSObject;
-    }
-);
+    pub type SKPaymentDiscount;
+}
 
 #[cfg(feature = "StoreKit_SKPaymentDiscount")]
 unsafe impl NSObjectProtocol for SKPaymentDiscount {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKPaymentDiscount")]
-    unsafe impl SKPaymentDiscount {
-        #[cfg(all(
-            feature = "Foundation_NSNumber",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSUUID"
-        ))]
-        #[method_id(@__retain_semantics Init initWithIdentifier:keyIdentifier:nonce:signature:timestamp:)]
-        pub unsafe fn initWithIdentifier_keyIdentifier_nonce_signature_timestamp(
-            this: Option<Allocated<Self>>,
-            identifier: &NSString,
-            key_identifier: &NSString,
-            nonce: &NSUUID,
-            signature: &NSString,
-            timestamp: &NSNumber,
-        ) -> Id<Self>;
+    pub type SKPaymentDiscount;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    #[cfg(all(
+        feature = "Foundation_NSNumber",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSUUID"
+    ))]
+    #[objc2::method(
+        sel = "initWithIdentifier:keyIdentifier:nonce:signature:timestamp:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithIdentifier_keyIdentifier_nonce_signature_timestamp(
+        this: Option<Allocated<Self>>,
+        identifier: &NSString,
+        key_identifier: &NSString,
+        nonce: &NSUUID,
+        signature: &NSString,
+        timestamp: &NSNumber,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other keyIdentifier)]
-        pub unsafe fn keyIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Other nonce)]
-        pub unsafe fn nonce(&self) -> Id<NSUUID>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "keyIdentifier", managed = "Other")]
+    pub unsafe fn keyIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other signature)]
-        pub unsafe fn signature(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "nonce", managed = "Other")]
+    pub unsafe fn nonce(&self) -> Id<NSUUID>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other timestamp)]
-        pub unsafe fn timestamp(&self) -> Id<NSNumber>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "signature", managed = "Other")]
+    pub unsafe fn signature(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "timestamp", managed = "Other")]
+    pub unsafe fn timestamp(&self) -> Id<NSNumber>;
+}

@@ -5,17 +5,18 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSWindow,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPanel")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPanel")]
-    pub struct NSPanel;
-
-    #[cfg(feature = "AppKit_NSPanel")]
-    unsafe impl ClassType for NSPanel {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSWindow;
-    }
-);
+    pub type NSPanel;
+}
 
 #[cfg(feature = "AppKit_NSPanel")]
 unsafe impl NSAccessibility for NSPanel {}
@@ -44,76 +45,87 @@ unsafe impl NSUserInterfaceItemIdentification for NSPanel {}
 #[cfg(feature = "AppKit_NSPanel")]
 unsafe impl NSUserInterfaceValidations for NSPanel {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPanel")]
-    unsafe impl NSPanel {
-        #[method(isFloatingPanel)]
-        pub unsafe fn isFloatingPanel(&self) -> bool;
+    pub type NSPanel;
 
-        #[method(setFloatingPanel:)]
-        pub unsafe fn setFloatingPanel(&self, floating_panel: bool);
+    #[objc2::method(sel = "isFloatingPanel")]
+    pub unsafe fn isFloatingPanel(&self) -> bool;
 
-        #[method(becomesKeyOnlyIfNeeded)]
-        pub unsafe fn becomesKeyOnlyIfNeeded(&self) -> bool;
+    #[objc2::method(sel = "setFloatingPanel:")]
+    pub unsafe fn setFloatingPanel(&self, floating_panel: bool);
 
-        #[method(setBecomesKeyOnlyIfNeeded:)]
-        pub unsafe fn setBecomesKeyOnlyIfNeeded(&self, becomes_key_only_if_needed: bool);
+    #[objc2::method(sel = "becomesKeyOnlyIfNeeded")]
+    pub unsafe fn becomesKeyOnlyIfNeeded(&self) -> bool;
 
-        #[method(worksWhenModal)]
-        pub unsafe fn worksWhenModal(&self) -> bool;
+    #[objc2::method(sel = "setBecomesKeyOnlyIfNeeded:")]
+    pub unsafe fn setBecomesKeyOnlyIfNeeded(&self, becomes_key_only_if_needed: bool);
 
-        #[method(setWorksWhenModal:)]
-        pub unsafe fn setWorksWhenModal(&self, works_when_modal: bool);
-    }
-);
+    #[objc2::method(sel = "worksWhenModal")]
+    pub unsafe fn worksWhenModal(&self) -> bool;
+
+    #[objc2::method(sel = "setWorksWhenModal:")]
+    pub unsafe fn setWorksWhenModal(&self, works_when_modal: bool);
+}
 
 extern_fn!(
     #[deprecated = "Use NSAlert instead"]
     pub unsafe fn NSReleaseAlertPanel(panel: Option<&Object>);
 );
 
-extern_enum!(
-    #[underlying(c_int)]
-    pub enum __anonymous__ {
-        #[deprecated = "Use NSAlertFirstButtonReturn with an NSAlert presentation instead"]
-        NSAlertDefaultReturn = 1,
-        #[deprecated = "Use NSAlertFirstButtonReturn and other NSModalResponses with an NSAlert presentation instead"]
-        NSAlertAlternateReturn = 0,
-        #[deprecated = "Use NSAlertFirstButtonReturn and other NSModalResponses with an NSAlert presentation instead"]
-        NSAlertOtherReturn = -1,
-        #[deprecated = "Use NSAlertFirstButtonReturn and other NSModalResponses with an NSAlert presentation instead"]
-        NSAlertErrorReturn = -2,
-    }
-);
+#[extern_enum]
+#[underlying(c_int)]
+pub enum __anonymous__ {
+    #[deprecated = "Use NSAlertFirstButtonReturn with an NSAlert presentation instead"]
+    NSAlertDefaultReturn = 1,
+    #[deprecated = "Use NSAlertFirstButtonReturn and other NSModalResponses with an NSAlert presentation instead"]
+    NSAlertAlternateReturn = 0,
+    #[deprecated = "Use NSAlertFirstButtonReturn and other NSModalResponses with an NSAlert presentation instead"]
+    NSAlertOtherReturn = -1,
+    #[deprecated = "Use NSAlertFirstButtonReturn and other NSModalResponses with an NSAlert presentation instead"]
+    NSAlertErrorReturn = -2,
+}
 
-extern_methods!(
-    /// Methods declared on superclass `NSWindow`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSWindow`
     #[cfg(feature = "AppKit_NSPanel")]
-    unsafe impl NSPanel {
-        #[method_id(@__retain_semantics Init initWithContentRect:styleMask:backing:defer:)]
-        pub unsafe fn initWithContentRect_styleMask_backing_defer(
-            this: Option<Allocated<Self>>,
-            content_rect: NSRect,
-            style: NSWindowStyleMask,
-            backing_store_type: NSBackingStoreType,
-            flag: bool,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSScreen")]
-        #[method_id(@__retain_semantics Init initWithContentRect:styleMask:backing:defer:screen:)]
-        pub unsafe fn initWithContentRect_styleMask_backing_defer_screen(
-            this: Option<Allocated<Self>>,
-            content_rect: NSRect,
-            style: NSWindowStyleMask,
-            backing_store_type: NSBackingStoreType,
-            flag: bool,
-            screen: Option<&NSScreen>,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other windowWithContentViewController:)]
-        pub unsafe fn windowWithContentViewController(
-            content_view_controller: &NSViewController,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPanel")]
+    pub type NSPanel;
+
+    #[objc2::method(sel = "initWithContentRect:styleMask:backing:defer:", managed = "Init")]
+    pub unsafe fn initWithContentRect_styleMask_backing_defer(
+        this: Option<Allocated<Self>>,
+        content_rect: NSRect,
+        style: NSWindowStyleMask,
+        backing_store_type: NSBackingStoreType,
+        flag: bool,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSScreen")]
+    #[objc2::method(
+        sel = "initWithContentRect:styleMask:backing:defer:screen:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithContentRect_styleMask_backing_defer_screen(
+        this: Option<Allocated<Self>>,
+        content_rect: NSRect,
+        style: NSWindowStyleMask,
+        backing_store_type: NSBackingStoreType,
+        flag: bool,
+        screen: Option<&NSScreen>,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "windowWithContentViewController:", managed = "Other")]
+    pub unsafe fn windowWithContentViewController(
+        content_view_controller: &NSViewController,
+    ) -> Id<Self>;
+}

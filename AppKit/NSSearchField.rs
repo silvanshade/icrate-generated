@@ -7,33 +7,31 @@ use crate::Foundation::*;
 
 pub type NSSearchFieldRecentsAutosaveName = NSString;
 
-extern_protocol!(
-    pub unsafe trait NSSearchFieldDelegate: NSTextFieldDelegate {
-        #[cfg(feature = "AppKit_NSSearchField")]
-        #[optional]
-        #[method(searchFieldDidStartSearching:)]
-        unsafe fn searchFieldDidStartSearching(&self, sender: &NSSearchField);
+#[objc2::protocol]
+pub unsafe trait NSSearchFieldDelegate: NSTextFieldDelegate {
+    #[cfg(feature = "AppKit_NSSearchField")]
+    #[objc2::method(optional, sel = "searchFieldDidStartSearching:")]
+    unsafe fn searchFieldDidStartSearching(&self, sender: &NSSearchField);
 
-        #[cfg(feature = "AppKit_NSSearchField")]
-        #[optional]
-        #[method(searchFieldDidEndSearching:)]
-        unsafe fn searchFieldDidEndSearching(&self, sender: &NSSearchField);
-    }
+    #[cfg(feature = "AppKit_NSSearchField")]
+    #[objc2::method(optional, sel = "searchFieldDidEndSearching:")]
+    unsafe fn searchFieldDidEndSearching(&self, sender: &NSSearchField);
+}
 
-    unsafe impl ProtocolType for dyn NSSearchFieldDelegate {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSTextField,
+    unsafe inherits = [
+        NSControl,
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSearchField")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSSearchField")]
-    pub struct NSSearchField;
-
-    #[cfg(feature = "AppKit_NSSearchField")]
-    unsafe impl ClassType for NSSearchField {
-        #[inherits(NSControl, NSView, NSResponder, NSObject)]
-        type Super = NSTextField;
-    }
-);
+    pub type NSSearchField;
+}
 
 #[cfg(feature = "AppKit_NSSearchField")]
 unsafe impl NSAccessibility for NSSearchField {}
@@ -71,129 +69,143 @@ unsafe impl NSUserInterfaceItemIdentification for NSSearchField {}
 #[cfg(feature = "AppKit_NSSearchField")]
 unsafe impl NSUserInterfaceValidations for NSSearchField {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSearchField")]
-    unsafe impl NSSearchField {
-        #[method(searchTextBounds)]
-        pub unsafe fn searchTextBounds(&self) -> NSRect;
+    pub type NSSearchField;
 
-        #[method(searchButtonBounds)]
-        pub unsafe fn searchButtonBounds(&self) -> NSRect;
+    #[objc2::method(sel = "searchTextBounds")]
+    pub unsafe fn searchTextBounds(&self) -> NSRect;
 
-        #[method(cancelButtonBounds)]
-        pub unsafe fn cancelButtonBounds(&self) -> NSRect;
+    #[objc2::method(sel = "searchButtonBounds")]
+    pub unsafe fn searchButtonBounds(&self) -> NSRect;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other recentSearches)]
-        pub unsafe fn recentSearches(&self) -> Id<NSArray<NSString>>;
+    #[objc2::method(sel = "cancelButtonBounds")]
+    pub unsafe fn cancelButtonBounds(&self) -> NSRect;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method(setRecentSearches:)]
-        pub unsafe fn setRecentSearches(&self, recent_searches: &NSArray<NSString>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "recentSearches", managed = "Other")]
+    pub unsafe fn recentSearches(&self) -> Id<NSArray<NSString>>;
 
-        #[method_id(@__retain_semantics Other recentsAutosaveName)]
-        pub unsafe fn recentsAutosaveName(&self) -> Option<Id<NSSearchFieldRecentsAutosaveName>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setRecentSearches:")]
+    pub unsafe fn setRecentSearches(&self, recent_searches: &NSArray<NSString>);
 
-        #[method(setRecentsAutosaveName:)]
-        pub unsafe fn setRecentsAutosaveName(
-            &self,
-            recents_autosave_name: Option<&NSSearchFieldRecentsAutosaveName>,
-        );
+    #[objc2::method(sel = "recentsAutosaveName", managed = "Other")]
+    pub unsafe fn recentsAutosaveName(&self) -> Option<Id<NSSearchFieldRecentsAutosaveName>>;
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method_id(@__retain_semantics Other searchMenuTemplate)]
-        pub unsafe fn searchMenuTemplate(&self) -> Option<Id<NSMenu>>;
+    #[objc2::method(sel = "setRecentsAutosaveName:")]
+    pub unsafe fn setRecentsAutosaveName(
+        &self,
+        recents_autosave_name: Option<&NSSearchFieldRecentsAutosaveName>,
+    );
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method(setSearchMenuTemplate:)]
-        pub unsafe fn setSearchMenuTemplate(&self, search_menu_template: Option<&NSMenu>);
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "searchMenuTemplate", managed = "Other")]
+    pub unsafe fn searchMenuTemplate(&self) -> Option<Id<NSMenu>>;
 
-        #[method(sendsWholeSearchString)]
-        pub unsafe fn sendsWholeSearchString(&self) -> bool;
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "setSearchMenuTemplate:")]
+    pub unsafe fn setSearchMenuTemplate(&self, search_menu_template: Option<&NSMenu>);
 
-        #[method(setSendsWholeSearchString:)]
-        pub unsafe fn setSendsWholeSearchString(&self, sends_whole_search_string: bool);
+    #[objc2::method(sel = "sendsWholeSearchString")]
+    pub unsafe fn sendsWholeSearchString(&self) -> bool;
 
-        #[method(maximumRecents)]
-        pub unsafe fn maximumRecents(&self) -> NSInteger;
+    #[objc2::method(sel = "setSendsWholeSearchString:")]
+    pub unsafe fn setSendsWholeSearchString(&self, sends_whole_search_string: bool);
 
-        #[method(setMaximumRecents:)]
-        pub unsafe fn setMaximumRecents(&self, maximum_recents: NSInteger);
+    #[objc2::method(sel = "maximumRecents")]
+    pub unsafe fn maximumRecents(&self) -> NSInteger;
 
-        #[method(sendsSearchStringImmediately)]
-        pub unsafe fn sendsSearchStringImmediately(&self) -> bool;
+    #[objc2::method(sel = "setMaximumRecents:")]
+    pub unsafe fn setMaximumRecents(&self, maximum_recents: NSInteger);
 
-        #[method(setSendsSearchStringImmediately:)]
-        pub unsafe fn setSendsSearchStringImmediately(&self, sends_search_string_immediately: bool);
+    #[objc2::method(sel = "sendsSearchStringImmediately")]
+    pub unsafe fn sendsSearchStringImmediately(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSSearchFieldDelegate>>>;
+    #[objc2::method(sel = "setSendsSearchStringImmediately:")]
+    pub unsafe fn setSendsSearchStringImmediately(&self, sends_search_string_immediately: bool);
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSSearchFieldDelegate>>,
-        );
-    }
-);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSSearchFieldDelegate>>>;
 
-extern_methods!(
-    /// NSSearchField_Deprecated
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSSearchFieldDelegate>>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSearchField")]
-    unsafe impl NSSearchField {
-        #[deprecated]
-        #[method(rectForSearchTextWhenCentered:)]
-        pub unsafe fn rectForSearchTextWhenCentered(&self, is_centered: bool) -> NSRect;
+    pub type NSSearchField;
 
-        #[deprecated]
-        #[method(rectForSearchButtonWhenCentered:)]
-        pub unsafe fn rectForSearchButtonWhenCentered(&self, is_centered: bool) -> NSRect;
+    #[deprecated]
+    #[objc2::method(sel = "rectForSearchTextWhenCentered:")]
+    pub unsafe fn rectForSearchTextWhenCentered(&self, is_centered: bool) -> NSRect;
 
-        #[deprecated]
-        #[method(rectForCancelButtonWhenCentered:)]
-        pub unsafe fn rectForCancelButtonWhenCentered(&self, is_centered: bool) -> NSRect;
+    #[deprecated]
+    #[objc2::method(sel = "rectForSearchButtonWhenCentered:")]
+    pub unsafe fn rectForSearchButtonWhenCentered(&self, is_centered: bool) -> NSRect;
 
-        #[deprecated = "The placeholder centering UI design is no longer available. Setting this property is no-op."]
-        #[method(centersPlaceholder)]
-        pub unsafe fn centersPlaceholder(&self) -> bool;
+    #[deprecated]
+    #[objc2::method(sel = "rectForCancelButtonWhenCentered:")]
+    pub unsafe fn rectForCancelButtonWhenCentered(&self, is_centered: bool) -> NSRect;
 
-        #[deprecated = "The placeholder centering UI design is no longer available. Setting this property is no-op."]
-        #[method(setCentersPlaceholder:)]
-        pub unsafe fn setCentersPlaceholder(&self, centers_placeholder: bool);
-    }
-);
+    #[deprecated = "The placeholder centering UI design is no longer available. Setting this property is no-op."]
+    #[objc2::method(sel = "centersPlaceholder")]
+    pub unsafe fn centersPlaceholder(&self) -> bool;
 
-extern_methods!(
-    /// Methods declared on superclass `NSTextField`
-    ///
-    /// NSTextFieldConvenience
+    #[deprecated = "The placeholder centering UI design is no longer available. Setting this property is no-op."]
+    #[objc2::method(sel = "setCentersPlaceholder:")]
+    pub unsafe fn setCentersPlaceholder(&self, centers_placeholder: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSTextField`
+        ///
+        /// NSTextFieldConvenience
     #[cfg(feature = "AppKit_NSSearchField")]
-    unsafe impl NSSearchField {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other labelWithString:)]
-        pub unsafe fn labelWithString(string_value: &NSString) -> Id<Self>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other wrappingLabelWithString:)]
-        pub unsafe fn wrappingLabelWithString(string_value: &NSString) -> Id<Self>;
-
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other labelWithAttributedString:)]
-        pub unsafe fn labelWithAttributedString(
-            attributed_string_value: &NSAttributedString,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other textFieldWithString:)]
-        pub unsafe fn textFieldWithString(string_value: &NSString) -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSControl`
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSearchField")]
-    unsafe impl NSSearchField {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+    pub type NSSearchField;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "labelWithString:", managed = "Other")]
+    pub unsafe fn labelWithString(string_value: &NSString) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "wrappingLabelWithString:", managed = "Other")]
+    pub unsafe fn wrappingLabelWithString(string_value: &NSString) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "labelWithAttributedString:", managed = "Other")]
+    pub unsafe fn labelWithAttributedString(
+        attributed_string_value: &NSAttributedString,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "textFieldWithString:", managed = "Other")]
+    pub unsafe fn textFieldWithString(string_value: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSControl`
+    #[cfg(feature = "AppKit_NSSearchField")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSearchField")]
+    pub type NSSearchField;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

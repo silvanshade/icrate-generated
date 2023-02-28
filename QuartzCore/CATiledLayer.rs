@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::CoreAnimation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CALayer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CATiledLayer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CATiledLayer")]
-    pub struct CATiledLayer;
-
-    #[cfg(feature = "CoreAnimation_CATiledLayer")]
-    unsafe impl ClassType for CATiledLayer {
-        #[inherits(NSObject)]
-        type Super = CALayer;
-    }
-);
+    pub type CATiledLayer;
+}
 
 #[cfg(feature = "CoreAnimation_CATiledLayer")]
 unsafe impl CAMediaTiming for CATiledLayer {}
@@ -28,40 +28,49 @@ unsafe impl NSObjectProtocol for CATiledLayer {}
 #[cfg(feature = "CoreAnimation_CATiledLayer")]
 unsafe impl NSSecureCoding for CATiledLayer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CATiledLayer")]
-    unsafe impl CATiledLayer {
-        #[method(fadeDuration)]
-        pub unsafe fn fadeDuration() -> CFTimeInterval;
+    pub type CATiledLayer;
 
-        #[method(levelsOfDetail)]
-        pub unsafe fn levelsOfDetail(&self) -> usize;
+    #[objc2::method(sel = "fadeDuration")]
+    pub unsafe fn fadeDuration() -> CFTimeInterval;
 
-        #[method(setLevelsOfDetail:)]
-        pub unsafe fn setLevelsOfDetail(&self, levels_of_detail: usize);
+    #[objc2::method(sel = "levelsOfDetail")]
+    pub unsafe fn levelsOfDetail(&self) -> usize;
 
-        #[method(levelsOfDetailBias)]
-        pub unsafe fn levelsOfDetailBias(&self) -> usize;
+    #[objc2::method(sel = "setLevelsOfDetail:")]
+    pub unsafe fn setLevelsOfDetail(&self, levels_of_detail: usize);
 
-        #[method(setLevelsOfDetailBias:)]
-        pub unsafe fn setLevelsOfDetailBias(&self, levels_of_detail_bias: usize);
+    #[objc2::method(sel = "levelsOfDetailBias")]
+    pub unsafe fn levelsOfDetailBias(&self) -> usize;
 
-        #[method(tileSize)]
-        pub unsafe fn tileSize(&self) -> CGSize;
+    #[objc2::method(sel = "setLevelsOfDetailBias:")]
+    pub unsafe fn setLevelsOfDetailBias(&self, levels_of_detail_bias: usize);
 
-        #[method(setTileSize:)]
-        pub unsafe fn setTileSize(&self, tile_size: CGSize);
-    }
-);
+    #[objc2::method(sel = "tileSize")]
+    pub unsafe fn tileSize(&self) -> CGSize;
 
-extern_methods!(
-    /// Methods declared on superclass `CALayer`
+    #[objc2::method(sel = "setTileSize:")]
+    pub unsafe fn setTileSize(&self, tile_size: CGSize);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CALayer`
     #[cfg(feature = "CoreAnimation_CATiledLayer")]
-    unsafe impl CATiledLayer {
-        #[method_id(@__retain_semantics Other layer)]
-        pub unsafe fn layer() -> Id<Self>;
-
-        #[method_id(@__retain_semantics Init initWithLayer:)]
-        pub unsafe fn initWithLayer(this: Option<Allocated<Self>>, layer: &Object) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CATiledLayer")]
+    pub type CATiledLayer;
+
+    #[objc2::method(sel = "layer", managed = "Other")]
+    pub unsafe fn layer() -> Id<Self>;
+
+    #[objc2::method(sel = "initWithLayer:", managed = "Init")]
+    pub unsafe fn initWithLayer(this: Option<Allocated<Self>>, layer: &Object) -> Id<Self>;
+}

@@ -5,64 +5,67 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSAccessibilityCustomAction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSAccessibilityCustomAction")]
-    pub struct NSAccessibilityCustomAction;
-
-    #[cfg(feature = "AppKit_NSAccessibilityCustomAction")]
-    unsafe impl ClassType for NSAccessibilityCustomAction {
-        type Super = NSObject;
-    }
-);
+    pub type NSAccessibilityCustomAction;
+}
 
 #[cfg(feature = "AppKit_NSAccessibilityCustomAction")]
 unsafe impl NSObjectProtocol for NSAccessibilityCustomAction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSAccessibilityCustomAction")]
-    unsafe impl NSAccessibilityCustomAction {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithName:handler:)]
-        pub unsafe fn initWithName_handler(
-            this: Option<Allocated<Self>>,
-            name: &NSString,
-            handler: Option<&Block<(), Bool>>,
-        ) -> Id<Self>;
+    pub type NSAccessibilityCustomAction;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithName:target:selector:)]
-        pub unsafe fn initWithName_target_selector(
-            this: Option<Allocated<Self>>,
-            name: &NSString,
-            target: &NSObject,
-            selector: Sel,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithName:handler:", managed = "Init")]
+    pub unsafe fn initWithName_handler(
+        this: Option<Allocated<Self>>,
+        name: &NSString,
+        handler: Option<&Block<(), Bool>>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithName:target:selector:", managed = "Init")]
+    pub unsafe fn initWithName_target_selector(
+        this: Option<Allocated<Self>>,
+        name: &NSString,
+        target: &NSObject,
+        selector: Sel,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[method(handler)]
-        pub unsafe fn handler(&self) -> *mut Block<(), Bool>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: &NSString);
 
-        #[method(setHandler:)]
-        pub unsafe fn setHandler(&self, handler: Option<&Block<(), Bool>>);
+    #[objc2::method(sel = "handler")]
+    pub unsafe fn handler(&self) -> *mut Block<(), Bool>;
 
-        #[method_id(@__retain_semantics Other target)]
-        pub unsafe fn target(&self) -> Option<Id<NSObject>>;
+    #[objc2::method(sel = "setHandler:")]
+    pub unsafe fn setHandler(&self, handler: Option<&Block<(), Bool>>);
 
-        #[method(setTarget:)]
-        pub unsafe fn setTarget(&self, target: Option<&NSObject>);
+    #[objc2::method(sel = "target", managed = "Other")]
+    pub unsafe fn target(&self) -> Option<Id<NSObject>>;
 
-        #[method(selector)]
-        pub unsafe fn selector(&self) -> Option<Sel>;
+    #[objc2::method(sel = "setTarget:")]
+    pub unsafe fn setTarget(&self, target: Option<&NSObject>);
 
-        #[method(setSelector:)]
-        pub unsafe fn setSelector(&self, selector: Option<Sel>);
-    }
-);
+    #[objc2::method(sel = "selector")]
+    pub unsafe fn selector(&self) -> Option<Sel>;
+
+    #[objc2::method(sel = "setSelector:")]
+    pub unsafe fn setSelector(&self, selector: Option<Sel>);
+}

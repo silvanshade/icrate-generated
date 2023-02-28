@@ -6,108 +6,114 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKQuantitySeriesSampleBuilder")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKQuantitySeriesSampleBuilder")]
-    pub struct HKQuantitySeriesSampleBuilder;
-
-    #[cfg(feature = "HealthKit_HKQuantitySeriesSampleBuilder")]
-    unsafe impl ClassType for HKQuantitySeriesSampleBuilder {
-        type Super = NSObject;
-    }
-);
+    pub type HKQuantitySeriesSampleBuilder;
+}
 
 #[cfg(feature = "HealthKit_HKQuantitySeriesSampleBuilder")]
 unsafe impl NSObjectProtocol for HKQuantitySeriesSampleBuilder {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQuantitySeriesSampleBuilder")]
-    unsafe impl HKQuantitySeriesSampleBuilder {
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "HealthKit_HKDevice",
-            feature = "HealthKit_HKHealthStore",
-            feature = "HealthKit_HKQuantityType"
-        ))]
-        #[method_id(@__retain_semantics Init initWithHealthStore:quantityType:startDate:device:)]
-        pub unsafe fn initWithHealthStore_quantityType_startDate_device(
-            this: Option<Allocated<Self>>,
-            health_store: &HKHealthStore,
-            quantity_type: &HKQuantityType,
-            start_date: &NSDate,
-            device: Option<&HKDevice>,
-        ) -> Id<Self>;
+    pub type HKQuantitySeriesSampleBuilder;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "HealthKit_HKDevice",
+        feature = "HealthKit_HKHealthStore",
+        feature = "HealthKit_HKQuantityType"
+    ))]
+    #[objc2::method(
+        sel = "initWithHealthStore:quantityType:startDate:device:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithHealthStore_quantityType_startDate_device(
+        this: Option<Allocated<Self>>,
+        health_store: &HKHealthStore,
+        quantity_type: &HKQuantityType,
+        start_date: &NSDate,
+        device: Option<&HKDevice>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "HealthKit_HKQuantityType")]
-        #[method_id(@__retain_semantics Other quantityType)]
-        pub unsafe fn quantityType(&self) -> Id<HKQuantityType>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other startDate)]
-        pub unsafe fn startDate(&self) -> Id<NSDate>;
+    #[cfg(feature = "HealthKit_HKQuantityType")]
+    #[objc2::method(sel = "quantityType", managed = "Other")]
+    pub unsafe fn quantityType(&self) -> Id<HKQuantityType>;
 
-        #[cfg(feature = "HealthKit_HKDevice")]
-        #[method_id(@__retain_semantics Other device)]
-        pub unsafe fn device(&self) -> Option<Id<HKDevice>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "startDate", managed = "Other")]
+    pub unsafe fn startDate(&self) -> Id<NSDate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDateInterval",
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKQuantity"
-        ))]
-        #[method(insertQuantity:dateInterval:error:_)]
-        pub unsafe fn insertQuantity_dateInterval_error(
-            &self,
-            quantity: &HKQuantity,
-            date_interval: &NSDateInterval,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "HealthKit_HKDevice")]
+    #[objc2::method(sel = "device", managed = "Other")]
+    pub unsafe fn device(&self) -> Option<Id<HKDevice>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKQuantity"
-        ))]
-        #[method(insertQuantity:date:error:_)]
-        pub unsafe fn insertQuantity_date_error(
-            &self,
-            quantity: &HKQuantity,
-            date: &NSDate,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSDateInterval",
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKQuantity"
+    ))]
+    #[objc2::method(sel = "insertQuantity:dateInterval:error:", throws)]
+    pub unsafe fn insertQuantity_dateInterval_error(
+        &self,
+        quantity: &HKQuantity,
+        date_interval: &NSDateInterval,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "HealthKit_HKQuantitySample"
-        ))]
-        #[method(finishSeriesWithMetadata:endDate:completion:)]
-        pub unsafe fn finishSeriesWithMetadata_endDate_completion(
-            &self,
-            metadata: Option<&NSDictionary<NSString, Object>>,
-            end_date: Option<&NSDate>,
-            completion: &Block<(*mut NSArray<HKQuantitySample>, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKQuantity"
+    ))]
+    #[objc2::method(sel = "insertQuantity:date:error:", throws)]
+    pub unsafe fn insertQuantity_date_error(
+        &self,
+        quantity: &HKQuantity,
+        date: &NSDate,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "HealthKit_HKQuantitySample"
-        ))]
-        #[method(finishSeriesWithMetadata:completion:)]
-        pub unsafe fn finishSeriesWithMetadata_completion(
-            &self,
-            metadata: Option<&NSDictionary<NSString, Object>>,
-            completion: &Block<(*mut NSArray<HKQuantitySample>, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "HealthKit_HKQuantitySample"
+    ))]
+    #[objc2::method(sel = "finishSeriesWithMetadata:endDate:completion:")]
+    pub unsafe fn finishSeriesWithMetadata_endDate_completion(
+        &self,
+        metadata: Option<&NSDictionary<NSString, Object>>,
+        end_date: Option<&NSDate>,
+        completion: &Block<(*mut NSArray<HKQuantitySample>, *mut NSError), ()>,
+    );
 
-        #[method(discard)]
-        pub unsafe fn discard(&self);
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "HealthKit_HKQuantitySample"
+    ))]
+    #[objc2::method(sel = "finishSeriesWithMetadata:completion:")]
+    pub unsafe fn finishSeriesWithMetadata_completion(
+        &self,
+        metadata: Option<&NSDictionary<NSString, Object>>,
+        completion: &Block<(*mut NSArray<HKQuantitySample>, *mut NSError), ()>,
+    );
+
+    #[objc2::method(sel = "discard")]
+    pub unsafe fn discard(&self);
+}

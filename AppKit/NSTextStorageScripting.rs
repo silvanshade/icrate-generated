@@ -5,56 +5,58 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_methods!(
-    /// Scripting
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextStorage")]
-    unsafe impl NSTextStorage {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other attributeRuns)]
-        pub unsafe fn attributeRuns(&self) -> Id<NSArray<NSTextStorage>>;
+    pub type NSTextStorage;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setAttributeRuns:)]
-        pub unsafe fn setAttributeRuns(&self, attribute_runs: &NSArray<NSTextStorage>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "attributeRuns", managed = "Other")]
+    pub unsafe fn attributeRuns(&self) -> Id<NSArray<NSTextStorage>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other paragraphs)]
-        pub unsafe fn paragraphs(&self) -> Id<NSArray<NSTextStorage>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setAttributeRuns:")]
+    pub unsafe fn setAttributeRuns(&self, attribute_runs: &NSArray<NSTextStorage>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setParagraphs:)]
-        pub unsafe fn setParagraphs(&self, paragraphs: &NSArray<NSTextStorage>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "paragraphs", managed = "Other")]
+    pub unsafe fn paragraphs(&self) -> Id<NSArray<NSTextStorage>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other words)]
-        pub unsafe fn words(&self) -> Id<NSArray<NSTextStorage>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setParagraphs:")]
+    pub unsafe fn setParagraphs(&self, paragraphs: &NSArray<NSTextStorage>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setWords:)]
-        pub unsafe fn setWords(&self, words: &NSArray<NSTextStorage>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "words", managed = "Other")]
+    pub unsafe fn words(&self) -> Id<NSArray<NSTextStorage>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other characters)]
-        pub unsafe fn characters(&self) -> Id<NSArray<NSTextStorage>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setWords:")]
+    pub unsafe fn setWords(&self, words: &NSArray<NSTextStorage>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setCharacters:)]
-        pub unsafe fn setCharacters(&self, characters: &NSArray<NSTextStorage>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "characters", managed = "Other")]
+    pub unsafe fn characters(&self) -> Id<NSArray<NSTextStorage>>;
 
-        #[cfg(feature = "AppKit_NSFont")]
-        #[method_id(@__retain_semantics Other font)]
-        pub unsafe fn font(&self) -> Option<Id<NSFont>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setCharacters:")]
+    pub unsafe fn setCharacters(&self, characters: &NSArray<NSTextStorage>);
 
-        #[cfg(feature = "AppKit_NSFont")]
-        #[method(setFont:)]
-        pub unsafe fn setFont(&self, font: Option<&NSFont>);
+    #[cfg(feature = "AppKit_NSFont")]
+    #[objc2::method(sel = "font", managed = "Other")]
+    pub unsafe fn font(&self) -> Option<Id<NSFont>>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other foregroundColor)]
-        pub unsafe fn foregroundColor(&self) -> Option<Id<NSColor>>;
+    #[cfg(feature = "AppKit_NSFont")]
+    #[objc2::method(sel = "setFont:")]
+    pub unsafe fn setFont(&self, font: Option<&NSFont>);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setForegroundColor:)]
-        pub unsafe fn setForegroundColor(&self, foreground_color: Option<&NSColor>);
-    }
-);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "foregroundColor", managed = "Other")]
+    pub unsafe fn foregroundColor(&self) -> Option<Id<NSColor>>;
+
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setForegroundColor:")]
+    pub unsafe fn setForegroundColor(&self, foreground_color: Option<&NSColor>);
+}

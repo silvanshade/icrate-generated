@@ -7,32 +7,35 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKMapSnapshot")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKMapSnapshot")]
-    pub struct MKMapSnapshot;
-
-    #[cfg(feature = "MapKit_MKMapSnapshot")]
-    unsafe impl ClassType for MKMapSnapshot {
-        type Super = NSObject;
-    }
-);
+    pub type MKMapSnapshot;
+}
 
 #[cfg(feature = "MapKit_MKMapSnapshot")]
 unsafe impl NSObjectProtocol for MKMapSnapshot {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMapSnapshot")]
-    unsafe impl MKMapSnapshot {
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Id<NSImage>;
+    pub type MKMapSnapshot;
 
-        #[cfg(feature = "AppKit_NSAppearance")]
-        #[method_id(@__retain_semantics Other appearance)]
-        pub unsafe fn appearance(&self) -> Id<NSAppearance>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Id<NSImage>;
 
-        #[method(pointForCoordinate:)]
-        pub unsafe fn pointForCoordinate(&self, coordinate: CLLocationCoordinate2D) -> NSPoint;
-    }
-);
+    #[cfg(feature = "AppKit_NSAppearance")]
+    #[objc2::method(sel = "appearance", managed = "Other")]
+    pub unsafe fn appearance(&self) -> Id<NSAppearance>;
+
+    #[objc2::method(sel = "pointForCoordinate:")]
+    pub unsafe fn pointForCoordinate(&self, coordinate: CLLocationCoordinate2D) -> NSPoint;
+}

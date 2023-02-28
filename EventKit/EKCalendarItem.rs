@@ -7,141 +7,141 @@ use crate::EventKit::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = EKObject,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "EventKit_EKCalendarItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "EventKit_EKCalendarItem")]
-    pub struct EKCalendarItem;
-
-    #[cfg(feature = "EventKit_EKCalendarItem")]
-    unsafe impl ClassType for EKCalendarItem {
-        #[inherits(NSObject)]
-        type Super = EKObject;
-    }
-);
+    pub type EKCalendarItem;
+}
 
 #[cfg(feature = "EventKit_EKCalendarItem")]
 unsafe impl NSObjectProtocol for EKCalendarItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "EventKit_EKCalendarItem")]
-    unsafe impl EKCalendarItem {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other UUID)]
-        pub unsafe fn UUID(&self) -> Id<NSString>;
+    pub type EKCalendarItem;
 
-        #[cfg(feature = "EventKit_EKCalendar")]
-        #[method_id(@__retain_semantics Other calendar)]
-        pub unsafe fn calendar(&self) -> Option<Id<EKCalendar>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "UUID", managed = "Other")]
+    pub unsafe fn UUID(&self) -> Id<NSString>;
 
-        #[cfg(feature = "EventKit_EKCalendar")]
-        #[method(setCalendar:)]
-        pub unsafe fn setCalendar(&self, calendar: Option<&EKCalendar>);
+    #[cfg(feature = "EventKit_EKCalendar")]
+    #[objc2::method(sel = "calendar", managed = "Other")]
+    pub unsafe fn calendar(&self) -> Option<Id<EKCalendar>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other calendarItemIdentifier)]
-        pub unsafe fn calendarItemIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "EventKit_EKCalendar")]
+    #[objc2::method(sel = "setCalendar:")]
+    pub unsafe fn setCalendar(&self, calendar: Option<&EKCalendar>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other calendarItemExternalIdentifier)]
-        pub unsafe fn calendarItemExternalIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "calendarItemIdentifier", managed = "Other")]
+    pub unsafe fn calendarItemIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "calendarItemExternalIdentifier", managed = "Other")]
+    pub unsafe fn calendarItemExternalIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other location)]
-        pub unsafe fn location(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLocation:)]
-        pub unsafe fn setLocation(&self, location: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "location", managed = "Other")]
+    pub unsafe fn location(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other notes)]
-        pub unsafe fn notes(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLocation:")]
+    pub unsafe fn setLocation(&self, location: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setNotes:)]
-        pub unsafe fn setNotes(&self, notes: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "notes", managed = "Other")]
+    pub unsafe fn notes(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setNotes:")]
+    pub unsafe fn setNotes(&self, notes: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setURL:)]
-        pub unsafe fn setURL(&self, url: Option<&NSURL>);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other lastModifiedDate)]
-        pub unsafe fn lastModifiedDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setURL:")]
+    pub unsafe fn setURL(&self, url: Option<&NSURL>);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other creationDate)]
-        pub unsafe fn creationDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "lastModifiedDate", managed = "Other")]
+    pub unsafe fn lastModifiedDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "Foundation_NSTimeZone")]
-        #[method_id(@__retain_semantics Other timeZone)]
-        pub unsafe fn timeZone(&self) -> Option<Id<NSTimeZone>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "creationDate", managed = "Other")]
+    pub unsafe fn creationDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "Foundation_NSTimeZone")]
-        #[method(setTimeZone:)]
-        pub unsafe fn setTimeZone(&self, time_zone: Option<&NSTimeZone>);
+    #[cfg(feature = "Foundation_NSTimeZone")]
+    #[objc2::method(sel = "timeZone", managed = "Other")]
+    pub unsafe fn timeZone(&self) -> Option<Id<NSTimeZone>>;
 
-        #[method(hasAlarms)]
-        pub unsafe fn hasAlarms(&self) -> bool;
+    #[cfg(feature = "Foundation_NSTimeZone")]
+    #[objc2::method(sel = "setTimeZone:")]
+    pub unsafe fn setTimeZone(&self, time_zone: Option<&NSTimeZone>);
 
-        #[method(hasRecurrenceRules)]
-        pub unsafe fn hasRecurrenceRules(&self) -> bool;
+    #[objc2::method(sel = "hasAlarms")]
+    pub unsafe fn hasAlarms(&self) -> bool;
 
-        #[method(hasAttendees)]
-        pub unsafe fn hasAttendees(&self) -> bool;
+    #[objc2::method(sel = "hasRecurrenceRules")]
+    pub unsafe fn hasRecurrenceRules(&self) -> bool;
 
-        #[method(hasNotes)]
-        pub unsafe fn hasNotes(&self) -> bool;
+    #[objc2::method(sel = "hasAttendees")]
+    pub unsafe fn hasAttendees(&self) -> bool;
 
-        #[cfg(all(feature = "EventKit_EKParticipant", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other attendees)]
-        pub unsafe fn attendees(&self) -> Option<Id<NSArray<EKParticipant>>>;
+    #[objc2::method(sel = "hasNotes")]
+    pub unsafe fn hasNotes(&self) -> bool;
 
-        #[cfg(all(feature = "EventKit_EKAlarm", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other alarms)]
-        pub unsafe fn alarms(&self) -> Option<Id<NSArray<EKAlarm>>>;
+    #[cfg(all(feature = "EventKit_EKParticipant", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "attendees", managed = "Other")]
+    pub unsafe fn attendees(&self) -> Option<Id<NSArray<EKParticipant>>>;
 
-        #[cfg(all(feature = "EventKit_EKAlarm", feature = "Foundation_NSArray"))]
-        #[method(setAlarms:)]
-        pub unsafe fn setAlarms(&self, alarms: Option<&NSArray<EKAlarm>>);
+    #[cfg(all(feature = "EventKit_EKAlarm", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "alarms", managed = "Other")]
+    pub unsafe fn alarms(&self) -> Option<Id<NSArray<EKAlarm>>>;
 
-        #[cfg(feature = "EventKit_EKAlarm")]
-        #[method(addAlarm:)]
-        pub unsafe fn addAlarm(&self, alarm: &EKAlarm);
+    #[cfg(all(feature = "EventKit_EKAlarm", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setAlarms:")]
+    pub unsafe fn setAlarms(&self, alarms: Option<&NSArray<EKAlarm>>);
 
-        #[cfg(feature = "EventKit_EKAlarm")]
-        #[method(removeAlarm:)]
-        pub unsafe fn removeAlarm(&self, alarm: &EKAlarm);
+    #[cfg(feature = "EventKit_EKAlarm")]
+    #[objc2::method(sel = "addAlarm:")]
+    pub unsafe fn addAlarm(&self, alarm: &EKAlarm);
 
-        #[cfg(all(feature = "EventKit_EKRecurrenceRule", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other recurrenceRules)]
-        pub unsafe fn recurrenceRules(&self) -> Option<Id<NSArray<EKRecurrenceRule>>>;
+    #[cfg(feature = "EventKit_EKAlarm")]
+    #[objc2::method(sel = "removeAlarm:")]
+    pub unsafe fn removeAlarm(&self, alarm: &EKAlarm);
 
-        #[cfg(all(feature = "EventKit_EKRecurrenceRule", feature = "Foundation_NSArray"))]
-        #[method(setRecurrenceRules:)]
-        pub unsafe fn setRecurrenceRules(
-            &self,
-            recurrence_rules: Option<&NSArray<EKRecurrenceRule>>,
-        );
+    #[cfg(all(feature = "EventKit_EKRecurrenceRule", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "recurrenceRules", managed = "Other")]
+    pub unsafe fn recurrenceRules(&self) -> Option<Id<NSArray<EKRecurrenceRule>>>;
 
-        #[cfg(feature = "EventKit_EKRecurrenceRule")]
-        #[method(addRecurrenceRule:)]
-        pub unsafe fn addRecurrenceRule(&self, rule: &EKRecurrenceRule);
+    #[cfg(all(feature = "EventKit_EKRecurrenceRule", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setRecurrenceRules:")]
+    pub unsafe fn setRecurrenceRules(&self, recurrence_rules: Option<&NSArray<EKRecurrenceRule>>);
 
-        #[cfg(feature = "EventKit_EKRecurrenceRule")]
-        #[method(removeRecurrenceRule:)]
-        pub unsafe fn removeRecurrenceRule(&self, rule: &EKRecurrenceRule);
-    }
-);
+    #[cfg(feature = "EventKit_EKRecurrenceRule")]
+    #[objc2::method(sel = "addRecurrenceRule:")]
+    pub unsafe fn addRecurrenceRule(&self, rule: &EKRecurrenceRule);
+
+    #[cfg(feature = "EventKit_EKRecurrenceRule")]
+    #[objc2::method(sel = "removeRecurrenceRule:")]
+    pub unsafe fn removeRecurrenceRule(&self, rule: &EKRecurrenceRule);
+}

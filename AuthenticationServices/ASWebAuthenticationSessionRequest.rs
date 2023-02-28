@@ -4,46 +4,44 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait ASWebAuthenticationSessionRequestDelegate: NSObjectProtocol {
-        #[cfg(all(
-            feature = "AuthenticationServices_ASWebAuthenticationSessionRequest",
-            feature = "Foundation_NSURL"
-        ))]
-        #[optional]
-        #[method(authenticationSessionRequest:didCompleteWithCallbackURL:)]
-        unsafe fn authenticationSessionRequest_didCompleteWithCallbackURL(
-            &self,
-            authentication_session_request: &ASWebAuthenticationSessionRequest,
-            callback_url: &NSURL,
-        );
+#[objc2::protocol]
+pub unsafe trait ASWebAuthenticationSessionRequestDelegate: NSObjectProtocol {
+    #[cfg(all(
+        feature = "AuthenticationServices_ASWebAuthenticationSessionRequest",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "authenticationSessionRequest:didCompleteWithCallbackURL:"
+    )]
+    unsafe fn authenticationSessionRequest_didCompleteWithCallbackURL(
+        &self,
+        authentication_session_request: &ASWebAuthenticationSessionRequest,
+        callback_url: &NSURL,
+    );
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASWebAuthenticationSessionRequest",
-            feature = "Foundation_NSError"
-        ))]
-        #[optional]
-        #[method(authenticationSessionRequest:didCancelWithError:)]
-        unsafe fn authenticationSessionRequest_didCancelWithError(
-            &self,
-            authentication_session_request: &ASWebAuthenticationSessionRequest,
-            error: &NSError,
-        );
-    }
+    #[cfg(all(
+        feature = "AuthenticationServices_ASWebAuthenticationSessionRequest",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(optional, sel = "authenticationSessionRequest:didCancelWithError:")]
+    unsafe fn authenticationSessionRequest_didCancelWithError(
+        &self,
+        authentication_session_request: &ASWebAuthenticationSessionRequest,
+        error: &NSError,
+    );
+}
 
-    unsafe impl ProtocolType for dyn ASWebAuthenticationSessionRequestDelegate {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSessionRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSessionRequest")]
-    pub struct ASWebAuthenticationSessionRequest;
-
-    #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSessionRequest")]
-    unsafe impl ClassType for ASWebAuthenticationSessionRequest {
-        type Super = NSObject;
-    }
-);
+    pub type ASWebAuthenticationSessionRequest;
+}
 
 #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSessionRequest")]
 unsafe impl NSCoding for ASWebAuthenticationSessionRequest {}
@@ -54,47 +52,50 @@ unsafe impl NSObjectProtocol for ASWebAuthenticationSessionRequest {}
 #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSessionRequest")]
 unsafe impl NSSecureCoding for ASWebAuthenticationSessionRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSessionRequest")]
-    unsafe impl ASWebAuthenticationSessionRequest {
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Other UUID)]
-        pub unsafe fn UUID(&self) -> Id<NSUUID>;
+    pub type ASWebAuthenticationSessionRequest;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Id<NSURL>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "UUID", managed = "Other")]
+    pub unsafe fn UUID(&self) -> Id<NSUUID>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other callbackURLScheme)]
-        pub unsafe fn callbackURLScheme(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Id<NSURL>;
 
-        #[method(shouldUseEphemeralSession)]
-        pub unsafe fn shouldUseEphemeralSession(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "callbackURLScheme", managed = "Other")]
+    pub unsafe fn callbackURLScheme(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn ASWebAuthenticationSessionRequestDelegate>>>;
+    #[objc2::method(sel = "shouldUseEphemeralSession")]
+    pub unsafe fn shouldUseEphemeralSession(&self) -> bool;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn ASWebAuthenticationSessionRequestDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn ASWebAuthenticationSessionRequestDelegate>>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn ASWebAuthenticationSessionRequestDelegate>>,
+    );
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(cancelWithError:)]
-        pub unsafe fn cancelWithError(&self, error: &NSError);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(completeWithCallbackURL:)]
-        pub unsafe fn completeWithCallbackURL(&self, url: &NSURL);
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "cancelWithError:")]
+    pub unsafe fn cancelWithError(&self, error: &NSError);
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "completeWithCallbackURL:")]
+    pub unsafe fn completeWithCallbackURL(&self, url: &NSURL);
+}

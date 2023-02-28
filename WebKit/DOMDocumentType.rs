@@ -5,18 +5,20 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMDocumentType")]
+#[objc2::interface(
+    unsafe super = DOMNode,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMDocumentType;
-
     #[cfg(feature = "WebKit_DOMDocumentType")]
-    unsafe impl ClassType for DOMDocumentType {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMNode;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMDocumentType;
+}
 
 #[cfg(feature = "WebKit_DOMDocumentType")]
 unsafe impl DOMEventTarget for DOMDocumentType {}
@@ -24,31 +26,35 @@ unsafe impl DOMEventTarget for DOMDocumentType {}
 #[cfg(feature = "WebKit_DOMDocumentType")]
 unsafe impl NSObjectProtocol for DOMDocumentType {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMDocumentType")]
-    unsafe impl DOMDocumentType {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMDocumentType;
 
-        #[cfg(feature = "WebKit_DOMNamedNodeMap")]
-        #[method_id(@__retain_semantics Other entities)]
-        pub unsafe fn entities(&self) -> Option<Id<DOMNamedNodeMap>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[cfg(feature = "WebKit_DOMNamedNodeMap")]
-        #[method_id(@__retain_semantics Other notations)]
-        pub unsafe fn notations(&self) -> Option<Id<DOMNamedNodeMap>>;
+    #[cfg(feature = "WebKit_DOMNamedNodeMap")]
+    #[objc2::method(sel = "entities", managed = "Other")]
+    pub unsafe fn entities(&self) -> Option<Id<DOMNamedNodeMap>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other publicId)]
-        pub unsafe fn publicId(&self) -> Id<NSString>;
+    #[cfg(feature = "WebKit_DOMNamedNodeMap")]
+    #[objc2::method(sel = "notations", managed = "Other")]
+    pub unsafe fn notations(&self) -> Option<Id<DOMNamedNodeMap>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other systemId)]
-        pub unsafe fn systemId(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "publicId", managed = "Other")]
+    pub unsafe fn publicId(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other internalSubset)]
-        pub unsafe fn internalSubset(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "systemId", managed = "Other")]
+    pub unsafe fn systemId(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "internalSubset", managed = "Other")]
+    pub unsafe fn internalSubset(&self) -> Id<NSString>;
+}

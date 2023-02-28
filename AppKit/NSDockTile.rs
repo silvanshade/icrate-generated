@@ -7,67 +7,66 @@ use crate::Foundation::*;
 
 extern_static!(NSAppKitVersionNumberWithDockTilePlugInSupport: NSAppKitVersion = 1001.0);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSDockTile")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSDockTile")]
-    pub struct NSDockTile;
-
-    #[cfg(feature = "AppKit_NSDockTile")]
-    unsafe impl ClassType for NSDockTile {
-        type Super = NSObject;
-    }
-);
+    pub type NSDockTile;
+}
 
 #[cfg(feature = "AppKit_NSDockTile")]
 unsafe impl NSObjectProtocol for NSDockTile {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSDockTile")]
-    unsafe impl NSDockTile {
-        #[method(size)]
-        pub unsafe fn size(&self) -> NSSize;
+    pub type NSDockTile;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other contentView)]
-        pub unsafe fn contentView(&self) -> Option<Id<NSView>>;
+    #[objc2::method(sel = "size")]
+    pub unsafe fn size(&self) -> NSSize;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setContentView:)]
-        pub unsafe fn setContentView(&self, content_view: Option<&NSView>);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "contentView", managed = "Other")]
+    pub unsafe fn contentView(&self) -> Option<Id<NSView>>;
 
-        #[method(display)]
-        pub unsafe fn display(&self);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setContentView:")]
+    pub unsafe fn setContentView(&self, content_view: Option<&NSView>);
 
-        #[method(showsApplicationBadge)]
-        pub unsafe fn showsApplicationBadge(&self) -> bool;
+    #[objc2::method(sel = "display")]
+    pub unsafe fn display(&self);
 
-        #[method(setShowsApplicationBadge:)]
-        pub unsafe fn setShowsApplicationBadge(&self, shows_application_badge: bool);
+    #[objc2::method(sel = "showsApplicationBadge")]
+    pub unsafe fn showsApplicationBadge(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other badgeLabel)]
-        pub unsafe fn badgeLabel(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setShowsApplicationBadge:")]
+    pub unsafe fn setShowsApplicationBadge(&self, shows_application_badge: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBadgeLabel:)]
-        pub unsafe fn setBadgeLabel(&self, badge_label: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "badgeLabel", managed = "Other")]
+    pub unsafe fn badgeLabel(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other owner)]
-        pub unsafe fn owner(&self) -> Option<Id<Object>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBadgeLabel:")]
+    pub unsafe fn setBadgeLabel(&self, badge_label: Option<&NSString>);
 
-extern_protocol!(
-    pub unsafe trait NSDockTilePlugIn: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSDockTile")]
-        #[method(setDockTile:)]
-        unsafe fn setDockTile(&self, dock_tile: Option<&NSDockTile>);
+    #[objc2::method(sel = "owner", managed = "Other")]
+    pub unsafe fn owner(&self) -> Option<Id<Object>>;
+}
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[optional]
-        #[method_id(@__retain_semantics Other dockMenu)]
-        unsafe fn dockMenu(&self) -> Option<Id<NSMenu>>;
-    }
+#[objc2::protocol]
+pub unsafe trait NSDockTilePlugIn: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSDockTile")]
+    #[objc2::method(sel = "setDockTile:")]
+    unsafe fn setDockTile(&self, dock_tile: Option<&NSDockTile>);
 
-    unsafe impl ProtocolType for dyn NSDockTilePlugIn {}
-);
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(optional, sel = "dockMenu", managed = "Other")]
+    unsafe fn dockMenu(&self) -> Option<Id<NSMenu>>;
+}

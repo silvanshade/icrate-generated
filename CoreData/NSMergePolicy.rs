@@ -4,203 +4,217 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSMergePolicyType {
-        NSErrorMergePolicyType = 0x00,
-        NSMergeByPropertyStoreTrumpMergePolicyType = 0x01,
-        NSMergeByPropertyObjectTrumpMergePolicyType = 0x02,
-        NSOverwriteMergePolicyType = 0x03,
-        NSRollbackMergePolicyType = 0x04,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSMergePolicyType {
+    NSErrorMergePolicyType = 0x00,
+    NSMergeByPropertyStoreTrumpMergePolicyType = 0x01,
+    NSMergeByPropertyObjectTrumpMergePolicyType = 0x02,
+    NSOverwriteMergePolicyType = 0x03,
+    NSRollbackMergePolicyType = 0x04,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSMergeConflict")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSMergeConflict")]
-    pub struct NSMergeConflict;
-
-    #[cfg(feature = "CoreData_NSMergeConflict")]
-    unsafe impl ClassType for NSMergeConflict {
-        type Super = NSObject;
-    }
-);
+    pub type NSMergeConflict;
+}
 
 #[cfg(feature = "CoreData_NSMergeConflict")]
 unsafe impl NSObjectProtocol for NSMergeConflict {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSMergeConflict")]
-    unsafe impl NSMergeConflict {
-        #[cfg(feature = "CoreData_NSManagedObject")]
-        #[method_id(@__retain_semantics Other sourceObject)]
-        pub unsafe fn sourceObject(&self) -> Id<NSManagedObject>;
+    pub type NSMergeConflict;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other objectSnapshot)]
-        pub unsafe fn objectSnapshot(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
+    #[cfg(feature = "CoreData_NSManagedObject")]
+    #[objc2::method(sel = "sourceObject", managed = "Other")]
+    pub unsafe fn sourceObject(&self) -> Id<NSManagedObject>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other cachedSnapshot)]
-        pub unsafe fn cachedSnapshot(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "objectSnapshot", managed = "Other")]
+    pub unsafe fn objectSnapshot(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other persistedSnapshot)]
-        pub unsafe fn persistedSnapshot(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "cachedSnapshot", managed = "Other")]
+    pub unsafe fn cachedSnapshot(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
 
-        #[method(newVersionNumber)]
-        pub unsafe fn newVersionNumber(&self) -> NSUInteger;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "persistedSnapshot", managed = "Other")]
+    pub unsafe fn persistedSnapshot(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
 
-        #[method(oldVersionNumber)]
-        pub unsafe fn oldVersionNumber(&self) -> NSUInteger;
+    #[objc2::method(sel = "newVersionNumber")]
+    pub unsafe fn newVersionNumber(&self) -> NSUInteger;
 
-        #[cfg(all(
-            feature = "CoreData_NSManagedObject",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSource:newVersion:oldVersion:cachedSnapshot:persistedSnapshot:)]
-        pub unsafe fn initWithSource_newVersion_oldVersion_cachedSnapshot_persistedSnapshot(
-            this: Option<Allocated<Self>>,
-            src_object: &NSManagedObject,
-            newvers: NSUInteger,
-            oldvers: NSUInteger,
-            cachesnap: Option<&NSDictionary<NSString, Object>>,
-            persnap: Option<&NSDictionary<NSString, Object>>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "oldVersionNumber")]
+    pub unsafe fn oldVersionNumber(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "CoreData_NSManagedObject",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "initWithSource:newVersion:oldVersion:cachedSnapshot:persistedSnapshot:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithSource_newVersion_oldVersion_cachedSnapshot_persistedSnapshot(
+        this: Option<Allocated<Self>>,
+        src_object: &NSManagedObject,
+        newvers: NSUInteger,
+        oldvers: NSUInteger,
+        cachesnap: Option<&NSDictionary<NSString, Object>>,
+        persnap: Option<&NSDictionary<NSString, Object>>,
+    ) -> Id<Self>;
 
-extern_class!(
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSConstraintConflict")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSConstraintConflict")]
-    pub struct NSConstraintConflict;
-
-    #[cfg(feature = "CoreData_NSConstraintConflict")]
-    unsafe impl ClassType for NSConstraintConflict {
-        type Super = NSObject;
-    }
-);
+    pub type NSConstraintConflict;
+}
 
 #[cfg(feature = "CoreData_NSConstraintConflict")]
 unsafe impl NSObjectProtocol for NSConstraintConflict {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSConstraintConflict")]
-    unsafe impl NSConstraintConflict {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other constraint)]
-        pub unsafe fn constraint(&self) -> Id<NSArray<NSString>>;
+    pub type NSConstraintConflict;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other constraintValues)]
-        pub unsafe fn constraintValues(&self) -> Id<NSDictionary<NSString, Object>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "constraint", managed = "Other")]
+    pub unsafe fn constraint(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "CoreData_NSManagedObject")]
-        #[method_id(@__retain_semantics Other databaseObject)]
-        pub unsafe fn databaseObject(&self) -> Option<Id<NSManagedObject>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "constraintValues", managed = "Other")]
+    pub unsafe fn constraintValues(&self) -> Id<NSDictionary<NSString, Object>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other databaseSnapshot)]
-        pub unsafe fn databaseSnapshot(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
+    #[cfg(feature = "CoreData_NSManagedObject")]
+    #[objc2::method(sel = "databaseObject", managed = "Other")]
+    pub unsafe fn databaseObject(&self) -> Option<Id<NSManagedObject>>;
 
-        #[cfg(all(feature = "CoreData_NSManagedObject", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other conflictingObjects)]
-        pub unsafe fn conflictingObjects(&self) -> Id<NSArray<NSManagedObject>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "databaseSnapshot", managed = "Other")]
+    pub unsafe fn databaseSnapshot(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSDictionary"))]
-        #[method_id(@__retain_semantics Other conflictingSnapshots)]
-        pub unsafe fn conflictingSnapshots(&self) -> Id<NSArray<NSDictionary>>;
+    #[cfg(all(feature = "CoreData_NSManagedObject", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "conflictingObjects", managed = "Other")]
+    pub unsafe fn conflictingObjects(&self) -> Id<NSArray<NSManagedObject>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSManagedObject",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Init initWithConstraint:databaseObject:databaseSnapshot:conflictingObjects:conflictingSnapshots:)]
-        pub unsafe fn initWithConstraint_databaseObject_databaseSnapshot_conflictingObjects_conflictingSnapshots(
-            this: Option<Allocated<Self>>,
-            contraint: &NSArray<NSString>,
-            database_object: Option<&NSManagedObject>,
-            database_snapshot: Option<&NSDictionary>,
-            conflicting_objects: &NSArray<NSManagedObject>,
-            conflicting_snapshots: &NSArray,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSDictionary"))]
+    #[objc2::method(sel = "conflictingSnapshots", managed = "Other")]
+    pub unsafe fn conflictingSnapshots(&self) -> Id<NSArray<NSDictionary>>;
 
-extern_class!(
+    #[cfg(all(
+        feature = "CoreData_NSManagedObject",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "initWithConstraint:databaseObject:databaseSnapshot:conflictingObjects:conflictingSnapshots:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithConstraint_databaseObject_databaseSnapshot_conflictingObjects_conflictingSnapshots(
+        this: Option<Allocated<Self>>,
+        contraint: &NSArray<NSString>,
+        database_object: Option<&NSManagedObject>,
+        database_snapshot: Option<&NSDictionary>,
+        conflicting_objects: &NSArray<NSManagedObject>,
+        conflicting_snapshots: &NSArray,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSMergePolicy")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSMergePolicy")]
-    pub struct NSMergePolicy;
-
-    #[cfg(feature = "CoreData_NSMergePolicy")]
-    unsafe impl ClassType for NSMergePolicy {
-        type Super = NSObject;
-    }
-);
+    pub type NSMergePolicy;
+}
 
 #[cfg(feature = "CoreData_NSMergePolicy")]
 unsafe impl NSObjectProtocol for NSMergePolicy {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSMergePolicy")]
-    unsafe impl NSMergePolicy {
-        #[method_id(@__retain_semantics Other errorMergePolicy)]
-        pub unsafe fn errorMergePolicy() -> Id<NSMergePolicy>;
+    pub type NSMergePolicy;
 
-        #[method_id(@__retain_semantics Other rollbackMergePolicy)]
-        pub unsafe fn rollbackMergePolicy() -> Id<NSMergePolicy>;
+    #[objc2::method(sel = "errorMergePolicy", managed = "Other")]
+    pub unsafe fn errorMergePolicy() -> Id<NSMergePolicy>;
 
-        #[method_id(@__retain_semantics Other overwriteMergePolicy)]
-        pub unsafe fn overwriteMergePolicy() -> Id<NSMergePolicy>;
+    #[objc2::method(sel = "rollbackMergePolicy", managed = "Other")]
+    pub unsafe fn rollbackMergePolicy() -> Id<NSMergePolicy>;
 
-        #[method_id(@__retain_semantics Other mergeByPropertyObjectTrumpMergePolicy)]
-        pub unsafe fn mergeByPropertyObjectTrumpMergePolicy() -> Id<NSMergePolicy>;
+    #[objc2::method(sel = "overwriteMergePolicy", managed = "Other")]
+    pub unsafe fn overwriteMergePolicy() -> Id<NSMergePolicy>;
 
-        #[method_id(@__retain_semantics Other mergeByPropertyStoreTrumpMergePolicy)]
-        pub unsafe fn mergeByPropertyStoreTrumpMergePolicy() -> Id<NSMergePolicy>;
+    #[objc2::method(sel = "mergeByPropertyObjectTrumpMergePolicy", managed = "Other")]
+    pub unsafe fn mergeByPropertyObjectTrumpMergePolicy() -> Id<NSMergePolicy>;
 
-        #[method(mergeType)]
-        pub unsafe fn mergeType(&self) -> NSMergePolicyType;
+    #[objc2::method(sel = "mergeByPropertyStoreTrumpMergePolicy", managed = "Other")]
+    pub unsafe fn mergeByPropertyStoreTrumpMergePolicy() -> Id<NSMergePolicy>;
 
-        #[method_id(@__retain_semantics Init initWithMergeType:)]
-        pub unsafe fn initWithMergeType(
-            this: Option<Allocated<Self>>,
-            ty: NSMergePolicyType,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "mergeType")]
+    pub unsafe fn mergeType(&self) -> NSMergePolicyType;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "initWithMergeType:", managed = "Init")]
+    pub unsafe fn initWithMergeType(
+        this: Option<Allocated<Self>>,
+        ty: NSMergePolicyType,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
-        #[method(resolveConflicts:error:_)]
-        pub unsafe fn resolveConflicts_error(&self, list: &NSArray) -> Result<(), Id<NSError>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "CoreData_NSMergeConflict",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(resolveOptimisticLockingVersionConflicts:error:_)]
-        pub unsafe fn resolveOptimisticLockingVersionConflicts_error(
-            &self,
-            list: &NSArray<NSMergeConflict>,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "resolveConflicts:error:", throws)]
+    pub unsafe fn resolveConflicts_error(&self, list: &NSArray) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSConstraintConflict",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(resolveConstraintConflicts:error:_)]
-        pub unsafe fn resolveConstraintConflicts_error(
-            &self,
-            list: &NSArray<NSConstraintConflict>,
-        ) -> Result<(), Id<NSError>>;
-    }
-);
+    #[cfg(all(
+        feature = "CoreData_NSMergeConflict",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "resolveOptimisticLockingVersionConflicts:error:", throws)]
+    pub unsafe fn resolveOptimisticLockingVersionConflicts_error(
+        &self,
+        list: &NSArray<NSMergeConflict>,
+    ) -> Result<(), Id<NSError>>;
+
+    #[cfg(all(
+        feature = "CoreData_NSConstraintConflict",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "resolveConstraintConflicts:error:", throws)]
+    pub unsafe fn resolveConstraintConflicts_error(
+        &self,
+        list: &NSArray<NSConstraintConflict>,
+    ) -> Result<(), Id<NSError>>;
+}

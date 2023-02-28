@@ -6,16 +6,16 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKQuantity")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKQuantity")]
-    pub struct HKQuantity;
-
-    #[cfg(feature = "HealthKit_HKQuantity")]
-    unsafe impl ClassType for HKQuantity {
-        type Super = NSObject;
-    }
-);
+    pub type HKQuantity;
+}
 
 #[cfg(feature = "HealthKit_HKQuantity")]
 unsafe impl NSCoding for HKQuantity {}
@@ -26,25 +26,28 @@ unsafe impl NSObjectProtocol for HKQuantity {}
 #[cfg(feature = "HealthKit_HKQuantity")]
 unsafe impl NSSecureCoding for HKQuantity {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQuantity")]
-    unsafe impl HKQuantity {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type HKQuantity;
 
-        #[cfg(feature = "HealthKit_HKUnit")]
-        #[method_id(@__retain_semantics Other quantityWithUnit:doubleValue:)]
-        pub unsafe fn quantityWithUnit_doubleValue(unit: &HKUnit, value: c_double) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "HealthKit_HKUnit")]
-        #[method(isCompatibleWithUnit:)]
-        pub unsafe fn isCompatibleWithUnit(&self, unit: &HKUnit) -> bool;
+    #[cfg(feature = "HealthKit_HKUnit")]
+    #[objc2::method(sel = "quantityWithUnit:doubleValue:", managed = "Other")]
+    pub unsafe fn quantityWithUnit_doubleValue(unit: &HKUnit, value: c_double) -> Id<Self>;
 
-        #[cfg(feature = "HealthKit_HKUnit")]
-        #[method(doubleValueForUnit:)]
-        pub unsafe fn doubleValueForUnit(&self, unit: &HKUnit) -> c_double;
+    #[cfg(feature = "HealthKit_HKUnit")]
+    #[objc2::method(sel = "isCompatibleWithUnit:")]
+    pub unsafe fn isCompatibleWithUnit(&self, unit: &HKUnit) -> bool;
 
-        #[method(compare:)]
-        pub unsafe fn compare(&self, quantity: &HKQuantity) -> NSComparisonResult;
-    }
-);
+    #[cfg(feature = "HealthKit_HKUnit")]
+    #[objc2::method(sel = "doubleValueForUnit:")]
+    pub unsafe fn doubleValueForUnit(&self, unit: &HKUnit) -> c_double;
+
+    #[objc2::method(sel = "compare:")]
+    pub unsafe fn compare(&self, quantity: &HKQuantity) -> NSComparisonResult;
+}

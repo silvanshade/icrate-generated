@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSGlyphInfo")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSGlyphInfo")]
-    pub struct NSGlyphInfo;
-
-    #[cfg(feature = "AppKit_NSGlyphInfo")]
-    unsafe impl ClassType for NSGlyphInfo {
-        type Super = NSObject;
-    }
-);
+    pub type NSGlyphInfo;
+}
 
 #[cfg(feature = "AppKit_NSGlyphInfo")]
 unsafe impl NSCoding for NSGlyphInfo {}
@@ -25,63 +25,70 @@ unsafe impl NSObjectProtocol for NSGlyphInfo {}
 #[cfg(feature = "AppKit_NSGlyphInfo")]
 unsafe impl NSSecureCoding for NSGlyphInfo {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSGlyphInfo")]
-    unsafe impl NSGlyphInfo {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other baseString)]
-        pub unsafe fn baseString(&self) -> Id<NSString>;
-    }
-);
+    pub type NSGlyphInfo;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSCharacterCollection {
-        NSIdentityMappingCharacterCollection = 0,
-        NSAdobeCNS1CharacterCollection = 1,
-        NSAdobeGB1CharacterCollection = 2,
-        NSAdobeJapan1CharacterCollection = 3,
-        NSAdobeJapan2CharacterCollection = 4,
-        NSAdobeKorea1CharacterCollection = 5,
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "baseString", managed = "Other")]
+    pub unsafe fn baseString(&self) -> Id<NSString>;
+}
 
-extern_methods!(
-    /// NSGlyphInfo_Deprecated
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSCharacterCollection {
+    NSIdentityMappingCharacterCollection = 0,
+    NSAdobeCNS1CharacterCollection = 1,
+    NSAdobeGB1CharacterCollection = 2,
+    NSAdobeJapan1CharacterCollection = 3,
+    NSAdobeJapan2CharacterCollection = 4,
+    NSAdobeKorea1CharacterCollection = 5,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSGlyphInfo")]
-    unsafe impl NSGlyphInfo {
-        #[cfg(all(feature = "AppKit_NSFont", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other glyphInfoWithGlyphName:forFont:baseString:)]
-        pub unsafe fn glyphInfoWithGlyphName_forFont_baseString(
-            glyph_name: &NSString,
-            font: &NSFont,
-            string: &NSString,
-        ) -> Option<Id<NSGlyphInfo>>;
+    pub type NSGlyphInfo;
 
-        #[cfg(all(feature = "AppKit_NSFont", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other glyphInfoWithGlyph:forFont:baseString:)]
-        pub unsafe fn glyphInfoWithGlyph_forFont_baseString(
-            glyph: NSGlyph,
-            font: &NSFont,
-            string: &NSString,
-        ) -> Option<Id<NSGlyphInfo>>;
+    #[cfg(all(feature = "AppKit_NSFont", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "glyphInfoWithGlyphName:forFont:baseString:", managed = "Other")]
+    pub unsafe fn glyphInfoWithGlyphName_forFont_baseString(
+        glyph_name: &NSString,
+        font: &NSFont,
+        string: &NSString,
+    ) -> Option<Id<NSGlyphInfo>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other glyphInfoWithCharacterIdentifier:collection:baseString:)]
-        pub unsafe fn glyphInfoWithCharacterIdentifier_collection_baseString(
-            cid: NSUInteger,
-            character_collection: NSCharacterCollection,
-            string: &NSString,
-        ) -> Option<Id<NSGlyphInfo>>;
+    #[cfg(all(feature = "AppKit_NSFont", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "glyphInfoWithGlyph:forFont:baseString:", managed = "Other")]
+    pub unsafe fn glyphInfoWithGlyph_forFont_baseString(
+        glyph: NSGlyph,
+        font: &NSFont,
+        string: &NSString,
+    ) -> Option<Id<NSGlyphInfo>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other glyphName)]
-        pub unsafe fn glyphName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "glyphInfoWithCharacterIdentifier:collection:baseString:",
+        managed = "Other"
+    )]
+    pub unsafe fn glyphInfoWithCharacterIdentifier_collection_baseString(
+        cid: NSUInteger,
+        character_collection: NSCharacterCollection,
+        string: &NSString,
+    ) -> Option<Id<NSGlyphInfo>>;
 
-        #[method(characterIdentifier)]
-        pub unsafe fn characterIdentifier(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "glyphName", managed = "Other")]
+    pub unsafe fn glyphName(&self) -> Option<Id<NSString>>;
 
-        #[method(characterCollection)]
-        pub unsafe fn characterCollection(&self) -> NSCharacterCollection;
-    }
-);
+    #[objc2::method(sel = "characterIdentifier")]
+    pub unsafe fn characterIdentifier(&self) -> NSUInteger;
+
+    #[objc2::method(sel = "characterCollection")]
+    pub unsafe fn characterCollection(&self) -> NSCharacterCollection;
+}

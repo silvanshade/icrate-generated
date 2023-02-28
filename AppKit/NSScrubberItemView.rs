@@ -5,17 +5,18 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSScrubberArrangedView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSScrubberArrangedView")]
-    pub struct NSScrubberArrangedView;
-
-    #[cfg(feature = "AppKit_NSScrubberArrangedView")]
-    unsafe impl ClassType for NSScrubberArrangedView {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type NSScrubberArrangedView;
+}
 
 #[cfg(feature = "AppKit_NSScrubberArrangedView")]
 unsafe impl NSAccessibility for NSScrubberArrangedView {}
@@ -41,38 +42,43 @@ unsafe impl NSObjectProtocol for NSScrubberArrangedView {}
 #[cfg(feature = "AppKit_NSScrubberArrangedView")]
 unsafe impl NSUserInterfaceItemIdentification for NSScrubberArrangedView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSScrubberArrangedView")]
-    unsafe impl NSScrubberArrangedView {
-        #[method(isSelected)]
-        pub unsafe fn isSelected(&self) -> bool;
+    pub type NSScrubberArrangedView;
 
-        #[method(setSelected:)]
-        pub unsafe fn setSelected(&self, selected: bool);
+    #[objc2::method(sel = "isSelected")]
+    pub unsafe fn isSelected(&self) -> bool;
 
-        #[method(isHighlighted)]
-        pub unsafe fn isHighlighted(&self) -> bool;
+    #[objc2::method(sel = "setSelected:")]
+    pub unsafe fn setSelected(&self, selected: bool);
 
-        #[method(setHighlighted:)]
-        pub unsafe fn setHighlighted(&self, highlighted: bool);
+    #[objc2::method(sel = "isHighlighted")]
+    pub unsafe fn isHighlighted(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSScrubberLayoutAttributes")]
-        #[method(applyLayoutAttributes:)]
-        pub unsafe fn applyLayoutAttributes(&self, layout_attributes: &NSScrubberLayoutAttributes);
-    }
-);
+    #[objc2::method(sel = "setHighlighted:")]
+    pub unsafe fn setHighlighted(&self, highlighted: bool);
 
-extern_class!(
+    #[cfg(feature = "AppKit_NSScrubberLayoutAttributes")]
+    #[objc2::method(sel = "applyLayoutAttributes:")]
+    pub unsafe fn applyLayoutAttributes(&self, layout_attributes: &NSScrubberLayoutAttributes);
+}
+
+#[objc2::interface(
+    unsafe super = NSScrubberArrangedView,
+    unsafe inherits = [
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSScrubberSelectionView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSScrubberSelectionView")]
-    pub struct NSScrubberSelectionView;
-
-    #[cfg(feature = "AppKit_NSScrubberSelectionView")]
-    unsafe impl ClassType for NSScrubberSelectionView {
-        #[inherits(NSView, NSResponder, NSObject)]
-        type Super = NSScrubberArrangedView;
-    }
-);
+    pub type NSScrubberSelectionView;
+}
 
 #[cfg(feature = "AppKit_NSScrubberSelectionView")]
 unsafe impl NSAccessibility for NSScrubberSelectionView {}
@@ -98,22 +104,27 @@ unsafe impl NSObjectProtocol for NSScrubberSelectionView {}
 #[cfg(feature = "AppKit_NSScrubberSelectionView")]
 unsafe impl NSUserInterfaceItemIdentification for NSScrubberSelectionView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSScrubberSelectionView")]
-    unsafe impl NSScrubberSelectionView {}
-);
+    pub type NSScrubberSelectionView;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSScrubberArrangedView,
+    unsafe inherits = [
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSScrubberItemView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSScrubberItemView")]
-    pub struct NSScrubberItemView;
-
-    #[cfg(feature = "AppKit_NSScrubberItemView")]
-    unsafe impl ClassType for NSScrubberItemView {
-        #[inherits(NSView, NSResponder, NSObject)]
-        type Super = NSScrubberArrangedView;
-    }
-);
+    pub type NSScrubberItemView;
+}
 
 #[cfg(feature = "AppKit_NSScrubberItemView")]
 unsafe impl NSAccessibility for NSScrubberItemView {}
@@ -139,22 +150,28 @@ unsafe impl NSObjectProtocol for NSScrubberItemView {}
 #[cfg(feature = "AppKit_NSScrubberItemView")]
 unsafe impl NSUserInterfaceItemIdentification for NSScrubberItemView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSScrubberItemView")]
-    unsafe impl NSScrubberItemView {}
-);
+    pub type NSScrubberItemView;
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSScrubberItemView,
+    unsafe inherits = [
+        NSScrubberArrangedView,
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSScrubberTextItemView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSScrubberTextItemView")]
-    pub struct NSScrubberTextItemView;
-
-    #[cfg(feature = "AppKit_NSScrubberTextItemView")]
-    unsafe impl ClassType for NSScrubberTextItemView {
-        #[inherits(NSScrubberArrangedView, NSView, NSResponder, NSObject)]
-        type Super = NSScrubberItemView;
-    }
-);
+    pub type NSScrubberTextItemView;
+}
 
 #[cfg(feature = "AppKit_NSScrubberTextItemView")]
 unsafe impl NSAccessibility for NSScrubberTextItemView {}
@@ -180,34 +197,40 @@ unsafe impl NSObjectProtocol for NSScrubberTextItemView {}
 #[cfg(feature = "AppKit_NSScrubberTextItemView")]
 unsafe impl NSUserInterfaceItemIdentification for NSScrubberTextItemView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSScrubberTextItemView")]
-    unsafe impl NSScrubberTextItemView {
-        #[cfg(feature = "AppKit_NSTextField")]
-        #[method_id(@__retain_semantics Other textField)]
-        pub unsafe fn textField(&self) -> Id<NSTextField>;
+    pub type NSScrubberTextItemView;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[cfg(feature = "AppKit_NSTextField")]
+    #[objc2::method(sel = "textField", managed = "Other")]
+    pub unsafe fn textField(&self) -> Id<NSTextField>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
+}
+
+#[objc2::interface(
+    unsafe super = NSScrubberItemView,
+    unsafe inherits = [
+        NSScrubberArrangedView,
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSScrubberImageItemView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSScrubberImageItemView")]
-    pub struct NSScrubberImageItemView;
-
-    #[cfg(feature = "AppKit_NSScrubberImageItemView")]
-    unsafe impl ClassType for NSScrubberImageItemView {
-        #[inherits(NSScrubberArrangedView, NSView, NSResponder, NSObject)]
-        type Super = NSScrubberItemView;
-    }
-);
+    pub type NSScrubberImageItemView;
+}
 
 #[cfg(feature = "AppKit_NSScrubberImageItemView")]
 unsafe impl NSAccessibility for NSScrubberImageItemView {}
@@ -233,70 +256,103 @@ unsafe impl NSObjectProtocol for NSScrubberImageItemView {}
 #[cfg(feature = "AppKit_NSScrubberImageItemView")]
 unsafe impl NSUserInterfaceItemIdentification for NSScrubberImageItemView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSScrubberImageItemView")]
-    unsafe impl NSScrubberImageItemView {
-        #[cfg(feature = "AppKit_NSImageView")]
-        #[method_id(@__retain_semantics Other imageView)]
-        pub unsafe fn imageView(&self) -> Id<NSImageView>;
+    pub type NSScrubberImageItemView;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Id<NSImage>;
+    #[cfg(feature = "AppKit_NSImageView")]
+    #[objc2::method(sel = "imageView", managed = "Other")]
+    pub unsafe fn imageView(&self) -> Id<NSImageView>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setImage:)]
-        pub unsafe fn setImage(&self, image: &NSImage);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Id<NSImage>;
 
-        #[method(imageAlignment)]
-        pub unsafe fn imageAlignment(&self) -> NSImageAlignment;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setImage:")]
+    pub unsafe fn setImage(&self, image: &NSImage);
 
-        #[method(setImageAlignment:)]
-        pub unsafe fn setImageAlignment(&self, image_alignment: NSImageAlignment);
-    }
-);
+    #[objc2::method(sel = "imageAlignment")]
+    pub unsafe fn imageAlignment(&self) -> NSImageAlignment;
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[objc2::method(sel = "setImageAlignment:")]
+    pub unsafe fn setImageAlignment(&self, image_alignment: NSImageAlignment);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "AppKit_NSScrubberArrangedView")]
-    unsafe impl NSScrubberArrangedView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSScrubberArrangedView")]
+    pub type NSScrubberArrangedView;
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "AppKit_NSScrubberSelectionView")]
-    unsafe impl NSScrubberSelectionView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSScrubberSelectionView")]
+    pub type NSScrubberSelectionView;
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "AppKit_NSScrubberItemView")]
-    unsafe impl NSScrubberItemView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSScrubberItemView")]
+    pub type NSScrubberItemView;
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "AppKit_NSScrubberTextItemView")]
-    unsafe impl NSScrubberTextItemView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSScrubberTextItemView")]
+    pub type NSScrubberTextItemView;
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "AppKit_NSScrubberImageItemView")]
-    unsafe impl NSScrubberImageItemView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSScrubberImageItemView")]
+    pub type NSScrubberImageItemView;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

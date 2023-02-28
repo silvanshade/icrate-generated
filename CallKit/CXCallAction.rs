@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::CallKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CXAction,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CallKit_CXCallAction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CallKit_CXCallAction")]
-    pub struct CXCallAction;
-
-    #[cfg(feature = "CallKit_CXCallAction")]
-    unsafe impl ClassType for CXCallAction {
-        #[inherits(NSObject)]
-        type Super = CXAction;
-    }
-);
+    pub type CXCallAction;
+}
 
 #[cfg(feature = "CallKit_CXCallAction")]
 unsafe impl NSCoding for CXCallAction {}
@@ -25,28 +25,28 @@ unsafe impl NSObjectProtocol for CXCallAction {}
 #[cfg(feature = "CallKit_CXCallAction")]
 unsafe impl NSSecureCoding for CXCallAction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CallKit_CXCallAction")]
-    unsafe impl CXCallAction {
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Other callUUID)]
-        pub unsafe fn callUUID(&self) -> Id<NSUUID>;
+    pub type CXCallAction;
 
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Init initWithCallUUID:)]
-        pub unsafe fn initWithCallUUID(
-            this: Option<Allocated<Self>>,
-            call_uuid: &NSUUID,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "callUUID", managed = "Other")]
+    pub unsafe fn callUUID(&self) -> Id<NSUUID>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            a_decoder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "initWithCallUUID:", managed = "Init")]
+    pub unsafe fn initWithCallUUID(this: Option<Allocated<Self>>, call_uuid: &NSUUID) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(
+        this: Option<Allocated<Self>>,
+        a_decoder: &NSCoder,
+    ) -> Option<Id<Self>>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

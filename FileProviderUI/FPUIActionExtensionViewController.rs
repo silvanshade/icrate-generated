@@ -6,17 +6,18 @@ use crate::FileProvider::*;
 use crate::FileProviderUI::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSViewController,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "FileProviderUI_FPUIActionExtensionViewController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "FileProviderUI_FPUIActionExtensionViewController")]
-    pub struct FPUIActionExtensionViewController;
-
-    #[cfg(feature = "FileProviderUI_FPUIActionExtensionViewController")]
-    unsafe impl ClassType for FPUIActionExtensionViewController {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSViewController;
-    }
-);
+    pub type FPUIActionExtensionViewController;
+}
 
 #[cfg(feature = "FileProviderUI_FPUIActionExtensionViewController")]
 unsafe impl NSCoding for FPUIActionExtensionViewController {}
@@ -33,37 +34,46 @@ unsafe impl NSSeguePerforming for FPUIActionExtensionViewController {}
 #[cfg(feature = "FileProviderUI_FPUIActionExtensionViewController")]
 unsafe impl NSUserInterfaceItemIdentification for FPUIActionExtensionViewController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProviderUI_FPUIActionExtensionViewController")]
-    unsafe impl FPUIActionExtensionViewController {
-        #[cfg(feature = "FileProviderUI_FPUIActionExtensionContext")]
-        #[method_id(@__retain_semantics Other extensionContext)]
-        pub unsafe fn extensionContext(&self) -> Id<FPUIActionExtensionContext>;
+    pub type FPUIActionExtensionViewController;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(prepareForError:)]
-        pub unsafe fn prepareForError(&self, error: &NSError);
+    #[cfg(feature = "FileProviderUI_FPUIActionExtensionContext")]
+    #[objc2::method(sel = "extensionContext", managed = "Other")]
+    pub unsafe fn extensionContext(&self) -> Id<FPUIActionExtensionContext>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method(prepareForActionWithIdentifier:itemIdentifiers:)]
-        pub unsafe fn prepareForActionWithIdentifier_itemIdentifiers(
-            &self,
-            action_identifier: &NSString,
-            item_identifiers: &NSArray<NSFileProviderItemIdentifier>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "prepareForError:")]
+    pub unsafe fn prepareForError(&self, error: &NSError);
 
-extern_methods!(
-    /// Methods declared on superclass `NSViewController`
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "prepareForActionWithIdentifier:itemIdentifiers:")]
+    pub unsafe fn prepareForActionWithIdentifier_itemIdentifiers(
+        &self,
+        action_identifier: &NSString,
+        item_identifiers: &NSArray<NSFileProviderItemIdentifier>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSViewController`
     #[cfg(feature = "FileProviderUI_FPUIActionExtensionViewController")]
-    unsafe impl FPUIActionExtensionViewController {
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Init initWithNibName:bundle:)]
-        pub unsafe fn initWithNibName_bundle(
-            this: Option<Allocated<Self>>,
-            nib_name_or_nil: Option<&NSNibName>,
-            nib_bundle_or_nil: Option<&NSBundle>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "FileProviderUI_FPUIActionExtensionViewController")]
+    pub type FPUIActionExtensionViewController;
+
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "initWithNibName:bundle:", managed = "Init")]
+    pub unsafe fn initWithNibName_bundle(
+        this: Option<Allocated<Self>>,
+        nib_name_or_nil: Option<&NSNibName>,
+        nib_bundle_or_nil: Option<&NSBundle>,
+    ) -> Id<Self>;
+}

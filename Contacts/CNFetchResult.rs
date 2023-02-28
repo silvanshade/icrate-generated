@@ -4,21 +4,16 @@ use crate::common::*;
 use crate::Contacts::*;
 use crate::Foundation::*;
 
-__inner_extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Contacts_CNFetchResult")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Contacts_CNFetchResult")]
-    pub struct CNFetchResult<ValueType: Message = Object, ValueTypeOwnership: Ownership = Shared> {
-        _inner0: PhantomData<*mut (ValueType, ValueTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "Contacts_CNFetchResult")]
-    unsafe impl<ValueType: Message, ValueTypeOwnership: Ownership> ClassType
-        for CNFetchResult<ValueType, ValueTypeOwnership>
-    {
-        type Super = NSObject;
-    }
-);
+    pub type CNFetchResult<ValueType: Message = Object, ValueTypeOwnership: Ownership = Shared>;
+}
 
 #[cfg(feature = "Contacts_CNFetchResult")]
 unsafe impl<ValueType: Message, ValueTypeOwnership: Ownership> NSObjectProtocol
@@ -26,22 +21,23 @@ unsafe impl<ValueType: Message, ValueTypeOwnership: Ownership> NSObjectProtocol
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Contacts_CNFetchResult")]
-    unsafe impl<ValueType: Message, ValueTypeOwnership: Ownership>
-        CNFetchResult<ValueType, ValueTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CNFetchResult<ValueType: Message = Object, ValueTypeOwnership: Ownership = Shared>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other value)]
-        pub unsafe fn value(&self) -> Id<ValueType, ValueTypeOwnership>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other currentHistoryToken)]
-        pub unsafe fn currentHistoryToken(&self) -> Id<NSData>;
-    }
-);
+    #[objc2::method(sel = "value", managed = "Other")]
+    pub unsafe fn value(&self) -> Id<ValueType, ValueTypeOwnership>;
+
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "currentHistoryToken", managed = "Other")]
+    pub unsafe fn currentHistoryToken(&self) -> Id<NSData>;
+}

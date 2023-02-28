@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MXDiagnostic,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXCPUExceptionDiagnostic")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXCPUExceptionDiagnostic")]
-    pub struct MXCPUExceptionDiagnostic;
-
-    #[cfg(feature = "MetricKit_MXCPUExceptionDiagnostic")]
-    unsafe impl ClassType for MXCPUExceptionDiagnostic {
-        #[inherits(NSObject)]
-        type Super = MXDiagnostic;
-    }
-);
+    pub type MXCPUExceptionDiagnostic;
+}
 
 #[cfg(feature = "MetricKit_MXCPUExceptionDiagnostic")]
 unsafe impl NSCoding for MXCPUExceptionDiagnostic {}
@@ -25,25 +25,28 @@ unsafe impl NSObjectProtocol for MXCPUExceptionDiagnostic {}
 #[cfg(feature = "MetricKit_MXCPUExceptionDiagnostic")]
 unsafe impl NSSecureCoding for MXCPUExceptionDiagnostic {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXCPUExceptionDiagnostic")]
-    unsafe impl MXCPUExceptionDiagnostic {
-        #[cfg(feature = "MetricKit_MXCallStackTree")]
-        #[method_id(@__retain_semantics Other callStackTree)]
-        pub unsafe fn callStackTree(&self) -> Id<MXCallStackTree>;
+    pub type MXCPUExceptionDiagnostic;
 
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitDuration"
-        ))]
-        #[method_id(@__retain_semantics Other totalCPUTime)]
-        pub unsafe fn totalCPUTime(&self) -> Id<NSMeasurement<NSUnitDuration>>;
+    #[cfg(feature = "MetricKit_MXCallStackTree")]
+    #[objc2::method(sel = "callStackTree", managed = "Other")]
+    pub unsafe fn callStackTree(&self) -> Id<MXCallStackTree>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitDuration"
-        ))]
-        #[method_id(@__retain_semantics Other totalSampledTime)]
-        pub unsafe fn totalSampledTime(&self) -> Id<NSMeasurement<NSUnitDuration>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitDuration"
+    ))]
+    #[objc2::method(sel = "totalCPUTime", managed = "Other")]
+    pub unsafe fn totalCPUTime(&self) -> Id<NSMeasurement<NSUnitDuration>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitDuration"
+    ))]
+    #[objc2::method(sel = "totalSampledTime", managed = "Other")]
+    pub unsafe fn totalSampledTime(&self) -> Id<NSMeasurement<NSUnitDuration>>;
+}

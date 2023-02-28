@@ -3,44 +3,45 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMethodSignature")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSMethodSignature")]
-    pub struct NSMethodSignature;
-
-    #[cfg(feature = "Foundation_NSMethodSignature")]
-    unsafe impl ClassType for NSMethodSignature {
-        type Super = NSObject;
-    }
-);
+    pub type NSMethodSignature;
+}
 
 #[cfg(feature = "Foundation_NSMethodSignature")]
 unsafe impl NSObjectProtocol for NSMethodSignature {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMethodSignature")]
-    unsafe impl NSMethodSignature {
-        #[method_id(@__retain_semantics Other signatureWithObjCTypes:)]
-        pub unsafe fn signatureWithObjCTypes(
-            types: NonNull<c_char>,
-        ) -> Option<Id<NSMethodSignature>>;
+    pub type NSMethodSignature;
 
-        #[method(numberOfArguments)]
-        pub unsafe fn numberOfArguments(&self) -> NSUInteger;
+    #[objc2::method(sel = "signatureWithObjCTypes:", managed = "Other")]
+    pub unsafe fn signatureWithObjCTypes(types: NonNull<c_char>) -> Option<Id<NSMethodSignature>>;
 
-        #[method(getArgumentTypeAtIndex:)]
-        pub unsafe fn getArgumentTypeAtIndex(&self, idx: NSUInteger) -> NonNull<c_char>;
+    #[objc2::method(sel = "numberOfArguments")]
+    pub unsafe fn numberOfArguments(&self) -> NSUInteger;
 
-        #[method(frameLength)]
-        pub unsafe fn frameLength(&self) -> NSUInteger;
+    #[objc2::method(sel = "getArgumentTypeAtIndex:")]
+    pub unsafe fn getArgumentTypeAtIndex(&self, idx: NSUInteger) -> NonNull<c_char>;
 
-        #[method(isOneway)]
-        pub unsafe fn isOneway(&self) -> bool;
+    #[objc2::method(sel = "frameLength")]
+    pub unsafe fn frameLength(&self) -> NSUInteger;
 
-        #[method(methodReturnType)]
-        pub unsafe fn methodReturnType(&self) -> NonNull<c_char>;
+    #[objc2::method(sel = "isOneway")]
+    pub unsafe fn isOneway(&self) -> bool;
 
-        #[method(methodReturnLength)]
-        pub unsafe fn methodReturnLength(&self) -> NSUInteger;
-    }
-);
+    #[objc2::method(sel = "methodReturnType")]
+    pub unsafe fn methodReturnType(&self) -> NonNull<c_char>;
+
+    #[objc2::method(sel = "methodReturnLength")]
+    pub unsafe fn methodReturnLength(&self) -> NSUInteger;
+}

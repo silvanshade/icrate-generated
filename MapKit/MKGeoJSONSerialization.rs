@@ -7,52 +7,52 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_protocol!(
-    pub unsafe trait MKGeoJSONObject: NSObjectProtocol {}
+#[objc2::protocol]
+pub unsafe trait MKGeoJSONObject: NSObjectProtocol {}
 
-    unsafe impl ProtocolType for dyn MKGeoJSONObject {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKGeoJSONDecoder")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKGeoJSONDecoder")]
-    pub struct MKGeoJSONDecoder;
-
-    #[cfg(feature = "MapKit_MKGeoJSONDecoder")]
-    unsafe impl ClassType for MKGeoJSONDecoder {
-        type Super = NSObject;
-    }
-);
+    pub type MKGeoJSONDecoder;
+}
 
 #[cfg(feature = "MapKit_MKGeoJSONDecoder")]
 unsafe impl NSObjectProtocol for MKGeoJSONDecoder {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKGeoJSONDecoder")]
-    unsafe impl MKGeoJSONDecoder {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError"
-        ))]
-        #[method_id(@__retain_semantics Other geoJSONObjectsWithData:error:_)]
-        pub unsafe fn geoJSONObjectsWithData_error(
-            &self,
-            data: &NSData,
-        ) -> Result<Id<NSArray<ProtocolObject<dyn MKGeoJSONObject>>>, Id<NSError>>;
-    }
-);
+    pub type MKGeoJSONDecoder;
 
-extern_class!(
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "geoJSONObjectsWithData:error:", managed = "Other", throws)]
+    pub unsafe fn geoJSONObjectsWithData_error(
+        &self,
+        data: &NSData,
+    ) -> Result<Id<NSArray<ProtocolObject<dyn MKGeoJSONObject>>>, Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKGeoJSONFeature")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKGeoJSONFeature")]
-    pub struct MKGeoJSONFeature;
-
-    #[cfg(feature = "MapKit_MKGeoJSONFeature")]
-    unsafe impl ClassType for MKGeoJSONFeature {
-        type Super = NSObject;
-    }
-);
+    pub type MKGeoJSONFeature;
+}
 
 #[cfg(feature = "MapKit_MKGeoJSONFeature")]
 unsafe impl MKGeoJSONObject for MKGeoJSONFeature {}
@@ -60,73 +60,88 @@ unsafe impl MKGeoJSONObject for MKGeoJSONFeature {}
 #[cfg(feature = "MapKit_MKGeoJSONFeature")]
 unsafe impl NSObjectProtocol for MKGeoJSONFeature {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKGeoJSONFeature")]
-    unsafe impl MKGeoJSONFeature {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Option<Id<NSString>>;
+    pub type MKGeoJSONFeature;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other properties)]
-        pub unsafe fn properties(&self) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MapKit_MKShape"))]
-        #[method_id(@__retain_semantics Other geometry)]
-        pub unsafe fn geometry(&self) -> Id<NSArray<MKShape>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "properties", managed = "Other")]
+    pub unsafe fn properties(&self) -> Option<Id<NSData>>;
 
-extern_methods!(
-    /// MKGeoJSONSerialization
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MapKit_MKShape"))]
+    #[objc2::method(sel = "geometry", managed = "Other")]
+    pub unsafe fn geometry(&self) -> Id<NSArray<MKShape>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKPointAnnotation")]
-    unsafe impl MKPointAnnotation {}
-);
+    pub type MKPointAnnotation;
+}
 
 #[cfg(feature = "MapKit_MKPointAnnotation")]
 unsafe impl MKGeoJSONObject for MKPointAnnotation {}
 
-extern_methods!(
-    /// MKGeoJSONSerialization
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMultiPoint")]
-    unsafe impl MKMultiPoint {}
-);
+    pub type MKMultiPoint;
+}
 
 #[cfg(feature = "MapKit_MKMultiPoint")]
 unsafe impl MKGeoJSONObject for MKMultiPoint {}
 
-extern_methods!(
-    /// MKGeoJSONSerialization
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMultiPolyline")]
-    unsafe impl MKMultiPolyline {}
-);
+    pub type MKMultiPolyline;
+}
 
 #[cfg(feature = "MapKit_MKMultiPolyline")]
 unsafe impl MKGeoJSONObject for MKMultiPolyline {}
 
-extern_methods!(
-    /// MKGeoJSONSerialization
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMultiPolygon")]
-    unsafe impl MKMultiPolygon {}
-);
+    pub type MKMultiPolygon;
+}
 
 #[cfg(feature = "MapKit_MKMultiPolygon")]
 unsafe impl MKGeoJSONObject for MKMultiPolygon {}
 
-extern_methods!(
-    /// MKGeoJSONSerialization
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKPolyline")]
-    unsafe impl MKPolyline {}
-);
+    pub type MKPolyline;
+}
 
 #[cfg(feature = "MapKit_MKPolyline")]
 unsafe impl MKGeoJSONObject for MKPolyline {}
 
-extern_methods!(
-    /// MKGeoJSONSerialization
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKPolygon")]
-    unsafe impl MKPolygon {}
-);
+    pub type MKPolygon;
+}
 
 #[cfg(feature = "MapKit_MKPolygon")]
 unsafe impl MKGeoJSONObject for MKPolygon {}

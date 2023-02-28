@@ -3,32 +3,26 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSCollectionChangeType {
-        NSCollectionChangeInsert = 0,
-        NSCollectionChangeRemove = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSCollectionChangeType {
+    NSCollectionChangeInsert = 0,
+    NSCollectionChangeRemove = 1,
+}
 
-__inner_extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSOrderedCollectionChange")]
-    pub struct NSOrderedCollectionChange<
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type NSOrderedCollectionChange<
         ObjectType: Message = Object,
         ObjectTypeOwnership: Ownership = Shared,
-    > {
-        _inner0: PhantomData<*mut (ObjectType, ObjectTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "Foundation_NSOrderedCollectionChange")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> ClassType
-        for NSOrderedCollectionChange<ObjectType, ObjectTypeOwnership>
-    {
-        type Super = NSObject;
-    }
-);
+    >;
+}
 
 #[cfg(feature = "Foundation_NSOrderedCollectionChange")]
 unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSObjectProtocol
@@ -36,56 +30,63 @@ unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSObjectProtoco
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSOrderedCollectionChange")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSOrderedCollectionChange<ObjectType, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Other changeWithObject:type:index:)]
-        pub unsafe fn changeWithObject_type_index(
-            an_object: Option<&ObjectType>,
-            r#type: NSCollectionChangeType,
-            index: NSUInteger,
-        ) -> Id<NSOrderedCollectionChange<ObjectType>>;
+    pub type NSOrderedCollectionChange<
+        ObjectType: Message = Object,
+        ObjectTypeOwnership: Ownership = Shared,
+    >;
 
-        #[method_id(@__retain_semantics Other changeWithObject:type:index:associatedIndex:)]
-        pub unsafe fn changeWithObject_type_index_associatedIndex(
-            an_object: Option<&ObjectType>,
-            r#type: NSCollectionChangeType,
-            index: NSUInteger,
-            associated_index: NSUInteger,
-        ) -> Id<NSOrderedCollectionChange<ObjectType>>;
+    #[objc2::method(sel = "changeWithObject:type:index:", managed = "Other")]
+    pub unsafe fn changeWithObject_type_index(
+        an_object: Option<&ObjectType>,
+        r#type: NSCollectionChangeType,
+        index: NSUInteger,
+    ) -> Id<NSOrderedCollectionChange<ObjectType>>;
 
-        #[method_id(@__retain_semantics Other object)]
-        pub unsafe fn object(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
+    #[objc2::method(
+        sel = "changeWithObject:type:index:associatedIndex:",
+        managed = "Other"
+    )]
+    pub unsafe fn changeWithObject_type_index_associatedIndex(
+        an_object: Option<&ObjectType>,
+        r#type: NSCollectionChangeType,
+        index: NSUInteger,
+        associated_index: NSUInteger,
+    ) -> Id<NSOrderedCollectionChange<ObjectType>>;
 
-        #[method(changeType)]
-        pub unsafe fn changeType(&self) -> NSCollectionChangeType;
+    #[objc2::method(sel = "object", managed = "Other")]
+    pub unsafe fn object(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
 
-        #[method(index)]
-        pub unsafe fn index(&self) -> NSUInteger;
+    #[objc2::method(sel = "changeType")]
+    pub unsafe fn changeType(&self) -> NSCollectionChangeType;
 
-        #[method(associatedIndex)]
-        pub unsafe fn associatedIndex(&self) -> NSUInteger;
+    #[objc2::method(sel = "index")]
+    pub unsafe fn index(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "associatedIndex")]
+    pub unsafe fn associatedIndex(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Init initWithObject:type:index:)]
-        pub unsafe fn initWithObject_type_index(
-            this: Option<Allocated<Self>>,
-            an_object: Option<&ObjectType>,
-            r#type: NSCollectionChangeType,
-            index: NSUInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithObject:type:index:associatedIndex:)]
-        pub unsafe fn initWithObject_type_index_associatedIndex(
-            this: Option<Allocated<Self>>,
-            an_object: Option<&ObjectType>,
-            r#type: NSCollectionChangeType,
-            index: NSUInteger,
-            associated_index: NSUInteger,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "initWithObject:type:index:", managed = "Init")]
+    pub unsafe fn initWithObject_type_index(
+        this: Option<Allocated<Self>>,
+        an_object: Option<&ObjectType>,
+        r#type: NSCollectionChangeType,
+        index: NSUInteger,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "initWithObject:type:index:associatedIndex:", managed = "Init")]
+    pub unsafe fn initWithObject_type_index_associatedIndex(
+        this: Option<Allocated<Self>>,
+        an_object: Option<&ObjectType>,
+        r#type: NSCollectionChangeType,
+        index: NSUInteger,
+        associated_index: NSUInteger,
+    ) -> Id<Self>;
+}

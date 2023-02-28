@@ -3,138 +3,138 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSThread")]
     #[derive(PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSThread")]
-    pub struct NSThread;
-
-    #[cfg(feature = "Foundation_NSThread")]
-    unsafe impl ClassType for NSThread {
-        type Super = NSObject;
-    }
-);
+    pub type NSThread;
+}
 
 #[cfg(feature = "Foundation_NSThread")]
 unsafe impl NSObjectProtocol for NSThread {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSThread")]
-    unsafe impl NSThread {
-        #[method_id(@__retain_semantics Other currentThread)]
-        pub fn currentThread() -> Id<NSThread>;
+    pub type NSThread;
 
-        #[method(detachNewThreadWithBlock:)]
-        pub unsafe fn detachNewThreadWithBlock(block: &Block<(), ()>);
+    #[objc2::method(sel = "currentThread", managed = "Other")]
+    pub fn currentThread() -> Id<NSThread>;
 
-        #[method(detachNewThreadSelector:toTarget:withObject:)]
-        pub unsafe fn detachNewThreadSelector_toTarget_withObject(
-            selector: Sel,
-            target: &Object,
-            argument: Option<&Object>,
-        );
+    #[objc2::method(sel = "detachNewThreadWithBlock:")]
+    pub unsafe fn detachNewThreadWithBlock(block: &Block<(), ()>);
 
-        #[method(isMultiThreaded)]
-        pub fn isMultiThreaded() -> bool;
+    #[objc2::method(sel = "detachNewThreadSelector:toTarget:withObject:")]
+    pub unsafe fn detachNewThreadSelector_toTarget_withObject(
+        selector: Sel,
+        target: &Object,
+        argument: Option<&Object>,
+    );
 
-        #[cfg(feature = "Foundation_NSMutableDictionary")]
-        #[method_id(@__retain_semantics Other threadDictionary)]
-        pub unsafe fn threadDictionary(&self) -> Id<NSMutableDictionary, Owned>;
+    #[objc2::method(sel = "isMultiThreaded")]
+    pub fn isMultiThreaded() -> bool;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(sleepUntilDate:)]
-        pub unsafe fn sleepUntilDate(date: &NSDate);
+    #[cfg(feature = "Foundation_NSMutableDictionary")]
+    #[objc2::method(sel = "threadDictionary", managed = "Other")]
+    pub unsafe fn threadDictionary(&self) -> Id<NSMutableDictionary, Owned>;
 
-        #[method(sleepForTimeInterval:)]
-        pub unsafe fn sleepForTimeInterval(ti: NSTimeInterval);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "sleepUntilDate:")]
+    pub unsafe fn sleepUntilDate(date: &NSDate);
 
-        #[method(exit)]
-        pub unsafe fn exit();
+    #[objc2::method(sel = "sleepForTimeInterval:")]
+    pub unsafe fn sleepForTimeInterval(ti: NSTimeInterval);
 
-        #[method(threadPriority)]
-        pub unsafe fn threadPriority_class() -> c_double;
+    #[objc2::method(sel = "exit")]
+    pub unsafe fn exit();
 
-        #[method(setThreadPriority:)]
-        pub unsafe fn setThreadPriority_class(p: c_double) -> bool;
+    #[objc2::method(sel = "threadPriority")]
+    pub unsafe fn threadPriority_class() -> c_double;
 
-        #[method(threadPriority)]
-        pub unsafe fn threadPriority(&self) -> c_double;
+    #[objc2::method(sel = "setThreadPriority:")]
+    pub unsafe fn setThreadPriority_class(p: c_double) -> bool;
 
-        #[method(setThreadPriority:)]
-        pub unsafe fn setThreadPriority(&self, thread_priority: c_double);
+    #[objc2::method(sel = "threadPriority")]
+    pub unsafe fn threadPriority(&self) -> c_double;
 
-        #[method(qualityOfService)]
-        pub unsafe fn qualityOfService(&self) -> NSQualityOfService;
+    #[objc2::method(sel = "setThreadPriority:")]
+    pub unsafe fn setThreadPriority(&self, thread_priority: c_double);
 
-        #[method(setQualityOfService:)]
-        pub unsafe fn setQualityOfService(&self, quality_of_service: NSQualityOfService);
+    #[objc2::method(sel = "qualityOfService")]
+    pub unsafe fn qualityOfService(&self) -> NSQualityOfService;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other callStackReturnAddresses)]
-        pub unsafe fn callStackReturnAddresses() -> Id<NSArray<NSNumber>>;
+    #[objc2::method(sel = "setQualityOfService:")]
+    pub unsafe fn setQualityOfService(&self, quality_of_service: NSQualityOfService);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other callStackSymbols)]
-        pub unsafe fn callStackSymbols() -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "callStackReturnAddresses", managed = "Other")]
+    pub unsafe fn callStackReturnAddresses() -> Id<NSArray<NSNumber>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub fn name(&self) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "callStackSymbols", managed = "Other")]
+    pub unsafe fn callStackSymbols() -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub fn name(&self) -> Option<Id<NSString>>;
 
-        #[method(stackSize)]
-        pub unsafe fn stackSize(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
 
-        #[method(setStackSize:)]
-        pub unsafe fn setStackSize(&self, stack_size: NSUInteger);
+    #[objc2::method(sel = "stackSize")]
+    pub unsafe fn stackSize(&self) -> NSUInteger;
 
-        #[method(isMainThread)]
-        pub fn isMainThread(&self) -> bool;
+    #[objc2::method(sel = "setStackSize:")]
+    pub unsafe fn setStackSize(&self, stack_size: NSUInteger);
 
-        #[method(isMainThread)]
-        pub fn isMainThread_class() -> bool;
+    #[objc2::method(sel = "isMainThread")]
+    pub fn isMainThread(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other mainThread)]
-        pub fn mainThread() -> Id<NSThread>;
+    #[objc2::method(sel = "isMainThread")]
+    pub fn isMainThread_class() -> bool;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "mainThread", managed = "Other")]
+    pub fn mainThread() -> Id<NSThread>;
 
-        #[method_id(@__retain_semantics Init initWithTarget:selector:object:)]
-        pub unsafe fn initWithTarget_selector_object(
-            this: Option<Allocated<Self>>,
-            target: &Object,
-            selector: Sel,
-            argument: Option<&Object>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithBlock:)]
-        pub unsafe fn initWithBlock(
-            this: Option<Allocated<Self>>,
-            block: &Block<(), ()>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithTarget:selector:object:", managed = "Init")]
+    pub unsafe fn initWithTarget_selector_object(
+        this: Option<Allocated<Self>>,
+        target: &Object,
+        selector: Sel,
+        argument: Option<&Object>,
+    ) -> Id<Self>;
 
-        #[method(isExecuting)]
-        pub unsafe fn isExecuting(&self) -> bool;
+    #[objc2::method(sel = "initWithBlock:", managed = "Init")]
+    pub unsafe fn initWithBlock(this: Option<Allocated<Self>>, block: &Block<(), ()>) -> Id<Self>;
 
-        #[method(isFinished)]
-        pub unsafe fn isFinished(&self) -> bool;
+    #[objc2::method(sel = "isExecuting")]
+    pub unsafe fn isExecuting(&self) -> bool;
 
-        #[method(isCancelled)]
-        pub unsafe fn isCancelled(&self) -> bool;
+    #[objc2::method(sel = "isFinished")]
+    pub unsafe fn isFinished(&self) -> bool;
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
+    #[objc2::method(sel = "isCancelled")]
+    pub unsafe fn isCancelled(&self) -> bool;
 
-        #[method(start)]
-        pub unsafe fn start(&self);
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
 
-        #[method(main)]
-        pub unsafe fn main(&self);
-    }
-);
+    #[objc2::method(sel = "start")]
+    pub unsafe fn start(&self);
+
+    #[objc2::method(sel = "main")]
+    pub unsafe fn main(&self);
+}
 
 extern_static!(NSWillBecomeMultiThreadedNotification: &'static NSNotificationName);
 

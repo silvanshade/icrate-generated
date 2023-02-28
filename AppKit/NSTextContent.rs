@@ -15,14 +15,11 @@ extern_static!(NSTextContentTypePassword: &'static NSTextContentType);
 
 extern_static!(NSTextContentTypeOneTimeCode: &'static NSTextContentType);
 
-extern_protocol!(
-    pub unsafe trait NSTextContent {
-        #[method_id(@__retain_semantics Other contentType)]
-        unsafe fn contentType(&self) -> Option<Id<NSTextContentType>>;
+#[objc2::protocol]
+pub unsafe trait NSTextContent {
+    #[objc2::method(sel = "contentType", managed = "Other")]
+    unsafe fn contentType(&self) -> Option<Id<NSTextContentType>>;
 
-        #[method(setContentType:)]
-        unsafe fn setContentType(&self, content_type: Option<&NSTextContentType>);
-    }
-
-    unsafe impl ProtocolType for dyn NSTextContent {}
-);
+    #[objc2::method(sel = "setContentType:")]
+    unsafe fn setContentType(&self, content_type: Option<&NSTextContentType>);
+}

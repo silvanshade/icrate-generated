@@ -5,35 +5,33 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSTextSelectionGranularity {
-        NSTextSelectionGranularityCharacter = 0,
-        NSTextSelectionGranularityWord = 1,
-        NSTextSelectionGranularityParagraph = 2,
-        NSTextSelectionGranularityLine = 3,
-        NSTextSelectionGranularitySentence = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSTextSelectionGranularity {
+    NSTextSelectionGranularityCharacter = 0,
+    NSTextSelectionGranularityWord = 1,
+    NSTextSelectionGranularityParagraph = 2,
+    NSTextSelectionGranularityLine = 3,
+    NSTextSelectionGranularitySentence = 4,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSTextSelectionAffinity {
-        NSTextSelectionAffinityUpstream = 0,
-        NSTextSelectionAffinityDownstream = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSTextSelectionAffinity {
+    NSTextSelectionAffinityUpstream = 0,
+    NSTextSelectionAffinityDownstream = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextSelection")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextSelection")]
-    pub struct NSTextSelection;
-
-    #[cfg(feature = "AppKit_NSTextSelection")]
-    unsafe impl ClassType for NSTextSelection {
-        type Super = NSObject;
-    }
-);
+    pub type NSTextSelection;
+}
 
 #[cfg(feature = "AppKit_NSTextSelection")]
 unsafe impl NSCoding for NSTextSelection {}
@@ -44,96 +42,97 @@ unsafe impl NSObjectProtocol for NSTextSelection {}
 #[cfg(feature = "AppKit_NSTextSelection")]
 unsafe impl NSSecureCoding for NSTextSelection {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextSelection")]
-    unsafe impl NSTextSelection {
-        #[cfg(all(feature = "AppKit_NSTextRange", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Init initWithRanges:affinity:granularity:)]
-        pub unsafe fn initWithRanges_affinity_granularity(
-            this: Option<Allocated<Self>>,
-            text_ranges: &NSArray<NSTextRange>,
-            affinity: NSTextSelectionAffinity,
-            granularity: NSTextSelectionGranularity,
-        ) -> Id<Self>;
+    pub type NSTextSelection;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[cfg(all(feature = "AppKit_NSTextRange", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "initWithRanges:affinity:granularity:", managed = "Init")]
+    pub unsafe fn initWithRanges_affinity_granularity(
+        this: Option<Allocated<Self>>,
+        text_ranges: &NSArray<NSTextRange>,
+        affinity: NSTextSelectionAffinity,
+        granularity: NSTextSelectionGranularity,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSTextRange")]
-        #[method_id(@__retain_semantics Init initWithRange:affinity:granularity:)]
-        pub unsafe fn initWithRange_affinity_granularity(
-            this: Option<Allocated<Self>>,
-            range: &NSTextRange,
-            affinity: NSTextSelectionAffinity,
-            granularity: NSTextSelectionGranularity,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Init initWithLocation:affinity:)]
-        pub unsafe fn initWithLocation_affinity(
-            this: Option<Allocated<Self>>,
-            location: &ProtocolObject<dyn NSTextLocation>,
-            affinity: NSTextSelectionAffinity,
-        ) -> Id<Self>;
+    #[cfg(feature = "AppKit_NSTextRange")]
+    #[objc2::method(sel = "initWithRange:affinity:granularity:", managed = "Init")]
+    pub unsafe fn initWithRange_affinity_granularity(
+        this: Option<Allocated<Self>>,
+        range: &NSTextRange,
+        affinity: NSTextSelectionAffinity,
+        granularity: NSTextSelectionGranularity,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "initWithLocation:affinity:", managed = "Init")]
+    pub unsafe fn initWithLocation_affinity(
+        this: Option<Allocated<Self>>,
+        location: &ProtocolObject<dyn NSTextLocation>,
+        affinity: NSTextSelectionAffinity,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "AppKit_NSTextRange", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other textRanges)]
-        pub unsafe fn textRanges(&self) -> Id<NSArray<NSTextRange>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(granularity)]
-        pub unsafe fn granularity(&self) -> NSTextSelectionGranularity;
+    #[cfg(all(feature = "AppKit_NSTextRange", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "textRanges", managed = "Other")]
+    pub unsafe fn textRanges(&self) -> Id<NSArray<NSTextRange>>;
 
-        #[method(affinity)]
-        pub unsafe fn affinity(&self) -> NSTextSelectionAffinity;
+    #[objc2::method(sel = "granularity")]
+    pub unsafe fn granularity(&self) -> NSTextSelectionGranularity;
 
-        #[method(isTransient)]
-        pub unsafe fn isTransient(&self) -> bool;
+    #[objc2::method(sel = "affinity")]
+    pub unsafe fn affinity(&self) -> NSTextSelectionAffinity;
 
-        #[method(anchorPositionOffset)]
-        pub unsafe fn anchorPositionOffset(&self) -> CGFloat;
+    #[objc2::method(sel = "isTransient")]
+    pub unsafe fn isTransient(&self) -> bool;
 
-        #[method(setAnchorPositionOffset:)]
-        pub unsafe fn setAnchorPositionOffset(&self, anchor_position_offset: CGFloat);
+    #[objc2::method(sel = "anchorPositionOffset")]
+    pub unsafe fn anchorPositionOffset(&self) -> CGFloat;
 
-        #[method(isLogical)]
-        pub unsafe fn isLogical(&self) -> bool;
+    #[objc2::method(sel = "setAnchorPositionOffset:")]
+    pub unsafe fn setAnchorPositionOffset(&self, anchor_position_offset: CGFloat);
 
-        #[method(setLogical:)]
-        pub unsafe fn setLogical(&self, logical: bool);
+    #[objc2::method(sel = "isLogical")]
+    pub unsafe fn isLogical(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other secondarySelectionLocation)]
-        pub unsafe fn secondarySelectionLocation(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn NSTextLocation>>>;
+    #[objc2::method(sel = "setLogical:")]
+    pub unsafe fn setLogical(&self, logical: bool);
 
-        #[method(setSecondarySelectionLocation:)]
-        pub unsafe fn setSecondarySelectionLocation(
-            &self,
-            secondary_selection_location: Option<&ProtocolObject<dyn NSTextLocation>>,
-        );
+    #[objc2::method(sel = "secondarySelectionLocation", managed = "Other")]
+    pub unsafe fn secondarySelectionLocation(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn NSTextLocation>>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other typingAttributes)]
-        pub unsafe fn typingAttributes(&self) -> Id<NSDictionary<NSAttributedStringKey, Object>>;
+    #[objc2::method(sel = "setSecondarySelectionLocation:")]
+    pub unsafe fn setSecondarySelectionLocation(
+        &self,
+        secondary_selection_location: Option<&ProtocolObject<dyn NSTextLocation>>,
+    );
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(setTypingAttributes:)]
-        pub unsafe fn setTypingAttributes(
-            &self,
-            typing_attributes: &NSDictionary<NSAttributedStringKey, Object>,
-        );
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "typingAttributes", managed = "Other")]
+    pub unsafe fn typingAttributes(&self) -> Id<NSDictionary<NSAttributedStringKey, Object>>;
 
-        #[cfg(all(feature = "AppKit_NSTextRange", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other textSelectionWithTextRanges:)]
-        pub unsafe fn textSelectionWithTextRanges(
-            &self,
-            text_ranges: &NSArray<NSTextRange>,
-        ) -> Id<NSTextSelection>;
-    }
-);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "setTypingAttributes:")]
+    pub unsafe fn setTypingAttributes(
+        &self,
+        typing_attributes: &NSDictionary<NSAttributedStringKey, Object>,
+    );
+
+    #[cfg(all(feature = "AppKit_NSTextRange", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "textSelectionWithTextRanges:", managed = "Other")]
+    pub unsafe fn textSelectionWithTextRanges(
+        &self,
+        text_ranges: &NSArray<NSTextRange>,
+    ) -> Id<NSTextSelection>;
+}

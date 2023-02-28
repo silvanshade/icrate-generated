@@ -3,177 +3,183 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSOperationQueuePriority {
-        NSOperationQueuePriorityVeryLow = -8,
-        NSOperationQueuePriorityLow = -4,
-        NSOperationQueuePriorityNormal = 0,
-        NSOperationQueuePriorityHigh = 4,
-        NSOperationQueuePriorityVeryHigh = 8,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSOperationQueuePriority {
+    NSOperationQueuePriorityVeryLow = -8,
+    NSOperationQueuePriorityLow = -4,
+    NSOperationQueuePriorityNormal = 0,
+    NSOperationQueuePriorityHigh = 4,
+    NSOperationQueuePriorityVeryHigh = 8,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSOperation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSOperation")]
-    pub struct NSOperation;
-
-    #[cfg(feature = "Foundation_NSOperation")]
-    unsafe impl ClassType for NSOperation {
-        type Super = NSObject;
-    }
-);
+    pub type NSOperation;
+}
 
 #[cfg(feature = "Foundation_NSOperation")]
 unsafe impl NSObjectProtocol for NSOperation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSOperation")]
-    unsafe impl NSOperation {
-        #[method(start)]
-        pub unsafe fn start(&self);
+    pub type NSOperation;
 
-        #[method(main)]
-        pub unsafe fn main(&self);
+    #[objc2::method(sel = "start")]
+    pub unsafe fn start(&self);
 
-        #[method(isCancelled)]
-        pub unsafe fn isCancelled(&self) -> bool;
+    #[objc2::method(sel = "main")]
+    pub unsafe fn main(&self);
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
+    #[objc2::method(sel = "isCancelled")]
+    pub unsafe fn isCancelled(&self) -> bool;
 
-        #[method(isExecuting)]
-        pub unsafe fn isExecuting(&self) -> bool;
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
 
-        #[method(isFinished)]
-        pub unsafe fn isFinished(&self) -> bool;
+    #[objc2::method(sel = "isExecuting")]
+    pub unsafe fn isExecuting(&self) -> bool;
 
-        #[method(isConcurrent)]
-        pub unsafe fn isConcurrent(&self) -> bool;
+    #[objc2::method(sel = "isFinished")]
+    pub unsafe fn isFinished(&self) -> bool;
 
-        #[method(isAsynchronous)]
-        pub unsafe fn isAsynchronous(&self) -> bool;
+    #[objc2::method(sel = "isConcurrent")]
+    pub unsafe fn isConcurrent(&self) -> bool;
 
-        #[method(isReady)]
-        pub unsafe fn isReady(&self) -> bool;
+    #[objc2::method(sel = "isAsynchronous")]
+    pub unsafe fn isAsynchronous(&self) -> bool;
 
-        #[method(addDependency:)]
-        pub unsafe fn addDependency(&self, op: &NSOperation);
+    #[objc2::method(sel = "isReady")]
+    pub unsafe fn isReady(&self) -> bool;
 
-        #[method(removeDependency:)]
-        pub unsafe fn removeDependency(&self, op: &NSOperation);
+    #[objc2::method(sel = "addDependency:")]
+    pub unsafe fn addDependency(&self, op: &NSOperation);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other dependencies)]
-        pub unsafe fn dependencies(&self) -> Id<NSArray<NSOperation>>;
+    #[objc2::method(sel = "removeDependency:")]
+    pub unsafe fn removeDependency(&self, op: &NSOperation);
 
-        #[method(queuePriority)]
-        pub unsafe fn queuePriority(&self) -> NSOperationQueuePriority;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "dependencies", managed = "Other")]
+    pub unsafe fn dependencies(&self) -> Id<NSArray<NSOperation>>;
 
-        #[method(setQueuePriority:)]
-        pub unsafe fn setQueuePriority(&self, queue_priority: NSOperationQueuePriority);
+    #[objc2::method(sel = "queuePriority")]
+    pub unsafe fn queuePriority(&self) -> NSOperationQueuePriority;
 
-        #[method(completionBlock)]
-        pub unsafe fn completionBlock(&self) -> *mut Block<(), ()>;
+    #[objc2::method(sel = "setQueuePriority:")]
+    pub unsafe fn setQueuePriority(&self, queue_priority: NSOperationQueuePriority);
 
-        #[method(setCompletionBlock:)]
-        pub unsafe fn setCompletionBlock(&self, completion_block: Option<&Block<(), ()>>);
+    #[objc2::method(sel = "completionBlock")]
+    pub unsafe fn completionBlock(&self) -> *mut Block<(), ()>;
 
-        #[method(waitUntilFinished)]
-        pub unsafe fn waitUntilFinished(&self);
+    #[objc2::method(sel = "setCompletionBlock:")]
+    pub unsafe fn setCompletionBlock(&self, completion_block: Option<&Block<(), ()>>);
 
-        #[deprecated = "Not supported"]
-        #[method(threadPriority)]
-        pub unsafe fn threadPriority(&self) -> c_double;
+    #[objc2::method(sel = "waitUntilFinished")]
+    pub unsafe fn waitUntilFinished(&self);
 
-        #[deprecated = "Not supported"]
-        #[method(setThreadPriority:)]
-        pub unsafe fn setThreadPriority(&self, thread_priority: c_double);
+    #[deprecated = "Not supported"]
+    #[objc2::method(sel = "threadPriority")]
+    pub unsafe fn threadPriority(&self) -> c_double;
 
-        #[method(qualityOfService)]
-        pub unsafe fn qualityOfService(&self) -> NSQualityOfService;
+    #[deprecated = "Not supported"]
+    #[objc2::method(sel = "setThreadPriority:")]
+    pub unsafe fn setThreadPriority(&self, thread_priority: c_double);
 
-        #[method(setQualityOfService:)]
-        pub unsafe fn setQualityOfService(&self, quality_of_service: NSQualityOfService);
+    #[objc2::method(sel = "qualityOfService")]
+    pub unsafe fn qualityOfService(&self) -> NSQualityOfService;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setQualityOfService:")]
+    pub unsafe fn setQualityOfService(&self, quality_of_service: NSQualityOfService);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSString>>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
+}
+
+#[objc2::interface(
+    unsafe super = NSOperation,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSBlockOperation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSBlockOperation")]
-    pub struct NSBlockOperation;
-
-    #[cfg(feature = "Foundation_NSBlockOperation")]
-    unsafe impl ClassType for NSBlockOperation {
-        #[inherits(NSObject)]
-        type Super = NSOperation;
-    }
-);
+    pub type NSBlockOperation;
+}
 
 #[cfg(feature = "Foundation_NSBlockOperation")]
 unsafe impl NSObjectProtocol for NSBlockOperation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSBlockOperation")]
-    unsafe impl NSBlockOperation {
-        #[method_id(@__retain_semantics Other blockOperationWithBlock:)]
-        pub unsafe fn blockOperationWithBlock(block: &Block<(), ()>) -> Id<Self>;
+    pub type NSBlockOperation;
 
-        #[method(addExecutionBlock:)]
-        pub unsafe fn addExecutionBlock(&self, block: &Block<(), ()>);
-    }
-);
+    #[objc2::method(sel = "blockOperationWithBlock:", managed = "Other")]
+    pub unsafe fn blockOperationWithBlock(block: &Block<(), ()>) -> Id<Self>;
 
-extern_class!(
+    #[objc2::method(sel = "addExecutionBlock:")]
+    pub unsafe fn addExecutionBlock(&self, block: &Block<(), ()>);
+}
+
+#[objc2::interface(
+    unsafe super = NSOperation,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSInvocationOperation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSInvocationOperation")]
-    pub struct NSInvocationOperation;
-
-    #[cfg(feature = "Foundation_NSInvocationOperation")]
-    unsafe impl ClassType for NSInvocationOperation {
-        #[inherits(NSObject)]
-        type Super = NSOperation;
-    }
-);
+    pub type NSInvocationOperation;
+}
 
 #[cfg(feature = "Foundation_NSInvocationOperation")]
 unsafe impl NSObjectProtocol for NSInvocationOperation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSInvocationOperation")]
-    unsafe impl NSInvocationOperation {
-        #[method_id(@__retain_semantics Init initWithTarget:selector:object:)]
-        pub unsafe fn initWithTarget_selector_object(
-            this: Option<Allocated<Self>>,
-            target: &Object,
-            sel: Sel,
-            arg: Option<&Object>,
-        ) -> Option<Id<Self>>;
+    pub type NSInvocationOperation;
 
-        #[cfg(feature = "Foundation_NSInvocation")]
-        #[method_id(@__retain_semantics Init initWithInvocation:)]
-        pub unsafe fn initWithInvocation(
-            this: Option<Allocated<Self>>,
-            inv: &NSInvocation,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithTarget:selector:object:", managed = "Init")]
+    pub unsafe fn initWithTarget_selector_object(
+        this: Option<Allocated<Self>>,
+        target: &Object,
+        sel: Sel,
+        arg: Option<&Object>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSInvocation")]
-        #[method_id(@__retain_semantics Other invocation)]
-        pub unsafe fn invocation(&self) -> Id<NSInvocation>;
+    #[cfg(feature = "Foundation_NSInvocation")]
+    #[objc2::method(sel = "initWithInvocation:", managed = "Init")]
+    pub unsafe fn initWithInvocation(this: Option<Allocated<Self>>, inv: &NSInvocation)
+        -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other result)]
-        pub unsafe fn result(&self) -> Option<Id<Object>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSInvocation")]
+    #[objc2::method(sel = "invocation", managed = "Other")]
+    pub unsafe fn invocation(&self) -> Id<NSInvocation>;
+
+    #[objc2::method(sel = "result", managed = "Other")]
+    pub unsafe fn result(&self) -> Option<Id<Object>>;
+}
 
 extern_static!(NSInvocationOperationVoidResultException: &'static NSExceptionName);
 
@@ -181,16 +187,16 @@ extern_static!(NSInvocationOperationCancelledException: &'static NSExceptionName
 
 extern_static!(NSOperationQueueDefaultMaxConcurrentOperationCount: NSInteger = -1);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSOperationQueue")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSOperationQueue")]
-    pub struct NSOperationQueue;
-
-    #[cfg(feature = "Foundation_NSOperationQueue")]
-    unsafe impl ClassType for NSOperationQueue {
-        type Super = NSObject;
-    }
-);
+    pub type NSOperationQueue;
+}
 
 #[cfg(feature = "Foundation_NSOperationQueue")]
 unsafe impl NSObjectProtocol for NSOperationQueue {}
@@ -198,85 +204,83 @@ unsafe impl NSObjectProtocol for NSOperationQueue {}
 #[cfg(feature = "Foundation_NSOperationQueue")]
 unsafe impl NSProgressReporting for NSOperationQueue {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSOperationQueue")]
-    unsafe impl NSOperationQueue {
-        #[cfg(feature = "Foundation_NSProgress")]
-        #[method_id(@__retain_semantics Other progress)]
-        pub unsafe fn progress(&self) -> Id<NSProgress>;
+    pub type NSOperationQueue;
 
-        #[cfg(feature = "Foundation_NSOperation")]
-        #[method(addOperation:)]
-        pub unsafe fn addOperation(&self, op: &NSOperation);
+    #[cfg(feature = "Foundation_NSProgress")]
+    #[objc2::method(sel = "progress", managed = "Other")]
+    pub unsafe fn progress(&self) -> Id<NSProgress>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSOperation"))]
-        #[method(addOperations:waitUntilFinished:)]
-        pub unsafe fn addOperations_waitUntilFinished(
-            &self,
-            ops: &NSArray<NSOperation>,
-            wait: bool,
-        );
+    #[cfg(feature = "Foundation_NSOperation")]
+    #[objc2::method(sel = "addOperation:")]
+    pub unsafe fn addOperation(&self, op: &NSOperation);
 
-        #[method(addOperationWithBlock:)]
-        pub unsafe fn addOperationWithBlock(&self, block: &Block<(), ()>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSOperation"))]
+    #[objc2::method(sel = "addOperations:waitUntilFinished:")]
+    pub unsafe fn addOperations_waitUntilFinished(&self, ops: &NSArray<NSOperation>, wait: bool);
 
-        #[method(addBarrierBlock:)]
-        pub unsafe fn addBarrierBlock(&self, barrier: &Block<(), ()>);
+    #[objc2::method(sel = "addOperationWithBlock:")]
+    pub unsafe fn addOperationWithBlock(&self, block: &Block<(), ()>);
 
-        #[method(maxConcurrentOperationCount)]
-        pub unsafe fn maxConcurrentOperationCount(&self) -> NSInteger;
+    #[objc2::method(sel = "addBarrierBlock:")]
+    pub unsafe fn addBarrierBlock(&self, barrier: &Block<(), ()>);
 
-        #[method(setMaxConcurrentOperationCount:)]
-        pub unsafe fn setMaxConcurrentOperationCount(
-            &self,
-            max_concurrent_operation_count: NSInteger,
-        );
+    #[objc2::method(sel = "maxConcurrentOperationCount")]
+    pub unsafe fn maxConcurrentOperationCount(&self) -> NSInteger;
 
-        #[method(isSuspended)]
-        pub unsafe fn isSuspended(&self) -> bool;
+    #[objc2::method(sel = "setMaxConcurrentOperationCount:")]
+    pub unsafe fn setMaxConcurrentOperationCount(&self, max_concurrent_operation_count: NSInteger);
 
-        #[method(setSuspended:)]
-        pub unsafe fn setSuspended(&self, suspended: bool);
+    #[objc2::method(sel = "isSuspended")]
+    pub unsafe fn isSuspended(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setSuspended:")]
+    pub unsafe fn setSuspended(&self, suspended: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSString>>;
 
-        #[method(qualityOfService)]
-        pub unsafe fn qualityOfService(&self) -> NSQualityOfService;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
 
-        #[method(setQualityOfService:)]
-        pub unsafe fn setQualityOfService(&self, quality_of_service: NSQualityOfService);
+    #[objc2::method(sel = "qualityOfService")]
+    pub unsafe fn qualityOfService(&self) -> NSQualityOfService;
 
-        #[method(cancelAllOperations)]
-        pub unsafe fn cancelAllOperations(&self);
+    #[objc2::method(sel = "setQualityOfService:")]
+    pub unsafe fn setQualityOfService(&self, quality_of_service: NSQualityOfService);
 
-        #[method(waitUntilAllOperationsAreFinished)]
-        pub unsafe fn waitUntilAllOperationsAreFinished(&self);
+    #[objc2::method(sel = "cancelAllOperations")]
+    pub unsafe fn cancelAllOperations(&self);
 
-        #[method_id(@__retain_semantics Other currentQueue)]
-        pub unsafe fn currentQueue() -> Option<Id<NSOperationQueue>>;
+    #[objc2::method(sel = "waitUntilAllOperationsAreFinished")]
+    pub unsafe fn waitUntilAllOperationsAreFinished(&self);
 
-        #[method_id(@__retain_semantics Other mainQueue)]
-        pub unsafe fn mainQueue() -> Id<NSOperationQueue>;
-    }
-);
+    #[objc2::method(sel = "currentQueue", managed = "Other")]
+    pub unsafe fn currentQueue() -> Option<Id<NSOperationQueue>>;
 
-extern_methods!(
-    /// NSDeprecated
+    #[objc2::method(sel = "mainQueue", managed = "Other")]
+    pub unsafe fn mainQueue() -> Id<NSOperationQueue>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSOperationQueue")]
-    unsafe impl NSOperationQueue {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSOperation"))]
-        #[deprecated = "access to operations is inherently a race condition, it should not be used. For barrier style behaviors please use addBarrierBlock: instead"]
-        #[method_id(@__retain_semantics Other operations)]
-        pub unsafe fn operations(&self) -> Id<NSArray<NSOperation>>;
+    pub type NSOperationQueue;
 
-        #[deprecated]
-        #[method(operationCount)]
-        pub unsafe fn operationCount(&self) -> NSUInteger;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSOperation"))]
+    #[deprecated = "access to operations is inherently a race condition, it should not be used. For barrier style behaviors please use addBarrierBlock: instead"]
+    #[objc2::method(sel = "operations", managed = "Other")]
+    pub unsafe fn operations(&self) -> Id<NSArray<NSOperation>>;
+
+    #[deprecated]
+    #[objc2::method(sel = "operationCount")]
+    pub unsafe fn operationCount(&self) -> NSUInteger;
+}

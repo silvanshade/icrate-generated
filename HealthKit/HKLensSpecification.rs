@@ -6,43 +6,46 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKLensSpecification")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKLensSpecification")]
-    pub struct HKLensSpecification;
-
-    #[cfg(feature = "HealthKit_HKLensSpecification")]
-    unsafe impl ClassType for HKLensSpecification {
-        type Super = NSObject;
-    }
-);
+    pub type HKLensSpecification;
+}
 
 #[cfg(feature = "HealthKit_HKLensSpecification")]
 unsafe impl NSObjectProtocol for HKLensSpecification {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKLensSpecification")]
-    unsafe impl HKLensSpecification {
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other sphere)]
-        pub unsafe fn sphere(&self) -> Id<HKQuantity>;
+    pub type HKLensSpecification;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other cylinder)]
-        pub unsafe fn cylinder(&self) -> Option<Id<HKQuantity>>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "sphere", managed = "Other")]
+    pub unsafe fn sphere(&self) -> Id<HKQuantity>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other axis)]
-        pub unsafe fn axis(&self) -> Option<Id<HKQuantity>>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "cylinder", managed = "Other")]
+    pub unsafe fn cylinder(&self) -> Option<Id<HKQuantity>>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other addPower)]
-        pub unsafe fn addPower(&self) -> Option<Id<HKQuantity>>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "axis", managed = "Other")]
+    pub unsafe fn axis(&self) -> Option<Id<HKQuantity>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "addPower", managed = "Other")]
+    pub unsafe fn addPower(&self) -> Option<Id<HKQuantity>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

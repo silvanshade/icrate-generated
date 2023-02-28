@@ -5,30 +5,34 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CKOperation,
+    unsafe inherits = [
+        NSOperation,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKDatabaseOperation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKDatabaseOperation")]
-    pub struct CKDatabaseOperation;
-
-    #[cfg(feature = "CloudKit_CKDatabaseOperation")]
-    unsafe impl ClassType for CKDatabaseOperation {
-        #[inherits(NSOperation, NSObject)]
-        type Super = CKOperation;
-    }
-);
+    pub type CKDatabaseOperation;
+}
 
 #[cfg(feature = "CloudKit_CKDatabaseOperation")]
 unsafe impl NSObjectProtocol for CKDatabaseOperation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKDatabaseOperation")]
-    unsafe impl CKDatabaseOperation {
-        #[cfg(feature = "CloudKit_CKDatabase")]
-        #[method_id(@__retain_semantics Other database)]
-        pub unsafe fn database(&self) -> Option<Id<CKDatabase>>;
+    pub type CKDatabaseOperation;
 
-        #[cfg(feature = "CloudKit_CKDatabase")]
-        #[method(setDatabase:)]
-        pub unsafe fn setDatabase(&self, database: Option<&CKDatabase>);
-    }
-);
+    #[cfg(feature = "CloudKit_CKDatabase")]
+    #[objc2::method(sel = "database", managed = "Other")]
+    pub unsafe fn database(&self) -> Option<Id<CKDatabase>>;
+
+    #[cfg(feature = "CloudKit_CKDatabase")]
+    #[objc2::method(sel = "setDatabase:")]
+    pub unsafe fn setDatabase(&self, database: Option<&CKDatabase>);
+}

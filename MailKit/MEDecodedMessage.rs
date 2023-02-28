@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MailKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MailKit_MEDecodedMessage")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MailKit_MEDecodedMessage")]
-    pub struct MEDecodedMessage;
-
-    #[cfg(feature = "MailKit_MEDecodedMessage")]
-    unsafe impl ClassType for MEDecodedMessage {
-        type Super = NSObject;
-    }
-);
+    pub type MEDecodedMessage;
+}
 
 #[cfg(feature = "MailKit_MEDecodedMessage")]
 unsafe impl NSCoding for MEDecodedMessage {}
@@ -25,55 +25,61 @@ unsafe impl NSObjectProtocol for MEDecodedMessage {}
 #[cfg(feature = "MailKit_MEDecodedMessage")]
 unsafe impl NSSecureCoding for MEDecodedMessage {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MailKit_MEDecodedMessage")]
-    unsafe impl MEDecodedMessage {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other rawData)]
-        pub unsafe fn rawData(&self) -> Option<Id<NSData>>;
+    pub type MEDecodedMessage;
 
-        #[cfg(feature = "MailKit_MEMessageSecurityInformation")]
-        #[method_id(@__retain_semantics Other securityInformation)]
-        pub unsafe fn securityInformation(&self) -> Id<MEMessageSecurityInformation>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "rawData", managed = "Other")]
+    pub unsafe fn rawData(&self) -> Option<Id<NSData>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other context)]
-        pub unsafe fn context(&self) -> Option<Id<NSData>>;
+    #[cfg(feature = "MailKit_MEMessageSecurityInformation")]
+    #[objc2::method(sel = "securityInformation", managed = "Other")]
+    pub unsafe fn securityInformation(&self) -> Id<MEMessageSecurityInformation>;
 
-        #[cfg(feature = "MailKit_MEDecodedMessageBanner")]
-        #[method_id(@__retain_semantics Other banner)]
-        pub unsafe fn banner(&self) -> Option<Id<MEDecodedMessageBanner>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "context", managed = "Other")]
+    pub unsafe fn context(&self) -> Option<Id<NSData>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(feature = "MailKit_MEDecodedMessageBanner")]
+    #[objc2::method(sel = "banner", managed = "Other")]
+    pub unsafe fn banner(&self) -> Option<Id<MEDecodedMessageBanner>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "MailKit_MEMessageSecurityInformation"
-        ))]
-        #[method_id(@__retain_semantics Init initWithData:securityInformation:context:)]
-        pub unsafe fn initWithData_securityInformation_context(
-            this: Option<Allocated<Self>>,
-            raw_data: Option<&NSData>,
-            security_information: &MEMessageSecurityInformation,
-            context: Option<&NSData>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "MailKit_MEDecodedMessageBanner",
-            feature = "MailKit_MEMessageSecurityInformation"
-        ))]
-        #[method_id(@__retain_semantics Init initWithData:securityInformation:context:banner:)]
-        pub unsafe fn initWithData_securityInformation_context_banner(
-            this: Option<Allocated<Self>>,
-            raw_data: Option<&NSData>,
-            security_information: &MEMessageSecurityInformation,
-            context: Option<&NSData>,
-            banner: Option<&MEDecodedMessageBanner>,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "MailKit_MEMessageSecurityInformation"
+    ))]
+    #[objc2::method(sel = "initWithData:securityInformation:context:", managed = "Init")]
+    pub unsafe fn initWithData_securityInformation_context(
+        this: Option<Allocated<Self>>,
+        raw_data: Option<&NSData>,
+        security_information: &MEMessageSecurityInformation,
+        context: Option<&NSData>,
+    ) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "MailKit_MEDecodedMessageBanner",
+        feature = "MailKit_MEMessageSecurityInformation"
+    ))]
+    #[objc2::method(
+        sel = "initWithData:securityInformation:context:banner:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithData_securityInformation_context_banner(
+        this: Option<Allocated<Self>>,
+        raw_data: Option<&NSData>,
+        security_information: &MEMessageSecurityInformation,
+        context: Option<&NSData>,
+        banner: Option<&MEDecodedMessageBanner>,
+    ) -> Id<Self>;
+}

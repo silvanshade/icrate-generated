@@ -38,26 +38,25 @@ extern_static!(NSRefreshedObjectIDsKey: &'static NSString);
 
 extern_static!(NSInvalidatedObjectIDsKey: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSManagedObjectContextConcurrencyType {
-        #[deprecated = "Use another NSManagedObjectContextConcurrencyType"]
-        NSConfinementConcurrencyType = 0x00,
-        NSPrivateQueueConcurrencyType = 0x01,
-        NSMainQueueConcurrencyType = 0x02,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSManagedObjectContextConcurrencyType {
+    #[deprecated = "Use another NSManagedObjectContextConcurrencyType"]
+    NSConfinementConcurrencyType = 0x00,
+    NSPrivateQueueConcurrencyType = 0x01,
+    NSMainQueueConcurrencyType = 0x02,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSManagedObjectContext")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSManagedObjectContext")]
-    pub struct NSManagedObjectContext;
-
-    #[cfg(feature = "CoreData_NSManagedObjectContext")]
-    unsafe impl ClassType for NSManagedObjectContext {
-        type Super = NSObject;
-    }
-);
+    pub type NSManagedObjectContext;
+}
 
 #[cfg(feature = "CoreData_NSManagedObjectContext")]
 unsafe impl NSCoding for NSManagedObjectContext {}
@@ -68,310 +67,299 @@ unsafe impl NSLocking for NSManagedObjectContext {}
 #[cfg(feature = "CoreData_NSManagedObjectContext")]
 unsafe impl NSObjectProtocol for NSManagedObjectContext {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSManagedObjectContext")]
-    unsafe impl NSManagedObjectContext {
-        #[deprecated = "Use -initWithConcurrencyType: instead"]
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    pub type NSManagedObjectContext;
 
-        #[deprecated = "Use -initWithConcurrencyType: instead"]
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[deprecated = "Use -initWithConcurrencyType: instead"]
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithConcurrencyType:)]
-        pub unsafe fn initWithConcurrencyType(
-            this: Option<Allocated<Self>>,
-            ct: NSManagedObjectContextConcurrencyType,
-        ) -> Id<Self>;
+    #[deprecated = "Use -initWithConcurrencyType: instead"]
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(performBlock:)]
-        pub unsafe fn performBlock(&self, block: &Block<(), ()>);
+    #[objc2::method(sel = "initWithConcurrencyType:", managed = "Init")]
+    pub unsafe fn initWithConcurrencyType(
+        this: Option<Allocated<Self>>,
+        ct: NSManagedObjectContextConcurrencyType,
+    ) -> Id<Self>;
 
-        #[method(performBlockAndWait:)]
-        pub unsafe fn performBlockAndWait(&self, block: &Block<(), ()>);
+    #[objc2::method(sel = "performBlock:")]
+    pub unsafe fn performBlock(&self, block: &Block<(), ()>);
 
-        #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
-        #[method_id(@__retain_semantics Other persistentStoreCoordinator)]
-        pub unsafe fn persistentStoreCoordinator(&self)
-            -> Option<Id<NSPersistentStoreCoordinator>>;
+    #[objc2::method(sel = "performBlockAndWait:")]
+    pub unsafe fn performBlockAndWait(&self, block: &Block<(), ()>);
 
-        #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
-        #[method(setPersistentStoreCoordinator:)]
-        pub unsafe fn setPersistentStoreCoordinator(
-            &self,
-            persistent_store_coordinator: Option<&NSPersistentStoreCoordinator>,
-        );
+    #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
+    #[objc2::method(sel = "persistentStoreCoordinator", managed = "Other")]
+    pub unsafe fn persistentStoreCoordinator(&self) -> Option<Id<NSPersistentStoreCoordinator>>;
 
-        #[method_id(@__retain_semantics Other parentContext)]
-        pub unsafe fn parentContext(&self) -> Option<Id<NSManagedObjectContext>>;
+    #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
+    #[objc2::method(sel = "setPersistentStoreCoordinator:")]
+    pub unsafe fn setPersistentStoreCoordinator(
+        &self,
+        persistent_store_coordinator: Option<&NSPersistentStoreCoordinator>,
+    );
 
-        #[method(setParentContext:)]
-        pub unsafe fn setParentContext(&self, parent_context: Option<&NSManagedObjectContext>);
+    #[objc2::method(sel = "parentContext", managed = "Other")]
+    pub unsafe fn parentContext(&self) -> Option<Id<NSManagedObjectContext>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setParentContext:")]
+    pub unsafe fn setParentContext(&self, parent_context: Option<&NSManagedObjectContext>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSUndoManager")]
-        #[method_id(@__retain_semantics Other undoManager)]
-        pub unsafe fn undoManager(&self) -> Option<Id<NSUndoManager>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSUndoManager")]
-        #[method(setUndoManager:)]
-        pub unsafe fn setUndoManager(&self, undo_manager: Option<&NSUndoManager>);
+    #[cfg(feature = "Foundation_NSUndoManager")]
+    #[objc2::method(sel = "undoManager", managed = "Other")]
+    pub unsafe fn undoManager(&self) -> Option<Id<NSUndoManager>>;
 
-        #[method(hasChanges)]
-        pub unsafe fn hasChanges(&self) -> bool;
+    #[cfg(feature = "Foundation_NSUndoManager")]
+    #[objc2::method(sel = "setUndoManager:")]
+    pub unsafe fn setUndoManager(&self, undo_manager: Option<&NSUndoManager>);
 
-        #[cfg(feature = "Foundation_NSMutableDictionary")]
-        #[method_id(@__retain_semantics Other userInfo)]
-        pub unsafe fn userInfo(&self) -> Id<NSMutableDictionary, Owned>;
+    #[objc2::method(sel = "hasChanges")]
+    pub unsafe fn hasChanges(&self) -> bool;
 
-        #[method(concurrencyType)]
-        pub unsafe fn concurrencyType(&self) -> NSManagedObjectContextConcurrencyType;
+    #[cfg(feature = "Foundation_NSMutableDictionary")]
+    #[objc2::method(sel = "userInfo", managed = "Other")]
+    pub unsafe fn userInfo(&self) -> Id<NSMutableDictionary, Owned>;
 
-        #[cfg(all(
-            feature = "CoreData_NSManagedObject",
-            feature = "CoreData_NSManagedObjectID"
-        ))]
-        #[method_id(@__retain_semantics Other objectRegisteredForID:)]
-        pub unsafe fn objectRegisteredForID(
-            &self,
-            object_id: &NSManagedObjectID,
-        ) -> Option<Id<NSManagedObject>>;
+    #[objc2::method(sel = "concurrencyType")]
+    pub unsafe fn concurrencyType(&self) -> NSManagedObjectContextConcurrencyType;
 
-        #[cfg(all(
-            feature = "CoreData_NSManagedObject",
-            feature = "CoreData_NSManagedObjectID"
-        ))]
-        #[method_id(@__retain_semantics Other objectWithID:)]
-        pub unsafe fn objectWithID(&self, object_id: &NSManagedObjectID) -> Id<NSManagedObject>;
+    #[cfg(all(
+        feature = "CoreData_NSManagedObject",
+        feature = "CoreData_NSManagedObjectID"
+    ))]
+    #[objc2::method(sel = "objectRegisteredForID:", managed = "Other")]
+    pub unsafe fn objectRegisteredForID(
+        &self,
+        object_id: &NSManagedObjectID,
+    ) -> Option<Id<NSManagedObject>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSManagedObject",
-            feature = "CoreData_NSManagedObjectID",
-            feature = "Foundation_NSError"
-        ))]
-        #[method_id(@__retain_semantics Other existingObjectWithID:error:_)]
-        pub unsafe fn existingObjectWithID_error(
-            &self,
-            object_id: &NSManagedObjectID,
-        ) -> Result<Id<NSManagedObject>, Id<NSError>>;
+    #[cfg(all(
+        feature = "CoreData_NSManagedObject",
+        feature = "CoreData_NSManagedObjectID"
+    ))]
+    #[objc2::method(sel = "objectWithID:", managed = "Other")]
+    pub unsafe fn objectWithID(&self, object_id: &NSManagedObjectID) -> Id<NSManagedObject>;
 
-        #[cfg(all(
-            feature = "CoreData_NSFetchRequest",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError"
-        ))]
-        #[method_id(@__retain_semantics Other executeFetchRequest:error:_)]
-        pub unsafe fn executeFetchRequest_error(
-            &self,
-            request: &NSFetchRequest,
-        ) -> Result<Id<NSArray>, Id<NSError>>;
+    #[cfg(all(
+        feature = "CoreData_NSManagedObject",
+        feature = "CoreData_NSManagedObjectID",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "existingObjectWithID:error:", managed = "Other", throws)]
+    pub unsafe fn existingObjectWithID_error(
+        &self,
+        object_id: &NSManagedObjectID,
+    ) -> Result<Id<NSManagedObject>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSPersistentStoreRequest",
-            feature = "CoreData_NSPersistentStoreResult",
-            feature = "Foundation_NSError"
-        ))]
-        #[method_id(@__retain_semantics Other executeRequest:error:_)]
-        pub unsafe fn executeRequest_error(
-            &self,
-            request: &NSPersistentStoreRequest,
-        ) -> Result<Id<NSPersistentStoreResult>, Id<NSError>>;
+    #[cfg(all(
+        feature = "CoreData_NSFetchRequest",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "executeFetchRequest:error:", managed = "Other", throws)]
+    pub unsafe fn executeFetchRequest_error(
+        &self,
+        request: &NSFetchRequest,
+    ) -> Result<Id<NSArray>, Id<NSError>>;
 
-        #[cfg(feature = "CoreData_NSManagedObject")]
-        #[method(insertObject:)]
-        pub unsafe fn insertObject(&self, object: &NSManagedObject);
+    #[cfg(all(
+        feature = "CoreData_NSPersistentStoreRequest",
+        feature = "CoreData_NSPersistentStoreResult",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "executeRequest:error:", managed = "Other", throws)]
+    pub unsafe fn executeRequest_error(
+        &self,
+        request: &NSPersistentStoreRequest,
+    ) -> Result<Id<NSPersistentStoreResult>, Id<NSError>>;
 
-        #[cfg(feature = "CoreData_NSManagedObject")]
-        #[method(deleteObject:)]
-        pub unsafe fn deleteObject(&self, object: &NSManagedObject);
+    #[cfg(feature = "CoreData_NSManagedObject")]
+    #[objc2::method(sel = "insertObject:")]
+    pub unsafe fn insertObject(&self, object: &NSManagedObject);
 
-        #[cfg(feature = "CoreData_NSManagedObject")]
-        #[method(refreshObject:mergeChanges:)]
-        pub unsafe fn refreshObject_mergeChanges(&self, object: &NSManagedObject, flag: bool);
+    #[cfg(feature = "CoreData_NSManagedObject")]
+    #[objc2::method(sel = "deleteObject:")]
+    pub unsafe fn deleteObject(&self, object: &NSManagedObject);
 
-        #[cfg(feature = "CoreData_NSManagedObject")]
-        #[method(detectConflictsForObject:)]
-        pub unsafe fn detectConflictsForObject(&self, object: &NSManagedObject);
+    #[cfg(feature = "CoreData_NSManagedObject")]
+    #[objc2::method(sel = "refreshObject:mergeChanges:")]
+    pub unsafe fn refreshObject_mergeChanges(&self, object: &NSManagedObject, flag: bool);
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(observeValueForKeyPath:ofObject:change:context:)]
-        pub unsafe fn observeValueForKeyPath_ofObject_change_context(
-            &self,
-            key_path: Option<&NSString>,
-            object: Option<&Object>,
-            change: Option<&NSDictionary<NSString, Object>>,
-            context: *mut c_void,
-        );
+    #[cfg(feature = "CoreData_NSManagedObject")]
+    #[objc2::method(sel = "detectConflictsForObject:")]
+    pub unsafe fn detectConflictsForObject(&self, object: &NSManagedObject);
 
-        #[method(processPendingChanges)]
-        pub unsafe fn processPendingChanges(&self);
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "observeValueForKeyPath:ofObject:change:context:")]
+    pub unsafe fn observeValueForKeyPath_ofObject_change_context(
+        &self,
+        key_path: Option<&NSString>,
+        object: Option<&Object>,
+        change: Option<&NSDictionary<NSString, Object>>,
+        context: *mut c_void,
+    );
 
-        #[cfg(feature = "CoreData_NSPersistentStore")]
-        #[method(assignObject:toPersistentStore:)]
-        pub unsafe fn assignObject_toPersistentStore(
-            &self,
-            object: &Object,
-            store: &NSPersistentStore,
-        );
+    #[objc2::method(sel = "processPendingChanges")]
+    pub unsafe fn processPendingChanges(&self);
 
-        #[cfg(all(feature = "CoreData_NSManagedObject", feature = "Foundation_NSSet"))]
-        #[method_id(@__retain_semantics Other insertedObjects)]
-        pub unsafe fn insertedObjects(&self) -> Id<NSSet<NSManagedObject>>;
+    #[cfg(feature = "CoreData_NSPersistentStore")]
+    #[objc2::method(sel = "assignObject:toPersistentStore:")]
+    pub unsafe fn assignObject_toPersistentStore(&self, object: &Object, store: &NSPersistentStore);
 
-        #[cfg(all(feature = "CoreData_NSManagedObject", feature = "Foundation_NSSet"))]
-        #[method_id(@__retain_semantics Other updatedObjects)]
-        pub unsafe fn updatedObjects(&self) -> Id<NSSet<NSManagedObject>>;
+    #[cfg(all(feature = "CoreData_NSManagedObject", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "insertedObjects", managed = "Other")]
+    pub unsafe fn insertedObjects(&self) -> Id<NSSet<NSManagedObject>>;
 
-        #[cfg(all(feature = "CoreData_NSManagedObject", feature = "Foundation_NSSet"))]
-        #[method_id(@__retain_semantics Other deletedObjects)]
-        pub unsafe fn deletedObjects(&self) -> Id<NSSet<NSManagedObject>>;
+    #[cfg(all(feature = "CoreData_NSManagedObject", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "updatedObjects", managed = "Other")]
+    pub unsafe fn updatedObjects(&self) -> Id<NSSet<NSManagedObject>>;
 
-        #[cfg(all(feature = "CoreData_NSManagedObject", feature = "Foundation_NSSet"))]
-        #[method_id(@__retain_semantics Other registeredObjects)]
-        pub unsafe fn registeredObjects(&self) -> Id<NSSet<NSManagedObject>>;
+    #[cfg(all(feature = "CoreData_NSManagedObject", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "deletedObjects", managed = "Other")]
+    pub unsafe fn deletedObjects(&self) -> Id<NSSet<NSManagedObject>>;
 
-        #[method(undo)]
-        pub unsafe fn undo(&self);
+    #[cfg(all(feature = "CoreData_NSManagedObject", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "registeredObjects", managed = "Other")]
+    pub unsafe fn registeredObjects(&self) -> Id<NSSet<NSManagedObject>>;
 
-        #[method(redo)]
-        pub unsafe fn redo(&self);
+    #[objc2::method(sel = "undo")]
+    pub unsafe fn undo(&self);
 
-        #[method(reset)]
-        pub unsafe fn reset(&self);
+    #[objc2::method(sel = "redo")]
+    pub unsafe fn redo(&self);
 
-        #[method(rollback)]
-        pub unsafe fn rollback(&self);
+    #[objc2::method(sel = "reset")]
+    pub unsafe fn reset(&self);
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(save:_)]
-        pub unsafe fn save(&self) -> Result<(), Id<NSError>>;
+    #[objc2::method(sel = "rollback")]
+    pub unsafe fn rollback(&self);
 
-        #[method(refreshAllObjects)]
-        pub unsafe fn refreshAllObjects(&self);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "save:", throws)]
+    pub unsafe fn save(&self) -> Result<(), Id<NSError>>;
 
-        #[deprecated = "Use a queue style context and -performBlockAndWait: instead"]
-        #[method(lock)]
-        pub unsafe fn lock(&self);
+    #[objc2::method(sel = "refreshAllObjects")]
+    pub unsafe fn refreshAllObjects(&self);
 
-        #[deprecated = "Use a queue style context and -performBlockAndWait: instead"]
-        #[method(unlock)]
-        pub unsafe fn unlock(&self);
+    #[deprecated = "Use a queue style context and -performBlockAndWait: instead"]
+    #[objc2::method(sel = "lock")]
+    pub unsafe fn lock(&self);
 
-        #[deprecated = "Use a queue style context and -performBlock: instead"]
-        #[method(tryLock)]
-        pub unsafe fn tryLock(&self) -> bool;
+    #[deprecated = "Use a queue style context and -performBlockAndWait: instead"]
+    #[objc2::method(sel = "unlock")]
+    pub unsafe fn unlock(&self);
 
-        #[method(propagatesDeletesAtEndOfEvent)]
-        pub unsafe fn propagatesDeletesAtEndOfEvent(&self) -> bool;
+    #[deprecated = "Use a queue style context and -performBlock: instead"]
+    #[objc2::method(sel = "tryLock")]
+    pub unsafe fn tryLock(&self) -> bool;
 
-        #[method(setPropagatesDeletesAtEndOfEvent:)]
-        pub unsafe fn setPropagatesDeletesAtEndOfEvent(
-            &self,
-            propagates_deletes_at_end_of_event: bool,
-        );
+    #[objc2::method(sel = "propagatesDeletesAtEndOfEvent")]
+    pub unsafe fn propagatesDeletesAtEndOfEvent(&self) -> bool;
 
-        #[method(retainsRegisteredObjects)]
-        pub unsafe fn retainsRegisteredObjects(&self) -> bool;
+    #[objc2::method(sel = "setPropagatesDeletesAtEndOfEvent:")]
+    pub unsafe fn setPropagatesDeletesAtEndOfEvent(&self, propagates_deletes_at_end_of_event: bool);
 
-        #[method(setRetainsRegisteredObjects:)]
-        pub unsafe fn setRetainsRegisteredObjects(&self, retains_registered_objects: bool);
+    #[objc2::method(sel = "retainsRegisteredObjects")]
+    pub unsafe fn retainsRegisteredObjects(&self) -> bool;
 
-        #[method(shouldDeleteInaccessibleFaults)]
-        pub unsafe fn shouldDeleteInaccessibleFaults(&self) -> bool;
+    #[objc2::method(sel = "setRetainsRegisteredObjects:")]
+    pub unsafe fn setRetainsRegisteredObjects(&self, retains_registered_objects: bool);
 
-        #[method(setShouldDeleteInaccessibleFaults:)]
-        pub unsafe fn setShouldDeleteInaccessibleFaults(
-            &self,
-            should_delete_inaccessible_faults: bool,
-        );
+    #[objc2::method(sel = "shouldDeleteInaccessibleFaults")]
+    pub unsafe fn shouldDeleteInaccessibleFaults(&self) -> bool;
 
-        #[cfg(all(
-            feature = "CoreData_NSManagedObject",
-            feature = "CoreData_NSManagedObjectID",
-            feature = "CoreData_NSPropertyDescription"
-        ))]
-        #[method(shouldHandleInaccessibleFault:forObjectID:triggeredByProperty:)]
-        pub unsafe fn shouldHandleInaccessibleFault_forObjectID_triggeredByProperty(
-            &self,
-            fault: &NSManagedObject,
-            oid: &NSManagedObjectID,
-            property: Option<&NSPropertyDescription>,
-        ) -> bool;
+    #[objc2::method(sel = "setShouldDeleteInaccessibleFaults:")]
+    pub unsafe fn setShouldDeleteInaccessibleFaults(&self, should_delete_inaccessible_faults: bool);
 
-        #[method(stalenessInterval)]
-        pub unsafe fn stalenessInterval(&self) -> NSTimeInterval;
+    #[cfg(all(
+        feature = "CoreData_NSManagedObject",
+        feature = "CoreData_NSManagedObjectID",
+        feature = "CoreData_NSPropertyDescription"
+    ))]
+    #[objc2::method(sel = "shouldHandleInaccessibleFault:forObjectID:triggeredByProperty:")]
+    pub unsafe fn shouldHandleInaccessibleFault_forObjectID_triggeredByProperty(
+        &self,
+        fault: &NSManagedObject,
+        oid: &NSManagedObjectID,
+        property: Option<&NSPropertyDescription>,
+    ) -> bool;
 
-        #[method(setStalenessInterval:)]
-        pub unsafe fn setStalenessInterval(&self, staleness_interval: NSTimeInterval);
+    #[objc2::method(sel = "stalenessInterval")]
+    pub unsafe fn stalenessInterval(&self) -> NSTimeInterval;
 
-        #[method_id(@__retain_semantics Other mergePolicy)]
-        pub unsafe fn mergePolicy(&self) -> Id<Object>;
+    #[objc2::method(sel = "setStalenessInterval:")]
+    pub unsafe fn setStalenessInterval(&self, staleness_interval: NSTimeInterval);
 
-        #[method(setMergePolicy:)]
-        pub unsafe fn setMergePolicy(&self, merge_policy: &Object);
+    #[objc2::method(sel = "mergePolicy", managed = "Other")]
+    pub unsafe fn mergePolicy(&self) -> Id<Object>;
 
-        #[cfg(all(
-            feature = "CoreData_NSManagedObject",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(obtainPermanentIDsForObjects:error:_)]
-        pub unsafe fn obtainPermanentIDsForObjects_error(
-            &self,
-            objects: &NSArray<NSManagedObject>,
-        ) -> Result<(), Id<NSError>>;
+    #[objc2::method(sel = "setMergePolicy:")]
+    pub unsafe fn setMergePolicy(&self, merge_policy: &Object);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[method(mergeChangesFromContextDidSaveNotification:)]
-        pub unsafe fn mergeChangesFromContextDidSaveNotification(
-            &self,
-            notification: &NSNotification,
-        );
+    #[cfg(all(
+        feature = "CoreData_NSManagedObject",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "obtainPermanentIDsForObjects:error:", throws)]
+    pub unsafe fn obtainPermanentIDsForObjects_error(
+        &self,
+        objects: &NSArray<NSManagedObject>,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSDictionary"))]
-        #[method(mergeChangesFromRemoteContextSave:intoContexts:)]
-        pub unsafe fn mergeChangesFromRemoteContextSave_intoContexts(
-            change_notification_data: &NSDictionary,
-            contexts: &NSArray<NSManagedObjectContext>,
-        );
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(sel = "mergeChangesFromContextDidSaveNotification:")]
+    pub unsafe fn mergeChangesFromContextDidSaveNotification(&self, notification: &NSNotification);
 
-        #[cfg(feature = "CoreData_NSQueryGenerationToken")]
-        #[method_id(@__retain_semantics Other queryGenerationToken)]
-        pub unsafe fn queryGenerationToken(&self) -> Option<Id<NSQueryGenerationToken>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSDictionary"))]
+    #[objc2::method(sel = "mergeChangesFromRemoteContextSave:intoContexts:")]
+    pub unsafe fn mergeChangesFromRemoteContextSave_intoContexts(
+        change_notification_data: &NSDictionary,
+        contexts: &NSArray<NSManagedObjectContext>,
+    );
 
-        #[cfg(all(
-            feature = "CoreData_NSQueryGenerationToken",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(setQueryGenerationFromToken:error:_)]
-        pub unsafe fn setQueryGenerationFromToken_error(
-            &self,
-            generation: Option<&NSQueryGenerationToken>,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "CoreData_NSQueryGenerationToken")]
+    #[objc2::method(sel = "queryGenerationToken", managed = "Other")]
+    pub unsafe fn queryGenerationToken(&self) -> Option<Id<NSQueryGenerationToken>>;
 
-        #[method(automaticallyMergesChangesFromParent)]
-        pub unsafe fn automaticallyMergesChangesFromParent(&self) -> bool;
+    #[cfg(all(
+        feature = "CoreData_NSQueryGenerationToken",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "setQueryGenerationFromToken:error:", throws)]
+    pub unsafe fn setQueryGenerationFromToken_error(
+        &self,
+        generation: Option<&NSQueryGenerationToken>,
+    ) -> Result<(), Id<NSError>>;
 
-        #[method(setAutomaticallyMergesChangesFromParent:)]
-        pub unsafe fn setAutomaticallyMergesChangesFromParent(
-            &self,
-            automatically_merges_changes_from_parent: bool,
-        );
+    #[objc2::method(sel = "automaticallyMergesChangesFromParent")]
+    pub unsafe fn automaticallyMergesChangesFromParent(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other transactionAuthor)]
-        pub unsafe fn transactionAuthor(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setAutomaticallyMergesChangesFromParent:")]
+    pub unsafe fn setAutomaticallyMergesChangesFromParent(
+        &self,
+        automatically_merges_changes_from_parent: bool,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTransactionAuthor:)]
-        pub unsafe fn setTransactionAuthor(&self, transaction_author: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "transactionAuthor", managed = "Other")]
+    pub unsafe fn transactionAuthor(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTransactionAuthor:")]
+    pub unsafe fn setTransactionAuthor(&self, transaction_author: Option<&NSString>);
+}

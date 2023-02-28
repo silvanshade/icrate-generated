@@ -18,105 +18,98 @@ extern_static!(NSFileProviderInitialPageSortedByDate: &'static NSFileProviderPag
 
 extern_static!(NSFileProviderInitialPageSortedByName: &'static NSFileProviderPage);
 
-extern_protocol!(
-    pub unsafe trait NSFileProviderEnumerationObserver: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(didEnumerateItems:)]
-        unsafe fn didEnumerateItems(
-            &self,
-            updated_items: &NSArray<ProtocolObject<dyn NSFileProviderItemProtocol>>,
-        );
+#[objc2::protocol]
+pub unsafe trait NSFileProviderEnumerationObserver: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "didEnumerateItems:")]
+    unsafe fn didEnumerateItems(
+        &self,
+        updated_items: &NSArray<ProtocolObject<dyn NSFileProviderItemProtocol>>,
+    );
 
-        #[method(finishEnumeratingUpToPage:)]
-        unsafe fn finishEnumeratingUpToPage(&self, next_page: Option<&NSFileProviderPage>);
+    #[objc2::method(sel = "finishEnumeratingUpToPage:")]
+    unsafe fn finishEnumeratingUpToPage(&self, next_page: Option<&NSFileProviderPage>);
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(finishEnumeratingWithError:)]
-        unsafe fn finishEnumeratingWithError(&self, error: &NSError);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "finishEnumeratingWithError:")]
+    unsafe fn finishEnumeratingWithError(&self, error: &NSError);
 
-        #[optional]
-        #[method(suggestedPageSize)]
-        unsafe fn suggestedPageSize(&self) -> NSInteger;
-    }
+    #[objc2::method(optional, sel = "suggestedPageSize")]
+    unsafe fn suggestedPageSize(&self) -> NSInteger;
+}
 
-    unsafe impl ProtocolType for dyn NSFileProviderEnumerationObserver {}
-);
+#[objc2::protocol]
+pub unsafe trait NSFileProviderChangeObserver: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "didUpdateItems:")]
+    unsafe fn didUpdateItems(
+        &self,
+        updated_items: &NSArray<ProtocolObject<dyn NSFileProviderItemProtocol>>,
+    );
 
-extern_protocol!(
-    pub unsafe trait NSFileProviderChangeObserver: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(didUpdateItems:)]
-        unsafe fn didUpdateItems(
-            &self,
-            updated_items: &NSArray<ProtocolObject<dyn NSFileProviderItemProtocol>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "didDeleteItemsWithIdentifiers:")]
+    unsafe fn didDeleteItemsWithIdentifiers(
+        &self,
+        deleted_item_identifiers: &NSArray<NSFileProviderItemIdentifier>,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(didDeleteItemsWithIdentifiers:)]
-        unsafe fn didDeleteItemsWithIdentifiers(
-            &self,
-            deleted_item_identifiers: &NSArray<NSFileProviderItemIdentifier>,
-        );
+    #[objc2::method(sel = "finishEnumeratingChangesUpToSyncAnchor:moreComing:")]
+    unsafe fn finishEnumeratingChangesUpToSyncAnchor_moreComing(
+        &self,
+        anchor: &NSFileProviderSyncAnchor,
+        more_coming: bool,
+    );
 
-        #[method(finishEnumeratingChangesUpToSyncAnchor:moreComing:)]
-        unsafe fn finishEnumeratingChangesUpToSyncAnchor_moreComing(
-            &self,
-            anchor: &NSFileProviderSyncAnchor,
-            more_coming: bool,
-        );
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "finishEnumeratingWithError:")]
+    unsafe fn finishEnumeratingWithError(&self, error: &NSError);
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(finishEnumeratingWithError:)]
-        unsafe fn finishEnumeratingWithError(&self, error: &NSError);
+    #[objc2::method(optional, sel = "suggestedBatchSize")]
+    unsafe fn suggestedBatchSize(&self) -> NSInteger;
+}
 
-        #[optional]
-        #[method(suggestedBatchSize)]
-        unsafe fn suggestedBatchSize(&self) -> NSInteger;
-    }
+#[objc2::protocol]
+pub unsafe trait NSFileProviderEnumerator: NSObjectProtocol {
+    #[objc2::method(sel = "invalidate")]
+    unsafe fn invalidate(&self);
 
-    unsafe impl ProtocolType for dyn NSFileProviderChangeObserver {}
-);
+    #[objc2::method(sel = "enumerateItemsForObserver:startingAtPage:")]
+    unsafe fn enumerateItemsForObserver_startingAtPage(
+        &self,
+        observer: &ProtocolObject<dyn NSFileProviderEnumerationObserver>,
+        page: &NSFileProviderPage,
+    );
 
-extern_protocol!(
-    pub unsafe trait NSFileProviderEnumerator: NSObjectProtocol {
-        #[method(invalidate)]
-        unsafe fn invalidate(&self);
+    #[objc2::method(optional, sel = "enumerateChangesForObserver:fromSyncAnchor:")]
+    unsafe fn enumerateChangesForObserver_fromSyncAnchor(
+        &self,
+        observer: &ProtocolObject<dyn NSFileProviderChangeObserver>,
+        sync_anchor: &NSFileProviderSyncAnchor,
+    );
 
-        #[method(enumerateItemsForObserver:startingAtPage:)]
-        unsafe fn enumerateItemsForObserver_startingAtPage(
-            &self,
-            observer: &ProtocolObject<dyn NSFileProviderEnumerationObserver>,
-            page: &NSFileProviderPage,
-        );
+    #[objc2::method(optional, sel = "currentSyncAnchorWithCompletionHandler:")]
+    unsafe fn currentSyncAnchorWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(*mut NSFileProviderSyncAnchor,), ()>,
+    );
+}
 
-        #[optional]
-        #[method(enumerateChangesForObserver:fromSyncAnchor:)]
-        unsafe fn enumerateChangesForObserver_fromSyncAnchor(
-            &self,
-            observer: &ProtocolObject<dyn NSFileProviderChangeObserver>,
-            sync_anchor: &NSFileProviderSyncAnchor,
-        );
-
-        #[optional]
-        #[method(currentSyncAnchorWithCompletionHandler:)]
-        unsafe fn currentSyncAnchorWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(*mut NSFileProviderSyncAnchor,), ()>,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn NSFileProviderEnumerator {}
-);
-
-extern_methods!(
-    /// NSFileProviderEnumeration
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderExtension")]
-    unsafe impl NSFileProviderExtension {
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other enumeratorForContainerItemIdentifier:error:_)]
-        pub unsafe fn enumeratorForContainerItemIdentifier_error(
-            &self,
-            container_item_identifier: &NSFileProviderItemIdentifier,
-        ) -> Result<Id<ProtocolObject<dyn NSFileProviderEnumerator>>, Id<NSError>>;
-    }
-);
+    pub type NSFileProviderExtension;
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(
+        sel = "enumeratorForContainerItemIdentifier:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn enumeratorForContainerItemIdentifier_error(
+        &self,
+        container_item_identifier: &NSFileProviderItemIdentifier,
+    ) -> Result<Id<ProtocolObject<dyn NSFileProviderEnumerator>>, Id<NSError>>;
+}

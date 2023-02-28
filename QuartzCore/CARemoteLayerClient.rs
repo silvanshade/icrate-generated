@@ -4,35 +4,38 @@ use crate::common::*;
 use crate::CoreAnimation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CARemoteLayerClient")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CARemoteLayerClient")]
-    pub struct CARemoteLayerClient;
-
-    #[cfg(feature = "CoreAnimation_CARemoteLayerClient")]
-    unsafe impl ClassType for CARemoteLayerClient {
-        type Super = NSObject;
-    }
-);
+    pub type CARemoteLayerClient;
+}
 
 #[cfg(feature = "CoreAnimation_CARemoteLayerClient")]
 unsafe impl NSObjectProtocol for CARemoteLayerClient {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CARemoteLayerClient")]
-    unsafe impl CARemoteLayerClient {
-        #[method(invalidate)]
-        pub unsafe fn invalidate(&self);
+    pub type CARemoteLayerClient;
 
-        #[method(clientId)]
-        pub unsafe fn clientId(&self) -> u32;
+    #[objc2::method(sel = "invalidate")]
+    pub unsafe fn invalidate(&self);
 
-        #[cfg(feature = "CoreAnimation_CALayer")]
-        #[method_id(@__retain_semantics Other layer)]
-        pub unsafe fn layer(&self) -> Option<Id<CALayer>>;
+    #[objc2::method(sel = "clientId")]
+    pub unsafe fn clientId(&self) -> u32;
 
-        #[cfg(feature = "CoreAnimation_CALayer")]
-        #[method(setLayer:)]
-        pub unsafe fn setLayer(&self, layer: Option<&CALayer>);
-    }
-);
+    #[cfg(feature = "CoreAnimation_CALayer")]
+    #[objc2::method(sel = "layer", managed = "Other")]
+    pub unsafe fn layer(&self) -> Option<Id<CALayer>>;
+
+    #[cfg(feature = "CoreAnimation_CALayer")]
+    #[objc2::method(sel = "setLayer:")]
+    pub unsafe fn setLayer(&self, layer: Option<&CALayer>);
+}

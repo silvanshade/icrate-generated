@@ -5,112 +5,105 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSTableViewDropOperation {
-        NSTableViewDropOn = 0,
-        NSTableViewDropAbove = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSTableViewDropOperation {
+    NSTableViewDropOn = 0,
+    NSTableViewDropAbove = 1,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSTableViewColumnAutoresizingStyle {
-        NSTableViewNoColumnAutoresizing = 0,
-        NSTableViewUniformColumnAutoresizingStyle = 1,
-        NSTableViewSequentialColumnAutoresizingStyle = 2,
-        NSTableViewReverseSequentialColumnAutoresizingStyle = 3,
-        NSTableViewLastColumnOnlyAutoresizingStyle = 4,
-        NSTableViewFirstColumnOnlyAutoresizingStyle = 5,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSTableViewColumnAutoresizingStyle {
+    NSTableViewNoColumnAutoresizing = 0,
+    NSTableViewUniformColumnAutoresizingStyle = 1,
+    NSTableViewSequentialColumnAutoresizingStyle = 2,
+    NSTableViewReverseSequentialColumnAutoresizingStyle = 3,
+    NSTableViewLastColumnOnlyAutoresizingStyle = 4,
+    NSTableViewFirstColumnOnlyAutoresizingStyle = 5,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSTableViewGridLineStyle {
-        NSTableViewGridNone = 0,
-        NSTableViewSolidVerticalGridLineMask = 1 << 0,
-        NSTableViewSolidHorizontalGridLineMask = 1 << 1,
-        NSTableViewDashedHorizontalGridLineMask = 1 << 3,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSTableViewGridLineStyle {
+    NSTableViewGridNone = 0,
+    NSTableViewSolidVerticalGridLineMask = 1 << 0,
+    NSTableViewSolidHorizontalGridLineMask = 1 << 1,
+    NSTableViewDashedHorizontalGridLineMask = 1 << 3,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSTableViewRowSizeStyle {
-        NSTableViewRowSizeStyleDefault = -1,
-        NSTableViewRowSizeStyleCustom = 0,
-        NSTableViewRowSizeStyleSmall = 1,
-        NSTableViewRowSizeStyleMedium = 2,
-        NSTableViewRowSizeStyleLarge = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSTableViewRowSizeStyle {
+    NSTableViewRowSizeStyleDefault = -1,
+    NSTableViewRowSizeStyleCustom = 0,
+    NSTableViewRowSizeStyleSmall = 1,
+    NSTableViewRowSizeStyleMedium = 2,
+    NSTableViewRowSizeStyleLarge = 3,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSTableViewStyle {
-        NSTableViewStyleAutomatic = 0,
-        NSTableViewStyleFullWidth = 1,
-        NSTableViewStyleInset = 2,
-        NSTableViewStyleSourceList = 3,
-        NSTableViewStylePlain = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSTableViewStyle {
+    NSTableViewStyleAutomatic = 0,
+    NSTableViewStyleFullWidth = 1,
+    NSTableViewStyleInset = 2,
+    NSTableViewStyleSourceList = 3,
+    NSTableViewStylePlain = 4,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSTableViewSelectionHighlightStyle {
-        NSTableViewSelectionHighlightStyleNone = -1,
-        NSTableViewSelectionHighlightStyleRegular = 0,
-        #[deprecated = "Set the NSTableView.style property to NSTableViewStyleSourceList instead."]
-        NSTableViewSelectionHighlightStyleSourceList = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSTableViewSelectionHighlightStyle {
+    NSTableViewSelectionHighlightStyleNone = -1,
+    NSTableViewSelectionHighlightStyleRegular = 0,
+    #[deprecated = "Set the NSTableView.style property to NSTableViewStyleSourceList instead."]
+    NSTableViewSelectionHighlightStyleSourceList = 1,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSTableViewDraggingDestinationFeedbackStyle {
-        NSTableViewDraggingDestinationFeedbackStyleNone = -1,
-        NSTableViewDraggingDestinationFeedbackStyleRegular = 0,
-        NSTableViewDraggingDestinationFeedbackStyleSourceList = 1,
-        NSTableViewDraggingDestinationFeedbackStyleGap = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSTableViewDraggingDestinationFeedbackStyle {
+    NSTableViewDraggingDestinationFeedbackStyleNone = -1,
+    NSTableViewDraggingDestinationFeedbackStyleRegular = 0,
+    NSTableViewDraggingDestinationFeedbackStyleSourceList = 1,
+    NSTableViewDraggingDestinationFeedbackStyleGap = 2,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSTableRowActionEdge {
-        NSTableRowActionEdgeLeading = 0,
-        NSTableRowActionEdgeTrailing = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSTableRowActionEdge {
+    NSTableRowActionEdgeLeading = 0,
+    NSTableRowActionEdgeTrailing = 1,
+}
 
 pub type NSTableViewAutosaveName = NSString;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSTableViewAnimationOptions {
-        NSTableViewAnimationEffectNone = 0x0,
-        NSTableViewAnimationEffectFade = 0x1,
-        NSTableViewAnimationEffectGap = 0x2,
-        NSTableViewAnimationSlideUp = 0x10,
-        NSTableViewAnimationSlideDown = 0x20,
-        NSTableViewAnimationSlideLeft = 0x30,
-        NSTableViewAnimationSlideRight = 0x40,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSTableViewAnimationOptions {
+    NSTableViewAnimationEffectNone = 0x0,
+    NSTableViewAnimationEffectFade = 0x1,
+    NSTableViewAnimationEffectGap = 0x2,
+    NSTableViewAnimationSlideUp = 0x10,
+    NSTableViewAnimationSlideDown = 0x20,
+    NSTableViewAnimationSlideLeft = 0x30,
+    NSTableViewAnimationSlideRight = 0x40,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSControl,
+    unsafe inherits = [
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTableView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTableView")]
-    pub struct NSTableView;
-
-    #[cfg(feature = "AppKit_NSTableView")]
-    unsafe impl ClassType for NSTableView {
-        #[inherits(NSView, NSResponder, NSObject)]
-        type Super = NSControl;
-    }
-);
+    pub type NSTableView;
+}
 
 #[cfg(feature = "AppKit_NSTableView")]
 unsafe impl NSAccessibility for NSTableView {}
@@ -154,882 +147,864 @@ unsafe impl NSUserInterfaceItemIdentification for NSTableView {}
 #[cfg(feature = "AppKit_NSTableView")]
 unsafe impl NSUserInterfaceValidations for NSTableView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTableView")]
-    unsafe impl NSTableView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+    pub type NSTableView;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other dataSource)]
-        pub unsafe fn dataSource(&self) -> Option<Id<ProtocolObject<dyn NSTableViewDataSource>>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[method(setDataSource:)]
-        pub unsafe fn setDataSource(
-            &self,
-            data_source: Option<&ProtocolObject<dyn NSTableViewDataSource>>,
-        );
+    #[objc2::method(sel = "dataSource", managed = "Other")]
+    pub unsafe fn dataSource(&self) -> Option<Id<ProtocolObject<dyn NSTableViewDataSource>>>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSTableViewDelegate>>>;
+    #[objc2::method(sel = "setDataSource:")]
+    pub unsafe fn setDataSource(
+        &self,
+        data_source: Option<&ProtocolObject<dyn NSTableViewDataSource>>,
+    );
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSTableViewDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSTableViewDelegate>>>;
 
-        #[cfg(feature = "AppKit_NSTableHeaderView")]
-        #[method_id(@__retain_semantics Other headerView)]
-        pub unsafe fn headerView(&self) -> Option<Id<NSTableHeaderView>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSTableViewDelegate>>);
 
-        #[cfg(feature = "AppKit_NSTableHeaderView")]
-        #[method(setHeaderView:)]
-        pub unsafe fn setHeaderView(&self, header_view: Option<&NSTableHeaderView>);
+    #[cfg(feature = "AppKit_NSTableHeaderView")]
+    #[objc2::method(sel = "headerView", managed = "Other")]
+    pub unsafe fn headerView(&self) -> Option<Id<NSTableHeaderView>>;
 
-        #[method_id(@__retain_semantics Other cornerView)]
-        pub unsafe fn cornerView(&self) -> Option<Id<NSView>>;
+    #[cfg(feature = "AppKit_NSTableHeaderView")]
+    #[objc2::method(sel = "setHeaderView:")]
+    pub unsafe fn setHeaderView(&self, header_view: Option<&NSTableHeaderView>);
 
-        #[method(setCornerView:)]
-        pub unsafe fn setCornerView(&self, corner_view: Option<&NSView>);
+    #[objc2::method(sel = "cornerView", managed = "Other")]
+    pub unsafe fn cornerView(&self) -> Option<Id<NSView>>;
 
-        #[method(allowsColumnReordering)]
-        pub unsafe fn allowsColumnReordering(&self) -> bool;
+    #[objc2::method(sel = "setCornerView:")]
+    pub unsafe fn setCornerView(&self, corner_view: Option<&NSView>);
 
-        #[method(setAllowsColumnReordering:)]
-        pub unsafe fn setAllowsColumnReordering(&self, allows_column_reordering: bool);
+    #[objc2::method(sel = "allowsColumnReordering")]
+    pub unsafe fn allowsColumnReordering(&self) -> bool;
 
-        #[method(allowsColumnResizing)]
-        pub unsafe fn allowsColumnResizing(&self) -> bool;
+    #[objc2::method(sel = "setAllowsColumnReordering:")]
+    pub unsafe fn setAllowsColumnReordering(&self, allows_column_reordering: bool);
 
-        #[method(setAllowsColumnResizing:)]
-        pub unsafe fn setAllowsColumnResizing(&self, allows_column_resizing: bool);
+    #[objc2::method(sel = "allowsColumnResizing")]
+    pub unsafe fn allowsColumnResizing(&self) -> bool;
 
-        #[method(columnAutoresizingStyle)]
-        pub unsafe fn columnAutoresizingStyle(&self) -> NSTableViewColumnAutoresizingStyle;
+    #[objc2::method(sel = "setAllowsColumnResizing:")]
+    pub unsafe fn setAllowsColumnResizing(&self, allows_column_resizing: bool);
 
-        #[method(setColumnAutoresizingStyle:)]
-        pub unsafe fn setColumnAutoresizingStyle(
-            &self,
-            column_autoresizing_style: NSTableViewColumnAutoresizingStyle,
-        );
+    #[objc2::method(sel = "columnAutoresizingStyle")]
+    pub unsafe fn columnAutoresizingStyle(&self) -> NSTableViewColumnAutoresizingStyle;
 
-        #[method(gridStyleMask)]
-        pub unsafe fn gridStyleMask(&self) -> NSTableViewGridLineStyle;
+    #[objc2::method(sel = "setColumnAutoresizingStyle:")]
+    pub unsafe fn setColumnAutoresizingStyle(
+        &self,
+        column_autoresizing_style: NSTableViewColumnAutoresizingStyle,
+    );
 
-        #[method(setGridStyleMask:)]
-        pub unsafe fn setGridStyleMask(&self, grid_style_mask: NSTableViewGridLineStyle);
+    #[objc2::method(sel = "gridStyleMask")]
+    pub unsafe fn gridStyleMask(&self) -> NSTableViewGridLineStyle;
 
-        #[method(intercellSpacing)]
-        pub unsafe fn intercellSpacing(&self) -> NSSize;
+    #[objc2::method(sel = "setGridStyleMask:")]
+    pub unsafe fn setGridStyleMask(&self, grid_style_mask: NSTableViewGridLineStyle);
 
-        #[method(setIntercellSpacing:)]
-        pub unsafe fn setIntercellSpacing(&self, intercell_spacing: NSSize);
+    #[objc2::method(sel = "intercellSpacing")]
+    pub unsafe fn intercellSpacing(&self) -> NSSize;
 
-        #[method(usesAlternatingRowBackgroundColors)]
-        pub unsafe fn usesAlternatingRowBackgroundColors(&self) -> bool;
+    #[objc2::method(sel = "setIntercellSpacing:")]
+    pub unsafe fn setIntercellSpacing(&self, intercell_spacing: NSSize);
 
-        #[method(setUsesAlternatingRowBackgroundColors:)]
-        pub unsafe fn setUsesAlternatingRowBackgroundColors(
-            &self,
-            uses_alternating_row_background_colors: bool,
-        );
+    #[objc2::method(sel = "usesAlternatingRowBackgroundColors")]
+    pub unsafe fn usesAlternatingRowBackgroundColors(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other backgroundColor)]
-        pub unsafe fn backgroundColor(&self) -> Id<NSColor>;
+    #[objc2::method(sel = "setUsesAlternatingRowBackgroundColors:")]
+    pub unsafe fn setUsesAlternatingRowBackgroundColors(
+        &self,
+        uses_alternating_row_background_colors: bool,
+    );
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setBackgroundColor:)]
-        pub unsafe fn setBackgroundColor(&self, background_color: &NSColor);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "backgroundColor", managed = "Other")]
+    pub unsafe fn backgroundColor(&self) -> Id<NSColor>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other gridColor)]
-        pub unsafe fn gridColor(&self) -> Id<NSColor>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setBackgroundColor:")]
+    pub unsafe fn setBackgroundColor(&self, background_color: &NSColor);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setGridColor:)]
-        pub unsafe fn setGridColor(&self, grid_color: &NSColor);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "gridColor", managed = "Other")]
+    pub unsafe fn gridColor(&self) -> Id<NSColor>;
 
-        #[method(rowSizeStyle)]
-        pub unsafe fn rowSizeStyle(&self) -> NSTableViewRowSizeStyle;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setGridColor:")]
+    pub unsafe fn setGridColor(&self, grid_color: &NSColor);
 
-        #[method(setRowSizeStyle:)]
-        pub unsafe fn setRowSizeStyle(&self, row_size_style: NSTableViewRowSizeStyle);
+    #[objc2::method(sel = "rowSizeStyle")]
+    pub unsafe fn rowSizeStyle(&self) -> NSTableViewRowSizeStyle;
 
-        #[method(effectiveRowSizeStyle)]
-        pub unsafe fn effectiveRowSizeStyle(&self) -> NSTableViewRowSizeStyle;
+    #[objc2::method(sel = "setRowSizeStyle:")]
+    pub unsafe fn setRowSizeStyle(&self, row_size_style: NSTableViewRowSizeStyle);
 
-        #[method(rowHeight)]
-        pub unsafe fn rowHeight(&self) -> CGFloat;
+    #[objc2::method(sel = "effectiveRowSizeStyle")]
+    pub unsafe fn effectiveRowSizeStyle(&self) -> NSTableViewRowSizeStyle;
 
-        #[method(setRowHeight:)]
-        pub unsafe fn setRowHeight(&self, row_height: CGFloat);
+    #[objc2::method(sel = "rowHeight")]
+    pub unsafe fn rowHeight(&self) -> CGFloat;
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(noteHeightOfRowsWithIndexesChanged:)]
-        pub unsafe fn noteHeightOfRowsWithIndexesChanged(&self, index_set: &NSIndexSet);
+    #[objc2::method(sel = "setRowHeight:")]
+    pub unsafe fn setRowHeight(&self, row_height: CGFloat);
 
-        #[cfg(all(feature = "AppKit_NSTableColumn", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other tableColumns)]
-        pub unsafe fn tableColumns(&self) -> Id<NSArray<NSTableColumn>>;
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "noteHeightOfRowsWithIndexesChanged:")]
+    pub unsafe fn noteHeightOfRowsWithIndexesChanged(&self, index_set: &NSIndexSet);
 
-        #[method(numberOfColumns)]
-        pub unsafe fn numberOfColumns(&self) -> NSInteger;
+    #[cfg(all(feature = "AppKit_NSTableColumn", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "tableColumns", managed = "Other")]
+    pub unsafe fn tableColumns(&self) -> Id<NSArray<NSTableColumn>>;
 
-        #[method(numberOfRows)]
-        pub unsafe fn numberOfRows(&self) -> NSInteger;
-
-        #[cfg(feature = "AppKit_NSTableColumn")]
-        #[method(addTableColumn:)]
-        pub unsafe fn addTableColumn(&self, table_column: &NSTableColumn);
-
-        #[cfg(feature = "AppKit_NSTableColumn")]
-        #[method(removeTableColumn:)]
-        pub unsafe fn removeTableColumn(&self, table_column: &NSTableColumn);
-
-        #[method(moveColumn:toColumn:)]
-        pub unsafe fn moveColumn_toColumn(&self, old_index: NSInteger, new_index: NSInteger);
-
-        #[method(columnWithIdentifier:)]
-        pub unsafe fn columnWithIdentifier(
-            &self,
-            identifier: &NSUserInterfaceItemIdentifier,
-        ) -> NSInteger;
-
-        #[cfg(feature = "AppKit_NSTableColumn")]
-        #[method_id(@__retain_semantics Other tableColumnWithIdentifier:)]
-        pub unsafe fn tableColumnWithIdentifier(
-            &self,
-            identifier: &NSUserInterfaceItemIdentifier,
-        ) -> Option<Id<NSTableColumn>>;
-
-        #[method(tile)]
-        pub unsafe fn tile(&self);
-
-        #[method(sizeToFit)]
-        pub unsafe fn sizeToFit(&self);
-
-        #[method(sizeLastColumnToFit)]
-        pub unsafe fn sizeLastColumnToFit(&self);
-
-        #[method(scrollRowToVisible:)]
-        pub unsafe fn scrollRowToVisible(&self, row: NSInteger);
-
-        #[method(scrollColumnToVisible:)]
-        pub unsafe fn scrollColumnToVisible(&self, column: NSInteger);
-
-        #[method(reloadData)]
-        pub unsafe fn reloadData(&self);
-
-        #[method(noteNumberOfRowsChanged)]
-        pub unsafe fn noteNumberOfRowsChanged(&self);
-
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(reloadDataForRowIndexes:columnIndexes:)]
-        pub unsafe fn reloadDataForRowIndexes_columnIndexes(
-            &self,
-            row_indexes: &NSIndexSet,
-            column_indexes: &NSIndexSet,
-        );
-
-        #[method(editedColumn)]
-        pub unsafe fn editedColumn(&self) -> NSInteger;
-
-        #[method(editedRow)]
-        pub unsafe fn editedRow(&self) -> NSInteger;
-
-        #[method(clickedColumn)]
-        pub unsafe fn clickedColumn(&self) -> NSInteger;
-
-        #[method(clickedRow)]
-        pub unsafe fn clickedRow(&self) -> NSInteger;
-
-        #[method(doubleAction)]
-        pub unsafe fn doubleAction(&self) -> Option<Sel>;
-
-        #[method(setDoubleAction:)]
-        pub unsafe fn setDoubleAction(&self, double_action: Option<Sel>);
-
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSSortDescriptor"
-        ))]
-        #[method_id(@__retain_semantics Other sortDescriptors)]
-        pub unsafe fn sortDescriptors(&self) -> Id<NSArray<NSSortDescriptor>>;
-
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSSortDescriptor"
-        ))]
-        #[method(setSortDescriptors:)]
-        pub unsafe fn setSortDescriptors(&self, sort_descriptors: &NSArray<NSSortDescriptor>);
-
-        #[cfg(all(feature = "AppKit_NSImage", feature = "AppKit_NSTableColumn"))]
-        #[method(setIndicatorImage:inTableColumn:)]
-        pub unsafe fn setIndicatorImage_inTableColumn(
-            &self,
-            image: Option<&NSImage>,
-            table_column: &NSTableColumn,
-        );
-
-        #[cfg(all(feature = "AppKit_NSImage", feature = "AppKit_NSTableColumn"))]
-        #[method_id(@__retain_semantics Other indicatorImageInTableColumn:)]
-        pub unsafe fn indicatorImageInTableColumn(
-            &self,
-            table_column: &NSTableColumn,
-        ) -> Option<Id<NSImage>>;
-
-        #[cfg(feature = "AppKit_NSTableColumn")]
-        #[method_id(@__retain_semantics Other highlightedTableColumn)]
-        pub unsafe fn highlightedTableColumn(&self) -> Option<Id<NSTableColumn>>;
-
-        #[cfg(feature = "AppKit_NSTableColumn")]
-        #[method(setHighlightedTableColumn:)]
-        pub unsafe fn setHighlightedTableColumn(
-            &self,
-            highlighted_table_column: Option<&NSTableColumn>,
-        );
-
-        #[method(verticalMotionCanBeginDrag)]
-        pub unsafe fn verticalMotionCanBeginDrag(&self) -> bool;
-
-        #[method(setVerticalMotionCanBeginDrag:)]
-        pub unsafe fn setVerticalMotionCanBeginDrag(&self, vertical_motion_can_begin_drag: bool);
-
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(canDragRowsWithIndexes:atPoint:)]
-        pub unsafe fn canDragRowsWithIndexes_atPoint(
-            &self,
-            row_indexes: &NSIndexSet,
-            mouse_down_point: NSPoint,
-        ) -> bool;
-
-        #[cfg(all(
-            feature = "AppKit_NSEvent",
-            feature = "AppKit_NSImage",
-            feature = "AppKit_NSTableColumn",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSIndexSet"
-        ))]
-        #[method_id(@__retain_semantics Other dragImageForRowsWithIndexes:tableColumns:event:offset:)]
-        pub unsafe fn dragImageForRowsWithIndexes_tableColumns_event_offset(
-            &self,
-            drag_rows: &NSIndexSet,
-            table_columns: &NSArray<NSTableColumn>,
-            drag_event: &NSEvent,
-            drag_image_offset: NSPointPointer,
-        ) -> Id<NSImage>;
-
-        #[method(setDraggingSourceOperationMask:forLocal:)]
-        pub unsafe fn setDraggingSourceOperationMask_forLocal(
-            &self,
-            mask: NSDragOperation,
-            is_local: bool,
-        );
-
-        #[method(setDropRow:dropOperation:)]
-        pub unsafe fn setDropRow_dropOperation(
-            &self,
-            row: NSInteger,
-            drop_operation: NSTableViewDropOperation,
-        );
-
-        #[method(allowsMultipleSelection)]
-        pub unsafe fn allowsMultipleSelection(&self) -> bool;
-
-        #[method(setAllowsMultipleSelection:)]
-        pub unsafe fn setAllowsMultipleSelection(&self, allows_multiple_selection: bool);
-
-        #[method(allowsEmptySelection)]
-        pub unsafe fn allowsEmptySelection(&self) -> bool;
-
-        #[method(setAllowsEmptySelection:)]
-        pub unsafe fn setAllowsEmptySelection(&self, allows_empty_selection: bool);
-
-        #[method(allowsColumnSelection)]
-        pub unsafe fn allowsColumnSelection(&self) -> bool;
-
-        #[method(setAllowsColumnSelection:)]
-        pub unsafe fn setAllowsColumnSelection(&self, allows_column_selection: bool);
-
-        #[method(selectAll:)]
-        pub unsafe fn selectAll(&self, sender: Option<&Object>);
-
-        #[method(deselectAll:)]
-        pub unsafe fn deselectAll(&self, sender: Option<&Object>);
-
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(selectColumnIndexes:byExtendingSelection:)]
-        pub unsafe fn selectColumnIndexes_byExtendingSelection(
-            &self,
-            indexes: &NSIndexSet,
-            extend: bool,
-        );
-
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(selectRowIndexes:byExtendingSelection:)]
-        pub unsafe fn selectRowIndexes_byExtendingSelection(
-            &self,
-            indexes: &NSIndexSet,
-            extend: bool,
-        );
-
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method_id(@__retain_semantics Other selectedColumnIndexes)]
-        pub unsafe fn selectedColumnIndexes(&self) -> Id<NSIndexSet>;
-
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method_id(@__retain_semantics Other selectedRowIndexes)]
-        pub unsafe fn selectedRowIndexes(&self) -> Id<NSIndexSet>;
-
-        #[method(deselectColumn:)]
-        pub unsafe fn deselectColumn(&self, column: NSInteger);
-
-        #[method(deselectRow:)]
-        pub unsafe fn deselectRow(&self, row: NSInteger);
-
-        #[method(selectedColumn)]
-        pub unsafe fn selectedColumn(&self) -> NSInteger;
-
-        #[method(selectedRow)]
-        pub unsafe fn selectedRow(&self) -> NSInteger;
-
-        #[method(isColumnSelected:)]
-        pub unsafe fn isColumnSelected(&self, column: NSInteger) -> bool;
-
-        #[method(isRowSelected:)]
-        pub unsafe fn isRowSelected(&self, row: NSInteger) -> bool;
-
-        #[method(numberOfSelectedColumns)]
-        pub unsafe fn numberOfSelectedColumns(&self) -> NSInteger;
-
-        #[method(numberOfSelectedRows)]
-        pub unsafe fn numberOfSelectedRows(&self) -> NSInteger;
-
-        #[method(allowsTypeSelect)]
-        pub unsafe fn allowsTypeSelect(&self) -> bool;
-
-        #[method(setAllowsTypeSelect:)]
-        pub unsafe fn setAllowsTypeSelect(&self, allows_type_select: bool);
-
-        #[method(style)]
-        pub unsafe fn style(&self) -> NSTableViewStyle;
-
-        #[method(setStyle:)]
-        pub unsafe fn setStyle(&self, style: NSTableViewStyle);
-
-        #[method(effectiveStyle)]
-        pub unsafe fn effectiveStyle(&self) -> NSTableViewStyle;
-
-        #[method(selectionHighlightStyle)]
-        pub unsafe fn selectionHighlightStyle(&self) -> NSTableViewSelectionHighlightStyle;
-
-        #[method(setSelectionHighlightStyle:)]
-        pub unsafe fn setSelectionHighlightStyle(
-            &self,
-            selection_highlight_style: NSTableViewSelectionHighlightStyle,
-        );
-
-        #[method(draggingDestinationFeedbackStyle)]
-        pub unsafe fn draggingDestinationFeedbackStyle(
-            &self,
-        ) -> NSTableViewDraggingDestinationFeedbackStyle;
-
-        #[method(setDraggingDestinationFeedbackStyle:)]
-        pub unsafe fn setDraggingDestinationFeedbackStyle(
-            &self,
-            dragging_destination_feedback_style: NSTableViewDraggingDestinationFeedbackStyle,
-        );
-
-        #[method(rectOfColumn:)]
-        pub unsafe fn rectOfColumn(&self, column: NSInteger) -> NSRect;
-
-        #[method(rectOfRow:)]
-        pub unsafe fn rectOfRow(&self, row: NSInteger) -> NSRect;
-
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method_id(@__retain_semantics Other columnIndexesInRect:)]
-        pub unsafe fn columnIndexesInRect(&self, rect: NSRect) -> Id<NSIndexSet>;
-
-        #[method(rowsInRect:)]
-        pub unsafe fn rowsInRect(&self, rect: NSRect) -> NSRange;
-
-        #[method(columnAtPoint:)]
-        pub unsafe fn columnAtPoint(&self, point: NSPoint) -> NSInteger;
-
-        #[method(rowAtPoint:)]
-        pub unsafe fn rowAtPoint(&self, point: NSPoint) -> NSInteger;
-
-        #[method(frameOfCellAtColumn:row:)]
-        pub unsafe fn frameOfCellAtColumn_row(&self, column: NSInteger, row: NSInteger) -> NSRect;
-
-        #[method_id(@__retain_semantics Other autosaveName)]
-        pub unsafe fn autosaveName(&self) -> Option<Id<NSTableViewAutosaveName>>;
-
-        #[method(setAutosaveName:)]
-        pub unsafe fn setAutosaveName(&self, autosave_name: Option<&NSTableViewAutosaveName>);
-
-        #[method(autosaveTableColumns)]
-        pub unsafe fn autosaveTableColumns(&self) -> bool;
-
-        #[method(setAutosaveTableColumns:)]
-        pub unsafe fn setAutosaveTableColumns(&self, autosave_table_columns: bool);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(editColumn:row:withEvent:select:)]
-        pub unsafe fn editColumn_row_withEvent_select(
-            &self,
-            column: NSInteger,
-            row: NSInteger,
-            event: Option<&NSEvent>,
-            select: bool,
-        );
-
-        #[method(drawRow:clipRect:)]
-        pub unsafe fn drawRow_clipRect(&self, row: NSInteger, clip_rect: NSRect);
-
-        #[method(highlightSelectionInClipRect:)]
-        pub unsafe fn highlightSelectionInClipRect(&self, clip_rect: NSRect);
-
-        #[method(drawGridInClipRect:)]
-        pub unsafe fn drawGridInClipRect(&self, clip_rect: NSRect);
-
-        #[method(drawBackgroundInClipRect:)]
-        pub unsafe fn drawBackgroundInClipRect(&self, clip_rect: NSRect);
-
-        #[method_id(@__retain_semantics Other viewAtColumn:row:makeIfNecessary:)]
-        pub unsafe fn viewAtColumn_row_makeIfNecessary(
-            &self,
-            column: NSInteger,
-            row: NSInteger,
-            make_if_necessary: bool,
-        ) -> Option<Id<NSView>>;
-
-        #[cfg(feature = "AppKit_NSTableRowView")]
-        #[method_id(@__retain_semantics Other rowViewAtRow:makeIfNecessary:)]
-        pub unsafe fn rowViewAtRow_makeIfNecessary(
-            &self,
-            row: NSInteger,
-            make_if_necessary: bool,
-        ) -> Option<Id<NSTableRowView>>;
-
-        #[method(rowForView:)]
-        pub unsafe fn rowForView(&self, view: &NSView) -> NSInteger;
-
-        #[method(columnForView:)]
-        pub unsafe fn columnForView(&self, view: &NSView) -> NSInteger;
-
-        #[method_id(@__retain_semantics Other makeViewWithIdentifier:owner:)]
-        pub unsafe fn makeViewWithIdentifier_owner(
-            &self,
-            identifier: &NSUserInterfaceItemIdentifier,
-            owner: Option<&Object>,
-        ) -> Option<Id<NSView>>;
-
-        #[cfg(feature = "AppKit_NSTableRowView")]
-        #[method(enumerateAvailableRowViewsUsingBlock:)]
-        pub unsafe fn enumerateAvailableRowViewsUsingBlock(
-            &self,
-            handler: &Block<(NonNull<NSTableRowView>, NSInteger), ()>,
-        );
-
-        #[method(floatsGroupRows)]
-        pub unsafe fn floatsGroupRows(&self) -> bool;
-
-        #[method(setFloatsGroupRows:)]
-        pub unsafe fn setFloatsGroupRows(&self, floats_group_rows: bool);
-
-        #[method(rowActionsVisible)]
-        pub unsafe fn rowActionsVisible(&self) -> bool;
-
-        #[method(setRowActionsVisible:)]
-        pub unsafe fn setRowActionsVisible(&self, row_actions_visible: bool);
-
-        #[method(beginUpdates)]
-        pub unsafe fn beginUpdates(&self);
-
-        #[method(endUpdates)]
-        pub unsafe fn endUpdates(&self);
-
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(insertRowsAtIndexes:withAnimation:)]
-        pub unsafe fn insertRowsAtIndexes_withAnimation(
-            &self,
-            indexes: &NSIndexSet,
-            animation_options: NSTableViewAnimationOptions,
-        );
-
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(removeRowsAtIndexes:withAnimation:)]
-        pub unsafe fn removeRowsAtIndexes_withAnimation(
-            &self,
-            indexes: &NSIndexSet,
-            animation_options: NSTableViewAnimationOptions,
-        );
-
-        #[method(moveRowAtIndex:toIndex:)]
-        pub unsafe fn moveRowAtIndex_toIndex(&self, old_index: NSInteger, new_index: NSInteger);
-
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(hideRowsAtIndexes:withAnimation:)]
-        pub unsafe fn hideRowsAtIndexes_withAnimation(
-            &self,
-            indexes: &NSIndexSet,
-            row_animation: NSTableViewAnimationOptions,
-        );
-
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(unhideRowsAtIndexes:withAnimation:)]
-        pub unsafe fn unhideRowsAtIndexes_withAnimation(
-            &self,
-            indexes: &NSIndexSet,
-            row_animation: NSTableViewAnimationOptions,
-        );
-
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method_id(@__retain_semantics Other hiddenRowIndexes)]
-        pub unsafe fn hiddenRowIndexes(&self) -> Id<NSIndexSet>;
-
-        #[cfg(feature = "AppKit_NSNib")]
-        #[method(registerNib:forIdentifier:)]
-        pub unsafe fn registerNib_forIdentifier(
-            &self,
-            nib: Option<&NSNib>,
-            identifier: &NSUserInterfaceItemIdentifier,
-        );
-
-        #[cfg(all(feature = "AppKit_NSNib", feature = "Foundation_NSDictionary"))]
-        #[method_id(@__retain_semantics Other registeredNibsByIdentifier)]
-        pub unsafe fn registeredNibsByIdentifier(
-            &self,
-        ) -> Option<Id<NSDictionary<NSUserInterfaceItemIdentifier, NSNib>>>;
-
-        #[cfg(feature = "AppKit_NSTableRowView")]
-        #[method(didAddRowView:forRow:)]
-        pub unsafe fn didAddRowView_forRow(&self, row_view: &NSTableRowView, row: NSInteger);
-
-        #[cfg(feature = "AppKit_NSTableRowView")]
-        #[method(didRemoveRowView:forRow:)]
-        pub unsafe fn didRemoveRowView_forRow(&self, row_view: &NSTableRowView, row: NSInteger);
-
-        #[method(usesStaticContents)]
-        pub unsafe fn usesStaticContents(&self) -> bool;
-
-        #[method(setUsesStaticContents:)]
-        pub unsafe fn setUsesStaticContents(&self, uses_static_contents: bool);
-
-        #[method(userInterfaceLayoutDirection)]
-        pub unsafe fn userInterfaceLayoutDirection(&self) -> NSUserInterfaceLayoutDirection;
-
-        #[method(setUserInterfaceLayoutDirection:)]
-        pub unsafe fn setUserInterfaceLayoutDirection(
-            &self,
-            user_interface_layout_direction: NSUserInterfaceLayoutDirection,
-        );
-
-        #[method(usesAutomaticRowHeights)]
-        pub unsafe fn usesAutomaticRowHeights(&self) -> bool;
-
-        #[method(setUsesAutomaticRowHeights:)]
-        pub unsafe fn setUsesAutomaticRowHeights(&self, uses_automatic_row_heights: bool);
-    }
-);
-
-extern_protocol!(
-    pub unsafe trait NSTableViewDelegate: NSControlTextEditingDelegate {
-        #[cfg(all(
-            feature = "AppKit_NSTableColumn",
-            feature = "AppKit_NSTableView",
-            feature = "AppKit_NSView"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other tableView:viewForTableColumn:row:)]
-        unsafe fn tableView_viewForTableColumn_row(
-            &self,
-            table_view: &NSTableView,
-            table_column: Option<&NSTableColumn>,
-            row: NSInteger,
-        ) -> Option<Id<NSView>>;
-
-        #[cfg(all(feature = "AppKit_NSTableRowView", feature = "AppKit_NSTableView"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other tableView:rowViewForRow:)]
-        unsafe fn tableView_rowViewForRow(
-            &self,
-            table_view: &NSTableView,
-            row: NSInteger,
-        ) -> Option<Id<NSTableRowView>>;
-
-        #[cfg(all(feature = "AppKit_NSTableRowView", feature = "AppKit_NSTableView"))]
-        #[optional]
-        #[method(tableView:didAddRowView:forRow:)]
-        unsafe fn tableView_didAddRowView_forRow(
-            &self,
-            table_view: &NSTableView,
-            row_view: &NSTableRowView,
-            row: NSInteger,
-        );
-
-        #[cfg(all(feature = "AppKit_NSTableRowView", feature = "AppKit_NSTableView"))]
-        #[optional]
-        #[method(tableView:didRemoveRowView:forRow:)]
-        unsafe fn tableView_didRemoveRowView_forRow(
-            &self,
-            table_view: &NSTableView,
-            row_view: &NSTableRowView,
-            row: NSInteger,
-        );
-
-        #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
-        #[optional]
-        #[method(tableView:willDisplayCell:forTableColumn:row:)]
-        unsafe fn tableView_willDisplayCell_forTableColumn_row(
-            &self,
-            table_view: &NSTableView,
-            cell: &Object,
-            table_column: Option<&NSTableColumn>,
-            row: NSInteger,
-        );
-
-        #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
-        #[optional]
-        #[method(tableView:shouldEditTableColumn:row:)]
-        unsafe fn tableView_shouldEditTableColumn_row(
-            &self,
-            table_view: &NSTableView,
-            table_column: Option<&NSTableColumn>,
-            row: NSInteger,
-        ) -> bool;
-
-        #[cfg(all(
-            feature = "AppKit_NSCell",
-            feature = "AppKit_NSTableColumn",
-            feature = "AppKit_NSTableView",
-            feature = "Foundation_NSString"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other tableView:toolTipForCell:rect:tableColumn:row:mouseLocation:)]
-        unsafe fn tableView_toolTipForCell_rect_tableColumn_row_mouseLocation(
-            &self,
-            table_view: &NSTableView,
-            cell: &NSCell,
-            rect: NSRectPointer,
-            table_column: Option<&NSTableColumn>,
-            row: NSInteger,
-            mouse_location: NSPoint,
-        ) -> Id<NSString>;
-
-        #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
-        #[optional]
-        #[method(tableView:shouldShowCellExpansionForTableColumn:row:)]
-        unsafe fn tableView_shouldShowCellExpansionForTableColumn_row(
-            &self,
-            table_view: &NSTableView,
-            table_column: Option<&NSTableColumn>,
-            row: NSInteger,
-        ) -> bool;
-
-        #[cfg(all(
-            feature = "AppKit_NSCell",
-            feature = "AppKit_NSTableColumn",
-            feature = "AppKit_NSTableView"
-        ))]
-        #[optional]
-        #[method(tableView:shouldTrackCell:forTableColumn:row:)]
-        unsafe fn tableView_shouldTrackCell_forTableColumn_row(
-            &self,
-            table_view: &NSTableView,
-            cell: &NSCell,
-            table_column: Option<&NSTableColumn>,
-            row: NSInteger,
-        ) -> bool;
-
-        #[cfg(all(
-            feature = "AppKit_NSCell",
-            feature = "AppKit_NSTableColumn",
-            feature = "AppKit_NSTableView"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other tableView:dataCellForTableColumn:row:)]
-        unsafe fn tableView_dataCellForTableColumn_row(
-            &self,
-            table_view: &NSTableView,
-            table_column: Option<&NSTableColumn>,
-            row: NSInteger,
-        ) -> Option<Id<NSCell>>;
-
-        #[cfg(feature = "AppKit_NSTableView")]
-        #[optional]
-        #[method(selectionShouldChangeInTableView:)]
-        unsafe fn selectionShouldChangeInTableView(&self, table_view: &NSTableView) -> bool;
-
-        #[cfg(feature = "AppKit_NSTableView")]
-        #[optional]
-        #[method(tableView:shouldSelectRow:)]
-        unsafe fn tableView_shouldSelectRow(
-            &self,
-            table_view: &NSTableView,
-            row: NSInteger,
-        ) -> bool;
-
-        #[cfg(all(feature = "AppKit_NSTableView", feature = "Foundation_NSIndexSet"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other tableView:selectionIndexesForProposedSelection:)]
-        unsafe fn tableView_selectionIndexesForProposedSelection(
-            &self,
-            table_view: &NSTableView,
-            proposed_selection_indexes: &NSIndexSet,
-        ) -> Id<NSIndexSet>;
-
-        #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
-        #[optional]
-        #[method(tableView:shouldSelectTableColumn:)]
-        unsafe fn tableView_shouldSelectTableColumn(
-            &self,
-            table_view: &NSTableView,
-            table_column: Option<&NSTableColumn>,
-        ) -> bool;
-
-        #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
-        #[optional]
-        #[method(tableView:mouseDownInHeaderOfTableColumn:)]
-        unsafe fn tableView_mouseDownInHeaderOfTableColumn(
-            &self,
-            table_view: &NSTableView,
-            table_column: &NSTableColumn,
-        );
-
-        #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
-        #[optional]
-        #[method(tableView:didClickTableColumn:)]
-        unsafe fn tableView_didClickTableColumn(
-            &self,
-            table_view: &NSTableView,
-            table_column: &NSTableColumn,
-        );
-
-        #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
-        #[optional]
-        #[method(tableView:didDragTableColumn:)]
-        unsafe fn tableView_didDragTableColumn(
-            &self,
-            table_view: &NSTableView,
-            table_column: &NSTableColumn,
-        );
-
-        #[cfg(feature = "AppKit_NSTableView")]
-        #[optional]
-        #[method(tableView:heightOfRow:)]
-        unsafe fn tableView_heightOfRow(&self, table_view: &NSTableView, row: NSInteger)
-            -> CGFloat;
-
-        #[cfg(all(
-            feature = "AppKit_NSTableColumn",
-            feature = "AppKit_NSTableView",
-            feature = "Foundation_NSString"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other tableView:typeSelectStringForTableColumn:row:)]
-        unsafe fn tableView_typeSelectStringForTableColumn_row(
-            &self,
-            table_view: &NSTableView,
-            table_column: Option<&NSTableColumn>,
-            row: NSInteger,
-        ) -> Option<Id<NSString>>;
-
-        #[cfg(all(feature = "AppKit_NSTableView", feature = "Foundation_NSString"))]
-        #[optional]
-        #[method(tableView:nextTypeSelectMatchFromRow:toRow:forString:)]
-        unsafe fn tableView_nextTypeSelectMatchFromRow_toRow_forString(
-            &self,
-            table_view: &NSTableView,
-            start_row: NSInteger,
-            end_row: NSInteger,
-            search_string: &NSString,
-        ) -> NSInteger;
-
-        #[cfg(all(
-            feature = "AppKit_NSEvent",
-            feature = "AppKit_NSTableView",
-            feature = "Foundation_NSString"
-        ))]
-        #[optional]
-        #[method(tableView:shouldTypeSelectForEvent:withCurrentSearchString:)]
-        unsafe fn tableView_shouldTypeSelectForEvent_withCurrentSearchString(
-            &self,
-            table_view: &NSTableView,
-            event: &NSEvent,
-            search_string: Option<&NSString>,
-        ) -> bool;
-
-        #[cfg(feature = "AppKit_NSTableView")]
-        #[optional]
-        #[method(tableView:isGroupRow:)]
-        unsafe fn tableView_isGroupRow(&self, table_view: &NSTableView, row: NSInteger) -> bool;
-
-        #[cfg(feature = "AppKit_NSTableView")]
-        #[optional]
-        #[method(tableView:sizeToFitWidthOfColumn:)]
-        unsafe fn tableView_sizeToFitWidthOfColumn(
-            &self,
-            table_view: &NSTableView,
-            column: NSInteger,
-        ) -> CGFloat;
-
-        #[cfg(feature = "AppKit_NSTableView")]
-        #[optional]
-        #[method(tableView:shouldReorderColumn:toColumn:)]
-        unsafe fn tableView_shouldReorderColumn_toColumn(
-            &self,
-            table_view: &NSTableView,
-            column_index: NSInteger,
-            new_column_index: NSInteger,
-        ) -> bool;
-
-        #[cfg(all(
-            feature = "AppKit_NSTableView",
-            feature = "AppKit_NSTableViewRowAction",
-            feature = "Foundation_NSArray"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other tableView:rowActionsForRow:edge:)]
-        unsafe fn tableView_rowActionsForRow_edge(
-            &self,
-            table_view: &NSTableView,
-            row: NSInteger,
-            edge: NSTableRowActionEdge,
-        ) -> Id<NSArray<NSTableViewRowAction>>;
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(tableViewSelectionDidChange:)]
-        unsafe fn tableViewSelectionDidChange(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(tableViewColumnDidMove:)]
-        unsafe fn tableViewColumnDidMove(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(tableViewColumnDidResize:)]
-        unsafe fn tableViewColumnDidResize(&self, notification: &NSNotification);
-
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(tableViewSelectionIsChanging:)]
-        unsafe fn tableViewSelectionIsChanging(&self, notification: &NSNotification);
-    }
-
-    unsafe impl ProtocolType for dyn NSTableViewDelegate {}
-);
+    #[objc2::method(sel = "numberOfColumns")]
+    pub unsafe fn numberOfColumns(&self) -> NSInteger;
+
+    #[objc2::method(sel = "numberOfRows")]
+    pub unsafe fn numberOfRows(&self) -> NSInteger;
+
+    #[cfg(feature = "AppKit_NSTableColumn")]
+    #[objc2::method(sel = "addTableColumn:")]
+    pub unsafe fn addTableColumn(&self, table_column: &NSTableColumn);
+
+    #[cfg(feature = "AppKit_NSTableColumn")]
+    #[objc2::method(sel = "removeTableColumn:")]
+    pub unsafe fn removeTableColumn(&self, table_column: &NSTableColumn);
+
+    #[objc2::method(sel = "moveColumn:toColumn:")]
+    pub unsafe fn moveColumn_toColumn(&self, old_index: NSInteger, new_index: NSInteger);
+
+    #[objc2::method(sel = "columnWithIdentifier:")]
+    pub unsafe fn columnWithIdentifier(
+        &self,
+        identifier: &NSUserInterfaceItemIdentifier,
+    ) -> NSInteger;
+
+    #[cfg(feature = "AppKit_NSTableColumn")]
+    #[objc2::method(sel = "tableColumnWithIdentifier:", managed = "Other")]
+    pub unsafe fn tableColumnWithIdentifier(
+        &self,
+        identifier: &NSUserInterfaceItemIdentifier,
+    ) -> Option<Id<NSTableColumn>>;
+
+    #[objc2::method(sel = "tile")]
+    pub unsafe fn tile(&self);
+
+    #[objc2::method(sel = "sizeToFit")]
+    pub unsafe fn sizeToFit(&self);
+
+    #[objc2::method(sel = "sizeLastColumnToFit")]
+    pub unsafe fn sizeLastColumnToFit(&self);
+
+    #[objc2::method(sel = "scrollRowToVisible:")]
+    pub unsafe fn scrollRowToVisible(&self, row: NSInteger);
+
+    #[objc2::method(sel = "scrollColumnToVisible:")]
+    pub unsafe fn scrollColumnToVisible(&self, column: NSInteger);
+
+    #[objc2::method(sel = "reloadData")]
+    pub unsafe fn reloadData(&self);
+
+    #[objc2::method(sel = "noteNumberOfRowsChanged")]
+    pub unsafe fn noteNumberOfRowsChanged(&self);
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "reloadDataForRowIndexes:columnIndexes:")]
+    pub unsafe fn reloadDataForRowIndexes_columnIndexes(
+        &self,
+        row_indexes: &NSIndexSet,
+        column_indexes: &NSIndexSet,
+    );
+
+    #[objc2::method(sel = "editedColumn")]
+    pub unsafe fn editedColumn(&self) -> NSInteger;
+
+    #[objc2::method(sel = "editedRow")]
+    pub unsafe fn editedRow(&self) -> NSInteger;
+
+    #[objc2::method(sel = "clickedColumn")]
+    pub unsafe fn clickedColumn(&self) -> NSInteger;
+
+    #[objc2::method(sel = "clickedRow")]
+    pub unsafe fn clickedRow(&self) -> NSInteger;
+
+    #[objc2::method(sel = "doubleAction")]
+    pub unsafe fn doubleAction(&self) -> Option<Sel>;
+
+    #[objc2::method(sel = "setDoubleAction:")]
+    pub unsafe fn setDoubleAction(&self, double_action: Option<Sel>);
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSSortDescriptor"
+    ))]
+    #[objc2::method(sel = "sortDescriptors", managed = "Other")]
+    pub unsafe fn sortDescriptors(&self) -> Id<NSArray<NSSortDescriptor>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSSortDescriptor"
+    ))]
+    #[objc2::method(sel = "setSortDescriptors:")]
+    pub unsafe fn setSortDescriptors(&self, sort_descriptors: &NSArray<NSSortDescriptor>);
+
+    #[cfg(all(feature = "AppKit_NSImage", feature = "AppKit_NSTableColumn"))]
+    #[objc2::method(sel = "setIndicatorImage:inTableColumn:")]
+    pub unsafe fn setIndicatorImage_inTableColumn(
+        &self,
+        image: Option<&NSImage>,
+        table_column: &NSTableColumn,
+    );
+
+    #[cfg(all(feature = "AppKit_NSImage", feature = "AppKit_NSTableColumn"))]
+    #[objc2::method(sel = "indicatorImageInTableColumn:", managed = "Other")]
+    pub unsafe fn indicatorImageInTableColumn(
+        &self,
+        table_column: &NSTableColumn,
+    ) -> Option<Id<NSImage>>;
+
+    #[cfg(feature = "AppKit_NSTableColumn")]
+    #[objc2::method(sel = "highlightedTableColumn", managed = "Other")]
+    pub unsafe fn highlightedTableColumn(&self) -> Option<Id<NSTableColumn>>;
+
+    #[cfg(feature = "AppKit_NSTableColumn")]
+    #[objc2::method(sel = "setHighlightedTableColumn:")]
+    pub unsafe fn setHighlightedTableColumn(
+        &self,
+        highlighted_table_column: Option<&NSTableColumn>,
+    );
+
+    #[objc2::method(sel = "verticalMotionCanBeginDrag")]
+    pub unsafe fn verticalMotionCanBeginDrag(&self) -> bool;
+
+    #[objc2::method(sel = "setVerticalMotionCanBeginDrag:")]
+    pub unsafe fn setVerticalMotionCanBeginDrag(&self, vertical_motion_can_begin_drag: bool);
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "canDragRowsWithIndexes:atPoint:")]
+    pub unsafe fn canDragRowsWithIndexes_atPoint(
+        &self,
+        row_indexes: &NSIndexSet,
+        mouse_down_point: NSPoint,
+    ) -> bool;
+
+    #[cfg(all(
+        feature = "AppKit_NSEvent",
+        feature = "AppKit_NSImage",
+        feature = "AppKit_NSTableColumn",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSIndexSet"
+    ))]
+    #[objc2::method(
+        sel = "dragImageForRowsWithIndexes:tableColumns:event:offset:",
+        managed = "Other"
+    )]
+    pub unsafe fn dragImageForRowsWithIndexes_tableColumns_event_offset(
+        &self,
+        drag_rows: &NSIndexSet,
+        table_columns: &NSArray<NSTableColumn>,
+        drag_event: &NSEvent,
+        drag_image_offset: NSPointPointer,
+    ) -> Id<NSImage>;
+
+    #[objc2::method(sel = "setDraggingSourceOperationMask:forLocal:")]
+    pub unsafe fn setDraggingSourceOperationMask_forLocal(
+        &self,
+        mask: NSDragOperation,
+        is_local: bool,
+    );
+
+    #[objc2::method(sel = "setDropRow:dropOperation:")]
+    pub unsafe fn setDropRow_dropOperation(
+        &self,
+        row: NSInteger,
+        drop_operation: NSTableViewDropOperation,
+    );
+
+    #[objc2::method(sel = "allowsMultipleSelection")]
+    pub unsafe fn allowsMultipleSelection(&self) -> bool;
+
+    #[objc2::method(sel = "setAllowsMultipleSelection:")]
+    pub unsafe fn setAllowsMultipleSelection(&self, allows_multiple_selection: bool);
+
+    #[objc2::method(sel = "allowsEmptySelection")]
+    pub unsafe fn allowsEmptySelection(&self) -> bool;
+
+    #[objc2::method(sel = "setAllowsEmptySelection:")]
+    pub unsafe fn setAllowsEmptySelection(&self, allows_empty_selection: bool);
+
+    #[objc2::method(sel = "allowsColumnSelection")]
+    pub unsafe fn allowsColumnSelection(&self) -> bool;
+
+    #[objc2::method(sel = "setAllowsColumnSelection:")]
+    pub unsafe fn setAllowsColumnSelection(&self, allows_column_selection: bool);
+
+    #[objc2::method(sel = "selectAll:")]
+    pub unsafe fn selectAll(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "deselectAll:")]
+    pub unsafe fn deselectAll(&self, sender: Option<&Object>);
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "selectColumnIndexes:byExtendingSelection:")]
+    pub unsafe fn selectColumnIndexes_byExtendingSelection(
+        &self,
+        indexes: &NSIndexSet,
+        extend: bool,
+    );
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "selectRowIndexes:byExtendingSelection:")]
+    pub unsafe fn selectRowIndexes_byExtendingSelection(&self, indexes: &NSIndexSet, extend: bool);
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "selectedColumnIndexes", managed = "Other")]
+    pub unsafe fn selectedColumnIndexes(&self) -> Id<NSIndexSet>;
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "selectedRowIndexes", managed = "Other")]
+    pub unsafe fn selectedRowIndexes(&self) -> Id<NSIndexSet>;
+
+    #[objc2::method(sel = "deselectColumn:")]
+    pub unsafe fn deselectColumn(&self, column: NSInteger);
+
+    #[objc2::method(sel = "deselectRow:")]
+    pub unsafe fn deselectRow(&self, row: NSInteger);
+
+    #[objc2::method(sel = "selectedColumn")]
+    pub unsafe fn selectedColumn(&self) -> NSInteger;
+
+    #[objc2::method(sel = "selectedRow")]
+    pub unsafe fn selectedRow(&self) -> NSInteger;
+
+    #[objc2::method(sel = "isColumnSelected:")]
+    pub unsafe fn isColumnSelected(&self, column: NSInteger) -> bool;
+
+    #[objc2::method(sel = "isRowSelected:")]
+    pub unsafe fn isRowSelected(&self, row: NSInteger) -> bool;
+
+    #[objc2::method(sel = "numberOfSelectedColumns")]
+    pub unsafe fn numberOfSelectedColumns(&self) -> NSInteger;
+
+    #[objc2::method(sel = "numberOfSelectedRows")]
+    pub unsafe fn numberOfSelectedRows(&self) -> NSInteger;
+
+    #[objc2::method(sel = "allowsTypeSelect")]
+    pub unsafe fn allowsTypeSelect(&self) -> bool;
+
+    #[objc2::method(sel = "setAllowsTypeSelect:")]
+    pub unsafe fn setAllowsTypeSelect(&self, allows_type_select: bool);
+
+    #[objc2::method(sel = "style")]
+    pub unsafe fn style(&self) -> NSTableViewStyle;
+
+    #[objc2::method(sel = "setStyle:")]
+    pub unsafe fn setStyle(&self, style: NSTableViewStyle);
+
+    #[objc2::method(sel = "effectiveStyle")]
+    pub unsafe fn effectiveStyle(&self) -> NSTableViewStyle;
+
+    #[objc2::method(sel = "selectionHighlightStyle")]
+    pub unsafe fn selectionHighlightStyle(&self) -> NSTableViewSelectionHighlightStyle;
+
+    #[objc2::method(sel = "setSelectionHighlightStyle:")]
+    pub unsafe fn setSelectionHighlightStyle(
+        &self,
+        selection_highlight_style: NSTableViewSelectionHighlightStyle,
+    );
+
+    #[objc2::method(sel = "draggingDestinationFeedbackStyle")]
+    pub unsafe fn draggingDestinationFeedbackStyle(
+        &self,
+    ) -> NSTableViewDraggingDestinationFeedbackStyle;
+
+    #[objc2::method(sel = "setDraggingDestinationFeedbackStyle:")]
+    pub unsafe fn setDraggingDestinationFeedbackStyle(
+        &self,
+        dragging_destination_feedback_style: NSTableViewDraggingDestinationFeedbackStyle,
+    );
+
+    #[objc2::method(sel = "rectOfColumn:")]
+    pub unsafe fn rectOfColumn(&self, column: NSInteger) -> NSRect;
+
+    #[objc2::method(sel = "rectOfRow:")]
+    pub unsafe fn rectOfRow(&self, row: NSInteger) -> NSRect;
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "columnIndexesInRect:", managed = "Other")]
+    pub unsafe fn columnIndexesInRect(&self, rect: NSRect) -> Id<NSIndexSet>;
+
+    #[objc2::method(sel = "rowsInRect:")]
+    pub unsafe fn rowsInRect(&self, rect: NSRect) -> NSRange;
+
+    #[objc2::method(sel = "columnAtPoint:")]
+    pub unsafe fn columnAtPoint(&self, point: NSPoint) -> NSInteger;
+
+    #[objc2::method(sel = "rowAtPoint:")]
+    pub unsafe fn rowAtPoint(&self, point: NSPoint) -> NSInteger;
+
+    #[objc2::method(sel = "frameOfCellAtColumn:row:")]
+    pub unsafe fn frameOfCellAtColumn_row(&self, column: NSInteger, row: NSInteger) -> NSRect;
+
+    #[objc2::method(sel = "autosaveName", managed = "Other")]
+    pub unsafe fn autosaveName(&self) -> Option<Id<NSTableViewAutosaveName>>;
+
+    #[objc2::method(sel = "setAutosaveName:")]
+    pub unsafe fn setAutosaveName(&self, autosave_name: Option<&NSTableViewAutosaveName>);
+
+    #[objc2::method(sel = "autosaveTableColumns")]
+    pub unsafe fn autosaveTableColumns(&self) -> bool;
+
+    #[objc2::method(sel = "setAutosaveTableColumns:")]
+    pub unsafe fn setAutosaveTableColumns(&self, autosave_table_columns: bool);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "editColumn:row:withEvent:select:")]
+    pub unsafe fn editColumn_row_withEvent_select(
+        &self,
+        column: NSInteger,
+        row: NSInteger,
+        event: Option<&NSEvent>,
+        select: bool,
+    );
+
+    #[objc2::method(sel = "drawRow:clipRect:")]
+    pub unsafe fn drawRow_clipRect(&self, row: NSInteger, clip_rect: NSRect);
+
+    #[objc2::method(sel = "highlightSelectionInClipRect:")]
+    pub unsafe fn highlightSelectionInClipRect(&self, clip_rect: NSRect);
+
+    #[objc2::method(sel = "drawGridInClipRect:")]
+    pub unsafe fn drawGridInClipRect(&self, clip_rect: NSRect);
+
+    #[objc2::method(sel = "drawBackgroundInClipRect:")]
+    pub unsafe fn drawBackgroundInClipRect(&self, clip_rect: NSRect);
+
+    #[objc2::method(sel = "viewAtColumn:row:makeIfNecessary:", managed = "Other")]
+    pub unsafe fn viewAtColumn_row_makeIfNecessary(
+        &self,
+        column: NSInteger,
+        row: NSInteger,
+        make_if_necessary: bool,
+    ) -> Option<Id<NSView>>;
+
+    #[cfg(feature = "AppKit_NSTableRowView")]
+    #[objc2::method(sel = "rowViewAtRow:makeIfNecessary:", managed = "Other")]
+    pub unsafe fn rowViewAtRow_makeIfNecessary(
+        &self,
+        row: NSInteger,
+        make_if_necessary: bool,
+    ) -> Option<Id<NSTableRowView>>;
+
+    #[objc2::method(sel = "rowForView:")]
+    pub unsafe fn rowForView(&self, view: &NSView) -> NSInteger;
+
+    #[objc2::method(sel = "columnForView:")]
+    pub unsafe fn columnForView(&self, view: &NSView) -> NSInteger;
+
+    #[objc2::method(sel = "makeViewWithIdentifier:owner:", managed = "Other")]
+    pub unsafe fn makeViewWithIdentifier_owner(
+        &self,
+        identifier: &NSUserInterfaceItemIdentifier,
+        owner: Option<&Object>,
+    ) -> Option<Id<NSView>>;
+
+    #[cfg(feature = "AppKit_NSTableRowView")]
+    #[objc2::method(sel = "enumerateAvailableRowViewsUsingBlock:")]
+    pub unsafe fn enumerateAvailableRowViewsUsingBlock(
+        &self,
+        handler: &Block<(NonNull<NSTableRowView>, NSInteger), ()>,
+    );
+
+    #[objc2::method(sel = "floatsGroupRows")]
+    pub unsafe fn floatsGroupRows(&self) -> bool;
+
+    #[objc2::method(sel = "setFloatsGroupRows:")]
+    pub unsafe fn setFloatsGroupRows(&self, floats_group_rows: bool);
+
+    #[objc2::method(sel = "rowActionsVisible")]
+    pub unsafe fn rowActionsVisible(&self) -> bool;
+
+    #[objc2::method(sel = "setRowActionsVisible:")]
+    pub unsafe fn setRowActionsVisible(&self, row_actions_visible: bool);
+
+    #[objc2::method(sel = "beginUpdates")]
+    pub unsafe fn beginUpdates(&self);
+
+    #[objc2::method(sel = "endUpdates")]
+    pub unsafe fn endUpdates(&self);
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "insertRowsAtIndexes:withAnimation:")]
+    pub unsafe fn insertRowsAtIndexes_withAnimation(
+        &self,
+        indexes: &NSIndexSet,
+        animation_options: NSTableViewAnimationOptions,
+    );
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "removeRowsAtIndexes:withAnimation:")]
+    pub unsafe fn removeRowsAtIndexes_withAnimation(
+        &self,
+        indexes: &NSIndexSet,
+        animation_options: NSTableViewAnimationOptions,
+    );
+
+    #[objc2::method(sel = "moveRowAtIndex:toIndex:")]
+    pub unsafe fn moveRowAtIndex_toIndex(&self, old_index: NSInteger, new_index: NSInteger);
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "hideRowsAtIndexes:withAnimation:")]
+    pub unsafe fn hideRowsAtIndexes_withAnimation(
+        &self,
+        indexes: &NSIndexSet,
+        row_animation: NSTableViewAnimationOptions,
+    );
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "unhideRowsAtIndexes:withAnimation:")]
+    pub unsafe fn unhideRowsAtIndexes_withAnimation(
+        &self,
+        indexes: &NSIndexSet,
+        row_animation: NSTableViewAnimationOptions,
+    );
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "hiddenRowIndexes", managed = "Other")]
+    pub unsafe fn hiddenRowIndexes(&self) -> Id<NSIndexSet>;
+
+    #[cfg(feature = "AppKit_NSNib")]
+    #[objc2::method(sel = "registerNib:forIdentifier:")]
+    pub unsafe fn registerNib_forIdentifier(
+        &self,
+        nib: Option<&NSNib>,
+        identifier: &NSUserInterfaceItemIdentifier,
+    );
+
+    #[cfg(all(feature = "AppKit_NSNib", feature = "Foundation_NSDictionary"))]
+    #[objc2::method(sel = "registeredNibsByIdentifier", managed = "Other")]
+    pub unsafe fn registeredNibsByIdentifier(
+        &self,
+    ) -> Option<Id<NSDictionary<NSUserInterfaceItemIdentifier, NSNib>>>;
+
+    #[cfg(feature = "AppKit_NSTableRowView")]
+    #[objc2::method(sel = "didAddRowView:forRow:")]
+    pub unsafe fn didAddRowView_forRow(&self, row_view: &NSTableRowView, row: NSInteger);
+
+    #[cfg(feature = "AppKit_NSTableRowView")]
+    #[objc2::method(sel = "didRemoveRowView:forRow:")]
+    pub unsafe fn didRemoveRowView_forRow(&self, row_view: &NSTableRowView, row: NSInteger);
+
+    #[objc2::method(sel = "usesStaticContents")]
+    pub unsafe fn usesStaticContents(&self) -> bool;
+
+    #[objc2::method(sel = "setUsesStaticContents:")]
+    pub unsafe fn setUsesStaticContents(&self, uses_static_contents: bool);
+
+    #[objc2::method(sel = "userInterfaceLayoutDirection")]
+    pub unsafe fn userInterfaceLayoutDirection(&self) -> NSUserInterfaceLayoutDirection;
+
+    #[objc2::method(sel = "setUserInterfaceLayoutDirection:")]
+    pub unsafe fn setUserInterfaceLayoutDirection(
+        &self,
+        user_interface_layout_direction: NSUserInterfaceLayoutDirection,
+    );
+
+    #[objc2::method(sel = "usesAutomaticRowHeights")]
+    pub unsafe fn usesAutomaticRowHeights(&self) -> bool;
+
+    #[objc2::method(sel = "setUsesAutomaticRowHeights:")]
+    pub unsafe fn setUsesAutomaticRowHeights(&self, uses_automatic_row_heights: bool);
+}
+
+#[objc2::protocol]
+pub unsafe trait NSTableViewDelegate: NSControlTextEditingDelegate {
+    #[cfg(all(
+        feature = "AppKit_NSTableColumn",
+        feature = "AppKit_NSTableView",
+        feature = "AppKit_NSView"
+    ))]
+    #[objc2::method(optional, sel = "tableView:viewForTableColumn:row:", managed = "Other")]
+    unsafe fn tableView_viewForTableColumn_row(
+        &self,
+        table_view: &NSTableView,
+        table_column: Option<&NSTableColumn>,
+        row: NSInteger,
+    ) -> Option<Id<NSView>>;
+
+    #[cfg(all(feature = "AppKit_NSTableRowView", feature = "AppKit_NSTableView"))]
+    #[objc2::method(optional, sel = "tableView:rowViewForRow:", managed = "Other")]
+    unsafe fn tableView_rowViewForRow(
+        &self,
+        table_view: &NSTableView,
+        row: NSInteger,
+    ) -> Option<Id<NSTableRowView>>;
+
+    #[cfg(all(feature = "AppKit_NSTableRowView", feature = "AppKit_NSTableView"))]
+    #[objc2::method(optional, sel = "tableView:didAddRowView:forRow:")]
+    unsafe fn tableView_didAddRowView_forRow(
+        &self,
+        table_view: &NSTableView,
+        row_view: &NSTableRowView,
+        row: NSInteger,
+    );
+
+    #[cfg(all(feature = "AppKit_NSTableRowView", feature = "AppKit_NSTableView"))]
+    #[objc2::method(optional, sel = "tableView:didRemoveRowView:forRow:")]
+    unsafe fn tableView_didRemoveRowView_forRow(
+        &self,
+        table_view: &NSTableView,
+        row_view: &NSTableRowView,
+        row: NSInteger,
+    );
+
+    #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
+    #[objc2::method(optional, sel = "tableView:willDisplayCell:forTableColumn:row:")]
+    unsafe fn tableView_willDisplayCell_forTableColumn_row(
+        &self,
+        table_view: &NSTableView,
+        cell: &Object,
+        table_column: Option<&NSTableColumn>,
+        row: NSInteger,
+    );
+
+    #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
+    #[objc2::method(optional, sel = "tableView:shouldEditTableColumn:row:")]
+    unsafe fn tableView_shouldEditTableColumn_row(
+        &self,
+        table_view: &NSTableView,
+        table_column: Option<&NSTableColumn>,
+        row: NSInteger,
+    ) -> bool;
+
+    #[cfg(all(
+        feature = "AppKit_NSCell",
+        feature = "AppKit_NSTableColumn",
+        feature = "AppKit_NSTableView",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "tableView:toolTipForCell:rect:tableColumn:row:mouseLocation:",
+        managed = "Other"
+    )]
+    unsafe fn tableView_toolTipForCell_rect_tableColumn_row_mouseLocation(
+        &self,
+        table_view: &NSTableView,
+        cell: &NSCell,
+        rect: NSRectPointer,
+        table_column: Option<&NSTableColumn>,
+        row: NSInteger,
+        mouse_location: NSPoint,
+    ) -> Id<NSString>;
+
+    #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
+    #[objc2::method(optional, sel = "tableView:shouldShowCellExpansionForTableColumn:row:")]
+    unsafe fn tableView_shouldShowCellExpansionForTableColumn_row(
+        &self,
+        table_view: &NSTableView,
+        table_column: Option<&NSTableColumn>,
+        row: NSInteger,
+    ) -> bool;
+
+    #[cfg(all(
+        feature = "AppKit_NSCell",
+        feature = "AppKit_NSTableColumn",
+        feature = "AppKit_NSTableView"
+    ))]
+    #[objc2::method(optional, sel = "tableView:shouldTrackCell:forTableColumn:row:")]
+    unsafe fn tableView_shouldTrackCell_forTableColumn_row(
+        &self,
+        table_view: &NSTableView,
+        cell: &NSCell,
+        table_column: Option<&NSTableColumn>,
+        row: NSInteger,
+    ) -> bool;
+
+    #[cfg(all(
+        feature = "AppKit_NSCell",
+        feature = "AppKit_NSTableColumn",
+        feature = "AppKit_NSTableView"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "tableView:dataCellForTableColumn:row:",
+        managed = "Other"
+    )]
+    unsafe fn tableView_dataCellForTableColumn_row(
+        &self,
+        table_view: &NSTableView,
+        table_column: Option<&NSTableColumn>,
+        row: NSInteger,
+    ) -> Option<Id<NSCell>>;
+
+    #[cfg(feature = "AppKit_NSTableView")]
+    #[objc2::method(optional, sel = "selectionShouldChangeInTableView:")]
+    unsafe fn selectionShouldChangeInTableView(&self, table_view: &NSTableView) -> bool;
+
+    #[cfg(feature = "AppKit_NSTableView")]
+    #[objc2::method(optional, sel = "tableView:shouldSelectRow:")]
+    unsafe fn tableView_shouldSelectRow(&self, table_view: &NSTableView, row: NSInteger) -> bool;
+
+    #[cfg(all(feature = "AppKit_NSTableView", feature = "Foundation_NSIndexSet"))]
+    #[objc2::method(
+        optional,
+        sel = "tableView:selectionIndexesForProposedSelection:",
+        managed = "Other"
+    )]
+    unsafe fn tableView_selectionIndexesForProposedSelection(
+        &self,
+        table_view: &NSTableView,
+        proposed_selection_indexes: &NSIndexSet,
+    ) -> Id<NSIndexSet>;
+
+    #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
+    #[objc2::method(optional, sel = "tableView:shouldSelectTableColumn:")]
+    unsafe fn tableView_shouldSelectTableColumn(
+        &self,
+        table_view: &NSTableView,
+        table_column: Option<&NSTableColumn>,
+    ) -> bool;
+
+    #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
+    #[objc2::method(optional, sel = "tableView:mouseDownInHeaderOfTableColumn:")]
+    unsafe fn tableView_mouseDownInHeaderOfTableColumn(
+        &self,
+        table_view: &NSTableView,
+        table_column: &NSTableColumn,
+    );
+
+    #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
+    #[objc2::method(optional, sel = "tableView:didClickTableColumn:")]
+    unsafe fn tableView_didClickTableColumn(
+        &self,
+        table_view: &NSTableView,
+        table_column: &NSTableColumn,
+    );
+
+    #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
+    #[objc2::method(optional, sel = "tableView:didDragTableColumn:")]
+    unsafe fn tableView_didDragTableColumn(
+        &self,
+        table_view: &NSTableView,
+        table_column: &NSTableColumn,
+    );
+
+    #[cfg(feature = "AppKit_NSTableView")]
+    #[objc2::method(optional, sel = "tableView:heightOfRow:")]
+    unsafe fn tableView_heightOfRow(&self, table_view: &NSTableView, row: NSInteger) -> CGFloat;
+
+    #[cfg(all(
+        feature = "AppKit_NSTableColumn",
+        feature = "AppKit_NSTableView",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "tableView:typeSelectStringForTableColumn:row:",
+        managed = "Other"
+    )]
+    unsafe fn tableView_typeSelectStringForTableColumn_row(
+        &self,
+        table_view: &NSTableView,
+        table_column: Option<&NSTableColumn>,
+        row: NSInteger,
+    ) -> Option<Id<NSString>>;
+
+    #[cfg(all(feature = "AppKit_NSTableView", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        optional,
+        sel = "tableView:nextTypeSelectMatchFromRow:toRow:forString:"
+    )]
+    unsafe fn tableView_nextTypeSelectMatchFromRow_toRow_forString(
+        &self,
+        table_view: &NSTableView,
+        start_row: NSInteger,
+        end_row: NSInteger,
+        search_string: &NSString,
+    ) -> NSInteger;
+
+    #[cfg(all(
+        feature = "AppKit_NSEvent",
+        feature = "AppKit_NSTableView",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "tableView:shouldTypeSelectForEvent:withCurrentSearchString:"
+    )]
+    unsafe fn tableView_shouldTypeSelectForEvent_withCurrentSearchString(
+        &self,
+        table_view: &NSTableView,
+        event: &NSEvent,
+        search_string: Option<&NSString>,
+    ) -> bool;
+
+    #[cfg(feature = "AppKit_NSTableView")]
+    #[objc2::method(optional, sel = "tableView:isGroupRow:")]
+    unsafe fn tableView_isGroupRow(&self, table_view: &NSTableView, row: NSInteger) -> bool;
+
+    #[cfg(feature = "AppKit_NSTableView")]
+    #[objc2::method(optional, sel = "tableView:sizeToFitWidthOfColumn:")]
+    unsafe fn tableView_sizeToFitWidthOfColumn(
+        &self,
+        table_view: &NSTableView,
+        column: NSInteger,
+    ) -> CGFloat;
+
+    #[cfg(feature = "AppKit_NSTableView")]
+    #[objc2::method(optional, sel = "tableView:shouldReorderColumn:toColumn:")]
+    unsafe fn tableView_shouldReorderColumn_toColumn(
+        &self,
+        table_view: &NSTableView,
+        column_index: NSInteger,
+        new_column_index: NSInteger,
+    ) -> bool;
+
+    #[cfg(all(
+        feature = "AppKit_NSTableView",
+        feature = "AppKit_NSTableViewRowAction",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(optional, sel = "tableView:rowActionsForRow:edge:", managed = "Other")]
+    unsafe fn tableView_rowActionsForRow_edge(
+        &self,
+        table_view: &NSTableView,
+        row: NSInteger,
+        edge: NSTableRowActionEdge,
+    ) -> Id<NSArray<NSTableViewRowAction>>;
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "tableViewSelectionDidChange:")]
+    unsafe fn tableViewSelectionDidChange(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "tableViewColumnDidMove:")]
+    unsafe fn tableViewColumnDidMove(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "tableViewColumnDidResize:")]
+    unsafe fn tableViewColumnDidResize(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "tableViewSelectionIsChanging:")]
+    unsafe fn tableViewSelectionIsChanging(&self, notification: &NSNotification);
+}
 
 extern_static!(NSTableViewSelectionDidChangeNotification: &'static NSNotificationName);
 
@@ -1041,259 +1016,260 @@ extern_static!(NSTableViewSelectionIsChangingNotification: &'static NSNotificati
 
 extern_static!(NSTableViewRowViewKey: &'static NSUserInterfaceItemIdentifier);
 
-extern_protocol!(
-    pub unsafe trait NSTableViewDataSource: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSTableView")]
-        #[optional]
-        #[method(numberOfRowsInTableView:)]
-        unsafe fn numberOfRowsInTableView(&self, table_view: &NSTableView) -> NSInteger;
-
-        #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other tableView:objectValueForTableColumn:row:)]
-        unsafe fn tableView_objectValueForTableColumn_row(
-            &self,
-            table_view: &NSTableView,
-            table_column: Option<&NSTableColumn>,
-            row: NSInteger,
-        ) -> Option<Id<Object>>;
-
-        #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
-        #[optional]
-        #[method(tableView:setObjectValue:forTableColumn:row:)]
-        unsafe fn tableView_setObjectValue_forTableColumn_row(
-            &self,
-            table_view: &NSTableView,
-            object: Option<&Object>,
-            table_column: Option<&NSTableColumn>,
-            row: NSInteger,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSTableView",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSSortDescriptor"
-        ))]
-        #[optional]
-        #[method(tableView:sortDescriptorsDidChange:)]
-        unsafe fn tableView_sortDescriptorsDidChange(
-            &self,
-            table_view: &NSTableView,
-            old_descriptors: &NSArray<NSSortDescriptor>,
-        );
-
-        #[cfg(feature = "AppKit_NSTableView")]
-        #[optional]
-        #[method_id(@__retain_semantics Other tableView:pasteboardWriterForRow:)]
-        unsafe fn tableView_pasteboardWriterForRow(
-            &self,
-            table_view: &NSTableView,
-            row: NSInteger,
-        ) -> Option<Id<ProtocolObject<dyn NSPasteboardWriting>>>;
-
-        #[cfg(all(
-            feature = "AppKit_NSDraggingSession",
-            feature = "AppKit_NSTableView",
-            feature = "Foundation_NSIndexSet"
-        ))]
-        #[optional]
-        #[method(tableView:draggingSession:willBeginAtPoint:forRowIndexes:)]
-        unsafe fn tableView_draggingSession_willBeginAtPoint_forRowIndexes(
-            &self,
-            table_view: &NSTableView,
-            session: &NSDraggingSession,
-            screen_point: NSPoint,
-            row_indexes: &NSIndexSet,
-        );
-
-        #[cfg(all(feature = "AppKit_NSDraggingSession", feature = "AppKit_NSTableView"))]
-        #[optional]
-        #[method(tableView:draggingSession:endedAtPoint:operation:)]
-        unsafe fn tableView_draggingSession_endedAtPoint_operation(
-            &self,
-            table_view: &NSTableView,
-            session: &NSDraggingSession,
-            screen_point: NSPoint,
-            operation: NSDragOperation,
-        );
-
-        #[cfg(feature = "AppKit_NSTableView")]
-        #[optional]
-        #[method(tableView:updateDraggingItemsForDrag:)]
-        unsafe fn tableView_updateDraggingItemsForDrag(
-            &self,
-            table_view: &NSTableView,
-            dragging_info: &ProtocolObject<dyn NSDraggingInfo>,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSPasteboard",
-            feature = "AppKit_NSTableView",
-            feature = "Foundation_NSIndexSet"
-        ))]
-        #[deprecated = "Use -tableView:pasteboardWriterForRow: instead"]
-        #[optional]
-        #[method(tableView:writeRowsWithIndexes:toPasteboard:)]
-        unsafe fn tableView_writeRowsWithIndexes_toPasteboard(
-            &self,
-            table_view: &NSTableView,
-            row_indexes: &NSIndexSet,
-            pboard: &NSPasteboard,
-        ) -> bool;
-
-        #[cfg(feature = "AppKit_NSTableView")]
-        #[optional]
-        #[method(tableView:validateDrop:proposedRow:proposedDropOperation:)]
-        unsafe fn tableView_validateDrop_proposedRow_proposedDropOperation(
-            &self,
-            table_view: &NSTableView,
-            info: &ProtocolObject<dyn NSDraggingInfo>,
-            row: NSInteger,
-            drop_operation: NSTableViewDropOperation,
-        ) -> NSDragOperation;
-
-        #[cfg(feature = "AppKit_NSTableView")]
-        #[optional]
-        #[method(tableView:acceptDrop:row:dropOperation:)]
-        unsafe fn tableView_acceptDrop_row_dropOperation(
-            &self,
-            table_view: &NSTableView,
-            info: &ProtocolObject<dyn NSDraggingInfo>,
-            row: NSInteger,
-            drop_operation: NSTableViewDropOperation,
-        ) -> bool;
-
-        #[cfg(all(
-            feature = "AppKit_NSTableView",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSIndexSet",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[deprecated = "Use NSFilePromiseReceiver objects instead"]
-        #[optional]
-        #[method_id(@__retain_semantics Other tableView:namesOfPromisedFilesDroppedAtDestination:forDraggedRowsWithIndexes:)]
-        unsafe fn tableView_namesOfPromisedFilesDroppedAtDestination_forDraggedRowsWithIndexes(
-            &self,
-            table_view: &NSTableView,
-            drop_destination: &NSURL,
-            index_set: &NSIndexSet,
-        ) -> Id<NSArray<NSString>>;
-    }
-
-    unsafe impl ProtocolType for dyn NSTableViewDataSource {}
-);
-
-extern_methods!(
-    /// NSDeprecated
+#[objc2::protocol]
+pub unsafe trait NSTableViewDataSource: NSObjectProtocol {
     #[cfg(feature = "AppKit_NSTableView")]
-    unsafe impl NSTableView {
-        #[deprecated]
-        #[method(setDrawsGrid:)]
-        pub unsafe fn setDrawsGrid(&self, flag: bool);
+    #[objc2::method(optional, sel = "numberOfRowsInTableView:")]
+    unsafe fn numberOfRowsInTableView(&self, table_view: &NSTableView) -> NSInteger;
 
-        #[deprecated]
-        #[method(drawsGrid)]
-        pub unsafe fn drawsGrid(&self) -> bool;
+    #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
+    #[objc2::method(
+        optional,
+        sel = "tableView:objectValueForTableColumn:row:",
+        managed = "Other"
+    )]
+    unsafe fn tableView_objectValueForTableColumn_row(
+        &self,
+        table_view: &NSTableView,
+        table_column: Option<&NSTableColumn>,
+        row: NSInteger,
+    ) -> Option<Id<Object>>;
 
-        #[deprecated]
-        #[method(selectColumn:byExtendingSelection:)]
-        pub unsafe fn selectColumn_byExtendingSelection(&self, column: NSInteger, extend: bool);
+    #[cfg(all(feature = "AppKit_NSTableColumn", feature = "AppKit_NSTableView"))]
+    #[objc2::method(optional, sel = "tableView:setObjectValue:forTableColumn:row:")]
+    unsafe fn tableView_setObjectValue_forTableColumn_row(
+        &self,
+        table_view: &NSTableView,
+        object: Option<&Object>,
+        table_column: Option<&NSTableColumn>,
+        row: NSInteger,
+    );
 
-        #[deprecated]
-        #[method(selectRow:byExtendingSelection:)]
-        pub unsafe fn selectRow_byExtendingSelection(&self, row: NSInteger, extend: bool);
+    #[cfg(all(
+        feature = "AppKit_NSTableView",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSSortDescriptor"
+    ))]
+    #[objc2::method(optional, sel = "tableView:sortDescriptorsDidChange:")]
+    unsafe fn tableView_sortDescriptorsDidChange(
+        &self,
+        table_view: &NSTableView,
+        old_descriptors: &NSArray<NSSortDescriptor>,
+    );
 
-        #[cfg(feature = "Foundation_NSEnumerator")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other selectedColumnEnumerator)]
-        pub unsafe fn selectedColumnEnumerator(&self) -> Id<NSEnumerator>;
+    #[cfg(feature = "AppKit_NSTableView")]
+    #[objc2::method(optional, sel = "tableView:pasteboardWriterForRow:", managed = "Other")]
+    unsafe fn tableView_pasteboardWriterForRow(
+        &self,
+        table_view: &NSTableView,
+        row: NSInteger,
+    ) -> Option<Id<ProtocolObject<dyn NSPasteboardWriting>>>;
 
-        #[cfg(feature = "Foundation_NSEnumerator")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other selectedRowEnumerator)]
-        pub unsafe fn selectedRowEnumerator(&self) -> Id<NSEnumerator>;
+    #[cfg(all(
+        feature = "AppKit_NSDraggingSession",
+        feature = "AppKit_NSTableView",
+        feature = "Foundation_NSIndexSet"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "tableView:draggingSession:willBeginAtPoint:forRowIndexes:"
+    )]
+    unsafe fn tableView_draggingSession_willBeginAtPoint_forRowIndexes(
+        &self,
+        table_view: &NSTableView,
+        session: &NSDraggingSession,
+        screen_point: NSPoint,
+        row_indexes: &NSIndexSet,
+    );
 
-        #[cfg(all(
-            feature = "AppKit_NSEvent",
-            feature = "AppKit_NSImage",
-            feature = "Foundation_NSArray"
-        ))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other dragImageForRows:event:dragImageOffset:)]
-        pub unsafe fn dragImageForRows_event_dragImageOffset(
-            &self,
-            drag_rows: &NSArray,
-            drag_event: &NSEvent,
-            drag_image_offset: NSPointPointer,
-        ) -> Option<Id<NSImage>>;
+    #[cfg(all(feature = "AppKit_NSDraggingSession", feature = "AppKit_NSTableView"))]
+    #[objc2::method(optional, sel = "tableView:draggingSession:endedAtPoint:operation:")]
+    unsafe fn tableView_draggingSession_endedAtPoint_operation(
+        &self,
+        table_view: &NSTableView,
+        session: &NSDraggingSession,
+        screen_point: NSPoint,
+        operation: NSDragOperation,
+    );
 
-        #[deprecated]
-        #[method(setAutoresizesAllColumnsToFit:)]
-        pub unsafe fn setAutoresizesAllColumnsToFit(&self, flag: bool);
+    #[cfg(feature = "AppKit_NSTableView")]
+    #[objc2::method(optional, sel = "tableView:updateDraggingItemsForDrag:")]
+    unsafe fn tableView_updateDraggingItemsForDrag(
+        &self,
+        table_view: &NSTableView,
+        dragging_info: &ProtocolObject<dyn NSDraggingInfo>,
+    );
 
-        #[deprecated]
-        #[method(autoresizesAllColumnsToFit)]
-        pub unsafe fn autoresizesAllColumnsToFit(&self) -> bool;
+    #[cfg(all(
+        feature = "AppKit_NSPasteboard",
+        feature = "AppKit_NSTableView",
+        feature = "Foundation_NSIndexSet"
+    ))]
+    #[deprecated = "Use -tableView:pasteboardWriterForRow: instead"]
+    #[objc2::method(optional, sel = "tableView:writeRowsWithIndexes:toPasteboard:")]
+    unsafe fn tableView_writeRowsWithIndexes_toPasteboard(
+        &self,
+        table_view: &NSTableView,
+        row_indexes: &NSIndexSet,
+        pboard: &NSPasteboard,
+    ) -> bool;
 
-        #[deprecated]
-        #[method(columnsInRect:)]
-        pub unsafe fn columnsInRect(&self, rect: NSRect) -> NSRange;
+    #[cfg(feature = "AppKit_NSTableView")]
+    #[objc2::method(
+        optional,
+        sel = "tableView:validateDrop:proposedRow:proposedDropOperation:"
+    )]
+    unsafe fn tableView_validateDrop_proposedRow_proposedDropOperation(
+        &self,
+        table_view: &NSTableView,
+        info: &ProtocolObject<dyn NSDraggingInfo>,
+        row: NSInteger,
+        drop_operation: NSTableViewDropOperation,
+    ) -> NSDragOperation;
 
-        #[cfg(feature = "AppKit_NSCell")]
-        #[deprecated = "Use View Based TableView and -viewAtColumn:row:"]
-        #[method_id(@__retain_semantics Other preparedCellAtColumn:row:)]
-        pub unsafe fn preparedCellAtColumn_row(
-            &self,
-            column: NSInteger,
-            row: NSInteger,
-        ) -> Option<Id<NSCell>>;
+    #[cfg(feature = "AppKit_NSTableView")]
+    #[objc2::method(optional, sel = "tableView:acceptDrop:row:dropOperation:")]
+    unsafe fn tableView_acceptDrop_row_dropOperation(
+        &self,
+        table_view: &NSTableView,
+        info: &ProtocolObject<dyn NSDraggingInfo>,
+        row: NSInteger,
+        drop_operation: NSTableViewDropOperation,
+    ) -> bool;
 
-        #[cfg(feature = "AppKit_NSText")]
-        #[deprecated = "Use a View Based TableView with an NSTextField"]
-        #[method(textShouldBeginEditing:)]
-        pub unsafe fn textShouldBeginEditing(&self, text_object: &NSText) -> bool;
+    #[cfg(all(
+        feature = "AppKit_NSTableView",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSIndexSet",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[deprecated = "Use NSFilePromiseReceiver objects instead"]
+    #[objc2::method(
+        optional,
+        sel = "tableView:namesOfPromisedFilesDroppedAtDestination:forDraggedRowsWithIndexes:",
+        managed = "Other"
+    )]
+    unsafe fn tableView_namesOfPromisedFilesDroppedAtDestination_forDraggedRowsWithIndexes(
+        &self,
+        table_view: &NSTableView,
+        drop_destination: &NSURL,
+        index_set: &NSIndexSet,
+    ) -> Id<NSArray<NSString>>;
+}
 
-        #[cfg(feature = "AppKit_NSText")]
-        #[deprecated = "Use a View Based TableView with an NSTextField"]
-        #[method(textShouldEndEditing:)]
-        pub unsafe fn textShouldEndEditing(&self, text_object: &NSText) -> bool;
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTableView")]
+    pub type NSTableView;
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[deprecated = "Use a View Based TableView with an NSTextField"]
-        #[method(textDidBeginEditing:)]
-        pub unsafe fn textDidBeginEditing(&self, notification: &NSNotification);
+    #[deprecated]
+    #[objc2::method(sel = "setDrawsGrid:")]
+    pub unsafe fn setDrawsGrid(&self, flag: bool);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[deprecated = "Use a View Based TableView with an NSTextField"]
-        #[method(textDidEndEditing:)]
-        pub unsafe fn textDidEndEditing(&self, notification: &NSNotification);
+    #[deprecated]
+    #[objc2::method(sel = "drawsGrid")]
+    pub unsafe fn drawsGrid(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[deprecated = "Use a View Based TableView with an NSTextField"]
-        #[method(textDidChange:)]
-        pub unsafe fn textDidChange(&self, notification: &NSNotification);
+    #[deprecated]
+    #[objc2::method(sel = "selectColumn:byExtendingSelection:")]
+    pub unsafe fn selectColumn_byExtendingSelection(&self, column: NSInteger, extend: bool);
 
-        #[cfg(feature = "AppKit_NSCell")]
-        #[deprecated = "Use a View Based TableView; observe the window’s firstResponder for focus change notifications"]
-        #[method(shouldFocusCell:atColumn:row:)]
-        pub unsafe fn shouldFocusCell_atColumn_row(
-            &self,
-            cell: &NSCell,
-            column: NSInteger,
-            row: NSInteger,
-        ) -> bool;
+    #[deprecated]
+    #[objc2::method(sel = "selectRow:byExtendingSelection:")]
+    pub unsafe fn selectRow_byExtendingSelection(&self, row: NSInteger, extend: bool);
 
-        #[deprecated = "Use a View Based TableView and observe the window.firstResponder"]
-        #[method(focusedColumn)]
-        pub unsafe fn focusedColumn(&self) -> NSInteger;
+    #[cfg(feature = "Foundation_NSEnumerator")]
+    #[deprecated]
+    #[objc2::method(sel = "selectedColumnEnumerator", managed = "Other")]
+    pub unsafe fn selectedColumnEnumerator(&self) -> Id<NSEnumerator>;
 
-        #[deprecated = "Use a View Based TableView; make a particular view the first responder with [window makeFirstResponder:view] to focus it."]
-        #[method(setFocusedColumn:)]
-        pub unsafe fn setFocusedColumn(&self, focused_column: NSInteger);
+    #[cfg(feature = "Foundation_NSEnumerator")]
+    #[deprecated]
+    #[objc2::method(sel = "selectedRowEnumerator", managed = "Other")]
+    pub unsafe fn selectedRowEnumerator(&self) -> Id<NSEnumerator>;
 
-        #[deprecated = "Use a View Based TableView; directly interact with a particular view as required and call -performClick: on it, if necessary"]
-        #[method(performClickOnCellAtColumn:row:)]
-        pub unsafe fn performClickOnCellAtColumn_row(&self, column: NSInteger, row: NSInteger);
-    }
-);
+    #[cfg(all(
+        feature = "AppKit_NSEvent",
+        feature = "AppKit_NSImage",
+        feature = "Foundation_NSArray"
+    ))]
+    #[deprecated]
+    #[objc2::method(sel = "dragImageForRows:event:dragImageOffset:", managed = "Other")]
+    pub unsafe fn dragImageForRows_event_dragImageOffset(
+        &self,
+        drag_rows: &NSArray,
+        drag_event: &NSEvent,
+        drag_image_offset: NSPointPointer,
+    ) -> Option<Id<NSImage>>;
+
+    #[deprecated]
+    #[objc2::method(sel = "setAutoresizesAllColumnsToFit:")]
+    pub unsafe fn setAutoresizesAllColumnsToFit(&self, flag: bool);
+
+    #[deprecated]
+    #[objc2::method(sel = "autoresizesAllColumnsToFit")]
+    pub unsafe fn autoresizesAllColumnsToFit(&self) -> bool;
+
+    #[deprecated]
+    #[objc2::method(sel = "columnsInRect:")]
+    pub unsafe fn columnsInRect(&self, rect: NSRect) -> NSRange;
+
+    #[cfg(feature = "AppKit_NSCell")]
+    #[deprecated = "Use View Based TableView and -viewAtColumn:row:"]
+    #[objc2::method(sel = "preparedCellAtColumn:row:", managed = "Other")]
+    pub unsafe fn preparedCellAtColumn_row(
+        &self,
+        column: NSInteger,
+        row: NSInteger,
+    ) -> Option<Id<NSCell>>;
+
+    #[cfg(feature = "AppKit_NSText")]
+    #[deprecated = "Use a View Based TableView with an NSTextField"]
+    #[objc2::method(sel = "textShouldBeginEditing:")]
+    pub unsafe fn textShouldBeginEditing(&self, text_object: &NSText) -> bool;
+
+    #[cfg(feature = "AppKit_NSText")]
+    #[deprecated = "Use a View Based TableView with an NSTextField"]
+    #[objc2::method(sel = "textShouldEndEditing:")]
+    pub unsafe fn textShouldEndEditing(&self, text_object: &NSText) -> bool;
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[deprecated = "Use a View Based TableView with an NSTextField"]
+    #[objc2::method(sel = "textDidBeginEditing:")]
+    pub unsafe fn textDidBeginEditing(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[deprecated = "Use a View Based TableView with an NSTextField"]
+    #[objc2::method(sel = "textDidEndEditing:")]
+    pub unsafe fn textDidEndEditing(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[deprecated = "Use a View Based TableView with an NSTextField"]
+    #[objc2::method(sel = "textDidChange:")]
+    pub unsafe fn textDidChange(&self, notification: &NSNotification);
+
+    #[cfg(feature = "AppKit_NSCell")]
+    #[deprecated = "Use a View Based TableView; observe the window’s firstResponder for focus change notifications"]
+    #[objc2::method(sel = "shouldFocusCell:atColumn:row:")]
+    pub unsafe fn shouldFocusCell_atColumn_row(
+        &self,
+        cell: &NSCell,
+        column: NSInteger,
+        row: NSInteger,
+    ) -> bool;
+
+    #[deprecated = "Use a View Based TableView and observe the window.firstResponder"]
+    #[objc2::method(sel = "focusedColumn")]
+    pub unsafe fn focusedColumn(&self) -> NSInteger;
+
+    #[deprecated = "Use a View Based TableView; make a particular view the first responder with [window makeFirstResponder:view] to focus it."]
+    #[objc2::method(sel = "setFocusedColumn:")]
+    pub unsafe fn setFocusedColumn(&self, focused_column: NSInteger);
+
+    #[deprecated = "Use a View Based TableView; directly interact with a particular view as required and call -performClick: on it, if necessary"]
+    #[objc2::method(sel = "performClickOnCellAtColumn:row:")]
+    pub unsafe fn performClickOnCellAtColumn_row(&self, column: NSInteger, row: NSInteger);
+}

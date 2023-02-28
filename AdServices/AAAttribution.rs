@@ -6,34 +6,36 @@ use crate::Foundation::*;
 
 extern_static!(AAAttributionErrorDomain: &'static NSErrorDomain);
 
-ns_error_enum!(
-    #[underlying(NSInteger)]
-    pub enum AAAttributionErrorCode {
-        AAAttributionErrorCodeNetworkError = 1,
-        AAAttributionErrorCodeInternalError = 2,
-        AAAttributionErrorCodePlatformNotSupported = 3,
-    }
-);
+#[ns_error_enum]
+#[underlying(NSInteger)]
+pub enum AAAttributionErrorCode {
+    AAAttributionErrorCodeNetworkError = 1,
+    AAAttributionErrorCodeInternalError = 2,
+    AAAttributionErrorCodePlatformNotSupported = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AdServices_AAAttribution")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AdServices_AAAttribution")]
-    pub struct AAAttribution;
-
-    #[cfg(feature = "AdServices_AAAttribution")]
-    unsafe impl ClassType for AAAttribution {
-        type Super = NSObject;
-    }
-);
+    pub type AAAttribution;
+}
 
 #[cfg(feature = "AdServices_AAAttribution")]
 unsafe impl NSObjectProtocol for AAAttribution {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AdServices_AAAttribution")]
-    unsafe impl AAAttribution {
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other attributionTokenWithError:_)]
-        pub unsafe fn attributionTokenWithError() -> Result<Id<NSString>, Id<NSError>>;
-    }
-);
+    pub type AAAttribution;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "attributionTokenWithError:", managed = "Other", throws)]
+    pub unsafe fn attributionTokenWithError() -> Result<Id<NSString>, Id<NSError>>;
+}

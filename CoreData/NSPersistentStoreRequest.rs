@@ -4,46 +4,45 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSPersistentStoreRequestType {
-        NSFetchRequestType = 1,
-        NSSaveRequestType = 2,
-        NSBatchInsertRequestType = 5,
-        NSBatchUpdateRequestType = 6,
-        NSBatchDeleteRequestType = 7,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSPersistentStoreRequestType {
+    NSFetchRequestType = 1,
+    NSSaveRequestType = 2,
+    NSBatchInsertRequestType = 5,
+    NSBatchUpdateRequestType = 6,
+    NSBatchDeleteRequestType = 7,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPersistentStoreRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSPersistentStoreRequest")]
-    pub struct NSPersistentStoreRequest;
-
-    #[cfg(feature = "CoreData_NSPersistentStoreRequest")]
-    unsafe impl ClassType for NSPersistentStoreRequest {
-        type Super = NSObject;
-    }
-);
+    pub type NSPersistentStoreRequest;
+}
 
 #[cfg(feature = "CoreData_NSPersistentStoreRequest")]
 unsafe impl NSObjectProtocol for NSPersistentStoreRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPersistentStoreRequest")]
-    unsafe impl NSPersistentStoreRequest {
-        #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other affectedStores)]
-        pub unsafe fn affectedStores(&self) -> Option<Id<NSArray<NSPersistentStore>>>;
+    pub type NSPersistentStoreRequest;
 
-        #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSArray"))]
-        #[method(setAffectedStores:)]
-        pub unsafe fn setAffectedStores(
-            &self,
-            affected_stores: Option<&NSArray<NSPersistentStore>>,
-        );
+    #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "affectedStores", managed = "Other")]
+    pub unsafe fn affectedStores(&self) -> Option<Id<NSArray<NSPersistentStore>>>;
 
-        #[method(requestType)]
-        pub unsafe fn requestType(&self) -> NSPersistentStoreRequestType;
-    }
-);
+    #[cfg(all(feature = "CoreData_NSPersistentStore", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setAffectedStores:")]
+    pub unsafe fn setAffectedStores(&self, affected_stores: Option<&NSArray<NSPersistentStore>>);
+
+    #[objc2::method(sel = "requestType")]
+    pub unsafe fn requestType(&self) -> NSPersistentStoreRequestType;
+}

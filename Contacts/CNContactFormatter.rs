@@ -4,34 +4,32 @@ use crate::common::*;
 use crate::Contacts::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CNContactFormatterStyle {
-        CNContactFormatterStyleFullName = 0,
-        CNContactFormatterStylePhoneticFullName = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CNContactFormatterStyle {
+    CNContactFormatterStyleFullName = 0,
+    CNContactFormatterStylePhoneticFullName = 1,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CNContactDisplayNameOrder {
-        CNContactDisplayNameOrderUserDefault = 0,
-        CNContactDisplayNameOrderGivenNameFirst = 1,
-        CNContactDisplayNameOrderFamilyNameFirst = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CNContactDisplayNameOrder {
+    CNContactDisplayNameOrderUserDefault = 0,
+    CNContactDisplayNameOrderGivenNameFirst = 1,
+    CNContactDisplayNameOrderFamilyNameFirst = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSFormatter,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Contacts_CNContactFormatter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Contacts_CNContactFormatter")]
-    pub struct CNContactFormatter;
-
-    #[cfg(feature = "Contacts_CNContactFormatter")]
-    unsafe impl ClassType for CNContactFormatter {
-        #[inherits(NSObject)]
-        type Super = NSFormatter;
-    }
-);
+    pub type CNContactFormatter;
+}
 
 #[cfg(feature = "Contacts_CNContactFormatter")]
 unsafe impl NSCoding for CNContactFormatter {}
@@ -42,71 +40,78 @@ unsafe impl NSObjectProtocol for CNContactFormatter {}
 #[cfg(feature = "Contacts_CNContactFormatter")]
 unsafe impl NSSecureCoding for CNContactFormatter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Contacts_CNContactFormatter")]
-    unsafe impl CNContactFormatter {
-        #[method_id(@__retain_semantics Other descriptorForRequiredKeysForStyle:)]
-        pub unsafe fn descriptorForRequiredKeysForStyle(
-            style: CNContactFormatterStyle,
-        ) -> Id<ProtocolObject<dyn CNKeyDescriptor>>;
+    pub type CNContactFormatter;
 
-        #[method_id(@__retain_semantics Other descriptorForRequiredKeysForNameOrder)]
-        pub unsafe fn descriptorForRequiredKeysForNameOrder(
-        ) -> Id<ProtocolObject<dyn CNKeyDescriptor>>;
+    #[objc2::method(sel = "descriptorForRequiredKeysForStyle:", managed = "Other")]
+    pub unsafe fn descriptorForRequiredKeysForStyle(
+        style: CNContactFormatterStyle,
+    ) -> Id<ProtocolObject<dyn CNKeyDescriptor>>;
 
-        #[method_id(@__retain_semantics Other descriptorForRequiredKeysForDelimiter)]
-        pub unsafe fn descriptorForRequiredKeysForDelimiter(
-        ) -> Id<ProtocolObject<dyn CNKeyDescriptor>>;
+    #[objc2::method(sel = "descriptorForRequiredKeysForNameOrder", managed = "Other")]
+    pub unsafe fn descriptorForRequiredKeysForNameOrder() -> Id<ProtocolObject<dyn CNKeyDescriptor>>;
 
-        #[cfg(all(feature = "Contacts_CNContact", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other stringFromContact:style:)]
-        pub unsafe fn stringFromContact_style(
-            contact: &CNContact,
-            style: CNContactFormatterStyle,
-        ) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "descriptorForRequiredKeysForDelimiter", managed = "Other")]
+    pub unsafe fn descriptorForRequiredKeysForDelimiter() -> Id<ProtocolObject<dyn CNKeyDescriptor>>;
 
-        #[cfg(all(
-            feature = "Contacts_CNContact",
-            feature = "Foundation_NSAttributedString",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[method_id(@__retain_semantics Other attributedStringFromContact:style:defaultAttributes:)]
-        pub unsafe fn attributedStringFromContact_style_defaultAttributes(
-            contact: &CNContact,
-            style: CNContactFormatterStyle,
-            attributes: Option<&NSDictionary>,
-        ) -> Option<Id<NSAttributedString>>;
+    #[cfg(all(feature = "Contacts_CNContact", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "stringFromContact:style:", managed = "Other")]
+    pub unsafe fn stringFromContact_style(
+        contact: &CNContact,
+        style: CNContactFormatterStyle,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Contacts_CNContact")]
-        #[method(nameOrderForContact:)]
-        pub unsafe fn nameOrderForContact(contact: &CNContact) -> CNContactDisplayNameOrder;
+    #[cfg(all(
+        feature = "Contacts_CNContact",
+        feature = "Foundation_NSAttributedString",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[objc2::method(
+        sel = "attributedStringFromContact:style:defaultAttributes:",
+        managed = "Other"
+    )]
+    pub unsafe fn attributedStringFromContact_style_defaultAttributes(
+        contact: &CNContact,
+        style: CNContactFormatterStyle,
+        attributes: Option<&NSDictionary>,
+    ) -> Option<Id<NSAttributedString>>;
 
-        #[cfg(all(feature = "Contacts_CNContact", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other delimiterForContact:)]
-        pub unsafe fn delimiterForContact(contact: &CNContact) -> Id<NSString>;
+    #[cfg(feature = "Contacts_CNContact")]
+    #[objc2::method(sel = "nameOrderForContact:")]
+    pub unsafe fn nameOrderForContact(contact: &CNContact) -> CNContactDisplayNameOrder;
 
-        #[method(style)]
-        pub unsafe fn style(&self) -> CNContactFormatterStyle;
+    #[cfg(all(feature = "Contacts_CNContact", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "delimiterForContact:", managed = "Other")]
+    pub unsafe fn delimiterForContact(contact: &CNContact) -> Id<NSString>;
 
-        #[method(setStyle:)]
-        pub unsafe fn setStyle(&self, style: CNContactFormatterStyle);
+    #[objc2::method(sel = "style")]
+    pub unsafe fn style(&self) -> CNContactFormatterStyle;
 
-        #[cfg(all(feature = "Contacts_CNContact", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other stringFromContact:)]
-        pub unsafe fn stringFromContact(&self, contact: &CNContact) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setStyle:")]
+    pub unsafe fn setStyle(&self, style: CNContactFormatterStyle);
 
-        #[cfg(all(
-            feature = "Contacts_CNContact",
-            feature = "Foundation_NSAttributedString",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[method_id(@__retain_semantics Other attributedStringFromContact:defaultAttributes:)]
-        pub unsafe fn attributedStringFromContact_defaultAttributes(
-            &self,
-            contact: &CNContact,
-            attributes: Option<&NSDictionary>,
-        ) -> Option<Id<NSAttributedString>>;
-    }
-);
+    #[cfg(all(feature = "Contacts_CNContact", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "stringFromContact:", managed = "Other")]
+    pub unsafe fn stringFromContact(&self, contact: &CNContact) -> Option<Id<NSString>>;
+
+    #[cfg(all(
+        feature = "Contacts_CNContact",
+        feature = "Foundation_NSAttributedString",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[objc2::method(
+        sel = "attributedStringFromContact:defaultAttributes:",
+        managed = "Other"
+    )]
+    pub unsafe fn attributedStringFromContact_defaultAttributes(
+        &self,
+        contact: &CNContact,
+        attributes: Option<&NSDictionary>,
+    ) -> Option<Id<NSAttributedString>>;
+}
 
 extern_static!(CNContactPropertyAttribute: &'static NSString);

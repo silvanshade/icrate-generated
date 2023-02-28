@@ -5,108 +5,108 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSTextViewportLayoutControllerDelegate: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSTextViewportLayoutController")]
-        #[method(viewportBoundsForTextViewportLayoutController:)]
-        unsafe fn viewportBoundsForTextViewportLayoutController(
-            &self,
-            text_viewport_layout_controller: &NSTextViewportLayoutController,
-        ) -> CGRect;
+#[objc2::protocol]
+pub unsafe trait NSTextViewportLayoutControllerDelegate: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSTextViewportLayoutController")]
+    #[objc2::method(sel = "viewportBoundsForTextViewportLayoutController:")]
+    unsafe fn viewportBoundsForTextViewportLayoutController(
+        &self,
+        text_viewport_layout_controller: &NSTextViewportLayoutController,
+    ) -> CGRect;
 
-        #[cfg(all(
-            feature = "AppKit_NSTextLayoutFragment",
-            feature = "AppKit_NSTextViewportLayoutController"
-        ))]
-        #[method(textViewportLayoutController:configureRenderingSurfaceForTextLayoutFragment:)]
-        unsafe fn textViewportLayoutController_configureRenderingSurfaceForTextLayoutFragment(
-            &self,
-            text_viewport_layout_controller: &NSTextViewportLayoutController,
-            text_layout_fragment: &NSTextLayoutFragment,
-        );
+    #[cfg(all(
+        feature = "AppKit_NSTextLayoutFragment",
+        feature = "AppKit_NSTextViewportLayoutController"
+    ))]
+    #[objc2::method(
+        sel = "textViewportLayoutController:configureRenderingSurfaceForTextLayoutFragment:"
+    )]
+    unsafe fn textViewportLayoutController_configureRenderingSurfaceForTextLayoutFragment(
+        &self,
+        text_viewport_layout_controller: &NSTextViewportLayoutController,
+        text_layout_fragment: &NSTextLayoutFragment,
+    );
 
-        #[cfg(feature = "AppKit_NSTextViewportLayoutController")]
-        #[optional]
-        #[method(textViewportLayoutControllerWillLayout:)]
-        unsafe fn textViewportLayoutControllerWillLayout(
-            &self,
-            text_viewport_layout_controller: &NSTextViewportLayoutController,
-        );
+    #[cfg(feature = "AppKit_NSTextViewportLayoutController")]
+    #[objc2::method(optional, sel = "textViewportLayoutControllerWillLayout:")]
+    unsafe fn textViewportLayoutControllerWillLayout(
+        &self,
+        text_viewport_layout_controller: &NSTextViewportLayoutController,
+    );
 
-        #[cfg(feature = "AppKit_NSTextViewportLayoutController")]
-        #[optional]
-        #[method(textViewportLayoutControllerDidLayout:)]
-        unsafe fn textViewportLayoutControllerDidLayout(
-            &self,
-            text_viewport_layout_controller: &NSTextViewportLayoutController,
-        );
-    }
+    #[cfg(feature = "AppKit_NSTextViewportLayoutController")]
+    #[objc2::method(optional, sel = "textViewportLayoutControllerDidLayout:")]
+    unsafe fn textViewportLayoutControllerDidLayout(
+        &self,
+        text_viewport_layout_controller: &NSTextViewportLayoutController,
+    );
+}
 
-    unsafe impl ProtocolType for dyn NSTextViewportLayoutControllerDelegate {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextViewportLayoutController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextViewportLayoutController")]
-    pub struct NSTextViewportLayoutController;
-
-    #[cfg(feature = "AppKit_NSTextViewportLayoutController")]
-    unsafe impl ClassType for NSTextViewportLayoutController {
-        type Super = NSObject;
-    }
-);
+    pub type NSTextViewportLayoutController;
+}
 
 #[cfg(feature = "AppKit_NSTextViewportLayoutController")]
 unsafe impl NSObjectProtocol for NSTextViewportLayoutController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextViewportLayoutController")]
-    unsafe impl NSTextViewportLayoutController {
-        #[cfg(feature = "AppKit_NSTextLayoutManager")]
-        #[method_id(@__retain_semantics Init initWithTextLayoutManager:)]
-        pub unsafe fn initWithTextLayoutManager(
-            this: Option<Allocated<Self>>,
-            text_layout_manager: &NSTextLayoutManager,
-        ) -> Id<Self>;
+    pub type NSTextViewportLayoutController;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(feature = "AppKit_NSTextLayoutManager")]
+    #[objc2::method(sel = "initWithTextLayoutManager:", managed = "Init")]
+    pub unsafe fn initWithTextLayoutManager(
+        this: Option<Allocated<Self>>,
+        text_layout_manager: &NSTextLayoutManager,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn NSTextViewportLayoutControllerDelegate>>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSTextViewportLayoutControllerDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn NSTextViewportLayoutControllerDelegate>>>;
 
-        #[cfg(feature = "AppKit_NSTextLayoutManager")]
-        #[method_id(@__retain_semantics Other textLayoutManager)]
-        pub unsafe fn textLayoutManager(&self) -> Option<Id<NSTextLayoutManager>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn NSTextViewportLayoutControllerDelegate>>,
+    );
 
-        #[method(viewportBounds)]
-        pub unsafe fn viewportBounds(&self) -> CGRect;
+    #[cfg(feature = "AppKit_NSTextLayoutManager")]
+    #[objc2::method(sel = "textLayoutManager", managed = "Other")]
+    pub unsafe fn textLayoutManager(&self) -> Option<Id<NSTextLayoutManager>>;
 
-        #[cfg(feature = "AppKit_NSTextRange")]
-        #[method_id(@__retain_semantics Other viewportRange)]
-        pub unsafe fn viewportRange(&self) -> Option<Id<NSTextRange>>;
+    #[objc2::method(sel = "viewportBounds")]
+    pub unsafe fn viewportBounds(&self) -> CGRect;
 
-        #[method(layoutViewport)]
-        pub unsafe fn layoutViewport(&self);
+    #[cfg(feature = "AppKit_NSTextRange")]
+    #[objc2::method(sel = "viewportRange", managed = "Other")]
+    pub unsafe fn viewportRange(&self) -> Option<Id<NSTextRange>>;
 
-        #[method(relocateViewportToTextLocation:)]
-        pub unsafe fn relocateViewportToTextLocation(
-            &self,
-            text_location: &ProtocolObject<dyn NSTextLocation>,
-        ) -> CGFloat;
+    #[objc2::method(sel = "layoutViewport")]
+    pub unsafe fn layoutViewport(&self);
 
-        #[method(adjustViewportByVerticalOffset:)]
-        pub unsafe fn adjustViewportByVerticalOffset(&self, vertical_offset: CGFloat);
-    }
-);
+    #[objc2::method(sel = "relocateViewportToTextLocation:")]
+    pub unsafe fn relocateViewportToTextLocation(
+        &self,
+        text_location: &ProtocolObject<dyn NSTextLocation>,
+    ) -> CGFloat;
+
+    #[objc2::method(sel = "adjustViewportByVerticalOffset:")]
+    pub unsafe fn adjustViewportByVerticalOffset(&self, vertical_offset: CGFloat);
+}

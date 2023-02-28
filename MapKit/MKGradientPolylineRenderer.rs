@@ -7,67 +7,84 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKPolylineRenderer,
+    unsafe inherits = [
+        MKOverlayPathRenderer,
+        MKOverlayRenderer,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKGradientPolylineRenderer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKGradientPolylineRenderer")]
-    pub struct MKGradientPolylineRenderer;
-
-    #[cfg(feature = "MapKit_MKGradientPolylineRenderer")]
-    unsafe impl ClassType for MKGradientPolylineRenderer {
-        #[inherits(MKOverlayPathRenderer, MKOverlayRenderer, NSObject)]
-        type Super = MKPolylineRenderer;
-    }
-);
+    pub type MKGradientPolylineRenderer;
+}
 
 #[cfg(feature = "MapKit_MKGradientPolylineRenderer")]
 unsafe impl NSObjectProtocol for MKGradientPolylineRenderer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKGradientPolylineRenderer")]
-    unsafe impl MKGradientPolylineRenderer {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other locations)]
-        pub unsafe fn locations(&self) -> Id<NSArray<NSNumber>>;
+    pub type MKGradientPolylineRenderer;
 
-        #[cfg(all(feature = "AppKit_NSColor", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other colors)]
-        pub unsafe fn colors(&self) -> Id<NSArray<NSColor>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "locations", managed = "Other")]
+    pub unsafe fn locations(&self) -> Id<NSArray<NSNumber>>;
 
-        #[cfg(all(
-            feature = "AppKit_NSColor",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSNumber"
-        ))]
-        #[method(setColors:atLocations:)]
-        pub unsafe fn setColors_atLocations(
-            &self,
-            colors: &NSArray<NSColor>,
-            locations: &NSArray<NSNumber>,
-        );
-    }
-);
+    #[cfg(all(feature = "AppKit_NSColor", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "colors", managed = "Other")]
+    pub unsafe fn colors(&self) -> Id<NSArray<NSColor>>;
 
-extern_methods!(
-    /// Methods declared on superclass `MKPolylineRenderer`
+    #[cfg(all(
+        feature = "AppKit_NSColor",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSNumber"
+    ))]
+    #[objc2::method(sel = "setColors:atLocations:")]
+    pub unsafe fn setColors_atLocations(
+        &self,
+        colors: &NSArray<NSColor>,
+        locations: &NSArray<NSNumber>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `MKPolylineRenderer`
     #[cfg(feature = "MapKit_MKGradientPolylineRenderer")]
-    unsafe impl MKGradientPolylineRenderer {
-        #[cfg(feature = "MapKit_MKPolyline")]
-        #[method_id(@__retain_semantics Init initWithPolyline:)]
-        pub unsafe fn initWithPolyline(
-            this: Option<Allocated<Self>>,
-            polyline: &MKPolyline,
-        ) -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `MKOverlayRenderer`
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKGradientPolylineRenderer")]
-    unsafe impl MKGradientPolylineRenderer {
-        #[method_id(@__retain_semantics Init initWithOverlay:)]
-        pub unsafe fn initWithOverlay(
-            this: Option<Allocated<Self>>,
-            overlay: &ProtocolObject<dyn MKOverlay>,
-        ) -> Id<Self>;
+    pub type MKGradientPolylineRenderer;
+
+    #[cfg(feature = "MapKit_MKPolyline")]
+    #[objc2::method(sel = "initWithPolyline:", managed = "Init")]
+    pub unsafe fn initWithPolyline(
+        this: Option<Allocated<Self>>,
+        polyline: &MKPolyline,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `MKOverlayRenderer`
+    #[cfg(feature = "MapKit_MKGradientPolylineRenderer")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKGradientPolylineRenderer")]
+    pub type MKGradientPolylineRenderer;
+
+    #[objc2::method(sel = "initWithOverlay:", managed = "Init")]
+    pub unsafe fn initWithOverlay(
+        this: Option<Allocated<Self>>,
+        overlay: &ProtocolObject<dyn MKOverlay>,
+    ) -> Id<Self>;
+}

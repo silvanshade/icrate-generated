@@ -9,16 +9,16 @@ extern_static!(UNNotificationDefaultActionIdentifier: &'static NSString);
 
 extern_static!(UNNotificationDismissActionIdentifier: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNNotificationResponse")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "UserNotifications_UNNotificationResponse")]
-    pub struct UNNotificationResponse;
-
-    #[cfg(feature = "UserNotifications_UNNotificationResponse")]
-    unsafe impl ClassType for UNNotificationResponse {
-        type Super = NSObject;
-    }
-);
+    pub type UNNotificationResponse;
+}
 
 #[cfg(feature = "UserNotifications_UNNotificationResponse")]
 unsafe impl NSCoding for UNNotificationResponse {}
@@ -29,33 +29,36 @@ unsafe impl NSObjectProtocol for UNNotificationResponse {}
 #[cfg(feature = "UserNotifications_UNNotificationResponse")]
 unsafe impl NSSecureCoding for UNNotificationResponse {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "UserNotifications_UNNotificationResponse")]
-    unsafe impl UNNotificationResponse {
-        #[cfg(feature = "UserNotifications_UNNotification")]
-        #[method_id(@__retain_semantics Other notification)]
-        pub unsafe fn notification(&self) -> Id<UNNotification>;
+    pub type UNNotificationResponse;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other actionIdentifier)]
-        pub unsafe fn actionIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "UserNotifications_UNNotification")]
+    #[objc2::method(sel = "notification", managed = "Other")]
+    pub unsafe fn notification(&self) -> Id<UNNotification>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "actionIdentifier", managed = "Other")]
+    pub unsafe fn actionIdentifier(&self) -> Id<NSString>;
 
-extern_class!(
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = UNNotificationResponse,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNTextInputNotificationResponse")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "UserNotifications_UNTextInputNotificationResponse")]
-    pub struct UNTextInputNotificationResponse;
-
-    #[cfg(feature = "UserNotifications_UNTextInputNotificationResponse")]
-    unsafe impl ClassType for UNTextInputNotificationResponse {
-        #[inherits(NSObject)]
-        type Super = UNNotificationResponse;
-    }
-);
+    pub type UNTextInputNotificationResponse;
+}
 
 #[cfg(feature = "UserNotifications_UNTextInputNotificationResponse")]
 unsafe impl NSCoding for UNTextInputNotificationResponse {}
@@ -66,11 +69,14 @@ unsafe impl NSObjectProtocol for UNTextInputNotificationResponse {}
 #[cfg(feature = "UserNotifications_UNTextInputNotificationResponse")]
 unsafe impl NSSecureCoding for UNTextInputNotificationResponse {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "UserNotifications_UNTextInputNotificationResponse")]
-    unsafe impl UNTextInputNotificationResponse {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other userText)]
-        pub unsafe fn userText(&self) -> Id<NSString>;
-    }
-);
+    pub type UNTextInputNotificationResponse;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "userText", managed = "Other")]
+    pub unsafe fn userText(&self) -> Id<NSString>;
+}

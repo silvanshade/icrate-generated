@@ -3,52 +3,55 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSPortMessage")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSPortMessage")]
-    pub struct NSPortMessage;
-
-    #[cfg(feature = "Foundation_NSPortMessage")]
-    unsafe impl ClassType for NSPortMessage {
-        type Super = NSObject;
-    }
-);
+    pub type NSPortMessage;
+}
 
 #[cfg(feature = "Foundation_NSPortMessage")]
 unsafe impl NSObjectProtocol for NSPortMessage {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSPortMessage")]
-    unsafe impl NSPortMessage {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSPort"))]
-        #[method_id(@__retain_semantics Init initWithSendPort:receivePort:components:)]
-        pub unsafe fn initWithSendPort_receivePort_components(
-            this: Option<Allocated<Self>>,
-            send_port: Option<&NSPort>,
-            reply_port: Option<&NSPort>,
-            components: Option<&NSArray>,
-        ) -> Id<Self>;
+    pub type NSPortMessage;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other components)]
-        pub unsafe fn components(&self) -> Option<Id<NSArray>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSPort"))]
+    #[objc2::method(sel = "initWithSendPort:receivePort:components:", managed = "Init")]
+    pub unsafe fn initWithSendPort_receivePort_components(
+        this: Option<Allocated<Self>>,
+        send_port: Option<&NSPort>,
+        reply_port: Option<&NSPort>,
+        components: Option<&NSArray>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSPort")]
-        #[method_id(@__retain_semantics Other receivePort)]
-        pub unsafe fn receivePort(&self) -> Option<Id<NSPort>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "components", managed = "Other")]
+    pub unsafe fn components(&self) -> Option<Id<NSArray>>;
 
-        #[cfg(feature = "Foundation_NSPort")]
-        #[method_id(@__retain_semantics Other sendPort)]
-        pub unsafe fn sendPort(&self) -> Option<Id<NSPort>>;
+    #[cfg(feature = "Foundation_NSPort")]
+    #[objc2::method(sel = "receivePort", managed = "Other")]
+    pub unsafe fn receivePort(&self) -> Option<Id<NSPort>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(sendBeforeDate:)]
-        pub unsafe fn sendBeforeDate(&self, date: &NSDate) -> bool;
+    #[cfg(feature = "Foundation_NSPort")]
+    #[objc2::method(sel = "sendPort", managed = "Other")]
+    pub unsafe fn sendPort(&self) -> Option<Id<NSPort>>;
 
-        #[method(msgid)]
-        pub unsafe fn msgid(&self) -> u32;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "sendBeforeDate:")]
+    pub unsafe fn sendBeforeDate(&self, date: &NSDate) -> bool;
 
-        #[method(setMsgid:)]
-        pub unsafe fn setMsgid(&self, msgid: u32);
-    }
-);
+    #[objc2::method(sel = "msgid")]
+    pub unsafe fn msgid(&self) -> u32;
+
+    #[objc2::method(sel = "setMsgid:")]
+    pub unsafe fn setMsgid(&self, msgid: u32);
+}

@@ -3,65 +3,72 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSPortCoder")]
+#[objc2::interface(
+    unsafe super = NSCoder,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated = "Use NSXPCConnection instead"]
-    pub struct NSPortCoder;
-
     #[cfg(feature = "Foundation_NSPortCoder")]
-    unsafe impl ClassType for NSPortCoder {
-        #[inherits(NSObject)]
-        type Super = NSCoder;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type NSPortCoder;
+}
 
 #[cfg(feature = "Foundation_NSPortCoder")]
 unsafe impl NSObjectProtocol for NSPortCoder {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSPortCoder")]
-    unsafe impl NSPortCoder {
-        #[method(isBycopy)]
-        pub unsafe fn isBycopy(&self) -> bool;
+    #[deprecated = "Use NSXPCConnection instead"]
+    pub type NSPortCoder;
 
-        #[method(isByref)]
-        pub unsafe fn isByref(&self) -> bool;
+    #[objc2::method(sel = "isBycopy")]
+    pub unsafe fn isBycopy(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSPort")]
-        #[method(encodePortObject:)]
-        pub unsafe fn encodePortObject(&self, aport: &NSPort);
+    #[objc2::method(sel = "isByref")]
+    pub unsafe fn isByref(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSPort")]
-        #[method_id(@__retain_semantics Other decodePortObject)]
-        pub unsafe fn decodePortObject(&self) -> Option<Id<NSPort>>;
+    #[cfg(feature = "Foundation_NSPort")]
+    #[objc2::method(sel = "encodePortObject:")]
+    pub unsafe fn encodePortObject(&self, aport: &NSPort);
 
-        #[cfg(feature = "Foundation_NSConnection")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other connection)]
-        pub unsafe fn connection(&self) -> Option<Id<NSConnection>>;
+    #[cfg(feature = "Foundation_NSPort")]
+    #[objc2::method(sel = "decodePortObject", managed = "Other")]
+    pub unsafe fn decodePortObject(&self) -> Option<Id<NSPort>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSPort"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other portCoderWithReceivePort:sendPort:components:)]
-        pub unsafe fn portCoderWithReceivePort_sendPort_components(
-            rcv_port: Option<&NSPort>,
-            snd_port: Option<&NSPort>,
-            comps: Option<&NSArray>,
-        ) -> Id<Object>;
+    #[cfg(feature = "Foundation_NSConnection")]
+    #[deprecated]
+    #[objc2::method(sel = "connection", managed = "Other")]
+    pub unsafe fn connection(&self) -> Option<Id<NSConnection>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSPort"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithReceivePort:sendPort:components:)]
-        pub unsafe fn initWithReceivePort_sendPort_components(
-            this: Option<Allocated<Self>>,
-            rcv_port: Option<&NSPort>,
-            snd_port: Option<&NSPort>,
-            comps: Option<&NSArray>,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSPort"))]
+    #[deprecated]
+    #[objc2::method(
+        sel = "portCoderWithReceivePort:sendPort:components:",
+        managed = "Other"
+    )]
+    pub unsafe fn portCoderWithReceivePort_sendPort_components(
+        rcv_port: Option<&NSPort>,
+        snd_port: Option<&NSPort>,
+        comps: Option<&NSArray>,
+    ) -> Id<Object>;
 
-        #[deprecated]
-        #[method(dispatch)]
-        pub unsafe fn dispatch(&self);
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSPort"))]
+    #[deprecated]
+    #[objc2::method(sel = "initWithReceivePort:sendPort:components:", managed = "Init")]
+    pub unsafe fn initWithReceivePort_sendPort_components(
+        this: Option<Allocated<Self>>,
+        rcv_port: Option<&NSPort>,
+        snd_port: Option<&NSPort>,
+        comps: Option<&NSArray>,
+    ) -> Id<Self>;
+
+    #[deprecated]
+    #[objc2::method(sel = "dispatch")]
+    pub unsafe fn dispatch(&self);
+}

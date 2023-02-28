@@ -4,66 +4,61 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXMetricManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXMetricManager")]
-    pub struct MXMetricManager;
-
-    #[cfg(feature = "MetricKit_MXMetricManager")]
-    unsafe impl ClassType for MXMetricManager {
-        type Super = NSObject;
-    }
-);
+    pub type MXMetricManager;
+}
 
 #[cfg(feature = "MetricKit_MXMetricManager")]
 unsafe impl NSObjectProtocol for MXMetricManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXMetricManager")]
-    unsafe impl MXMetricManager {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MetricKit_MXMetricPayload"))]
-        #[method_id(@__retain_semantics Other pastPayloads)]
-        pub unsafe fn pastPayloads(&self) -> Id<NSArray<MXMetricPayload>>;
+    pub type MXMetricManager;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "MetricKit_MXDiagnosticPayload"
-        ))]
-        #[method_id(@__retain_semantics Other pastDiagnosticPayloads)]
-        pub unsafe fn pastDiagnosticPayloads(&self) -> Id<NSArray<MXDiagnosticPayload>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MetricKit_MXMetricPayload"))]
+    #[objc2::method(sel = "pastPayloads", managed = "Other")]
+    pub unsafe fn pastPayloads(&self) -> Id<NSArray<MXMetricPayload>>;
 
-        #[method_id(@__retain_semantics Other sharedManager)]
-        pub unsafe fn sharedManager() -> Id<MXMetricManager>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "MetricKit_MXDiagnosticPayload"
+    ))]
+    #[objc2::method(sel = "pastDiagnosticPayloads", managed = "Other")]
+    pub unsafe fn pastDiagnosticPayloads(&self) -> Id<NSArray<MXDiagnosticPayload>>;
 
-        #[method(addSubscriber:)]
-        pub unsafe fn addSubscriber(
-            &self,
-            subscriber: &ProtocolObject<dyn MXMetricManagerSubscriber>,
-        );
+    #[objc2::method(sel = "sharedManager", managed = "Other")]
+    pub unsafe fn sharedManager() -> Id<MXMetricManager>;
 
-        #[method(removeSubscriber:)]
-        pub unsafe fn removeSubscriber(
-            &self,
-            subscriber: &ProtocolObject<dyn MXMetricManagerSubscriber>,
-        );
-    }
-);
+    #[objc2::method(sel = "addSubscriber:")]
+    pub unsafe fn addSubscriber(&self, subscriber: &ProtocolObject<dyn MXMetricManagerSubscriber>);
 
-extern_protocol!(
-    pub unsafe trait MXMetricManagerSubscriber: NSObjectProtocol {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MetricKit_MXMetricPayload"))]
-        #[optional]
-        #[method(didReceiveMetricPayloads:)]
-        unsafe fn didReceiveMetricPayloads(&self, payloads: &NSArray<MXMetricPayload>);
+    #[objc2::method(sel = "removeSubscriber:")]
+    pub unsafe fn removeSubscriber(
+        &self,
+        subscriber: &ProtocolObject<dyn MXMetricManagerSubscriber>,
+    );
+}
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "MetricKit_MXDiagnosticPayload"
-        ))]
-        #[optional]
-        #[method(didReceiveDiagnosticPayloads:)]
-        unsafe fn didReceiveDiagnosticPayloads(&self, payloads: &NSArray<MXDiagnosticPayload>);
-    }
+#[objc2::protocol]
+pub unsafe trait MXMetricManagerSubscriber: NSObjectProtocol {
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MetricKit_MXMetricPayload"))]
+    #[objc2::method(optional, sel = "didReceiveMetricPayloads:")]
+    unsafe fn didReceiveMetricPayloads(&self, payloads: &NSArray<MXMetricPayload>);
 
-    unsafe impl ProtocolType for dyn MXMetricManagerSubscriber {}
-);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "MetricKit_MXDiagnosticPayload"
+    ))]
+    #[objc2::method(optional, sel = "didReceiveDiagnosticPayloads:")]
+    unsafe fn didReceiveDiagnosticPayloads(&self, payloads: &NSArray<MXDiagnosticPayload>);
+}

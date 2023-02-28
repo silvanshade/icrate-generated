@@ -20,31 +20,21 @@ extern_static!(NSMapTableWeakMemory: NSPointerFunctionsOptions = NSPointerFuncti
 
 pub type NSMapTableOptions = NSUInteger;
 
-__inner_extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMapTable")]
-    pub struct NSMapTable<
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type NSMapTable<
         KeyType: Message = Object,
         ObjectType: Message = Object,
         KeyTypeOwnership: Ownership = Shared,
         ObjectTypeOwnership: Ownership = Shared,
-    > {
-        _inner0: PhantomData<*mut (KeyType, KeyTypeOwnership)>,
-        _inner1: PhantomData<*mut (ObjectType, ObjectTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "Foundation_NSMapTable")]
-    unsafe impl<
-            KeyType: Message,
-            ObjectType: Message,
-            KeyTypeOwnership: Ownership,
-            ObjectTypeOwnership: Ownership,
-        > ClassType for NSMapTable<KeyType, ObjectType, KeyTypeOwnership, ObjectTypeOwnership>
-    {
-        type Super = NSObject;
-    }
-);
+    >;
+}
 
 #[cfg(feature = "Foundation_NSMapTable")]
 unsafe impl<
@@ -86,109 +76,110 @@ unsafe impl<
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMapTable")]
-    unsafe impl<
-            KeyType: Message,
-            ObjectType: Message,
-            KeyTypeOwnership: Ownership,
-            ObjectTypeOwnership: Ownership,
-        > NSMapTable<KeyType, ObjectType, KeyTypeOwnership, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Init initWithKeyOptions:valueOptions:capacity:)]
-        pub unsafe fn initWithKeyOptions_valueOptions_capacity(
-            this: Option<Allocated<Self>>,
-            key_options: NSPointerFunctionsOptions,
-            value_options: NSPointerFunctionsOptions,
-            initial_capacity: NSUInteger,
-        ) -> Id<Self>;
+    pub type NSMapTable<
+        KeyType: Message = Object,
+        ObjectType: Message = Object,
+        KeyTypeOwnership: Ownership = Shared,
+        ObjectTypeOwnership: Ownership = Shared,
+    >;
 
-        #[cfg(feature = "Foundation_NSPointerFunctions")]
-        #[method_id(@__retain_semantics Init initWithKeyPointerFunctions:valuePointerFunctions:capacity:)]
-        pub unsafe fn initWithKeyPointerFunctions_valuePointerFunctions_capacity(
-            this: Option<Allocated<Self>>,
-            key_functions: &NSPointerFunctions,
-            value_functions: &NSPointerFunctions,
-            initial_capacity: NSUInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithKeyOptions:valueOptions:capacity:", managed = "Init")]
+    pub unsafe fn initWithKeyOptions_valueOptions_capacity(
+        this: Option<Allocated<Self>>,
+        key_options: NSPointerFunctionsOptions,
+        value_options: NSPointerFunctionsOptions,
+        initial_capacity: NSUInteger,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other mapTableWithKeyOptions:valueOptions:)]
-        pub unsafe fn mapTableWithKeyOptions_valueOptions(
-            key_options: NSPointerFunctionsOptions,
-            value_options: NSPointerFunctionsOptions,
-        ) -> Id<NSMapTable<KeyType, ObjectType>>;
+    #[cfg(feature = "Foundation_NSPointerFunctions")]
+    #[objc2::method(
+        sel = "initWithKeyPointerFunctions:valuePointerFunctions:capacity:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithKeyPointerFunctions_valuePointerFunctions_capacity(
+        this: Option<Allocated<Self>>,
+        key_functions: &NSPointerFunctions,
+        value_functions: &NSPointerFunctions,
+        initial_capacity: NSUInteger,
+    ) -> Id<Self>;
 
-        #[deprecated = "GC no longer supported"]
-        #[method_id(@__retain_semantics Other mapTableWithStrongToStrongObjects)]
-        pub unsafe fn mapTableWithStrongToStrongObjects() -> Id<Object>;
+    #[objc2::method(sel = "mapTableWithKeyOptions:valueOptions:", managed = "Other")]
+    pub unsafe fn mapTableWithKeyOptions_valueOptions(
+        key_options: NSPointerFunctionsOptions,
+        value_options: NSPointerFunctionsOptions,
+    ) -> Id<NSMapTable<KeyType, ObjectType>>;
 
-        #[deprecated = "GC no longer supported"]
-        #[method_id(@__retain_semantics Other mapTableWithWeakToStrongObjects)]
-        pub unsafe fn mapTableWithWeakToStrongObjects() -> Id<Object>;
+    #[deprecated = "GC no longer supported"]
+    #[objc2::method(sel = "mapTableWithStrongToStrongObjects", managed = "Other")]
+    pub unsafe fn mapTableWithStrongToStrongObjects() -> Id<Object>;
 
-        #[deprecated = "GC no longer supported"]
-        #[method_id(@__retain_semantics Other mapTableWithStrongToWeakObjects)]
-        pub unsafe fn mapTableWithStrongToWeakObjects() -> Id<Object>;
+    #[deprecated = "GC no longer supported"]
+    #[objc2::method(sel = "mapTableWithWeakToStrongObjects", managed = "Other")]
+    pub unsafe fn mapTableWithWeakToStrongObjects() -> Id<Object>;
 
-        #[deprecated = "GC no longer supported"]
-        #[method_id(@__retain_semantics Other mapTableWithWeakToWeakObjects)]
-        pub unsafe fn mapTableWithWeakToWeakObjects() -> Id<Object>;
+    #[deprecated = "GC no longer supported"]
+    #[objc2::method(sel = "mapTableWithStrongToWeakObjects", managed = "Other")]
+    pub unsafe fn mapTableWithStrongToWeakObjects() -> Id<Object>;
 
-        #[method_id(@__retain_semantics Other strongToStrongObjectsMapTable)]
-        pub unsafe fn strongToStrongObjectsMapTable() -> Id<NSMapTable<KeyType, ObjectType>>;
+    #[deprecated = "GC no longer supported"]
+    #[objc2::method(sel = "mapTableWithWeakToWeakObjects", managed = "Other")]
+    pub unsafe fn mapTableWithWeakToWeakObjects() -> Id<Object>;
 
-        #[method_id(@__retain_semantics Other weakToStrongObjectsMapTable)]
-        pub unsafe fn weakToStrongObjectsMapTable() -> Id<NSMapTable<KeyType, ObjectType>>;
+    #[objc2::method(sel = "strongToStrongObjectsMapTable", managed = "Other")]
+    pub unsafe fn strongToStrongObjectsMapTable() -> Id<NSMapTable<KeyType, ObjectType>>;
 
-        #[method_id(@__retain_semantics Other strongToWeakObjectsMapTable)]
-        pub unsafe fn strongToWeakObjectsMapTable() -> Id<NSMapTable<KeyType, ObjectType>>;
+    #[objc2::method(sel = "weakToStrongObjectsMapTable", managed = "Other")]
+    pub unsafe fn weakToStrongObjectsMapTable() -> Id<NSMapTable<KeyType, ObjectType>>;
 
-        #[method_id(@__retain_semantics Other weakToWeakObjectsMapTable)]
-        pub unsafe fn weakToWeakObjectsMapTable() -> Id<NSMapTable<KeyType, ObjectType>>;
+    #[objc2::method(sel = "strongToWeakObjectsMapTable", managed = "Other")]
+    pub unsafe fn strongToWeakObjectsMapTable() -> Id<NSMapTable<KeyType, ObjectType>>;
 
-        #[cfg(feature = "Foundation_NSPointerFunctions")]
-        #[method_id(@__retain_semantics Other keyPointerFunctions)]
-        pub unsafe fn keyPointerFunctions(&self) -> Id<NSPointerFunctions>;
+    #[objc2::method(sel = "weakToWeakObjectsMapTable", managed = "Other")]
+    pub unsafe fn weakToWeakObjectsMapTable() -> Id<NSMapTable<KeyType, ObjectType>>;
 
-        #[cfg(feature = "Foundation_NSPointerFunctions")]
-        #[method_id(@__retain_semantics Other valuePointerFunctions)]
-        pub unsafe fn valuePointerFunctions(&self) -> Id<NSPointerFunctions>;
+    #[cfg(feature = "Foundation_NSPointerFunctions")]
+    #[objc2::method(sel = "keyPointerFunctions", managed = "Other")]
+    pub unsafe fn keyPointerFunctions(&self) -> Id<NSPointerFunctions>;
 
-        #[method_id(@__retain_semantics Other objectForKey:)]
-        pub unsafe fn objectForKey(
-            &self,
-            a_key: Option<&KeyType>,
-        ) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
+    #[cfg(feature = "Foundation_NSPointerFunctions")]
+    #[objc2::method(sel = "valuePointerFunctions", managed = "Other")]
+    pub unsafe fn valuePointerFunctions(&self) -> Id<NSPointerFunctions>;
 
-        #[method(removeObjectForKey:)]
-        pub unsafe fn removeObjectForKey(&self, a_key: Option<&KeyType>);
+    #[objc2::method(sel = "objectForKey:", managed = "Other")]
+    pub unsafe fn objectForKey(
+        &self,
+        a_key: Option<&KeyType>,
+    ) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
 
-        #[method(setObject:forKey:)]
-        pub unsafe fn setObject_forKey(
-            &self,
-            an_object: Option<&ObjectType>,
-            a_key: Option<&KeyType>,
-        );
+    #[objc2::method(sel = "removeObjectForKey:")]
+    pub unsafe fn removeObjectForKey(&self, a_key: Option<&KeyType>);
 
-        #[method(count)]
-        pub unsafe fn count(&self) -> NSUInteger;
+    #[objc2::method(sel = "setObject:forKey:")]
+    pub unsafe fn setObject_forKey(&self, an_object: Option<&ObjectType>, a_key: Option<&KeyType>);
 
-        #[cfg(feature = "Foundation_NSEnumerator")]
-        #[method_id(@__retain_semantics Other keyEnumerator)]
-        pub unsafe fn keyEnumerator(&self) -> Id<NSEnumerator<KeyType>>;
+    #[objc2::method(sel = "count")]
+    pub unsafe fn count(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSEnumerator")]
-        #[method_id(@__retain_semantics Other objectEnumerator)]
-        pub unsafe fn objectEnumerator(&self) -> Option<Id<NSEnumerator<ObjectType>>>;
+    #[cfg(feature = "Foundation_NSEnumerator")]
+    #[objc2::method(sel = "keyEnumerator", managed = "Other")]
+    pub unsafe fn keyEnumerator(&self) -> Id<NSEnumerator<KeyType>>;
 
-        #[method(removeAllObjects)]
-        pub unsafe fn removeAllObjects(&self);
+    #[cfg(feature = "Foundation_NSEnumerator")]
+    #[objc2::method(sel = "objectEnumerator", managed = "Other")]
+    pub unsafe fn objectEnumerator(&self) -> Option<Id<NSEnumerator<ObjectType>>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other dictionaryRepresentation)]
-        pub unsafe fn dictionaryRepresentation(&self) -> Id<NSDictionary<KeyType, ObjectType>>;
-    }
-);
+    #[objc2::method(sel = "removeAllObjects")]
+    pub unsafe fn removeAllObjects(&self);
+
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "dictionaryRepresentation", managed = "Other")]
+    pub unsafe fn dictionaryRepresentation(&self) -> Id<NSDictionary<KeyType, ObjectType>>;
+}
 
 extern_struct!(
     #[encoding_name("?")]

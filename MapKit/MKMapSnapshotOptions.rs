@@ -7,86 +7,89 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKMapSnapshotOptions")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKMapSnapshotOptions")]
-    pub struct MKMapSnapshotOptions;
-
-    #[cfg(feature = "MapKit_MKMapSnapshotOptions")]
-    unsafe impl ClassType for MKMapSnapshotOptions {
-        type Super = NSObject;
-    }
-);
+    pub type MKMapSnapshotOptions;
+}
 
 #[cfg(feature = "MapKit_MKMapSnapshotOptions")]
 unsafe impl NSObjectProtocol for MKMapSnapshotOptions {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMapSnapshotOptions")]
-    unsafe impl MKMapSnapshotOptions {
-        #[cfg(feature = "MapKit_MKMapCamera")]
-        #[method_id(@__retain_semantics Other camera)]
-        pub unsafe fn camera(&self) -> Id<MKMapCamera>;
+    pub type MKMapSnapshotOptions;
 
-        #[cfg(feature = "MapKit_MKMapCamera")]
-        #[method(setCamera:)]
-        pub unsafe fn setCamera(&self, camera: &MKMapCamera);
+    #[cfg(feature = "MapKit_MKMapCamera")]
+    #[objc2::method(sel = "camera", managed = "Other")]
+    pub unsafe fn camera(&self) -> Id<MKMapCamera>;
 
-        #[method(mapRect)]
-        pub unsafe fn mapRect(&self) -> MKMapRect;
+    #[cfg(feature = "MapKit_MKMapCamera")]
+    #[objc2::method(sel = "setCamera:")]
+    pub unsafe fn setCamera(&self, camera: &MKMapCamera);
 
-        #[method(setMapRect:)]
-        pub unsafe fn setMapRect(&self, map_rect: MKMapRect);
+    #[objc2::method(sel = "mapRect")]
+    pub unsafe fn mapRect(&self) -> MKMapRect;
 
-        #[method(region)]
-        pub unsafe fn region(&self) -> MKCoordinateRegion;
+    #[objc2::method(sel = "setMapRect:")]
+    pub unsafe fn setMapRect(&self, map_rect: MKMapRect);
 
-        #[method(setRegion:)]
-        pub unsafe fn setRegion(&self, region: MKCoordinateRegion);
+    #[objc2::method(sel = "region")]
+    pub unsafe fn region(&self) -> MKCoordinateRegion;
 
-        #[method(mapType)]
-        pub unsafe fn mapType(&self) -> MKMapType;
+    #[objc2::method(sel = "setRegion:")]
+    pub unsafe fn setRegion(&self, region: MKCoordinateRegion);
 
-        #[method(setMapType:)]
-        pub unsafe fn setMapType(&self, map_type: MKMapType);
+    #[objc2::method(sel = "mapType")]
+    pub unsafe fn mapType(&self) -> MKMapType;
 
-        #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-        #[method_id(@__retain_semantics Other pointOfInterestFilter)]
-        pub unsafe fn pointOfInterestFilter(&self) -> Option<Id<MKPointOfInterestFilter>>;
+    #[objc2::method(sel = "setMapType:")]
+    pub unsafe fn setMapType(&self, map_type: MKMapType);
 
-        #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-        #[method(setPointOfInterestFilter:)]
-        pub unsafe fn setPointOfInterestFilter(
-            &self,
-            point_of_interest_filter: Option<&MKPointOfInterestFilter>,
-        );
+    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
+    #[objc2::method(sel = "pointOfInterestFilter", managed = "Other")]
+    pub unsafe fn pointOfInterestFilter(&self) -> Option<Id<MKPointOfInterestFilter>>;
 
-        #[deprecated = "Use pointOfInterestFilter"]
-        #[method(showsPointsOfInterest)]
-        pub unsafe fn showsPointsOfInterest(&self) -> bool;
+    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
+    #[objc2::method(sel = "setPointOfInterestFilter:")]
+    pub unsafe fn setPointOfInterestFilter(
+        &self,
+        point_of_interest_filter: Option<&MKPointOfInterestFilter>,
+    );
 
-        #[deprecated = "Use pointOfInterestFilter"]
-        #[method(setShowsPointsOfInterest:)]
-        pub unsafe fn setShowsPointsOfInterest(&self, shows_points_of_interest: bool);
+    #[deprecated = "Use pointOfInterestFilter"]
+    #[objc2::method(sel = "showsPointsOfInterest")]
+    pub unsafe fn showsPointsOfInterest(&self) -> bool;
 
-        #[method(showsBuildings)]
-        pub unsafe fn showsBuildings(&self) -> bool;
+    #[deprecated = "Use pointOfInterestFilter"]
+    #[objc2::method(sel = "setShowsPointsOfInterest:")]
+    pub unsafe fn setShowsPointsOfInterest(&self, shows_points_of_interest: bool);
 
-        #[method(setShowsBuildings:)]
-        pub unsafe fn setShowsBuildings(&self, shows_buildings: bool);
+    #[objc2::method(sel = "showsBuildings")]
+    pub unsafe fn showsBuildings(&self) -> bool;
 
-        #[method(size)]
-        pub unsafe fn size(&self) -> NSSize;
+    #[objc2::method(sel = "setShowsBuildings:")]
+    pub unsafe fn setShowsBuildings(&self, shows_buildings: bool);
 
-        #[method(setSize:)]
-        pub unsafe fn setSize(&self, size: NSSize);
+    #[objc2::method(sel = "size")]
+    pub unsafe fn size(&self) -> NSSize;
 
-        #[cfg(feature = "AppKit_NSAppearance")]
-        #[method_id(@__retain_semantics Other appearance)]
-        pub unsafe fn appearance(&self) -> Option<Id<NSAppearance>>;
+    #[objc2::method(sel = "setSize:")]
+    pub unsafe fn setSize(&self, size: NSSize);
 
-        #[cfg(feature = "AppKit_NSAppearance")]
-        #[method(setAppearance:)]
-        pub unsafe fn setAppearance(&self, appearance: Option<&NSAppearance>);
-    }
-);
+    #[cfg(feature = "AppKit_NSAppearance")]
+    #[objc2::method(sel = "appearance", managed = "Other")]
+    pub unsafe fn appearance(&self) -> Option<Id<NSAppearance>>;
+
+    #[cfg(feature = "AppKit_NSAppearance")]
+    #[objc2::method(sel = "setAppearance:")]
+    pub unsafe fn setAppearance(&self, appearance: Option<&NSAppearance>);
+}

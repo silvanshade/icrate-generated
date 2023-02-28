@@ -5,118 +5,124 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum GKVoiceChatPlayerState {
-        GKVoiceChatPlayerConnected = 0,
-        GKVoiceChatPlayerDisconnected = 1,
-        GKVoiceChatPlayerSpeaking = 2,
-        GKVoiceChatPlayerSilent = 3,
-        GKVoiceChatPlayerConnecting = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum GKVoiceChatPlayerState {
+    GKVoiceChatPlayerConnected = 0,
+    GKVoiceChatPlayerDisconnected = 1,
+    GKVoiceChatPlayerSpeaking = 2,
+    GKVoiceChatPlayerSilent = 3,
+    GKVoiceChatPlayerConnecting = 4,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameKit_GKVoiceChat")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKVoiceChat")]
-    pub struct GKVoiceChat;
-
-    #[cfg(feature = "GameKit_GKVoiceChat")]
-    unsafe impl ClassType for GKVoiceChat {
-        type Super = NSObject;
-    }
-);
+    pub type GKVoiceChat;
+}
 
 #[cfg(feature = "GameKit_GKVoiceChat")]
 unsafe impl NSObjectProtocol for GKVoiceChat {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKVoiceChat")]
-    unsafe impl GKVoiceChat {
-        #[method(start)]
-        pub unsafe fn start(&self);
+    pub type GKVoiceChat;
 
-        #[method(stop)]
-        pub unsafe fn stop(&self);
+    #[objc2::method(sel = "start")]
+    pub unsafe fn start(&self);
 
-        #[cfg(feature = "GameKit_GKPlayer")]
-        #[method(setPlayer:muted:)]
-        pub unsafe fn setPlayer_muted(&self, player: &GKPlayer, is_muted: bool);
+    #[objc2::method(sel = "stop")]
+    pub unsafe fn stop(&self);
 
-        #[cfg(feature = "GameKit_GKPlayer")]
-        #[method(playerVoiceChatStateDidChangeHandler)]
-        pub unsafe fn playerVoiceChatStateDidChangeHandler(
-            &self,
-        ) -> NonNull<Block<(NonNull<GKPlayer>, GKVoiceChatPlayerState), ()>>;
+    #[cfg(feature = "GameKit_GKPlayer")]
+    #[objc2::method(sel = "setPlayer:muted:")]
+    pub unsafe fn setPlayer_muted(&self, player: &GKPlayer, is_muted: bool);
 
-        #[cfg(feature = "GameKit_GKPlayer")]
-        #[method(setPlayerVoiceChatStateDidChangeHandler:)]
-        pub unsafe fn setPlayerVoiceChatStateDidChangeHandler(
-            &self,
-            player_voice_chat_state_did_change_handler: &Block<
-                (NonNull<GKPlayer>, GKVoiceChatPlayerState),
-                (),
-            >,
-        );
+    #[cfg(feature = "GameKit_GKPlayer")]
+    #[objc2::method(sel = "playerVoiceChatStateDidChangeHandler")]
+    pub unsafe fn playerVoiceChatStateDidChangeHandler(
+        &self,
+    ) -> NonNull<Block<(NonNull<GKPlayer>, GKVoiceChatPlayerState), ()>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "GameKit_GKPlayer")]
+    #[objc2::method(sel = "setPlayerVoiceChatStateDidChangeHandler:")]
+    pub unsafe fn setPlayerVoiceChatStateDidChangeHandler(
+        &self,
+        player_voice_chat_state_did_change_handler: &Block<
+            (NonNull<GKPlayer>, GKVoiceChatPlayerState),
+            (),
+        >,
+    );
 
-        #[method(isActive)]
-        pub unsafe fn isActive(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[method(setActive:)]
-        pub unsafe fn setActive(&self, active: bool);
+    #[objc2::method(sel = "isActive")]
+    pub unsafe fn isActive(&self) -> bool;
 
-        #[method(volume)]
-        pub unsafe fn volume(&self) -> c_float;
+    #[objc2::method(sel = "setActive:")]
+    pub unsafe fn setActive(&self, active: bool);
 
-        #[method(setVolume:)]
-        pub unsafe fn setVolume(&self, volume: c_float);
+    #[objc2::method(sel = "volume")]
+    pub unsafe fn volume(&self) -> c_float;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "GameKit_GKPlayer"))]
-        #[method_id(@__retain_semantics Other players)]
-        pub unsafe fn players(&self) -> Id<NSArray<GKPlayer>>;
+    #[objc2::method(sel = "setVolume:")]
+    pub unsafe fn setVolume(&self, volume: c_float);
 
-        #[method(isVoIPAllowed)]
-        pub unsafe fn isVoIPAllowed() -> bool;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "GameKit_GKPlayer"))]
+    #[objc2::method(sel = "players", managed = "Other")]
+    pub unsafe fn players(&self) -> Id<NSArray<GKPlayer>>;
 
-extern_methods!(
-    /// Deprecated
+    #[objc2::method(sel = "isVoIPAllowed")]
+    pub unsafe fn isVoIPAllowed() -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKVoiceChat")]
-    unsafe impl GKVoiceChat {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "use setPlayerVoiceChatStateDidChangeHandler:"]
-        #[method(playerStateUpdateHandler)]
-        pub unsafe fn playerStateUpdateHandler(
-            &self,
-        ) -> NonNull<Block<(NonNull<NSString>, GKVoiceChatPlayerState), ()>>;
+    pub type GKVoiceChat;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "use setPlayerVoiceChatStateDidChangeHandler:"]
-        #[method(setPlayerStateUpdateHandler:)]
-        pub unsafe fn setPlayerStateUpdateHandler(
-            &self,
-            player_state_update_handler: &Block<(NonNull<NSString>, GKVoiceChatPlayerState), ()>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "use setPlayerVoiceChatStateDidChangeHandler:"]
+    #[objc2::method(sel = "playerStateUpdateHandler")]
+    pub unsafe fn playerStateUpdateHandler(
+        &self,
+    ) -> NonNull<Block<(NonNull<NSString>, GKVoiceChatPlayerState), ()>>;
 
-extern_methods!(
-    /// Obsoleted
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "use setPlayerVoiceChatStateDidChangeHandler:"]
+    #[objc2::method(sel = "setPlayerStateUpdateHandler:")]
+    pub unsafe fn setPlayerStateUpdateHandler(
+        &self,
+        player_state_update_handler: &Block<(NonNull<NSString>, GKVoiceChatPlayerState), ()>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKVoiceChat")]
-    unsafe impl GKVoiceChat {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[deprecated = "use players"]
-        #[method_id(@__retain_semantics Other playerIDs)]
-        pub unsafe fn playerIDs(&self) -> Option<Id<NSArray<NSString>>>;
+    pub type GKVoiceChat;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "This is never invoked and its implementation does nothing, use setPlayer:muted:"]
-        #[method(setMute:forPlayer:)]
-        pub unsafe fn setMute_forPlayer(&self, is_muted: bool, player_id: &NSString);
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[deprecated = "use players"]
+    #[objc2::method(sel = "playerIDs", managed = "Other")]
+    pub unsafe fn playerIDs(&self) -> Option<Id<NSArray<NSString>>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "This is never invoked and its implementation does nothing, use setPlayer:muted:"]
+    #[objc2::method(sel = "setMute:forPlayer:")]
+    pub unsafe fn setMute_forPlayer(&self, is_muted: bool, player_id: &NSString);
+}

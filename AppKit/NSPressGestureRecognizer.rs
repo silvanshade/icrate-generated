@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSGestureRecognizer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPressGestureRecognizer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPressGestureRecognizer")]
-    pub struct NSPressGestureRecognizer;
-
-    #[cfg(feature = "AppKit_NSPressGestureRecognizer")]
-    unsafe impl ClassType for NSPressGestureRecognizer {
-        #[inherits(NSObject)]
-        type Super = NSGestureRecognizer;
-    }
-);
+    pub type NSPressGestureRecognizer;
+}
 
 #[cfg(feature = "AppKit_NSPressGestureRecognizer")]
 unsafe impl NSCoding for NSPressGestureRecognizer {}
@@ -23,44 +23,53 @@ unsafe impl NSCoding for NSPressGestureRecognizer {}
 #[cfg(feature = "AppKit_NSPressGestureRecognizer")]
 unsafe impl NSObjectProtocol for NSPressGestureRecognizer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPressGestureRecognizer")]
-    unsafe impl NSPressGestureRecognizer {
-        #[method(buttonMask)]
-        pub unsafe fn buttonMask(&self) -> NSUInteger;
+    pub type NSPressGestureRecognizer;
 
-        #[method(setButtonMask:)]
-        pub unsafe fn setButtonMask(&self, button_mask: NSUInteger);
+    #[objc2::method(sel = "buttonMask")]
+    pub unsafe fn buttonMask(&self) -> NSUInteger;
 
-        #[method(minimumPressDuration)]
-        pub unsafe fn minimumPressDuration(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "setButtonMask:")]
+    pub unsafe fn setButtonMask(&self, button_mask: NSUInteger);
 
-        #[method(setMinimumPressDuration:)]
-        pub unsafe fn setMinimumPressDuration(&self, minimum_press_duration: NSTimeInterval);
+    #[objc2::method(sel = "minimumPressDuration")]
+    pub unsafe fn minimumPressDuration(&self) -> NSTimeInterval;
 
-        #[method(allowableMovement)]
-        pub unsafe fn allowableMovement(&self) -> CGFloat;
+    #[objc2::method(sel = "setMinimumPressDuration:")]
+    pub unsafe fn setMinimumPressDuration(&self, minimum_press_duration: NSTimeInterval);
 
-        #[method(setAllowableMovement:)]
-        pub unsafe fn setAllowableMovement(&self, allowable_movement: CGFloat);
+    #[objc2::method(sel = "allowableMovement")]
+    pub unsafe fn allowableMovement(&self) -> CGFloat;
 
-        #[method(numberOfTouchesRequired)]
-        pub unsafe fn numberOfTouchesRequired(&self) -> NSInteger;
+    #[objc2::method(sel = "setAllowableMovement:")]
+    pub unsafe fn setAllowableMovement(&self, allowable_movement: CGFloat);
 
-        #[method(setNumberOfTouchesRequired:)]
-        pub unsafe fn setNumberOfTouchesRequired(&self, number_of_touches_required: NSInteger);
-    }
-);
+    #[objc2::method(sel = "numberOfTouchesRequired")]
+    pub unsafe fn numberOfTouchesRequired(&self) -> NSInteger;
 
-extern_methods!(
-    /// Methods declared on superclass `NSGestureRecognizer`
+    #[objc2::method(sel = "setNumberOfTouchesRequired:")]
+    pub unsafe fn setNumberOfTouchesRequired(&self, number_of_touches_required: NSInteger);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSGestureRecognizer`
     #[cfg(feature = "AppKit_NSPressGestureRecognizer")]
-    unsafe impl NSPressGestureRecognizer {
-        #[method_id(@__retain_semantics Init initWithTarget:action:)]
-        pub unsafe fn initWithTarget_action(
-            this: Option<Allocated<Self>>,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPressGestureRecognizer")]
+    pub type NSPressGestureRecognizer;
+
+    #[objc2::method(sel = "initWithTarget:action:", managed = "Init")]
+    pub unsafe fn initWithTarget_action(
+        this: Option<Allocated<Self>>,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
+}

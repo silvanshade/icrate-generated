@@ -3,28 +3,25 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSLocking {
-        #[method(lock)]
-        unsafe fn lock(&self);
+#[objc2::protocol]
+pub unsafe trait NSLocking {
+    #[objc2::method(sel = "lock")]
+    unsafe fn lock(&self);
 
-        #[method(unlock)]
-        unsafe fn unlock(&self);
-    }
+    #[objc2::method(sel = "unlock")]
+    unsafe fn unlock(&self);
+}
 
-    unsafe impl ProtocolType for dyn NSLocking {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSLock")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSLock")]
-    pub struct NSLock;
-
-    #[cfg(feature = "Foundation_NSLock")]
-    unsafe impl ClassType for NSLock {
-        type Super = NSObject;
-    }
-);
+    pub type NSLock;
+}
 
 #[cfg(feature = "Foundation_NSLock")]
 unsafe impl NSLocking for NSLock {}
@@ -32,36 +29,39 @@ unsafe impl NSLocking for NSLock {}
 #[cfg(feature = "Foundation_NSLock")]
 unsafe impl NSObjectProtocol for NSLock {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSLock")]
-    unsafe impl NSLock {
-        #[method(tryLock)]
-        pub unsafe fn tryLock(&self) -> bool;
+    pub type NSLock;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(lockBeforeDate:)]
-        pub unsafe fn lockBeforeDate(&self, limit: &NSDate) -> bool;
+    #[objc2::method(sel = "tryLock")]
+    pub unsafe fn tryLock(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub fn name(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "lockBeforeDate:")]
+    pub unsafe fn lockBeforeDate(&self, limit: &NSDate) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub fn setName(&self, name: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub fn name(&self) -> Option<Id<NSString>>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub fn setName(&self, name: Option<&NSString>);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSConditionLock")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSConditionLock")]
-    pub struct NSConditionLock;
-
-    #[cfg(feature = "Foundation_NSConditionLock")]
-    unsafe impl ClassType for NSConditionLock {
-        type Super = NSObject;
-    }
-);
+    pub type NSConditionLock;
+}
 
 #[cfg(feature = "Foundation_NSConditionLock")]
 unsafe impl NSLocking for NSConditionLock {}
@@ -69,62 +69,62 @@ unsafe impl NSLocking for NSConditionLock {}
 #[cfg(feature = "Foundation_NSConditionLock")]
 unsafe impl NSObjectProtocol for NSConditionLock {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSConditionLock")]
-    unsafe impl NSConditionLock {
-        #[method_id(@__retain_semantics Init initWithCondition:)]
-        pub unsafe fn initWithCondition(
-            this: Option<Allocated<Self>>,
-            condition: NSInteger,
-        ) -> Id<Self>;
+    pub type NSConditionLock;
 
-        #[method(condition)]
-        pub unsafe fn condition(&self) -> NSInteger;
+    #[objc2::method(sel = "initWithCondition:", managed = "Init")]
+    pub unsafe fn initWithCondition(
+        this: Option<Allocated<Self>>,
+        condition: NSInteger,
+    ) -> Id<Self>;
 
-        #[method(lockWhenCondition:)]
-        pub unsafe fn lockWhenCondition(&self, condition: NSInteger);
+    #[objc2::method(sel = "condition")]
+    pub unsafe fn condition(&self) -> NSInteger;
 
-        #[method(tryLock)]
-        pub unsafe fn tryLock(&self) -> bool;
+    #[objc2::method(sel = "lockWhenCondition:")]
+    pub unsafe fn lockWhenCondition(&self, condition: NSInteger);
 
-        #[method(tryLockWhenCondition:)]
-        pub unsafe fn tryLockWhenCondition(&self, condition: NSInteger) -> bool;
+    #[objc2::method(sel = "tryLock")]
+    pub unsafe fn tryLock(&self) -> bool;
 
-        #[method(unlockWithCondition:)]
-        pub unsafe fn unlockWithCondition(&self, condition: NSInteger);
+    #[objc2::method(sel = "tryLockWhenCondition:")]
+    pub unsafe fn tryLockWhenCondition(&self, condition: NSInteger) -> bool;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(lockBeforeDate:)]
-        pub unsafe fn lockBeforeDate(&self, limit: &NSDate) -> bool;
+    #[objc2::method(sel = "unlockWithCondition:")]
+    pub unsafe fn unlockWithCondition(&self, condition: NSInteger);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(lockWhenCondition:beforeDate:)]
-        pub unsafe fn lockWhenCondition_beforeDate(
-            &self,
-            condition: NSInteger,
-            limit: &NSDate,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "lockBeforeDate:")]
+    pub unsafe fn lockBeforeDate(&self, limit: &NSDate) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "lockWhenCondition:beforeDate:")]
+    pub unsafe fn lockWhenCondition_beforeDate(&self, condition: NSInteger, limit: &NSDate)
+        -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSString>>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSRecursiveLock")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSRecursiveLock")]
-    pub struct NSRecursiveLock;
-
-    #[cfg(feature = "Foundation_NSRecursiveLock")]
-    unsafe impl ClassType for NSRecursiveLock {
-        type Super = NSObject;
-    }
-);
+    pub type NSRecursiveLock;
+}
 
 #[cfg(feature = "Foundation_NSRecursiveLock")]
 unsafe impl NSLocking for NSRecursiveLock {}
@@ -132,36 +132,39 @@ unsafe impl NSLocking for NSRecursiveLock {}
 #[cfg(feature = "Foundation_NSRecursiveLock")]
 unsafe impl NSObjectProtocol for NSRecursiveLock {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSRecursiveLock")]
-    unsafe impl NSRecursiveLock {
-        #[method(tryLock)]
-        pub unsafe fn tryLock(&self) -> bool;
+    pub type NSRecursiveLock;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(lockBeforeDate:)]
-        pub unsafe fn lockBeforeDate(&self, limit: &NSDate) -> bool;
+    #[objc2::method(sel = "tryLock")]
+    pub unsafe fn tryLock(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "lockBeforeDate:")]
+    pub unsafe fn lockBeforeDate(&self, limit: &NSDate) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSString>>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSCondition")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSCondition")]
-    pub struct NSCondition;
-
-    #[cfg(feature = "Foundation_NSCondition")]
-    unsafe impl ClassType for NSCondition {
-        type Super = NSObject;
-    }
-);
+    pub type NSCondition;
+}
 
 #[cfg(feature = "Foundation_NSCondition")]
 unsafe impl NSLocking for NSCondition {}
@@ -169,28 +172,31 @@ unsafe impl NSLocking for NSCondition {}
 #[cfg(feature = "Foundation_NSCondition")]
 unsafe impl NSObjectProtocol for NSCondition {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCondition")]
-    unsafe impl NSCondition {
-        #[method(wait)]
-        pub unsafe fn wait(&self);
+    pub type NSCondition;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(waitUntilDate:)]
-        pub unsafe fn waitUntilDate(&self, limit: &NSDate) -> bool;
+    #[objc2::method(sel = "wait")]
+    pub unsafe fn wait(&self);
 
-        #[method(signal)]
-        pub unsafe fn signal(&self);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "waitUntilDate:")]
+    pub unsafe fn waitUntilDate(&self, limit: &NSDate) -> bool;
 
-        #[method(broadcast)]
-        pub unsafe fn broadcast(&self);
+    #[objc2::method(sel = "signal")]
+    pub unsafe fn signal(&self);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "broadcast")]
+    pub unsafe fn broadcast(&self);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
+}

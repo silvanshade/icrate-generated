@@ -7,17 +7,18 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKPitchControl")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKPitchControl")]
-    pub struct MKPitchControl;
-
-    #[cfg(feature = "MapKit_MKPitchControl")]
-    unsafe impl ClassType for MKPitchControl {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type MKPitchControl;
+}
 
 #[cfg(feature = "MapKit_MKPitchControl")]
 unsafe impl NSAccessibility for MKPitchControl {}
@@ -43,28 +44,37 @@ unsafe impl NSObjectProtocol for MKPitchControl {}
 #[cfg(feature = "MapKit_MKPitchControl")]
 unsafe impl NSUserInterfaceItemIdentification for MKPitchControl {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKPitchControl")]
-    unsafe impl MKPitchControl {
-        #[cfg(feature = "MapKit_MKMapView")]
-        #[method_id(@__retain_semantics Other pitchControlWithMapView:)]
-        pub unsafe fn pitchControlWithMapView(map_view: Option<&MKMapView>) -> Id<Self>;
+    pub type MKPitchControl;
 
-        #[cfg(feature = "MapKit_MKMapView")]
-        #[method_id(@__retain_semantics Other mapView)]
-        pub unsafe fn mapView(&self) -> Option<Id<MKMapView>>;
+    #[cfg(feature = "MapKit_MKMapView")]
+    #[objc2::method(sel = "pitchControlWithMapView:", managed = "Other")]
+    pub unsafe fn pitchControlWithMapView(map_view: Option<&MKMapView>) -> Id<Self>;
 
-        #[cfg(feature = "MapKit_MKMapView")]
-        #[method(setMapView:)]
-        pub unsafe fn setMapView(&self, map_view: Option<&MKMapView>);
-    }
-);
+    #[cfg(feature = "MapKit_MKMapView")]
+    #[objc2::method(sel = "mapView", managed = "Other")]
+    pub unsafe fn mapView(&self) -> Option<Id<MKMapView>>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[cfg(feature = "MapKit_MKMapView")]
+    #[objc2::method(sel = "setMapView:")]
+    pub unsafe fn setMapView(&self, map_view: Option<&MKMapView>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "MapKit_MKPitchControl")]
-    unsafe impl MKPitchControl {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKPitchControl")]
+    pub type MKPitchControl;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

@@ -6,63 +6,61 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHChange")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHChange")]
-    pub struct PHChange;
-
-    #[cfg(feature = "PhotoKit_PHChange")]
-    unsafe impl ClassType for PHChange {
-        type Super = NSObject;
-    }
-);
+    pub type PHChange;
+}
 
 #[cfg(feature = "PhotoKit_PHChange")]
 unsafe impl NSObjectProtocol for PHChange {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHChange")]
-    unsafe impl PHChange {
-        #[cfg(all(
-            feature = "PhotoKit_PHObject",
-            feature = "PhotoKit_PHObjectChangeDetails"
-        ))]
-        #[method_id(@__retain_semantics Other changeDetailsForObject:)]
-        pub unsafe fn changeDetailsForObject(
-            &self,
-            object: &PHObject,
-        ) -> Option<Id<PHObjectChangeDetails>>;
+    pub type PHChange;
 
-        #[cfg(all(
-            feature = "PhotoKit_PHFetchResult",
-            feature = "PhotoKit_PHFetchResultChangeDetails"
-        ))]
-        #[method_id(@__retain_semantics Other changeDetailsForFetchResult:)]
-        pub unsafe fn changeDetailsForFetchResult(
-            &self,
-            object: &PHFetchResult,
-        ) -> Option<Id<PHFetchResultChangeDetails>>;
-    }
-);
+    #[cfg(all(
+        feature = "PhotoKit_PHObject",
+        feature = "PhotoKit_PHObjectChangeDetails"
+    ))]
+    #[objc2::method(sel = "changeDetailsForObject:", managed = "Other")]
+    pub unsafe fn changeDetailsForObject(
+        &self,
+        object: &PHObject,
+    ) -> Option<Id<PHObjectChangeDetails>>;
 
-__inner_extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
+    #[cfg(all(
+        feature = "PhotoKit_PHFetchResult",
+        feature = "PhotoKit_PHFetchResultChangeDetails"
+    ))]
+    #[objc2::method(sel = "changeDetailsForFetchResult:", managed = "Other")]
+    pub unsafe fn changeDetailsForFetchResult(
+        &self,
+        object: &PHFetchResult,
+    ) -> Option<Id<PHFetchResultChangeDetails>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHObjectChangeDetails")]
-    pub struct PHObjectChangeDetails<
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type PHObjectChangeDetails<
         ObjectType: Message = Object,
         ObjectTypeOwnership: Ownership = Shared,
-    > {
-        _inner0: PhantomData<*mut (ObjectType, ObjectTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "PhotoKit_PHObjectChangeDetails")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> ClassType
-        for PHObjectChangeDetails<ObjectType, ObjectTypeOwnership>
-    {
-        type Super = NSObject;
-    }
-);
+    >;
+}
 
 #[cfg(feature = "PhotoKit_PHObjectChangeDetails")]
 unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSObjectProtocol
@@ -70,43 +68,42 @@ unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSObjectProtoco
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHObjectChangeDetails")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        PHObjectChangeDetails<ObjectType, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Other objectBeforeChanges)]
-        pub unsafe fn objectBeforeChanges(&self) -> Id<ObjectType, ObjectTypeOwnership>;
-
-        #[method_id(@__retain_semantics Other objectAfterChanges)]
-        pub unsafe fn objectAfterChanges(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
-
-        #[method(assetContentChanged)]
-        pub unsafe fn assetContentChanged(&self) -> bool;
-
-        #[method(objectWasDeleted)]
-        pub unsafe fn objectWasDeleted(&self) -> bool;
-    }
-);
-
-__inner_extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHFetchResultChangeDetails")]
-    pub struct PHFetchResultChangeDetails<
+    pub type PHObjectChangeDetails<
         ObjectType: Message = Object,
         ObjectTypeOwnership: Ownership = Shared,
-    > {
-        _inner0: PhantomData<*mut (ObjectType, ObjectTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
+    >;
 
+    #[objc2::method(sel = "objectBeforeChanges", managed = "Other")]
+    pub unsafe fn objectBeforeChanges(&self) -> Id<ObjectType, ObjectTypeOwnership>;
+
+    #[objc2::method(sel = "objectAfterChanges", managed = "Other")]
+    pub unsafe fn objectAfterChanges(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
+
+    #[objc2::method(sel = "assetContentChanged")]
+    pub unsafe fn assetContentChanged(&self) -> bool;
+
+    #[objc2::method(sel = "objectWasDeleted")]
+    pub unsafe fn objectWasDeleted(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHFetchResultChangeDetails")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> ClassType
-        for PHFetchResultChangeDetails<ObjectType, ObjectTypeOwnership>
-    {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type PHFetchResultChangeDetails<
+        ObjectType: Message = Object,
+        ObjectTypeOwnership: Ownership = Shared,
+    >;
+}
 
 #[cfg(feature = "PhotoKit_PHFetchResultChangeDetails")]
 unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSObjectProtocol
@@ -114,58 +111,65 @@ unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSObjectProtoco
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHFetchResultChangeDetails")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        PHFetchResultChangeDetails<ObjectType, ObjectTypeOwnership>
-    {
-        #[cfg(feature = "PhotoKit_PHFetchResult")]
-        #[method_id(@__retain_semantics Other fetchResultBeforeChanges)]
-        pub unsafe fn fetchResultBeforeChanges(&self) -> Id<PHFetchResult<ObjectType>>;
+    pub type PHFetchResultChangeDetails<
+        ObjectType: Message = Object,
+        ObjectTypeOwnership: Ownership = Shared,
+    >;
 
-        #[cfg(feature = "PhotoKit_PHFetchResult")]
-        #[method_id(@__retain_semantics Other fetchResultAfterChanges)]
-        pub unsafe fn fetchResultAfterChanges(&self) -> Id<PHFetchResult<ObjectType>>;
+    #[cfg(feature = "PhotoKit_PHFetchResult")]
+    #[objc2::method(sel = "fetchResultBeforeChanges", managed = "Other")]
+    pub unsafe fn fetchResultBeforeChanges(&self) -> Id<PHFetchResult<ObjectType>>;
 
-        #[method(hasIncrementalChanges)]
-        pub unsafe fn hasIncrementalChanges(&self) -> bool;
+    #[cfg(feature = "PhotoKit_PHFetchResult")]
+    #[objc2::method(sel = "fetchResultAfterChanges", managed = "Other")]
+    pub unsafe fn fetchResultAfterChanges(&self) -> Id<PHFetchResult<ObjectType>>;
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method_id(@__retain_semantics Other removedIndexes)]
-        pub unsafe fn removedIndexes(&self) -> Option<Id<NSIndexSet>>;
+    #[objc2::method(sel = "hasIncrementalChanges")]
+    pub unsafe fn hasIncrementalChanges(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other removedObjects)]
-        pub unsafe fn removedObjects(&self) -> Id<NSArray<ObjectType>>;
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "removedIndexes", managed = "Other")]
+    pub unsafe fn removedIndexes(&self) -> Option<Id<NSIndexSet>>;
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method_id(@__retain_semantics Other insertedIndexes)]
-        pub unsafe fn insertedIndexes(&self) -> Option<Id<NSIndexSet>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "removedObjects", managed = "Other")]
+    pub unsafe fn removedObjects(&self) -> Id<NSArray<ObjectType>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other insertedObjects)]
-        pub unsafe fn insertedObjects(&self) -> Id<NSArray<ObjectType>>;
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "insertedIndexes", managed = "Other")]
+    pub unsafe fn insertedIndexes(&self) -> Option<Id<NSIndexSet>>;
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method_id(@__retain_semantics Other changedIndexes)]
-        pub unsafe fn changedIndexes(&self) -> Option<Id<NSIndexSet>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "insertedObjects", managed = "Other")]
+    pub unsafe fn insertedObjects(&self) -> Id<NSArray<ObjectType>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other changedObjects)]
-        pub unsafe fn changedObjects(&self) -> Id<NSArray<ObjectType>>;
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "changedIndexes", managed = "Other")]
+    pub unsafe fn changedIndexes(&self) -> Option<Id<NSIndexSet>>;
 
-        #[method(enumerateMovesWithBlock:)]
-        pub unsafe fn enumerateMovesWithBlock(&self, handler: &Block<(NSUInteger, NSUInteger), ()>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "changedObjects", managed = "Other")]
+    pub unsafe fn changedObjects(&self) -> Id<NSArray<ObjectType>>;
 
-        #[method(hasMoves)]
-        pub unsafe fn hasMoves(&self) -> bool;
+    #[objc2::method(sel = "enumerateMovesWithBlock:")]
+    pub unsafe fn enumerateMovesWithBlock(&self, handler: &Block<(NSUInteger, NSUInteger), ()>);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "PhotoKit_PHFetchResult"))]
-        #[method_id(@__retain_semantics Other changeDetailsFromFetchResult:toFetchResult:changedObjects:)]
-        pub unsafe fn changeDetailsFromFetchResult_toFetchResult_changedObjects(
-            from_result: &PHFetchResult<ObjectType>,
-            to_result: &PHFetchResult<ObjectType>,
-            changed_objects: &NSArray<ObjectType>,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "hasMoves")]
+    pub unsafe fn hasMoves(&self) -> bool;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "PhotoKit_PHFetchResult"))]
+    #[objc2::method(
+        sel = "changeDetailsFromFetchResult:toFetchResult:changedObjects:",
+        managed = "Other"
+    )]
+    pub unsafe fn changeDetailsFromFetchResult_toFetchResult_changedObjects(
+        from_result: &PHFetchResult<ObjectType>,
+        to_result: &PHFetchResult<ObjectType>,
+        changed_objects: &NSArray<ObjectType>,
+    ) -> Id<Self>;
+}

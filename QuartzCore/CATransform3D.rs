@@ -92,14 +92,16 @@ extern_fn!(
     pub fn CATransform3DIsAffine(t: CATransform3D) -> bool;
 );
 
-extern_methods!(
-    /// CATransform3DAdditions
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSValue")]
-    unsafe impl NSValue {
-        #[method_id(@__retain_semantics Other valueWithCATransform3D:)]
-        pub unsafe fn valueWithCATransform3D(t: CATransform3D) -> Id<NSValue>;
+    pub type NSValue;
 
-        #[method(CATransform3DValue)]
-        pub unsafe fn CATransform3DValue(&self) -> CATransform3D;
-    }
-);
+    #[objc2::method(sel = "valueWithCATransform3D:", managed = "Other")]
+    pub unsafe fn valueWithCATransform3D(t: CATransform3D) -> Id<NSValue>;
+
+    #[objc2::method(sel = "CATransform3DValue")]
+    pub unsafe fn CATransform3DValue(&self) -> CATransform3D;
+}

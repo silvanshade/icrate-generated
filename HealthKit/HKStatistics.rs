@@ -6,32 +6,31 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum HKStatisticsOptions {
-        HKStatisticsOptionNone = 0,
-        HKStatisticsOptionSeparateBySource = 1 << 0,
-        HKStatisticsOptionDiscreteAverage = 1 << 1,
-        HKStatisticsOptionDiscreteMin = 1 << 2,
-        HKStatisticsOptionDiscreteMax = 1 << 3,
-        HKStatisticsOptionCumulativeSum = 1 << 4,
-        HKStatisticsOptionMostRecent = 1 << 5,
-        #[deprecated]
-        HKStatisticsOptionDiscreteMostRecent = HKStatisticsOptionMostRecent,
-        HKStatisticsOptionDuration = 1 << 6,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum HKStatisticsOptions {
+    HKStatisticsOptionNone = 0,
+    HKStatisticsOptionSeparateBySource = 1 << 0,
+    HKStatisticsOptionDiscreteAverage = 1 << 1,
+    HKStatisticsOptionDiscreteMin = 1 << 2,
+    HKStatisticsOptionDiscreteMax = 1 << 3,
+    HKStatisticsOptionCumulativeSum = 1 << 4,
+    HKStatisticsOptionMostRecent = 1 << 5,
+    #[deprecated]
+    HKStatisticsOptionDiscreteMostRecent = HKStatisticsOptionMostRecent,
+    HKStatisticsOptionDuration = 1 << 6,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKStatistics")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKStatistics")]
-    pub struct HKStatistics;
-
-    #[cfg(feature = "HealthKit_HKStatistics")]
-    unsafe impl ClassType for HKStatistics {
-        type Super = NSObject;
-    }
-);
+    pub type HKStatistics;
+}
 
 #[cfg(feature = "HealthKit_HKStatistics")]
 unsafe impl NSCoding for HKStatistics {}
@@ -42,88 +41,88 @@ unsafe impl NSObjectProtocol for HKStatistics {}
 #[cfg(feature = "HealthKit_HKStatistics")]
 unsafe impl NSSecureCoding for HKStatistics {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKStatistics")]
-    unsafe impl HKStatistics {
-        #[cfg(feature = "HealthKit_HKQuantityType")]
-        #[method_id(@__retain_semantics Other quantityType)]
-        pub unsafe fn quantityType(&self) -> Id<HKQuantityType>;
+    pub type HKStatistics;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other startDate)]
-        pub unsafe fn startDate(&self) -> Id<NSDate>;
+    #[cfg(feature = "HealthKit_HKQuantityType")]
+    #[objc2::method(sel = "quantityType", managed = "Other")]
+    pub unsafe fn quantityType(&self) -> Id<HKQuantityType>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other endDate)]
-        pub unsafe fn endDate(&self) -> Id<NSDate>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "startDate", managed = "Other")]
+    pub unsafe fn startDate(&self) -> Id<NSDate>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "HealthKit_HKSource"))]
-        #[method_id(@__retain_semantics Other sources)]
-        pub unsafe fn sources(&self) -> Option<Id<NSArray<HKSource>>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "endDate", managed = "Other")]
+    pub unsafe fn endDate(&self) -> Id<NSDate>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "HealthKit_HKSource"))]
+    #[objc2::method(sel = "sources", managed = "Other")]
+    pub unsafe fn sources(&self) -> Option<Id<NSArray<HKSource>>>;
 
-        #[cfg(all(feature = "HealthKit_HKQuantity", feature = "HealthKit_HKSource"))]
-        #[method_id(@__retain_semantics Other averageQuantityForSource:)]
-        pub unsafe fn averageQuantityForSource(&self, source: &HKSource) -> Option<Id<HKQuantity>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other averageQuantity)]
-        pub unsafe fn averageQuantity(&self) -> Option<Id<HKQuantity>>;
+    #[cfg(all(feature = "HealthKit_HKQuantity", feature = "HealthKit_HKSource"))]
+    #[objc2::method(sel = "averageQuantityForSource:", managed = "Other")]
+    pub unsafe fn averageQuantityForSource(&self, source: &HKSource) -> Option<Id<HKQuantity>>;
 
-        #[cfg(all(feature = "HealthKit_HKQuantity", feature = "HealthKit_HKSource"))]
-        #[method_id(@__retain_semantics Other minimumQuantityForSource:)]
-        pub unsafe fn minimumQuantityForSource(&self, source: &HKSource) -> Option<Id<HKQuantity>>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "averageQuantity", managed = "Other")]
+    pub unsafe fn averageQuantity(&self) -> Option<Id<HKQuantity>>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other minimumQuantity)]
-        pub unsafe fn minimumQuantity(&self) -> Option<Id<HKQuantity>>;
+    #[cfg(all(feature = "HealthKit_HKQuantity", feature = "HealthKit_HKSource"))]
+    #[objc2::method(sel = "minimumQuantityForSource:", managed = "Other")]
+    pub unsafe fn minimumQuantityForSource(&self, source: &HKSource) -> Option<Id<HKQuantity>>;
 
-        #[cfg(all(feature = "HealthKit_HKQuantity", feature = "HealthKit_HKSource"))]
-        #[method_id(@__retain_semantics Other maximumQuantityForSource:)]
-        pub unsafe fn maximumQuantityForSource(&self, source: &HKSource) -> Option<Id<HKQuantity>>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "minimumQuantity", managed = "Other")]
+    pub unsafe fn minimumQuantity(&self) -> Option<Id<HKQuantity>>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other maximumQuantity)]
-        pub unsafe fn maximumQuantity(&self) -> Option<Id<HKQuantity>>;
+    #[cfg(all(feature = "HealthKit_HKQuantity", feature = "HealthKit_HKSource"))]
+    #[objc2::method(sel = "maximumQuantityForSource:", managed = "Other")]
+    pub unsafe fn maximumQuantityForSource(&self, source: &HKSource) -> Option<Id<HKQuantity>>;
 
-        #[cfg(all(feature = "HealthKit_HKQuantity", feature = "HealthKit_HKSource"))]
-        #[method_id(@__retain_semantics Other mostRecentQuantityForSource:)]
-        pub unsafe fn mostRecentQuantityForSource(
-            &self,
-            source: &HKSource,
-        ) -> Option<Id<HKQuantity>>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "maximumQuantity", managed = "Other")]
+    pub unsafe fn maximumQuantity(&self) -> Option<Id<HKQuantity>>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other mostRecentQuantity)]
-        pub unsafe fn mostRecentQuantity(&self) -> Option<Id<HKQuantity>>;
+    #[cfg(all(feature = "HealthKit_HKQuantity", feature = "HealthKit_HKSource"))]
+    #[objc2::method(sel = "mostRecentQuantityForSource:", managed = "Other")]
+    pub unsafe fn mostRecentQuantityForSource(&self, source: &HKSource) -> Option<Id<HKQuantity>>;
 
-        #[cfg(all(feature = "Foundation_NSDateInterval", feature = "HealthKit_HKSource"))]
-        #[method_id(@__retain_semantics Other mostRecentQuantityDateIntervalForSource:)]
-        pub unsafe fn mostRecentQuantityDateIntervalForSource(
-            &self,
-            source: &HKSource,
-        ) -> Option<Id<NSDateInterval>>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "mostRecentQuantity", managed = "Other")]
+    pub unsafe fn mostRecentQuantity(&self) -> Option<Id<HKQuantity>>;
 
-        #[cfg(feature = "Foundation_NSDateInterval")]
-        #[method_id(@__retain_semantics Other mostRecentQuantityDateInterval)]
-        pub unsafe fn mostRecentQuantityDateInterval(&self) -> Option<Id<NSDateInterval>>;
+    #[cfg(all(feature = "Foundation_NSDateInterval", feature = "HealthKit_HKSource"))]
+    #[objc2::method(sel = "mostRecentQuantityDateIntervalForSource:", managed = "Other")]
+    pub unsafe fn mostRecentQuantityDateIntervalForSource(
+        &self,
+        source: &HKSource,
+    ) -> Option<Id<NSDateInterval>>;
 
-        #[cfg(all(feature = "HealthKit_HKQuantity", feature = "HealthKit_HKSource"))]
-        #[method_id(@__retain_semantics Other sumQuantityForSource:)]
-        pub unsafe fn sumQuantityForSource(&self, source: &HKSource) -> Option<Id<HKQuantity>>;
+    #[cfg(feature = "Foundation_NSDateInterval")]
+    #[objc2::method(sel = "mostRecentQuantityDateInterval", managed = "Other")]
+    pub unsafe fn mostRecentQuantityDateInterval(&self) -> Option<Id<NSDateInterval>>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other sumQuantity)]
-        pub unsafe fn sumQuantity(&self) -> Option<Id<HKQuantity>>;
+    #[cfg(all(feature = "HealthKit_HKQuantity", feature = "HealthKit_HKSource"))]
+    #[objc2::method(sel = "sumQuantityForSource:", managed = "Other")]
+    pub unsafe fn sumQuantityForSource(&self, source: &HKSource) -> Option<Id<HKQuantity>>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other duration)]
-        pub unsafe fn duration(&self) -> Option<Id<HKQuantity>>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "sumQuantity", managed = "Other")]
+    pub unsafe fn sumQuantity(&self) -> Option<Id<HKQuantity>>;
 
-        #[cfg(all(feature = "HealthKit_HKQuantity", feature = "HealthKit_HKSource"))]
-        #[method_id(@__retain_semantics Other durationForSource:)]
-        pub unsafe fn durationForSource(&self, source: &HKSource) -> Option<Id<HKQuantity>>;
-    }
-);
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "duration", managed = "Other")]
+    pub unsafe fn duration(&self) -> Option<Id<HKQuantity>>;
+
+    #[cfg(all(feature = "HealthKit_HKQuantity", feature = "HealthKit_HKSource"))]
+    #[objc2::method(sel = "durationForSource:", managed = "Other")]
+    pub unsafe fn durationForSource(&self, source: &HKSource) -> Option<Id<HKQuantity>>;
+}

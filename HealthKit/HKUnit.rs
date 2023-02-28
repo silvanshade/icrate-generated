@@ -6,16 +6,16 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKUnit")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKUnit")]
-    pub struct HKUnit;
-
-    #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl ClassType for HKUnit {
-        type Super = NSObject;
-    }
-);
+    pub type HKUnit;
+}
 
 #[cfg(feature = "HealthKit_HKUnit")]
 unsafe impl NSCoding for HKUnit {}
@@ -26,360 +26,394 @@ unsafe impl NSObjectProtocol for HKUnit {}
 #[cfg(feature = "HealthKit_HKUnit")]
 unsafe impl NSSecureCoding for HKUnit {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other unitString)]
-        pub unsafe fn unitString(&self) -> Id<NSString>;
+    pub type HKUnit;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "unitString", managed = "Other")]
+    pub unsafe fn unitString(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other unitFromString:)]
-        pub unsafe fn unitFromString(string: &NSString) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other unitFromMassFormatterUnit:)]
-        pub unsafe fn unitFromMassFormatterUnit(
-            mass_formatter_unit: NSMassFormatterUnit,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "unitFromString:", managed = "Other")]
+    pub unsafe fn unitFromString(string: &NSString) -> Id<Self>;
 
-        #[method(massFormatterUnitFromUnit:)]
-        pub unsafe fn massFormatterUnitFromUnit(unit: &HKUnit) -> NSMassFormatterUnit;
+    #[objc2::method(sel = "unitFromMassFormatterUnit:", managed = "Other")]
+    pub unsafe fn unitFromMassFormatterUnit(mass_formatter_unit: NSMassFormatterUnit) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other unitFromLengthFormatterUnit:)]
-        pub unsafe fn unitFromLengthFormatterUnit(
-            length_formatter_unit: NSLengthFormatterUnit,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "massFormatterUnitFromUnit:")]
+    pub unsafe fn massFormatterUnitFromUnit(unit: &HKUnit) -> NSMassFormatterUnit;
 
-        #[method(lengthFormatterUnitFromUnit:)]
-        pub unsafe fn lengthFormatterUnitFromUnit(unit: &HKUnit) -> NSLengthFormatterUnit;
+    #[objc2::method(sel = "unitFromLengthFormatterUnit:", managed = "Other")]
+    pub unsafe fn unitFromLengthFormatterUnit(
+        length_formatter_unit: NSLengthFormatterUnit,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other unitFromEnergyFormatterUnit:)]
-        pub unsafe fn unitFromEnergyFormatterUnit(
-            energy_formatter_unit: NSEnergyFormatterUnit,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "lengthFormatterUnitFromUnit:")]
+    pub unsafe fn lengthFormatterUnitFromUnit(unit: &HKUnit) -> NSLengthFormatterUnit;
 
-        #[method(energyFormatterUnitFromUnit:)]
-        pub unsafe fn energyFormatterUnitFromUnit(unit: &HKUnit) -> NSEnergyFormatterUnit;
+    #[objc2::method(sel = "unitFromEnergyFormatterUnit:", managed = "Other")]
+    pub unsafe fn unitFromEnergyFormatterUnit(
+        energy_formatter_unit: NSEnergyFormatterUnit,
+    ) -> Id<Self>;
 
-        #[method(isNull)]
-        pub unsafe fn isNull(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "energyFormatterUnitFromUnit:")]
+    pub unsafe fn energyFormatterUnitFromUnit(unit: &HKUnit) -> NSEnergyFormatterUnit;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKMetricPrefix {
-        HKMetricPrefixNone = 0,
-        HKMetricPrefixFemto = 13,
-        HKMetricPrefixPico = 1,
-        HKMetricPrefixNano = 2,
-        HKMetricPrefixMicro = 3,
-        HKMetricPrefixMilli = 4,
-        HKMetricPrefixCenti = 5,
-        HKMetricPrefixDeci = 6,
-        HKMetricPrefixDeca = 7,
-        HKMetricPrefixHecto = 8,
-        HKMetricPrefixKilo = 9,
-        HKMetricPrefixMega = 10,
-        HKMetricPrefixGiga = 11,
-        HKMetricPrefixTera = 12,
-    }
-);
+    #[objc2::method(sel = "isNull")]
+    pub unsafe fn isNull(&self) -> bool;
+}
 
-extern_methods!(
-    /// Mass
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKMetricPrefix {
+    HKMetricPrefixNone = 0,
+    HKMetricPrefixFemto = 13,
+    HKMetricPrefixPico = 1,
+    HKMetricPrefixNano = 2,
+    HKMetricPrefixMicro = 3,
+    HKMetricPrefixMilli = 4,
+    HKMetricPrefixCenti = 5,
+    HKMetricPrefixDeci = 6,
+    HKMetricPrefixDeca = 7,
+    HKMetricPrefixHecto = 8,
+    HKMetricPrefixKilo = 9,
+    HKMetricPrefixMega = 10,
+    HKMetricPrefixGiga = 11,
+    HKMetricPrefixTera = 12,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[method_id(@__retain_semantics Other gramUnitWithMetricPrefix:)]
-        pub unsafe fn gramUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
+    pub type HKUnit;
 
-        #[method_id(@__retain_semantics Other gramUnit)]
-        pub unsafe fn gramUnit() -> Id<Self>;
+    #[objc2::method(sel = "gramUnitWithMetricPrefix:", managed = "Other")]
+    pub unsafe fn gramUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other ounceUnit)]
-        pub unsafe fn ounceUnit() -> Id<Self>;
+    #[objc2::method(sel = "gramUnit", managed = "Other")]
+    pub unsafe fn gramUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other poundUnit)]
-        pub unsafe fn poundUnit() -> Id<Self>;
+    #[objc2::method(sel = "ounceUnit", managed = "Other")]
+    pub unsafe fn ounceUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other stoneUnit)]
-        pub unsafe fn stoneUnit() -> Id<Self>;
+    #[objc2::method(sel = "poundUnit", managed = "Other")]
+    pub unsafe fn poundUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other moleUnitWithMetricPrefix:molarMass:)]
-        pub unsafe fn moleUnitWithMetricPrefix_molarMass(
-            prefix: HKMetricPrefix,
-            grams_per_mole: c_double,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "stoneUnit", managed = "Other")]
+    pub unsafe fn stoneUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other moleUnitWithMolarMass:)]
-        pub unsafe fn moleUnitWithMolarMass(grams_per_mole: c_double) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "moleUnitWithMetricPrefix:molarMass:", managed = "Other")]
+    pub unsafe fn moleUnitWithMetricPrefix_molarMass(
+        prefix: HKMetricPrefix,
+        grams_per_mole: c_double,
+    ) -> Id<Self>;
 
-extern_methods!(
-    /// Length
+    #[objc2::method(sel = "moleUnitWithMolarMass:", managed = "Other")]
+    pub unsafe fn moleUnitWithMolarMass(grams_per_mole: c_double) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[method_id(@__retain_semantics Other meterUnitWithMetricPrefix:)]
-        pub unsafe fn meterUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
+    pub type HKUnit;
 
-        #[method_id(@__retain_semantics Other meterUnit)]
-        pub unsafe fn meterUnit() -> Id<Self>;
+    #[objc2::method(sel = "meterUnitWithMetricPrefix:", managed = "Other")]
+    pub unsafe fn meterUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other inchUnit)]
-        pub unsafe fn inchUnit() -> Id<Self>;
+    #[objc2::method(sel = "meterUnit", managed = "Other")]
+    pub unsafe fn meterUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other footUnit)]
-        pub unsafe fn footUnit() -> Id<Self>;
+    #[objc2::method(sel = "inchUnit", managed = "Other")]
+    pub unsafe fn inchUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other yardUnit)]
-        pub unsafe fn yardUnit() -> Id<Self>;
+    #[objc2::method(sel = "footUnit", managed = "Other")]
+    pub unsafe fn footUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other mileUnit)]
-        pub unsafe fn mileUnit() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "yardUnit", managed = "Other")]
+    pub unsafe fn yardUnit() -> Id<Self>;
 
-extern_methods!(
-    /// Volume
+    #[objc2::method(sel = "mileUnit", managed = "Other")]
+    pub unsafe fn mileUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[method_id(@__retain_semantics Other literUnitWithMetricPrefix:)]
-        pub unsafe fn literUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
+    pub type HKUnit;
 
-        #[method_id(@__retain_semantics Other literUnit)]
-        pub unsafe fn literUnit() -> Id<Self>;
+    #[objc2::method(sel = "literUnitWithMetricPrefix:", managed = "Other")]
+    pub unsafe fn literUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other fluidOunceUSUnit)]
-        pub unsafe fn fluidOunceUSUnit() -> Id<Self>;
+    #[objc2::method(sel = "literUnit", managed = "Other")]
+    pub unsafe fn literUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other fluidOunceImperialUnit)]
-        pub unsafe fn fluidOunceImperialUnit() -> Id<Self>;
+    #[objc2::method(sel = "fluidOunceUSUnit", managed = "Other")]
+    pub unsafe fn fluidOunceUSUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other pintUSUnit)]
-        pub unsafe fn pintUSUnit() -> Id<Self>;
+    #[objc2::method(sel = "fluidOunceImperialUnit", managed = "Other")]
+    pub unsafe fn fluidOunceImperialUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other pintImperialUnit)]
-        pub unsafe fn pintImperialUnit() -> Id<Self>;
+    #[objc2::method(sel = "pintUSUnit", managed = "Other")]
+    pub unsafe fn pintUSUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other cupUSUnit)]
-        pub unsafe fn cupUSUnit() -> Id<Self>;
+    #[objc2::method(sel = "pintImperialUnit", managed = "Other")]
+    pub unsafe fn pintImperialUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other cupImperialUnit)]
-        pub unsafe fn cupImperialUnit() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "cupUSUnit", managed = "Other")]
+    pub unsafe fn cupUSUnit() -> Id<Self>;
 
-extern_methods!(
-    /// Pressure
+    #[objc2::method(sel = "cupImperialUnit", managed = "Other")]
+    pub unsafe fn cupImperialUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[method_id(@__retain_semantics Other pascalUnitWithMetricPrefix:)]
-        pub unsafe fn pascalUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
+    pub type HKUnit;
 
-        #[method_id(@__retain_semantics Other pascalUnit)]
-        pub unsafe fn pascalUnit() -> Id<Self>;
+    #[objc2::method(sel = "pascalUnitWithMetricPrefix:", managed = "Other")]
+    pub unsafe fn pascalUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other millimeterOfMercuryUnit)]
-        pub unsafe fn millimeterOfMercuryUnit() -> Id<Self>;
+    #[objc2::method(sel = "pascalUnit", managed = "Other")]
+    pub unsafe fn pascalUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other centimeterOfWaterUnit)]
-        pub unsafe fn centimeterOfWaterUnit() -> Id<Self>;
+    #[objc2::method(sel = "millimeterOfMercuryUnit", managed = "Other")]
+    pub unsafe fn millimeterOfMercuryUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other atmosphereUnit)]
-        pub unsafe fn atmosphereUnit() -> Id<Self>;
+    #[objc2::method(sel = "centimeterOfWaterUnit", managed = "Other")]
+    pub unsafe fn centimeterOfWaterUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other decibelAWeightedSoundPressureLevelUnit)]
-        pub unsafe fn decibelAWeightedSoundPressureLevelUnit() -> Id<Self>;
+    #[objc2::method(sel = "atmosphereUnit", managed = "Other")]
+    pub unsafe fn atmosphereUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other inchesOfMercuryUnit)]
-        pub unsafe fn inchesOfMercuryUnit() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "decibelAWeightedSoundPressureLevelUnit", managed = "Other")]
+    pub unsafe fn decibelAWeightedSoundPressureLevelUnit() -> Id<Self>;
 
-extern_methods!(
-    /// Time
+    #[objc2::method(sel = "inchesOfMercuryUnit", managed = "Other")]
+    pub unsafe fn inchesOfMercuryUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[method_id(@__retain_semantics Other secondUnitWithMetricPrefix:)]
-        pub unsafe fn secondUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
+    pub type HKUnit;
 
-        #[method_id(@__retain_semantics Other secondUnit)]
-        pub unsafe fn secondUnit() -> Id<Self>;
+    #[objc2::method(sel = "secondUnitWithMetricPrefix:", managed = "Other")]
+    pub unsafe fn secondUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other minuteUnit)]
-        pub unsafe fn minuteUnit() -> Id<Self>;
+    #[objc2::method(sel = "secondUnit", managed = "Other")]
+    pub unsafe fn secondUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other hourUnit)]
-        pub unsafe fn hourUnit() -> Id<Self>;
+    #[objc2::method(sel = "minuteUnit", managed = "Other")]
+    pub unsafe fn minuteUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other dayUnit)]
-        pub unsafe fn dayUnit() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "hourUnit", managed = "Other")]
+    pub unsafe fn hourUnit() -> Id<Self>;
 
-extern_methods!(
-    /// Energy
+    #[objc2::method(sel = "dayUnit", managed = "Other")]
+    pub unsafe fn dayUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[method_id(@__retain_semantics Other jouleUnitWithMetricPrefix:)]
-        pub unsafe fn jouleUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
+    pub type HKUnit;
 
-        #[method_id(@__retain_semantics Other jouleUnit)]
-        pub unsafe fn jouleUnit() -> Id<Self>;
+    #[objc2::method(sel = "jouleUnitWithMetricPrefix:", managed = "Other")]
+    pub unsafe fn jouleUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other kilocalorieUnit)]
-        pub unsafe fn kilocalorieUnit() -> Id<Self>;
+    #[objc2::method(sel = "jouleUnit", managed = "Other")]
+    pub unsafe fn jouleUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other smallCalorieUnit)]
-        pub unsafe fn smallCalorieUnit() -> Id<Self>;
+    #[objc2::method(sel = "kilocalorieUnit", managed = "Other")]
+    pub unsafe fn kilocalorieUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other largeCalorieUnit)]
-        pub unsafe fn largeCalorieUnit() -> Id<Self>;
+    #[objc2::method(sel = "smallCalorieUnit", managed = "Other")]
+    pub unsafe fn smallCalorieUnit() -> Id<Self>;
 
-        #[deprecated = "Use smallCalorieUnit or largeCalorieUnit, depending on which you mean"]
-        #[method_id(@__retain_semantics Other calorieUnit)]
-        pub unsafe fn calorieUnit() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "largeCalorieUnit", managed = "Other")]
+    pub unsafe fn largeCalorieUnit() -> Id<Self>;
 
-extern_methods!(
-    /// Temperature
+    #[deprecated = "Use smallCalorieUnit or largeCalorieUnit, depending on which you mean"]
+    #[objc2::method(sel = "calorieUnit", managed = "Other")]
+    pub unsafe fn calorieUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[method_id(@__retain_semantics Other degreeCelsiusUnit)]
-        pub unsafe fn degreeCelsiusUnit() -> Id<Self>;
+    pub type HKUnit;
 
-        #[method_id(@__retain_semantics Other degreeFahrenheitUnit)]
-        pub unsafe fn degreeFahrenheitUnit() -> Id<Self>;
+    #[objc2::method(sel = "degreeCelsiusUnit", managed = "Other")]
+    pub unsafe fn degreeCelsiusUnit() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other kelvinUnit)]
-        pub unsafe fn kelvinUnit() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "degreeFahrenheitUnit", managed = "Other")]
+    pub unsafe fn degreeFahrenheitUnit() -> Id<Self>;
 
-extern_methods!(
-    /// Conductance
+    #[objc2::method(sel = "kelvinUnit", managed = "Other")]
+    pub unsafe fn kelvinUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[method_id(@__retain_semantics Other siemenUnitWithMetricPrefix:)]
-        pub unsafe fn siemenUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
+    pub type HKUnit;
 
-        #[method_id(@__retain_semantics Other siemenUnit)]
-        pub unsafe fn siemenUnit() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "siemenUnitWithMetricPrefix:", managed = "Other")]
+    pub unsafe fn siemenUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
 
-extern_methods!(
-    /// Pharmacology
+    #[objc2::method(sel = "siemenUnit", managed = "Other")]
+    pub unsafe fn siemenUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[method_id(@__retain_semantics Other internationalUnit)]
-        pub unsafe fn internationalUnit() -> Id<Self>;
-    }
-);
+    pub type HKUnit;
 
-extern_methods!(
-    /// Scalar
+    #[objc2::method(sel = "internationalUnit", managed = "Other")]
+    pub unsafe fn internationalUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[method_id(@__retain_semantics Other countUnit)]
-        pub unsafe fn countUnit() -> Id<Self>;
+    pub type HKUnit;
 
-        #[method_id(@__retain_semantics Other percentUnit)]
-        pub unsafe fn percentUnit() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "countUnit", managed = "Other")]
+    pub unsafe fn countUnit() -> Id<Self>;
 
-extern_methods!(
-    /// HearingSensitivity
+    #[objc2::method(sel = "percentUnit", managed = "Other")]
+    pub unsafe fn percentUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[method_id(@__retain_semantics Other decibelHearingLevelUnit)]
-        pub unsafe fn decibelHearingLevelUnit() -> Id<Self>;
-    }
-);
+    pub type HKUnit;
 
-extern_methods!(
-    /// Math
+    #[objc2::method(sel = "decibelHearingLevelUnit", managed = "Other")]
+    pub unsafe fn decibelHearingLevelUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[method_id(@__retain_semantics Other unitMultipliedByUnit:)]
-        pub unsafe fn unitMultipliedByUnit(&self, unit: &HKUnit) -> Id<HKUnit>;
+    pub type HKUnit;
 
-        #[method_id(@__retain_semantics Other unitDividedByUnit:)]
-        pub unsafe fn unitDividedByUnit(&self, unit: &HKUnit) -> Id<HKUnit>;
+    #[objc2::method(sel = "unitMultipliedByUnit:", managed = "Other")]
+    pub unsafe fn unitMultipliedByUnit(&self, unit: &HKUnit) -> Id<HKUnit>;
 
-        #[method_id(@__retain_semantics Other unitRaisedToPower:)]
-        pub unsafe fn unitRaisedToPower(&self, power: NSInteger) -> Id<HKUnit>;
+    #[objc2::method(sel = "unitDividedByUnit:", managed = "Other")]
+    pub unsafe fn unitDividedByUnit(&self, unit: &HKUnit) -> Id<HKUnit>;
 
-        #[method_id(@__retain_semantics Other reciprocalUnit)]
-        pub unsafe fn reciprocalUnit(&self) -> Id<HKUnit>;
-    }
-);
+    #[objc2::method(sel = "unitRaisedToPower:", managed = "Other")]
+    pub unsafe fn unitRaisedToPower(&self, power: NSInteger) -> Id<HKUnit>;
 
-extern_methods!(
-    /// Frequency
+    #[objc2::method(sel = "reciprocalUnit", managed = "Other")]
+    pub unsafe fn reciprocalUnit(&self) -> Id<HKUnit>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[method_id(@__retain_semantics Other hertzUnitWithMetricPrefix:)]
-        pub unsafe fn hertzUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
+    pub type HKUnit;
 
-        #[method_id(@__retain_semantics Other hertzUnit)]
-        pub unsafe fn hertzUnit() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "hertzUnitWithMetricPrefix:", managed = "Other")]
+    pub unsafe fn hertzUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
 
-extern_methods!(
-    /// ElectricPotentialDifference
+    #[objc2::method(sel = "hertzUnit", managed = "Other")]
+    pub unsafe fn hertzUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[method_id(@__retain_semantics Other voltUnitWithMetricPrefix:)]
-        pub unsafe fn voltUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
+    pub type HKUnit;
 
-        #[method_id(@__retain_semantics Other voltUnit)]
-        pub unsafe fn voltUnit() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "voltUnitWithMetricPrefix:", managed = "Other")]
+    pub unsafe fn voltUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
 
-extern_methods!(
-    /// Power
+    #[objc2::method(sel = "voltUnit", managed = "Other")]
+    pub unsafe fn voltUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[method_id(@__retain_semantics Other wattUnitWithMetricPrefix:)]
-        pub unsafe fn wattUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
+    pub type HKUnit;
 
-        #[method_id(@__retain_semantics Other wattUnit)]
-        pub unsafe fn wattUnit() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "wattUnitWithMetricPrefix:", managed = "Other")]
+    pub unsafe fn wattUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
 
-extern_methods!(
-    /// OpticalPower
+    #[objc2::method(sel = "wattUnit", managed = "Other")]
+    pub unsafe fn wattUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[method_id(@__retain_semantics Other diopterUnit)]
-        pub unsafe fn diopterUnit() -> Id<Self>;
+    pub type HKUnit;
 
-        #[method_id(@__retain_semantics Other prismDiopterUnit)]
-        pub unsafe fn prismDiopterUnit() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "diopterUnit", managed = "Other")]
+    pub unsafe fn diopterUnit() -> Id<Self>;
 
-extern_methods!(
-    /// Angle
+    #[objc2::method(sel = "prismDiopterUnit", managed = "Other")]
+    pub unsafe fn prismDiopterUnit() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKUnit")]
-    unsafe impl HKUnit {
-        #[method_id(@__retain_semantics Other radianAngleUnitWithMetricPrefix:)]
-        pub unsafe fn radianAngleUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
+    pub type HKUnit;
 
-        #[method_id(@__retain_semantics Other radianAngleUnit)]
-        pub unsafe fn radianAngleUnit() -> Id<Self>;
+    #[objc2::method(sel = "radianAngleUnitWithMetricPrefix:", managed = "Other")]
+    pub unsafe fn radianAngleUnitWithMetricPrefix(prefix: HKMetricPrefix) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other degreeAngleUnit)]
-        pub unsafe fn degreeAngleUnit() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "radianAngleUnit", managed = "Other")]
+    pub unsafe fn radianAngleUnit() -> Id<Self>;
+
+    #[objc2::method(sel = "degreeAngleUnit", managed = "Other")]
+    pub unsafe fn degreeAngleUnit() -> Id<Self>;
+}

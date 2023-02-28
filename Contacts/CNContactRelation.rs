@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Contacts::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Contacts_CNContactRelation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Contacts_CNContactRelation")]
-    pub struct CNContactRelation;
-
-    #[cfg(feature = "Contacts_CNContactRelation")]
-    unsafe impl ClassType for CNContactRelation {
-        type Super = NSObject;
-    }
-);
+    pub type CNContactRelation;
+}
 
 #[cfg(feature = "Contacts_CNContactRelation")]
 unsafe impl NSCoding for CNContactRelation {}
@@ -24,22 +24,25 @@ unsafe impl NSObjectProtocol for CNContactRelation {}
 #[cfg(feature = "Contacts_CNContactRelation")]
 unsafe impl NSSecureCoding for CNContactRelation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Contacts_CNContactRelation")]
-    unsafe impl CNContactRelation {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other contactRelationWithName:)]
-        pub unsafe fn contactRelationWithName(name: &NSString) -> Id<Self>;
+    pub type CNContactRelation;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithName:)]
-        pub unsafe fn initWithName(this: Option<Allocated<Self>>, name: &NSString) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "contactRelationWithName:", managed = "Other")]
+    pub unsafe fn contactRelationWithName(name: &NSString) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithName:", managed = "Init")]
+    pub unsafe fn initWithName(this: Option<Allocated<Self>>, name: &NSString) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
+}
 
 extern_static!(CNLabelContactRelationAssistant: &'static NSString);
 

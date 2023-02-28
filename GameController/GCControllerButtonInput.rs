@@ -11,61 +11,64 @@ pub type GCControllerButtonValueChangedHandler =
 pub type GCControllerButtonTouchedChangedHandler =
     *mut Block<(NonNull<GCControllerButtonInput>, c_float, Bool, Bool), ()>;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = GCControllerElement,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCControllerButtonInput")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCControllerButtonInput")]
-    pub struct GCControllerButtonInput;
-
-    #[cfg(feature = "GameController_GCControllerButtonInput")]
-    unsafe impl ClassType for GCControllerButtonInput {
-        #[inherits(NSObject)]
-        type Super = GCControllerElement;
-    }
-);
+    pub type GCControllerButtonInput;
+}
 
 #[cfg(feature = "GameController_GCControllerButtonInput")]
 unsafe impl NSObjectProtocol for GCControllerButtonInput {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCControllerButtonInput")]
-    unsafe impl GCControllerButtonInput {
-        #[method(valueChangedHandler)]
-        pub unsafe fn valueChangedHandler(&self) -> GCControllerButtonValueChangedHandler;
+    pub type GCControllerButtonInput;
 
-        #[method(setValueChangedHandler:)]
-        pub unsafe fn setValueChangedHandler(
-            &self,
-            value_changed_handler: GCControllerButtonValueChangedHandler,
-        );
+    #[objc2::method(sel = "valueChangedHandler")]
+    pub unsafe fn valueChangedHandler(&self) -> GCControllerButtonValueChangedHandler;
 
-        #[method(pressedChangedHandler)]
-        pub unsafe fn pressedChangedHandler(&self) -> GCControllerButtonValueChangedHandler;
+    #[objc2::method(sel = "setValueChangedHandler:")]
+    pub unsafe fn setValueChangedHandler(
+        &self,
+        value_changed_handler: GCControllerButtonValueChangedHandler,
+    );
 
-        #[method(setPressedChangedHandler:)]
-        pub unsafe fn setPressedChangedHandler(
-            &self,
-            pressed_changed_handler: GCControllerButtonValueChangedHandler,
-        );
+    #[objc2::method(sel = "pressedChangedHandler")]
+    pub unsafe fn pressedChangedHandler(&self) -> GCControllerButtonValueChangedHandler;
 
-        #[method(touchedChangedHandler)]
-        pub unsafe fn touchedChangedHandler(&self) -> GCControllerButtonTouchedChangedHandler;
+    #[objc2::method(sel = "setPressedChangedHandler:")]
+    pub unsafe fn setPressedChangedHandler(
+        &self,
+        pressed_changed_handler: GCControllerButtonValueChangedHandler,
+    );
 
-        #[method(setTouchedChangedHandler:)]
-        pub unsafe fn setTouchedChangedHandler(
-            &self,
-            touched_changed_handler: GCControllerButtonTouchedChangedHandler,
-        );
+    #[objc2::method(sel = "touchedChangedHandler")]
+    pub unsafe fn touchedChangedHandler(&self) -> GCControllerButtonTouchedChangedHandler;
 
-        #[method(value)]
-        pub unsafe fn value(&self) -> c_float;
+    #[objc2::method(sel = "setTouchedChangedHandler:")]
+    pub unsafe fn setTouchedChangedHandler(
+        &self,
+        touched_changed_handler: GCControllerButtonTouchedChangedHandler,
+    );
 
-        #[method(isPressed)]
-        pub unsafe fn isPressed(&self) -> bool;
+    #[objc2::method(sel = "value")]
+    pub unsafe fn value(&self) -> c_float;
 
-        #[method(isTouched)]
-        pub unsafe fn isTouched(&self) -> bool;
+    #[objc2::method(sel = "isPressed")]
+    pub unsafe fn isPressed(&self) -> bool;
 
-        #[method(setValue:)]
-        pub unsafe fn setValue(&self, value: c_float);
-    }
-);
+    #[objc2::method(sel = "isTouched")]
+    pub unsafe fn isTouched(&self) -> bool;
+
+    #[objc2::method(sel = "setValue:")]
+    pub unsafe fn setValue(&self, value: c_float);
+}

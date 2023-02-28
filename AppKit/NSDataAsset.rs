@@ -7,49 +7,52 @@ use crate::Foundation::*;
 
 pub type NSDataAssetName = NSString;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSDataAsset")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSDataAsset")]
-    pub struct NSDataAsset;
-
-    #[cfg(feature = "AppKit_NSDataAsset")]
-    unsafe impl ClassType for NSDataAsset {
-        type Super = NSObject;
-    }
-);
+    pub type NSDataAsset;
+}
 
 #[cfg(feature = "AppKit_NSDataAsset")]
 unsafe impl NSObjectProtocol for NSDataAsset {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSDataAsset")]
-    unsafe impl NSDataAsset {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSDataAsset;
 
-        #[method_id(@__retain_semantics Init initWithName:)]
-        pub unsafe fn initWithName(
-            this: Option<Allocated<Self>>,
-            name: &NSDataAssetName,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Init initWithName:bundle:)]
-        pub unsafe fn initWithName_bundle(
-            this: Option<Allocated<Self>>,
-            name: &NSDataAssetName,
-            bundle: &NSBundle,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "initWithName:", managed = "Init")]
+    pub unsafe fn initWithName(
+        this: Option<Allocated<Self>>,
+        name: &NSDataAssetName,
+    ) -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSDataAssetName>;
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "initWithName:bundle:", managed = "Init")]
+    pub unsafe fn initWithName_bundle(
+        this: Option<Allocated<Self>>,
+        name: &NSDataAssetName,
+        bundle: &NSBundle,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other data)]
-        pub unsafe fn data(&self) -> Id<NSData>;
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSDataAssetName>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other typeIdentifier)]
-        pub unsafe fn typeIdentifier(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "data", managed = "Other")]
+    pub unsafe fn data(&self) -> Id<NSData>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "typeIdentifier", managed = "Other")]
+    pub unsafe fn typeIdentifier(&self) -> Id<NSString>;
+}

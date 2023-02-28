@@ -7,48 +7,44 @@ use crate::MailKit::*;
 
 extern_static!(MEMessageSecurityErrorDomain: &'static NSErrorDomain);
 
-ns_error_enum!(
-    #[underlying(NSInteger)]
-    pub enum MEMessageSecurityErrorCode {
-        MEMessageSecurityEncodingError = 0,
-        MEMessageSecurityDecodingError = 1,
-    }
-);
+#[ns_error_enum]
+#[underlying(NSInteger)]
+pub enum MEMessageSecurityErrorCode {
+    MEMessageSecurityEncodingError = 0,
+    MEMessageSecurityDecodingError = 1,
+}
 
-extern_protocol!(
-    pub unsafe trait MEMessageSecurityHandler: MEMessageDecoder + MEMessageEncoder {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "MailKit_MEExtensionViewController",
-            feature = "MailKit_MEMessageSigner"
-        ))]
-        #[method_id(@__retain_semantics Other extensionViewControllerForMessageSigners:)]
-        unsafe fn extensionViewControllerForMessageSigners(
-            &self,
-            message_signers: &NSArray<MEMessageSigner>,
-        ) -> Option<Id<MEExtensionViewController>>;
+#[objc2::protocol]
+pub unsafe trait MEMessageSecurityHandler: MEMessageDecoder + MEMessageEncoder {
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "MailKit_MEExtensionViewController",
+        feature = "MailKit_MEMessageSigner"
+    ))]
+    #[objc2::method(sel = "extensionViewControllerForMessageSigners:", managed = "Other")]
+    unsafe fn extensionViewControllerForMessageSigners(
+        &self,
+        message_signers: &NSArray<MEMessageSigner>,
+    ) -> Option<Id<MEExtensionViewController>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "MailKit_MEExtensionViewController"
-        ))]
-        #[method_id(@__retain_semantics Other extensionViewControllerForMessageContext:)]
-        unsafe fn extensionViewControllerForMessageContext(
-            &self,
-            context: &NSData,
-        ) -> Option<Id<MEExtensionViewController>>;
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "MailKit_MEExtensionViewController"
+    ))]
+    #[objc2::method(sel = "extensionViewControllerForMessageContext:", managed = "Other")]
+    unsafe fn extensionViewControllerForMessageContext(
+        &self,
+        context: &NSData,
+    ) -> Option<Id<MEExtensionViewController>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "MailKit_MEExtensionViewController"
-        ))]
-        #[method(primaryActionClickedForMessageContext:completionHandler:)]
-        unsafe fn primaryActionClickedForMessageContext_completionHandler(
-            &self,
-            context: &NSData,
-            completion_handler: &Block<(*mut MEExtensionViewController,), ()>,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn MEMessageSecurityHandler {}
-);
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "MailKit_MEExtensionViewController"
+    ))]
+    #[objc2::method(sel = "primaryActionClickedForMessageContext:completionHandler:")]
+    unsafe fn primaryActionClickedForMessageContext_completionHandler(
+        &self,
+        context: &NSData,
+        completion_handler: &Block<(*mut MEExtensionViewController,), ()>,
+    );
+}

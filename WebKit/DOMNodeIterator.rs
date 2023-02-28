@@ -5,54 +5,59 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMNodeIterator")]
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMNodeIterator;
-
     #[cfg(feature = "WebKit_DOMNodeIterator")]
-    unsafe impl ClassType for DOMNodeIterator {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMNodeIterator;
+}
 
 #[cfg(feature = "WebKit_DOMNodeIterator")]
 unsafe impl NSObjectProtocol for DOMNodeIterator {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMNodeIterator")]
-    unsafe impl DOMNodeIterator {
-        #[cfg(feature = "WebKit_DOMNode")]
-        #[method_id(@__retain_semantics Other root)]
-        pub unsafe fn root(&self) -> Option<Id<DOMNode>>;
+    #[deprecated]
+    pub type DOMNodeIterator;
 
-        #[method(whatToShow)]
-        pub unsafe fn whatToShow(&self) -> c_uint;
+    #[cfg(feature = "WebKit_DOMNode")]
+    #[objc2::method(sel = "root", managed = "Other")]
+    pub unsafe fn root(&self) -> Option<Id<DOMNode>>;
 
-        #[method_id(@__retain_semantics Other filter)]
-        pub unsafe fn filter(&self) -> Option<Id<ProtocolObject<dyn DOMNodeFilter>>>;
+    #[objc2::method(sel = "whatToShow")]
+    pub unsafe fn whatToShow(&self) -> c_uint;
 
-        #[method(expandEntityReferences)]
-        pub unsafe fn expandEntityReferences(&self) -> bool;
+    #[objc2::method(sel = "filter", managed = "Other")]
+    pub unsafe fn filter(&self) -> Option<Id<ProtocolObject<dyn DOMNodeFilter>>>;
 
-        #[cfg(feature = "WebKit_DOMNode")]
-        #[method_id(@__retain_semantics Other referenceNode)]
-        pub unsafe fn referenceNode(&self) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "expandEntityReferences")]
+    pub unsafe fn expandEntityReferences(&self) -> bool;
 
-        #[method(pointerBeforeReferenceNode)]
-        pub unsafe fn pointerBeforeReferenceNode(&self) -> bool;
+    #[cfg(feature = "WebKit_DOMNode")]
+    #[objc2::method(sel = "referenceNode", managed = "Other")]
+    pub unsafe fn referenceNode(&self) -> Option<Id<DOMNode>>;
 
-        #[cfg(feature = "WebKit_DOMNode")]
-        #[method_id(@__retain_semantics Other nextNode)]
-        pub unsafe fn nextNode(&self) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "pointerBeforeReferenceNode")]
+    pub unsafe fn pointerBeforeReferenceNode(&self) -> bool;
 
-        #[cfg(feature = "WebKit_DOMNode")]
-        #[method_id(@__retain_semantics Other previousNode)]
-        pub unsafe fn previousNode(&self) -> Option<Id<DOMNode>>;
+    #[cfg(feature = "WebKit_DOMNode")]
+    #[objc2::method(sel = "nextNode", managed = "Other")]
+    pub unsafe fn nextNode(&self) -> Option<Id<DOMNode>>;
 
-        #[method(detach)]
-        pub unsafe fn detach(&self);
-    }
-);
+    #[cfg(feature = "WebKit_DOMNode")]
+    #[objc2::method(sel = "previousNode", managed = "Other")]
+    pub unsafe fn previousNode(&self) -> Option<Id<DOMNode>>;
+
+    #[objc2::method(sel = "detach")]
+    pub unsafe fn detach(&self);
+}

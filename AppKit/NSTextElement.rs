@@ -5,109 +5,118 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextElement")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextElement")]
-    pub struct NSTextElement;
-
-    #[cfg(feature = "AppKit_NSTextElement")]
-    unsafe impl ClassType for NSTextElement {
-        type Super = NSObject;
-    }
-);
+    pub type NSTextElement;
+}
 
 #[cfg(feature = "AppKit_NSTextElement")]
 unsafe impl NSObjectProtocol for NSTextElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextElement")]
-    unsafe impl NSTextElement {
-        #[cfg(feature = "AppKit_NSTextContentManager")]
-        #[method_id(@__retain_semantics Init initWithTextContentManager:)]
-        pub unsafe fn initWithTextContentManager(
-            this: Option<Allocated<Self>>,
-            text_content_manager: Option<&NSTextContentManager>,
-        ) -> Id<Self>;
+    pub type NSTextElement;
 
-        #[cfg(feature = "AppKit_NSTextContentManager")]
-        #[method_id(@__retain_semantics Other textContentManager)]
-        pub unsafe fn textContentManager(&self) -> Option<Id<NSTextContentManager>>;
+    #[cfg(feature = "AppKit_NSTextContentManager")]
+    #[objc2::method(sel = "initWithTextContentManager:", managed = "Init")]
+    pub unsafe fn initWithTextContentManager(
+        this: Option<Allocated<Self>>,
+        text_content_manager: Option<&NSTextContentManager>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSTextContentManager")]
-        #[method(setTextContentManager:)]
-        pub unsafe fn setTextContentManager(
-            &self,
-            text_content_manager: Option<&NSTextContentManager>,
-        );
+    #[cfg(feature = "AppKit_NSTextContentManager")]
+    #[objc2::method(sel = "textContentManager", managed = "Other")]
+    pub unsafe fn textContentManager(&self) -> Option<Id<NSTextContentManager>>;
 
-        #[cfg(feature = "AppKit_NSTextRange")]
-        #[method_id(@__retain_semantics Other elementRange)]
-        pub unsafe fn elementRange(&self) -> Option<Id<NSTextRange>>;
+    #[cfg(feature = "AppKit_NSTextContentManager")]
+    #[objc2::method(sel = "setTextContentManager:")]
+    pub unsafe fn setTextContentManager(&self, text_content_manager: Option<&NSTextContentManager>);
 
-        #[cfg(feature = "AppKit_NSTextRange")]
-        #[method(setElementRange:)]
-        pub unsafe fn setElementRange(&self, element_range: Option<&NSTextRange>);
+    #[cfg(feature = "AppKit_NSTextRange")]
+    #[objc2::method(sel = "elementRange", managed = "Other")]
+    pub unsafe fn elementRange(&self) -> Option<Id<NSTextRange>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other childElements)]
-        pub unsafe fn childElements(&self) -> Id<NSArray<NSTextElement>>;
+    #[cfg(feature = "AppKit_NSTextRange")]
+    #[objc2::method(sel = "setElementRange:")]
+    pub unsafe fn setElementRange(&self, element_range: Option<&NSTextRange>);
 
-        #[method_id(@__retain_semantics Other parentElement)]
-        pub unsafe fn parentElement(&self) -> Option<Id<NSTextElement>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "childElements", managed = "Other")]
+    pub unsafe fn childElements(&self) -> Id<NSArray<NSTextElement>>;
 
-        #[method(isRepresentedElement)]
-        pub unsafe fn isRepresentedElement(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "parentElement", managed = "Other")]
+    pub unsafe fn parentElement(&self) -> Option<Id<NSTextElement>>;
 
-extern_class!(
+    #[objc2::method(sel = "isRepresentedElement")]
+    pub unsafe fn isRepresentedElement(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe super = NSTextElement,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextParagraph")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextParagraph")]
-    pub struct NSTextParagraph;
-
-    #[cfg(feature = "AppKit_NSTextParagraph")]
-    unsafe impl ClassType for NSTextParagraph {
-        #[inherits(NSObject)]
-        type Super = NSTextElement;
-    }
-);
+    pub type NSTextParagraph;
+}
 
 #[cfg(feature = "AppKit_NSTextParagraph")]
 unsafe impl NSObjectProtocol for NSTextParagraph {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextParagraph")]
-    unsafe impl NSTextParagraph {
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Init initWithAttributedString:)]
-        pub unsafe fn initWithAttributedString(
-            this: Option<Allocated<Self>>,
-            attributed_string: Option<&NSAttributedString>,
-        ) -> Id<Self>;
+    pub type NSTextParagraph;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other attributedString)]
-        pub unsafe fn attributedString(&self) -> Id<NSAttributedString>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "initWithAttributedString:", managed = "Init")]
+    pub unsafe fn initWithAttributedString(
+        this: Option<Allocated<Self>>,
+        attributed_string: Option<&NSAttributedString>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSTextRange")]
-        #[method_id(@__retain_semantics Other paragraphContentRange)]
-        pub unsafe fn paragraphContentRange(&self) -> Option<Id<NSTextRange>>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "attributedString", managed = "Other")]
+    pub unsafe fn attributedString(&self) -> Id<NSAttributedString>;
 
-        #[cfg(feature = "AppKit_NSTextRange")]
-        #[method_id(@__retain_semantics Other paragraphSeparatorRange)]
-        pub unsafe fn paragraphSeparatorRange(&self) -> Option<Id<NSTextRange>>;
-    }
-);
+    #[cfg(feature = "AppKit_NSTextRange")]
+    #[objc2::method(sel = "paragraphContentRange", managed = "Other")]
+    pub unsafe fn paragraphContentRange(&self) -> Option<Id<NSTextRange>>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSTextElement`
+    #[cfg(feature = "AppKit_NSTextRange")]
+    #[objc2::method(sel = "paragraphSeparatorRange", managed = "Other")]
+    pub unsafe fn paragraphSeparatorRange(&self) -> Option<Id<NSTextRange>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSTextElement`
     #[cfg(feature = "AppKit_NSTextParagraph")]
-    unsafe impl NSTextParagraph {
-        #[cfg(feature = "AppKit_NSTextContentManager")]
-        #[method_id(@__retain_semantics Init initWithTextContentManager:)]
-        pub unsafe fn initWithTextContentManager(
-            this: Option<Allocated<Self>>,
-            text_content_manager: Option<&NSTextContentManager>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextParagraph")]
+    pub type NSTextParagraph;
+
+    #[cfg(feature = "AppKit_NSTextContentManager")]
+    #[objc2::method(sel = "initWithTextContentManager:", managed = "Init")]
+    pub unsafe fn initWithTextContentManager(
+        this: Option<Allocated<Self>>,
+        text_content_manager: Option<&NSTextContentManager>,
+    ) -> Id<Self>;
+}

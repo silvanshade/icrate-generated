@@ -20,16 +20,16 @@ typed_enum!(
     pub type CATransitionSubtype = NSString;
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAAnimation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CAAnimation")]
-    pub struct CAAnimation;
-
-    #[cfg(feature = "CoreAnimation_CAAnimation")]
-    unsafe impl ClassType for CAAnimation {
-        type Super = NSObject;
-    }
-);
+    pub type CAAnimation;
+}
 
 #[cfg(feature = "CoreAnimation_CAAnimation")]
 unsafe impl CAAction for CAAnimation {}
@@ -46,81 +46,73 @@ unsafe impl NSObjectProtocol for CAAnimation {}
 #[cfg(feature = "CoreAnimation_CAAnimation")]
 unsafe impl NSSecureCoding for CAAnimation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CAAnimation")]
-    unsafe impl CAAnimation {
-        #[method_id(@__retain_semantics Other animation)]
-        pub unsafe fn animation() -> Id<Self>;
+    pub type CAAnimation;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other defaultValueForKey:)]
-        pub unsafe fn defaultValueForKey(key: &NSString) -> Option<Id<Object>>;
+    #[objc2::method(sel = "animation", managed = "Other")]
+    pub unsafe fn animation() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(shouldArchiveValueForKey:)]
-        pub unsafe fn shouldArchiveValueForKey(&self, key: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "defaultValueForKey:", managed = "Other")]
+    pub unsafe fn defaultValueForKey(key: &NSString) -> Option<Id<Object>>;
 
-        #[cfg(feature = "CoreAnimation_CAMediaTimingFunction")]
-        #[method_id(@__retain_semantics Other timingFunction)]
-        pub unsafe fn timingFunction(&self) -> Option<Id<CAMediaTimingFunction>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "shouldArchiveValueForKey:")]
+    pub unsafe fn shouldArchiveValueForKey(&self, key: &NSString) -> bool;
 
-        #[cfg(feature = "CoreAnimation_CAMediaTimingFunction")]
-        #[method(setTimingFunction:)]
-        pub unsafe fn setTimingFunction(&self, timing_function: Option<&CAMediaTimingFunction>);
+    #[cfg(feature = "CoreAnimation_CAMediaTimingFunction")]
+    #[objc2::method(sel = "timingFunction", managed = "Other")]
+    pub unsafe fn timingFunction(&self) -> Option<Id<CAMediaTimingFunction>>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn CAAnimationDelegate>>>;
+    #[cfg(feature = "CoreAnimation_CAMediaTimingFunction")]
+    #[objc2::method(sel = "setTimingFunction:")]
+    pub unsafe fn setTimingFunction(&self, timing_function: Option<&CAMediaTimingFunction>);
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn CAAnimationDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn CAAnimationDelegate>>>;
 
-        #[method(isRemovedOnCompletion)]
-        pub unsafe fn isRemovedOnCompletion(&self) -> bool;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn CAAnimationDelegate>>);
 
-        #[method(setRemovedOnCompletion:)]
-        pub unsafe fn setRemovedOnCompletion(&self, removed_on_completion: bool);
+    #[objc2::method(sel = "isRemovedOnCompletion")]
+    pub unsafe fn isRemovedOnCompletion(&self) -> bool;
 
-        #[method(preferredFrameRateRange)]
-        pub unsafe fn preferredFrameRateRange(&self) -> CAFrameRateRange;
+    #[objc2::method(sel = "setRemovedOnCompletion:")]
+    pub unsafe fn setRemovedOnCompletion(&self, removed_on_completion: bool);
 
-        #[method(setPreferredFrameRateRange:)]
-        pub unsafe fn setPreferredFrameRateRange(
-            &self,
-            preferred_frame_rate_range: CAFrameRateRange,
-        );
-    }
-);
+    #[objc2::method(sel = "preferredFrameRateRange")]
+    pub unsafe fn preferredFrameRateRange(&self) -> CAFrameRateRange;
 
-extern_protocol!(
-    pub unsafe trait CAAnimationDelegate: NSObjectProtocol {
-        #[cfg(feature = "CoreAnimation_CAAnimation")]
-        #[optional]
-        #[method(animationDidStart:)]
-        unsafe fn animationDidStart(&self, anim: &CAAnimation);
+    #[objc2::method(sel = "setPreferredFrameRateRange:")]
+    pub unsafe fn setPreferredFrameRateRange(&self, preferred_frame_rate_range: CAFrameRateRange);
+}
 
-        #[cfg(feature = "CoreAnimation_CAAnimation")]
-        #[optional]
-        #[method(animationDidStop:finished:)]
-        unsafe fn animationDidStop_finished(&self, anim: &CAAnimation, flag: bool);
-    }
+#[objc2::protocol]
+pub unsafe trait CAAnimationDelegate: NSObjectProtocol {
+    #[cfg(feature = "CoreAnimation_CAAnimation")]
+    #[objc2::method(optional, sel = "animationDidStart:")]
+    unsafe fn animationDidStart(&self, anim: &CAAnimation);
 
-    unsafe impl ProtocolType for dyn CAAnimationDelegate {}
-);
+    #[cfg(feature = "CoreAnimation_CAAnimation")]
+    #[objc2::method(optional, sel = "animationDidStop:finished:")]
+    unsafe fn animationDidStop_finished(&self, anim: &CAAnimation, flag: bool);
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CAAnimation,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAPropertyAnimation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CAPropertyAnimation")]
-    pub struct CAPropertyAnimation;
-
-    #[cfg(feature = "CoreAnimation_CAPropertyAnimation")]
-    unsafe impl ClassType for CAPropertyAnimation {
-        #[inherits(NSObject)]
-        type Super = CAAnimation;
-    }
-);
+    pub type CAPropertyAnimation;
+}
 
 #[cfg(feature = "CoreAnimation_CAPropertyAnimation")]
 unsafe impl CAAction for CAPropertyAnimation {}
@@ -137,54 +129,58 @@ unsafe impl NSObjectProtocol for CAPropertyAnimation {}
 #[cfg(feature = "CoreAnimation_CAPropertyAnimation")]
 unsafe impl NSSecureCoding for CAPropertyAnimation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CAPropertyAnimation")]
-    unsafe impl CAPropertyAnimation {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other animationWithKeyPath:)]
-        pub unsafe fn animationWithKeyPath(path: Option<&NSString>) -> Id<Self>;
+    pub type CAPropertyAnimation;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other keyPath)]
-        pub unsafe fn keyPath(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "animationWithKeyPath:", managed = "Other")]
+    pub unsafe fn animationWithKeyPath(path: Option<&NSString>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setKeyPath:)]
-        pub unsafe fn setKeyPath(&self, key_path: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "keyPath", managed = "Other")]
+    pub unsafe fn keyPath(&self) -> Option<Id<NSString>>;
 
-        #[method(isAdditive)]
-        pub unsafe fn isAdditive(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setKeyPath:")]
+    pub unsafe fn setKeyPath(&self, key_path: Option<&NSString>);
 
-        #[method(setAdditive:)]
-        pub unsafe fn setAdditive(&self, additive: bool);
+    #[objc2::method(sel = "isAdditive")]
+    pub unsafe fn isAdditive(&self) -> bool;
 
-        #[method(isCumulative)]
-        pub unsafe fn isCumulative(&self) -> bool;
+    #[objc2::method(sel = "setAdditive:")]
+    pub unsafe fn setAdditive(&self, additive: bool);
 
-        #[method(setCumulative:)]
-        pub unsafe fn setCumulative(&self, cumulative: bool);
+    #[objc2::method(sel = "isCumulative")]
+    pub unsafe fn isCumulative(&self) -> bool;
 
-        #[cfg(feature = "CoreAnimation_CAValueFunction")]
-        #[method_id(@__retain_semantics Other valueFunction)]
-        pub unsafe fn valueFunction(&self) -> Option<Id<CAValueFunction>>;
+    #[objc2::method(sel = "setCumulative:")]
+    pub unsafe fn setCumulative(&self, cumulative: bool);
 
-        #[cfg(feature = "CoreAnimation_CAValueFunction")]
-        #[method(setValueFunction:)]
-        pub unsafe fn setValueFunction(&self, value_function: Option<&CAValueFunction>);
-    }
-);
+    #[cfg(feature = "CoreAnimation_CAValueFunction")]
+    #[objc2::method(sel = "valueFunction", managed = "Other")]
+    pub unsafe fn valueFunction(&self) -> Option<Id<CAValueFunction>>;
 
-extern_class!(
+    #[cfg(feature = "CoreAnimation_CAValueFunction")]
+    #[objc2::method(sel = "setValueFunction:")]
+    pub unsafe fn setValueFunction(&self, value_function: Option<&CAValueFunction>);
+}
+
+#[objc2::interface(
+    unsafe super = CAPropertyAnimation,
+    unsafe inherits = [
+        CAAnimation,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CABasicAnimation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CABasicAnimation")]
-    pub struct CABasicAnimation;
-
-    #[cfg(feature = "CoreAnimation_CABasicAnimation")]
-    unsafe impl ClassType for CABasicAnimation {
-        #[inherits(CAAnimation, NSObject)]
-        type Super = CAPropertyAnimation;
-    }
-);
+    pub type CABasicAnimation;
+}
 
 #[cfg(feature = "CoreAnimation_CABasicAnimation")]
 unsafe impl CAAction for CABasicAnimation {}
@@ -201,40 +197,44 @@ unsafe impl NSObjectProtocol for CABasicAnimation {}
 #[cfg(feature = "CoreAnimation_CABasicAnimation")]
 unsafe impl NSSecureCoding for CABasicAnimation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CABasicAnimation")]
-    unsafe impl CABasicAnimation {
-        #[method_id(@__retain_semantics Other fromValue)]
-        pub unsafe fn fromValue(&self) -> Option<Id<Object>>;
+    pub type CABasicAnimation;
 
-        #[method(setFromValue:)]
-        pub unsafe fn setFromValue(&self, from_value: Option<&Object>);
+    #[objc2::method(sel = "fromValue", managed = "Other")]
+    pub unsafe fn fromValue(&self) -> Option<Id<Object>>;
 
-        #[method_id(@__retain_semantics Other toValue)]
-        pub unsafe fn toValue(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setFromValue:")]
+    pub unsafe fn setFromValue(&self, from_value: Option<&Object>);
 
-        #[method(setToValue:)]
-        pub unsafe fn setToValue(&self, to_value: Option<&Object>);
+    #[objc2::method(sel = "toValue", managed = "Other")]
+    pub unsafe fn toValue(&self) -> Option<Id<Object>>;
 
-        #[method_id(@__retain_semantics Other byValue)]
-        pub unsafe fn byValue(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setToValue:")]
+    pub unsafe fn setToValue(&self, to_value: Option<&Object>);
 
-        #[method(setByValue:)]
-        pub unsafe fn setByValue(&self, by_value: Option<&Object>);
-    }
-);
+    #[objc2::method(sel = "byValue", managed = "Other")]
+    pub unsafe fn byValue(&self) -> Option<Id<Object>>;
 
-extern_class!(
+    #[objc2::method(sel = "setByValue:")]
+    pub unsafe fn setByValue(&self, by_value: Option<&Object>);
+}
+
+#[objc2::interface(
+    unsafe super = CAPropertyAnimation,
+    unsafe inherits = [
+        CAAnimation,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAKeyframeAnimation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CAKeyframeAnimation")]
-    pub struct CAKeyframeAnimation;
-
-    #[cfg(feature = "CoreAnimation_CAKeyframeAnimation")]
-    unsafe impl ClassType for CAKeyframeAnimation {
-        #[inherits(CAAnimation, NSObject)]
-        type Super = CAPropertyAnimation;
-    }
-);
+    pub type CAKeyframeAnimation;
+}
 
 #[cfg(feature = "CoreAnimation_CAKeyframeAnimation")]
 unsafe impl CAAction for CAKeyframeAnimation {}
@@ -251,79 +251,82 @@ unsafe impl NSObjectProtocol for CAKeyframeAnimation {}
 #[cfg(feature = "CoreAnimation_CAKeyframeAnimation")]
 unsafe impl NSSecureCoding for CAKeyframeAnimation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CAKeyframeAnimation")]
-    unsafe impl CAKeyframeAnimation {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other values)]
-        pub unsafe fn values(&self) -> Option<Id<NSArray>>;
+    pub type CAKeyframeAnimation;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setValues:)]
-        pub unsafe fn setValues(&self, values: Option<&NSArray>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "values", managed = "Other")]
+    pub unsafe fn values(&self) -> Option<Id<NSArray>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other keyTimes)]
-        pub unsafe fn keyTimes(&self) -> Option<Id<NSArray<NSNumber>>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setValues:")]
+    pub unsafe fn setValues(&self, values: Option<&NSArray>);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method(setKeyTimes:)]
-        pub unsafe fn setKeyTimes(&self, key_times: Option<&NSArray<NSNumber>>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "keyTimes", managed = "Other")]
+    pub unsafe fn keyTimes(&self) -> Option<Id<NSArray<NSNumber>>>;
 
-        #[cfg(all(
-            feature = "CoreAnimation_CAMediaTimingFunction",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other timingFunctions)]
-        pub unsafe fn timingFunctions(&self) -> Option<Id<NSArray<CAMediaTimingFunction>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "setKeyTimes:")]
+    pub unsafe fn setKeyTimes(&self, key_times: Option<&NSArray<NSNumber>>);
 
-        #[cfg(all(
-            feature = "CoreAnimation_CAMediaTimingFunction",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method(setTimingFunctions:)]
-        pub unsafe fn setTimingFunctions(
-            &self,
-            timing_functions: Option<&NSArray<CAMediaTimingFunction>>,
-        );
+    #[cfg(all(
+        feature = "CoreAnimation_CAMediaTimingFunction",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "timingFunctions", managed = "Other")]
+    pub unsafe fn timingFunctions(&self) -> Option<Id<NSArray<CAMediaTimingFunction>>>;
 
-        #[method_id(@__retain_semantics Other calculationMode)]
-        pub unsafe fn calculationMode(&self) -> Id<CAAnimationCalculationMode>;
+    #[cfg(all(
+        feature = "CoreAnimation_CAMediaTimingFunction",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "setTimingFunctions:")]
+    pub unsafe fn setTimingFunctions(
+        &self,
+        timing_functions: Option<&NSArray<CAMediaTimingFunction>>,
+    );
 
-        #[method(setCalculationMode:)]
-        pub unsafe fn setCalculationMode(&self, calculation_mode: &CAAnimationCalculationMode);
+    #[objc2::method(sel = "calculationMode", managed = "Other")]
+    pub unsafe fn calculationMode(&self) -> Id<CAAnimationCalculationMode>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other tensionValues)]
-        pub unsafe fn tensionValues(&self) -> Option<Id<NSArray<NSNumber>>>;
+    #[objc2::method(sel = "setCalculationMode:")]
+    pub unsafe fn setCalculationMode(&self, calculation_mode: &CAAnimationCalculationMode);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method(setTensionValues:)]
-        pub unsafe fn setTensionValues(&self, tension_values: Option<&NSArray<NSNumber>>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "tensionValues", managed = "Other")]
+    pub unsafe fn tensionValues(&self) -> Option<Id<NSArray<NSNumber>>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other continuityValues)]
-        pub unsafe fn continuityValues(&self) -> Option<Id<NSArray<NSNumber>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "setTensionValues:")]
+    pub unsafe fn setTensionValues(&self, tension_values: Option<&NSArray<NSNumber>>);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method(setContinuityValues:)]
-        pub unsafe fn setContinuityValues(&self, continuity_values: Option<&NSArray<NSNumber>>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "continuityValues", managed = "Other")]
+    pub unsafe fn continuityValues(&self) -> Option<Id<NSArray<NSNumber>>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other biasValues)]
-        pub unsafe fn biasValues(&self) -> Option<Id<NSArray<NSNumber>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "setContinuityValues:")]
+    pub unsafe fn setContinuityValues(&self, continuity_values: Option<&NSArray<NSNumber>>);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method(setBiasValues:)]
-        pub unsafe fn setBiasValues(&self, bias_values: Option<&NSArray<NSNumber>>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "biasValues", managed = "Other")]
+    pub unsafe fn biasValues(&self) -> Option<Id<NSArray<NSNumber>>>;
 
-        #[method_id(@__retain_semantics Other rotationMode)]
-        pub unsafe fn rotationMode(&self) -> Option<Id<CAAnimationRotationMode>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "setBiasValues:")]
+    pub unsafe fn setBiasValues(&self, bias_values: Option<&NSArray<NSNumber>>);
 
-        #[method(setRotationMode:)]
-        pub unsafe fn setRotationMode(&self, rotation_mode: Option<&CAAnimationRotationMode>);
-    }
-);
+    #[objc2::method(sel = "rotationMode", managed = "Other")]
+    pub unsafe fn rotationMode(&self) -> Option<Id<CAAnimationRotationMode>>;
+
+    #[objc2::method(sel = "setRotationMode:")]
+    pub unsafe fn setRotationMode(&self, rotation_mode: Option<&CAAnimationRotationMode>);
+}
 
 extern_static!(kCAAnimationLinear: &'static CAAnimationCalculationMode);
 
@@ -339,17 +342,19 @@ extern_static!(kCAAnimationRotateAuto: &'static CAAnimationRotationMode);
 
 extern_static!(kCAAnimationRotateAutoReverse: &'static CAAnimationRotationMode);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CABasicAnimation,
+    unsafe inherits = [
+        CAPropertyAnimation,
+        CAAnimation,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CASpringAnimation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CASpringAnimation")]
-    pub struct CASpringAnimation;
-
-    #[cfg(feature = "CoreAnimation_CASpringAnimation")]
-    unsafe impl ClassType for CASpringAnimation {
-        #[inherits(CAPropertyAnimation, CAAnimation, NSObject)]
-        type Super = CABasicAnimation;
-    }
-);
+    pub type CASpringAnimation;
+}
 
 #[cfg(feature = "CoreAnimation_CASpringAnimation")]
 unsafe impl CAAction for CASpringAnimation {}
@@ -366,49 +371,52 @@ unsafe impl NSObjectProtocol for CASpringAnimation {}
 #[cfg(feature = "CoreAnimation_CASpringAnimation")]
 unsafe impl NSSecureCoding for CASpringAnimation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CASpringAnimation")]
-    unsafe impl CASpringAnimation {
-        #[method(mass)]
-        pub unsafe fn mass(&self) -> CGFloat;
+    pub type CASpringAnimation;
 
-        #[method(setMass:)]
-        pub unsafe fn setMass(&self, mass: CGFloat);
+    #[objc2::method(sel = "mass")]
+    pub unsafe fn mass(&self) -> CGFloat;
 
-        #[method(stiffness)]
-        pub unsafe fn stiffness(&self) -> CGFloat;
+    #[objc2::method(sel = "setMass:")]
+    pub unsafe fn setMass(&self, mass: CGFloat);
 
-        #[method(setStiffness:)]
-        pub unsafe fn setStiffness(&self, stiffness: CGFloat);
+    #[objc2::method(sel = "stiffness")]
+    pub unsafe fn stiffness(&self) -> CGFloat;
 
-        #[method(damping)]
-        pub unsafe fn damping(&self) -> CGFloat;
+    #[objc2::method(sel = "setStiffness:")]
+    pub unsafe fn setStiffness(&self, stiffness: CGFloat);
 
-        #[method(setDamping:)]
-        pub unsafe fn setDamping(&self, damping: CGFloat);
+    #[objc2::method(sel = "damping")]
+    pub unsafe fn damping(&self) -> CGFloat;
 
-        #[method(initialVelocity)]
-        pub unsafe fn initialVelocity(&self) -> CGFloat;
+    #[objc2::method(sel = "setDamping:")]
+    pub unsafe fn setDamping(&self, damping: CGFloat);
 
-        #[method(setInitialVelocity:)]
-        pub unsafe fn setInitialVelocity(&self, initial_velocity: CGFloat);
+    #[objc2::method(sel = "initialVelocity")]
+    pub unsafe fn initialVelocity(&self) -> CGFloat;
 
-        #[method(settlingDuration)]
-        pub unsafe fn settlingDuration(&self) -> CFTimeInterval;
-    }
-);
+    #[objc2::method(sel = "setInitialVelocity:")]
+    pub unsafe fn setInitialVelocity(&self, initial_velocity: CGFloat);
 
-extern_class!(
+    #[objc2::method(sel = "settlingDuration")]
+    pub unsafe fn settlingDuration(&self) -> CFTimeInterval;
+}
+
+#[objc2::interface(
+    unsafe super = CAAnimation,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CATransition")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CATransition")]
-    pub struct CATransition;
-
-    #[cfg(feature = "CoreAnimation_CATransition")]
-    unsafe impl ClassType for CATransition {
-        #[inherits(NSObject)]
-        type Super = CAAnimation;
-    }
-);
+    pub type CATransition;
+}
 
 #[cfg(feature = "CoreAnimation_CATransition")]
 unsafe impl CAAction for CATransition {}
@@ -425,40 +433,43 @@ unsafe impl NSObjectProtocol for CATransition {}
 #[cfg(feature = "CoreAnimation_CATransition")]
 unsafe impl NSSecureCoding for CATransition {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CATransition")]
-    unsafe impl CATransition {
-        #[method_id(@__retain_semantics Other type)]
-        pub unsafe fn r#type(&self) -> Id<CATransitionType>;
+    pub type CATransition;
 
-        #[method(setType:)]
-        pub unsafe fn setType(&self, r#type: &CATransitionType);
+    #[objc2::method(sel = "type", managed = "Other")]
+    pub unsafe fn r#type(&self) -> Id<CATransitionType>;
 
-        #[method_id(@__retain_semantics Other subtype)]
-        pub unsafe fn subtype(&self) -> Option<Id<CATransitionSubtype>>;
+    #[objc2::method(sel = "setType:")]
+    pub unsafe fn setType(&self, r#type: &CATransitionType);
 
-        #[method(setSubtype:)]
-        pub unsafe fn setSubtype(&self, subtype: Option<&CATransitionSubtype>);
+    #[objc2::method(sel = "subtype", managed = "Other")]
+    pub unsafe fn subtype(&self) -> Option<Id<CATransitionSubtype>>;
 
-        #[method(startProgress)]
-        pub unsafe fn startProgress(&self) -> c_float;
+    #[objc2::method(sel = "setSubtype:")]
+    pub unsafe fn setSubtype(&self, subtype: Option<&CATransitionSubtype>);
 
-        #[method(setStartProgress:)]
-        pub unsafe fn setStartProgress(&self, start_progress: c_float);
+    #[objc2::method(sel = "startProgress")]
+    pub unsafe fn startProgress(&self) -> c_float;
 
-        #[method(endProgress)]
-        pub unsafe fn endProgress(&self) -> c_float;
+    #[objc2::method(sel = "setStartProgress:")]
+    pub unsafe fn setStartProgress(&self, start_progress: c_float);
 
-        #[method(setEndProgress:)]
-        pub unsafe fn setEndProgress(&self, end_progress: c_float);
+    #[objc2::method(sel = "endProgress")]
+    pub unsafe fn endProgress(&self) -> c_float;
 
-        #[method_id(@__retain_semantics Other filter)]
-        pub unsafe fn filter(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setEndProgress:")]
+    pub unsafe fn setEndProgress(&self, end_progress: c_float);
 
-        #[method(setFilter:)]
-        pub unsafe fn setFilter(&self, filter: Option<&Object>);
-    }
-);
+    #[objc2::method(sel = "filter", managed = "Other")]
+    pub unsafe fn filter(&self) -> Option<Id<Object>>;
+
+    #[objc2::method(sel = "setFilter:")]
+    pub unsafe fn setFilter(&self, filter: Option<&Object>);
+}
 
 extern_static!(kCATransitionFade: &'static CATransitionType);
 
@@ -476,17 +487,17 @@ extern_static!(kCATransitionFromTop: &'static CATransitionSubtype);
 
 extern_static!(kCATransitionFromBottom: &'static CATransitionSubtype);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CAAnimation,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAAnimationGroup")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CAAnimationGroup")]
-    pub struct CAAnimationGroup;
-
-    #[cfg(feature = "CoreAnimation_CAAnimationGroup")]
-    unsafe impl ClassType for CAAnimationGroup {
-        #[inherits(NSObject)]
-        type Super = CAAnimation;
-    }
-);
+    pub type CAAnimationGroup;
+}
 
 #[cfg(feature = "CoreAnimation_CAAnimationGroup")]
 unsafe impl CAAction for CAAnimationGroup {}
@@ -503,99 +514,156 @@ unsafe impl NSObjectProtocol for CAAnimationGroup {}
 #[cfg(feature = "CoreAnimation_CAAnimationGroup")]
 unsafe impl NSSecureCoding for CAAnimationGroup {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CAAnimationGroup")]
-    unsafe impl CAAnimationGroup {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other animations)]
-        pub unsafe fn animations(&self) -> Option<Id<NSArray<CAAnimation>>>;
+    pub type CAAnimationGroup;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setAnimations:)]
-        pub unsafe fn setAnimations(&self, animations: Option<&NSArray<CAAnimation>>);
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "animations", managed = "Other")]
+    pub unsafe fn animations(&self) -> Option<Id<NSArray<CAAnimation>>>;
 
-extern_methods!(
-    /// Methods declared on superclass `CAAnimation`
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setAnimations:")]
+    pub unsafe fn setAnimations(&self, animations: Option<&NSArray<CAAnimation>>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CAAnimation`
     #[cfg(feature = "CoreAnimation_CAPropertyAnimation")]
-    unsafe impl CAPropertyAnimation {
-        #[method_id(@__retain_semantics Other animation)]
-        pub unsafe fn animation() -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAPropertyAnimation")]
+    pub type CAPropertyAnimation;
 
-extern_methods!(
-    /// Methods declared on superclass `CAPropertyAnimation`
+    #[objc2::method(sel = "animation", managed = "Other")]
+    pub unsafe fn animation() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CAPropertyAnimation`
     #[cfg(feature = "CoreAnimation_CABasicAnimation")]
-    unsafe impl CABasicAnimation {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other animationWithKeyPath:)]
-        pub unsafe fn animationWithKeyPath(path: Option<&NSString>) -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `CAAnimation`
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CABasicAnimation")]
-    unsafe impl CABasicAnimation {
-        #[method_id(@__retain_semantics Other animation)]
-        pub unsafe fn animation() -> Id<Self>;
-    }
-);
+    pub type CABasicAnimation;
 
-extern_methods!(
-    /// Methods declared on superclass `CAPropertyAnimation`
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "animationWithKeyPath:", managed = "Other")]
+    pub unsafe fn animationWithKeyPath(path: Option<&NSString>) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CAAnimation`
+    #[cfg(feature = "CoreAnimation_CABasicAnimation")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CABasicAnimation")]
+    pub type CABasicAnimation;
+
+    #[objc2::method(sel = "animation", managed = "Other")]
+    pub unsafe fn animation() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CAPropertyAnimation`
     #[cfg(feature = "CoreAnimation_CAKeyframeAnimation")]
-    unsafe impl CAKeyframeAnimation {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other animationWithKeyPath:)]
-        pub unsafe fn animationWithKeyPath(path: Option<&NSString>) -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `CAAnimation`
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CAKeyframeAnimation")]
-    unsafe impl CAKeyframeAnimation {
-        #[method_id(@__retain_semantics Other animation)]
-        pub unsafe fn animation() -> Id<Self>;
-    }
-);
+    pub type CAKeyframeAnimation;
 
-extern_methods!(
-    /// Methods declared on superclass `CAPropertyAnimation`
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "animationWithKeyPath:", managed = "Other")]
+    pub unsafe fn animationWithKeyPath(path: Option<&NSString>) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CAAnimation`
+    #[cfg(feature = "CoreAnimation_CAKeyframeAnimation")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAKeyframeAnimation")]
+    pub type CAKeyframeAnimation;
+
+    #[objc2::method(sel = "animation", managed = "Other")]
+    pub unsafe fn animation() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CAPropertyAnimation`
     #[cfg(feature = "CoreAnimation_CASpringAnimation")]
-    unsafe impl CASpringAnimation {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other animationWithKeyPath:)]
-        pub unsafe fn animationWithKeyPath(path: Option<&NSString>) -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `CAAnimation`
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CASpringAnimation")]
-    unsafe impl CASpringAnimation {
-        #[method_id(@__retain_semantics Other animation)]
-        pub unsafe fn animation() -> Id<Self>;
-    }
-);
+    pub type CASpringAnimation;
 
-extern_methods!(
-    /// Methods declared on superclass `CAAnimation`
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "animationWithKeyPath:", managed = "Other")]
+    pub unsafe fn animationWithKeyPath(path: Option<&NSString>) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CAAnimation`
+    #[cfg(feature = "CoreAnimation_CASpringAnimation")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CASpringAnimation")]
+    pub type CASpringAnimation;
+
+    #[objc2::method(sel = "animation", managed = "Other")]
+    pub unsafe fn animation() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CAAnimation`
     #[cfg(feature = "CoreAnimation_CATransition")]
-    unsafe impl CATransition {
-        #[method_id(@__retain_semantics Other animation)]
-        pub unsafe fn animation() -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CATransition")]
+    pub type CATransition;
 
-extern_methods!(
-    /// Methods declared on superclass `CAAnimation`
+    #[objc2::method(sel = "animation", managed = "Other")]
+    pub unsafe fn animation() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CAAnimation`
     #[cfg(feature = "CoreAnimation_CAAnimationGroup")]
-    unsafe impl CAAnimationGroup {
-        #[method_id(@__retain_semantics Other animation)]
-        pub unsafe fn animation() -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAAnimationGroup")]
+    pub type CAAnimationGroup;
+
+    #[objc2::method(sel = "animation", managed = "Other")]
+    pub unsafe fn animation() -> Id<Self>;
+}

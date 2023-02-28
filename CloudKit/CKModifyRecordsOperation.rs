@@ -5,188 +5,187 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CKRecordSavePolicy {
-        CKRecordSaveIfServerRecordUnchanged = 0,
-        CKRecordSaveChangedKeys = 1,
-        CKRecordSaveAllKeys = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CKRecordSavePolicy {
+    CKRecordSaveIfServerRecordUnchanged = 0,
+    CKRecordSaveChangedKeys = 1,
+    CKRecordSaveAllKeys = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CKDatabaseOperation,
+    unsafe inherits = [
+        CKOperation,
+        NSOperation,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKModifyRecordsOperation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKModifyRecordsOperation")]
-    pub struct CKModifyRecordsOperation;
-
-    #[cfg(feature = "CloudKit_CKModifyRecordsOperation")]
-    unsafe impl ClassType for CKModifyRecordsOperation {
-        #[inherits(CKOperation, NSOperation, NSObject)]
-        type Super = CKDatabaseOperation;
-    }
-);
+    pub type CKModifyRecordsOperation;
+}
 
 #[cfg(feature = "CloudKit_CKModifyRecordsOperation")]
 unsafe impl NSObjectProtocol for CKModifyRecordsOperation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKModifyRecordsOperation")]
-    unsafe impl CKModifyRecordsOperation {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKModifyRecordsOperation;
 
-        #[cfg(all(
-            feature = "CloudKit_CKRecord",
-            feature = "CloudKit_CKRecordID",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Init initWithRecordsToSave:recordIDsToDelete:)]
-        pub unsafe fn initWithRecordsToSave_recordIDsToDelete(
-            this: Option<Allocated<Self>>,
-            records: Option<&NSArray<CKRecord>>,
-            record_i_ds: Option<&NSArray<CKRecordID>>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(feature = "CloudKit_CKRecord", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other recordsToSave)]
-        pub unsafe fn recordsToSave(&self) -> Option<Id<NSArray<CKRecord>>>;
+    #[cfg(all(
+        feature = "CloudKit_CKRecord",
+        feature = "CloudKit_CKRecordID",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "initWithRecordsToSave:recordIDsToDelete:", managed = "Init")]
+    pub unsafe fn initWithRecordsToSave_recordIDsToDelete(
+        this: Option<Allocated<Self>>,
+        records: Option<&NSArray<CKRecord>>,
+        record_i_ds: Option<&NSArray<CKRecordID>>,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "CloudKit_CKRecord", feature = "Foundation_NSArray"))]
-        #[method(setRecordsToSave:)]
-        pub unsafe fn setRecordsToSave(&self, records_to_save: Option<&NSArray<CKRecord>>);
+    #[cfg(all(feature = "CloudKit_CKRecord", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "recordsToSave", managed = "Other")]
+    pub unsafe fn recordsToSave(&self) -> Option<Id<NSArray<CKRecord>>>;
 
-        #[cfg(all(feature = "CloudKit_CKRecordID", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other recordIDsToDelete)]
-        pub unsafe fn recordIDsToDelete(&self) -> Option<Id<NSArray<CKRecordID>>>;
+    #[cfg(all(feature = "CloudKit_CKRecord", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setRecordsToSave:")]
+    pub unsafe fn setRecordsToSave(&self, records_to_save: Option<&NSArray<CKRecord>>);
 
-        #[cfg(all(feature = "CloudKit_CKRecordID", feature = "Foundation_NSArray"))]
-        #[method(setRecordIDsToDelete:)]
-        pub unsafe fn setRecordIDsToDelete(
-            &self,
-            record_i_ds_to_delete: Option<&NSArray<CKRecordID>>,
-        );
+    #[cfg(all(feature = "CloudKit_CKRecordID", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "recordIDsToDelete", managed = "Other")]
+    pub unsafe fn recordIDsToDelete(&self) -> Option<Id<NSArray<CKRecordID>>>;
 
-        #[method(savePolicy)]
-        pub unsafe fn savePolicy(&self) -> CKRecordSavePolicy;
+    #[cfg(all(feature = "CloudKit_CKRecordID", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setRecordIDsToDelete:")]
+    pub unsafe fn setRecordIDsToDelete(&self, record_i_ds_to_delete: Option<&NSArray<CKRecordID>>);
 
-        #[method(setSavePolicy:)]
-        pub unsafe fn setSavePolicy(&self, save_policy: CKRecordSavePolicy);
+    #[objc2::method(sel = "savePolicy")]
+    pub unsafe fn savePolicy(&self) -> CKRecordSavePolicy;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other clientChangeTokenData)]
-        pub unsafe fn clientChangeTokenData(&self) -> Option<Id<NSData>>;
+    #[objc2::method(sel = "setSavePolicy:")]
+    pub unsafe fn setSavePolicy(&self, save_policy: CKRecordSavePolicy);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(setClientChangeTokenData:)]
-        pub unsafe fn setClientChangeTokenData(&self, client_change_token_data: Option<&NSData>);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "clientChangeTokenData", managed = "Other")]
+    pub unsafe fn clientChangeTokenData(&self) -> Option<Id<NSData>>;
 
-        #[method(atomic)]
-        pub unsafe fn atomic(&self) -> bool;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "setClientChangeTokenData:")]
+    pub unsafe fn setClientChangeTokenData(&self, client_change_token_data: Option<&NSData>);
 
-        #[method(setAtomic:)]
-        pub unsafe fn setAtomic(&self, atomic: bool);
+    #[objc2::method(sel = "atomic")]
+    pub unsafe fn atomic(&self) -> bool;
 
-        #[cfg(feature = "CloudKit_CKRecord")]
-        #[method(perRecordProgressBlock)]
-        pub unsafe fn perRecordProgressBlock(
-            &self,
-        ) -> *mut Block<(NonNull<CKRecord>, c_double), ()>;
+    #[objc2::method(sel = "setAtomic:")]
+    pub unsafe fn setAtomic(&self, atomic: bool);
 
-        #[cfg(feature = "CloudKit_CKRecord")]
-        #[method(setPerRecordProgressBlock:)]
-        pub unsafe fn setPerRecordProgressBlock(
-            &self,
-            per_record_progress_block: Option<&Block<(NonNull<CKRecord>, c_double), ()>>,
-        );
+    #[cfg(feature = "CloudKit_CKRecord")]
+    #[objc2::method(sel = "perRecordProgressBlock")]
+    pub unsafe fn perRecordProgressBlock(&self) -> *mut Block<(NonNull<CKRecord>, c_double), ()>;
 
-        #[cfg(all(feature = "CloudKit_CKRecord", feature = "Foundation_NSError"))]
-        #[deprecated]
-        #[method(perRecordCompletionBlock)]
-        pub unsafe fn perRecordCompletionBlock(
-            &self,
-        ) -> *mut Block<(NonNull<CKRecord>, *mut NSError), ()>;
+    #[cfg(feature = "CloudKit_CKRecord")]
+    #[objc2::method(sel = "setPerRecordProgressBlock:")]
+    pub unsafe fn setPerRecordProgressBlock(
+        &self,
+        per_record_progress_block: Option<&Block<(NonNull<CKRecord>, c_double), ()>>,
+    );
 
-        #[cfg(all(feature = "CloudKit_CKRecord", feature = "Foundation_NSError"))]
-        #[deprecated]
-        #[method(setPerRecordCompletionBlock:)]
-        pub unsafe fn setPerRecordCompletionBlock(
-            &self,
-            per_record_completion_block: Option<&Block<(NonNull<CKRecord>, *mut NSError), ()>>,
-        );
+    #[cfg(all(feature = "CloudKit_CKRecord", feature = "Foundation_NSError"))]
+    #[deprecated]
+    #[objc2::method(sel = "perRecordCompletionBlock")]
+    pub unsafe fn perRecordCompletionBlock(
+        &self,
+    ) -> *mut Block<(NonNull<CKRecord>, *mut NSError), ()>;
 
-        #[cfg(all(
-            feature = "CloudKit_CKRecord",
-            feature = "CloudKit_CKRecordID",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(perRecordSaveBlock)]
-        pub unsafe fn perRecordSaveBlock(
-            &self,
-        ) -> *mut Block<(NonNull<CKRecordID>, *mut CKRecord, *mut NSError), ()>;
+    #[cfg(all(feature = "CloudKit_CKRecord", feature = "Foundation_NSError"))]
+    #[deprecated]
+    #[objc2::method(sel = "setPerRecordCompletionBlock:")]
+    pub unsafe fn setPerRecordCompletionBlock(
+        &self,
+        per_record_completion_block: Option<&Block<(NonNull<CKRecord>, *mut NSError), ()>>,
+    );
 
-        #[cfg(all(
-            feature = "CloudKit_CKRecord",
-            feature = "CloudKit_CKRecordID",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(setPerRecordSaveBlock:)]
-        pub unsafe fn setPerRecordSaveBlock(
-            &self,
-            per_record_save_block: Option<
-                &Block<(NonNull<CKRecordID>, *mut CKRecord, *mut NSError), ()>,
+    #[cfg(all(
+        feature = "CloudKit_CKRecord",
+        feature = "CloudKit_CKRecordID",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "perRecordSaveBlock")]
+    pub unsafe fn perRecordSaveBlock(
+        &self,
+    ) -> *mut Block<(NonNull<CKRecordID>, *mut CKRecord, *mut NSError), ()>;
+
+    #[cfg(all(
+        feature = "CloudKit_CKRecord",
+        feature = "CloudKit_CKRecordID",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "setPerRecordSaveBlock:")]
+    pub unsafe fn setPerRecordSaveBlock(
+        &self,
+        per_record_save_block: Option<
+            &Block<(NonNull<CKRecordID>, *mut CKRecord, *mut NSError), ()>,
+        >,
+    );
+
+    #[cfg(all(feature = "CloudKit_CKRecordID", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "perRecordDeleteBlock")]
+    pub unsafe fn perRecordDeleteBlock(
+        &self,
+    ) -> *mut Block<(NonNull<CKRecordID>, *mut NSError), ()>;
+
+    #[cfg(all(feature = "CloudKit_CKRecordID", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "setPerRecordDeleteBlock:")]
+    pub unsafe fn setPerRecordDeleteBlock(
+        &self,
+        per_record_delete_block: Option<&Block<(NonNull<CKRecordID>, *mut NSError), ()>>,
+    );
+
+    #[cfg(all(
+        feature = "CloudKit_CKRecord",
+        feature = "CloudKit_CKRecordID",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "modifyRecordsCompletionBlock")]
+    pub unsafe fn modifyRecordsCompletionBlock(
+        &self,
+    ) -> *mut Block<
+        (
+            *mut NSArray<CKRecord>,
+            *mut NSArray<CKRecordID>,
+            *mut NSError,
+        ),
+        (),
+    >;
+
+    #[cfg(all(
+        feature = "CloudKit_CKRecord",
+        feature = "CloudKit_CKRecordID",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "setModifyRecordsCompletionBlock:")]
+    pub unsafe fn setModifyRecordsCompletionBlock(
+        &self,
+        modify_records_completion_block: Option<
+            &Block<
+                (
+                    *mut NSArray<CKRecord>,
+                    *mut NSArray<CKRecordID>,
+                    *mut NSError,
+                ),
+                (),
             >,
-        );
-
-        #[cfg(all(feature = "CloudKit_CKRecordID", feature = "Foundation_NSError"))]
-        #[method(perRecordDeleteBlock)]
-        pub unsafe fn perRecordDeleteBlock(
-            &self,
-        ) -> *mut Block<(NonNull<CKRecordID>, *mut NSError), ()>;
-
-        #[cfg(all(feature = "CloudKit_CKRecordID", feature = "Foundation_NSError"))]
-        #[method(setPerRecordDeleteBlock:)]
-        pub unsafe fn setPerRecordDeleteBlock(
-            &self,
-            per_record_delete_block: Option<&Block<(NonNull<CKRecordID>, *mut NSError), ()>>,
-        );
-
-        #[cfg(all(
-            feature = "CloudKit_CKRecord",
-            feature = "CloudKit_CKRecordID",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(modifyRecordsCompletionBlock)]
-        pub unsafe fn modifyRecordsCompletionBlock(
-            &self,
-        ) -> *mut Block<
-            (
-                *mut NSArray<CKRecord>,
-                *mut NSArray<CKRecordID>,
-                *mut NSError,
-            ),
-            (),
-        >;
-
-        #[cfg(all(
-            feature = "CloudKit_CKRecord",
-            feature = "CloudKit_CKRecordID",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(setModifyRecordsCompletionBlock:)]
-        pub unsafe fn setModifyRecordsCompletionBlock(
-            &self,
-            modify_records_completion_block: Option<
-                &Block<
-                    (
-                        *mut NSArray<CKRecord>,
-                        *mut NSArray<CKRecordID>,
-                        *mut NSError,
-                    ),
-                    (),
-                >,
-            >,
-        );
-    }
-);
+        >,
+    );
+}

@@ -5,123 +5,126 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSApplicationActivationOptions {
-        NSApplicationActivateAllWindows = 1 << 0,
-        NSApplicationActivateIgnoringOtherApps = 1 << 1,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSApplicationActivationOptions {
+    NSApplicationActivateAllWindows = 1 << 0,
+    NSApplicationActivateIgnoringOtherApps = 1 << 1,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSApplicationActivationPolicy {
-        NSApplicationActivationPolicyRegular = 0,
-        NSApplicationActivationPolicyAccessory = 1,
-        NSApplicationActivationPolicyProhibited = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSApplicationActivationPolicy {
+    NSApplicationActivationPolicyRegular = 0,
+    NSApplicationActivationPolicyAccessory = 1,
+    NSApplicationActivationPolicyProhibited = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSRunningApplication")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSRunningApplication")]
-    pub struct NSRunningApplication;
-
-    #[cfg(feature = "AppKit_NSRunningApplication")]
-    unsafe impl ClassType for NSRunningApplication {
-        type Super = NSObject;
-    }
-);
+    pub type NSRunningApplication;
+}
 
 #[cfg(feature = "AppKit_NSRunningApplication")]
 unsafe impl NSObjectProtocol for NSRunningApplication {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSRunningApplication")]
-    unsafe impl NSRunningApplication {
-        #[method(isTerminated)]
-        pub unsafe fn isTerminated(&self) -> bool;
+    pub type NSRunningApplication;
 
-        #[method(isFinishedLaunching)]
-        pub unsafe fn isFinishedLaunching(&self) -> bool;
+    #[objc2::method(sel = "isTerminated")]
+    pub unsafe fn isTerminated(&self) -> bool;
 
-        #[method(isHidden)]
-        pub unsafe fn isHidden(&self) -> bool;
+    #[objc2::method(sel = "isFinishedLaunching")]
+    pub unsafe fn isFinishedLaunching(&self) -> bool;
 
-        #[method(isActive)]
-        pub unsafe fn isActive(&self) -> bool;
+    #[objc2::method(sel = "isHidden")]
+    pub unsafe fn isHidden(&self) -> bool;
 
-        #[method(ownsMenuBar)]
-        pub unsafe fn ownsMenuBar(&self) -> bool;
+    #[objc2::method(sel = "isActive")]
+    pub unsafe fn isActive(&self) -> bool;
 
-        #[method(activationPolicy)]
-        pub unsafe fn activationPolicy(&self) -> NSApplicationActivationPolicy;
+    #[objc2::method(sel = "ownsMenuBar")]
+    pub unsafe fn ownsMenuBar(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedName)]
-        pub unsafe fn localizedName(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "activationPolicy")]
+    pub unsafe fn activationPolicy(&self) -> NSApplicationActivationPolicy;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other bundleIdentifier)]
-        pub unsafe fn bundleIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedName", managed = "Other")]
+    pub unsafe fn localizedName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other bundleURL)]
-        pub unsafe fn bundleURL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "bundleIdentifier", managed = "Other")]
+    pub unsafe fn bundleIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other executableURL)]
-        pub unsafe fn executableURL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "bundleURL", managed = "Other")]
+    pub unsafe fn bundleURL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other launchDate)]
-        pub unsafe fn launchDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "executableURL", managed = "Other")]
+    pub unsafe fn executableURL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other icon)]
-        pub unsafe fn icon(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "launchDate", managed = "Other")]
+    pub unsafe fn launchDate(&self) -> Option<Id<NSDate>>;
 
-        #[method(executableArchitecture)]
-        pub unsafe fn executableArchitecture(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "icon", managed = "Other")]
+    pub unsafe fn icon(&self) -> Option<Id<NSImage>>;
 
-        #[method(hide)]
-        pub unsafe fn hide(&self) -> bool;
+    #[objc2::method(sel = "executableArchitecture")]
+    pub unsafe fn executableArchitecture(&self) -> NSInteger;
 
-        #[method(unhide)]
-        pub unsafe fn unhide(&self) -> bool;
+    #[objc2::method(sel = "hide")]
+    pub unsafe fn hide(&self) -> bool;
 
-        #[method(activateWithOptions:)]
-        pub unsafe fn activateWithOptions(&self, options: NSApplicationActivationOptions) -> bool;
+    #[objc2::method(sel = "unhide")]
+    pub unsafe fn unhide(&self) -> bool;
 
-        #[method(terminate)]
-        pub unsafe fn terminate(&self) -> bool;
+    #[objc2::method(sel = "activateWithOptions:")]
+    pub unsafe fn activateWithOptions(&self, options: NSApplicationActivationOptions) -> bool;
 
-        #[method(forceTerminate)]
-        pub unsafe fn forceTerminate(&self) -> bool;
+    #[objc2::method(sel = "terminate")]
+    pub unsafe fn terminate(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other runningApplicationsWithBundleIdentifier:)]
-        pub unsafe fn runningApplicationsWithBundleIdentifier(
-            bundle_identifier: &NSString,
-        ) -> Id<NSArray<NSRunningApplication>>;
+    #[objc2::method(sel = "forceTerminate")]
+    pub unsafe fn forceTerminate(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other currentApplication)]
-        pub unsafe fn currentApplication() -> Id<NSRunningApplication>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "runningApplicationsWithBundleIdentifier:", managed = "Other")]
+    pub unsafe fn runningApplicationsWithBundleIdentifier(
+        bundle_identifier: &NSString,
+    ) -> Id<NSArray<NSRunningApplication>>;
 
-        #[method(terminateAutomaticallyTerminableApplications)]
-        pub unsafe fn terminateAutomaticallyTerminableApplications();
-    }
-);
+    #[objc2::method(sel = "currentApplication", managed = "Other")]
+    pub unsafe fn currentApplication() -> Id<NSRunningApplication>;
 
-extern_methods!(
-    /// NSWorkspaceRunningApplications
+    #[objc2::method(sel = "terminateAutomaticallyTerminableApplications")]
+    pub unsafe fn terminateAutomaticallyTerminableApplications();
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWorkspace")]
-    unsafe impl NSWorkspace {
-        #[cfg(all(
-            feature = "AppKit_NSRunningApplication",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other runningApplications)]
-        pub unsafe fn runningApplications(&self) -> Id<NSArray<NSRunningApplication>>;
-    }
-);
+    pub type NSWorkspace;
+
+    #[cfg(all(
+        feature = "AppKit_NSRunningApplication",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "runningApplications", managed = "Other")]
+    pub unsafe fn runningApplications(&self) -> Id<NSArray<NSRunningApplication>>;
+}

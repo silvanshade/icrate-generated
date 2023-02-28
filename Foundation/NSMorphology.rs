@@ -3,60 +3,57 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSGrammaticalGender {
-        NSGrammaticalGenderNotSet = 0,
-        NSGrammaticalGenderFeminine = 1,
-        NSGrammaticalGenderMasculine = 2,
-        NSGrammaticalGenderNeuter = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSGrammaticalGender {
+    NSGrammaticalGenderNotSet = 0,
+    NSGrammaticalGenderFeminine = 1,
+    NSGrammaticalGenderMasculine = 2,
+    NSGrammaticalGenderNeuter = 3,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSGrammaticalPartOfSpeech {
-        NSGrammaticalPartOfSpeechNotSet = 0,
-        NSGrammaticalPartOfSpeechDeterminer = 1,
-        NSGrammaticalPartOfSpeechPronoun = 2,
-        NSGrammaticalPartOfSpeechLetter = 3,
-        NSGrammaticalPartOfSpeechAdverb = 4,
-        NSGrammaticalPartOfSpeechParticle = 5,
-        NSGrammaticalPartOfSpeechAdjective = 6,
-        NSGrammaticalPartOfSpeechAdposition = 7,
-        NSGrammaticalPartOfSpeechVerb = 8,
-        NSGrammaticalPartOfSpeechNoun = 9,
-        NSGrammaticalPartOfSpeechConjunction = 10,
-        NSGrammaticalPartOfSpeechNumeral = 11,
-        NSGrammaticalPartOfSpeechInterjection = 12,
-        NSGrammaticalPartOfSpeechPreposition = 13,
-        NSGrammaticalPartOfSpeechAbbreviation = 14,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSGrammaticalPartOfSpeech {
+    NSGrammaticalPartOfSpeechNotSet = 0,
+    NSGrammaticalPartOfSpeechDeterminer = 1,
+    NSGrammaticalPartOfSpeechPronoun = 2,
+    NSGrammaticalPartOfSpeechLetter = 3,
+    NSGrammaticalPartOfSpeechAdverb = 4,
+    NSGrammaticalPartOfSpeechParticle = 5,
+    NSGrammaticalPartOfSpeechAdjective = 6,
+    NSGrammaticalPartOfSpeechAdposition = 7,
+    NSGrammaticalPartOfSpeechVerb = 8,
+    NSGrammaticalPartOfSpeechNoun = 9,
+    NSGrammaticalPartOfSpeechConjunction = 10,
+    NSGrammaticalPartOfSpeechNumeral = 11,
+    NSGrammaticalPartOfSpeechInterjection = 12,
+    NSGrammaticalPartOfSpeechPreposition = 13,
+    NSGrammaticalPartOfSpeechAbbreviation = 14,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSGrammaticalNumber {
-        NSGrammaticalNumberNotSet = 0,
-        NSGrammaticalNumberSingular = 1,
-        NSGrammaticalNumberZero = 2,
-        NSGrammaticalNumberPlural = 3,
-        NSGrammaticalNumberPluralTwo = 4,
-        NSGrammaticalNumberPluralFew = 5,
-        NSGrammaticalNumberPluralMany = 6,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSGrammaticalNumber {
+    NSGrammaticalNumberNotSet = 0,
+    NSGrammaticalNumberSingular = 1,
+    NSGrammaticalNumberZero = 2,
+    NSGrammaticalNumberPlural = 3,
+    NSGrammaticalNumberPluralTwo = 4,
+    NSGrammaticalNumberPluralFew = 5,
+    NSGrammaticalNumberPluralMany = 6,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMorphology")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSMorphology")]
-    pub struct NSMorphology;
-
-    #[cfg(feature = "Foundation_NSMorphology")]
-    unsafe impl ClassType for NSMorphology {
-        type Super = NSObject;
-    }
-);
+    pub type NSMorphology;
+}
 
 #[cfg(feature = "Foundation_NSMorphology")]
 unsafe impl NSCoding for NSMorphology {}
@@ -67,67 +64,72 @@ unsafe impl NSObjectProtocol for NSMorphology {}
 #[cfg(feature = "Foundation_NSMorphology")]
 unsafe impl NSSecureCoding for NSMorphology {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMorphology")]
-    unsafe impl NSMorphology {
-        #[method(grammaticalGender)]
-        pub unsafe fn grammaticalGender(&self) -> NSGrammaticalGender;
+    pub type NSMorphology;
 
-        #[method(setGrammaticalGender:)]
-        pub unsafe fn setGrammaticalGender(&self, grammatical_gender: NSGrammaticalGender);
+    #[objc2::method(sel = "grammaticalGender")]
+    pub unsafe fn grammaticalGender(&self) -> NSGrammaticalGender;
 
-        #[method(partOfSpeech)]
-        pub unsafe fn partOfSpeech(&self) -> NSGrammaticalPartOfSpeech;
+    #[objc2::method(sel = "setGrammaticalGender:")]
+    pub unsafe fn setGrammaticalGender(&self, grammatical_gender: NSGrammaticalGender);
 
-        #[method(setPartOfSpeech:)]
-        pub unsafe fn setPartOfSpeech(&self, part_of_speech: NSGrammaticalPartOfSpeech);
+    #[objc2::method(sel = "partOfSpeech")]
+    pub unsafe fn partOfSpeech(&self) -> NSGrammaticalPartOfSpeech;
 
-        #[method(number)]
-        pub unsafe fn number(&self) -> NSGrammaticalNumber;
+    #[objc2::method(sel = "setPartOfSpeech:")]
+    pub unsafe fn setPartOfSpeech(&self, part_of_speech: NSGrammaticalPartOfSpeech);
 
-        #[method(setNumber:)]
-        pub unsafe fn setNumber(&self, number: NSGrammaticalNumber);
-    }
-);
+    #[objc2::method(sel = "number")]
+    pub unsafe fn number(&self) -> NSGrammaticalNumber;
 
-extern_methods!(
-    /// NSCustomPronouns
+    #[objc2::method(sel = "setNumber:")]
+    pub unsafe fn setNumber(&self, number: NSGrammaticalNumber);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMorphology")]
-    unsafe impl NSMorphology {
-        #[cfg(all(
-            feature = "Foundation_NSMorphologyCustomPronoun",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other customPronounForLanguage:)]
-        pub unsafe fn customPronounForLanguage(
-            &self,
-            language: &NSString,
-        ) -> Option<Id<NSMorphologyCustomPronoun>>;
+    pub type NSMorphology;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSMorphologyCustomPronoun",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(setCustomPronoun:forLanguage:error:_)]
-        pub unsafe fn setCustomPronoun_forLanguage_error(
-            &self,
-            features: Option<&NSMorphologyCustomPronoun>,
-            language: &NSString,
-        ) -> Result<(), Id<NSError>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSMorphologyCustomPronoun",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "customPronounForLanguage:", managed = "Other")]
+    pub unsafe fn customPronounForLanguage(
+        &self,
+        language: &NSString,
+    ) -> Option<Id<NSMorphologyCustomPronoun>>;
 
-extern_class!(
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSMorphologyCustomPronoun",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "setCustomPronoun:forLanguage:error:", throws)]
+    pub unsafe fn setCustomPronoun_forLanguage_error(
+        &self,
+        features: Option<&NSMorphologyCustomPronoun>,
+        language: &NSString,
+    ) -> Result<(), Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMorphologyCustomPronoun")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSMorphologyCustomPronoun")]
-    pub struct NSMorphologyCustomPronoun;
-
-    #[cfg(feature = "Foundation_NSMorphologyCustomPronoun")]
-    unsafe impl ClassType for NSMorphologyCustomPronoun {
-        type Super = NSObject;
-    }
-);
+    pub type NSMorphologyCustomPronoun;
+}
 
 #[cfg(feature = "Foundation_NSMorphologyCustomPronoun")]
 unsafe impl NSCoding for NSMorphologyCustomPronoun {}
@@ -138,70 +140,72 @@ unsafe impl NSObjectProtocol for NSMorphologyCustomPronoun {}
 #[cfg(feature = "Foundation_NSMorphologyCustomPronoun")]
 unsafe impl NSSecureCoding for NSMorphologyCustomPronoun {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMorphologyCustomPronoun")]
-    unsafe impl NSMorphologyCustomPronoun {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(isSupportedForLanguage:)]
-        pub unsafe fn isSupportedForLanguage(language: &NSString) -> bool;
+    pub type NSMorphologyCustomPronoun;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other requiredKeysForLanguage:)]
-        pub unsafe fn requiredKeysForLanguage(language: &NSString) -> Id<NSArray<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "isSupportedForLanguage:")]
+    pub unsafe fn isSupportedForLanguage(language: &NSString) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subjectForm)]
-        pub unsafe fn subjectForm(&self) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "requiredKeysForLanguage:", managed = "Other")]
+    pub unsafe fn requiredKeysForLanguage(language: &NSString) -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSubjectForm:)]
-        pub unsafe fn setSubjectForm(&self, subject_form: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subjectForm", managed = "Other")]
+    pub unsafe fn subjectForm(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other objectForm)]
-        pub unsafe fn objectForm(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSubjectForm:")]
+    pub unsafe fn setSubjectForm(&self, subject_form: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setObjectForm:)]
-        pub unsafe fn setObjectForm(&self, object_form: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "objectForm", managed = "Other")]
+    pub unsafe fn objectForm(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other possessiveForm)]
-        pub unsafe fn possessiveForm(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setObjectForm:")]
+    pub unsafe fn setObjectForm(&self, object_form: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPossessiveForm:)]
-        pub unsafe fn setPossessiveForm(&self, possessive_form: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "possessiveForm", managed = "Other")]
+    pub unsafe fn possessiveForm(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other possessiveAdjectiveForm)]
-        pub unsafe fn possessiveAdjectiveForm(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPossessiveForm:")]
+    pub unsafe fn setPossessiveForm(&self, possessive_form: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPossessiveAdjectiveForm:)]
-        pub unsafe fn setPossessiveAdjectiveForm(
-            &self,
-            possessive_adjective_form: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "possessiveAdjectiveForm", managed = "Other")]
+    pub unsafe fn possessiveAdjectiveForm(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other reflexiveForm)]
-        pub unsafe fn reflexiveForm(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPossessiveAdjectiveForm:")]
+    pub unsafe fn setPossessiveAdjectiveForm(&self, possessive_adjective_form: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setReflexiveForm:)]
-        pub unsafe fn setReflexiveForm(&self, reflexive_form: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "reflexiveForm", managed = "Other")]
+    pub unsafe fn reflexiveForm(&self) -> Option<Id<NSString>>;
 
-extern_methods!(
-    /// NSMorphologyUserSettings
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setReflexiveForm:")]
+    pub unsafe fn setReflexiveForm(&self, reflexive_form: Option<&NSString>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMorphology")]
-    unsafe impl NSMorphology {
-        #[method(isUnspecified)]
-        pub unsafe fn isUnspecified(&self) -> bool;
+    pub type NSMorphology;
 
-        #[method_id(@__retain_semantics Other userMorphology)]
-        pub unsafe fn userMorphology() -> Id<NSMorphology>;
-    }
-);
+    #[objc2::method(sel = "isUnspecified")]
+    pub unsafe fn isUnspecified(&self) -> bool;
+
+    #[objc2::method(sel = "userMorphology", managed = "Other")]
+    pub unsafe fn userMorphology() -> Id<NSMorphology>;
+}

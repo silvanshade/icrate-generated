@@ -5,36 +5,39 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKFrameInfo")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKFrameInfo")]
-    pub struct WKFrameInfo;
-
-    #[cfg(feature = "WebKit_WKFrameInfo")]
-    unsafe impl ClassType for WKFrameInfo {
-        type Super = NSObject;
-    }
-);
+    pub type WKFrameInfo;
+}
 
 #[cfg(feature = "WebKit_WKFrameInfo")]
 unsafe impl NSObjectProtocol for WKFrameInfo {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKFrameInfo")]
-    unsafe impl WKFrameInfo {
-        #[method(isMainFrame)]
-        pub unsafe fn isMainFrame(&self) -> bool;
+    pub type WKFrameInfo;
 
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[method_id(@__retain_semantics Other request)]
-        pub unsafe fn request(&self) -> Id<NSURLRequest>;
+    #[objc2::method(sel = "isMainFrame")]
+    pub unsafe fn isMainFrame(&self) -> bool;
 
-        #[cfg(feature = "WebKit_WKSecurityOrigin")]
-        #[method_id(@__retain_semantics Other securityOrigin)]
-        pub unsafe fn securityOrigin(&self) -> Id<WKSecurityOrigin>;
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[objc2::method(sel = "request", managed = "Other")]
+    pub unsafe fn request(&self) -> Id<NSURLRequest>;
 
-        #[cfg(feature = "WebKit_WKWebView")]
-        #[method_id(@__retain_semantics Other webView)]
-        pub unsafe fn webView(&self) -> Option<Id<WKWebView>>;
-    }
-);
+    #[cfg(feature = "WebKit_WKSecurityOrigin")]
+    #[objc2::method(sel = "securityOrigin", managed = "Other")]
+    pub unsafe fn securityOrigin(&self) -> Id<WKSecurityOrigin>;
+
+    #[cfg(feature = "WebKit_WKWebView")]
+    #[objc2::method(sel = "webView", managed = "Other")]
+    pub unsafe fn webView(&self) -> Option<Id<WKWebView>>;
+}

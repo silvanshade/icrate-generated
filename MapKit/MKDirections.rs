@@ -11,43 +11,46 @@ pub type MKDirectionsHandler = *mut Block<(*mut MKDirectionsResponse, *mut NSErr
 
 pub type MKETAHandler = *mut Block<(*mut MKETAResponse, *mut NSError), ()>;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKDirections")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKDirections")]
-    pub struct MKDirections;
-
-    #[cfg(feature = "MapKit_MKDirections")]
-    unsafe impl ClassType for MKDirections {
-        type Super = NSObject;
-    }
-);
+    pub type MKDirections;
+}
 
 #[cfg(feature = "MapKit_MKDirections")]
 unsafe impl NSObjectProtocol for MKDirections {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKDirections")]
-    unsafe impl MKDirections {
-        #[cfg(feature = "MapKit_MKDirectionsRequest")]
-        #[method_id(@__retain_semantics Init initWithRequest:)]
-        pub unsafe fn initWithRequest(
-            this: Option<Allocated<Self>>,
-            request: &MKDirectionsRequest,
-        ) -> Id<Self>;
+    pub type MKDirections;
 
-        #[method(calculateDirectionsWithCompletionHandler:)]
-        pub unsafe fn calculateDirectionsWithCompletionHandler(
-            &self,
-            completion_handler: MKDirectionsHandler,
-        );
+    #[cfg(feature = "MapKit_MKDirectionsRequest")]
+    #[objc2::method(sel = "initWithRequest:", managed = "Init")]
+    pub unsafe fn initWithRequest(
+        this: Option<Allocated<Self>>,
+        request: &MKDirectionsRequest,
+    ) -> Id<Self>;
 
-        #[method(calculateETAWithCompletionHandler:)]
-        pub unsafe fn calculateETAWithCompletionHandler(&self, completion_handler: MKETAHandler);
+    #[objc2::method(sel = "calculateDirectionsWithCompletionHandler:")]
+    pub unsafe fn calculateDirectionsWithCompletionHandler(
+        &self,
+        completion_handler: MKDirectionsHandler,
+    );
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
+    #[objc2::method(sel = "calculateETAWithCompletionHandler:")]
+    pub unsafe fn calculateETAWithCompletionHandler(&self, completion_handler: MKETAHandler);
 
-        #[method(isCalculating)]
-        pub unsafe fn isCalculating(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
+
+    #[objc2::method(sel = "isCalculating")]
+    pub unsafe fn isCalculating(&self) -> bool;
+}

@@ -5,91 +5,95 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CKOperation,
+    unsafe inherits = [
+        NSOperation,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKFetchShareMetadataOperation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKFetchShareMetadataOperation")]
-    pub struct CKFetchShareMetadataOperation;
-
-    #[cfg(feature = "CloudKit_CKFetchShareMetadataOperation")]
-    unsafe impl ClassType for CKFetchShareMetadataOperation {
-        #[inherits(NSOperation, NSObject)]
-        type Super = CKOperation;
-    }
-);
+    pub type CKFetchShareMetadataOperation;
+}
 
 #[cfg(feature = "CloudKit_CKFetchShareMetadataOperation")]
 unsafe impl NSObjectProtocol for CKFetchShareMetadataOperation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKFetchShareMetadataOperation")]
-    unsafe impl CKFetchShareMetadataOperation {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKFetchShareMetadataOperation;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Init initWithShareURLs:)]
-        pub unsafe fn initWithShareURLs(
-            this: Option<Allocated<Self>>,
-            share_ur_ls: &NSArray<NSURL>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other shareURLs)]
-        pub unsafe fn shareURLs(&self) -> Option<Id<NSArray<NSURL>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "initWithShareURLs:", managed = "Init")]
+    pub unsafe fn initWithShareURLs(
+        this: Option<Allocated<Self>>,
+        share_ur_ls: &NSArray<NSURL>,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
-        #[method(setShareURLs:)]
-        pub unsafe fn setShareURLs(&self, share_ur_ls: Option<&NSArray<NSURL>>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "shareURLs", managed = "Other")]
+    pub unsafe fn shareURLs(&self) -> Option<Id<NSArray<NSURL>>>;
 
-        #[method(shouldFetchRootRecord)]
-        pub unsafe fn shouldFetchRootRecord(&self) -> bool;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "setShareURLs:")]
+    pub unsafe fn setShareURLs(&self, share_ur_ls: Option<&NSArray<NSURL>>);
 
-        #[method(setShouldFetchRootRecord:)]
-        pub unsafe fn setShouldFetchRootRecord(&self, should_fetch_root_record: bool);
+    #[objc2::method(sel = "shouldFetchRootRecord")]
+    pub unsafe fn shouldFetchRootRecord(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other rootRecordDesiredKeys)]
-        pub unsafe fn rootRecordDesiredKeys(&self) -> Option<Id<NSArray<CKRecordFieldKey>>>;
+    #[objc2::method(sel = "setShouldFetchRootRecord:")]
+    pub unsafe fn setShouldFetchRootRecord(&self, should_fetch_root_record: bool);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setRootRecordDesiredKeys:)]
-        pub unsafe fn setRootRecordDesiredKeys(
-            &self,
-            root_record_desired_keys: Option<&NSArray<CKRecordFieldKey>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "rootRecordDesiredKeys", managed = "Other")]
+    pub unsafe fn rootRecordDesiredKeys(&self) -> Option<Id<NSArray<CKRecordFieldKey>>>;
 
-        #[cfg(all(
-            feature = "CloudKit_CKShareMetadata",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(perShareMetadataBlock)]
-        pub unsafe fn perShareMetadataBlock(
-            &self,
-        ) -> *mut Block<(NonNull<NSURL>, *mut CKShareMetadata, *mut NSError), ()>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setRootRecordDesiredKeys:")]
+    pub unsafe fn setRootRecordDesiredKeys(
+        &self,
+        root_record_desired_keys: Option<&NSArray<CKRecordFieldKey>>,
+    );
 
-        #[cfg(all(
-            feature = "CloudKit_CKShareMetadata",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(setPerShareMetadataBlock:)]
-        pub unsafe fn setPerShareMetadataBlock(
-            &self,
-            per_share_metadata_block: Option<
-                &Block<(NonNull<NSURL>, *mut CKShareMetadata, *mut NSError), ()>,
-            >,
-        );
+    #[cfg(all(
+        feature = "CloudKit_CKShareMetadata",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "perShareMetadataBlock")]
+    pub unsafe fn perShareMetadataBlock(
+        &self,
+    ) -> *mut Block<(NonNull<NSURL>, *mut CKShareMetadata, *mut NSError), ()>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(fetchShareMetadataCompletionBlock)]
-        pub unsafe fn fetchShareMetadataCompletionBlock(&self) -> *mut Block<(*mut NSError,), ()>;
+    #[cfg(all(
+        feature = "CloudKit_CKShareMetadata",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "setPerShareMetadataBlock:")]
+    pub unsafe fn setPerShareMetadataBlock(
+        &self,
+        per_share_metadata_block: Option<
+            &Block<(NonNull<NSURL>, *mut CKShareMetadata, *mut NSError), ()>,
+        >,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(setFetchShareMetadataCompletionBlock:)]
-        pub unsafe fn setFetchShareMetadataCompletionBlock(
-            &self,
-            fetch_share_metadata_completion_block: Option<&Block<(*mut NSError,), ()>>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "fetchShareMetadataCompletionBlock")]
+    pub unsafe fn fetchShareMetadataCompletionBlock(&self) -> *mut Block<(*mut NSError,), ()>;
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "setFetchShareMetadataCompletionBlock:")]
+    pub unsafe fn setFetchShareMetadataCompletionBlock(
+        &self,
+        fetch_share_metadata_completion_block: Option<&Block<(*mut NSError,), ()>>,
+    );
+}

@@ -7,36 +7,39 @@ use crate::EventKit::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "EventKit_EKObject")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "EventKit_EKObject")]
-    pub struct EKObject;
-
-    #[cfg(feature = "EventKit_EKObject")]
-    unsafe impl ClassType for EKObject {
-        type Super = NSObject;
-    }
-);
+    pub type EKObject;
+}
 
 #[cfg(feature = "EventKit_EKObject")]
 unsafe impl NSObjectProtocol for EKObject {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "EventKit_EKObject")]
-    unsafe impl EKObject {
-        #[method(hasChanges)]
-        pub unsafe fn hasChanges(&self) -> bool;
+    pub type EKObject;
 
-        #[method(isNew)]
-        pub unsafe fn isNew(&self) -> bool;
+    #[objc2::method(sel = "hasChanges")]
+    pub unsafe fn hasChanges(&self) -> bool;
 
-        #[method(reset)]
-        pub unsafe fn reset(&self);
+    #[objc2::method(sel = "isNew")]
+    pub unsafe fn isNew(&self) -> bool;
 
-        #[method(rollback)]
-        pub unsafe fn rollback(&self);
+    #[objc2::method(sel = "reset")]
+    pub unsafe fn reset(&self);
 
-        #[method(refresh)]
-        pub unsafe fn refresh(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "rollback")]
+    pub unsafe fn rollback(&self);
+
+    #[objc2::method(sel = "refresh")]
+    pub unsafe fn refresh(&self) -> bool;
+}

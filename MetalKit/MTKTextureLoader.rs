@@ -61,204 +61,227 @@ pub type MTKTextureLoaderArrayCallback = *mut Block<
     (),
 >;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetalKit_MTKTextureLoader")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetalKit_MTKTextureLoader")]
-    pub struct MTKTextureLoader;
-
-    #[cfg(feature = "MetalKit_MTKTextureLoader")]
-    unsafe impl ClassType for MTKTextureLoader {
-        type Super = NSObject;
-    }
-);
+    pub type MTKTextureLoader;
+}
 
 #[cfg(feature = "MetalKit_MTKTextureLoader")]
 unsafe impl NSObjectProtocol for MTKTextureLoader {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetalKit_MTKTextureLoader")]
-    unsafe impl MTKTextureLoader {
-        #[method_id(@__retain_semantics Other device)]
-        pub unsafe fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
+    pub type MTKTextureLoader;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "device", managed = "Other")]
+    pub unsafe fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
 
-        #[method_id(@__retain_semantics Init initWithDevice:)]
-        pub unsafe fn initWithDevice(
-            this: Option<Allocated<Self>>,
-            device: &ProtocolObject<dyn MTLDevice>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSURL"))]
-        #[method(newTextureWithContentsOfURL:options:completionHandler:)]
-        pub unsafe fn newTextureWithContentsOfURL_options_completionHandler(
-            &self,
-            url: &NSURL,
-            options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
-            completion_handler: MTKTextureLoaderCallback,
-        );
+    #[objc2::method(sel = "initWithDevice:", managed = "Init")]
+    pub unsafe fn initWithDevice(
+        this: Option<Allocated<Self>>,
+        device: &ProtocolObject<dyn MTLDevice>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSBundle",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(newTextureWithName:scaleFactor:bundle:options:completionHandler:)]
-        pub unsafe fn newTextureWithName_scaleFactor_bundle_options_completionHandler(
-            &self,
-            name: &NSString,
-            scale_factor: CGFloat,
-            bundle: Option<&NSBundle>,
-            options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
-            completion_handler: MTKTextureLoaderCallback,
-        );
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "newTextureWithContentsOfURL:options:completionHandler:")]
+    pub unsafe fn newTextureWithContentsOfURL_options_completionHandler(
+        &self,
+        url: &NSURL,
+        options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
+        completion_handler: MTKTextureLoaderCallback,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSBundle",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(newTextureWithName:scaleFactor:displayGamut:bundle:options:completionHandler:)]
-        pub unsafe fn newTextureWithName_scaleFactor_displayGamut_bundle_options_completionHandler(
-            &self,
-            name: &NSString,
-            scale_factor: CGFloat,
-            display_gamut: NSDisplayGamut,
-            bundle: Option<&NSBundle>,
-            options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
-            completion_handler: MTKTextureLoaderCallback,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSBundle",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "newTextureWithName:scaleFactor:bundle:options:completionHandler:")]
+    pub unsafe fn newTextureWithName_scaleFactor_bundle_options_completionHandler(
+        &self,
+        name: &NSString,
+        scale_factor: CGFloat,
+        bundle: Option<&NSBundle>,
+        options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
+        completion_handler: MTKTextureLoaderCallback,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(newTexturesWithContentsOfURLs:options:completionHandler:)]
-        pub unsafe fn newTexturesWithContentsOfURLs_options_completionHandler(
-            &self,
-            ur_ls: &NSArray<NSURL>,
-            options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
-            completion_handler: MTKTextureLoaderArrayCallback,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSBundle",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "newTextureWithName:scaleFactor:displayGamut:bundle:options:completionHandler:"
+    )]
+    pub unsafe fn newTextureWithName_scaleFactor_displayGamut_bundle_options_completionHandler(
+        &self,
+        name: &NSString,
+        scale_factor: CGFloat,
+        display_gamut: NSDisplayGamut,
+        bundle: Option<&NSBundle>,
+        options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
+        completion_handler: MTKTextureLoaderCallback,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSBundle",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(newTexturesWithNames:scaleFactor:bundle:options:completionHandler:)]
-        pub unsafe fn newTexturesWithNames_scaleFactor_bundle_options_completionHandler(
-            &self,
-            names: &NSArray<NSString>,
-            scale_factor: CGFloat,
-            bundle: Option<&NSBundle>,
-            options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
-            completion_handler: MTKTextureLoaderArrayCallback,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "newTexturesWithContentsOfURLs:options:completionHandler:")]
+    pub unsafe fn newTexturesWithContentsOfURLs_options_completionHandler(
+        &self,
+        ur_ls: &NSArray<NSURL>,
+        options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
+        completion_handler: MTKTextureLoaderArrayCallback,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSBundle",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(newTexturesWithNames:scaleFactor:displayGamut:bundle:options:completionHandler:)]
-        pub unsafe fn newTexturesWithNames_scaleFactor_displayGamut_bundle_options_completionHandler(
-            &self,
-            names: &NSArray<NSString>,
-            scale_factor: CGFloat,
-            display_gamut: NSDisplayGamut,
-            bundle: Option<&NSBundle>,
-            options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
-            completion_handler: MTKTextureLoaderArrayCallback,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSBundle",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "newTexturesWithNames:scaleFactor:bundle:options:completionHandler:")]
+    pub unsafe fn newTexturesWithNames_scaleFactor_bundle_options_completionHandler(
+        &self,
+        names: &NSArray<NSString>,
+        scale_factor: CGFloat,
+        bundle: Option<&NSBundle>,
+        options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
+        completion_handler: MTKTextureLoaderArrayCallback,
+    );
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSDictionary"))]
-        #[method(newTextureWithData:options:completionHandler:)]
-        pub unsafe fn newTextureWithData_options_completionHandler(
-            &self,
-            data: &NSData,
-            options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
-            completion_handler: MTKTextureLoaderCallback,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSBundle",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "newTexturesWithNames:scaleFactor:displayGamut:bundle:options:completionHandler:"
+    )]
+    pub unsafe fn newTexturesWithNames_scaleFactor_displayGamut_bundle_options_completionHandler(
+        &self,
+        names: &NSArray<NSString>,
+        scale_factor: CGFloat,
+        display_gamut: NSDisplayGamut,
+        bundle: Option<&NSBundle>,
+        options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
+        completion_handler: MTKTextureLoaderArrayCallback,
+    );
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "ModelIO_MDLTexture"))]
-        #[method(newTextureWithMDLTexture:options:completionHandler:)]
-        pub unsafe fn newTextureWithMDLTexture_options_completionHandler(
-            &self,
-            texture: &MDLTexture,
-            options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
-            completion_handler: MTKTextureLoaderCallback,
-        );
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSDictionary"))]
+    #[objc2::method(sel = "newTextureWithData:options:completionHandler:")]
+    pub unsafe fn newTextureWithData_options_completionHandler(
+        &self,
+        data: &NSData,
+        options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
+        completion_handler: MTKTextureLoaderCallback,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics New newTextureWithContentsOfURL:options:error:_)]
-        pub unsafe fn newTextureWithContentsOfURL_options_error(
-            &self,
-            url: &NSURL,
-            options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
-        ) -> Result<Id<ProtocolObject<dyn MTLTexture>>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "ModelIO_MDLTexture"))]
+    #[objc2::method(sel = "newTextureWithMDLTexture:options:completionHandler:")]
+    pub unsafe fn newTextureWithMDLTexture_options_completionHandler(
+        &self,
+        texture: &MDLTexture,
+        options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
+        completion_handler: MTKTextureLoaderCallback,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError"
-        ))]
-        #[method_id(@__retain_semantics New newTextureWithData:options:error:_)]
-        pub unsafe fn newTextureWithData_options_error(
-            &self,
-            data: &NSData,
-            options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
-        ) -> Result<Id<ProtocolObject<dyn MTLTexture>>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "newTextureWithContentsOfURL:options:error:",
+        managed = "New",
+        throws
+    )]
+    pub unsafe fn newTextureWithContentsOfURL_options_error(
+        &self,
+        url: &NSURL,
+        options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
+    ) -> Result<Id<ProtocolObject<dyn MTLTexture>>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "ModelIO_MDLTexture"
-        ))]
-        #[method_id(@__retain_semantics New newTextureWithMDLTexture:options:error:_)]
-        pub unsafe fn newTextureWithMDLTexture_options_error(
-            &self,
-            texture: &MDLTexture,
-            options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
-        ) -> Result<Id<ProtocolObject<dyn MTLTexture>>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "newTextureWithData:options:error:", managed = "New", throws)]
+    pub unsafe fn newTextureWithData_options_error(
+        &self,
+        data: &NSData,
+        options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
+    ) -> Result<Id<ProtocolObject<dyn MTLTexture>>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSBundle",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics New newTextureWithName:scaleFactor:bundle:options:error:_)]
-        pub unsafe fn newTextureWithName_scaleFactor_bundle_options_error(
-            &self,
-            name: &NSString,
-            scale_factor: CGFloat,
-            bundle: Option<&NSBundle>,
-            options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
-        ) -> Result<Id<ProtocolObject<dyn MTLTexture>>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "ModelIO_MDLTexture"
+    ))]
+    #[objc2::method(
+        sel = "newTextureWithMDLTexture:options:error:",
+        managed = "New",
+        throws
+    )]
+    pub unsafe fn newTextureWithMDLTexture_options_error(
+        &self,
+        texture: &MDLTexture,
+        options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
+    ) -> Result<Id<ProtocolObject<dyn MTLTexture>>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSBundle",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics New newTextureWithName:scaleFactor:displayGamut:bundle:options:error:_)]
-        pub unsafe fn newTextureWithName_scaleFactor_displayGamut_bundle_options_error(
-            &self,
-            name: &NSString,
-            scale_factor: CGFloat,
-            display_gamut: NSDisplayGamut,
-            bundle: Option<&NSBundle>,
-            options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
-        ) -> Result<Id<ProtocolObject<dyn MTLTexture>>, Id<NSError>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSBundle",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "newTextureWithName:scaleFactor:bundle:options:error:",
+        managed = "New",
+        throws
+    )]
+    pub unsafe fn newTextureWithName_scaleFactor_bundle_options_error(
+        &self,
+        name: &NSString,
+        scale_factor: CGFloat,
+        bundle: Option<&NSBundle>,
+        options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
+    ) -> Result<Id<ProtocolObject<dyn MTLTexture>>, Id<NSError>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSBundle",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "newTextureWithName:scaleFactor:displayGamut:bundle:options:error:",
+        managed = "New",
+        throws
+    )]
+    pub unsafe fn newTextureWithName_scaleFactor_displayGamut_bundle_options_error(
+        &self,
+        name: &NSString,
+        scale_factor: CGFloat,
+        display_gamut: NSDisplayGamut,
+        bundle: Option<&NSBundle>,
+        options: Option<&NSDictionary<MTKTextureLoaderOption, Object>>,
+    ) -> Result<Id<ProtocolObject<dyn MTLTexture>>, Id<NSError>>;
+}

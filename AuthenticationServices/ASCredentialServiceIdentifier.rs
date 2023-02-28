@@ -4,24 +4,23 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum ASCredentialServiceIdentifierType {
-        ASCredentialServiceIdentifierTypeDomain = 0,
-        ASCredentialServiceIdentifierTypeURL = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum ASCredentialServiceIdentifierType {
+    ASCredentialServiceIdentifierTypeDomain = 0,
+    ASCredentialServiceIdentifierTypeURL = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASCredentialServiceIdentifier")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASCredentialServiceIdentifier")]
-    pub struct ASCredentialServiceIdentifier;
-
-    #[cfg(feature = "AuthenticationServices_ASCredentialServiceIdentifier")]
-    unsafe impl ClassType for ASCredentialServiceIdentifier {
-        type Super = NSObject;
-    }
-);
+    pub type ASCredentialServiceIdentifier;
+}
 
 #[cfg(feature = "AuthenticationServices_ASCredentialServiceIdentifier")]
 unsafe impl NSCoding for ASCredentialServiceIdentifier {}
@@ -32,22 +31,25 @@ unsafe impl NSObjectProtocol for ASCredentialServiceIdentifier {}
 #[cfg(feature = "AuthenticationServices_ASCredentialServiceIdentifier")]
 unsafe impl NSSecureCoding for ASCredentialServiceIdentifier {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASCredentialServiceIdentifier")]
-    unsafe impl ASCredentialServiceIdentifier {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithIdentifier:type:)]
-        pub unsafe fn initWithIdentifier_type(
-            this: Option<Allocated<Self>>,
-            identifier: &NSString,
-            r#type: ASCredentialServiceIdentifierType,
-        ) -> Id<Self>;
+    pub type ASCredentialServiceIdentifier;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithIdentifier:type:", managed = "Init")]
+    pub unsafe fn initWithIdentifier_type(
+        this: Option<Allocated<Self>>,
+        identifier: &NSString,
+        r#type: ASCredentialServiceIdentifierType,
+    ) -> Id<Self>;
 
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> ASCredentialServiceIdentifierType;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
+
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> ASCredentialServiceIdentifierType;
+}

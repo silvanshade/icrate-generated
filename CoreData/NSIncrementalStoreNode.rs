@@ -4,56 +4,59 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSIncrementalStoreNode")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSIncrementalStoreNode")]
-    pub struct NSIncrementalStoreNode;
-
-    #[cfg(feature = "CoreData_NSIncrementalStoreNode")]
-    unsafe impl ClassType for NSIncrementalStoreNode {
-        type Super = NSObject;
-    }
-);
+    pub type NSIncrementalStoreNode;
+}
 
 #[cfg(feature = "CoreData_NSIncrementalStoreNode")]
 unsafe impl NSObjectProtocol for NSIncrementalStoreNode {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSIncrementalStoreNode")]
-    unsafe impl NSIncrementalStoreNode {
-        #[cfg(all(
-            feature = "CoreData_NSManagedObjectID",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Init initWithObjectID:withValues:version:)]
-        pub unsafe fn initWithObjectID_withValues_version(
-            this: Option<Allocated<Self>>,
-            object_id: &NSManagedObjectID,
-            values: &NSDictionary<NSString, Object>,
-            version: u64,
-        ) -> Id<Self>;
+    pub type NSIncrementalStoreNode;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(updateWithValues:version:)]
-        pub unsafe fn updateWithValues_version(
-            &self,
-            values: &NSDictionary<NSString, Object>,
-            version: u64,
-        );
+    #[cfg(all(
+        feature = "CoreData_NSManagedObjectID",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "initWithObjectID:withValues:version:", managed = "Init")]
+    pub unsafe fn initWithObjectID_withValues_version(
+        this: Option<Allocated<Self>>,
+        object_id: &NSManagedObjectID,
+        values: &NSDictionary<NSString, Object>,
+        version: u64,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "CoreData_NSManagedObjectID")]
-        #[method_id(@__retain_semantics Other objectID)]
-        pub unsafe fn objectID(&self) -> Id<NSManagedObjectID>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "updateWithValues:version:")]
+    pub unsafe fn updateWithValues_version(
+        &self,
+        values: &NSDictionary<NSString, Object>,
+        version: u64,
+    );
 
-        #[method(version)]
-        pub unsafe fn version(&self) -> u64;
+    #[cfg(feature = "CoreData_NSManagedObjectID")]
+    #[objc2::method(sel = "objectID", managed = "Other")]
+    pub unsafe fn objectID(&self) -> Id<NSManagedObjectID>;
 
-        #[cfg(feature = "CoreData_NSPropertyDescription")]
-        #[method_id(@__retain_semantics Other valueForPropertyDescription:)]
-        pub unsafe fn valueForPropertyDescription(
-            &self,
-            prop: &NSPropertyDescription,
-        ) -> Option<Id<Object>>;
-    }
-);
+    #[objc2::method(sel = "version")]
+    pub unsafe fn version(&self) -> u64;
+
+    #[cfg(feature = "CoreData_NSPropertyDescription")]
+    #[objc2::method(sel = "valueForPropertyDescription:", managed = "Other")]
+    pub unsafe fn valueForPropertyDescription(
+        &self,
+        prop: &NSPropertyDescription,
+    ) -> Option<Id<Object>>;
+}

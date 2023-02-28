@@ -3,107 +3,115 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSXMLDTDNodeKind {
-        NSXMLEntityGeneralKind = 1,
-        NSXMLEntityParsedKind = 2,
-        NSXMLEntityUnparsedKind = 3,
-        NSXMLEntityParameterKind = 4,
-        NSXMLEntityPredefined = 5,
-        NSXMLAttributeCDATAKind = 6,
-        NSXMLAttributeIDKind = 7,
-        NSXMLAttributeIDRefKind = 8,
-        NSXMLAttributeIDRefsKind = 9,
-        NSXMLAttributeEntityKind = 10,
-        NSXMLAttributeEntitiesKind = 11,
-        NSXMLAttributeNMTokenKind = 12,
-        NSXMLAttributeNMTokensKind = 13,
-        NSXMLAttributeEnumerationKind = 14,
-        NSXMLAttributeNotationKind = 15,
-        NSXMLElementDeclarationUndefinedKind = 16,
-        NSXMLElementDeclarationEmptyKind = 17,
-        NSXMLElementDeclarationAnyKind = 18,
-        NSXMLElementDeclarationMixedKind = 19,
-        NSXMLElementDeclarationElementKind = 20,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSXMLDTDNodeKind {
+    NSXMLEntityGeneralKind = 1,
+    NSXMLEntityParsedKind = 2,
+    NSXMLEntityUnparsedKind = 3,
+    NSXMLEntityParameterKind = 4,
+    NSXMLEntityPredefined = 5,
+    NSXMLAttributeCDATAKind = 6,
+    NSXMLAttributeIDKind = 7,
+    NSXMLAttributeIDRefKind = 8,
+    NSXMLAttributeIDRefsKind = 9,
+    NSXMLAttributeEntityKind = 10,
+    NSXMLAttributeEntitiesKind = 11,
+    NSXMLAttributeNMTokenKind = 12,
+    NSXMLAttributeNMTokensKind = 13,
+    NSXMLAttributeEnumerationKind = 14,
+    NSXMLAttributeNotationKind = 15,
+    NSXMLElementDeclarationUndefinedKind = 16,
+    NSXMLElementDeclarationEmptyKind = 17,
+    NSXMLElementDeclarationAnyKind = 18,
+    NSXMLElementDeclarationMixedKind = 19,
+    NSXMLElementDeclarationElementKind = 20,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSXMLNode,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSXMLDTDNode")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSXMLDTDNode")]
-    pub struct NSXMLDTDNode;
-
-    #[cfg(feature = "Foundation_NSXMLDTDNode")]
-    unsafe impl ClassType for NSXMLDTDNode {
-        #[inherits(NSObject)]
-        type Super = NSXMLNode;
-    }
-);
+    pub type NSXMLDTDNode;
+}
 
 #[cfg(feature = "Foundation_NSXMLDTDNode")]
 unsafe impl NSObjectProtocol for NSXMLDTDNode {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSXMLDTDNode")]
-    unsafe impl NSXMLDTDNode {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithXMLString:)]
-        pub unsafe fn initWithXMLString(
-            this: Option<Allocated<Self>>,
-            string: &NSString,
-        ) -> Option<Id<Self>>;
+    pub type NSXMLDTDNode;
 
-        #[method_id(@__retain_semantics Init initWithKind:options:)]
-        pub unsafe fn initWithKind_options(
-            this: Option<Allocated<Self>>,
-            kind: NSXMLNodeKind,
-            options: NSXMLNodeOptions,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithXMLString:", managed = "Init")]
+    pub unsafe fn initWithXMLString(
+        this: Option<Allocated<Self>>,
+        string: &NSString,
+    ) -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "initWithKind:options:", managed = "Init")]
+    pub unsafe fn initWithKind_options(
+        this: Option<Allocated<Self>>,
+        kind: NSXMLNodeKind,
+        options: NSXMLNodeOptions,
+    ) -> Id<Self>;
 
-        #[method(DTDKind)]
-        pub unsafe fn DTDKind(&self) -> NSXMLDTDNodeKind;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(setDTDKind:)]
-        pub unsafe fn setDTDKind(&self, dtd_kind: NSXMLDTDNodeKind);
+    #[objc2::method(sel = "DTDKind")]
+    pub unsafe fn DTDKind(&self) -> NSXMLDTDNodeKind;
 
-        #[method(isExternal)]
-        pub unsafe fn isExternal(&self) -> bool;
+    #[objc2::method(sel = "setDTDKind:")]
+    pub unsafe fn setDTDKind(&self, dtd_kind: NSXMLDTDNodeKind);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other publicID)]
-        pub unsafe fn publicID(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "isExternal")]
+    pub unsafe fn isExternal(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPublicID:)]
-        pub unsafe fn setPublicID(&self, public_id: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "publicID", managed = "Other")]
+    pub unsafe fn publicID(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other systemID)]
-        pub unsafe fn systemID(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPublicID:")]
+    pub unsafe fn setPublicID(&self, public_id: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSystemID:)]
-        pub unsafe fn setSystemID(&self, system_id: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "systemID", managed = "Other")]
+    pub unsafe fn systemID(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other notationName)]
-        pub unsafe fn notationName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSystemID:")]
+    pub unsafe fn setSystemID(&self, system_id: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setNotationName:)]
-        pub unsafe fn setNotationName(&self, notation_name: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "notationName", managed = "Other")]
+    pub unsafe fn notationName(&self) -> Option<Id<NSString>>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSXMLNode`
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setNotationName:")]
+    pub unsafe fn setNotationName(&self, notation_name: Option<&NSString>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSXMLNode`
     #[cfg(feature = "Foundation_NSXMLDTDNode")]
-    unsafe impl NSXMLDTDNode {
-        #[method_id(@__retain_semantics Init initWithKind:)]
-        pub unsafe fn initWithKind(this: Option<Allocated<Self>>, kind: NSXMLNodeKind) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSXMLDTDNode")]
+    pub type NSXMLDTDNode;
+
+    #[objc2::method(sel = "initWithKind:", managed = "Init")]
+    pub unsafe fn initWithKind(this: Option<Allocated<Self>>, kind: NSXMLNodeKind) -> Id<Self>;
+}

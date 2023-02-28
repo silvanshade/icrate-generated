@@ -5,133 +5,129 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPAdTimeRange")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPAdTimeRange")]
-    pub struct MPAdTimeRange;
-
-    #[cfg(feature = "MediaPlayer_MPAdTimeRange")]
-    unsafe impl ClassType for MPAdTimeRange {
-        type Super = NSObject;
-    }
-);
+    pub type MPAdTimeRange;
+}
 
 #[cfg(feature = "MediaPlayer_MPAdTimeRange")]
 unsafe impl NSObjectProtocol for MPAdTimeRange {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPAdTimeRange")]
-    unsafe impl MPAdTimeRange {
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    pub type MPAdTimeRange;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-extern_class!(
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPNowPlayingSession")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPNowPlayingSession")]
-    pub struct MPNowPlayingSession;
-
-    #[cfg(feature = "MediaPlayer_MPNowPlayingSession")]
-    unsafe impl ClassType for MPNowPlayingSession {
-        type Super = NSObject;
-    }
-);
+    pub type MPNowPlayingSession;
+}
 
 #[cfg(feature = "MediaPlayer_MPNowPlayingSession")]
 unsafe impl NSObjectProtocol for MPNowPlayingSession {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPNowPlayingSession")]
-    unsafe impl MPNowPlayingSession {
-        #[cfg(all(feature = "AVFoundation_AVPlayer", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Init initWithPlayers:)]
-        pub unsafe fn initWithPlayers(
-            this: Option<Allocated<Self>>,
-            players: &NSArray<AVPlayer>,
-        ) -> Id<Self>;
+    pub type MPNowPlayingSession;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(all(feature = "AVFoundation_AVPlayer", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "initWithPlayers:", managed = "Init")]
+    pub unsafe fn initWithPlayers(
+        this: Option<Allocated<Self>>,
+        players: &NSArray<AVPlayer>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(all(feature = "AVFoundation_AVPlayer", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other players)]
-        pub unsafe fn players(&self) -> Id<NSArray<AVPlayer>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn MPNowPlayingSessionDelegate>>>;
+    #[cfg(all(feature = "AVFoundation_AVPlayer", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "players", managed = "Other")]
+    pub unsafe fn players(&self) -> Id<NSArray<AVPlayer>>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn MPNowPlayingSessionDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn MPNowPlayingSessionDelegate>>>;
 
-        #[method(automaticallyPublishesNowPlayingInfo)]
-        pub unsafe fn automaticallyPublishesNowPlayingInfo(&self) -> bool;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn MPNowPlayingSessionDelegate>>,
+    );
 
-        #[method(setAutomaticallyPublishesNowPlayingInfo:)]
-        pub unsafe fn setAutomaticallyPublishesNowPlayingInfo(
-            &self,
-            automatically_publishes_now_playing_info: bool,
-        );
+    #[objc2::method(sel = "automaticallyPublishesNowPlayingInfo")]
+    pub unsafe fn automaticallyPublishesNowPlayingInfo(&self) -> bool;
 
-        #[cfg(feature = "MediaPlayer_MPNowPlayingInfoCenter")]
-        #[method_id(@__retain_semantics Other nowPlayingInfoCenter)]
-        pub unsafe fn nowPlayingInfoCenter(&self) -> Id<MPNowPlayingInfoCenter>;
+    #[objc2::method(sel = "setAutomaticallyPublishesNowPlayingInfo:")]
+    pub unsafe fn setAutomaticallyPublishesNowPlayingInfo(
+        &self,
+        automatically_publishes_now_playing_info: bool,
+    );
 
-        #[cfg(feature = "MediaPlayer_MPRemoteCommandCenter")]
-        #[method_id(@__retain_semantics Other remoteCommandCenter)]
-        pub unsafe fn remoteCommandCenter(&self) -> Id<MPRemoteCommandCenter>;
+    #[cfg(feature = "MediaPlayer_MPNowPlayingInfoCenter")]
+    #[objc2::method(sel = "nowPlayingInfoCenter", managed = "Other")]
+    pub unsafe fn nowPlayingInfoCenter(&self) -> Id<MPNowPlayingInfoCenter>;
 
-        #[method(canBecomeActive)]
-        pub unsafe fn canBecomeActive(&self) -> bool;
+    #[cfg(feature = "MediaPlayer_MPRemoteCommandCenter")]
+    #[objc2::method(sel = "remoteCommandCenter", managed = "Other")]
+    pub unsafe fn remoteCommandCenter(&self) -> Id<MPRemoteCommandCenter>;
 
-        #[method(isActive)]
-        pub unsafe fn isActive(&self) -> bool;
+    #[objc2::method(sel = "canBecomeActive")]
+    pub unsafe fn canBecomeActive(&self) -> bool;
 
-        #[method(becomeActiveIfPossibleWithCompletion:)]
-        pub unsafe fn becomeActiveIfPossibleWithCompletion(
-            &self,
-            completion: Option<&Block<(Bool,), ()>>,
-        );
+    #[objc2::method(sel = "isActive")]
+    pub unsafe fn isActive(&self) -> bool;
 
-        #[cfg(feature = "AVFoundation_AVPlayer")]
-        #[method(addPlayer:)]
-        pub unsafe fn addPlayer(&self, player: &AVPlayer);
+    #[objc2::method(sel = "becomeActiveIfPossibleWithCompletion:")]
+    pub unsafe fn becomeActiveIfPossibleWithCompletion(
+        &self,
+        completion: Option<&Block<(Bool,), ()>>,
+    );
 
-        #[cfg(feature = "AVFoundation_AVPlayer")]
-        #[method(removePlayer:)]
-        pub unsafe fn removePlayer(&self, player: &AVPlayer);
-    }
-);
+    #[cfg(feature = "AVFoundation_AVPlayer")]
+    #[objc2::method(sel = "addPlayer:")]
+    pub unsafe fn addPlayer(&self, player: &AVPlayer);
 
-extern_protocol!(
-    pub unsafe trait MPNowPlayingSessionDelegate: NSObjectProtocol {
-        #[cfg(feature = "MediaPlayer_MPNowPlayingSession")]
-        #[optional]
-        #[method(nowPlayingSessionDidChangeActive:)]
-        unsafe fn nowPlayingSessionDidChangeActive(
-            &self,
-            now_playing_session: &MPNowPlayingSession,
-        );
+    #[cfg(feature = "AVFoundation_AVPlayer")]
+    #[objc2::method(sel = "removePlayer:")]
+    pub unsafe fn removePlayer(&self, player: &AVPlayer);
+}
 
-        #[cfg(feature = "MediaPlayer_MPNowPlayingSession")]
-        #[optional]
-        #[method(nowPlayingSessionDidChangeCanBecomeActive:)]
-        unsafe fn nowPlayingSessionDidChangeCanBecomeActive(
-            &self,
-            now_playing_session: &MPNowPlayingSession,
-        );
-    }
+#[objc2::protocol]
+pub unsafe trait MPNowPlayingSessionDelegate: NSObjectProtocol {
+    #[cfg(feature = "MediaPlayer_MPNowPlayingSession")]
+    #[objc2::method(optional, sel = "nowPlayingSessionDidChangeActive:")]
+    unsafe fn nowPlayingSessionDidChangeActive(&self, now_playing_session: &MPNowPlayingSession);
 
-    unsafe impl ProtocolType for dyn MPNowPlayingSessionDelegate {}
-);
+    #[cfg(feature = "MediaPlayer_MPNowPlayingSession")]
+    #[objc2::method(optional, sel = "nowPlayingSessionDidChangeCanBecomeActive:")]
+    unsafe fn nowPlayingSessionDidChangeCanBecomeActive(
+        &self,
+        now_playing_session: &MPNowPlayingSession,
+    );
+}

@@ -5,47 +5,44 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_protocol!(
-    pub unsafe trait GCRelativeInput: NSObjectProtocol {
-        #[method(deltaDidChangeHandler)]
-        unsafe fn deltaDidChangeHandler(
-            &self,
-        ) -> *mut Block<
-            (
-                NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
-                NonNull<ProtocolObject<dyn GCRelativeInput>>,
-                c_float,
-            ),
-            (),
-        >;
+#[objc2::protocol]
+pub unsafe trait GCRelativeInput: NSObjectProtocol {
+    #[objc2::method(sel = "deltaDidChangeHandler")]
+    unsafe fn deltaDidChangeHandler(
+        &self,
+    ) -> *mut Block<
+        (
+            NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
+            NonNull<ProtocolObject<dyn GCRelativeInput>>,
+            c_float,
+        ),
+        (),
+    >;
 
-        #[method(setDeltaDidChangeHandler:)]
-        unsafe fn setDeltaDidChangeHandler(
-            &self,
-            delta_did_change_handler: Option<
-                &Block<
-                    (
-                        NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
-                        NonNull<ProtocolObject<dyn GCRelativeInput>>,
-                        c_float,
-                    ),
-                    (),
-                >,
+    #[objc2::method(sel = "setDeltaDidChangeHandler:")]
+    unsafe fn setDeltaDidChangeHandler(
+        &self,
+        delta_did_change_handler: Option<
+            &Block<
+                (
+                    NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
+                    NonNull<ProtocolObject<dyn GCRelativeInput>>,
+                    c_float,
+                ),
+                (),
             >,
-        );
+        >,
+    );
 
-        #[method(delta)]
-        unsafe fn delta(&self) -> c_float;
+    #[objc2::method(sel = "delta")]
+    unsafe fn delta(&self) -> c_float;
 
-        #[method(isAnalog)]
-        unsafe fn isAnalog(&self) -> bool;
+    #[objc2::method(sel = "isAnalog")]
+    unsafe fn isAnalog(&self) -> bool;
 
-        #[method(lastDeltaTimestamp)]
-        unsafe fn lastDeltaTimestamp(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "lastDeltaTimestamp")]
+    unsafe fn lastDeltaTimestamp(&self) -> NSTimeInterval;
 
-        #[method(lastDeltaLatency)]
-        unsafe fn lastDeltaLatency(&self) -> NSTimeInterval;
-    }
-
-    unsafe impl ProtocolType for dyn GCRelativeInput {}
-);
+    #[objc2::method(sel = "lastDeltaLatency")]
+    unsafe fn lastDeltaLatency(&self) -> NSTimeInterval;
+}

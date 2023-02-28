@@ -7,16 +7,16 @@ typed_extensible_enum!(
     pub type NSAttributedStringKey = NSString;
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSAttributedString")]
     #[derive(PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSAttributedString")]
-    pub struct NSAttributedString;
-
-    #[cfg(feature = "Foundation_NSAttributedString")]
-    unsafe impl ClassType for NSAttributedString {
-        type Super = NSObject;
-    }
-);
+    pub type NSAttributedString;
+}
 
 #[cfg(feature = "Foundation_NSAttributedString")]
 unsafe impl NSCoding for NSAttributedString {}
@@ -27,127 +27,136 @@ unsafe impl NSObjectProtocol for NSAttributedString {}
 #[cfg(feature = "Foundation_NSAttributedString")]
 unsafe impl NSSecureCoding for NSAttributedString {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAttributedString")]
-    unsafe impl NSAttributedString {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other string)]
-        pub fn string(&self) -> Id<NSString>;
+    pub type NSAttributedString;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other attributesAtIndex:effectiveRange:)]
-        pub unsafe fn attributesAtIndex_effectiveRange(
-            &self,
-            location: NSUInteger,
-            range: NSRangePointer,
-        ) -> Id<NSDictionary<NSAttributedStringKey, Object>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "string", managed = "Other")]
+    pub fn string(&self) -> Id<NSString>;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSAttributedStringEnumerationOptions {
-        NSAttributedStringEnumerationReverse = 1 << 1,
-        NSAttributedStringEnumerationLongestEffectiveRangeNotRequired = 1 << 20,
-    }
-);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "attributesAtIndex:effectiveRange:", managed = "Other")]
+    pub unsafe fn attributesAtIndex_effectiveRange(
+        &self,
+        location: NSUInteger,
+        range: NSRangePointer,
+    ) -> Id<NSDictionary<NSAttributedStringKey, Object>>;
+}
 
-extern_methods!(
-    /// NSExtendedAttributedString
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSAttributedStringEnumerationOptions {
+    NSAttributedStringEnumerationReverse = 1 << 1,
+    NSAttributedStringEnumerationLongestEffectiveRangeNotRequired = 1 << 20,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAttributedString")]
-    unsafe impl NSAttributedString {
-        #[method(length)]
-        pub fn length(&self) -> NSUInteger;
+    pub type NSAttributedString;
 
-        #[method_id(@__retain_semantics Other attribute:atIndex:effectiveRange:)]
-        pub unsafe fn attribute_atIndex_effectiveRange(
-            &self,
-            attr_name: &NSAttributedStringKey,
-            location: NSUInteger,
-            range: NSRangePointer,
-        ) -> Option<Id<Object>>;
+    #[objc2::method(sel = "length")]
+    pub fn length(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other attributedSubstringFromRange:)]
-        pub unsafe fn attributedSubstringFromRange(&self, range: NSRange)
-            -> Id<NSAttributedString>;
+    #[objc2::method(sel = "attribute:atIndex:effectiveRange:", managed = "Other")]
+    pub unsafe fn attribute_atIndex_effectiveRange(
+        &self,
+        attr_name: &NSAttributedStringKey,
+        location: NSUInteger,
+        range: NSRangePointer,
+    ) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other attributesAtIndex:longestEffectiveRange:inRange:)]
-        pub unsafe fn attributesAtIndex_longestEffectiveRange_inRange(
-            &self,
-            location: NSUInteger,
-            range: NSRangePointer,
-            range_limit: NSRange,
-        ) -> Id<NSDictionary<NSAttributedStringKey, Object>>;
+    #[objc2::method(sel = "attributedSubstringFromRange:", managed = "Other")]
+    pub unsafe fn attributedSubstringFromRange(&self, range: NSRange) -> Id<NSAttributedString>;
 
-        #[method_id(@__retain_semantics Other attribute:atIndex:longestEffectiveRange:inRange:)]
-        pub unsafe fn attribute_atIndex_longestEffectiveRange_inRange(
-            &self,
-            attr_name: &NSAttributedStringKey,
-            location: NSUInteger,
-            range: NSRangePointer,
-            range_limit: NSRange,
-        ) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(
+        sel = "attributesAtIndex:longestEffectiveRange:inRange:",
+        managed = "Other"
+    )]
+    pub unsafe fn attributesAtIndex_longestEffectiveRange_inRange(
+        &self,
+        location: NSUInteger,
+        range: NSRangePointer,
+        range_limit: NSRange,
+    ) -> Id<NSDictionary<NSAttributedStringKey, Object>>;
 
-        #[method(isEqualToAttributedString:)]
-        pub unsafe fn isEqualToAttributedString(&self, other: &NSAttributedString) -> bool;
+    #[objc2::method(
+        sel = "attribute:atIndex:longestEffectiveRange:inRange:",
+        managed = "Other"
+    )]
+    pub unsafe fn attribute_atIndex_longestEffectiveRange_inRange(
+        &self,
+        attr_name: &NSAttributedStringKey,
+        location: NSUInteger,
+        range: NSRangePointer,
+        range_limit: NSRange,
+    ) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithString:)]
-        pub fn initWithString(this: Option<Allocated<Self>>, str: &NSString) -> Id<Self>;
+    #[objc2::method(sel = "isEqualToAttributedString:")]
+    pub unsafe fn isEqualToAttributedString(&self, other: &NSAttributedString) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithString:attributes:)]
-        pub unsafe fn initWithString_attributes(
-            this: Option<Allocated<Self>>,
-            str: &NSString,
-            attrs: Option<&NSDictionary<NSAttributedStringKey, Object>>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithString:", managed = "Init")]
+    pub fn initWithString(this: Option<Allocated<Self>>, str: &NSString) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithAttributedString:)]
-        pub fn initWithAttributedString(
-            this: Option<Allocated<Self>>,
-            attr_str: &NSAttributedString,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithString:attributes:", managed = "Init")]
+    pub unsafe fn initWithString_attributes(
+        this: Option<Allocated<Self>>,
+        str: &NSString,
+        attrs: Option<&NSDictionary<NSAttributedStringKey, Object>>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(enumerateAttributesInRange:options:usingBlock:)]
-        pub unsafe fn enumerateAttributesInRange_options_usingBlock(
-            &self,
-            enumeration_range: NSRange,
-            opts: NSAttributedStringEnumerationOptions,
-            block: &Block<
-                (
-                    NonNull<NSDictionary<NSAttributedStringKey, Object>>,
-                    NSRange,
-                    NonNull<Bool>,
-                ),
-                (),
-            >,
-        );
+    #[objc2::method(sel = "initWithAttributedString:", managed = "Init")]
+    pub fn initWithAttributedString(
+        this: Option<Allocated<Self>>,
+        attr_str: &NSAttributedString,
+    ) -> Id<Self>;
 
-        #[method(enumerateAttribute:inRange:options:usingBlock:)]
-        pub unsafe fn enumerateAttribute_inRange_options_usingBlock(
-            &self,
-            attr_name: &NSAttributedStringKey,
-            enumeration_range: NSRange,
-            opts: NSAttributedStringEnumerationOptions,
-            block: &Block<(*mut Object, NSRange, NonNull<Bool>), ()>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "enumerateAttributesInRange:options:usingBlock:")]
+    pub unsafe fn enumerateAttributesInRange_options_usingBlock(
+        &self,
+        enumeration_range: NSRange,
+        opts: NSAttributedStringEnumerationOptions,
+        block: &Block<
+            (
+                NonNull<NSDictionary<NSAttributedStringKey, Object>>,
+                NSRange,
+                NonNull<Bool>,
+            ),
+            (),
+        >,
+    );
 
-extern_class!(
+    #[objc2::method(sel = "enumerateAttribute:inRange:options:usingBlock:")]
+    pub unsafe fn enumerateAttribute_inRange_options_usingBlock(
+        &self,
+        attr_name: &NSAttributedStringKey,
+        enumeration_range: NSRange,
+        opts: NSAttributedStringEnumerationOptions,
+        block: &Block<(*mut Object, NSRange, NonNull<Bool>), ()>,
+    );
+}
+
+#[objc2::interface(
+    unsafe super = NSAttributedString,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMutableAttributedString")]
     #[derive(PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSMutableAttributedString")]
-    pub struct NSMutableAttributedString;
-
-    #[cfg(feature = "Foundation_NSMutableAttributedString")]
-    unsafe impl ClassType for NSMutableAttributedString {
-        #[inherits(NSObject)]
-        type Super = NSAttributedString;
-    }
-);
+    pub type NSMutableAttributedString;
+}
 
 #[cfg(feature = "Foundation_NSMutableAttributedString")]
 unsafe impl NSCoding for NSMutableAttributedString {}
@@ -158,98 +167,102 @@ unsafe impl NSObjectProtocol for NSMutableAttributedString {}
 #[cfg(feature = "Foundation_NSMutableAttributedString")]
 unsafe impl NSSecureCoding for NSMutableAttributedString {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableAttributedString")]
-    unsafe impl NSMutableAttributedString {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(replaceCharactersInRange:withString:)]
-        pub unsafe fn replaceCharactersInRange_withString(&self, range: NSRange, str: &NSString);
+    pub type NSMutableAttributedString;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(setAttributes:range:)]
-        pub unsafe fn setAttributes_range(
-            &self,
-            attrs: Option<&NSDictionary<NSAttributedStringKey, Object>>,
-            range: NSRange,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "replaceCharactersInRange:withString:")]
+    pub unsafe fn replaceCharactersInRange_withString(&self, range: NSRange, str: &NSString);
 
-extern_methods!(
-    /// NSExtendedMutableAttributedString
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "setAttributes:range:")]
+    pub unsafe fn setAttributes_range(
+        &self,
+        attrs: Option<&NSDictionary<NSAttributedStringKey, Object>>,
+        range: NSRange,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableAttributedString")]
-    unsafe impl NSMutableAttributedString {
-        #[cfg(feature = "Foundation_NSMutableString")]
-        #[method_id(@__retain_semantics Other mutableString)]
-        pub unsafe fn mutableString(&self) -> Id<NSMutableString, Owned>;
+    pub type NSMutableAttributedString;
 
-        #[method(addAttribute:value:range:)]
-        pub unsafe fn addAttribute_value_range(
-            &self,
-            name: &NSAttributedStringKey,
-            value: &Object,
-            range: NSRange,
-        );
+    #[cfg(feature = "Foundation_NSMutableString")]
+    #[objc2::method(sel = "mutableString", managed = "Other")]
+    pub unsafe fn mutableString(&self) -> Id<NSMutableString, Owned>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(addAttributes:range:)]
-        pub unsafe fn addAttributes_range(
-            &self,
-            attrs: &NSDictionary<NSAttributedStringKey, Object>,
-            range: NSRange,
-        );
+    #[objc2::method(sel = "addAttribute:value:range:")]
+    pub unsafe fn addAttribute_value_range(
+        &self,
+        name: &NSAttributedStringKey,
+        value: &Object,
+        range: NSRange,
+    );
 
-        #[method(removeAttribute:range:)]
-        pub unsafe fn removeAttribute_range(&self, name: &NSAttributedStringKey, range: NSRange);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "addAttributes:range:")]
+    pub unsafe fn addAttributes_range(
+        &self,
+        attrs: &NSDictionary<NSAttributedStringKey, Object>,
+        range: NSRange,
+    );
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(replaceCharactersInRange:withAttributedString:)]
-        pub unsafe fn replaceCharactersInRange_withAttributedString(
-            &self,
-            range: NSRange,
-            attr_string: &NSAttributedString,
-        );
+    #[objc2::method(sel = "removeAttribute:range:")]
+    pub unsafe fn removeAttribute_range(&self, name: &NSAttributedStringKey, range: NSRange);
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(insertAttributedString:atIndex:)]
-        pub unsafe fn insertAttributedString_atIndex(
-            &self,
-            attr_string: &NSAttributedString,
-            loc: NSUInteger,
-        );
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "replaceCharactersInRange:withAttributedString:")]
+    pub unsafe fn replaceCharactersInRange_withAttributedString(
+        &self,
+        range: NSRange,
+        attr_string: &NSAttributedString,
+    );
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(appendAttributedString:)]
-        pub unsafe fn appendAttributedString(&self, attr_string: &NSAttributedString);
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "insertAttributedString:atIndex:")]
+    pub unsafe fn insertAttributedString_atIndex(
+        &self,
+        attr_string: &NSAttributedString,
+        loc: NSUInteger,
+    );
 
-        #[method(deleteCharactersInRange:)]
-        pub unsafe fn deleteCharactersInRange(&self, range: NSRange);
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "appendAttributedString:")]
+    pub unsafe fn appendAttributedString(&self, attr_string: &NSAttributedString);
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(setAttributedString:)]
-        pub fn setAttributedString(&mut self, attr_string: &NSAttributedString);
+    #[objc2::method(sel = "deleteCharactersInRange:")]
+    pub unsafe fn deleteCharactersInRange(&self, range: NSRange);
 
-        #[method(beginEditing)]
-        pub unsafe fn beginEditing(&self);
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "setAttributedString:")]
+    pub fn setAttributedString(&mut self, attr_string: &NSAttributedString);
 
-        #[method(endEditing)]
-        pub unsafe fn endEditing(&self);
-    }
-);
+    #[objc2::method(sel = "beginEditing")]
+    pub unsafe fn beginEditing(&self);
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSInlinePresentationIntent {
-        NSInlinePresentationIntentEmphasized = 1 << 0,
-        NSInlinePresentationIntentStronglyEmphasized = 1 << 1,
-        NSInlinePresentationIntentCode = 1 << 2,
-        NSInlinePresentationIntentStrikethrough = 1 << 5,
-        NSInlinePresentationIntentSoftBreak = 1 << 6,
-        NSInlinePresentationIntentLineBreak = 1 << 7,
-        NSInlinePresentationIntentInlineHTML = 1 << 8,
-        NSInlinePresentationIntentBlockHTML = 1 << 9,
-    }
-);
+    #[objc2::method(sel = "endEditing")]
+    pub unsafe fn endEditing(&self);
+}
+
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSInlinePresentationIntent {
+    NSInlinePresentationIntentEmphasized = 1 << 0,
+    NSInlinePresentationIntentStronglyEmphasized = 1 << 1,
+    NSInlinePresentationIntentCode = 1 << 2,
+    NSInlinePresentationIntentStrikethrough = 1 << 5,
+    NSInlinePresentationIntentSoftBreak = 1 << 6,
+    NSInlinePresentationIntentLineBreak = 1 << 7,
+    NSInlinePresentationIntentInlineHTML = 1 << 8,
+    NSInlinePresentationIntentBlockHTML = 1 << 9,
+}
 
 extern_static!(NSInlinePresentationIntentAttributeName: &'static NSAttributedStringKey);
 
@@ -261,33 +274,31 @@ extern_static!(NSLanguageIdentifierAttributeName: &'static NSAttributedStringKey
 
 extern_static!(NSMarkdownSourcePositionAttributeName: &'static NSAttributedStringKey);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSAttributedStringMarkdownParsingFailurePolicy {
-        NSAttributedStringMarkdownParsingFailureReturnError = 0,
-        NSAttributedStringMarkdownParsingFailureReturnPartiallyParsedIfPossible = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSAttributedStringMarkdownParsingFailurePolicy {
+    NSAttributedStringMarkdownParsingFailureReturnError = 0,
+    NSAttributedStringMarkdownParsingFailureReturnPartiallyParsedIfPossible = 1,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSAttributedStringMarkdownInterpretedSyntax {
-        NSAttributedStringMarkdownInterpretedSyntaxFull = 0,
-        NSAttributedStringMarkdownInterpretedSyntaxInlineOnly = 1,
-        NSAttributedStringMarkdownInterpretedSyntaxInlineOnlyPreservingWhitespace = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSAttributedStringMarkdownInterpretedSyntax {
+    NSAttributedStringMarkdownInterpretedSyntaxFull = 0,
+    NSAttributedStringMarkdownInterpretedSyntaxInlineOnly = 1,
+    NSAttributedStringMarkdownInterpretedSyntaxInlineOnlyPreservingWhitespace = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSAttributedStringMarkdownSourcePosition")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSAttributedStringMarkdownSourcePosition")]
-    pub struct NSAttributedStringMarkdownSourcePosition;
-
-    #[cfg(feature = "Foundation_NSAttributedStringMarkdownSourcePosition")]
-    unsafe impl ClassType for NSAttributedStringMarkdownSourcePosition {
-        type Super = NSObject;
-    }
-);
+    pub type NSAttributedStringMarkdownSourcePosition;
+}
 
 #[cfg(feature = "Foundation_NSAttributedStringMarkdownSourcePosition")]
 unsafe impl NSCoding for NSAttributedStringMarkdownSourcePosition {}
@@ -298,176 +309,204 @@ unsafe impl NSObjectProtocol for NSAttributedStringMarkdownSourcePosition {}
 #[cfg(feature = "Foundation_NSAttributedStringMarkdownSourcePosition")]
 unsafe impl NSSecureCoding for NSAttributedStringMarkdownSourcePosition {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAttributedStringMarkdownSourcePosition")]
-    unsafe impl NSAttributedStringMarkdownSourcePosition {
-        #[method(startLine)]
-        pub unsafe fn startLine(&self) -> NSInteger;
+    pub type NSAttributedStringMarkdownSourcePosition;
 
-        #[method(startColumn)]
-        pub unsafe fn startColumn(&self) -> NSInteger;
+    #[objc2::method(sel = "startLine")]
+    pub unsafe fn startLine(&self) -> NSInteger;
 
-        #[method(endLine)]
-        pub unsafe fn endLine(&self) -> NSInteger;
+    #[objc2::method(sel = "startColumn")]
+    pub unsafe fn startColumn(&self) -> NSInteger;
 
-        #[method(endColumn)]
-        pub unsafe fn endColumn(&self) -> NSInteger;
+    #[objc2::method(sel = "endLine")]
+    pub unsafe fn endLine(&self) -> NSInteger;
 
-        #[method_id(@__retain_semantics Init initWithStartLine:startColumn:endLine:endColumn:)]
-        pub unsafe fn initWithStartLine_startColumn_endLine_endColumn(
-            this: Option<Allocated<Self>>,
-            start_line: NSInteger,
-            start_column: NSInteger,
-            end_line: NSInteger,
-            end_column: NSInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "endColumn")]
+    pub unsafe fn endColumn(&self) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(rangeInString:)]
-        pub unsafe fn rangeInString(&self, string: &NSString) -> NSRange;
-    }
-);
+    #[objc2::method(
+        sel = "initWithStartLine:startColumn:endLine:endColumn:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithStartLine_startColumn_endLine_endColumn(
+        this: Option<Allocated<Self>>,
+        start_line: NSInteger,
+        start_column: NSInteger,
+        end_line: NSInteger,
+        end_column: NSInteger,
+    ) -> Id<Self>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "rangeInString:")]
+    pub unsafe fn rangeInString(&self, string: &NSString) -> NSRange;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSAttributedStringMarkdownParsingOptions")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSAttributedStringMarkdownParsingOptions")]
-    pub struct NSAttributedStringMarkdownParsingOptions;
-
-    #[cfg(feature = "Foundation_NSAttributedStringMarkdownParsingOptions")]
-    unsafe impl ClassType for NSAttributedStringMarkdownParsingOptions {
-        type Super = NSObject;
-    }
-);
+    pub type NSAttributedStringMarkdownParsingOptions;
+}
 
 #[cfg(feature = "Foundation_NSAttributedStringMarkdownParsingOptions")]
 unsafe impl NSObjectProtocol for NSAttributedStringMarkdownParsingOptions {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAttributedStringMarkdownParsingOptions")]
-    unsafe impl NSAttributedStringMarkdownParsingOptions {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSAttributedStringMarkdownParsingOptions;
 
-        #[method(allowsExtendedAttributes)]
-        pub unsafe fn allowsExtendedAttributes(&self) -> bool;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(setAllowsExtendedAttributes:)]
-        pub unsafe fn setAllowsExtendedAttributes(&self, allows_extended_attributes: bool);
+    #[objc2::method(sel = "allowsExtendedAttributes")]
+    pub unsafe fn allowsExtendedAttributes(&self) -> bool;
 
-        #[method(interpretedSyntax)]
-        pub unsafe fn interpretedSyntax(&self) -> NSAttributedStringMarkdownInterpretedSyntax;
+    #[objc2::method(sel = "setAllowsExtendedAttributes:")]
+    pub unsafe fn setAllowsExtendedAttributes(&self, allows_extended_attributes: bool);
 
-        #[method(setInterpretedSyntax:)]
-        pub unsafe fn setInterpretedSyntax(
-            &self,
-            interpreted_syntax: NSAttributedStringMarkdownInterpretedSyntax,
-        );
+    #[objc2::method(sel = "interpretedSyntax")]
+    pub unsafe fn interpretedSyntax(&self) -> NSAttributedStringMarkdownInterpretedSyntax;
 
-        #[method(failurePolicy)]
-        pub unsafe fn failurePolicy(&self) -> NSAttributedStringMarkdownParsingFailurePolicy;
+    #[objc2::method(sel = "setInterpretedSyntax:")]
+    pub unsafe fn setInterpretedSyntax(
+        &self,
+        interpreted_syntax: NSAttributedStringMarkdownInterpretedSyntax,
+    );
 
-        #[method(setFailurePolicy:)]
-        pub unsafe fn setFailurePolicy(
-            &self,
-            failure_policy: NSAttributedStringMarkdownParsingFailurePolicy,
-        );
+    #[objc2::method(sel = "failurePolicy")]
+    pub unsafe fn failurePolicy(&self) -> NSAttributedStringMarkdownParsingFailurePolicy;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other languageCode)]
-        pub unsafe fn languageCode(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setFailurePolicy:")]
+    pub unsafe fn setFailurePolicy(
+        &self,
+        failure_policy: NSAttributedStringMarkdownParsingFailurePolicy,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLanguageCode:)]
-        pub unsafe fn setLanguageCode(&self, language_code: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "languageCode", managed = "Other")]
+    pub unsafe fn languageCode(&self) -> Option<Id<NSString>>;
 
-        #[method(appliesSourcePositionAttributes)]
-        pub unsafe fn appliesSourcePositionAttributes(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLanguageCode:")]
+    pub unsafe fn setLanguageCode(&self, language_code: Option<&NSString>);
 
-        #[method(setAppliesSourcePositionAttributes:)]
-        pub unsafe fn setAppliesSourcePositionAttributes(
-            &self,
-            applies_source_position_attributes: bool,
-        );
-    }
-);
+    #[objc2::method(sel = "appliesSourcePositionAttributes")]
+    pub unsafe fn appliesSourcePositionAttributes(&self) -> bool;
 
-extern_methods!(
-    /// NSAttributedStringCreateFromMarkdown
+    #[objc2::method(sel = "setAppliesSourcePositionAttributes:")]
+    pub unsafe fn setAppliesSourcePositionAttributes(
+        &self,
+        applies_source_position_attributes: bool,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAttributedString")]
-    unsafe impl NSAttributedString {
-        #[cfg(all(
-            feature = "Foundation_NSAttributedStringMarkdownParsingOptions",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Init initWithContentsOfMarkdownFileAtURL:options:baseURL:error:_)]
-        pub unsafe fn initWithContentsOfMarkdownFileAtURL_options_baseURL_error(
-            this: Option<Allocated<Self>>,
-            markdown_file: &NSURL,
-            options: Option<&NSAttributedStringMarkdownParsingOptions>,
-            base_url: Option<&NSURL>,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    pub type NSAttributedString;
 
-        #[cfg(all(
-            feature = "Foundation_NSAttributedStringMarkdownParsingOptions",
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Init initWithMarkdown:options:baseURL:error:_)]
-        pub unsafe fn initWithMarkdown_options_baseURL_error(
-            this: Option<Allocated<Self>>,
-            markdown: &NSData,
-            options: Option<&NSAttributedStringMarkdownParsingOptions>,
-            base_url: Option<&NSURL>,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSAttributedStringMarkdownParsingOptions",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "initWithContentsOfMarkdownFileAtURL:options:baseURL:error:",
+        managed = "Init",
+        throws
+    )]
+    pub unsafe fn initWithContentsOfMarkdownFileAtURL_options_baseURL_error(
+        this: Option<Allocated<Self>>,
+        markdown_file: &NSURL,
+        options: Option<&NSAttributedStringMarkdownParsingOptions>,
+        base_url: Option<&NSURL>,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSAttributedStringMarkdownParsingOptions",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Init initWithMarkdownString:options:baseURL:error:_)]
-        pub unsafe fn initWithMarkdownString_options_baseURL_error(
-            this: Option<Allocated<Self>>,
-            markdown_string: &NSString,
-            options: Option<&NSAttributedStringMarkdownParsingOptions>,
-            base_url: Option<&NSURL>,
-        ) -> Result<Id<Self>, Id<NSError>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSAttributedStringMarkdownParsingOptions",
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "initWithMarkdown:options:baseURL:error:",
+        managed = "Init",
+        throws
+    )]
+    pub unsafe fn initWithMarkdown_options_baseURL_error(
+        this: Option<Allocated<Self>>,
+        markdown: &NSData,
+        options: Option<&NSAttributedStringMarkdownParsingOptions>,
+        base_url: Option<&NSURL>,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSAttributedStringFormattingOptions {
-        NSAttributedStringFormattingInsertArgumentAttributesWithoutMerging = 1 << 0,
-        NSAttributedStringFormattingApplyReplacementIndexAttribute = 1 << 1,
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSAttributedStringMarkdownParsingOptions",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "initWithMarkdownString:options:baseURL:error:",
+        managed = "Init",
+        throws
+    )]
+    pub unsafe fn initWithMarkdownString_options_baseURL_error(
+        this: Option<Allocated<Self>>,
+        markdown_string: &NSString,
+        options: Option<&NSAttributedStringMarkdownParsingOptions>,
+        base_url: Option<&NSURL>,
+    ) -> Result<Id<Self>, Id<NSError>>;
+}
 
-extern_methods!(
-    /// NSAttributedStringFormatting
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSAttributedStringFormattingOptions {
+    NSAttributedStringFormattingInsertArgumentAttributesWithoutMerging = 1 << 0,
+    NSAttributedStringFormattingApplyReplacementIndexAttribute = 1 << 1,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAttributedString")]
-    unsafe impl NSAttributedString {}
-);
+    pub type NSAttributedString;
+}
 
-extern_methods!(
-    /// NSMutableAttributedStringFormatting
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableAttributedString")]
-    unsafe impl NSMutableAttributedString {}
-);
+    pub type NSMutableAttributedString;
+}
 
 extern_static!(NSReplacementIndexAttributeName: &'static NSAttributedStringKey);
 
-extern_methods!(
-    /// NSMorphology
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAttributedString")]
-    unsafe impl NSAttributedString {
-        #[method_id(@__retain_semantics Other attributedStringByInflectingString)]
-        pub unsafe fn attributedStringByInflectingString(&self) -> Id<NSAttributedString>;
-    }
-);
+    pub type NSAttributedString;
+
+    #[objc2::method(sel = "attributedStringByInflectingString", managed = "Other")]
+    pub unsafe fn attributedStringByInflectingString(&self) -> Id<NSAttributedString>;
+}
 
 extern_static!(NSMorphologyAttributeName: &'static NSAttributedStringKey);
 
@@ -477,43 +516,41 @@ extern_static!(NSInflectionAlternativeAttributeName: &'static NSAttributedString
 
 extern_static!(NSPresentationIntentAttributeName: &'static NSAttributedStringKey);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSPresentationIntentKind {
-        NSPresentationIntentKindParagraph = 0,
-        NSPresentationIntentKindHeader = 1,
-        NSPresentationIntentKindOrderedList = 2,
-        NSPresentationIntentKindUnorderedList = 3,
-        NSPresentationIntentKindListItem = 4,
-        NSPresentationIntentKindCodeBlock = 5,
-        NSPresentationIntentKindBlockQuote = 6,
-        NSPresentationIntentKindThematicBreak = 7,
-        NSPresentationIntentKindTable = 8,
-        NSPresentationIntentKindTableHeaderRow = 9,
-        NSPresentationIntentKindTableRow = 10,
-        NSPresentationIntentKindTableCell = 11,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSPresentationIntentKind {
+    NSPresentationIntentKindParagraph = 0,
+    NSPresentationIntentKindHeader = 1,
+    NSPresentationIntentKindOrderedList = 2,
+    NSPresentationIntentKindUnorderedList = 3,
+    NSPresentationIntentKindListItem = 4,
+    NSPresentationIntentKindCodeBlock = 5,
+    NSPresentationIntentKindBlockQuote = 6,
+    NSPresentationIntentKindThematicBreak = 7,
+    NSPresentationIntentKindTable = 8,
+    NSPresentationIntentKindTableHeaderRow = 9,
+    NSPresentationIntentKindTableRow = 10,
+    NSPresentationIntentKindTableCell = 11,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSPresentationIntentTableColumnAlignment {
-        NSPresentationIntentTableColumnAlignmentLeft = 0,
-        NSPresentationIntentTableColumnAlignmentCenter = 1,
-        NSPresentationIntentTableColumnAlignmentRight = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSPresentationIntentTableColumnAlignment {
+    NSPresentationIntentTableColumnAlignmentLeft = 0,
+    NSPresentationIntentTableColumnAlignmentCenter = 1,
+    NSPresentationIntentTableColumnAlignmentRight = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSPresentationIntent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSPresentationIntent")]
-    pub struct NSPresentationIntent;
-
-    #[cfg(feature = "Foundation_NSPresentationIntent")]
-    unsafe impl ClassType for NSPresentationIntent {
-        type Super = NSObject;
-    }
-);
+    pub type NSPresentationIntent;
+}
 
 #[cfg(feature = "Foundation_NSPresentationIntent")]
 unsafe impl NSCoding for NSPresentationIntent {}
@@ -524,205 +561,267 @@ unsafe impl NSObjectProtocol for NSPresentationIntent {}
 #[cfg(feature = "Foundation_NSPresentationIntent")]
 unsafe impl NSSecureCoding for NSPresentationIntent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSPresentationIntent")]
-    unsafe impl NSPresentationIntent {
-        #[method(intentKind)]
-        pub unsafe fn intentKind(&self) -> NSPresentationIntentKind;
+    pub type NSPresentationIntent;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "intentKind")]
+    pub unsafe fn intentKind(&self) -> NSPresentationIntentKind;
 
-        #[method_id(@__retain_semantics Other parentIntent)]
-        pub unsafe fn parentIntent(&self) -> Option<Id<NSPresentationIntent>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other paragraphIntentWithIdentity:nestedInsideIntent:)]
-        pub unsafe fn paragraphIntentWithIdentity_nestedInsideIntent(
-            identity: NSInteger,
-            parent: Option<&NSPresentationIntent>,
-        ) -> Id<NSPresentationIntent>;
+    #[objc2::method(sel = "parentIntent", managed = "Other")]
+    pub unsafe fn parentIntent(&self) -> Option<Id<NSPresentationIntent>>;
 
-        #[method_id(@__retain_semantics Other headerIntentWithIdentity:level:nestedInsideIntent:)]
-        pub unsafe fn headerIntentWithIdentity_level_nestedInsideIntent(
-            identity: NSInteger,
-            level: NSInteger,
-            parent: Option<&NSPresentationIntent>,
-        ) -> Id<NSPresentationIntent>;
+    #[objc2::method(
+        sel = "paragraphIntentWithIdentity:nestedInsideIntent:",
+        managed = "Other"
+    )]
+    pub unsafe fn paragraphIntentWithIdentity_nestedInsideIntent(
+        identity: NSInteger,
+        parent: Option<&NSPresentationIntent>,
+    ) -> Id<NSPresentationIntent>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other codeBlockIntentWithIdentity:languageHint:nestedInsideIntent:)]
-        pub unsafe fn codeBlockIntentWithIdentity_languageHint_nestedInsideIntent(
-            identity: NSInteger,
-            language_hint: Option<&NSString>,
-            parent: Option<&NSPresentationIntent>,
-        ) -> Id<NSPresentationIntent>;
+    #[objc2::method(
+        sel = "headerIntentWithIdentity:level:nestedInsideIntent:",
+        managed = "Other"
+    )]
+    pub unsafe fn headerIntentWithIdentity_level_nestedInsideIntent(
+        identity: NSInteger,
+        level: NSInteger,
+        parent: Option<&NSPresentationIntent>,
+    ) -> Id<NSPresentationIntent>;
 
-        #[method_id(@__retain_semantics Other thematicBreakIntentWithIdentity:nestedInsideIntent:)]
-        pub unsafe fn thematicBreakIntentWithIdentity_nestedInsideIntent(
-            identity: NSInteger,
-            parent: Option<&NSPresentationIntent>,
-        ) -> Id<NSPresentationIntent>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "codeBlockIntentWithIdentity:languageHint:nestedInsideIntent:",
+        managed = "Other"
+    )]
+    pub unsafe fn codeBlockIntentWithIdentity_languageHint_nestedInsideIntent(
+        identity: NSInteger,
+        language_hint: Option<&NSString>,
+        parent: Option<&NSPresentationIntent>,
+    ) -> Id<NSPresentationIntent>;
 
-        #[method_id(@__retain_semantics Other orderedListIntentWithIdentity:nestedInsideIntent:)]
-        pub unsafe fn orderedListIntentWithIdentity_nestedInsideIntent(
-            identity: NSInteger,
-            parent: Option<&NSPresentationIntent>,
-        ) -> Id<NSPresentationIntent>;
+    #[objc2::method(
+        sel = "thematicBreakIntentWithIdentity:nestedInsideIntent:",
+        managed = "Other"
+    )]
+    pub unsafe fn thematicBreakIntentWithIdentity_nestedInsideIntent(
+        identity: NSInteger,
+        parent: Option<&NSPresentationIntent>,
+    ) -> Id<NSPresentationIntent>;
 
-        #[method_id(@__retain_semantics Other unorderedListIntentWithIdentity:nestedInsideIntent:)]
-        pub unsafe fn unorderedListIntentWithIdentity_nestedInsideIntent(
-            identity: NSInteger,
-            parent: Option<&NSPresentationIntent>,
-        ) -> Id<NSPresentationIntent>;
+    #[objc2::method(
+        sel = "orderedListIntentWithIdentity:nestedInsideIntent:",
+        managed = "Other"
+    )]
+    pub unsafe fn orderedListIntentWithIdentity_nestedInsideIntent(
+        identity: NSInteger,
+        parent: Option<&NSPresentationIntent>,
+    ) -> Id<NSPresentationIntent>;
 
-        #[method_id(@__retain_semantics Other listItemIntentWithIdentity:ordinal:nestedInsideIntent:)]
-        pub unsafe fn listItemIntentWithIdentity_ordinal_nestedInsideIntent(
-            identity: NSInteger,
-            ordinal: NSInteger,
-            parent: Option<&NSPresentationIntent>,
-        ) -> Id<NSPresentationIntent>;
+    #[objc2::method(
+        sel = "unorderedListIntentWithIdentity:nestedInsideIntent:",
+        managed = "Other"
+    )]
+    pub unsafe fn unorderedListIntentWithIdentity_nestedInsideIntent(
+        identity: NSInteger,
+        parent: Option<&NSPresentationIntent>,
+    ) -> Id<NSPresentationIntent>;
 
-        #[method_id(@__retain_semantics Other blockQuoteIntentWithIdentity:nestedInsideIntent:)]
-        pub unsafe fn blockQuoteIntentWithIdentity_nestedInsideIntent(
-            identity: NSInteger,
-            parent: Option<&NSPresentationIntent>,
-        ) -> Id<NSPresentationIntent>;
+    #[objc2::method(
+        sel = "listItemIntentWithIdentity:ordinal:nestedInsideIntent:",
+        managed = "Other"
+    )]
+    pub unsafe fn listItemIntentWithIdentity_ordinal_nestedInsideIntent(
+        identity: NSInteger,
+        ordinal: NSInteger,
+        parent: Option<&NSPresentationIntent>,
+    ) -> Id<NSPresentationIntent>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other tableIntentWithIdentity:columnCount:alignments:nestedInsideIntent:)]
-        pub unsafe fn tableIntentWithIdentity_columnCount_alignments_nestedInsideIntent(
-            identity: NSInteger,
-            column_count: NSInteger,
-            alignments: &NSArray<NSNumber>,
-            parent: Option<&NSPresentationIntent>,
-        ) -> Id<NSPresentationIntent>;
+    #[objc2::method(
+        sel = "blockQuoteIntentWithIdentity:nestedInsideIntent:",
+        managed = "Other"
+    )]
+    pub unsafe fn blockQuoteIntentWithIdentity_nestedInsideIntent(
+        identity: NSInteger,
+        parent: Option<&NSPresentationIntent>,
+    ) -> Id<NSPresentationIntent>;
 
-        #[method_id(@__retain_semantics Other tableHeaderRowIntentWithIdentity:nestedInsideIntent:)]
-        pub unsafe fn tableHeaderRowIntentWithIdentity_nestedInsideIntent(
-            identity: NSInteger,
-            parent: Option<&NSPresentationIntent>,
-        ) -> Id<NSPresentationIntent>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(
+        sel = "tableIntentWithIdentity:columnCount:alignments:nestedInsideIntent:",
+        managed = "Other"
+    )]
+    pub unsafe fn tableIntentWithIdentity_columnCount_alignments_nestedInsideIntent(
+        identity: NSInteger,
+        column_count: NSInteger,
+        alignments: &NSArray<NSNumber>,
+        parent: Option<&NSPresentationIntent>,
+    ) -> Id<NSPresentationIntent>;
 
-        #[method_id(@__retain_semantics Other tableRowIntentWithIdentity:row:nestedInsideIntent:)]
-        pub unsafe fn tableRowIntentWithIdentity_row_nestedInsideIntent(
-            identity: NSInteger,
-            row: NSInteger,
-            parent: Option<&NSPresentationIntent>,
-        ) -> Id<NSPresentationIntent>;
+    #[objc2::method(
+        sel = "tableHeaderRowIntentWithIdentity:nestedInsideIntent:",
+        managed = "Other"
+    )]
+    pub unsafe fn tableHeaderRowIntentWithIdentity_nestedInsideIntent(
+        identity: NSInteger,
+        parent: Option<&NSPresentationIntent>,
+    ) -> Id<NSPresentationIntent>;
 
-        #[method_id(@__retain_semantics Other tableCellIntentWithIdentity:column:nestedInsideIntent:)]
-        pub unsafe fn tableCellIntentWithIdentity_column_nestedInsideIntent(
-            identity: NSInteger,
-            column: NSInteger,
-            parent: Option<&NSPresentationIntent>,
-        ) -> Id<NSPresentationIntent>;
+    #[objc2::method(
+        sel = "tableRowIntentWithIdentity:row:nestedInsideIntent:",
+        managed = "Other"
+    )]
+    pub unsafe fn tableRowIntentWithIdentity_row_nestedInsideIntent(
+        identity: NSInteger,
+        row: NSInteger,
+        parent: Option<&NSPresentationIntent>,
+    ) -> Id<NSPresentationIntent>;
 
-        #[method(identity)]
-        pub unsafe fn identity(&self) -> NSInteger;
+    #[objc2::method(
+        sel = "tableCellIntentWithIdentity:column:nestedInsideIntent:",
+        managed = "Other"
+    )]
+    pub unsafe fn tableCellIntentWithIdentity_column_nestedInsideIntent(
+        identity: NSInteger,
+        column: NSInteger,
+        parent: Option<&NSPresentationIntent>,
+    ) -> Id<NSPresentationIntent>;
 
-        #[method(ordinal)]
-        pub unsafe fn ordinal(&self) -> NSInteger;
+    #[objc2::method(sel = "identity")]
+    pub unsafe fn identity(&self) -> NSInteger;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other columnAlignments)]
-        pub unsafe fn columnAlignments(&self) -> Option<Id<NSArray<NSNumber>>>;
+    #[objc2::method(sel = "ordinal")]
+    pub unsafe fn ordinal(&self) -> NSInteger;
 
-        #[method(columnCount)]
-        pub unsafe fn columnCount(&self) -> NSInteger;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "columnAlignments", managed = "Other")]
+    pub unsafe fn columnAlignments(&self) -> Option<Id<NSArray<NSNumber>>>;
 
-        #[method(headerLevel)]
-        pub unsafe fn headerLevel(&self) -> NSInteger;
+    #[objc2::method(sel = "columnCount")]
+    pub unsafe fn columnCount(&self) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other languageHint)]
-        pub unsafe fn languageHint(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "headerLevel")]
+    pub unsafe fn headerLevel(&self) -> NSInteger;
 
-        #[method(column)]
-        pub unsafe fn column(&self) -> NSInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "languageHint", managed = "Other")]
+    pub unsafe fn languageHint(&self) -> Option<Id<NSString>>;
 
-        #[method(row)]
-        pub unsafe fn row(&self) -> NSInteger;
+    #[objc2::method(sel = "column")]
+    pub unsafe fn column(&self) -> NSInteger;
 
-        #[method(indentationLevel)]
-        pub unsafe fn indentationLevel(&self) -> NSInteger;
+    #[objc2::method(sel = "row")]
+    pub unsafe fn row(&self) -> NSInteger;
 
-        #[method(isEquivalentToPresentationIntent:)]
-        pub unsafe fn isEquivalentToPresentationIntent(&self, other: &NSPresentationIntent)
-            -> bool;
-    }
-);
+    #[objc2::method(sel = "indentationLevel")]
+    pub unsafe fn indentationLevel(&self) -> NSInteger;
 
-extern_methods!(
-    /// Methods declared on superclass `NSAttributedString`
-    ///
-    /// NSExtendedAttributedString
+    #[objc2::method(sel = "isEquivalentToPresentationIntent:")]
+    pub unsafe fn isEquivalentToPresentationIntent(&self, other: &NSPresentationIntent) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSAttributedString`
+        ///
+        /// NSExtendedAttributedString
     #[cfg(feature = "Foundation_NSMutableAttributedString")]
-    unsafe impl NSMutableAttributedString {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithString:)]
-        pub fn initWithString(this: Option<Allocated<Self>>, str: &NSString) -> Id<Self, Owned>;
-
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithString:attributes:)]
-        pub unsafe fn initWithString_attributes(
-            this: Option<Allocated<Self>>,
-            str: &NSString,
-            attrs: Option<&NSDictionary<NSAttributedStringKey, Object>>,
-        ) -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Init initWithAttributedString:)]
-        pub fn initWithAttributedString(
-            this: Option<Allocated<Self>>,
-            attr_str: &NSAttributedString,
-        ) -> Id<Self, Owned>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSAttributedString`
-    ///
-    /// NSAttributedStringCreateFromMarkdown
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableAttributedString")]
-    unsafe impl NSMutableAttributedString {
-        #[cfg(all(
-            feature = "Foundation_NSAttributedStringMarkdownParsingOptions",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Init initWithContentsOfMarkdownFileAtURL:options:baseURL:error:_)]
-        pub unsafe fn initWithContentsOfMarkdownFileAtURL_options_baseURL_error(
-            this: Option<Allocated<Self>>,
-            markdown_file: &NSURL,
-            options: Option<&NSAttributedStringMarkdownParsingOptions>,
-            base_url: Option<&NSURL>,
-        ) -> Result<Id<Self, Owned>, Id<NSError>>;
+    pub type NSMutableAttributedString;
 
-        #[cfg(all(
-            feature = "Foundation_NSAttributedStringMarkdownParsingOptions",
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Init initWithMarkdown:options:baseURL:error:_)]
-        pub unsafe fn initWithMarkdown_options_baseURL_error(
-            this: Option<Allocated<Self>>,
-            markdown: &NSData,
-            options: Option<&NSAttributedStringMarkdownParsingOptions>,
-            base_url: Option<&NSURL>,
-        ) -> Result<Id<Self, Owned>, Id<NSError>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithString:", managed = "Init")]
+    pub fn initWithString(this: Option<Allocated<Self>>, str: &NSString) -> Id<Self, Owned>;
 
-        #[cfg(all(
-            feature = "Foundation_NSAttributedStringMarkdownParsingOptions",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Init initWithMarkdownString:options:baseURL:error:_)]
-        pub unsafe fn initWithMarkdownString_options_baseURL_error(
-            this: Option<Allocated<Self>>,
-            markdown_string: &NSString,
-            options: Option<&NSAttributedStringMarkdownParsingOptions>,
-            base_url: Option<&NSURL>,
-        ) -> Result<Id<Self, Owned>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithString:attributes:", managed = "Init")]
+    pub unsafe fn initWithString_attributes(
+        this: Option<Allocated<Self>>,
+        str: &NSString,
+        attrs: Option<&NSDictionary<NSAttributedStringKey, Object>>,
+    ) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "initWithAttributedString:", managed = "Init")]
+    pub fn initWithAttributedString(
+        this: Option<Allocated<Self>>,
+        attr_str: &NSAttributedString,
+    ) -> Id<Self, Owned>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSAttributedString`
+        ///
+        /// NSAttributedStringCreateFromMarkdown
+    #[cfg(feature = "Foundation_NSMutableAttributedString")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMutableAttributedString")]
+    pub type NSMutableAttributedString;
+
+    #[cfg(all(
+        feature = "Foundation_NSAttributedStringMarkdownParsingOptions",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "initWithContentsOfMarkdownFileAtURL:options:baseURL:error:",
+        managed = "Init",
+        throws
+    )]
+    pub unsafe fn initWithContentsOfMarkdownFileAtURL_options_baseURL_error(
+        this: Option<Allocated<Self>>,
+        markdown_file: &NSURL,
+        options: Option<&NSAttributedStringMarkdownParsingOptions>,
+        base_url: Option<&NSURL>,
+    ) -> Result<Id<Self, Owned>, Id<NSError>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSAttributedStringMarkdownParsingOptions",
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "initWithMarkdown:options:baseURL:error:",
+        managed = "Init",
+        throws
+    )]
+    pub unsafe fn initWithMarkdown_options_baseURL_error(
+        this: Option<Allocated<Self>>,
+        markdown: &NSData,
+        options: Option<&NSAttributedStringMarkdownParsingOptions>,
+        base_url: Option<&NSURL>,
+    ) -> Result<Id<Self, Owned>, Id<NSError>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSAttributedStringMarkdownParsingOptions",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "initWithMarkdownString:options:baseURL:error:",
+        managed = "Init",
+        throws
+    )]
+    pub unsafe fn initWithMarkdownString_options_baseURL_error(
+        this: Option<Allocated<Self>>,
+        markdown_string: &NSString,
+        options: Option<&NSAttributedStringMarkdownParsingOptions>,
+        base_url: Option<&NSURL>,
+    ) -> Result<Id<Self, Owned>, Id<NSError>>;
+}

@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLOptionElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLOptionElement;
-
     #[cfg(feature = "WebKit_DOMHTMLOptionElement")]
-    unsafe impl ClassType for DOMHTMLOptionElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLOptionElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLOptionElement")]
 unsafe impl DOMEventTarget for DOMHTMLOptionElement {}
@@ -24,52 +28,56 @@ unsafe impl DOMEventTarget for DOMHTMLOptionElement {}
 #[cfg(feature = "WebKit_DOMHTMLOptionElement")]
 unsafe impl NSObjectProtocol for DOMHTMLOptionElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLOptionElement")]
-    unsafe impl DOMHTMLOptionElement {
-        #[method(disabled)]
-        pub unsafe fn disabled(&self) -> bool;
+    #[deprecated]
+    pub type DOMHTMLOptionElement;
 
-        #[method(setDisabled:)]
-        pub unsafe fn setDisabled(&self, disabled: bool);
+    #[objc2::method(sel = "disabled")]
+    pub unsafe fn disabled(&self) -> bool;
 
-        #[cfg(feature = "WebKit_DOMHTMLFormElement")]
-        #[method_id(@__retain_semantics Other form)]
-        pub unsafe fn form(&self) -> Option<Id<DOMHTMLFormElement>>;
+    #[objc2::method(sel = "setDisabled:")]
+    pub unsafe fn setDisabled(&self, disabled: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        pub unsafe fn label(&self) -> Id<NSString>;
+    #[cfg(feature = "WebKit_DOMHTMLFormElement")]
+    #[objc2::method(sel = "form", managed = "Other")]
+    pub unsafe fn form(&self) -> Option<Id<DOMHTMLFormElement>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        pub unsafe fn setLabel(&self, label: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    pub unsafe fn label(&self) -> Id<NSString>;
 
-        #[method(defaultSelected)]
-        pub unsafe fn defaultSelected(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    pub unsafe fn setLabel(&self, label: Option<&NSString>);
 
-        #[method(setDefaultSelected:)]
-        pub unsafe fn setDefaultSelected(&self, default_selected: bool);
+    #[objc2::method(sel = "defaultSelected")]
+    pub unsafe fn defaultSelected(&self) -> bool;
 
-        #[method(selected)]
-        pub unsafe fn selected(&self) -> bool;
+    #[objc2::method(sel = "setDefaultSelected:")]
+    pub unsafe fn setDefaultSelected(&self, default_selected: bool);
 
-        #[method(setSelected:)]
-        pub unsafe fn setSelected(&self, selected: bool);
+    #[objc2::method(sel = "selected")]
+    pub unsafe fn selected(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other value)]
-        pub unsafe fn value(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setSelected:")]
+    pub unsafe fn setSelected(&self, selected: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setValue:)]
-        pub unsafe fn setValue(&self, value: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "value", managed = "Other")]
+    pub unsafe fn value(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other text)]
-        pub unsafe fn text(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setValue:")]
+    pub unsafe fn setValue(&self, value: Option<&NSString>);
 
-        #[method(index)]
-        pub unsafe fn index(&self) -> c_int;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "text", managed = "Other")]
+    pub unsafe fn text(&self) -> Id<NSString>;
+
+    #[objc2::method(sel = "index")]
+    pub unsafe fn index(&self) -> c_int;
+}

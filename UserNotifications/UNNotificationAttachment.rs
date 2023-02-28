@@ -5,16 +5,16 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::UserNotifications::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNNotificationAttachment")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "UserNotifications_UNNotificationAttachment")]
-    pub struct UNNotificationAttachment;
-
-    #[cfg(feature = "UserNotifications_UNNotificationAttachment")]
-    unsafe impl ClassType for UNNotificationAttachment {
-        type Super = NSObject;
-    }
-);
+    pub type UNNotificationAttachment;
+}
 
 #[cfg(feature = "UserNotifications_UNNotificationAttachment")]
 unsafe impl NSCoding for UNNotificationAttachment {}
@@ -25,38 +25,45 @@ unsafe impl NSObjectProtocol for UNNotificationAttachment {}
 #[cfg(feature = "UserNotifications_UNNotificationAttachment")]
 unsafe impl NSSecureCoding for UNNotificationAttachment {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "UserNotifications_UNNotificationAttachment")]
-    unsafe impl UNNotificationAttachment {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    pub type UNNotificationAttachment;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Id<NSURL>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other type)]
-        pub unsafe fn r#type(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Id<NSURL>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other attachmentWithIdentifier:URL:options:error:_)]
-        pub unsafe fn attachmentWithIdentifier_URL_options_error(
-            identifier: &NSString,
-            url: &NSURL,
-            options: Option<&NSDictionary>,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "type", managed = "Other")]
+    pub unsafe fn r#type(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "attachmentWithIdentifier:URL:options:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn attachmentWithIdentifier_URL_options_error(
+        identifier: &NSString,
+        url: &NSURL,
+        options: Option<&NSDictionary>,
+    ) -> Result<Id<Self>, Id<NSError>>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}
 
 extern_static!(UNNotificationAttachmentOptionsTypeHintKey: &'static NSString);
 

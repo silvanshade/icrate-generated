@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLQuoteElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLQuoteElement;
-
     #[cfg(feature = "WebKit_DOMHTMLQuoteElement")]
-    unsafe impl ClassType for DOMHTMLQuoteElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLQuoteElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLQuoteElement")]
 unsafe impl DOMEventTarget for DOMHTMLQuoteElement {}
@@ -24,15 +28,19 @@ unsafe impl DOMEventTarget for DOMHTMLQuoteElement {}
 #[cfg(feature = "WebKit_DOMHTMLQuoteElement")]
 unsafe impl NSObjectProtocol for DOMHTMLQuoteElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLQuoteElement")]
-    unsafe impl DOMHTMLQuoteElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other cite)]
-        pub unsafe fn cite(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMHTMLQuoteElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCite:)]
-        pub unsafe fn setCite(&self, cite: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "cite", managed = "Other")]
+    pub unsafe fn cite(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCite:")]
+    pub unsafe fn setCite(&self, cite: Option<&NSString>);
+}

@@ -5,63 +5,58 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSTextBlockValueType {
-        NSTextBlockAbsoluteValueType = 0,
-        NSTextBlockPercentageValueType = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSTextBlockValueType {
+    NSTextBlockAbsoluteValueType = 0,
+    NSTextBlockPercentageValueType = 1,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSTextBlockDimension {
-        NSTextBlockWidth = 0,
-        NSTextBlockMinimumWidth = 1,
-        NSTextBlockMaximumWidth = 2,
-        NSTextBlockHeight = 4,
-        NSTextBlockMinimumHeight = 5,
-        NSTextBlockMaximumHeight = 6,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSTextBlockDimension {
+    NSTextBlockWidth = 0,
+    NSTextBlockMinimumWidth = 1,
+    NSTextBlockMaximumWidth = 2,
+    NSTextBlockHeight = 4,
+    NSTextBlockMinimumHeight = 5,
+    NSTextBlockMaximumHeight = 6,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSTextBlockLayer {
-        NSTextBlockPadding = -1,
-        NSTextBlockBorder = 0,
-        NSTextBlockMargin = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSTextBlockLayer {
+    NSTextBlockPadding = -1,
+    NSTextBlockBorder = 0,
+    NSTextBlockMargin = 1,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSTextBlockVerticalAlignment {
-        NSTextBlockTopAlignment = 0,
-        NSTextBlockMiddleAlignment = 1,
-        NSTextBlockBottomAlignment = 2,
-        NSTextBlockBaselineAlignment = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSTextBlockVerticalAlignment {
+    NSTextBlockTopAlignment = 0,
+    NSTextBlockMiddleAlignment = 1,
+    NSTextBlockBottomAlignment = 2,
+    NSTextBlockBaselineAlignment = 3,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSTextTableLayoutAlgorithm {
-        NSTextTableAutomaticLayoutAlgorithm = 0,
-        NSTextTableFixedLayoutAlgorithm = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSTextTableLayoutAlgorithm {
+    NSTextTableAutomaticLayoutAlgorithm = 0,
+    NSTextTableFixedLayoutAlgorithm = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextBlock")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextBlock")]
-    pub struct NSTextBlock;
-
-    #[cfg(feature = "AppKit_NSTextBlock")]
-    unsafe impl ClassType for NSTextBlock {
-        type Super = NSObject;
-    }
-);
+    pub type NSTextBlock;
+}
 
 #[cfg(feature = "AppKit_NSTextBlock")]
 unsafe impl NSCoding for NSTextBlock {}
@@ -72,138 +67,137 @@ unsafe impl NSObjectProtocol for NSTextBlock {}
 #[cfg(feature = "AppKit_NSTextBlock")]
 unsafe impl NSSecureCoding for NSTextBlock {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextBlock")]
-    unsafe impl NSTextBlock {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSTextBlock;
 
-        #[method(setValue:type:forDimension:)]
-        pub unsafe fn setValue_type_forDimension(
-            &self,
-            val: CGFloat,
-            r#type: NSTextBlockValueType,
-            dimension: NSTextBlockDimension,
-        );
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(valueForDimension:)]
-        pub unsafe fn valueForDimension(&self, dimension: NSTextBlockDimension) -> CGFloat;
+    #[objc2::method(sel = "setValue:type:forDimension:")]
+    pub unsafe fn setValue_type_forDimension(
+        &self,
+        val: CGFloat,
+        r#type: NSTextBlockValueType,
+        dimension: NSTextBlockDimension,
+    );
 
-        #[method(valueTypeForDimension:)]
-        pub unsafe fn valueTypeForDimension(
-            &self,
-            dimension: NSTextBlockDimension,
-        ) -> NSTextBlockValueType;
+    #[objc2::method(sel = "valueForDimension:")]
+    pub unsafe fn valueForDimension(&self, dimension: NSTextBlockDimension) -> CGFloat;
 
-        #[method(setContentWidth:type:)]
-        pub unsafe fn setContentWidth_type(&self, val: CGFloat, r#type: NSTextBlockValueType);
+    #[objc2::method(sel = "valueTypeForDimension:")]
+    pub unsafe fn valueTypeForDimension(
+        &self,
+        dimension: NSTextBlockDimension,
+    ) -> NSTextBlockValueType;
 
-        #[method(contentWidth)]
-        pub unsafe fn contentWidth(&self) -> CGFloat;
+    #[objc2::method(sel = "setContentWidth:type:")]
+    pub unsafe fn setContentWidth_type(&self, val: CGFloat, r#type: NSTextBlockValueType);
 
-        #[method(contentWidthValueType)]
-        pub unsafe fn contentWidthValueType(&self) -> NSTextBlockValueType;
+    #[objc2::method(sel = "contentWidth")]
+    pub unsafe fn contentWidth(&self) -> CGFloat;
 
-        #[method(setWidth:type:forLayer:edge:)]
-        pub unsafe fn setWidth_type_forLayer_edge(
-            &self,
-            val: CGFloat,
-            r#type: NSTextBlockValueType,
-            layer: NSTextBlockLayer,
-            edge: NSRectEdge,
-        );
+    #[objc2::method(sel = "contentWidthValueType")]
+    pub unsafe fn contentWidthValueType(&self) -> NSTextBlockValueType;
 
-        #[method(setWidth:type:forLayer:)]
-        pub unsafe fn setWidth_type_forLayer(
-            &self,
-            val: CGFloat,
-            r#type: NSTextBlockValueType,
-            layer: NSTextBlockLayer,
-        );
+    #[objc2::method(sel = "setWidth:type:forLayer:edge:")]
+    pub unsafe fn setWidth_type_forLayer_edge(
+        &self,
+        val: CGFloat,
+        r#type: NSTextBlockValueType,
+        layer: NSTextBlockLayer,
+        edge: NSRectEdge,
+    );
 
-        #[method(widthForLayer:edge:)]
-        pub unsafe fn widthForLayer_edge(
-            &self,
-            layer: NSTextBlockLayer,
-            edge: NSRectEdge,
-        ) -> CGFloat;
+    #[objc2::method(sel = "setWidth:type:forLayer:")]
+    pub unsafe fn setWidth_type_forLayer(
+        &self,
+        val: CGFloat,
+        r#type: NSTextBlockValueType,
+        layer: NSTextBlockLayer,
+    );
 
-        #[method(widthValueTypeForLayer:edge:)]
-        pub unsafe fn widthValueTypeForLayer_edge(
-            &self,
-            layer: NSTextBlockLayer,
-            edge: NSRectEdge,
-        ) -> NSTextBlockValueType;
+    #[objc2::method(sel = "widthForLayer:edge:")]
+    pub unsafe fn widthForLayer_edge(&self, layer: NSTextBlockLayer, edge: NSRectEdge) -> CGFloat;
 
-        #[method(verticalAlignment)]
-        pub unsafe fn verticalAlignment(&self) -> NSTextBlockVerticalAlignment;
+    #[objc2::method(sel = "widthValueTypeForLayer:edge:")]
+    pub unsafe fn widthValueTypeForLayer_edge(
+        &self,
+        layer: NSTextBlockLayer,
+        edge: NSRectEdge,
+    ) -> NSTextBlockValueType;
 
-        #[method(setVerticalAlignment:)]
-        pub unsafe fn setVerticalAlignment(&self, vertical_alignment: NSTextBlockVerticalAlignment);
+    #[objc2::method(sel = "verticalAlignment")]
+    pub unsafe fn verticalAlignment(&self) -> NSTextBlockVerticalAlignment;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other backgroundColor)]
-        pub unsafe fn backgroundColor(&self) -> Option<Id<NSColor>>;
+    #[objc2::method(sel = "setVerticalAlignment:")]
+    pub unsafe fn setVerticalAlignment(&self, vertical_alignment: NSTextBlockVerticalAlignment);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setBackgroundColor:)]
-        pub unsafe fn setBackgroundColor(&self, background_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "backgroundColor", managed = "Other")]
+    pub unsafe fn backgroundColor(&self) -> Option<Id<NSColor>>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setBorderColor:forEdge:)]
-        pub unsafe fn setBorderColor_forEdge(&self, color: Option<&NSColor>, edge: NSRectEdge);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setBackgroundColor:")]
+    pub unsafe fn setBackgroundColor(&self, background_color: Option<&NSColor>);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setBorderColor:)]
-        pub unsafe fn setBorderColor(&self, color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setBorderColor:forEdge:")]
+    pub unsafe fn setBorderColor_forEdge(&self, color: Option<&NSColor>, edge: NSRectEdge);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other borderColorForEdge:)]
-        pub unsafe fn borderColorForEdge(&self, edge: NSRectEdge) -> Option<Id<NSColor>>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setBorderColor:")]
+    pub unsafe fn setBorderColor(&self, color: Option<&NSColor>);
 
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(rectForLayoutAtPoint:inRect:textContainer:characterRange:)]
-        pub unsafe fn rectForLayoutAtPoint_inRect_textContainer_characterRange(
-            &self,
-            starting_point: NSPoint,
-            rect: NSRect,
-            text_container: &NSTextContainer,
-            char_range: NSRange,
-        ) -> NSRect;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "borderColorForEdge:", managed = "Other")]
+    pub unsafe fn borderColorForEdge(&self, edge: NSRectEdge) -> Option<Id<NSColor>>;
 
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method(boundsRectForContentRect:inRect:textContainer:characterRange:)]
-        pub unsafe fn boundsRectForContentRect_inRect_textContainer_characterRange(
-            &self,
-            content_rect: NSRect,
-            rect: NSRect,
-            text_container: &NSTextContainer,
-            char_range: NSRange,
-        ) -> NSRect;
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "rectForLayoutAtPoint:inRect:textContainer:characterRange:")]
+    pub unsafe fn rectForLayoutAtPoint_inRect_textContainer_characterRange(
+        &self,
+        starting_point: NSPoint,
+        rect: NSRect,
+        text_container: &NSTextContainer,
+        char_range: NSRange,
+    ) -> NSRect;
 
-        #[cfg(all(feature = "AppKit_NSLayoutManager", feature = "AppKit_NSView"))]
-        #[method(drawBackgroundWithFrame:inView:characterRange:layoutManager:)]
-        pub unsafe fn drawBackgroundWithFrame_inView_characterRange_layoutManager(
-            &self,
-            frame_rect: NSRect,
-            control_view: &NSView,
-            char_range: NSRange,
-            layout_manager: &NSLayoutManager,
-        );
-    }
-);
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "boundsRectForContentRect:inRect:textContainer:characterRange:")]
+    pub unsafe fn boundsRectForContentRect_inRect_textContainer_characterRange(
+        &self,
+        content_rect: NSRect,
+        rect: NSRect,
+        text_container: &NSTextContainer,
+        char_range: NSRange,
+    ) -> NSRect;
 
-extern_class!(
+    #[cfg(all(feature = "AppKit_NSLayoutManager", feature = "AppKit_NSView"))]
+    #[objc2::method(sel = "drawBackgroundWithFrame:inView:characterRange:layoutManager:")]
+    pub unsafe fn drawBackgroundWithFrame_inView_characterRange_layoutManager(
+        &self,
+        frame_rect: NSRect,
+        control_view: &NSView,
+        char_range: NSRange,
+        layout_manager: &NSLayoutManager,
+    );
+}
+
+#[objc2::interface(
+    unsafe super = NSTextBlock,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextTableBlock")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextTableBlock")]
-    pub struct NSTextTableBlock;
-
-    #[cfg(feature = "AppKit_NSTextTableBlock")]
-    unsafe impl ClassType for NSTextTableBlock {
-        #[inherits(NSObject)]
-        type Super = NSTextBlock;
-    }
-);
+    pub type NSTextTableBlock;
+}
 
 #[cfg(feature = "AppKit_NSTextTableBlock")]
 unsafe impl NSCoding for NSTextTableBlock {}
@@ -214,49 +208,55 @@ unsafe impl NSObjectProtocol for NSTextTableBlock {}
 #[cfg(feature = "AppKit_NSTextTableBlock")]
 unsafe impl NSSecureCoding for NSTextTableBlock {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextTableBlock")]
-    unsafe impl NSTextTableBlock {
-        #[cfg(feature = "AppKit_NSTextTable")]
-        #[method_id(@__retain_semantics Init initWithTable:startingRow:rowSpan:startingColumn:columnSpan:)]
-        pub unsafe fn initWithTable_startingRow_rowSpan_startingColumn_columnSpan(
-            this: Option<Allocated<Self>>,
-            table: &NSTextTable,
-            row: NSInteger,
-            row_span: NSInteger,
-            col: NSInteger,
-            col_span: NSInteger,
-        ) -> Id<Self>;
+    pub type NSTextTableBlock;
 
-        #[cfg(feature = "AppKit_NSTextTable")]
-        #[method_id(@__retain_semantics Other table)]
-        pub unsafe fn table(&self) -> Id<NSTextTable>;
+    #[cfg(feature = "AppKit_NSTextTable")]
+    #[objc2::method(
+        sel = "initWithTable:startingRow:rowSpan:startingColumn:columnSpan:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithTable_startingRow_rowSpan_startingColumn_columnSpan(
+        this: Option<Allocated<Self>>,
+        table: &NSTextTable,
+        row: NSInteger,
+        row_span: NSInteger,
+        col: NSInteger,
+        col_span: NSInteger,
+    ) -> Id<Self>;
 
-        #[method(startingRow)]
-        pub unsafe fn startingRow(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSTextTable")]
+    #[objc2::method(sel = "table", managed = "Other")]
+    pub unsafe fn table(&self) -> Id<NSTextTable>;
 
-        #[method(rowSpan)]
-        pub unsafe fn rowSpan(&self) -> NSInteger;
+    #[objc2::method(sel = "startingRow")]
+    pub unsafe fn startingRow(&self) -> NSInteger;
 
-        #[method(startingColumn)]
-        pub unsafe fn startingColumn(&self) -> NSInteger;
+    #[objc2::method(sel = "rowSpan")]
+    pub unsafe fn rowSpan(&self) -> NSInteger;
 
-        #[method(columnSpan)]
-        pub unsafe fn columnSpan(&self) -> NSInteger;
-    }
-);
+    #[objc2::method(sel = "startingColumn")]
+    pub unsafe fn startingColumn(&self) -> NSInteger;
 
-extern_class!(
+    #[objc2::method(sel = "columnSpan")]
+    pub unsafe fn columnSpan(&self) -> NSInteger;
+}
+
+#[objc2::interface(
+    unsafe super = NSTextBlock,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextTable")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextTable")]
-    pub struct NSTextTable;
-
-    #[cfg(feature = "AppKit_NSTextTable")]
-    unsafe impl ClassType for NSTextTable {
-        #[inherits(NSObject)]
-        type Super = NSTextBlock;
-    }
-);
+    pub type NSTextTable;
+}
 
 #[cfg(feature = "AppKit_NSTextTable")]
 unsafe impl NSCoding for NSTextTable {}
@@ -267,74 +267,77 @@ unsafe impl NSObjectProtocol for NSTextTable {}
 #[cfg(feature = "AppKit_NSTextTable")]
 unsafe impl NSSecureCoding for NSTextTable {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextTable")]
-    unsafe impl NSTextTable {
-        #[method(numberOfColumns)]
-        pub unsafe fn numberOfColumns(&self) -> NSUInteger;
+    pub type NSTextTable;
 
-        #[method(setNumberOfColumns:)]
-        pub unsafe fn setNumberOfColumns(&self, number_of_columns: NSUInteger);
+    #[objc2::method(sel = "numberOfColumns")]
+    pub unsafe fn numberOfColumns(&self) -> NSUInteger;
 
-        #[method(layoutAlgorithm)]
-        pub unsafe fn layoutAlgorithm(&self) -> NSTextTableLayoutAlgorithm;
+    #[objc2::method(sel = "setNumberOfColumns:")]
+    pub unsafe fn setNumberOfColumns(&self, number_of_columns: NSUInteger);
 
-        #[method(setLayoutAlgorithm:)]
-        pub unsafe fn setLayoutAlgorithm(&self, layout_algorithm: NSTextTableLayoutAlgorithm);
+    #[objc2::method(sel = "layoutAlgorithm")]
+    pub unsafe fn layoutAlgorithm(&self) -> NSTextTableLayoutAlgorithm;
 
-        #[method(collapsesBorders)]
-        pub unsafe fn collapsesBorders(&self) -> bool;
+    #[objc2::method(sel = "setLayoutAlgorithm:")]
+    pub unsafe fn setLayoutAlgorithm(&self, layout_algorithm: NSTextTableLayoutAlgorithm);
 
-        #[method(setCollapsesBorders:)]
-        pub unsafe fn setCollapsesBorders(&self, collapses_borders: bool);
+    #[objc2::method(sel = "collapsesBorders")]
+    pub unsafe fn collapsesBorders(&self) -> bool;
 
-        #[method(hidesEmptyCells)]
-        pub unsafe fn hidesEmptyCells(&self) -> bool;
+    #[objc2::method(sel = "setCollapsesBorders:")]
+    pub unsafe fn setCollapsesBorders(&self, collapses_borders: bool);
 
-        #[method(setHidesEmptyCells:)]
-        pub unsafe fn setHidesEmptyCells(&self, hides_empty_cells: bool);
+    #[objc2::method(sel = "hidesEmptyCells")]
+    pub unsafe fn hidesEmptyCells(&self) -> bool;
 
-        #[cfg(all(
-            feature = "AppKit_NSTextContainer",
-            feature = "AppKit_NSTextTableBlock"
-        ))]
-        #[method(rectForBlock:layoutAtPoint:inRect:textContainer:characterRange:)]
-        pub unsafe fn rectForBlock_layoutAtPoint_inRect_textContainer_characterRange(
-            &self,
-            block: &NSTextTableBlock,
-            starting_point: NSPoint,
-            rect: NSRect,
-            text_container: &NSTextContainer,
-            char_range: NSRange,
-        ) -> NSRect;
+    #[objc2::method(sel = "setHidesEmptyCells:")]
+    pub unsafe fn setHidesEmptyCells(&self, hides_empty_cells: bool);
 
-        #[cfg(all(
-            feature = "AppKit_NSTextContainer",
-            feature = "AppKit_NSTextTableBlock"
-        ))]
-        #[method(boundsRectForBlock:contentRect:inRect:textContainer:characterRange:)]
-        pub unsafe fn boundsRectForBlock_contentRect_inRect_textContainer_characterRange(
-            &self,
-            block: &NSTextTableBlock,
-            content_rect: NSRect,
-            rect: NSRect,
-            text_container: &NSTextContainer,
-            char_range: NSRange,
-        ) -> NSRect;
+    #[cfg(all(
+        feature = "AppKit_NSTextContainer",
+        feature = "AppKit_NSTextTableBlock"
+    ))]
+    #[objc2::method(sel = "rectForBlock:layoutAtPoint:inRect:textContainer:characterRange:")]
+    pub unsafe fn rectForBlock_layoutAtPoint_inRect_textContainer_characterRange(
+        &self,
+        block: &NSTextTableBlock,
+        starting_point: NSPoint,
+        rect: NSRect,
+        text_container: &NSTextContainer,
+        char_range: NSRange,
+    ) -> NSRect;
 
-        #[cfg(all(
-            feature = "AppKit_NSLayoutManager",
-            feature = "AppKit_NSTextTableBlock",
-            feature = "AppKit_NSView"
-        ))]
-        #[method(drawBackgroundForBlock:withFrame:inView:characterRange:layoutManager:)]
-        pub unsafe fn drawBackgroundForBlock_withFrame_inView_characterRange_layoutManager(
-            &self,
-            block: &NSTextTableBlock,
-            frame_rect: NSRect,
-            control_view: &NSView,
-            char_range: NSRange,
-            layout_manager: &NSLayoutManager,
-        );
-    }
-);
+    #[cfg(all(
+        feature = "AppKit_NSTextContainer",
+        feature = "AppKit_NSTextTableBlock"
+    ))]
+    #[objc2::method(sel = "boundsRectForBlock:contentRect:inRect:textContainer:characterRange:")]
+    pub unsafe fn boundsRectForBlock_contentRect_inRect_textContainer_characterRange(
+        &self,
+        block: &NSTextTableBlock,
+        content_rect: NSRect,
+        rect: NSRect,
+        text_container: &NSTextContainer,
+        char_range: NSRange,
+    ) -> NSRect;
+
+    #[cfg(all(
+        feature = "AppKit_NSLayoutManager",
+        feature = "AppKit_NSTextTableBlock",
+        feature = "AppKit_NSView"
+    ))]
+    #[objc2::method(sel = "drawBackgroundForBlock:withFrame:inView:characterRange:layoutManager:")]
+    pub unsafe fn drawBackgroundForBlock_withFrame_inView_characterRange_layoutManager(
+        &self,
+        block: &NSTextTableBlock,
+        frame_rect: NSRect,
+        control_view: &NSView,
+        char_range: NSRange,
+        layout_manager: &NSLayoutManager,
+    );
+}

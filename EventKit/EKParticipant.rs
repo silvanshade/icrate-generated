@@ -7,54 +7,57 @@ use crate::EventKit::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = EKObject,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "EventKit_EKParticipant")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "EventKit_EKParticipant")]
-    pub struct EKParticipant;
-
-    #[cfg(feature = "EventKit_EKParticipant")]
-    unsafe impl ClassType for EKParticipant {
-        #[inherits(NSObject)]
-        type Super = EKObject;
-    }
-);
+    pub type EKParticipant;
+}
 
 #[cfg(feature = "EventKit_EKParticipant")]
 unsafe impl NSObjectProtocol for EKParticipant {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "EventKit_EKParticipant")]
-    unsafe impl EKParticipant {
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Id<NSURL>;
+    pub type EKParticipant;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Id<NSURL>;
 
-        #[method(participantStatus)]
-        pub unsafe fn participantStatus(&self) -> EKParticipantStatus;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSString>>;
 
-        #[method(participantRole)]
-        pub unsafe fn participantRole(&self) -> EKParticipantRole;
+    #[objc2::method(sel = "participantStatus")]
+    pub unsafe fn participantStatus(&self) -> EKParticipantStatus;
 
-        #[method(participantType)]
-        pub unsafe fn participantType(&self) -> EKParticipantType;
+    #[objc2::method(sel = "participantRole")]
+    pub unsafe fn participantRole(&self) -> EKParticipantRole;
 
-        #[method(isCurrentUser)]
-        pub unsafe fn isCurrentUser(&self) -> bool;
+    #[objc2::method(sel = "participantType")]
+    pub unsafe fn participantType(&self) -> EKParticipantType;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other contactPredicate)]
-        pub unsafe fn contactPredicate(&self) -> Id<NSPredicate>;
+    #[objc2::method(sel = "isCurrentUser")]
+    pub unsafe fn isCurrentUser(&self) -> bool;
 
-        #[cfg(all(feature = "EventKit_ABAddressBook", feature = "EventKit_ABPerson"))]
-        #[deprecated = "Use contactPredicate instead"]
-        #[method_id(@__retain_semantics Other ABPersonInAddressBook:)]
-        pub unsafe fn ABPersonInAddressBook(
-            &self,
-            address_book: &ABAddressBook,
-        ) -> Option<Id<ABPerson>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "contactPredicate", managed = "Other")]
+    pub unsafe fn contactPredicate(&self) -> Id<NSPredicate>;
+
+    #[cfg(all(feature = "EventKit_ABAddressBook", feature = "EventKit_ABPerson"))]
+    #[deprecated = "Use contactPredicate instead"]
+    #[objc2::method(sel = "ABPersonInAddressBook:", managed = "Other")]
+    pub unsafe fn ABPersonInAddressBook(
+        &self,
+        address_book: &ABAddressBook,
+    ) -> Option<Id<ABPerson>>;
+}

@@ -4,21 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-__inner_extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXAverage")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXAverage")]
-    pub struct MXAverage<UnitType: Message = Object, UnitTypeOwnership: Ownership = Shared> {
-        _inner0: PhantomData<*mut (UnitType, UnitTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "MetricKit_MXAverage")]
-    unsafe impl<UnitType: Message, UnitTypeOwnership: Ownership> ClassType
-        for MXAverage<UnitType, UnitTypeOwnership>
-    {
-        type Super = NSObject;
-    }
-);
+    pub type MXAverage<UnitType: Message = Object, UnitTypeOwnership: Ownership = Shared>;
+}
 
 #[cfg(feature = "MetricKit_MXAverage")]
 unsafe impl<UnitType: Message, UnitTypeOwnership: Ownership> NSCoding
@@ -38,19 +33,20 @@ unsafe impl<UnitType: Message, UnitTypeOwnership: Ownership> NSSecureCoding
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXAverage")]
-    unsafe impl<UnitType: Message, UnitTypeOwnership: Ownership>
-        MXAverage<UnitType, UnitTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSMeasurement")]
-        #[method_id(@__retain_semantics Other averageMeasurement)]
-        pub unsafe fn averageMeasurement(&self) -> Id<NSMeasurement<UnitType>>;
+    pub type MXAverage<UnitType: Message = Object, UnitTypeOwnership: Ownership = Shared>;
 
-        #[method(sampleCount)]
-        pub unsafe fn sampleCount(&self) -> NSInteger;
+    #[cfg(feature = "Foundation_NSMeasurement")]
+    #[objc2::method(sel = "averageMeasurement", managed = "Other")]
+    pub unsafe fn averageMeasurement(&self) -> Id<NSMeasurement<UnitType>>;
 
-        #[method(standardDeviation)]
-        pub unsafe fn standardDeviation(&self) -> c_double;
-    }
-);
+    #[objc2::method(sel = "sampleCount")]
+    pub unsafe fn sampleCount(&self) -> NSInteger;
+
+    #[objc2::method(sel = "standardDeviation")]
+    pub unsafe fn standardDeviation(&self) -> c_double;
+}

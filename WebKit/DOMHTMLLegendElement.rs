@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLLegendElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLLegendElement;
-
     #[cfg(feature = "WebKit_DOMHTMLLegendElement")]
-    unsafe impl ClassType for DOMHTMLLegendElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLLegendElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLLegendElement")]
 unsafe impl DOMEventTarget for DOMHTMLLegendElement {}
@@ -24,29 +28,33 @@ unsafe impl DOMEventTarget for DOMHTMLLegendElement {}
 #[cfg(feature = "WebKit_DOMHTMLLegendElement")]
 unsafe impl NSObjectProtocol for DOMHTMLLegendElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLLegendElement")]
-    unsafe impl DOMHTMLLegendElement {
-        #[cfg(feature = "WebKit_DOMHTMLFormElement")]
-        #[method_id(@__retain_semantics Other form)]
-        pub unsafe fn form(&self) -> Option<Id<DOMHTMLFormElement>>;
+    #[deprecated]
+    pub type DOMHTMLLegendElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other align)]
-        pub unsafe fn align(&self) -> Id<NSString>;
+    #[cfg(feature = "WebKit_DOMHTMLFormElement")]
+    #[objc2::method(sel = "form", managed = "Other")]
+    pub unsafe fn form(&self) -> Option<Id<DOMHTMLFormElement>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAlign:)]
-        pub unsafe fn setAlign(&self, align: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "align", managed = "Other")]
+    pub unsafe fn align(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other accessKey)]
-        pub unsafe fn accessKey(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAlign:")]
+    pub unsafe fn setAlign(&self, align: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(setAccessKey:)]
-        pub unsafe fn setAccessKey(&self, access_key: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "accessKey", managed = "Other")]
+    pub unsafe fn accessKey(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "setAccessKey:")]
+    pub unsafe fn setAccessKey(&self, access_key: Option<&NSString>);
+}

@@ -5,30 +5,34 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKCloudPlayer")]
+#[objc2::interface(
+    unsafe super = GKBasePlayer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated = "GKGameSession is deprecated. Use GKPlayer for both real-time and turn-based matchmaking APIs."]
-    pub struct GKCloudPlayer;
-
     #[cfg(feature = "GameKit_GKCloudPlayer")]
-    unsafe impl ClassType for GKCloudPlayer {
-        #[inherits(NSObject)]
-        type Super = GKBasePlayer;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type GKCloudPlayer;
+}
 
 #[cfg(feature = "GameKit_GKCloudPlayer")]
 unsafe impl NSObjectProtocol for GKCloudPlayer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKCloudPlayer")]
-    unsafe impl GKCloudPlayer {
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(getCurrentSignedInPlayerForContainer:completionHandler:)]
-        pub unsafe fn getCurrentSignedInPlayerForContainer_completionHandler(
-            container_name: Option<&NSString>,
-            handler: &Block<(*mut GKCloudPlayer, *mut NSError), ()>,
-        );
-    }
-);
+    #[deprecated = "GKGameSession is deprecated. Use GKPlayer for both real-time and turn-based matchmaking APIs."]
+    pub type GKCloudPlayer;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "getCurrentSignedInPlayerForContainer:completionHandler:")]
+    pub unsafe fn getCurrentSignedInPlayerForContainer_completionHandler(
+        container_name: Option<&NSString>,
+        handler: &Block<(*mut GKCloudPlayer, *mut NSError), ()>,
+    );
+}

@@ -6,16 +6,16 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKSourceRevision")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKSourceRevision")]
-    pub struct HKSourceRevision;
-
-    #[cfg(feature = "HealthKit_HKSourceRevision")]
-    unsafe impl ClassType for HKSourceRevision {
-        type Super = NSObject;
-    }
-);
+    pub type HKSourceRevision;
+}
 
 #[cfg(feature = "HealthKit_HKSourceRevision")]
 unsafe impl NSCoding for HKSourceRevision {}
@@ -26,46 +26,52 @@ unsafe impl NSObjectProtocol for HKSourceRevision {}
 #[cfg(feature = "HealthKit_HKSourceRevision")]
 unsafe impl NSSecureCoding for HKSourceRevision {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKSourceRevision")]
-    unsafe impl HKSourceRevision {
-        #[cfg(feature = "HealthKit_HKSource")]
-        #[method_id(@__retain_semantics Other source)]
-        pub unsafe fn source(&self) -> Id<HKSource>;
+    pub type HKSourceRevision;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other version)]
-        pub unsafe fn version(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "HealthKit_HKSource")]
+    #[objc2::method(sel = "source", managed = "Other")]
+    pub unsafe fn source(&self) -> Id<HKSource>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other productType)]
-        pub unsafe fn productType(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "version", managed = "Other")]
+    pub unsafe fn version(&self) -> Option<Id<NSString>>;
 
-        #[method(operatingSystemVersion)]
-        pub unsafe fn operatingSystemVersion(&self) -> NSOperatingSystemVersion;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "productType", managed = "Other")]
+    pub unsafe fn productType(&self) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "HealthKit_HKSource"))]
-        #[method_id(@__retain_semantics Init initWithSource:version:productType:operatingSystemVersion:)]
-        pub unsafe fn initWithSource_version_productType_operatingSystemVersion(
-            this: Option<Allocated<Self>>,
-            source: &HKSource,
-            version: Option<&NSString>,
-            product_type: Option<&NSString>,
-            operating_system_version: NSOperatingSystemVersion,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "operatingSystemVersion")]
+    pub unsafe fn operatingSystemVersion(&self) -> NSOperatingSystemVersion;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "HealthKit_HKSource"))]
-        #[method_id(@__retain_semantics Init initWithSource:version:)]
-        pub unsafe fn initWithSource_version(
-            this: Option<Allocated<Self>>,
-            source: &HKSource,
-            version: Option<&NSString>,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "HealthKit_HKSource"))]
+    #[objc2::method(
+        sel = "initWithSource:version:productType:operatingSystemVersion:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithSource_version_productType_operatingSystemVersion(
+        this: Option<Allocated<Self>>,
+        source: &HKSource,
+        version: Option<&NSString>,
+        product_type: Option<&NSString>,
+        operating_system_version: NSOperatingSystemVersion,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSString", feature = "HealthKit_HKSource"))]
+    #[objc2::method(sel = "initWithSource:version:", managed = "Init")]
+    pub unsafe fn initWithSource_version(
+        this: Option<Allocated<Self>>,
+        source: &HKSource,
+        version: Option<&NSString>,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}
 
 extern_static!(HKSourceRevisionAnyVersion: &'static NSString);
 

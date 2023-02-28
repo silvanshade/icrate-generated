@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSMenuItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSMenuItem")]
-    pub struct NSMenuItem;
-
-    #[cfg(feature = "AppKit_NSMenuItem")]
-    unsafe impl ClassType for NSMenuItem {
-        type Super = NSObject;
-    }
-);
+    pub type NSMenuItem;
+}
 
 #[cfg(feature = "AppKit_NSMenuItem")]
 unsafe impl NSAccessibility for NSMenuItem {}
@@ -34,262 +34,266 @@ unsafe impl NSUserInterfaceItemIdentification for NSMenuItem {}
 #[cfg(feature = "AppKit_NSMenuItem")]
 unsafe impl NSValidatedUserInterfaceItem for NSMenuItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSMenuItem")]
-    unsafe impl NSMenuItem {
-        #[method(usesUserKeyEquivalents)]
-        pub unsafe fn usesUserKeyEquivalents() -> bool;
+    pub type NSMenuItem;
 
-        #[method(setUsesUserKeyEquivalents:)]
-        pub unsafe fn setUsesUserKeyEquivalents(uses_user_key_equivalents: bool);
+    #[objc2::method(sel = "usesUserKeyEquivalents")]
+    pub unsafe fn usesUserKeyEquivalents() -> bool;
 
-        #[method_id(@__retain_semantics Other separatorItem)]
-        pub unsafe fn separatorItem() -> Id<NSMenuItem>;
+    #[objc2::method(sel = "setUsesUserKeyEquivalents:")]
+    pub unsafe fn setUsesUserKeyEquivalents(uses_user_key_equivalents: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithTitle:action:keyEquivalent:)]
-        pub unsafe fn initWithTitle_action_keyEquivalent(
-            this: Option<Allocated<Self>>,
-            string: &NSString,
-            selector: Option<Sel>,
-            char_code: &NSString,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "separatorItem", managed = "Other")]
+    pub unsafe fn separatorItem() -> Id<NSMenuItem>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithTitle:action:keyEquivalent:", managed = "Init")]
+    pub unsafe fn initWithTitle_action_keyEquivalent(
+        this: Option<Allocated<Self>>,
+        string: &NSString,
+        selector: Option<Sel>,
+        char_code: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method_id(@__retain_semantics Other menu)]
-        pub unsafe fn menu(&self) -> Option<Id<NSMenu>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method(setMenu:)]
-        pub unsafe fn setMenu(&self, menu: Option<&NSMenu>);
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "menu", managed = "Other")]
+    pub unsafe fn menu(&self) -> Option<Id<NSMenu>>;
 
-        #[method(hasSubmenu)]
-        pub unsafe fn hasSubmenu(&self) -> bool;
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "setMenu:")]
+    pub unsafe fn setMenu(&self, menu: Option<&NSMenu>);
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method_id(@__retain_semantics Other submenu)]
-        pub unsafe fn submenu(&self) -> Option<Id<NSMenu>>;
+    #[objc2::method(sel = "hasSubmenu")]
+    pub unsafe fn hasSubmenu(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method(setSubmenu:)]
-        pub unsafe fn setSubmenu(&self, submenu: Option<&NSMenu>);
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "submenu", managed = "Other")]
+    pub unsafe fn submenu(&self) -> Option<Id<NSMenu>>;
 
-        #[method_id(@__retain_semantics Other parentItem)]
-        pub unsafe fn parentItem(&self) -> Option<Id<NSMenuItem>>;
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "setSubmenu:")]
+    pub unsafe fn setSubmenu(&self, submenu: Option<&NSMenu>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[objc2::method(sel = "parentItem", managed = "Other")]
+    pub unsafe fn parentItem(&self) -> Option<Id<NSMenuItem>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other attributedTitle)]
-        pub unsafe fn attributedTitle(&self) -> Option<Id<NSAttributedString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(setAttributedTitle:)]
-        pub unsafe fn setAttributedTitle(&self, attributed_title: Option<&NSAttributedString>);
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "attributedTitle", managed = "Other")]
+    pub unsafe fn attributedTitle(&self) -> Option<Id<NSAttributedString>>;
 
-        #[method(isSeparatorItem)]
-        pub unsafe fn isSeparatorItem(&self) -> bool;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "setAttributedTitle:")]
+    pub unsafe fn setAttributedTitle(&self, attributed_title: Option<&NSAttributedString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other keyEquivalent)]
-        pub unsafe fn keyEquivalent(&self) -> Id<NSString>;
+    #[objc2::method(sel = "isSeparatorItem")]
+    pub unsafe fn isSeparatorItem(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setKeyEquivalent:)]
-        pub unsafe fn setKeyEquivalent(&self, key_equivalent: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "keyEquivalent", managed = "Other")]
+    pub unsafe fn keyEquivalent(&self) -> Id<NSString>;
 
-        #[method(keyEquivalentModifierMask)]
-        pub unsafe fn keyEquivalentModifierMask(&self) -> NSEventModifierFlags;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setKeyEquivalent:")]
+    pub unsafe fn setKeyEquivalent(&self, key_equivalent: &NSString);
 
-        #[method(setKeyEquivalentModifierMask:)]
-        pub unsafe fn setKeyEquivalentModifierMask(
-            &self,
-            key_equivalent_modifier_mask: NSEventModifierFlags,
-        );
+    #[objc2::method(sel = "keyEquivalentModifierMask")]
+    pub unsafe fn keyEquivalentModifierMask(&self) -> NSEventModifierFlags;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other userKeyEquivalent)]
-        pub unsafe fn userKeyEquivalent(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setKeyEquivalentModifierMask:")]
+    pub unsafe fn setKeyEquivalentModifierMask(
+        &self,
+        key_equivalent_modifier_mask: NSEventModifierFlags,
+    );
 
-        #[method(allowsKeyEquivalentWhenHidden)]
-        pub unsafe fn allowsKeyEquivalentWhenHidden(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "userKeyEquivalent", managed = "Other")]
+    pub unsafe fn userKeyEquivalent(&self) -> Id<NSString>;
 
-        #[method(setAllowsKeyEquivalentWhenHidden:)]
-        pub unsafe fn setAllowsKeyEquivalentWhenHidden(
-            &self,
-            allows_key_equivalent_when_hidden: bool,
-        );
+    #[objc2::method(sel = "allowsKeyEquivalentWhenHidden")]
+    pub unsafe fn allowsKeyEquivalentWhenHidden(&self) -> bool;
 
-        #[method(allowsAutomaticKeyEquivalentLocalization)]
-        pub unsafe fn allowsAutomaticKeyEquivalentLocalization(&self) -> bool;
+    #[objc2::method(sel = "setAllowsKeyEquivalentWhenHidden:")]
+    pub unsafe fn setAllowsKeyEquivalentWhenHidden(&self, allows_key_equivalent_when_hidden: bool);
 
-        #[method(setAllowsAutomaticKeyEquivalentLocalization:)]
-        pub unsafe fn setAllowsAutomaticKeyEquivalentLocalization(
-            &self,
-            allows_automatic_key_equivalent_localization: bool,
-        );
+    #[objc2::method(sel = "allowsAutomaticKeyEquivalentLocalization")]
+    pub unsafe fn allowsAutomaticKeyEquivalentLocalization(&self) -> bool;
 
-        #[method(allowsAutomaticKeyEquivalentMirroring)]
-        pub unsafe fn allowsAutomaticKeyEquivalentMirroring(&self) -> bool;
+    #[objc2::method(sel = "setAllowsAutomaticKeyEquivalentLocalization:")]
+    pub unsafe fn setAllowsAutomaticKeyEquivalentLocalization(
+        &self,
+        allows_automatic_key_equivalent_localization: bool,
+    );
 
-        #[method(setAllowsAutomaticKeyEquivalentMirroring:)]
-        pub unsafe fn setAllowsAutomaticKeyEquivalentMirroring(
-            &self,
-            allows_automatic_key_equivalent_mirroring: bool,
-        );
+    #[objc2::method(sel = "allowsAutomaticKeyEquivalentMirroring")]
+    pub unsafe fn allowsAutomaticKeyEquivalentMirroring(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Option<Id<NSImage>>;
+    #[objc2::method(sel = "setAllowsAutomaticKeyEquivalentMirroring:")]
+    pub unsafe fn setAllowsAutomaticKeyEquivalentMirroring(
+        &self,
+        allows_automatic_key_equivalent_mirroring: bool,
+    );
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setImage:)]
-        pub unsafe fn setImage(&self, image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Option<Id<NSImage>>;
 
-        #[method(state)]
-        pub unsafe fn state(&self) -> NSControlStateValue;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setImage:")]
+    pub unsafe fn setImage(&self, image: Option<&NSImage>);
 
-        #[method(setState:)]
-        pub unsafe fn setState(&self, state: NSControlStateValue);
+    #[objc2::method(sel = "state")]
+    pub unsafe fn state(&self) -> NSControlStateValue;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other onStateImage)]
-        pub unsafe fn onStateImage(&self) -> Option<Id<NSImage>>;
+    #[objc2::method(sel = "setState:")]
+    pub unsafe fn setState(&self, state: NSControlStateValue);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setOnStateImage:)]
-        pub unsafe fn setOnStateImage(&self, on_state_image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "onStateImage", managed = "Other")]
+    pub unsafe fn onStateImage(&self) -> Option<Id<NSImage>>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other offStateImage)]
-        pub unsafe fn offStateImage(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setOnStateImage:")]
+    pub unsafe fn setOnStateImage(&self, on_state_image: Option<&NSImage>);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setOffStateImage:)]
-        pub unsafe fn setOffStateImage(&self, off_state_image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "offStateImage", managed = "Other")]
+    pub unsafe fn offStateImage(&self) -> Option<Id<NSImage>>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other mixedStateImage)]
-        pub unsafe fn mixedStateImage(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setOffStateImage:")]
+    pub unsafe fn setOffStateImage(&self, off_state_image: Option<&NSImage>);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setMixedStateImage:)]
-        pub unsafe fn setMixedStateImage(&self, mixed_state_image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "mixedStateImage", managed = "Other")]
+    pub unsafe fn mixedStateImage(&self) -> Option<Id<NSImage>>;
 
-        #[method(isEnabled)]
-        pub unsafe fn isEnabled(&self) -> bool;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setMixedStateImage:")]
+    pub unsafe fn setMixedStateImage(&self, mixed_state_image: Option<&NSImage>);
 
-        #[method(setEnabled:)]
-        pub unsafe fn setEnabled(&self, enabled: bool);
+    #[objc2::method(sel = "isEnabled")]
+    pub unsafe fn isEnabled(&self) -> bool;
 
-        #[method(isAlternate)]
-        pub unsafe fn isAlternate(&self) -> bool;
+    #[objc2::method(sel = "setEnabled:")]
+    pub unsafe fn setEnabled(&self, enabled: bool);
 
-        #[method(setAlternate:)]
-        pub unsafe fn setAlternate(&self, alternate: bool);
+    #[objc2::method(sel = "isAlternate")]
+    pub unsafe fn isAlternate(&self) -> bool;
 
-        #[method(indentationLevel)]
-        pub unsafe fn indentationLevel(&self) -> NSInteger;
+    #[objc2::method(sel = "setAlternate:")]
+    pub unsafe fn setAlternate(&self, alternate: bool);
 
-        #[method(setIndentationLevel:)]
-        pub unsafe fn setIndentationLevel(&self, indentation_level: NSInteger);
+    #[objc2::method(sel = "indentationLevel")]
+    pub unsafe fn indentationLevel(&self) -> NSInteger;
 
-        #[method_id(@__retain_semantics Other target)]
-        pub unsafe fn target(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setIndentationLevel:")]
+    pub unsafe fn setIndentationLevel(&self, indentation_level: NSInteger);
 
-        #[method(setTarget:)]
-        pub unsafe fn setTarget(&self, target: Option<&Object>);
+    #[objc2::method(sel = "target", managed = "Other")]
+    pub unsafe fn target(&self) -> Option<Id<Object>>;
 
-        #[method(action)]
-        pub unsafe fn action(&self) -> Option<Sel>;
+    #[objc2::method(sel = "setTarget:")]
+    pub unsafe fn setTarget(&self, target: Option<&Object>);
 
-        #[method(setAction:)]
-        pub unsafe fn setAction(&self, action: Option<Sel>);
+    #[objc2::method(sel = "action")]
+    pub unsafe fn action(&self) -> Option<Sel>;
 
-        #[method(tag)]
-        pub unsafe fn tag(&self) -> NSInteger;
+    #[objc2::method(sel = "setAction:")]
+    pub unsafe fn setAction(&self, action: Option<Sel>);
 
-        #[method(setTag:)]
-        pub unsafe fn setTag(&self, tag: NSInteger);
+    #[objc2::method(sel = "tag")]
+    pub unsafe fn tag(&self) -> NSInteger;
 
-        #[method_id(@__retain_semantics Other representedObject)]
-        pub unsafe fn representedObject(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setTag:")]
+    pub unsafe fn setTag(&self, tag: NSInteger);
 
-        #[method(setRepresentedObject:)]
-        pub unsafe fn setRepresentedObject(&self, represented_object: Option<&Object>);
+    #[objc2::method(sel = "representedObject", managed = "Other")]
+    pub unsafe fn representedObject(&self) -> Option<Id<Object>>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other view)]
-        pub unsafe fn view(&self) -> Option<Id<NSView>>;
+    #[objc2::method(sel = "setRepresentedObject:")]
+    pub unsafe fn setRepresentedObject(&self, represented_object: Option<&Object>);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setView:)]
-        pub unsafe fn setView(&self, view: Option<&NSView>);
-
-        #[method(isHighlighted)]
-        pub unsafe fn isHighlighted(&self) -> bool;
-
-        #[method(isHidden)]
-        pub unsafe fn isHidden(&self) -> bool;
-
-        #[method(setHidden:)]
-        pub unsafe fn setHidden(&self, hidden: bool);
-
-        #[method(isHiddenOrHasHiddenAncestor)]
-        pub unsafe fn isHiddenOrHasHiddenAncestor(&self) -> bool;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other toolTip)]
-        pub unsafe fn toolTip(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setToolTip:)]
-        pub unsafe fn setToolTip(&self, tool_tip: Option<&NSString>);
-    }
-);
-
-extern_methods!(
-    /// NSViewEnclosingMenuItem
     #[cfg(feature = "AppKit_NSView")]
-    unsafe impl NSView {
-        #[cfg(feature = "AppKit_NSMenuItem")]
-        #[method_id(@__retain_semantics Other enclosingMenuItem)]
-        pub unsafe fn enclosingMenuItem(&self) -> Option<Id<NSMenuItem>>;
-    }
-);
+    #[objc2::method(sel = "view", managed = "Other")]
+    pub unsafe fn view(&self) -> Option<Id<NSView>>;
+
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setView:")]
+    pub unsafe fn setView(&self, view: Option<&NSView>);
+
+    #[objc2::method(sel = "isHighlighted")]
+    pub unsafe fn isHighlighted(&self) -> bool;
+
+    #[objc2::method(sel = "isHidden")]
+    pub unsafe fn isHidden(&self) -> bool;
+
+    #[objc2::method(sel = "setHidden:")]
+    pub unsafe fn setHidden(&self, hidden: bool);
+
+    #[objc2::method(sel = "isHiddenOrHasHiddenAncestor")]
+    pub unsafe fn isHiddenOrHasHiddenAncestor(&self) -> bool;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "toolTip", managed = "Other")]
+    pub unsafe fn toolTip(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setToolTip:")]
+    pub unsafe fn setToolTip(&self, tool_tip: Option<&NSString>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSView")]
+    pub type NSView;
+
+    #[cfg(feature = "AppKit_NSMenuItem")]
+    #[objc2::method(sel = "enclosingMenuItem", managed = "Other")]
+    pub unsafe fn enclosingMenuItem(&self) -> Option<Id<NSMenuItem>>;
+}
 
 extern_static!(NSMenuItemImportFromDeviceIdentifier: &'static NSUserInterfaceItemIdentifier);
 
-extern_methods!(
-    /// NSDeprecated
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSMenuItem")]
-    unsafe impl NSMenuItem {
-        #[deprecated]
-        #[method(setMnemonicLocation:)]
-        pub unsafe fn setMnemonicLocation(&self, location: NSUInteger);
+    pub type NSMenuItem;
 
-        #[deprecated]
-        #[method(mnemonicLocation)]
-        pub unsafe fn mnemonicLocation(&self) -> NSUInteger;
+    #[deprecated]
+    #[objc2::method(sel = "setMnemonicLocation:")]
+    pub unsafe fn setMnemonicLocation(&self, location: NSUInteger);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other mnemonic)]
-        pub unsafe fn mnemonic(&self) -> Option<Id<NSString>>;
+    #[deprecated]
+    #[objc2::method(sel = "mnemonicLocation")]
+    pub unsafe fn mnemonicLocation(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(setTitleWithMnemonic:)]
-        pub unsafe fn setTitleWithMnemonic(&self, string_with_ampersand: &NSString);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "mnemonic", managed = "Other")]
+    pub unsafe fn mnemonic(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "setTitleWithMnemonic:")]
+    pub unsafe fn setTitleWithMnemonic(&self, string_with_ampersand: &NSString);
+}

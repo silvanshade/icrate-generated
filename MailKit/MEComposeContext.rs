@@ -5,54 +5,56 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MailKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MEComposeUserAction {
-        MEComposeUserActionNewMessage = 1,
-        MEComposeUserActionReply = 2,
-        MEComposeUserActionReplyAll = 3,
-        MEComposeUserActionForward = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MEComposeUserAction {
+    MEComposeUserActionNewMessage = 1,
+    MEComposeUserActionReply = 2,
+    MEComposeUserActionReplyAll = 3,
+    MEComposeUserActionForward = 4,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MailKit_MEComposeContext")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MailKit_MEComposeContext")]
-    pub struct MEComposeContext;
-
-    #[cfg(feature = "MailKit_MEComposeContext")]
-    unsafe impl ClassType for MEComposeContext {
-        type Super = NSObject;
-    }
-);
+    pub type MEComposeContext;
+}
 
 #[cfg(feature = "MailKit_MEComposeContext")]
 unsafe impl NSObjectProtocol for MEComposeContext {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MailKit_MEComposeContext")]
-    unsafe impl MEComposeContext {
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Other contextID)]
-        pub unsafe fn contextID(&self) -> Id<NSUUID>;
+    pub type MEComposeContext;
 
-        #[cfg(feature = "MailKit_MEMessage")]
-        #[method_id(@__retain_semantics Other originalMessage)]
-        pub unsafe fn originalMessage(&self) -> Option<Id<MEMessage>>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "contextID", managed = "Other")]
+    pub unsafe fn contextID(&self) -> Id<NSUUID>;
 
-        #[method(action)]
-        pub unsafe fn action(&self) -> MEComposeUserAction;
+    #[cfg(feature = "MailKit_MEMessage")]
+    #[objc2::method(sel = "originalMessage", managed = "Other")]
+    pub unsafe fn originalMessage(&self) -> Option<Id<MEMessage>>;
 
-        #[method(isEncrypted)]
-        pub unsafe fn isEncrypted(&self) -> bool;
+    #[objc2::method(sel = "action")]
+    pub unsafe fn action(&self) -> MEComposeUserAction;
 
-        #[method(shouldEncrypt)]
-        pub unsafe fn shouldEncrypt(&self) -> bool;
+    #[objc2::method(sel = "isEncrypted")]
+    pub unsafe fn isEncrypted(&self) -> bool;
 
-        #[method(isSigned)]
-        pub unsafe fn isSigned(&self) -> bool;
+    #[objc2::method(sel = "shouldEncrypt")]
+    pub unsafe fn shouldEncrypt(&self) -> bool;
 
-        #[method(shouldSign)]
-        pub unsafe fn shouldSign(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "isSigned")]
+    pub unsafe fn isSigned(&self) -> bool;
+
+    #[objc2::method(sel = "shouldSign")]
+    pub unsafe fn shouldSign(&self) -> bool;
+}

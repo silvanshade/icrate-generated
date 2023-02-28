@@ -5,12 +5,14 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_methods!(
-    /// NSExtensions
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAppleScript")]
-    unsafe impl NSAppleScript {
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other richTextSource)]
-        pub unsafe fn richTextSource(&self) -> Option<Id<NSAttributedString>>;
-    }
-);
+    pub type NSAppleScript;
+
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "richTextSource", managed = "Other")]
+    pub unsafe fn richTextSource(&self) -> Option<Id<NSAttributedString>>;
+}

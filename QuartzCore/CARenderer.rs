@@ -4,61 +4,64 @@ use crate::common::*;
 use crate::CoreAnimation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CARenderer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CARenderer")]
-    pub struct CARenderer;
-
-    #[cfg(feature = "CoreAnimation_CARenderer")]
-    unsafe impl ClassType for CARenderer {
-        type Super = NSObject;
-    }
-);
+    pub type CARenderer;
+}
 
 #[cfg(feature = "CoreAnimation_CARenderer")]
 unsafe impl NSObjectProtocol for CARenderer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CARenderer")]
-    unsafe impl CARenderer {
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[deprecated = "+rendererWithMTLTexture"]
-        #[method_id(@__retain_semantics Other rendererWithCGLContext:options:)]
-        pub unsafe fn rendererWithCGLContext_options(
-            ctx: NonNull<c_void>,
-            dict: Option<&NSDictionary>,
-        ) -> Id<CARenderer>;
+    pub type CARenderer;
 
-        #[cfg(feature = "CoreAnimation_CALayer")]
-        #[method_id(@__retain_semantics Other layer)]
-        pub fn layer(&self) -> Option<Id<CALayer>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[deprecated = "+rendererWithMTLTexture"]
+    #[objc2::method(sel = "rendererWithCGLContext:options:", managed = "Other")]
+    pub unsafe fn rendererWithCGLContext_options(
+        ctx: NonNull<c_void>,
+        dict: Option<&NSDictionary>,
+    ) -> Id<CARenderer>;
 
-        #[cfg(feature = "CoreAnimation_CALayer")]
-        #[method(setLayer:)]
-        pub fn setLayer(&self, layer: Option<&CALayer>);
+    #[cfg(feature = "CoreAnimation_CALayer")]
+    #[objc2::method(sel = "layer", managed = "Other")]
+    pub fn layer(&self) -> Option<Id<CALayer>>;
 
-        #[method(bounds)]
-        pub fn bounds(&self) -> CGRect;
+    #[cfg(feature = "CoreAnimation_CALayer")]
+    #[objc2::method(sel = "setLayer:")]
+    pub fn setLayer(&self, layer: Option<&CALayer>);
 
-        #[method(setBounds:)]
-        pub fn setBounds(&self, bounds: CGRect);
+    #[objc2::method(sel = "bounds")]
+    pub fn bounds(&self) -> CGRect;
 
-        #[method(updateBounds)]
-        pub fn updateBounds(&self) -> CGRect;
+    #[objc2::method(sel = "setBounds:")]
+    pub fn setBounds(&self, bounds: CGRect);
 
-        #[method(addUpdateRect:)]
-        pub fn addUpdateRect(&self, r: CGRect);
+    #[objc2::method(sel = "updateBounds")]
+    pub fn updateBounds(&self) -> CGRect;
 
-        #[method(render)]
-        pub fn render(&self);
+    #[objc2::method(sel = "addUpdateRect:")]
+    pub fn addUpdateRect(&self, r: CGRect);
 
-        #[method(nextFrameTime)]
-        pub fn nextFrameTime(&self) -> CFTimeInterval;
+    #[objc2::method(sel = "render")]
+    pub fn render(&self);
 
-        #[method(endFrame)]
-        pub fn endFrame(&self);
-    }
-);
+    #[objc2::method(sel = "nextFrameTime")]
+    pub fn nextFrameTime(&self) -> CFTimeInterval;
+
+    #[objc2::method(sel = "endFrame")]
+    pub fn endFrame(&self);
+}
 
 extern_static!(kCARendererColorSpace: &'static NSString);
 

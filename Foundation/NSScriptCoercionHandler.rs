@@ -3,40 +3,43 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSScriptCoercionHandler")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSScriptCoercionHandler")]
-    pub struct NSScriptCoercionHandler;
-
-    #[cfg(feature = "Foundation_NSScriptCoercionHandler")]
-    unsafe impl ClassType for NSScriptCoercionHandler {
-        type Super = NSObject;
-    }
-);
+    pub type NSScriptCoercionHandler;
+}
 
 #[cfg(feature = "Foundation_NSScriptCoercionHandler")]
 unsafe impl NSObjectProtocol for NSScriptCoercionHandler {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSScriptCoercionHandler")]
-    unsafe impl NSScriptCoercionHandler {
-        #[method_id(@__retain_semantics Other sharedCoercionHandler)]
-        pub unsafe fn sharedCoercionHandler() -> Id<NSScriptCoercionHandler>;
+    pub type NSScriptCoercionHandler;
 
-        #[method_id(@__retain_semantics Other coerceValue:toClass:)]
-        pub unsafe fn coerceValue_toClass(
-            &self,
-            value: &Object,
-            to_class: &Class,
-        ) -> Option<Id<Object>>;
+    #[objc2::method(sel = "sharedCoercionHandler", managed = "Other")]
+    pub unsafe fn sharedCoercionHandler() -> Id<NSScriptCoercionHandler>;
 
-        #[method(registerCoercer:selector:toConvertFromClass:toClass:)]
-        pub unsafe fn registerCoercer_selector_toConvertFromClass_toClass(
-            &self,
-            coercer: &Object,
-            selector: Sel,
-            from_class: &Class,
-            to_class: &Class,
-        );
-    }
-);
+    #[objc2::method(sel = "coerceValue:toClass:", managed = "Other")]
+    pub unsafe fn coerceValue_toClass(
+        &self,
+        value: &Object,
+        to_class: &Class,
+    ) -> Option<Id<Object>>;
+
+    #[objc2::method(sel = "registerCoercer:selector:toConvertFromClass:toClass:")]
+    pub unsafe fn registerCoercer_selector_toConvertFromClass_toClass(
+        &self,
+        coercer: &Object,
+        selector: Sel,
+        from_class: &Class,
+        to_class: &Class,
+    );
+}

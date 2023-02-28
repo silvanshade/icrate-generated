@@ -3,16 +3,16 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSPointerArray")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSPointerArray")]
-    pub struct NSPointerArray;
-
-    #[cfg(feature = "Foundation_NSPointerArray")]
-    unsafe impl ClassType for NSPointerArray {
-        type Super = NSObject;
-    }
-);
+    pub type NSPointerArray;
+}
 
 #[cfg(feature = "Foundation_NSPointerArray")]
 unsafe impl NSCoding for NSPointerArray {}
@@ -26,87 +26,87 @@ unsafe impl NSObjectProtocol for NSPointerArray {}
 #[cfg(feature = "Foundation_NSPointerArray")]
 unsafe impl NSSecureCoding for NSPointerArray {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSPointerArray")]
-    unsafe impl NSPointerArray {
-        #[method_id(@__retain_semantics Init initWithOptions:)]
-        pub unsafe fn initWithOptions(
-            this: Option<Allocated<Self>>,
-            options: NSPointerFunctionsOptions,
-        ) -> Id<Self>;
+    pub type NSPointerArray;
 
-        #[cfg(feature = "Foundation_NSPointerFunctions")]
-        #[method_id(@__retain_semantics Init initWithPointerFunctions:)]
-        pub unsafe fn initWithPointerFunctions(
-            this: Option<Allocated<Self>>,
-            functions: &NSPointerFunctions,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithOptions:", managed = "Init")]
+    pub unsafe fn initWithOptions(
+        this: Option<Allocated<Self>>,
+        options: NSPointerFunctionsOptions,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other pointerArrayWithOptions:)]
-        pub unsafe fn pointerArrayWithOptions(
-            options: NSPointerFunctionsOptions,
-        ) -> Id<NSPointerArray>;
+    #[cfg(feature = "Foundation_NSPointerFunctions")]
+    #[objc2::method(sel = "initWithPointerFunctions:", managed = "Init")]
+    pub unsafe fn initWithPointerFunctions(
+        this: Option<Allocated<Self>>,
+        functions: &NSPointerFunctions,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSPointerFunctions")]
-        #[method_id(@__retain_semantics Other pointerArrayWithPointerFunctions:)]
-        pub unsafe fn pointerArrayWithPointerFunctions(
-            functions: &NSPointerFunctions,
-        ) -> Id<NSPointerArray>;
+    #[objc2::method(sel = "pointerArrayWithOptions:", managed = "Other")]
+    pub unsafe fn pointerArrayWithOptions(options: NSPointerFunctionsOptions)
+        -> Id<NSPointerArray>;
 
-        #[cfg(feature = "Foundation_NSPointerFunctions")]
-        #[method_id(@__retain_semantics Other pointerFunctions)]
-        pub unsafe fn pointerFunctions(&self) -> Id<NSPointerFunctions>;
+    #[cfg(feature = "Foundation_NSPointerFunctions")]
+    #[objc2::method(sel = "pointerArrayWithPointerFunctions:", managed = "Other")]
+    pub unsafe fn pointerArrayWithPointerFunctions(
+        functions: &NSPointerFunctions,
+    ) -> Id<NSPointerArray>;
 
-        #[method(pointerAtIndex:)]
-        pub unsafe fn pointerAtIndex(&self, index: NSUInteger) -> *mut c_void;
+    #[cfg(feature = "Foundation_NSPointerFunctions")]
+    #[objc2::method(sel = "pointerFunctions", managed = "Other")]
+    pub unsafe fn pointerFunctions(&self) -> Id<NSPointerFunctions>;
 
-        #[method(addPointer:)]
-        pub unsafe fn addPointer(&self, pointer: *mut c_void);
+    #[objc2::method(sel = "pointerAtIndex:")]
+    pub unsafe fn pointerAtIndex(&self, index: NSUInteger) -> *mut c_void;
 
-        #[method(removePointerAtIndex:)]
-        pub unsafe fn removePointerAtIndex(&self, index: NSUInteger);
+    #[objc2::method(sel = "addPointer:")]
+    pub unsafe fn addPointer(&self, pointer: *mut c_void);
 
-        #[method(insertPointer:atIndex:)]
-        pub unsafe fn insertPointer_atIndex(&self, item: *mut c_void, index: NSUInteger);
+    #[objc2::method(sel = "removePointerAtIndex:")]
+    pub unsafe fn removePointerAtIndex(&self, index: NSUInteger);
 
-        #[method(replacePointerAtIndex:withPointer:)]
-        pub unsafe fn replacePointerAtIndex_withPointer(
-            &self,
-            index: NSUInteger,
-            item: *mut c_void,
-        );
+    #[objc2::method(sel = "insertPointer:atIndex:")]
+    pub unsafe fn insertPointer_atIndex(&self, item: *mut c_void, index: NSUInteger);
 
-        #[method(compact)]
-        pub unsafe fn compact(&self);
+    #[objc2::method(sel = "replacePointerAtIndex:withPointer:")]
+    pub unsafe fn replacePointerAtIndex_withPointer(&self, index: NSUInteger, item: *mut c_void);
 
-        #[method(count)]
-        pub unsafe fn count(&self) -> NSUInteger;
+    #[objc2::method(sel = "compact")]
+    pub unsafe fn compact(&self);
 
-        #[method(setCount:)]
-        pub unsafe fn setCount(&self, count: NSUInteger);
-    }
-);
+    #[objc2::method(sel = "count")]
+    pub unsafe fn count(&self) -> NSUInteger;
 
-extern_methods!(
-    /// NSPointerArrayConveniences
+    #[objc2::method(sel = "setCount:")]
+    pub unsafe fn setCount(&self, count: NSUInteger);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSPointerArray")]
-    unsafe impl NSPointerArray {
-        #[deprecated = "GC no longer supported"]
-        #[method_id(@__retain_semantics Other pointerArrayWithStrongObjects)]
-        pub unsafe fn pointerArrayWithStrongObjects() -> Id<Object>;
+    pub type NSPointerArray;
 
-        #[deprecated = "GC no longer supported"]
-        #[method_id(@__retain_semantics Other pointerArrayWithWeakObjects)]
-        pub unsafe fn pointerArrayWithWeakObjects() -> Id<Object>;
+    #[deprecated = "GC no longer supported"]
+    #[objc2::method(sel = "pointerArrayWithStrongObjects", managed = "Other")]
+    pub unsafe fn pointerArrayWithStrongObjects() -> Id<Object>;
 
-        #[method_id(@__retain_semantics Other strongObjectsPointerArray)]
-        pub unsafe fn strongObjectsPointerArray() -> Id<NSPointerArray>;
+    #[deprecated = "GC no longer supported"]
+    #[objc2::method(sel = "pointerArrayWithWeakObjects", managed = "Other")]
+    pub unsafe fn pointerArrayWithWeakObjects() -> Id<Object>;
 
-        #[method_id(@__retain_semantics Other weakObjectsPointerArray)]
-        pub unsafe fn weakObjectsPointerArray() -> Id<NSPointerArray>;
+    #[objc2::method(sel = "strongObjectsPointerArray", managed = "Other")]
+    pub unsafe fn strongObjectsPointerArray() -> Id<NSPointerArray>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other allObjects)]
-        pub unsafe fn allObjects(&self) -> Id<NSArray>;
-    }
-);
+    #[objc2::method(sel = "weakObjectsPointerArray", managed = "Other")]
+    pub unsafe fn weakObjectsPointerArray() -> Id<NSPointerArray>;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "allObjects", managed = "Other")]
+    pub unsafe fn allObjects(&self) -> Id<NSArray>;
+}

@@ -5,63 +5,73 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WebDownload")]
+#[objc2::interface(
+    unsafe super = NSURLDownload,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct WebDownload;
-
     #[cfg(feature = "WebKit_WebDownload")]
-    unsafe impl ClassType for WebDownload {
-        #[inherits(NSObject)]
-        type Super = NSURLDownload;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type WebDownload;
+}
 
 #[cfg(feature = "WebKit_WebDownload")]
 unsafe impl NSObjectProtocol for WebDownload {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WebDownload")]
-    unsafe impl WebDownload {}
-);
-
-extern_protocol!(
     #[deprecated]
-    pub unsafe trait WebDownloadDelegate: NSURLDownloadDelegate {
-        #[cfg(all(feature = "AppKit_NSWindow", feature = "WebKit_WebDownload"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other downloadWindowForAuthenticationSheet:)]
-        unsafe fn downloadWindowForAuthenticationSheet(
-            &self,
-            download: Option<&WebDownload>,
-        ) -> Option<Id<NSWindow>>;
-    }
+    pub type WebDownload;
+}
 
-    unsafe impl ProtocolType for dyn WebDownloadDelegate {}
-);
+#[objc2::protocol]
+#[deprecated]
+pub unsafe trait WebDownloadDelegate: NSURLDownloadDelegate {
+    #[cfg(all(feature = "AppKit_NSWindow", feature = "WebKit_WebDownload"))]
+    #[objc2::method(
+        optional,
+        sel = "downloadWindowForAuthenticationSheet:",
+        managed = "Other"
+    )]
+    unsafe fn downloadWindowForAuthenticationSheet(
+        &self,
+        download: Option<&WebDownload>,
+    ) -> Option<Id<NSWindow>>;
+}
 
-extern_methods!(
-    /// Methods declared on superclass `NSURLDownload`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSURLDownload`
     #[cfg(feature = "WebKit_WebDownload")]
-    unsafe impl WebDownload {
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[deprecated = "Use NSURLSession downloadTask (see NSURLSession.h)"]
-        #[method_id(@__retain_semantics Init initWithRequest:delegate:)]
-        pub unsafe fn initWithRequest_delegate(
-            this: Option<Allocated<Self>>,
-            request: &NSURLRequest,
-            delegate: Option<&ProtocolObject<dyn NSURLDownloadDelegate>>,
-        ) -> Id<Self>;
-
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
-        #[deprecated = "Use NSURLSession downloadTask (see NSURLSession.h)"]
-        #[method_id(@__retain_semantics Init initWithResumeData:delegate:path:)]
-        pub unsafe fn initWithResumeData_delegate_path(
-            this: Option<Allocated<Self>>,
-            resume_data: &NSData,
-            delegate: Option<&ProtocolObject<dyn NSURLDownloadDelegate>>,
-            path: &NSString,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WebDownload")]
+    pub type WebDownload;
+
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[deprecated = "Use NSURLSession downloadTask (see NSURLSession.h)"]
+    #[objc2::method(sel = "initWithRequest:delegate:", managed = "Init")]
+    pub unsafe fn initWithRequest_delegate(
+        this: Option<Allocated<Self>>,
+        request: &NSURLRequest,
+        delegate: Option<&ProtocolObject<dyn NSURLDownloadDelegate>>,
+    ) -> Id<Self>;
+
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
+    #[deprecated = "Use NSURLSession downloadTask (see NSURLSession.h)"]
+    #[objc2::method(sel = "initWithResumeData:delegate:path:", managed = "Init")]
+    pub unsafe fn initWithResumeData_delegate_path(
+        this: Option<Allocated<Self>>,
+        resume_data: &NSData,
+        delegate: Option<&ProtocolObject<dyn NSURLDownloadDelegate>>,
+        path: &NSString,
+    ) -> Id<Self>;
+}

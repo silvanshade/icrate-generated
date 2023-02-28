@@ -43,287 +43,307 @@ extern_static!(OSAStorageApplicationBundleType: &'static NSString);
 
 extern_static!(OSAStorageTextType: &'static NSString);
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum OSAStorageOptions {
-        OSANull = 0x00000000,
-        OSAPreventGetSource = 0x00000001,
-        OSACompileIntoContext = 0x00000002,
-        OSADontSetScriptLocation = 0x01000000,
-        OSAStayOpenApplet = 0x10000000,
-        OSAShowStartupScreen = 0x20000000,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum OSAStorageOptions {
+    OSANull = 0x00000000,
+    OSAPreventGetSource = 0x00000001,
+    OSACompileIntoContext = 0x00000002,
+    OSADontSetScriptLocation = 0x01000000,
+    OSAStayOpenApplet = 0x10000000,
+    OSAShowStartupScreen = 0x20000000,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "OSAKit_OSAScript")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "OSAKit_OSAScript")]
-    pub struct OSAScript;
-
-    #[cfg(feature = "OSAKit_OSAScript")]
-    unsafe impl ClassType for OSAScript {
-        type Super = NSObject;
-    }
-);
+    pub type OSAScript;
+}
 
 #[cfg(feature = "OSAKit_OSAScript")]
 unsafe impl NSObjectProtocol for OSAScript {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "OSAKit_OSAScript")]
-    unsafe impl OSAScript {
-        #[cfg(all(
-            feature = "Foundation_NSAppleEventDescriptor",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other scriptDataDescriptorWithContentsOfURL:)]
-        pub unsafe fn scriptDataDescriptorWithContentsOfURL(
-            url: &NSURL,
-        ) -> Option<Id<NSAppleEventDescriptor>>;
+    pub type OSAScript;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSource:)]
-        pub unsafe fn initWithSource(this: Option<Allocated<Self>>, source: &NSString) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSAppleEventDescriptor",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "scriptDataDescriptorWithContentsOfURL:", managed = "Other")]
+    pub unsafe fn scriptDataDescriptorWithContentsOfURL(
+        url: &NSURL,
+    ) -> Option<Id<NSAppleEventDescriptor>>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "OSAKit_OSALanguage"))]
-        #[method_id(@__retain_semantics Init initWithSource:language:)]
-        pub unsafe fn initWithSource_language(
-            this: Option<Allocated<Self>>,
-            source: &NSString,
-            language: Option<&OSALanguage>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSource:", managed = "Init")]
+    pub unsafe fn initWithSource(this: Option<Allocated<Self>>, source: &NSString) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL",
-            feature = "OSAKit_OSALanguageInstance"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSource:fromURL:languageInstance:usingStorageOptions:)]
-        pub unsafe fn initWithSource_fromURL_languageInstance_usingStorageOptions(
-            this: Option<Allocated<Self>>,
-            source: &NSString,
-            url: Option<&NSURL>,
-            instance: Option<&OSALanguageInstance>,
-            storage_options: OSAStorageOptions,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "OSAKit_OSALanguage"))]
+    #[objc2::method(sel = "initWithSource:language:", managed = "Init")]
+    pub unsafe fn initWithSource_language(
+        this: Option<Allocated<Self>>,
+        source: &NSString,
+        language: Option<&OSALanguage>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:error:)]
-        pub unsafe fn initWithContentsOfURL_error(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
-        ) -> Option<Id<Self>>;
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL",
+        feature = "OSAKit_OSALanguageInstance"
+    ))]
+    #[objc2::method(
+        sel = "initWithSource:fromURL:languageInstance:usingStorageOptions:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithSource_fromURL_languageInstance_usingStorageOptions(
+        this: Option<Allocated<Self>>,
+        source: &NSString,
+        url: Option<&NSURL>,
+        instance: Option<&OSALanguageInstance>,
+        storage_options: OSAStorageOptions,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL",
-            feature = "OSAKit_OSALanguage"
-        ))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:language:error:)]
-        pub unsafe fn initWithContentsOfURL_language_error(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            language: &OSALanguage,
-            error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "initWithContentsOfURL:error:", managed = "Init")]
+    pub unsafe fn initWithContentsOfURL_error(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL",
-            feature = "OSAKit_OSALanguageInstance"
-        ))]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:languageInstance:usingStorageOptions:error:_)]
-        pub unsafe fn initWithContentsOfURL_languageInstance_usingStorageOptions_error(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            instance: Option<&OSALanguageInstance>,
-            storage_options: OSAStorageOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL",
+        feature = "OSAKit_OSALanguage"
+    ))]
+    #[deprecated]
+    #[objc2::method(sel = "initWithContentsOfURL:language:error:", managed = "Init")]
+    pub unsafe fn initWithContentsOfURL_language_error(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        language: &OSALanguage,
+        error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithCompiledData:error:)]
-        pub unsafe fn initWithCompiledData_error(
-            this: Option<Allocated<Self>>,
-            data: &NSData,
-            error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL",
+        feature = "OSAKit_OSALanguageInstance"
+    ))]
+    #[objc2::method(
+        sel = "initWithContentsOfURL:languageInstance:usingStorageOptions:error:",
+        managed = "Init",
+        throws
+    )]
+    pub unsafe fn initWithContentsOfURL_languageInstance_usingStorageOptions_error(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        instance: Option<&OSALanguageInstance>,
+        storage_options: OSAStorageOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Init initWithCompiledData:fromURL:usingStorageOptions:error:_)]
-        pub unsafe fn initWithCompiledData_fromURL_usingStorageOptions_error(
-            this: Option<Allocated<Self>>,
-            data: &NSData,
-            url: Option<&NSURL>,
-            storage_options: OSAStorageOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[deprecated]
+    #[objc2::method(sel = "initWithCompiledData:error:", managed = "Init")]
+    pub unsafe fn initWithCompiledData_error(
+        this: Option<Allocated<Self>>,
+        data: &NSData,
+        error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSAppleEventDescriptor",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL",
-            feature = "OSAKit_OSALanguageInstance"
-        ))]
-        #[method_id(@__retain_semantics Init initWithScriptDataDescriptor:fromURL:languageInstance:usingStorageOptions:error:_)]
-        pub unsafe fn initWithScriptDataDescriptor_fromURL_languageInstance_usingStorageOptions_error(
-            this: Option<Allocated<Self>>,
-            data: &NSAppleEventDescriptor,
-            url: Option<&NSURL>,
-            instance: Option<&OSALanguageInstance>,
-            storage_options: OSAStorageOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "initWithCompiledData:fromURL:usingStorageOptions:error:",
+        managed = "Init",
+        throws
+    )]
+    pub unsafe fn initWithCompiledData_fromURL_usingStorageOptions_error(
+        this: Option<Allocated<Self>>,
+        data: &NSData,
+        url: Option<&NSURL>,
+        storage_options: OSAStorageOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other source)]
-        pub unsafe fn source(&self) -> Id<NSString>;
+    #[cfg(all(
+        feature = "Foundation_NSAppleEventDescriptor",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL",
+        feature = "OSAKit_OSALanguageInstance"
+    ))]
+    #[objc2::method(
+        sel = "initWithScriptDataDescriptor:fromURL:languageInstance:usingStorageOptions:error:",
+        managed = "Init",
+        throws
+    )]
+    pub unsafe fn initWithScriptDataDescriptor_fromURL_languageInstance_usingStorageOptions_error(
+        this: Option<Allocated<Self>>,
+        data: &NSAppleEventDescriptor,
+        url: Option<&NSURL>,
+        instance: Option<&OSALanguageInstance>,
+        storage_options: OSAStorageOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other url)]
-        pub unsafe fn url(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "source", managed = "Other")]
+    pub unsafe fn source(&self) -> Id<NSString>;
 
-        #[cfg(feature = "OSAKit_OSALanguage")]
-        #[method_id(@__retain_semantics Other language)]
-        pub unsafe fn language(&self) -> Id<OSALanguage>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "url", managed = "Other")]
+    pub unsafe fn url(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "OSAKit_OSALanguage")]
-        #[method(setLanguage:)]
-        pub unsafe fn setLanguage(&self, language: &OSALanguage);
+    #[cfg(feature = "OSAKit_OSALanguage")]
+    #[objc2::method(sel = "language", managed = "Other")]
+    pub unsafe fn language(&self) -> Id<OSALanguage>;
 
-        #[cfg(feature = "OSAKit_OSALanguageInstance")]
-        #[method_id(@__retain_semantics Other languageInstance)]
-        pub unsafe fn languageInstance(&self) -> Id<OSALanguageInstance>;
+    #[cfg(feature = "OSAKit_OSALanguage")]
+    #[objc2::method(sel = "setLanguage:")]
+    pub unsafe fn setLanguage(&self, language: &OSALanguage);
 
-        #[cfg(feature = "OSAKit_OSALanguageInstance")]
-        #[method(setLanguageInstance:)]
-        pub unsafe fn setLanguageInstance(&self, language_instance: &OSALanguageInstance);
+    #[cfg(feature = "OSAKit_OSALanguageInstance")]
+    #[objc2::method(sel = "languageInstance", managed = "Other")]
+    pub unsafe fn languageInstance(&self) -> Id<OSALanguageInstance>;
 
-        #[method(isCompiled)]
-        pub unsafe fn isCompiled(&self) -> bool;
+    #[cfg(feature = "OSAKit_OSALanguageInstance")]
+    #[objc2::method(sel = "setLanguageInstance:")]
+    pub unsafe fn setLanguageInstance(&self, language_instance: &OSALanguageInstance);
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(compileAndReturnError:)]
-        pub unsafe fn compileAndReturnError(
-            &self,
-            error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
-        ) -> bool;
+    #[objc2::method(sel = "isCompiled")]
+    pub unsafe fn isCompiled(&self) -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSAppleEventDescriptor",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other executeAndReturnError:)]
-        pub unsafe fn executeAndReturnError(
-            &self,
-            error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
-        ) -> Option<Id<NSAppleEventDescriptor>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "compileAndReturnError:")]
+    pub unsafe fn compileAndReturnError(
+        &self,
+        error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
+    ) -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSAppleEventDescriptor",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other executeAppleEvent:error:)]
-        pub unsafe fn executeAppleEvent_error(
-            &self,
-            event: &NSAppleEventDescriptor,
-            error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
-        ) -> Option<Id<NSAppleEventDescriptor>>;
+    #[cfg(all(
+        feature = "Foundation_NSAppleEventDescriptor",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "executeAndReturnError:", managed = "Other")]
+    pub unsafe fn executeAndReturnError(
+        &self,
+        error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
+    ) -> Option<Id<NSAppleEventDescriptor>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSAppleEventDescriptor",
-            feature = "Foundation_NSAttributedString",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other executeAndReturnDisplayValue:error:)]
-        pub unsafe fn executeAndReturnDisplayValue_error(
-            &self,
-            display_value: &mut Option<Id<NSAttributedString>>,
-            error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
-        ) -> Option<Id<NSAppleEventDescriptor>>;
+    #[cfg(all(
+        feature = "Foundation_NSAppleEventDescriptor",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "executeAppleEvent:error:", managed = "Other")]
+    pub unsafe fn executeAppleEvent_error(
+        &self,
+        event: &NSAppleEventDescriptor,
+        error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
+    ) -> Option<Id<NSAppleEventDescriptor>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSAppleEventDescriptor",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other executeHandlerWithName:arguments:error:)]
-        pub unsafe fn executeHandlerWithName_arguments_error(
-            &self,
-            name: &NSString,
-            arguments: &NSArray,
-            error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
-        ) -> Option<Id<NSAppleEventDescriptor>>;
+    #[cfg(all(
+        feature = "Foundation_NSAppleEventDescriptor",
+        feature = "Foundation_NSAttributedString",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "executeAndReturnDisplayValue:error:", managed = "Other")]
+    pub unsafe fn executeAndReturnDisplayValue_error(
+        &self,
+        display_value: &mut Option<Id<NSAttributedString>>,
+        error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
+    ) -> Option<Id<NSAppleEventDescriptor>>;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other richTextSource)]
-        pub unsafe fn richTextSource(&self) -> Option<Id<NSAttributedString>>;
+    #[cfg(all(
+        feature = "Foundation_NSAppleEventDescriptor",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "executeHandlerWithName:arguments:error:", managed = "Other")]
+    pub unsafe fn executeHandlerWithName_arguments_error(
+        &self,
+        name: &NSString,
+        arguments: &NSArray,
+        error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
+    ) -> Option<Id<NSAppleEventDescriptor>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSAppleEventDescriptor",
-            feature = "Foundation_NSAttributedString"
-        ))]
-        #[method_id(@__retain_semantics Other richTextFromDescriptor:)]
-        pub unsafe fn richTextFromDescriptor(
-            &self,
-            descriptor: &NSAppleEventDescriptor,
-        ) -> Option<Id<NSAttributedString>>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "richTextSource", managed = "Other")]
+    pub unsafe fn richTextSource(&self) -> Option<Id<NSAttributedString>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(writeToURL:ofType:error:)]
-        pub unsafe fn writeToURL_ofType_error(
-            &self,
-            url: &NSURL,
-            r#type: &NSString,
-            error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
-        ) -> bool;
+    #[cfg(all(
+        feature = "Foundation_NSAppleEventDescriptor",
+        feature = "Foundation_NSAttributedString"
+    ))]
+    #[objc2::method(sel = "richTextFromDescriptor:", managed = "Other")]
+    pub unsafe fn richTextFromDescriptor(
+        &self,
+        descriptor: &NSAppleEventDescriptor,
+    ) -> Option<Id<NSAttributedString>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(writeToURL:ofType:usingStorageOptions:error:)]
-        pub unsafe fn writeToURL_ofType_usingStorageOptions_error(
-            &self,
-            url: &NSURL,
-            r#type: &NSString,
-            storage_options: OSAStorageOptions,
-            error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
-        ) -> bool;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "writeToURL:ofType:error:")]
+    pub unsafe fn writeToURL_ofType_error(
+        &self,
+        url: &NSURL,
+        r#type: &NSString,
+        error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
+    ) -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other compiledDataForType:usingStorageOptions:error:)]
-        pub unsafe fn compiledDataForType_usingStorageOptions_error(
-            &self,
-            r#type: &NSString,
-            storage_options: OSAStorageOptions,
-            error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
-        ) -> Option<Id<NSData>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "writeToURL:ofType:usingStorageOptions:error:")]
+    pub unsafe fn writeToURL_ofType_usingStorageOptions_error(
+        &self,
+        url: &NSURL,
+        r#type: &NSString,
+        storage_options: OSAStorageOptions,
+        error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
+    ) -> bool;
+
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "compiledDataForType:usingStorageOptions:error:",
+        managed = "Other"
+    )]
+    pub unsafe fn compiledDataForType_usingStorageOptions_error(
+        &self,
+        r#type: &NSString,
+        storage_options: OSAStorageOptions,
+        error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
+    ) -> Option<Id<NSData>>;
+}

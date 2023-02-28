@@ -5,48 +5,50 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum WKContentMode {
-        WKContentModeRecommended = 0,
-        WKContentModeMobile = 1,
-        WKContentModeDesktop = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum WKContentMode {
+    WKContentModeRecommended = 0,
+    WKContentModeMobile = 1,
+    WKContentModeDesktop = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKWebpagePreferences")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKWebpagePreferences")]
-    pub struct WKWebpagePreferences;
-
-    #[cfg(feature = "WebKit_WKWebpagePreferences")]
-    unsafe impl ClassType for WKWebpagePreferences {
-        type Super = NSObject;
-    }
-);
+    pub type WKWebpagePreferences;
+}
 
 #[cfg(feature = "WebKit_WKWebpagePreferences")]
 unsafe impl NSObjectProtocol for WKWebpagePreferences {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKWebpagePreferences")]
-    unsafe impl WKWebpagePreferences {
-        #[method(preferredContentMode)]
-        pub unsafe fn preferredContentMode(&self) -> WKContentMode;
+    pub type WKWebpagePreferences;
 
-        #[method(setPreferredContentMode:)]
-        pub unsafe fn setPreferredContentMode(&self, preferred_content_mode: WKContentMode);
+    #[objc2::method(sel = "preferredContentMode")]
+    pub unsafe fn preferredContentMode(&self) -> WKContentMode;
 
-        #[method(allowsContentJavaScript)]
-        pub unsafe fn allowsContentJavaScript(&self) -> bool;
+    #[objc2::method(sel = "setPreferredContentMode:")]
+    pub unsafe fn setPreferredContentMode(&self, preferred_content_mode: WKContentMode);
 
-        #[method(setAllowsContentJavaScript:)]
-        pub unsafe fn setAllowsContentJavaScript(&self, allows_content_java_script: bool);
+    #[objc2::method(sel = "allowsContentJavaScript")]
+    pub unsafe fn allowsContentJavaScript(&self) -> bool;
 
-        #[method(isLockdownModeEnabled)]
-        pub unsafe fn isLockdownModeEnabled(&self) -> bool;
+    #[objc2::method(sel = "setAllowsContentJavaScript:")]
+    pub unsafe fn setAllowsContentJavaScript(&self, allows_content_java_script: bool);
 
-        #[method(setLockdownModeEnabled:)]
-        pub unsafe fn setLockdownModeEnabled(&self, lockdown_mode_enabled: bool);
-    }
-);
+    #[objc2::method(sel = "isLockdownModeEnabled")]
+    pub unsafe fn isLockdownModeEnabled(&self) -> bool;
+
+    #[objc2::method(sel = "setLockdownModeEnabled:")]
+    pub unsafe fn setLockdownModeEnabled(&self, lockdown_mode_enabled: bool);
+}

@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASPasswordCredentialIdentity")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASPasswordCredentialIdentity")]
-    pub struct ASPasswordCredentialIdentity;
-
-    #[cfg(feature = "AuthenticationServices_ASPasswordCredentialIdentity")]
-    unsafe impl ClassType for ASPasswordCredentialIdentity {
-        type Super = NSObject;
-    }
-);
+    pub type ASPasswordCredentialIdentity;
+}
 
 #[cfg(feature = "AuthenticationServices_ASPasswordCredentialIdentity")]
 unsafe impl NSCoding for ASPasswordCredentialIdentity {}
@@ -24,51 +24,60 @@ unsafe impl NSObjectProtocol for ASPasswordCredentialIdentity {}
 #[cfg(feature = "AuthenticationServices_ASPasswordCredentialIdentity")]
 unsafe impl NSSecureCoding for ASPasswordCredentialIdentity {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASPasswordCredentialIdentity")]
-    unsafe impl ASPasswordCredentialIdentity {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type ASPasswordCredentialIdentity;
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASCredentialServiceIdentifier",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Init initWithServiceIdentifier:user:recordIdentifier:)]
-        pub unsafe fn initWithServiceIdentifier_user_recordIdentifier(
-            this: Option<Allocated<Self>>,
-            service_identifier: &ASCredentialServiceIdentifier,
-            user: &NSString,
-            record_identifier: Option<&NSString>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASCredentialServiceIdentifier",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other identityWithServiceIdentifier:user:recordIdentifier:)]
-        pub unsafe fn identityWithServiceIdentifier_user_recordIdentifier(
-            service_identifier: &ASCredentialServiceIdentifier,
-            user: &NSString,
-            record_identifier: Option<&NSString>,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "AuthenticationServices_ASCredentialServiceIdentifier",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "initWithServiceIdentifier:user:recordIdentifier:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithServiceIdentifier_user_recordIdentifier(
+        this: Option<Allocated<Self>>,
+        service_identifier: &ASCredentialServiceIdentifier,
+        user: &NSString,
+        record_identifier: Option<&NSString>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "AuthenticationServices_ASCredentialServiceIdentifier")]
-        #[method_id(@__retain_semantics Other serviceIdentifier)]
-        pub unsafe fn serviceIdentifier(&self) -> Id<ASCredentialServiceIdentifier>;
+    #[cfg(all(
+        feature = "AuthenticationServices_ASCredentialServiceIdentifier",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "identityWithServiceIdentifier:user:recordIdentifier:",
+        managed = "Other"
+    )]
+    pub unsafe fn identityWithServiceIdentifier_user_recordIdentifier(
+        service_identifier: &ASCredentialServiceIdentifier,
+        user: &NSString,
+        record_identifier: Option<&NSString>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other user)]
-        pub unsafe fn user(&self) -> Id<NSString>;
+    #[cfg(feature = "AuthenticationServices_ASCredentialServiceIdentifier")]
+    #[objc2::method(sel = "serviceIdentifier", managed = "Other")]
+    pub unsafe fn serviceIdentifier(&self) -> Id<ASCredentialServiceIdentifier>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other recordIdentifier)]
-        pub unsafe fn recordIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "user", managed = "Other")]
+    pub unsafe fn user(&self) -> Id<NSString>;
 
-        #[method(rank)]
-        pub unsafe fn rank(&self) -> NSInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "recordIdentifier", managed = "Other")]
+    pub unsafe fn recordIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[method(setRank:)]
-        pub unsafe fn setRank(&self, rank: NSInteger);
-    }
-);
+    #[objc2::method(sel = "rank")]
+    pub unsafe fn rank(&self) -> NSInteger;
+
+    #[objc2::method(sel = "setRank:")]
+    pub unsafe fn setRank(&self, rank: NSInteger);
+}

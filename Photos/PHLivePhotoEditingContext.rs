@@ -10,110 +10,108 @@ typed_enum!(
     pub type PHLivePhotoEditingOption = NSString;
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHLivePhotoEditingContext")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHLivePhotoEditingContext")]
-    pub struct PHLivePhotoEditingContext;
-
-    #[cfg(feature = "PhotoKit_PHLivePhotoEditingContext")]
-    unsafe impl ClassType for PHLivePhotoEditingContext {
-        type Super = NSObject;
-    }
-);
+    pub type PHLivePhotoEditingContext;
+}
 
 #[cfg(feature = "PhotoKit_PHLivePhotoEditingContext")]
 unsafe impl NSObjectProtocol for PHLivePhotoEditingContext {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHLivePhotoEditingContext")]
-    unsafe impl PHLivePhotoEditingContext {
-        #[cfg(feature = "PhotoKit_PHContentEditingInput")]
-        #[method_id(@__retain_semantics Init initWithLivePhotoEditingInput:)]
-        pub unsafe fn initWithLivePhotoEditingInput(
-            this: Option<Allocated<Self>>,
-            live_photo_input: &PHContentEditingInput,
-        ) -> Option<Id<Self>>;
+    pub type PHLivePhotoEditingContext;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "PhotoKit_PHContentEditingInput")]
+    #[objc2::method(sel = "initWithLivePhotoEditingInput:", managed = "Init")]
+    pub unsafe fn initWithLivePhotoEditingInput(
+        this: Option<Allocated<Self>>,
+        live_photo_input: &PHContentEditingInput,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "CoreImage_CIImage")]
-        #[method_id(@__retain_semantics Other fullSizeImage)]
-        pub unsafe fn fullSizeImage(&self) -> Id<CIImage>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(audioVolume)]
-        pub unsafe fn audioVolume(&self) -> c_float;
+    #[cfg(feature = "CoreImage_CIImage")]
+    #[objc2::method(sel = "fullSizeImage", managed = "Other")]
+    pub unsafe fn fullSizeImage(&self) -> Id<CIImage>;
 
-        #[method(setAudioVolume:)]
-        pub unsafe fn setAudioVolume(&self, audio_volume: c_float);
+    #[objc2::method(sel = "audioVolume")]
+    pub unsafe fn audioVolume(&self) -> c_float;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "PhotoKit_PHLivePhoto"
-        ))]
-        #[method(prepareLivePhotoForPlaybackWithTargetSize:options:completionHandler:)]
-        pub unsafe fn prepareLivePhotoForPlaybackWithTargetSize_options_completionHandler(
-            &self,
-            target_size: CGSize,
-            options: Option<&NSDictionary<NSString, Object>>,
-            handler: &Block<(*mut PHLivePhoto, *mut NSError), ()>,
-        );
+    #[objc2::method(sel = "setAudioVolume:")]
+    pub unsafe fn setAudioVolume(&self, audio_volume: c_float);
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "PhotoKit_PHContentEditingOutput"
-        ))]
-        #[method(saveLivePhotoToOutput:options:completionHandler:)]
-        pub unsafe fn saveLivePhotoToOutput_options_completionHandler(
-            &self,
-            output: &PHContentEditingOutput,
-            options: Option<&NSDictionary<NSString, Object>>,
-            handler: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "PhotoKit_PHLivePhoto"
+    ))]
+    #[objc2::method(sel = "prepareLivePhotoForPlaybackWithTargetSize:options:completionHandler:")]
+    pub unsafe fn prepareLivePhotoForPlaybackWithTargetSize_options_completionHandler(
+        &self,
+        target_size: CGSize,
+        options: Option<&NSDictionary<NSString, Object>>,
+        handler: &Block<(*mut PHLivePhoto, *mut NSError), ()>,
+    );
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "PhotoKit_PHContentEditingOutput"
+    ))]
+    #[objc2::method(sel = "saveLivePhotoToOutput:options:completionHandler:")]
+    pub unsafe fn saveLivePhotoToOutput_options_completionHandler(
+        &self,
+        output: &PHContentEditingOutput,
+        options: Option<&NSDictionary<NSString, Object>>,
+        handler: &Block<(Bool, *mut NSError), ()>,
+    );
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum PHLivePhotoFrameType {
-        PHLivePhotoFrameTypePhoto = 0,
-        PHLivePhotoFrameTypeVideo = 1,
-    }
-);
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
+}
 
-extern_protocol!(
-    pub unsafe trait PHLivePhotoFrame {
-        #[cfg(feature = "CoreImage_CIImage")]
-        #[method_id(@__retain_semantics Other image)]
-        unsafe fn image(&self) -> Id<CIImage>;
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum PHLivePhotoFrameType {
+    PHLivePhotoFrameTypePhoto = 0,
+    PHLivePhotoFrameTypeVideo = 1,
+}
 
-        #[method(type)]
-        unsafe fn r#type(&self) -> PHLivePhotoFrameType;
+#[objc2::protocol]
+pub unsafe trait PHLivePhotoFrame {
+    #[cfg(feature = "CoreImage_CIImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    unsafe fn image(&self) -> Id<CIImage>;
 
-        #[method(renderScale)]
-        unsafe fn renderScale(&self) -> CGFloat;
-    }
+    #[objc2::method(sel = "type")]
+    unsafe fn r#type(&self) -> PHLivePhotoFrameType;
 
-    unsafe impl ProtocolType for dyn PHLivePhotoFrame {}
-);
+    #[objc2::method(sel = "renderScale")]
+    unsafe fn renderScale(&self) -> CGFloat;
+}
 
 extern_static!(PHLivePhotoShouldRenderAtPlaybackTime: &'static PHLivePhotoEditingOption);
 
 extern_static!(PHLivePhotoEditingErrorDomain: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum PHLivePhotoEditingErrorCode {
-        #[deprecated]
-        PHLivePhotoEditingErrorCodeUnknown = 0,
-        #[deprecated]
-        PHLivePhotoEditingErrorCodeAborted = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum PHLivePhotoEditingErrorCode {
+    #[deprecated]
+    PHLivePhotoEditingErrorCodeUnknown = 0,
+    #[deprecated]
+    PHLivePhotoEditingErrorCodeAborted = 1,
+}

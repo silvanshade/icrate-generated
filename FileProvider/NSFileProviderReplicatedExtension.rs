@@ -6,345 +6,342 @@ use crate::FileProvider::*;
 use crate::Foundation::*;
 use crate::UniformTypeIdentifiers::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSFileProviderCreateItemOptions {
-        NSFileProviderCreateItemMayAlreadyExist = 1 << 0,
-        NSFileProviderCreateItemDeletionConflicted = 1 << 1,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSFileProviderCreateItemOptions {
+    NSFileProviderCreateItemMayAlreadyExist = 1 << 0,
+    NSFileProviderCreateItemDeletionConflicted = 1 << 1,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSFileProviderDeleteItemOptions {
-        NSFileProviderDeleteItemRecursive = 1 << 0,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSFileProviderDeleteItemOptions {
+    NSFileProviderDeleteItemRecursive = 1 << 0,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSFileProviderMaterializationFlags {
-        NSFileProviderMaterializationFlagsKnownSparseRanges = 1 << 0,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSFileProviderMaterializationFlags {
+    NSFileProviderMaterializationFlagsKnownSparseRanges = 1 << 0,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSFileProviderFetchContentsOptions {
-        NSFileProviderFetchContentsOptionsStrictVersioning = 1 << 0,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSFileProviderFetchContentsOptions {
+    NSFileProviderFetchContentsOptionsStrictVersioning = 1 << 0,
+}
 
-extern_protocol!(
-    pub unsafe trait NSFileProviderEnumerating: NSObjectProtocol {
-        #[cfg(all(
-            feature = "FileProvider_NSFileProviderRequest",
-            feature = "Foundation_NSError"
-        ))]
-        #[method_id(@__retain_semantics Other enumeratorForContainerItemIdentifier:request:error:_)]
-        unsafe fn enumeratorForContainerItemIdentifier_request_error(
-            &self,
-            container_item_identifier: &NSFileProviderItemIdentifier,
-            request: &NSFileProviderRequest,
-        ) -> Result<Id<ProtocolObject<dyn NSFileProviderEnumerator>>, Id<NSError>>;
-    }
+#[objc2::protocol]
+pub unsafe trait NSFileProviderEnumerating: NSObjectProtocol {
+    #[cfg(all(
+        feature = "FileProvider_NSFileProviderRequest",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(
+        sel = "enumeratorForContainerItemIdentifier:request:error:",
+        managed = "Other",
+        throws
+    )]
+    unsafe fn enumeratorForContainerItemIdentifier_request_error(
+        &self,
+        container_item_identifier: &NSFileProviderItemIdentifier,
+        request: &NSFileProviderRequest,
+    ) -> Result<Id<ProtocolObject<dyn NSFileProviderEnumerator>>, Id<NSError>>;
+}
 
-    unsafe impl ProtocolType for dyn NSFileProviderEnumerating {}
-);
+#[objc2::protocol]
+pub unsafe trait NSFileProviderReplicatedExtension:
+    NSFileProviderEnumerating + NSObjectProtocol
+{
+    #[cfg(feature = "FileProvider_NSFileProviderDomain")]
+    #[objc2::method(sel = "initWithDomain:", managed = "Init")]
+    unsafe fn initWithDomain(
+        this: Option<Allocated<Self>>,
+        domain: &NSFileProviderDomain,
+    ) -> Id<Self>;
 
-extern_protocol!(
-    pub unsafe trait NSFileProviderReplicatedExtension:
-        NSFileProviderEnumerating + NSObjectProtocol
-    {
-        #[cfg(feature = "FileProvider_NSFileProviderDomain")]
-        #[method_id(@__retain_semantics Init initWithDomain:)]
-        unsafe fn initWithDomain(
-            this: Option<Allocated<Self>>,
-            domain: &NSFileProviderDomain,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "invalidate")]
+    unsafe fn invalidate(&self);
 
-        #[method(invalidate)]
-        unsafe fn invalidate(&self);
+    #[cfg(all(
+        feature = "FileProvider_NSFileProviderRequest",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSProgress"
+    ))]
+    #[objc2::method(
+        sel = "itemForIdentifier:request:completionHandler:",
+        managed = "Other"
+    )]
+    unsafe fn itemForIdentifier_request_completionHandler(
+        &self,
+        identifier: &NSFileProviderItemIdentifier,
+        request: &NSFileProviderRequest,
+        completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
+    ) -> Id<NSProgress>;
 
-        #[cfg(all(
-            feature = "FileProvider_NSFileProviderRequest",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSProgress"
-        ))]
-        #[method_id(@__retain_semantics Other itemForIdentifier:request:completionHandler:)]
-        unsafe fn itemForIdentifier_request_completionHandler(
-            &self,
-            identifier: &NSFileProviderItemIdentifier,
-            request: &NSFileProviderRequest,
-            completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
-        ) -> Id<NSProgress>;
+    #[cfg(all(
+        feature = "FileProvider_NSFileProviderItemVersion",
+        feature = "FileProvider_NSFileProviderRequest",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSProgress",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "fetchContentsForItemWithIdentifier:version:request:completionHandler:",
+        managed = "Other"
+    )]
+    unsafe fn fetchContentsForItemWithIdentifier_version_request_completionHandler(
+        &self,
+        item_identifier: &NSFileProviderItemIdentifier,
+        requested_version: Option<&NSFileProviderItemVersion>,
+        request: &NSFileProviderRequest,
+        completion_handler: &Block<(*mut NSURL, *mut NSFileProviderItem, *mut NSError), ()>,
+    ) -> Id<NSProgress>;
 
-        #[cfg(all(
-            feature = "FileProvider_NSFileProviderItemVersion",
-            feature = "FileProvider_NSFileProviderRequest",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSProgress",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other fetchContentsForItemWithIdentifier:version:request:completionHandler:)]
-        unsafe fn fetchContentsForItemWithIdentifier_version_request_completionHandler(
-            &self,
-            item_identifier: &NSFileProviderItemIdentifier,
-            requested_version: Option<&NSFileProviderItemVersion>,
-            request: &NSFileProviderRequest,
-            completion_handler: &Block<(*mut NSURL, *mut NSFileProviderItem, *mut NSError), ()>,
-        ) -> Id<NSProgress>;
+    #[cfg(all(
+        feature = "FileProvider_NSFileProviderRequest",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSProgress",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "createItemBasedOnTemplate:fields:contents:options:request:completionHandler:",
+        managed = "Other"
+    )]
+    unsafe fn createItemBasedOnTemplate_fields_contents_options_request_completionHandler(
+        &self,
+        item_template: &NSFileProviderItem,
+        fields: NSFileProviderItemFields,
+        url: Option<&NSURL>,
+        options: NSFileProviderCreateItemOptions,
+        request: &NSFileProviderRequest,
+        completion_handler: &Block<
+            (
+                *mut NSFileProviderItem,
+                NSFileProviderItemFields,
+                Bool,
+                *mut NSError,
+            ),
+            (),
+        >,
+    ) -> Id<NSProgress>;
 
-        #[cfg(all(
-            feature = "FileProvider_NSFileProviderRequest",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSProgress",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other createItemBasedOnTemplate:fields:contents:options:request:completionHandler:)]
-        unsafe fn createItemBasedOnTemplate_fields_contents_options_request_completionHandler(
-            &self,
-            item_template: &NSFileProviderItem,
-            fields: NSFileProviderItemFields,
-            url: Option<&NSURL>,
-            options: NSFileProviderCreateItemOptions,
-            request: &NSFileProviderRequest,
-            completion_handler: &Block<
-                (
-                    *mut NSFileProviderItem,
-                    NSFileProviderItemFields,
-                    Bool,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        ) -> Id<NSProgress>;
+    #[cfg(all(
+        feature = "FileProvider_NSFileProviderItemVersion",
+        feature = "FileProvider_NSFileProviderRequest",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSProgress",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "modifyItem:baseVersion:changedFields:contents:options:request:completionHandler:",
+        managed = "Other"
+    )]
+    unsafe fn modifyItem_baseVersion_changedFields_contents_options_request_completionHandler(
+        &self,
+        item: &NSFileProviderItem,
+        version: &NSFileProviderItemVersion,
+        changed_fields: NSFileProviderItemFields,
+        new_contents: Option<&NSURL>,
+        options: NSFileProviderModifyItemOptions,
+        request: &NSFileProviderRequest,
+        completion_handler: &Block<
+            (
+                *mut NSFileProviderItem,
+                NSFileProviderItemFields,
+                Bool,
+                *mut NSError,
+            ),
+            (),
+        >,
+    ) -> Id<NSProgress>;
 
-        #[cfg(all(
-            feature = "FileProvider_NSFileProviderItemVersion",
-            feature = "FileProvider_NSFileProviderRequest",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSProgress",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other modifyItem:baseVersion:changedFields:contents:options:request:completionHandler:)]
-        unsafe fn modifyItem_baseVersion_changedFields_contents_options_request_completionHandler(
-            &self,
-            item: &NSFileProviderItem,
-            version: &NSFileProviderItemVersion,
-            changed_fields: NSFileProviderItemFields,
-            new_contents: Option<&NSURL>,
-            options: NSFileProviderModifyItemOptions,
-            request: &NSFileProviderRequest,
-            completion_handler: &Block<
-                (
-                    *mut NSFileProviderItem,
-                    NSFileProviderItemFields,
-                    Bool,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        ) -> Id<NSProgress>;
+    #[cfg(all(
+        feature = "FileProvider_NSFileProviderItemVersion",
+        feature = "FileProvider_NSFileProviderRequest",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSProgress"
+    ))]
+    #[objc2::method(
+        sel = "deleteItemWithIdentifier:baseVersion:options:request:completionHandler:",
+        managed = "Other"
+    )]
+    unsafe fn deleteItemWithIdentifier_baseVersion_options_request_completionHandler(
+        &self,
+        identifier: &NSFileProviderItemIdentifier,
+        version: &NSFileProviderItemVersion,
+        options: NSFileProviderDeleteItemOptions,
+        request: &NSFileProviderRequest,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    ) -> Id<NSProgress>;
 
-        #[cfg(all(
-            feature = "FileProvider_NSFileProviderItemVersion",
-            feature = "FileProvider_NSFileProviderRequest",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSProgress"
-        ))]
-        #[method_id(@__retain_semantics Other deleteItemWithIdentifier:baseVersion:options:request:completionHandler:)]
-        unsafe fn deleteItemWithIdentifier_baseVersion_options_request_completionHandler(
-            &self,
-            identifier: &NSFileProviderItemIdentifier,
-            version: &NSFileProviderItemVersion,
-            options: NSFileProviderDeleteItemOptions,
-            request: &NSFileProviderRequest,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        ) -> Id<NSProgress>;
+    #[objc2::method(optional, sel = "importDidFinishWithCompletionHandler:")]
+    unsafe fn importDidFinishWithCompletionHandler(&self, completion_handler: &Block<(), ()>);
 
-        #[optional]
-        #[method(importDidFinishWithCompletionHandler:)]
-        unsafe fn importDidFinishWithCompletionHandler(&self, completion_handler: &Block<(), ()>);
+    #[objc2::method(optional, sel = "materializedItemsDidChangeWithCompletionHandler:")]
+    unsafe fn materializedItemsDidChangeWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(), ()>,
+    );
 
-        #[optional]
-        #[method(materializedItemsDidChangeWithCompletionHandler:)]
-        unsafe fn materializedItemsDidChangeWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(), ()>,
-        );
+    #[objc2::method(optional, sel = "pendingItemsDidChangeWithCompletionHandler:")]
+    unsafe fn pendingItemsDidChangeWithCompletionHandler(&self, completion_handler: &Block<(), ()>);
+}
 
-        #[optional]
-        #[method(pendingItemsDidChangeWithCompletionHandler:)]
-        unsafe fn pendingItemsDidChangeWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(), ()>,
-        );
-    }
+#[objc2::protocol]
+pub unsafe trait NSFileProviderIncrementalContentFetching: NSObjectProtocol {
+    #[cfg(all(
+        feature = "FileProvider_NSFileProviderItemVersion",
+        feature = "FileProvider_NSFileProviderRequest",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSProgress",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "fetchContentsForItemWithIdentifier:version:usingExistingContentsAtURL:existingVersion:request:completionHandler:",
+        managed = "Other"
+    )]
+    unsafe fn fetchContentsForItemWithIdentifier_version_usingExistingContentsAtURL_existingVersion_request_completionHandler(
+        &self,
+        item_identifier: &NSFileProviderItemIdentifier,
+        requested_version: Option<&NSFileProviderItemVersion>,
+        existing_contents: &NSURL,
+        existing_version: &NSFileProviderItemVersion,
+        request: &NSFileProviderRequest,
+        completion_handler: &Block<(*mut NSURL, *mut NSFileProviderItem, *mut NSError), ()>,
+    ) -> Id<NSProgress>;
+}
 
-    unsafe impl ProtocolType for dyn NSFileProviderReplicatedExtension {}
-);
+#[objc2::protocol]
+pub unsafe trait NSFileProviderServicing: NSObjectProtocol {
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSProgress"
+    ))]
+    #[objc2::method(
+        sel = "supportedServiceSourcesForItemIdentifier:completionHandler:",
+        managed = "Other"
+    )]
+    unsafe fn supportedServiceSourcesForItemIdentifier_completionHandler(
+        &self,
+        item_identifier: &NSFileProviderItemIdentifier,
+        completion_handler: &Block<
+            (
+                *mut NSArray<ProtocolObject<dyn NSFileProviderServiceSource>>,
+                *mut NSError,
+            ),
+            (),
+        >,
+    ) -> Id<NSProgress>;
+}
 
-extern_protocol!(
-    pub unsafe trait NSFileProviderIncrementalContentFetching: NSObjectProtocol {
-        #[cfg(all(
-            feature = "FileProvider_NSFileProviderItemVersion",
-            feature = "FileProvider_NSFileProviderRequest",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSProgress",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other fetchContentsForItemWithIdentifier:version:usingExistingContentsAtURL:existingVersion:request:completionHandler:)]
-        unsafe fn fetchContentsForItemWithIdentifier_version_usingExistingContentsAtURL_existingVersion_request_completionHandler(
-            &self,
-            item_identifier: &NSFileProviderItemIdentifier,
-            requested_version: Option<&NSFileProviderItemVersion>,
-            existing_contents: &NSURL,
-            existing_version: &NSFileProviderItemVersion,
-            request: &NSFileProviderRequest,
-            completion_handler: &Block<(*mut NSURL, *mut NSFileProviderItem, *mut NSError), ()>,
-        ) -> Id<NSProgress>;
-    }
+#[objc2::protocol]
+pub unsafe trait NSFileProviderThumbnailing: NSObjectProtocol {
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSProgress"
+    ))]
+    #[objc2::method(
+        sel = "fetchThumbnailsForItemIdentifiers:requestedSize:perThumbnailCompletionHandler:completionHandler:",
+        managed = "Other"
+    )]
+    unsafe fn fetchThumbnailsForItemIdentifiers_requestedSize_perThumbnailCompletionHandler_completionHandler(
+        &self,
+        item_identifiers: &NSArray<NSFileProviderItemIdentifier>,
+        size: CGSize,
+        per_thumbnail_completion_handler: &Block<
+            (
+                NonNull<NSFileProviderItemIdentifier>,
+                *mut NSData,
+                *mut NSError,
+            ),
+            (),
+        >,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    ) -> Id<NSProgress>;
+}
 
-    unsafe impl ProtocolType for dyn NSFileProviderIncrementalContentFetching {}
-);
+#[objc2::protocol]
+pub unsafe trait NSFileProviderCustomAction: NSObjectProtocol {
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSProgress"
+    ))]
+    #[objc2::method(
+        sel = "performActionWithIdentifier:onItemsWithIdentifiers:completionHandler:",
+        managed = "Other"
+    )]
+    unsafe fn performActionWithIdentifier_onItemsWithIdentifiers_completionHandler(
+        &self,
+        action_identifier: &NSFileProviderExtensionActionIdentifier,
+        item_identifiers: &NSArray<NSFileProviderItemIdentifier>,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    ) -> Id<NSProgress>;
+}
 
-extern_protocol!(
-    pub unsafe trait NSFileProviderServicing: NSObjectProtocol {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSProgress"
-        ))]
-        #[method_id(@__retain_semantics Other supportedServiceSourcesForItemIdentifier:completionHandler:)]
-        unsafe fn supportedServiceSourcesForItemIdentifier_completionHandler(
-            &self,
-            item_identifier: &NSFileProviderItemIdentifier,
-            completion_handler: &Block<
-                (
-                    *mut NSArray<ProtocolObject<dyn NSFileProviderServiceSource>>,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        ) -> Id<NSProgress>;
-    }
+#[objc2::protocol]
+pub unsafe trait NSFileProviderUserInteractionSuppressing: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setInteractionSuppressed:forIdentifier:")]
+    unsafe fn setInteractionSuppressed_forIdentifier(
+        &self,
+        suppression: bool,
+        suppression_identifier: &NSString,
+    );
 
-    unsafe impl ProtocolType for dyn NSFileProviderServicing {}
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "isInteractionSuppressedForIdentifier:")]
+    unsafe fn isInteractionSuppressedForIdentifier(
+        &self,
+        suppression_identifier: &NSString,
+    ) -> bool;
+}
 
-extern_protocol!(
-    pub unsafe trait NSFileProviderThumbnailing: NSObjectProtocol {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSProgress"
-        ))]
-        #[method_id(@__retain_semantics Other fetchThumbnailsForItemIdentifiers:requestedSize:perThumbnailCompletionHandler:completionHandler:)]
-        unsafe fn fetchThumbnailsForItemIdentifiers_requestedSize_perThumbnailCompletionHandler_completionHandler(
-            &self,
-            item_identifiers: &NSArray<NSFileProviderItemIdentifier>,
-            size: CGSize,
-            per_thumbnail_completion_handler: &Block<
-                (
-                    NonNull<NSFileProviderItemIdentifier>,
-                    *mut NSData,
-                    *mut NSError,
-                ),
-                (),
-            >,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        ) -> Id<NSProgress>;
-    }
+#[objc2::protocol]
+pub unsafe trait NSFileProviderDomainState: NSObjectProtocol {
+    #[cfg(feature = "FileProvider_NSFileProviderDomainVersion")]
+    #[objc2::method(sel = "domainVersion", managed = "Other")]
+    unsafe fn domainVersion(&self) -> Id<NSFileProviderDomainVersion>;
 
-    unsafe impl ProtocolType for dyn NSFileProviderThumbnailing {}
-);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "userInfo", managed = "Other")]
+    unsafe fn userInfo(&self) -> Id<NSDictionary>;
+}
 
-extern_protocol!(
-    pub unsafe trait NSFileProviderCustomAction: NSObjectProtocol {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSProgress"
-        ))]
-        #[method_id(@__retain_semantics Other performActionWithIdentifier:onItemsWithIdentifiers:completionHandler:)]
-        unsafe fn performActionWithIdentifier_onItemsWithIdentifiers_completionHandler(
-            &self,
-            action_identifier: &NSFileProviderExtensionActionIdentifier,
-            item_identifiers: &NSArray<NSFileProviderItemIdentifier>,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        ) -> Id<NSProgress>;
-    }
-
-    unsafe impl ProtocolType for dyn NSFileProviderCustomAction {}
-);
-
-extern_protocol!(
-    pub unsafe trait NSFileProviderUserInteractionSuppressing: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setInteractionSuppressed:forIdentifier:)]
-        unsafe fn setInteractionSuppressed_forIdentifier(
-            &self,
-            suppression: bool,
-            suppression_identifier: &NSString,
-        );
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(isInteractionSuppressedForIdentifier:)]
-        unsafe fn isInteractionSuppressedForIdentifier(
-            &self,
-            suppression_identifier: &NSString,
-        ) -> bool;
-    }
-
-    unsafe impl ProtocolType for dyn NSFileProviderUserInteractionSuppressing {}
-);
-
-extern_protocol!(
-    pub unsafe trait NSFileProviderDomainState: NSObjectProtocol {
-        #[cfg(feature = "FileProvider_NSFileProviderDomainVersion")]
-        #[method_id(@__retain_semantics Other domainVersion)]
-        unsafe fn domainVersion(&self) -> Id<NSFileProviderDomainVersion>;
-
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other userInfo)]
-        unsafe fn userInfo(&self) -> Id<NSDictionary>;
-    }
-
-    unsafe impl ProtocolType for dyn NSFileProviderDomainState {}
-);
-
-extern_protocol!(
-    pub unsafe trait NSFileProviderPartialContentFetching: NSObjectProtocol {
-        #[cfg(all(
-            feature = "FileProvider_NSFileProviderItemVersion",
-            feature = "FileProvider_NSFileProviderRequest",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSProgress",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other fetchPartialContentsForItemWithIdentifier:version:request:minimalRange:aligningTo:options:completionHandler:)]
-        unsafe fn fetchPartialContentsForItemWithIdentifier_version_request_minimalRange_aligningTo_options_completionHandler(
-            &self,
-            item_identifier: &NSFileProviderItemIdentifier,
-            requested_version: &NSFileProviderItemVersion,
-            request: &NSFileProviderRequest,
-            requested_range: NSRange,
-            alignment: NSUInteger,
-            options: NSFileProviderFetchContentsOptions,
-            completion_handler: &Block<
-                (
-                    *mut NSURL,
-                    *mut NSFileProviderItem,
-                    NSRange,
-                    NSFileProviderMaterializationFlags,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        ) -> Id<NSProgress>;
-    }
-
-    unsafe impl ProtocolType for dyn NSFileProviderPartialContentFetching {}
-);
+#[objc2::protocol]
+pub unsafe trait NSFileProviderPartialContentFetching: NSObjectProtocol {
+    #[cfg(all(
+        feature = "FileProvider_NSFileProviderItemVersion",
+        feature = "FileProvider_NSFileProviderRequest",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSProgress",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "fetchPartialContentsForItemWithIdentifier:version:request:minimalRange:aligningTo:options:completionHandler:",
+        managed = "Other"
+    )]
+    unsafe fn fetchPartialContentsForItemWithIdentifier_version_request_minimalRange_aligningTo_options_completionHandler(
+        &self,
+        item_identifier: &NSFileProviderItemIdentifier,
+        requested_version: &NSFileProviderItemVersion,
+        request: &NSFileProviderRequest,
+        requested_range: NSRange,
+        alignment: NSUInteger,
+        options: NSFileProviderFetchContentsOptions,
+        completion_handler: &Block<
+            (
+                *mut NSURL,
+                *mut NSFileProviderItem,
+                NSRange,
+                NSFileProviderMaterializationFlags,
+                *mut NSError,
+            ),
+            (),
+        >,
+    ) -> Id<NSProgress>;
+}

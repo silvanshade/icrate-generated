@@ -5,17 +5,20 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSSavePanel,
+    unsafe inherits = [
+        NSPanel,
+        NSWindow,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSOpenPanel")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSOpenPanel")]
-    pub struct NSOpenPanel;
-
-    #[cfg(feature = "AppKit_NSOpenPanel")]
-    unsafe impl ClassType for NSOpenPanel {
-        #[inherits(NSPanel, NSWindow, NSResponder, NSObject)]
-        type Super = NSSavePanel;
-    }
-);
+    pub type NSOpenPanel;
+}
 
 #[cfg(feature = "AppKit_NSOpenPanel")]
 unsafe impl NSAccessibility for NSOpenPanel {}
@@ -44,151 +47,163 @@ unsafe impl NSUserInterfaceItemIdentification for NSOpenPanel {}
 #[cfg(feature = "AppKit_NSOpenPanel")]
 unsafe impl NSUserInterfaceValidations for NSOpenPanel {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSOpenPanel")]
-    unsafe impl NSOpenPanel {
-        #[method_id(@__retain_semantics Other openPanel)]
-        pub unsafe fn openPanel() -> Id<NSOpenPanel>;
+    pub type NSOpenPanel;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other URLs)]
-        pub unsafe fn URLs(&self) -> Id<NSArray<NSURL>>;
+    #[objc2::method(sel = "openPanel", managed = "Other")]
+    pub unsafe fn openPanel() -> Id<NSOpenPanel>;
 
-        #[method(resolvesAliases)]
-        pub unsafe fn resolvesAliases(&self) -> bool;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "URLs", managed = "Other")]
+    pub unsafe fn URLs(&self) -> Id<NSArray<NSURL>>;
 
-        #[method(setResolvesAliases:)]
-        pub unsafe fn setResolvesAliases(&self, resolves_aliases: bool);
+    #[objc2::method(sel = "resolvesAliases")]
+    pub unsafe fn resolvesAliases(&self) -> bool;
 
-        #[method(canChooseDirectories)]
-        pub unsafe fn canChooseDirectories(&self) -> bool;
+    #[objc2::method(sel = "setResolvesAliases:")]
+    pub unsafe fn setResolvesAliases(&self, resolves_aliases: bool);
 
-        #[method(setCanChooseDirectories:)]
-        pub unsafe fn setCanChooseDirectories(&self, can_choose_directories: bool);
+    #[objc2::method(sel = "canChooseDirectories")]
+    pub unsafe fn canChooseDirectories(&self) -> bool;
 
-        #[method(allowsMultipleSelection)]
-        pub unsafe fn allowsMultipleSelection(&self) -> bool;
+    #[objc2::method(sel = "setCanChooseDirectories:")]
+    pub unsafe fn setCanChooseDirectories(&self, can_choose_directories: bool);
 
-        #[method(setAllowsMultipleSelection:)]
-        pub unsafe fn setAllowsMultipleSelection(&self, allows_multiple_selection: bool);
+    #[objc2::method(sel = "allowsMultipleSelection")]
+    pub unsafe fn allowsMultipleSelection(&self) -> bool;
 
-        #[method(canChooseFiles)]
-        pub unsafe fn canChooseFiles(&self) -> bool;
+    #[objc2::method(sel = "setAllowsMultipleSelection:")]
+    pub unsafe fn setAllowsMultipleSelection(&self, allows_multiple_selection: bool);
 
-        #[method(setCanChooseFiles:)]
-        pub unsafe fn setCanChooseFiles(&self, can_choose_files: bool);
+    #[objc2::method(sel = "canChooseFiles")]
+    pub unsafe fn canChooseFiles(&self) -> bool;
 
-        #[method(canResolveUbiquitousConflicts)]
-        pub unsafe fn canResolveUbiquitousConflicts(&self) -> bool;
+    #[objc2::method(sel = "setCanChooseFiles:")]
+    pub unsafe fn setCanChooseFiles(&self, can_choose_files: bool);
 
-        #[method(setCanResolveUbiquitousConflicts:)]
-        pub unsafe fn setCanResolveUbiquitousConflicts(
-            &self,
-            can_resolve_ubiquitous_conflicts: bool,
-        );
+    #[objc2::method(sel = "canResolveUbiquitousConflicts")]
+    pub unsafe fn canResolveUbiquitousConflicts(&self) -> bool;
 
-        #[method(canDownloadUbiquitousContents)]
-        pub unsafe fn canDownloadUbiquitousContents(&self) -> bool;
+    #[objc2::method(sel = "setCanResolveUbiquitousConflicts:")]
+    pub unsafe fn setCanResolveUbiquitousConflicts(&self, can_resolve_ubiquitous_conflicts: bool);
 
-        #[method(setCanDownloadUbiquitousContents:)]
-        pub unsafe fn setCanDownloadUbiquitousContents(
-            &self,
-            can_download_ubiquitous_contents: bool,
-        );
+    #[objc2::method(sel = "canDownloadUbiquitousContents")]
+    pub unsafe fn canDownloadUbiquitousContents(&self) -> bool;
 
-        #[method(isAccessoryViewDisclosed)]
-        pub unsafe fn isAccessoryViewDisclosed(&self) -> bool;
+    #[objc2::method(sel = "setCanDownloadUbiquitousContents:")]
+    pub unsafe fn setCanDownloadUbiquitousContents(&self, can_download_ubiquitous_contents: bool);
 
-        #[method(setAccessoryViewDisclosed:)]
-        pub unsafe fn setAccessoryViewDisclosed(&self, accessory_view_disclosed: bool);
-    }
-);
+    #[objc2::method(sel = "isAccessoryViewDisclosed")]
+    pub unsafe fn isAccessoryViewDisclosed(&self) -> bool;
 
-extern_methods!(
-    /// NSDeprecated
+    #[objc2::method(sel = "setAccessoryViewDisclosed:")]
+    pub unsafe fn setAccessoryViewDisclosed(&self, accessory_view_disclosed: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSOpenPanel")]
-    unsafe impl NSOpenPanel {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other filenames)]
-        pub unsafe fn filenames(&self) -> Id<NSArray>;
+    pub type NSOpenPanel;
 
-        #[cfg(all(
-            feature = "AppKit_NSWindow",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString"
-        ))]
-        #[deprecated]
-        #[method(beginSheetForDirectory:file:types:modalForWindow:modalDelegate:didEndSelector:contextInfo:)]
-        pub unsafe fn beginSheetForDirectory_file_types_modalForWindow_modalDelegate_didEndSelector_contextInfo(
-            &self,
-            path: Option<&NSString>,
-            name: Option<&NSString>,
-            file_types: Option<&NSArray>,
-            doc_window: Option<&NSWindow>,
-            delegate: Option<&Object>,
-            did_end_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[deprecated]
+    #[objc2::method(sel = "filenames", managed = "Other")]
+    pub unsafe fn filenames(&self) -> Id<NSArray>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[deprecated]
-        #[method(beginForDirectory:file:types:modelessDelegate:didEndSelector:contextInfo:)]
-        pub unsafe fn beginForDirectory_file_types_modelessDelegate_didEndSelector_contextInfo(
-            &self,
-            path: Option<&NSString>,
-            name: Option<&NSString>,
-            file_types: Option<&NSArray>,
-            delegate: Option<&Object>,
-            did_end_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
+    #[cfg(all(
+        feature = "AppKit_NSWindow",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString"
+    ))]
+    #[deprecated]
+    #[objc2::method(
+        sel = "beginSheetForDirectory:file:types:modalForWindow:modalDelegate:didEndSelector:contextInfo:"
+    )]
+    pub unsafe fn beginSheetForDirectory_file_types_modalForWindow_modalDelegate_didEndSelector_contextInfo(
+        &self,
+        path: Option<&NSString>,
+        name: Option<&NSString>,
+        file_types: Option<&NSArray>,
+        doc_window: Option<&NSWindow>,
+        delegate: Option<&Object>,
+        did_end_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[deprecated]
-        #[method(runModalForDirectory:file:types:)]
-        pub unsafe fn runModalForDirectory_file_types(
-            &self,
-            path: Option<&NSString>,
-            name: Option<&NSString>,
-            file_types: Option<&NSArray>,
-        ) -> NSInteger;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[deprecated]
+    #[objc2::method(
+        sel = "beginForDirectory:file:types:modelessDelegate:didEndSelector:contextInfo:"
+    )]
+    pub unsafe fn beginForDirectory_file_types_modelessDelegate_didEndSelector_contextInfo(
+        &self,
+        path: Option<&NSString>,
+        name: Option<&NSString>,
+        file_types: Option<&NSArray>,
+        delegate: Option<&Object>,
+        did_end_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[deprecated]
-        #[method(runModalForTypes:)]
-        pub unsafe fn runModalForTypes(&self, file_types: Option<&NSArray>) -> NSInteger;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[deprecated]
+    #[objc2::method(sel = "runModalForDirectory:file:types:")]
+    pub unsafe fn runModalForDirectory_file_types(
+        &self,
+        path: Option<&NSString>,
+        name: Option<&NSString>,
+        file_types: Option<&NSArray>,
+    ) -> NSInteger;
 
-extern_methods!(
-    /// Methods declared on superclass `NSWindow`
+    #[cfg(feature = "Foundation_NSArray")]
+    #[deprecated]
+    #[objc2::method(sel = "runModalForTypes:")]
+    pub unsafe fn runModalForTypes(&self, file_types: Option<&NSArray>) -> NSInteger;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSWindow`
     #[cfg(feature = "AppKit_NSOpenPanel")]
-    unsafe impl NSOpenPanel {
-        #[method_id(@__retain_semantics Init initWithContentRect:styleMask:backing:defer:)]
-        pub unsafe fn initWithContentRect_styleMask_backing_defer(
-            this: Option<Allocated<Self>>,
-            content_rect: NSRect,
-            style: NSWindowStyleMask,
-            backing_store_type: NSBackingStoreType,
-            flag: bool,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSScreen")]
-        #[method_id(@__retain_semantics Init initWithContentRect:styleMask:backing:defer:screen:)]
-        pub unsafe fn initWithContentRect_styleMask_backing_defer_screen(
-            this: Option<Allocated<Self>>,
-            content_rect: NSRect,
-            style: NSWindowStyleMask,
-            backing_store_type: NSBackingStoreType,
-            flag: bool,
-            screen: Option<&NSScreen>,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other windowWithContentViewController:)]
-        pub unsafe fn windowWithContentViewController(
-            content_view_controller: &NSViewController,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSOpenPanel")]
+    pub type NSOpenPanel;
+
+    #[objc2::method(sel = "initWithContentRect:styleMask:backing:defer:", managed = "Init")]
+    pub unsafe fn initWithContentRect_styleMask_backing_defer(
+        this: Option<Allocated<Self>>,
+        content_rect: NSRect,
+        style: NSWindowStyleMask,
+        backing_store_type: NSBackingStoreType,
+        flag: bool,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSScreen")]
+    #[objc2::method(
+        sel = "initWithContentRect:styleMask:backing:defer:screen:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithContentRect_styleMask_backing_defer_screen(
+        this: Option<Allocated<Self>>,
+        content_rect: NSRect,
+        style: NSWindowStyleMask,
+        backing_store_type: NSBackingStoreType,
+        flag: bool,
+        screen: Option<&NSScreen>,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "windowWithContentViewController:", managed = "Other")]
+    pub unsafe fn windowWithContentViewController(
+        content_view_controller: &NSViewController,
+    ) -> Id<Self>;
+}

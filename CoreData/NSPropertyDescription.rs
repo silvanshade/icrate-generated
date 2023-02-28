@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPropertyDescription")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSPropertyDescription")]
-    pub struct NSPropertyDescription;
-
-    #[cfg(feature = "CoreData_NSPropertyDescription")]
-    unsafe impl ClassType for NSPropertyDescription {
-        type Super = NSObject;
-    }
-);
+    pub type NSPropertyDescription;
+}
 
 #[cfg(feature = "CoreData_NSPropertyDescription")]
 unsafe impl NSCoding for NSPropertyDescription {}
@@ -21,101 +21,104 @@ unsafe impl NSCoding for NSPropertyDescription {}
 #[cfg(feature = "CoreData_NSPropertyDescription")]
 unsafe impl NSObjectProtocol for NSPropertyDescription {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPropertyDescription")]
-    unsafe impl NSPropertyDescription {
-        #[cfg(feature = "CoreData_NSEntityDescription")]
-        #[method_id(@__retain_semantics Other entity)]
-        pub unsafe fn entity(&self) -> Id<NSEntityDescription>;
+    pub type NSPropertyDescription;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "CoreData_NSEntityDescription")]
+    #[objc2::method(sel = "entity", managed = "Other")]
+    pub unsafe fn entity(&self) -> Id<NSEntityDescription>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[method(isOptional)]
-        pub unsafe fn isOptional(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: &NSString);
 
-        #[method(setOptional:)]
-        pub unsafe fn setOptional(&self, optional: bool);
+    #[objc2::method(sel = "isOptional")]
+    pub unsafe fn isOptional(&self) -> bool;
 
-        #[method(isTransient)]
-        pub unsafe fn isTransient(&self) -> bool;
+    #[objc2::method(sel = "setOptional:")]
+    pub unsafe fn setOptional(&self, optional: bool);
 
-        #[method(setTransient:)]
-        pub unsafe fn setTransient(&self, transient: bool);
+    #[objc2::method(sel = "isTransient")]
+    pub unsafe fn isTransient(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSPredicate"))]
-        #[method_id(@__retain_semantics Other validationPredicates)]
-        pub unsafe fn validationPredicates(&self) -> Id<NSArray<NSPredicate>>;
+    #[objc2::method(sel = "setTransient:")]
+    pub unsafe fn setTransient(&self, transient: bool);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other validationWarnings)]
-        pub unsafe fn validationWarnings(&self) -> Id<NSArray>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSPredicate"))]
+    #[objc2::method(sel = "validationPredicates", managed = "Other")]
+    pub unsafe fn validationPredicates(&self) -> Id<NSArray<NSPredicate>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSPredicate",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(setValidationPredicates:withValidationWarnings:)]
-        pub unsafe fn setValidationPredicates_withValidationWarnings(
-            &self,
-            validation_predicates: Option<&NSArray<NSPredicate>>,
-            validation_warnings: Option<&NSArray<NSString>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "validationWarnings", managed = "Other")]
+    pub unsafe fn validationWarnings(&self) -> Id<NSArray>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other userInfo)]
-        pub unsafe fn userInfo(&self) -> Option<Id<NSDictionary>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSPredicate",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "setValidationPredicates:withValidationWarnings:")]
+    pub unsafe fn setValidationPredicates_withValidationWarnings(
+        &self,
+        validation_predicates: Option<&NSArray<NSPredicate>>,
+        validation_warnings: Option<&NSArray<NSString>>,
+    );
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(setUserInfo:)]
-        pub unsafe fn setUserInfo(&self, user_info: Option<&NSDictionary>);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "userInfo", managed = "Other")]
+    pub unsafe fn userInfo(&self) -> Option<Id<NSDictionary>>;
 
-        #[deprecated = "Use NSEntityDescription.indexes instead"]
-        #[method(isIndexed)]
-        pub unsafe fn isIndexed(&self) -> bool;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "setUserInfo:")]
+    pub unsafe fn setUserInfo(&self, user_info: Option<&NSDictionary>);
 
-        #[deprecated = "Use NSEntityDescription.indexes instead"]
-        #[method(setIndexed:)]
-        pub unsafe fn setIndexed(&self, indexed: bool);
+    #[deprecated = "Use NSEntityDescription.indexes instead"]
+    #[objc2::method(sel = "isIndexed")]
+    pub unsafe fn isIndexed(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other versionHash)]
-        pub unsafe fn versionHash(&self) -> Id<NSData>;
+    #[deprecated = "Use NSEntityDescription.indexes instead"]
+    #[objc2::method(sel = "setIndexed:")]
+    pub unsafe fn setIndexed(&self, indexed: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other versionHashModifier)]
-        pub unsafe fn versionHashModifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "versionHash", managed = "Other")]
+    pub unsafe fn versionHash(&self) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setVersionHashModifier:)]
-        pub unsafe fn setVersionHashModifier(&self, version_hash_modifier: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "versionHashModifier", managed = "Other")]
+    pub unsafe fn versionHashModifier(&self) -> Option<Id<NSString>>;
 
-        #[method(isIndexedBySpotlight)]
-        pub unsafe fn isIndexedBySpotlight(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setVersionHashModifier:")]
+    pub unsafe fn setVersionHashModifier(&self, version_hash_modifier: Option<&NSString>);
 
-        #[method(setIndexedBySpotlight:)]
-        pub unsafe fn setIndexedBySpotlight(&self, indexed_by_spotlight: bool);
+    #[objc2::method(sel = "isIndexedBySpotlight")]
+    pub unsafe fn isIndexedBySpotlight(&self) -> bool;
 
-        #[deprecated = "Spotlight integration is deprecated. Use CoreSpotlight integration instead."]
-        #[method(isStoredInExternalRecord)]
-        pub unsafe fn isStoredInExternalRecord(&self) -> bool;
+    #[objc2::method(sel = "setIndexedBySpotlight:")]
+    pub unsafe fn setIndexedBySpotlight(&self, indexed_by_spotlight: bool);
 
-        #[deprecated = "Spotlight integration is deprecated. Use CoreSpotlight integration instead."]
-        #[method(setStoredInExternalRecord:)]
-        pub unsafe fn setStoredInExternalRecord(&self, stored_in_external_record: bool);
+    #[deprecated = "Spotlight integration is deprecated. Use CoreSpotlight integration instead."]
+    #[objc2::method(sel = "isStoredInExternalRecord")]
+    pub unsafe fn isStoredInExternalRecord(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other renamingIdentifier)]
-        pub unsafe fn renamingIdentifier(&self) -> Option<Id<NSString>>;
+    #[deprecated = "Spotlight integration is deprecated. Use CoreSpotlight integration instead."]
+    #[objc2::method(sel = "setStoredInExternalRecord:")]
+    pub unsafe fn setStoredInExternalRecord(&self, stored_in_external_record: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setRenamingIdentifier:)]
-        pub unsafe fn setRenamingIdentifier(&self, renaming_identifier: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "renamingIdentifier", managed = "Other")]
+    pub unsafe fn renamingIdentifier(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setRenamingIdentifier:")]
+    pub unsafe fn setRenamingIdentifier(&self, renaming_identifier: Option<&NSString>);
+}

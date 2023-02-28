@@ -11,53 +11,59 @@ pub type NSStoryboardSceneIdentifier = NSString;
 
 pub type NSStoryboardControllerCreator = *mut Block<(NonNull<NSCoder>,), *mut Object>;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSStoryboard")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSStoryboard")]
-    pub struct NSStoryboard;
-
-    #[cfg(feature = "AppKit_NSStoryboard")]
-    unsafe impl ClassType for NSStoryboard {
-        type Super = NSObject;
-    }
-);
+    pub type NSStoryboard;
+}
 
 #[cfg(feature = "AppKit_NSStoryboard")]
 unsafe impl NSObjectProtocol for NSStoryboard {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSStoryboard")]
-    unsafe impl NSStoryboard {
-        #[method_id(@__retain_semantics Other mainStoryboard)]
-        pub unsafe fn mainStoryboard() -> Option<Id<NSStoryboard>>;
+    pub type NSStoryboard;
 
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Other storyboardWithName:bundle:)]
-        pub unsafe fn storyboardWithName_bundle(
-            name: &NSStoryboardName,
-            storyboard_bundle_or_nil: Option<&NSBundle>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "mainStoryboard", managed = "Other")]
+    pub unsafe fn mainStoryboard() -> Option<Id<NSStoryboard>>;
 
-        #[method_id(@__retain_semantics Other instantiateInitialController)]
-        pub unsafe fn instantiateInitialController(&self) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "storyboardWithName:bundle:", managed = "Other")]
+    pub unsafe fn storyboardWithName_bundle(
+        name: &NSStoryboardName,
+        storyboard_bundle_or_nil: Option<&NSBundle>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other instantiateInitialControllerWithCreator:)]
-        pub unsafe fn instantiateInitialControllerWithCreator(
-            &self,
-            block: NSStoryboardControllerCreator,
-        ) -> Option<Id<Object>>;
+    #[objc2::method(sel = "instantiateInitialController", managed = "Other")]
+    pub unsafe fn instantiateInitialController(&self) -> Option<Id<Object>>;
 
-        #[method_id(@__retain_semantics Other instantiateControllerWithIdentifier:)]
-        pub unsafe fn instantiateControllerWithIdentifier(
-            &self,
-            identifier: &NSStoryboardSceneIdentifier,
-        ) -> Id<Object>;
+    #[objc2::method(sel = "instantiateInitialControllerWithCreator:", managed = "Other")]
+    pub unsafe fn instantiateInitialControllerWithCreator(
+        &self,
+        block: NSStoryboardControllerCreator,
+    ) -> Option<Id<Object>>;
 
-        #[method_id(@__retain_semantics Other instantiateControllerWithIdentifier:creator:)]
-        pub unsafe fn instantiateControllerWithIdentifier_creator(
-            &self,
-            identifier: &NSStoryboardSceneIdentifier,
-            block: NSStoryboardControllerCreator,
-        ) -> Id<Object>;
-    }
-);
+    #[objc2::method(sel = "instantiateControllerWithIdentifier:", managed = "Other")]
+    pub unsafe fn instantiateControllerWithIdentifier(
+        &self,
+        identifier: &NSStoryboardSceneIdentifier,
+    ) -> Id<Object>;
+
+    #[objc2::method(
+        sel = "instantiateControllerWithIdentifier:creator:",
+        managed = "Other"
+    )]
+    pub unsafe fn instantiateControllerWithIdentifier_creator(
+        &self,
+        identifier: &NSStoryboardSceneIdentifier,
+        block: NSStoryboardControllerCreator,
+    ) -> Id<Object>;
+}

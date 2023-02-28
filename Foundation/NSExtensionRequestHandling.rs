@@ -3,12 +3,9 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSExtensionRequestHandling: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSExtensionContext")]
-        #[method(beginRequestWithExtensionContext:)]
-        unsafe fn beginRequestWithExtensionContext(&self, context: &NSExtensionContext);
-    }
-
-    unsafe impl ProtocolType for dyn NSExtensionRequestHandling {}
-);
+#[objc2::protocol]
+pub unsafe trait NSExtensionRequestHandling: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSExtensionContext")]
+    #[objc2::method(sel = "beginRequestWithExtensionContext:")]
+    unsafe fn beginRequestWithExtensionContext(&self, context: &NSExtensionContext);
+}

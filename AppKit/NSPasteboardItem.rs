@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPasteboardItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPasteboardItem")]
-    pub struct NSPasteboardItem;
-
-    #[cfg(feature = "AppKit_NSPasteboardItem")]
-    unsafe impl ClassType for NSPasteboardItem {
-        type Super = NSObject;
-    }
-);
+    pub type NSPasteboardItem;
+}
 
 #[cfg(feature = "AppKit_NSPasteboardItem")]
 unsafe impl NSObjectProtocol for NSPasteboardItem {}
@@ -25,76 +25,71 @@ unsafe impl NSPasteboardReading for NSPasteboardItem {}
 #[cfg(feature = "AppKit_NSPasteboardItem")]
 unsafe impl NSPasteboardWriting for NSPasteboardItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPasteboardItem")]
-    unsafe impl NSPasteboardItem {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other types)]
-        pub unsafe fn types(&self) -> Id<NSArray<NSPasteboardType>>;
+    pub type NSPasteboardItem;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other availableTypeFromArray:)]
-        pub unsafe fn availableTypeFromArray(
-            &self,
-            types: &NSArray<NSPasteboardType>,
-        ) -> Option<Id<NSPasteboardType>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "types", managed = "Other")]
+    pub unsafe fn types(&self) -> Id<NSArray<NSPasteboardType>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setDataProvider:forTypes:)]
-        pub unsafe fn setDataProvider_forTypes(
-            &self,
-            data_provider: &ProtocolObject<dyn NSPasteboardItemDataProvider>,
-            types: &NSArray<NSPasteboardType>,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "availableTypeFromArray:", managed = "Other")]
+    pub unsafe fn availableTypeFromArray(
+        &self,
+        types: &NSArray<NSPasteboardType>,
+    ) -> Option<Id<NSPasteboardType>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(setData:forType:)]
-        pub unsafe fn setData_forType(&self, data: &NSData, r#type: &NSPasteboardType) -> bool;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setDataProvider:forTypes:")]
+    pub unsafe fn setDataProvider_forTypes(
+        &self,
+        data_provider: &ProtocolObject<dyn NSPasteboardItemDataProvider>,
+        types: &NSArray<NSPasteboardType>,
+    ) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setString:forType:)]
-        pub unsafe fn setString_forType(
-            &self,
-            string: &NSString,
-            r#type: &NSPasteboardType,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "setData:forType:")]
+    pub unsafe fn setData_forType(&self, data: &NSData, r#type: &NSPasteboardType) -> bool;
 
-        #[method(setPropertyList:forType:)]
-        pub unsafe fn setPropertyList_forType(
-            &self,
-            property_list: &Object,
-            r#type: &NSPasteboardType,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setString:forType:")]
+    pub unsafe fn setString_forType(&self, string: &NSString, r#type: &NSPasteboardType) -> bool;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other dataForType:)]
-        pub unsafe fn dataForType(&self, r#type: &NSPasteboardType) -> Option<Id<NSData>>;
+    #[objc2::method(sel = "setPropertyList:forType:")]
+    pub unsafe fn setPropertyList_forType(
+        &self,
+        property_list: &Object,
+        r#type: &NSPasteboardType,
+    ) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringForType:)]
-        pub unsafe fn stringForType(&self, r#type: &NSPasteboardType) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "dataForType:", managed = "Other")]
+    pub unsafe fn dataForType(&self, r#type: &NSPasteboardType) -> Option<Id<NSData>>;
 
-        #[method_id(@__retain_semantics Other propertyListForType:)]
-        pub unsafe fn propertyListForType(&self, r#type: &NSPasteboardType) -> Option<Id<Object>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringForType:", managed = "Other")]
+    pub unsafe fn stringForType(&self, r#type: &NSPasteboardType) -> Option<Id<NSString>>;
 
-extern_protocol!(
-    pub unsafe trait NSPasteboardItemDataProvider: NSObjectProtocol {
-        #[cfg(all(feature = "AppKit_NSPasteboard", feature = "AppKit_NSPasteboardItem"))]
-        #[method(pasteboard:item:provideDataForType:)]
-        unsafe fn pasteboard_item_provideDataForType(
-            &self,
-            pasteboard: Option<&NSPasteboard>,
-            item: &NSPasteboardItem,
-            r#type: &NSPasteboardType,
-        );
+    #[objc2::method(sel = "propertyListForType:", managed = "Other")]
+    pub unsafe fn propertyListForType(&self, r#type: &NSPasteboardType) -> Option<Id<Object>>;
+}
 
-        #[cfg(feature = "AppKit_NSPasteboard")]
-        #[optional]
-        #[method(pasteboardFinishedWithDataProvider:)]
-        unsafe fn pasteboardFinishedWithDataProvider(&self, pasteboard: &NSPasteboard);
-    }
+#[objc2::protocol]
+pub unsafe trait NSPasteboardItemDataProvider: NSObjectProtocol {
+    #[cfg(all(feature = "AppKit_NSPasteboard", feature = "AppKit_NSPasteboardItem"))]
+    #[objc2::method(sel = "pasteboard:item:provideDataForType:")]
+    unsafe fn pasteboard_item_provideDataForType(
+        &self,
+        pasteboard: Option<&NSPasteboard>,
+        item: &NSPasteboardItem,
+        r#type: &NSPasteboardType,
+    );
 
-    unsafe impl ProtocolType for dyn NSPasteboardItemDataProvider {}
-);
+    #[cfg(feature = "AppKit_NSPasteboard")]
+    #[objc2::method(optional, sel = "pasteboardFinishedWithDataProvider:")]
+    unsafe fn pasteboardFinishedWithDataProvider(&self, pasteboard: &NSPasteboard);
+}

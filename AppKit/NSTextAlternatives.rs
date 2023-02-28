@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextAlternatives")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextAlternatives")]
-    pub struct NSTextAlternatives;
-
-    #[cfg(feature = "AppKit_NSTextAlternatives")]
-    unsafe impl ClassType for NSTextAlternatives {
-        type Super = NSObject;
-    }
-);
+    pub type NSTextAlternatives;
+}
 
 #[cfg(feature = "AppKit_NSTextAlternatives")]
 unsafe impl NSCoding for NSTextAlternatives {}
@@ -25,30 +25,33 @@ unsafe impl NSObjectProtocol for NSTextAlternatives {}
 #[cfg(feature = "AppKit_NSTextAlternatives")]
 unsafe impl NSSecureCoding for NSTextAlternatives {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextAlternatives")]
-    unsafe impl NSTextAlternatives {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithPrimaryString:alternativeStrings:)]
-        pub unsafe fn initWithPrimaryString_alternativeStrings(
-            this: Option<Allocated<Self>>,
-            primary_string: &NSString,
-            alternative_strings: &NSArray<NSString>,
-        ) -> Id<Self>;
+    pub type NSTextAlternatives;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other primaryString)]
-        pub unsafe fn primaryString(&self) -> Id<NSString>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithPrimaryString:alternativeStrings:", managed = "Init")]
+    pub unsafe fn initWithPrimaryString_alternativeStrings(
+        this: Option<Allocated<Self>>,
+        primary_string: &NSString,
+        alternative_strings: &NSArray<NSString>,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other alternativeStrings)]
-        pub unsafe fn alternativeStrings(&self) -> Id<NSArray<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "primaryString", managed = "Other")]
+    pub unsafe fn primaryString(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(noteSelectedAlternativeString:)]
-        pub unsafe fn noteSelectedAlternativeString(&self, alternative_string: &NSString);
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "alternativeStrings", managed = "Other")]
+    pub unsafe fn alternativeStrings(&self) -> Id<NSArray<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "noteSelectedAlternativeString:")]
+    pub unsafe fn noteSelectedAlternativeString(&self, alternative_string: &NSString);
+}
 
 extern_static!(
     NSTextAlternativesSelectedAlternativeStringNotification: &'static NSNotificationName

@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextLineFragment")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextLineFragment")]
-    pub struct NSTextLineFragment;
-
-    #[cfg(feature = "AppKit_NSTextLineFragment")]
-    unsafe impl ClassType for NSTextLineFragment {
-        type Super = NSObject;
-    }
-);
+    pub type NSTextLineFragment;
+}
 
 #[cfg(feature = "AppKit_NSTextLineFragment")]
 unsafe impl NSCoding for NSTextLineFragment {}
@@ -25,56 +25,59 @@ unsafe impl NSObjectProtocol for NSTextLineFragment {}
 #[cfg(feature = "AppKit_NSTextLineFragment")]
 unsafe impl NSSecureCoding for NSTextLineFragment {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextLineFragment")]
-    unsafe impl NSTextLineFragment {
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Init initWithAttributedString:range:)]
-        pub unsafe fn initWithAttributedString_range(
-            this: Option<Allocated<Self>>,
-            attributed_string: &NSAttributedString,
-            range: NSRange,
-        ) -> Id<Self>;
+    pub type NSTextLineFragment;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            a_decoder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "initWithAttributedString:range:", managed = "Init")]
+    pub unsafe fn initWithAttributedString_range(
+        this: Option<Allocated<Self>>,
+        attributed_string: &NSAttributedString,
+        range: NSRange,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithString:attributes:range:)]
-        pub unsafe fn initWithString_attributes_range(
-            this: Option<Allocated<Self>>,
-            string: &NSString,
-            attributes: &NSDictionary<NSAttributedStringKey, Object>,
-            range: NSRange,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(
+        this: Option<Allocated<Self>>,
+        a_decoder: &NSCoder,
+    ) -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithString:attributes:range:", managed = "Init")]
+    pub unsafe fn initWithString_attributes_range(
+        this: Option<Allocated<Self>>,
+        string: &NSString,
+        attributes: &NSDictionary<NSAttributedStringKey, Object>,
+        range: NSRange,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other attributedString)]
-        pub unsafe fn attributedString(&self) -> Id<NSAttributedString>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(characterRange)]
-        pub unsafe fn characterRange(&self) -> NSRange;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "attributedString", managed = "Other")]
+    pub unsafe fn attributedString(&self) -> Id<NSAttributedString>;
 
-        #[method(typographicBounds)]
-        pub unsafe fn typographicBounds(&self) -> CGRect;
+    #[objc2::method(sel = "characterRange")]
+    pub unsafe fn characterRange(&self) -> NSRange;
 
-        #[method(glyphOrigin)]
-        pub unsafe fn glyphOrigin(&self) -> CGPoint;
+    #[objc2::method(sel = "typographicBounds")]
+    pub unsafe fn typographicBounds(&self) -> CGRect;
 
-        #[method(locationForCharacterAtIndex:)]
-        pub unsafe fn locationForCharacterAtIndex(&self, index: NSInteger) -> CGPoint;
+    #[objc2::method(sel = "glyphOrigin")]
+    pub unsafe fn glyphOrigin(&self) -> CGPoint;
 
-        #[method(characterIndexForPoint:)]
-        pub unsafe fn characterIndexForPoint(&self, point: CGPoint) -> NSInteger;
+    #[objc2::method(sel = "locationForCharacterAtIndex:")]
+    pub unsafe fn locationForCharacterAtIndex(&self, index: NSInteger) -> CGPoint;
 
-        #[method(fractionOfDistanceThroughGlyphForPoint:)]
-        pub unsafe fn fractionOfDistanceThroughGlyphForPoint(&self, point: CGPoint) -> CGFloat;
-    }
-);
+    #[objc2::method(sel = "characterIndexForPoint:")]
+    pub unsafe fn characterIndexForPoint(&self, point: CGPoint) -> NSInteger;
+
+    #[objc2::method(sel = "fractionOfDistanceThroughGlyphForPoint:")]
+    pub unsafe fn fractionOfDistanceThroughGlyphForPoint(&self, point: CGPoint) -> CGFloat;
+}

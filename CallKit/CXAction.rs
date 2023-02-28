@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::CallKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CallKit_CXAction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CallKit_CXAction")]
-    pub struct CXAction;
-
-    #[cfg(feature = "CallKit_CXAction")]
-    unsafe impl ClassType for CXAction {
-        type Super = NSObject;
-    }
-);
+    pub type CXAction;
+}
 
 #[cfg(feature = "CallKit_CXAction")]
 unsafe impl NSCoding for CXAction {}
@@ -24,34 +24,37 @@ unsafe impl NSObjectProtocol for CXAction {}
 #[cfg(feature = "CallKit_CXAction")]
 unsafe impl NSSecureCoding for CXAction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CallKit_CXAction")]
-    unsafe impl CXAction {
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Other UUID)]
-        pub unsafe fn UUID(&self) -> Id<NSUUID>;
+    pub type CXAction;
 
-        #[method(isComplete)]
-        pub unsafe fn isComplete(&self) -> bool;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "UUID", managed = "Other")]
+    pub unsafe fn UUID(&self) -> Id<NSUUID>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other timeoutDate)]
-        pub unsafe fn timeoutDate(&self) -> Id<NSDate>;
+    #[objc2::method(sel = "isComplete")]
+    pub unsafe fn isComplete(&self) -> bool;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "timeoutDate", managed = "Other")]
+    pub unsafe fn timeoutDate(&self) -> Id<NSDate>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            a_decoder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(fulfill)]
-        pub unsafe fn fulfill(&self);
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(
+        this: Option<Allocated<Self>>,
+        a_decoder: &NSCoder,
+    ) -> Option<Id<Self>>;
 
-        #[method(fail)]
-        pub unsafe fn fail(&self);
-    }
-);
+    #[objc2::method(sel = "fulfill")]
+    pub unsafe fn fulfill(&self);
+
+    #[objc2::method(sel = "fail")]
+    pub unsafe fn fail(&self);
+}

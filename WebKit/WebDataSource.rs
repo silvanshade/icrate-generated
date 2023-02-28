@@ -5,89 +5,93 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WebDataSource")]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct WebDataSource;
-
     #[cfg(feature = "WebKit_WebDataSource")]
-    unsafe impl ClassType for WebDataSource {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type WebDataSource;
+}
 
 #[cfg(feature = "WebKit_WebDataSource")]
 unsafe impl NSObjectProtocol for WebDataSource {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WebDataSource")]
-    unsafe impl WebDataSource {
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[method_id(@__retain_semantics Init initWithRequest:)]
-        pub unsafe fn initWithRequest(
-            this: Option<Allocated<Self>>,
-            request: Option<&NSURLRequest>,
-        ) -> Option<Id<Self>>;
+    #[deprecated]
+    pub type WebDataSource;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other data)]
-        pub unsafe fn data(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[objc2::method(sel = "initWithRequest:", managed = "Init")]
+    pub unsafe fn initWithRequest(
+        this: Option<Allocated<Self>>,
+        request: Option<&NSURLRequest>,
+    ) -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Other representation)]
-        pub unsafe fn representation(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn WebDocumentRepresentation>>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "data", managed = "Other")]
+    pub unsafe fn data(&self) -> Id<NSData>;
 
-        #[cfg(feature = "WebKit_WebFrame")]
-        #[method_id(@__retain_semantics Other webFrame)]
-        pub unsafe fn webFrame(&self) -> Option<Id<WebFrame>>;
+    #[objc2::method(sel = "representation", managed = "Other")]
+    pub unsafe fn representation(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn WebDocumentRepresentation>>>;
 
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[method_id(@__retain_semantics Other initialRequest)]
-        pub unsafe fn initialRequest(&self) -> Option<Id<NSURLRequest>>;
+    #[cfg(feature = "WebKit_WebFrame")]
+    #[objc2::method(sel = "webFrame", managed = "Other")]
+    pub unsafe fn webFrame(&self) -> Option<Id<WebFrame>>;
 
-        #[cfg(feature = "Foundation_NSMutableURLRequest")]
-        #[method_id(@__retain_semantics Other request)]
-        pub unsafe fn request(&self) -> Option<Id<NSMutableURLRequest, Owned>>;
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[objc2::method(sel = "initialRequest", managed = "Other")]
+    pub unsafe fn initialRequest(&self) -> Option<Id<NSURLRequest>>;
 
-        #[cfg(feature = "Foundation_NSURLResponse")]
-        #[method_id(@__retain_semantics Other response)]
-        pub unsafe fn response(&self) -> Option<Id<NSURLResponse>>;
+    #[cfg(feature = "Foundation_NSMutableURLRequest")]
+    #[objc2::method(sel = "request", managed = "Other")]
+    pub unsafe fn request(&self) -> Option<Id<NSMutableURLRequest, Owned>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other textEncodingName)]
-        pub unsafe fn textEncodingName(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSURLResponse")]
+    #[objc2::method(sel = "response", managed = "Other")]
+    pub unsafe fn response(&self) -> Option<Id<NSURLResponse>>;
 
-        #[method(isLoading)]
-        pub unsafe fn isLoading(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "textEncodingName", managed = "Other")]
+    pub unsafe fn textEncodingName(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other pageTitle)]
-        pub unsafe fn pageTitle(&self) -> Id<NSString>;
+    #[objc2::method(sel = "isLoading")]
+    pub unsafe fn isLoading(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other unreachableURL)]
-        pub unsafe fn unreachableURL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "pageTitle", managed = "Other")]
+    pub unsafe fn pageTitle(&self) -> Id<NSString>;
 
-        #[cfg(feature = "WebKit_WebArchive")]
-        #[method_id(@__retain_semantics Other webArchive)]
-        pub unsafe fn webArchive(&self) -> Option<Id<WebArchive>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "unreachableURL", managed = "Other")]
+    pub unsafe fn unreachableURL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "WebKit_WebResource")]
-        #[method_id(@__retain_semantics Other mainResource)]
-        pub unsafe fn mainResource(&self) -> Option<Id<WebResource>>;
+    #[cfg(feature = "WebKit_WebArchive")]
+    #[objc2::method(sel = "webArchive", managed = "Other")]
+    pub unsafe fn webArchive(&self) -> Option<Id<WebArchive>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other subresources)]
-        pub unsafe fn subresources(&self) -> Id<NSArray>;
+    #[cfg(feature = "WebKit_WebResource")]
+    #[objc2::method(sel = "mainResource", managed = "Other")]
+    pub unsafe fn mainResource(&self) -> Option<Id<WebResource>>;
 
-        #[cfg(all(feature = "Foundation_NSURL", feature = "WebKit_WebResource"))]
-        #[method_id(@__retain_semantics Other subresourceForURL:)]
-        pub unsafe fn subresourceForURL(&self, url: Option<&NSURL>) -> Option<Id<WebResource>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "subresources", managed = "Other")]
+    pub unsafe fn subresources(&self) -> Id<NSArray>;
 
-        #[cfg(feature = "WebKit_WebResource")]
-        #[method(addSubresource:)]
-        pub unsafe fn addSubresource(&self, subresource: Option<&WebResource>);
-    }
-);
+    #[cfg(all(feature = "Foundation_NSURL", feature = "WebKit_WebResource"))]
+    #[objc2::method(sel = "subresourceForURL:", managed = "Other")]
+    pub unsafe fn subresourceForURL(&self, url: Option<&NSURL>) -> Option<Id<WebResource>>;
+
+    #[cfg(feature = "WebKit_WebResource")]
+    #[objc2::method(sel = "addSubresource:")]
+    pub unsafe fn addSubresource(&self, subresource: Option<&WebResource>);
+}

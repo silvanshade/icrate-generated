@@ -5,17 +5,19 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSControl,
+    unsafe inherits = [
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSImageView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSImageView")]
-    pub struct NSImageView;
-
-    #[cfg(feature = "AppKit_NSImageView")]
-    unsafe impl ClassType for NSImageView {
-        #[inherits(NSView, NSResponder, NSObject)]
-        type Super = NSControl;
-    }
-);
+    pub type NSImageView;
+}
 
 #[cfg(feature = "AppKit_NSImageView")]
 unsafe impl NSAccessibility for NSImageView {}
@@ -47,83 +49,92 @@ unsafe impl NSObjectProtocol for NSImageView {}
 #[cfg(feature = "AppKit_NSImageView")]
 unsafe impl NSUserInterfaceItemIdentification for NSImageView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSImageView")]
-    unsafe impl NSImageView {
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other imageViewWithImage:)]
-        pub unsafe fn imageViewWithImage(image: &NSImage) -> Id<Self>;
+    pub type NSImageView;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "imageViewWithImage:", managed = "Other")]
+    pub unsafe fn imageViewWithImage(image: &NSImage) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setImage:)]
-        pub unsafe fn setImage(&self, image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Option<Id<NSImage>>;
 
-        #[method(isEditable)]
-        pub unsafe fn isEditable(&self) -> bool;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setImage:")]
+    pub unsafe fn setImage(&self, image: Option<&NSImage>);
 
-        #[method(setEditable:)]
-        pub unsafe fn setEditable(&self, editable: bool);
+    #[objc2::method(sel = "isEditable")]
+    pub unsafe fn isEditable(&self) -> bool;
 
-        #[method(imageAlignment)]
-        pub unsafe fn imageAlignment(&self) -> NSImageAlignment;
+    #[objc2::method(sel = "setEditable:")]
+    pub unsafe fn setEditable(&self, editable: bool);
 
-        #[method(setImageAlignment:)]
-        pub unsafe fn setImageAlignment(&self, image_alignment: NSImageAlignment);
+    #[objc2::method(sel = "imageAlignment")]
+    pub unsafe fn imageAlignment(&self) -> NSImageAlignment;
 
-        #[method(imageScaling)]
-        pub unsafe fn imageScaling(&self) -> NSImageScaling;
+    #[objc2::method(sel = "setImageAlignment:")]
+    pub unsafe fn setImageAlignment(&self, image_alignment: NSImageAlignment);
 
-        #[method(setImageScaling:)]
-        pub unsafe fn setImageScaling(&self, image_scaling: NSImageScaling);
+    #[objc2::method(sel = "imageScaling")]
+    pub unsafe fn imageScaling(&self) -> NSImageScaling;
 
-        #[method(imageFrameStyle)]
-        pub unsafe fn imageFrameStyle(&self) -> NSImageFrameStyle;
+    #[objc2::method(sel = "setImageScaling:")]
+    pub unsafe fn setImageScaling(&self, image_scaling: NSImageScaling);
 
-        #[method(setImageFrameStyle:)]
-        pub unsafe fn setImageFrameStyle(&self, image_frame_style: NSImageFrameStyle);
+    #[objc2::method(sel = "imageFrameStyle")]
+    pub unsafe fn imageFrameStyle(&self) -> NSImageFrameStyle;
 
-        #[cfg(feature = "AppKit_NSImageSymbolConfiguration")]
-        #[method_id(@__retain_semantics Other symbolConfiguration)]
-        pub unsafe fn symbolConfiguration(&self) -> Option<Id<NSImageSymbolConfiguration>>;
+    #[objc2::method(sel = "setImageFrameStyle:")]
+    pub unsafe fn setImageFrameStyle(&self, image_frame_style: NSImageFrameStyle);
 
-        #[cfg(feature = "AppKit_NSImageSymbolConfiguration")]
-        #[method(setSymbolConfiguration:)]
-        pub unsafe fn setSymbolConfiguration(
-            &self,
-            symbol_configuration: Option<&NSImageSymbolConfiguration>,
-        );
+    #[cfg(feature = "AppKit_NSImageSymbolConfiguration")]
+    #[objc2::method(sel = "symbolConfiguration", managed = "Other")]
+    pub unsafe fn symbolConfiguration(&self) -> Option<Id<NSImageSymbolConfiguration>>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other contentTintColor)]
-        pub unsafe fn contentTintColor(&self) -> Option<Id<NSColor>>;
+    #[cfg(feature = "AppKit_NSImageSymbolConfiguration")]
+    #[objc2::method(sel = "setSymbolConfiguration:")]
+    pub unsafe fn setSymbolConfiguration(
+        &self,
+        symbol_configuration: Option<&NSImageSymbolConfiguration>,
+    );
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setContentTintColor:)]
-        pub unsafe fn setContentTintColor(&self, content_tint_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "contentTintColor", managed = "Other")]
+    pub unsafe fn contentTintColor(&self) -> Option<Id<NSColor>>;
 
-        #[method(animates)]
-        pub unsafe fn animates(&self) -> bool;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setContentTintColor:")]
+    pub unsafe fn setContentTintColor(&self, content_tint_color: Option<&NSColor>);
 
-        #[method(setAnimates:)]
-        pub unsafe fn setAnimates(&self, animates: bool);
+    #[objc2::method(sel = "animates")]
+    pub unsafe fn animates(&self) -> bool;
 
-        #[method(allowsCutCopyPaste)]
-        pub unsafe fn allowsCutCopyPaste(&self) -> bool;
+    #[objc2::method(sel = "setAnimates:")]
+    pub unsafe fn setAnimates(&self, animates: bool);
 
-        #[method(setAllowsCutCopyPaste:)]
-        pub unsafe fn setAllowsCutCopyPaste(&self, allows_cut_copy_paste: bool);
-    }
-);
+    #[objc2::method(sel = "allowsCutCopyPaste")]
+    pub unsafe fn allowsCutCopyPaste(&self) -> bool;
 
-extern_methods!(
-    /// Methods declared on superclass `NSControl`
+    #[objc2::method(sel = "setAllowsCutCopyPaste:")]
+    pub unsafe fn setAllowsCutCopyPaste(&self, allows_cut_copy_paste: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSControl`
     #[cfg(feature = "AppKit_NSImageView")]
-    unsafe impl NSImageView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSImageView")]
+    pub type NSImageView;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

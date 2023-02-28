@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnProvider")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnProvider")]
-    pub struct ASAuthorizationSingleSignOnProvider;
-
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnProvider")]
-    unsafe impl ClassType for ASAuthorizationSingleSignOnProvider {
-        type Super = NSObject;
-    }
-);
+    pub type ASAuthorizationSingleSignOnProvider;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnProvider")]
 unsafe impl ASAuthorizationProvider for ASAuthorizationSingleSignOnProvider {}
@@ -21,28 +21,34 @@ unsafe impl ASAuthorizationProvider for ASAuthorizationSingleSignOnProvider {}
 #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnProvider")]
 unsafe impl NSObjectProtocol for ASAuthorizationSingleSignOnProvider {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnProvider")]
-    unsafe impl ASAuthorizationSingleSignOnProvider {
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other authorizationProviderWithIdentityProviderURL:)]
-        pub unsafe fn authorizationProviderWithIdentityProviderURL(url: &NSURL) -> Id<Self>;
+    pub type ASAuthorizationSingleSignOnProvider;
 
-        #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnRequest")]
-        #[method_id(@__retain_semantics Other createRequest)]
-        pub unsafe fn createRequest(&self) -> Id<ASAuthorizationSingleSignOnRequest>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(
+        sel = "authorizationProviderWithIdentityProviderURL:",
+        managed = "Other"
+    )]
+    pub unsafe fn authorizationProviderWithIdentityProviderURL(url: &NSURL) -> Id<Self>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationSingleSignOnRequest")]
+    #[objc2::method(sel = "createRequest", managed = "Other")]
+    pub unsafe fn createRequest(&self) -> Id<ASAuthorizationSingleSignOnRequest>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other url)]
-        pub unsafe fn url(&self) -> Id<NSURL>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(canPerformAuthorization)]
-        pub unsafe fn canPerformAuthorization(&self) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "url", managed = "Other")]
+    pub unsafe fn url(&self) -> Id<NSURL>;
+
+    #[objc2::method(sel = "canPerformAuthorization")]
+    pub unsafe fn canPerformAuthorization(&self) -> bool;
+}

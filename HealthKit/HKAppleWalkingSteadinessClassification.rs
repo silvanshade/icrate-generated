@@ -6,14 +6,13 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKAppleWalkingSteadinessClassification {
-        HKAppleWalkingSteadinessClassificationOK = 1,
-        HKAppleWalkingSteadinessClassificationLow = 2,
-        HKAppleWalkingSteadinessClassificationVeryLow = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKAppleWalkingSteadinessClassification {
+    HKAppleWalkingSteadinessClassificationOK = 1,
+    HKAppleWalkingSteadinessClassificationLow = 2,
+    HKAppleWalkingSteadinessClassificationVeryLow = 3,
+}
 
 extern_fn!(
     #[cfg(all(feature = "Foundation_NSError", feature = "HealthKit_HKQuantity"))]

@@ -4,15 +4,14 @@ use crate::common::*;
 use crate::Accessibility::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum AXHearingDeviceEar {
-        AXHearingDeviceEarNone = 0,
-        AXHearingDeviceEarLeft = 1 << 1,
-        AXHearingDeviceEarRight = 1 << 2,
-        AXHearingDeviceEarBoth = AXHearingDeviceEarLeft | AXHearingDeviceEarRight,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum AXHearingDeviceEar {
+    AXHearingDeviceEarNone = 0,
+    AXHearingDeviceEarLeft = 1 << 1,
+    AXHearingDeviceEarRight = 1 << 2,
+    AXHearingDeviceEarBoth = AXHearingDeviceEarLeft | AXHearingDeviceEarRight,
+}
 
 extern_fn!(
     pub unsafe fn AXMFiHearingDeviceStreamingEar() -> AXHearingDeviceEar;

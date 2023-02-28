@@ -4,129 +4,127 @@ use crate::common::*;
 use crate::ExternalAccessory::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum EAWiFiUnconfiguredAccessoryBrowserState {
-        EAWiFiUnconfiguredAccessoryBrowserStateWiFiUnavailable = 0,
-        EAWiFiUnconfiguredAccessoryBrowserStateStopped = 1,
-        EAWiFiUnconfiguredAccessoryBrowserStateSearching = 2,
-        EAWiFiUnconfiguredAccessoryBrowserStateConfiguring = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum EAWiFiUnconfiguredAccessoryBrowserState {
+    EAWiFiUnconfiguredAccessoryBrowserStateWiFiUnavailable = 0,
+    EAWiFiUnconfiguredAccessoryBrowserStateStopped = 1,
+    EAWiFiUnconfiguredAccessoryBrowserStateSearching = 2,
+    EAWiFiUnconfiguredAccessoryBrowserStateConfiguring = 3,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum EAWiFiUnconfiguredAccessoryConfigurationStatus {
-        EAWiFiUnconfiguredAccessoryConfigurationStatusSuccess = 0,
-        EAWiFiUnconfiguredAccessoryConfigurationStatusUserCancelledConfiguration = 1,
-        EAWiFiUnconfiguredAccessoryConfigurationStatusFailed = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum EAWiFiUnconfiguredAccessoryConfigurationStatus {
+    EAWiFiUnconfiguredAccessoryConfigurationStatusSuccess = 0,
+    EAWiFiUnconfiguredAccessoryConfigurationStatusUserCancelledConfiguration = 1,
+    EAWiFiUnconfiguredAccessoryConfigurationStatusFailed = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "ExternalAccessory_EAWiFiUnconfiguredAccessoryBrowser")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "ExternalAccessory_EAWiFiUnconfiguredAccessoryBrowser")]
-    pub struct EAWiFiUnconfiguredAccessoryBrowser;
-
-    #[cfg(feature = "ExternalAccessory_EAWiFiUnconfiguredAccessoryBrowser")]
-    unsafe impl ClassType for EAWiFiUnconfiguredAccessoryBrowser {
-        type Super = NSObject;
-    }
-);
+    pub type EAWiFiUnconfiguredAccessoryBrowser;
+}
 
 #[cfg(feature = "ExternalAccessory_EAWiFiUnconfiguredAccessoryBrowser")]
 unsafe impl NSObjectProtocol for EAWiFiUnconfiguredAccessoryBrowser {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ExternalAccessory_EAWiFiUnconfiguredAccessoryBrowser")]
-    unsafe impl EAWiFiUnconfiguredAccessoryBrowser {
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn EAWiFiUnconfiguredAccessoryBrowserDelegate>>>;
+    pub type EAWiFiUnconfiguredAccessoryBrowser;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn EAWiFiUnconfiguredAccessoryBrowserDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn EAWiFiUnconfiguredAccessoryBrowserDelegate>>>;
 
-        #[cfg(all(
-            feature = "ExternalAccessory_EAWiFiUnconfiguredAccessory",
-            feature = "Foundation_NSSet"
-        ))]
-        #[method_id(@__retain_semantics Other unconfiguredAccessories)]
-        pub unsafe fn unconfiguredAccessories(&self) -> Id<NSSet<EAWiFiUnconfiguredAccessory>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn EAWiFiUnconfiguredAccessoryBrowserDelegate>>,
+    );
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method(startSearchingForUnconfiguredAccessoriesMatchingPredicate:)]
-        pub unsafe fn startSearchingForUnconfiguredAccessoriesMatchingPredicate(
-            &self,
-            predicate: Option<&NSPredicate>,
-        );
+    #[cfg(all(
+        feature = "ExternalAccessory_EAWiFiUnconfiguredAccessory",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(sel = "unconfiguredAccessories", managed = "Other")]
+    pub unsafe fn unconfiguredAccessories(&self) -> Id<NSSet<EAWiFiUnconfiguredAccessory>>;
 
-        #[method(stopSearchingForUnconfiguredAccessories)]
-        pub unsafe fn stopSearchingForUnconfiguredAccessories(&self);
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "startSearchingForUnconfiguredAccessoriesMatchingPredicate:")]
+    pub unsafe fn startSearchingForUnconfiguredAccessoriesMatchingPredicate(
+        &self,
+        predicate: Option<&NSPredicate>,
+    );
 
-        #[cfg(all(
-            feature = "ExternalAccessory_EAWiFiUnconfiguredAccessory",
-            feature = "ExternalAccessory_UIViewController"
-        ))]
-        #[method(configureAccessory:withConfigurationUIOnViewController:)]
-        pub unsafe fn configureAccessory_withConfigurationUIOnViewController(
-            &self,
-            accessory: &EAWiFiUnconfiguredAccessory,
-            view_controller: &UIViewController,
-        );
-    }
-);
+    #[objc2::method(sel = "stopSearchingForUnconfiguredAccessories")]
+    pub unsafe fn stopSearchingForUnconfiguredAccessories(&self);
 
-extern_protocol!(
-    pub unsafe trait EAWiFiUnconfiguredAccessoryBrowserDelegate: NSObjectProtocol {
-        #[cfg(feature = "ExternalAccessory_EAWiFiUnconfiguredAccessoryBrowser")]
-        #[method(accessoryBrowser:didUpdateState:)]
-        unsafe fn accessoryBrowser_didUpdateState(
-            &self,
-            browser: &EAWiFiUnconfiguredAccessoryBrowser,
-            state: EAWiFiUnconfiguredAccessoryBrowserState,
-        );
+    #[cfg(all(
+        feature = "ExternalAccessory_EAWiFiUnconfiguredAccessory",
+        feature = "ExternalAccessory_UIViewController"
+    ))]
+    #[objc2::method(sel = "configureAccessory:withConfigurationUIOnViewController:")]
+    pub unsafe fn configureAccessory_withConfigurationUIOnViewController(
+        &self,
+        accessory: &EAWiFiUnconfiguredAccessory,
+        view_controller: &UIViewController,
+    );
+}
 
-        #[cfg(all(
-            feature = "ExternalAccessory_EAWiFiUnconfiguredAccessory",
-            feature = "ExternalAccessory_EAWiFiUnconfiguredAccessoryBrowser",
-            feature = "Foundation_NSSet"
-        ))]
-        #[method(accessoryBrowser:didFindUnconfiguredAccessories:)]
-        unsafe fn accessoryBrowser_didFindUnconfiguredAccessories(
-            &self,
-            browser: &EAWiFiUnconfiguredAccessoryBrowser,
-            accessories: &NSSet<EAWiFiUnconfiguredAccessory>,
-        );
+#[objc2::protocol]
+pub unsafe trait EAWiFiUnconfiguredAccessoryBrowserDelegate: NSObjectProtocol {
+    #[cfg(feature = "ExternalAccessory_EAWiFiUnconfiguredAccessoryBrowser")]
+    #[objc2::method(sel = "accessoryBrowser:didUpdateState:")]
+    unsafe fn accessoryBrowser_didUpdateState(
+        &self,
+        browser: &EAWiFiUnconfiguredAccessoryBrowser,
+        state: EAWiFiUnconfiguredAccessoryBrowserState,
+    );
 
-        #[cfg(all(
-            feature = "ExternalAccessory_EAWiFiUnconfiguredAccessory",
-            feature = "ExternalAccessory_EAWiFiUnconfiguredAccessoryBrowser",
-            feature = "Foundation_NSSet"
-        ))]
-        #[method(accessoryBrowser:didRemoveUnconfiguredAccessories:)]
-        unsafe fn accessoryBrowser_didRemoveUnconfiguredAccessories(
-            &self,
-            browser: &EAWiFiUnconfiguredAccessoryBrowser,
-            accessories: &NSSet<EAWiFiUnconfiguredAccessory>,
-        );
+    #[cfg(all(
+        feature = "ExternalAccessory_EAWiFiUnconfiguredAccessory",
+        feature = "ExternalAccessory_EAWiFiUnconfiguredAccessoryBrowser",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(sel = "accessoryBrowser:didFindUnconfiguredAccessories:")]
+    unsafe fn accessoryBrowser_didFindUnconfiguredAccessories(
+        &self,
+        browser: &EAWiFiUnconfiguredAccessoryBrowser,
+        accessories: &NSSet<EAWiFiUnconfiguredAccessory>,
+    );
 
-        #[cfg(all(
-            feature = "ExternalAccessory_EAWiFiUnconfiguredAccessory",
-            feature = "ExternalAccessory_EAWiFiUnconfiguredAccessoryBrowser"
-        ))]
-        #[method(accessoryBrowser:didFinishConfiguringAccessory:withStatus:)]
-        unsafe fn accessoryBrowser_didFinishConfiguringAccessory_withStatus(
-            &self,
-            browser: &EAWiFiUnconfiguredAccessoryBrowser,
-            accessory: &EAWiFiUnconfiguredAccessory,
-            status: EAWiFiUnconfiguredAccessoryConfigurationStatus,
-        );
-    }
+    #[cfg(all(
+        feature = "ExternalAccessory_EAWiFiUnconfiguredAccessory",
+        feature = "ExternalAccessory_EAWiFiUnconfiguredAccessoryBrowser",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(sel = "accessoryBrowser:didRemoveUnconfiguredAccessories:")]
+    unsafe fn accessoryBrowser_didRemoveUnconfiguredAccessories(
+        &self,
+        browser: &EAWiFiUnconfiguredAccessoryBrowser,
+        accessories: &NSSet<EAWiFiUnconfiguredAccessory>,
+    );
 
-    unsafe impl ProtocolType for dyn EAWiFiUnconfiguredAccessoryBrowserDelegate {}
-);
+    #[cfg(all(
+        feature = "ExternalAccessory_EAWiFiUnconfiguredAccessory",
+        feature = "ExternalAccessory_EAWiFiUnconfiguredAccessoryBrowser"
+    ))]
+    #[objc2::method(sel = "accessoryBrowser:didFinishConfiguringAccessory:withStatus:")]
+    unsafe fn accessoryBrowser_didFinishConfiguringAccessory_withStatus(
+        &self,
+        browser: &EAWiFiUnconfiguredAccessoryBrowser,
+        accessory: &EAWiFiUnconfiguredAccessory,
+        status: EAWiFiUnconfiguredAccessoryConfigurationStatus,
+    );
+}

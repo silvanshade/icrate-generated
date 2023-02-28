@@ -4,57 +4,62 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSExtensionContext,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationExtensionContext")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationExtensionContext")]
-    pub struct ASAccountAuthenticationModificationExtensionContext;
-
-    #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationExtensionContext")]
-    unsafe impl ClassType for ASAccountAuthenticationModificationExtensionContext {
-        #[inherits(NSObject)]
-        type Super = NSExtensionContext;
-    }
-);
+    pub type ASAccountAuthenticationModificationExtensionContext;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationExtensionContext")]
 unsafe impl NSObjectProtocol for ASAccountAuthenticationModificationExtensionContext {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAccountAuthenticationModificationExtensionContext")]
-    unsafe impl ASAccountAuthenticationModificationExtensionContext {
-        #[cfg(all(
-            feature = "AuthenticationServices_ASAuthorizationAppleIDCredential",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(getSignInWithAppleUpgradeAuthorizationWithState:nonce:completionHandler:)]
-        pub unsafe fn getSignInWithAppleUpgradeAuthorizationWithState_nonce_completionHandler(
-            &self,
-            state: Option<&NSString>,
-            nonce: Option<&NSString>,
-            completion_handler: &Block<(*mut ASAuthorizationAppleIDCredential, *mut NSError), ()>,
-        );
+    pub type ASAccountAuthenticationModificationExtensionContext;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(completeUpgradeToSignInWithAppleWithUserInfo:)]
-        pub unsafe fn completeUpgradeToSignInWithAppleWithUserInfo(
-            &self,
-            user_info: Option<&NSDictionary>,
-        );
+    #[cfg(all(
+        feature = "AuthenticationServices_ASAuthorizationAppleIDCredential",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "getSignInWithAppleUpgradeAuthorizationWithState:nonce:completionHandler:"
+    )]
+    pub unsafe fn getSignInWithAppleUpgradeAuthorizationWithState_nonce_completionHandler(
+        &self,
+        state: Option<&NSString>,
+        nonce: Option<&NSString>,
+        completion_handler: &Block<(*mut ASAuthorizationAppleIDCredential, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASPasswordCredential",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[method(completeChangePasswordRequestWithUpdatedCredential:userInfo:)]
-        pub unsafe fn completeChangePasswordRequestWithUpdatedCredential_userInfo(
-            &self,
-            updated_credential: &ASPasswordCredential,
-            user_info: Option<&NSDictionary>,
-        );
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "completeUpgradeToSignInWithAppleWithUserInfo:")]
+    pub unsafe fn completeUpgradeToSignInWithAppleWithUserInfo(
+        &self,
+        user_info: Option<&NSDictionary>,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(cancelRequestWithError:)]
-        pub unsafe fn cancelRequestWithError(&self, error: &NSError);
-    }
-);
+    #[cfg(all(
+        feature = "AuthenticationServices_ASPasswordCredential",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[objc2::method(sel = "completeChangePasswordRequestWithUpdatedCredential:userInfo:")]
+    pub unsafe fn completeChangePasswordRequestWithUpdatedCredential_userInfo(
+        &self,
+        updated_credential: &ASPasswordCredential,
+        user_info: Option<&NSDictionary>,
+    );
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "cancelRequestWithError:")]
+    pub unsafe fn cancelRequestWithError(&self, error: &NSError);
+}

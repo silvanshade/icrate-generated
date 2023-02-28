@@ -3,145 +3,153 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSArchiver")]
+#[objc2::interface(
+    unsafe super = NSCoder,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated = "Use NSKeyedArchiver instead"]
-    pub struct NSArchiver;
-
     #[cfg(feature = "Foundation_NSArchiver")]
-    unsafe impl ClassType for NSArchiver {
-        #[inherits(NSObject)]
-        type Super = NSCoder;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type NSArchiver;
+}
 
 #[cfg(feature = "Foundation_NSArchiver")]
 unsafe impl NSObjectProtocol for NSArchiver {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSArchiver")]
-    unsafe impl NSArchiver {
-        #[cfg(feature = "Foundation_NSMutableData")]
-        #[method_id(@__retain_semantics Init initForWritingWithMutableData:)]
-        pub unsafe fn initForWritingWithMutableData(
-            this: Option<Allocated<Self>>,
-            mdata: &NSMutableData,
-        ) -> Id<Self>;
+    #[deprecated = "Use NSKeyedArchiver instead"]
+    pub type NSArchiver;
 
-        #[cfg(feature = "Foundation_NSMutableData")]
-        #[method_id(@__retain_semantics Other archiverData)]
-        pub unsafe fn archiverData(&self) -> Id<NSMutableData, Owned>;
+    #[cfg(feature = "Foundation_NSMutableData")]
+    #[objc2::method(sel = "initForWritingWithMutableData:", managed = "Init")]
+    pub unsafe fn initForWritingWithMutableData(
+        this: Option<Allocated<Self>>,
+        mdata: &NSMutableData,
+    ) -> Id<Self>;
 
-        #[method(encodeRootObject:)]
-        pub unsafe fn encodeRootObject(&self, root_object: &Object);
+    #[cfg(feature = "Foundation_NSMutableData")]
+    #[objc2::method(sel = "archiverData", managed = "Other")]
+    pub unsafe fn archiverData(&self) -> Id<NSMutableData, Owned>;
 
-        #[method(encodeConditionalObject:)]
-        pub unsafe fn encodeConditionalObject(&self, object: Option<&Object>);
+    #[objc2::method(sel = "encodeRootObject:")]
+    pub unsafe fn encodeRootObject(&self, root_object: &Object);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other archivedDataWithRootObject:)]
-        pub unsafe fn archivedDataWithRootObject(root_object: &Object) -> Id<NSData>;
+    #[objc2::method(sel = "encodeConditionalObject:")]
+    pub unsafe fn encodeConditionalObject(&self, object: Option<&Object>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(archiveRootObject:toFile:)]
-        pub unsafe fn archiveRootObject_toFile(root_object: &Object, path: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "archivedDataWithRootObject:", managed = "Other")]
+    pub unsafe fn archivedDataWithRootObject(root_object: &Object) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(encodeClassName:intoClassName:)]
-        pub unsafe fn encodeClassName_intoClassName(
-            &self,
-            true_name: &NSString,
-            in_archive_name: &NSString,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "archiveRootObject:toFile:")]
+    pub unsafe fn archiveRootObject_toFile(root_object: &Object, path: &NSString) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other classNameEncodedForTrueClassName:)]
-        pub unsafe fn classNameEncodedForTrueClassName(
-            &self,
-            true_name: &NSString,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "encodeClassName:intoClassName:")]
+    pub unsafe fn encodeClassName_intoClassName(
+        &self,
+        true_name: &NSString,
+        in_archive_name: &NSString,
+    );
 
-        #[method(replaceObject:withObject:)]
-        pub unsafe fn replaceObject_withObject(&self, object: &Object, new_object: &Object);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "classNameEncodedForTrueClassName:", managed = "Other")]
+    pub unsafe fn classNameEncodedForTrueClassName(
+        &self,
+        true_name: &NSString,
+    ) -> Option<Id<NSString>>;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUnarchiver")]
+    #[objc2::method(sel = "replaceObject:withObject:")]
+    pub unsafe fn replaceObject_withObject(&self, object: &Object, new_object: &Object);
+}
+
+#[objc2::interface(
+    unsafe super = NSCoder,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated = "Use NSKeyedUnarchiver instead"]
-    pub struct NSUnarchiver;
-
     #[cfg(feature = "Foundation_NSUnarchiver")]
-    unsafe impl ClassType for NSUnarchiver {
-        #[inherits(NSObject)]
-        type Super = NSCoder;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type NSUnarchiver;
+}
 
 #[cfg(feature = "Foundation_NSUnarchiver")]
 unsafe impl NSObjectProtocol for NSUnarchiver {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUnarchiver")]
-    unsafe impl NSUnarchiver {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Init initForReadingWithData:)]
-        pub unsafe fn initForReadingWithData(
-            this: Option<Allocated<Self>>,
-            data: &NSData,
-        ) -> Option<Id<Self>>;
+    #[deprecated = "Use NSKeyedUnarchiver instead"]
+    pub type NSUnarchiver;
 
-        #[method(setObjectZone:)]
-        pub unsafe fn setObjectZone(&self, zone: *mut NSZone);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "initForReadingWithData:", managed = "Init")]
+    pub unsafe fn initForReadingWithData(
+        this: Option<Allocated<Self>>,
+        data: &NSData,
+    ) -> Option<Id<Self>>;
 
-        #[method(objectZone)]
-        pub unsafe fn objectZone(&self) -> *mut NSZone;
+    #[objc2::method(sel = "setObjectZone:")]
+    pub unsafe fn setObjectZone(&self, zone: *mut NSZone);
 
-        #[method(isAtEnd)]
-        pub unsafe fn isAtEnd(&self) -> bool;
+    #[objc2::method(sel = "objectZone")]
+    pub unsafe fn objectZone(&self) -> *mut NSZone;
 
-        #[method(systemVersion)]
-        pub unsafe fn systemVersion(&self) -> c_uint;
+    #[objc2::method(sel = "isAtEnd")]
+    pub unsafe fn isAtEnd(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other unarchiveObjectWithData:)]
-        pub unsafe fn unarchiveObjectWithData(data: &NSData) -> Option<Id<Object>>;
+    #[objc2::method(sel = "systemVersion")]
+    pub unsafe fn systemVersion(&self) -> c_uint;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other unarchiveObjectWithFile:)]
-        pub unsafe fn unarchiveObjectWithFile(path: &NSString) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "unarchiveObjectWithData:", managed = "Other")]
+    pub unsafe fn unarchiveObjectWithData(data: &NSData) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(decodeClassName:asClassName:)]
-        pub unsafe fn decodeClassName_asClassName_class(
-            in_archive_name: &NSString,
-            true_name: &NSString,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "unarchiveObjectWithFile:", managed = "Other")]
+    pub unsafe fn unarchiveObjectWithFile(path: &NSString) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(decodeClassName:asClassName:)]
-        pub unsafe fn decodeClassName_asClassName(
-            &self,
-            in_archive_name: &NSString,
-            true_name: &NSString,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "decodeClassName:asClassName:")]
+    pub unsafe fn decodeClassName_asClassName_class(
+        in_archive_name: &NSString,
+        true_name: &NSString,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other classNameDecodedForArchiveClassName:)]
-        pub unsafe fn classNameDecodedForArchiveClassName_class(
-            in_archive_name: &NSString,
-        ) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "decodeClassName:asClassName:")]
+    pub unsafe fn decodeClassName_asClassName(
+        &self,
+        in_archive_name: &NSString,
+        true_name: &NSString,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other classNameDecodedForArchiveClassName:)]
-        pub unsafe fn classNameDecodedForArchiveClassName(
-            &self,
-            in_archive_name: &NSString,
-        ) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "classNameDecodedForArchiveClassName:", managed = "Other")]
+    pub unsafe fn classNameDecodedForArchiveClassName_class(
+        in_archive_name: &NSString,
+    ) -> Id<NSString>;
 
-        #[method(replaceObject:withObject:)]
-        pub unsafe fn replaceObject_withObject(&self, object: &Object, new_object: &Object);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "classNameDecodedForArchiveClassName:", managed = "Other")]
+    pub unsafe fn classNameDecodedForArchiveClassName(
+        &self,
+        in_archive_name: &NSString,
+    ) -> Id<NSString>;
+
+    #[objc2::method(sel = "replaceObject:withObject:")]
+    pub unsafe fn replaceObject_withObject(&self, object: &Object, new_object: &Object);
+}

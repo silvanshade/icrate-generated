@@ -5,75 +5,79 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WebScriptObject")]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct WebScriptObject;
-
     #[cfg(feature = "WebKit_WebScriptObject")]
-    unsafe impl ClassType for WebScriptObject {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type WebScriptObject;
+}
 
 #[cfg(feature = "WebKit_WebScriptObject")]
 unsafe impl NSObjectProtocol for WebScriptObject {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WebScriptObject")]
-    unsafe impl WebScriptObject {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(throwException:)]
-        pub unsafe fn throwException(exception_message: Option<&NSString>) -> bool;
-
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other callWebScriptMethod:withArguments:)]
-        pub unsafe fn callWebScriptMethod_withArguments(
-            &self,
-            name: Option<&NSString>,
-            arguments: Option<&NSArray>,
-        ) -> Option<Id<Object>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other evaluateWebScript:)]
-        pub unsafe fn evaluateWebScript(&self, script: Option<&NSString>) -> Option<Id<Object>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(removeWebScriptKey:)]
-        pub unsafe fn removeWebScriptKey(&self, name: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringRepresentation)]
-        pub unsafe fn stringRepresentation(&self) -> Option<Id<NSString>>;
-
-        #[method_id(@__retain_semantics Other webScriptValueAtIndex:)]
-        pub unsafe fn webScriptValueAtIndex(&self, index: c_uint) -> Option<Id<Object>>;
-
-        #[method(setWebScriptValueAtIndex:value:)]
-        pub unsafe fn setWebScriptValueAtIndex_value(&self, index: c_uint, value: Option<&Object>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setException:)]
-        pub unsafe fn setException(&self, description: Option<&NSString>);
-
-        #[cfg(feature = "WebKit_JSValue")]
-        #[method_id(@__retain_semantics Other JSValue)]
-        pub unsafe fn JSValue(&self) -> Option<Id<JSValue>>;
-    }
-);
-
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WebUndefined")]
     #[deprecated]
-    pub struct WebUndefined;
+    pub type WebScriptObject;
 
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "throwException:")]
+    pub unsafe fn throwException(exception_message: Option<&NSString>) -> bool;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "callWebScriptMethod:withArguments:", managed = "Other")]
+    pub unsafe fn callWebScriptMethod_withArguments(
+        &self,
+        name: Option<&NSString>,
+        arguments: Option<&NSArray>,
+    ) -> Option<Id<Object>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "evaluateWebScript:", managed = "Other")]
+    pub unsafe fn evaluateWebScript(&self, script: Option<&NSString>) -> Option<Id<Object>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "removeWebScriptKey:")]
+    pub unsafe fn removeWebScriptKey(&self, name: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringRepresentation", managed = "Other")]
+    pub unsafe fn stringRepresentation(&self) -> Option<Id<NSString>>;
+
+    #[objc2::method(sel = "webScriptValueAtIndex:", managed = "Other")]
+    pub unsafe fn webScriptValueAtIndex(&self, index: c_uint) -> Option<Id<Object>>;
+
+    #[objc2::method(sel = "setWebScriptValueAtIndex:value:")]
+    pub unsafe fn setWebScriptValueAtIndex_value(&self, index: c_uint, value: Option<&Object>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setException:")]
+    pub unsafe fn setException(&self, description: Option<&NSString>);
+
+    #[cfg(feature = "WebKit_JSValue")]
+    #[objc2::method(sel = "JSValue", managed = "Other")]
+    pub unsafe fn JSValue(&self) -> Option<Id<JSValue>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[deprecated]
     #[cfg(feature = "WebKit_WebUndefined")]
-    unsafe impl ClassType for WebUndefined {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type WebUndefined;
+}
 
 #[cfg(feature = "WebKit_WebUndefined")]
 unsafe impl NSCoding for WebUndefined {}
@@ -81,10 +85,14 @@ unsafe impl NSCoding for WebUndefined {}
 #[cfg(feature = "WebKit_WebUndefined")]
 unsafe impl NSObjectProtocol for WebUndefined {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WebUndefined")]
-    unsafe impl WebUndefined {
-        #[method_id(@__retain_semantics Other undefined)]
-        pub unsafe fn undefined() -> Option<Id<WebUndefined>>;
-    }
-);
+    #[deprecated]
+    pub type WebUndefined;
+
+    #[objc2::method(sel = "undefined", managed = "Other")]
+    pub unsafe fn undefined() -> Option<Id<WebUndefined>>;
+}

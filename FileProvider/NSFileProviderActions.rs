@@ -10,97 +10,101 @@ typed_extensible_enum!(
     pub type NSFileProviderExtensionActionIdentifier = NSString;
 );
 
-extern_methods!(
-    /// NSFileProviderActions
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderExtension")]
-    unsafe impl NSFileProviderExtension {
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method(importDocumentAtURL:toParentItemIdentifier:completionHandler:)]
-        pub unsafe fn importDocumentAtURL_toParentItemIdentifier_completionHandler(
-            &self,
-            file_url: &NSURL,
-            parent_item_identifier: &NSFileProviderItemIdentifier,
-            completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
-        );
+    pub type NSFileProviderExtension;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(createDirectoryWithName:inParentItemIdentifier:completionHandler:)]
-        pub unsafe fn createDirectoryWithName_inParentItemIdentifier_completionHandler(
-            &self,
-            directory_name: &NSString,
-            parent_item_identifier: &NSFileProviderItemIdentifier,
-            completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "importDocumentAtURL:toParentItemIdentifier:completionHandler:")]
+    pub unsafe fn importDocumentAtURL_toParentItemIdentifier_completionHandler(
+        &self,
+        file_url: &NSURL,
+        parent_item_identifier: &NSFileProviderItemIdentifier,
+        completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(renameItemWithIdentifier:toName:completionHandler:)]
-        pub unsafe fn renameItemWithIdentifier_toName_completionHandler(
-            &self,
-            item_identifier: &NSFileProviderItemIdentifier,
-            item_name: &NSString,
-            completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "createDirectoryWithName:inParentItemIdentifier:completionHandler:")]
+    pub unsafe fn createDirectoryWithName_inParentItemIdentifier_completionHandler(
+        &self,
+        directory_name: &NSString,
+        parent_item_identifier: &NSFileProviderItemIdentifier,
+        completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(reparentItemWithIdentifier:toParentItemWithIdentifier:newName:completionHandler:)]
-        pub unsafe fn reparentItemWithIdentifier_toParentItemWithIdentifier_newName_completionHandler(
-            &self,
-            item_identifier: &NSFileProviderItemIdentifier,
-            parent_item_identifier: &NSFileProviderItemIdentifier,
-            new_name: Option<&NSString>,
-            completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "renameItemWithIdentifier:toName:completionHandler:")]
+    pub unsafe fn renameItemWithIdentifier_toName_completionHandler(
+        &self,
+        item_identifier: &NSFileProviderItemIdentifier,
+        item_name: &NSString,
+        completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(trashItemWithIdentifier:completionHandler:)]
-        pub unsafe fn trashItemWithIdentifier_completionHandler(
-            &self,
-            item_identifier: &NSFileProviderItemIdentifier,
-            completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "reparentItemWithIdentifier:toParentItemWithIdentifier:newName:completionHandler:"
+    )]
+    pub unsafe fn reparentItemWithIdentifier_toParentItemWithIdentifier_newName_completionHandler(
+        &self,
+        item_identifier: &NSFileProviderItemIdentifier,
+        parent_item_identifier: &NSFileProviderItemIdentifier,
+        new_name: Option<&NSString>,
+        completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(untrashItemWithIdentifier:toParentItemIdentifier:completionHandler:)]
-        pub unsafe fn untrashItemWithIdentifier_toParentItemIdentifier_completionHandler(
-            &self,
-            item_identifier: &NSFileProviderItemIdentifier,
-            parent_item_identifier: Option<&NSFileProviderItemIdentifier>,
-            completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
-        );
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "trashItemWithIdentifier:completionHandler:")]
+    pub unsafe fn trashItemWithIdentifier_completionHandler(
+        &self,
+        item_identifier: &NSFileProviderItemIdentifier,
+        completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(deleteItemWithIdentifier:completionHandler:)]
-        pub unsafe fn deleteItemWithIdentifier_completionHandler(
-            &self,
-            item_identifier: &NSFileProviderItemIdentifier,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "untrashItemWithIdentifier:toParentItemIdentifier:completionHandler:")]
+    pub unsafe fn untrashItemWithIdentifier_toParentItemIdentifier_completionHandler(
+        &self,
+        item_identifier: &NSFileProviderItemIdentifier,
+        parent_item_identifier: Option<&NSFileProviderItemIdentifier>,
+        completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSError"))]
-        #[method(setLastUsedDate:forItemIdentifier:completionHandler:)]
-        pub unsafe fn setLastUsedDate_forItemIdentifier_completionHandler(
-            &self,
-            last_used_date: Option<&NSDate>,
-            item_identifier: &NSFileProviderItemIdentifier,
-            completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
-        );
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "deleteItemWithIdentifier:completionHandler:")]
+    pub unsafe fn deleteItemWithIdentifier_completionHandler(
+        &self,
+        item_identifier: &NSFileProviderItemIdentifier,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method(setTagData:forItemIdentifier:completionHandler:)]
-        pub unsafe fn setTagData_forItemIdentifier_completionHandler(
-            &self,
-            tag_data: Option<&NSData>,
-            item_identifier: &NSFileProviderItemIdentifier,
-            completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "setLastUsedDate:forItemIdentifier:completionHandler:")]
+    pub unsafe fn setLastUsedDate_forItemIdentifier_completionHandler(
+        &self,
+        last_used_date: Option<&NSDate>,
+        item_identifier: &NSFileProviderItemIdentifier,
+        completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSNumber"))]
-        #[method(setFavoriteRank:forItemIdentifier:completionHandler:)]
-        pub unsafe fn setFavoriteRank_forItemIdentifier_completionHandler(
-            &self,
-            favorite_rank: Option<&NSNumber>,
-            item_identifier: &NSFileProviderItemIdentifier,
-            completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
-        );
-    }
-);
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "setTagData:forItemIdentifier:completionHandler:")]
+    pub unsafe fn setTagData_forItemIdentifier_completionHandler(
+        &self,
+        tag_data: Option<&NSData>,
+        item_identifier: &NSFileProviderItemIdentifier,
+        completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
+    );
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "setFavoriteRank:forItemIdentifier:completionHandler:")]
+    pub unsafe fn setFavoriteRank_forItemIdentifier_completionHandler(
+        &self,
+        favorite_rank: Option<&NSNumber>,
+        item_identifier: &NSFileProviderItemIdentifier,
+        completion_handler: &Block<(*mut NSFileProviderItem, *mut NSError), ()>,
+    );
+}

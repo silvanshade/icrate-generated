@@ -4,85 +4,88 @@ use crate::common::*;
 use crate::CallKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CallKit_CXProviderConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CallKit_CXProviderConfiguration")]
-    pub struct CXProviderConfiguration;
-
-    #[cfg(feature = "CallKit_CXProviderConfiguration")]
-    unsafe impl ClassType for CXProviderConfiguration {
-        type Super = NSObject;
-    }
-);
+    pub type CXProviderConfiguration;
+}
 
 #[cfg(feature = "CallKit_CXProviderConfiguration")]
 unsafe impl NSObjectProtocol for CXProviderConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CallKit_CXProviderConfiguration")]
-    unsafe impl CXProviderConfiguration {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "No longer supported"]
-        #[method_id(@__retain_semantics Other localizedName)]
-        pub unsafe fn localizedName(&self) -> Option<Id<NSString>>;
+    pub type CXProviderConfiguration;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other ringtoneSound)]
-        pub unsafe fn ringtoneSound(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "No longer supported"]
+    #[objc2::method(sel = "localizedName", managed = "Other")]
+    pub unsafe fn localizedName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setRingtoneSound:)]
-        pub unsafe fn setRingtoneSound(&self, ringtone_sound: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "ringtoneSound", managed = "Other")]
+    pub unsafe fn ringtoneSound(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other iconTemplateImageData)]
-        pub unsafe fn iconTemplateImageData(&self) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setRingtoneSound:")]
+    pub unsafe fn setRingtoneSound(&self, ringtone_sound: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(setIconTemplateImageData:)]
-        pub unsafe fn setIconTemplateImageData(&self, icon_template_image_data: Option<&NSData>);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "iconTemplateImageData", managed = "Other")]
+    pub unsafe fn iconTemplateImageData(&self) -> Option<Id<NSData>>;
 
-        #[method(maximumCallGroups)]
-        pub unsafe fn maximumCallGroups(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "setIconTemplateImageData:")]
+    pub unsafe fn setIconTemplateImageData(&self, icon_template_image_data: Option<&NSData>);
 
-        #[method(setMaximumCallGroups:)]
-        pub unsafe fn setMaximumCallGroups(&self, maximum_call_groups: NSUInteger);
+    #[objc2::method(sel = "maximumCallGroups")]
+    pub unsafe fn maximumCallGroups(&self) -> NSUInteger;
 
-        #[method(maximumCallsPerCallGroup)]
-        pub unsafe fn maximumCallsPerCallGroup(&self) -> NSUInteger;
+    #[objc2::method(sel = "setMaximumCallGroups:")]
+    pub unsafe fn setMaximumCallGroups(&self, maximum_call_groups: NSUInteger);
 
-        #[method(setMaximumCallsPerCallGroup:)]
-        pub unsafe fn setMaximumCallsPerCallGroup(&self, maximum_calls_per_call_group: NSUInteger);
+    #[objc2::method(sel = "maximumCallsPerCallGroup")]
+    pub unsafe fn maximumCallsPerCallGroup(&self) -> NSUInteger;
 
-        #[method(includesCallsInRecents)]
-        pub unsafe fn includesCallsInRecents(&self) -> bool;
+    #[objc2::method(sel = "setMaximumCallsPerCallGroup:")]
+    pub unsafe fn setMaximumCallsPerCallGroup(&self, maximum_calls_per_call_group: NSUInteger);
 
-        #[method(setIncludesCallsInRecents:)]
-        pub unsafe fn setIncludesCallsInRecents(&self, includes_calls_in_recents: bool);
+    #[objc2::method(sel = "includesCallsInRecents")]
+    pub unsafe fn includesCallsInRecents(&self) -> bool;
 
-        #[method(supportsVideo)]
-        pub unsafe fn supportsVideo(&self) -> bool;
+    #[objc2::method(sel = "setIncludesCallsInRecents:")]
+    pub unsafe fn setIncludesCallsInRecents(&self, includes_calls_in_recents: bool);
 
-        #[method(setSupportsVideo:)]
-        pub unsafe fn setSupportsVideo(&self, supports_video: bool);
+    #[objc2::method(sel = "supportsVideo")]
+    pub unsafe fn supportsVideo(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSNumber", feature = "Foundation_NSSet"))]
-        #[method_id(@__retain_semantics Other supportedHandleTypes)]
-        pub unsafe fn supportedHandleTypes(&self) -> Id<NSSet<NSNumber>>;
+    #[objc2::method(sel = "setSupportsVideo:")]
+    pub unsafe fn setSupportsVideo(&self, supports_video: bool);
 
-        #[cfg(all(feature = "Foundation_NSNumber", feature = "Foundation_NSSet"))]
-        #[method(setSupportedHandleTypes:)]
-        pub unsafe fn setSupportedHandleTypes(&self, supported_handle_types: &NSSet<NSNumber>);
+    #[cfg(all(feature = "Foundation_NSNumber", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "supportedHandleTypes", managed = "Other")]
+    pub unsafe fn supportedHandleTypes(&self) -> Id<NSSet<NSNumber>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSNumber", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "setSupportedHandleTypes:")]
+    pub unsafe fn setSupportedHandleTypes(&self, supported_handle_types: &NSSet<NSNumber>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithLocalizedName:)]
-        pub unsafe fn initWithLocalizedName(
-            this: Option<Allocated<Self>>,
-            localized_name: &NSString,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "initWithLocalizedName:", managed = "Init")]
+    pub unsafe fn initWithLocalizedName(
+        this: Option<Allocated<Self>>,
+        localized_name: &NSString,
+    ) -> Id<Self>;
+}

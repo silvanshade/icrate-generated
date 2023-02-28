@@ -5,18 +5,20 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMDocumentFragment")]
+#[objc2::interface(
+    unsafe super = DOMNode,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMDocumentFragment;
-
     #[cfg(feature = "WebKit_DOMDocumentFragment")]
-    unsafe impl ClassType for DOMDocumentFragment {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMNode;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMDocumentFragment;
+}
 
 #[cfg(feature = "WebKit_DOMDocumentFragment")]
 unsafe impl DOMEventTarget for DOMDocumentFragment {}
@@ -24,7 +26,11 @@ unsafe impl DOMEventTarget for DOMDocumentFragment {}
 #[cfg(feature = "WebKit_DOMDocumentFragment")]
 unsafe impl NSObjectProtocol for DOMDocumentFragment {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMDocumentFragment")]
-    unsafe impl DOMDocumentFragment {}
-);
+    #[deprecated]
+    pub type DOMDocumentFragment;
+}

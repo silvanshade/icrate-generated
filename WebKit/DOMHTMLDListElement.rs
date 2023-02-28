@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLDListElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLDListElement;
-
     #[cfg(feature = "WebKit_DOMHTMLDListElement")]
-    unsafe impl ClassType for DOMHTMLDListElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLDListElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLDListElement")]
 unsafe impl DOMEventTarget for DOMHTMLDListElement {}
@@ -24,13 +28,17 @@ unsafe impl DOMEventTarget for DOMHTMLDListElement {}
 #[cfg(feature = "WebKit_DOMHTMLDListElement")]
 unsafe impl NSObjectProtocol for DOMHTMLDListElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLDListElement")]
-    unsafe impl DOMHTMLDListElement {
-        #[method(compact)]
-        pub unsafe fn compact(&self) -> bool;
+    #[deprecated]
+    pub type DOMHTMLDListElement;
 
-        #[method(setCompact:)]
-        pub unsafe fn setCompact(&self, compact: bool);
-    }
-);
+    #[objc2::method(sel = "compact")]
+    pub unsafe fn compact(&self) -> bool;
+
+    #[objc2::method(sel = "setCompact:")]
+    pub unsafe fn setCompact(&self, compact: bool);
+}

@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::LinkPresentation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "LinkPresentation_LPLinkMetadata")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "LinkPresentation_LPLinkMetadata")]
-    pub struct LPLinkMetadata;
-
-    #[cfg(feature = "LinkPresentation_LPLinkMetadata")]
-    unsafe impl ClassType for LPLinkMetadata {
-        type Super = NSObject;
-    }
-);
+    pub type LPLinkMetadata;
+}
 
 #[cfg(feature = "LinkPresentation_LPLinkMetadata")]
 unsafe impl NSCoding for LPLinkMetadata {}
@@ -25,63 +25,66 @@ unsafe impl NSObjectProtocol for LPLinkMetadata {}
 #[cfg(feature = "LinkPresentation_LPLinkMetadata")]
 unsafe impl NSSecureCoding for LPLinkMetadata {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "LinkPresentation_LPLinkMetadata")]
-    unsafe impl LPLinkMetadata {
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other originalURL)]
-        pub unsafe fn originalURL(&self) -> Option<Id<NSURL>>;
+    pub type LPLinkMetadata;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setOriginalURL:)]
-        pub unsafe fn setOriginalURL(&self, original_url: Option<&NSURL>);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "originalURL", managed = "Other")]
+    pub unsafe fn originalURL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setOriginalURL:")]
+    pub unsafe fn setOriginalURL(&self, original_url: Option<&NSURL>);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setURL:)]
-        pub unsafe fn setURL(&self, url: Option<&NSURL>);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setURL:")]
+    pub unsafe fn setURL(&self, url: Option<&NSURL>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSItemProvider")]
-        #[method_id(@__retain_semantics Other iconProvider)]
-        pub unsafe fn iconProvider(&self) -> Option<Id<NSItemProvider>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSItemProvider")]
-        #[method(setIconProvider:)]
-        pub unsafe fn setIconProvider(&self, icon_provider: Option<&NSItemProvider>);
+    #[cfg(feature = "Foundation_NSItemProvider")]
+    #[objc2::method(sel = "iconProvider", managed = "Other")]
+    pub unsafe fn iconProvider(&self) -> Option<Id<NSItemProvider>>;
 
-        #[cfg(feature = "Foundation_NSItemProvider")]
-        #[method_id(@__retain_semantics Other imageProvider)]
-        pub unsafe fn imageProvider(&self) -> Option<Id<NSItemProvider>>;
+    #[cfg(feature = "Foundation_NSItemProvider")]
+    #[objc2::method(sel = "setIconProvider:")]
+    pub unsafe fn setIconProvider(&self, icon_provider: Option<&NSItemProvider>);
 
-        #[cfg(feature = "Foundation_NSItemProvider")]
-        #[method(setImageProvider:)]
-        pub unsafe fn setImageProvider(&self, image_provider: Option<&NSItemProvider>);
+    #[cfg(feature = "Foundation_NSItemProvider")]
+    #[objc2::method(sel = "imageProvider", managed = "Other")]
+    pub unsafe fn imageProvider(&self) -> Option<Id<NSItemProvider>>;
 
-        #[cfg(feature = "Foundation_NSItemProvider")]
-        #[method_id(@__retain_semantics Other videoProvider)]
-        pub unsafe fn videoProvider(&self) -> Option<Id<NSItemProvider>>;
+    #[cfg(feature = "Foundation_NSItemProvider")]
+    #[objc2::method(sel = "setImageProvider:")]
+    pub unsafe fn setImageProvider(&self, image_provider: Option<&NSItemProvider>);
 
-        #[cfg(feature = "Foundation_NSItemProvider")]
-        #[method(setVideoProvider:)]
-        pub unsafe fn setVideoProvider(&self, video_provider: Option<&NSItemProvider>);
+    #[cfg(feature = "Foundation_NSItemProvider")]
+    #[objc2::method(sel = "videoProvider", managed = "Other")]
+    pub unsafe fn videoProvider(&self) -> Option<Id<NSItemProvider>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other remoteVideoURL)]
-        pub unsafe fn remoteVideoURL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSItemProvider")]
+    #[objc2::method(sel = "setVideoProvider:")]
+    pub unsafe fn setVideoProvider(&self, video_provider: Option<&NSItemProvider>);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setRemoteVideoURL:)]
-        pub unsafe fn setRemoteVideoURL(&self, remote_video_url: Option<&NSURL>);
-    }
-);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "remoteVideoURL", managed = "Other")]
+    pub unsafe fn remoteVideoURL(&self) -> Option<Id<NSURL>>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setRemoteVideoURL:")]
+    pub unsafe fn setRemoteVideoURL(&self, remote_video_url: Option<&NSURL>);
+}

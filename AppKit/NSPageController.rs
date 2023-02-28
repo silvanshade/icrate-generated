@@ -7,26 +7,26 @@ use crate::Foundation::*;
 
 pub type NSPageControllerObjectIdentifier = NSString;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSPageControllerTransitionStyle {
-        NSPageControllerTransitionStyleStackHistory = 0,
-        NSPageControllerTransitionStyleStackBook = 1,
-        NSPageControllerTransitionStyleHorizontalStrip = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSPageControllerTransitionStyle {
+    NSPageControllerTransitionStyleStackHistory = 0,
+    NSPageControllerTransitionStyleStackBook = 1,
+    NSPageControllerTransitionStyleHorizontalStrip = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSViewController,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPageController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPageController")]
-    pub struct NSPageController;
-
-    #[cfg(feature = "AppKit_NSPageController")]
-    unsafe impl ClassType for NSPageController {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSViewController;
-    }
-);
+    pub type NSPageController;
+}
 
 #[cfg(feature = "AppKit_NSPageController")]
 unsafe impl NSAnimatablePropertyContainer for NSPageController {}
@@ -46,136 +46,143 @@ unsafe impl NSSeguePerforming for NSPageController {}
 #[cfg(feature = "AppKit_NSPageController")]
 unsafe impl NSUserInterfaceItemIdentification for NSPageController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPageController")]
-    unsafe impl NSPageController {
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSPageControllerDelegate>>>;
+    pub type NSPageController;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSPageControllerDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSPageControllerDelegate>>>;
 
-        #[method_id(@__retain_semantics Other selectedViewController)]
-        pub unsafe fn selectedViewController(&self) -> Option<Id<NSViewController>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn NSPageControllerDelegate>>,
+    );
 
-        #[method(transitionStyle)]
-        pub unsafe fn transitionStyle(&self) -> NSPageControllerTransitionStyle;
+    #[objc2::method(sel = "selectedViewController", managed = "Other")]
+    pub unsafe fn selectedViewController(&self) -> Option<Id<NSViewController>>;
 
-        #[method(setTransitionStyle:)]
-        pub unsafe fn setTransitionStyle(&self, transition_style: NSPageControllerTransitionStyle);
+    #[objc2::method(sel = "transitionStyle")]
+    pub unsafe fn transitionStyle(&self) -> NSPageControllerTransitionStyle;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other arrangedObjects)]
-        pub unsafe fn arrangedObjects(&self) -> Id<NSArray>;
+    #[objc2::method(sel = "setTransitionStyle:")]
+    pub unsafe fn setTransitionStyle(&self, transition_style: NSPageControllerTransitionStyle);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setArrangedObjects:)]
-        pub unsafe fn setArrangedObjects(&self, arranged_objects: &NSArray);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "arrangedObjects", managed = "Other")]
+    pub unsafe fn arrangedObjects(&self) -> Id<NSArray>;
 
-        #[method(selectedIndex)]
-        pub unsafe fn selectedIndex(&self) -> NSInteger;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setArrangedObjects:")]
+    pub unsafe fn setArrangedObjects(&self, arranged_objects: &NSArray);
 
-        #[method(setSelectedIndex:)]
-        pub unsafe fn setSelectedIndex(&self, selected_index: NSInteger);
+    #[objc2::method(sel = "selectedIndex")]
+    pub unsafe fn selectedIndex(&self) -> NSInteger;
 
-        #[method(navigateForwardToObject:)]
-        pub unsafe fn navigateForwardToObject(&self, object: &Object);
+    #[objc2::method(sel = "setSelectedIndex:")]
+    pub unsafe fn setSelectedIndex(&self, selected_index: NSInteger);
 
-        #[method(completeTransition)]
-        pub unsafe fn completeTransition(&self);
+    #[objc2::method(sel = "navigateForwardToObject:")]
+    pub unsafe fn navigateForwardToObject(&self, object: &Object);
 
-        #[method(navigateBack:)]
-        pub unsafe fn navigateBack(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "completeTransition")]
+    pub unsafe fn completeTransition(&self);
 
-        #[method(navigateForward:)]
-        pub unsafe fn navigateForward(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "navigateBack:")]
+    pub unsafe fn navigateBack(&self, sender: Option<&Object>);
 
-        #[method(takeSelectedIndexFrom:)]
-        pub unsafe fn takeSelectedIndexFrom(&self, sender: Option<&Object>);
-    }
-);
+    #[objc2::method(sel = "navigateForward:")]
+    pub unsafe fn navigateForward(&self, sender: Option<&Object>);
 
-extern_protocol!(
-    pub unsafe trait NSPageControllerDelegate: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSPageController")]
-        #[optional]
-        #[method_id(@__retain_semantics Other pageController:identifierForObject:)]
-        unsafe fn pageController_identifierForObject(
-            &self,
-            page_controller: &NSPageController,
-            object: &Object,
-        ) -> Id<NSPageControllerObjectIdentifier>;
+    #[objc2::method(sel = "takeSelectedIndexFrom:")]
+    pub unsafe fn takeSelectedIndexFrom(&self, sender: Option<&Object>);
+}
 
-        #[cfg(all(
-            feature = "AppKit_NSPageController",
-            feature = "AppKit_NSViewController"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other pageController:viewControllerForIdentifier:)]
-        unsafe fn pageController_viewControllerForIdentifier(
-            &self,
-            page_controller: &NSPageController,
-            identifier: &NSPageControllerObjectIdentifier,
-        ) -> Id<NSViewController>;
-
-        #[cfg(feature = "AppKit_NSPageController")]
-        #[optional]
-        #[method(pageController:frameForObject:)]
-        unsafe fn pageController_frameForObject(
-            &self,
-            page_controller: &NSPageController,
-            object: Option<&Object>,
-        ) -> NSRect;
-
-        #[cfg(all(
-            feature = "AppKit_NSPageController",
-            feature = "AppKit_NSViewController"
-        ))]
-        #[optional]
-        #[method(pageController:prepareViewController:withObject:)]
-        unsafe fn pageController_prepareViewController_withObject(
-            &self,
-            page_controller: &NSPageController,
-            view_controller: &NSViewController,
-            object: Option<&Object>,
-        );
-
-        #[cfg(feature = "AppKit_NSPageController")]
-        #[optional]
-        #[method(pageController:didTransitionToObject:)]
-        unsafe fn pageController_didTransitionToObject(
-            &self,
-            page_controller: &NSPageController,
-            object: &Object,
-        );
-
-        #[cfg(feature = "AppKit_NSPageController")]
-        #[optional]
-        #[method(pageControllerWillStartLiveTransition:)]
-        unsafe fn pageControllerWillStartLiveTransition(&self, page_controller: &NSPageController);
-
-        #[cfg(feature = "AppKit_NSPageController")]
-        #[optional]
-        #[method(pageControllerDidEndLiveTransition:)]
-        unsafe fn pageControllerDidEndLiveTransition(&self, page_controller: &NSPageController);
-    }
-
-    unsafe impl ProtocolType for dyn NSPageControllerDelegate {}
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSViewController`
+#[objc2::protocol]
+pub unsafe trait NSPageControllerDelegate: NSObjectProtocol {
     #[cfg(feature = "AppKit_NSPageController")]
-    unsafe impl NSPageController {
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Init initWithNibName:bundle:)]
-        pub unsafe fn initWithNibName_bundle(
-            this: Option<Allocated<Self>>,
-            nib_name_or_nil: Option<&NSNibName>,
-            nib_bundle_or_nil: Option<&NSBundle>,
-        ) -> Id<Self>;
+    #[objc2::method(
+        optional,
+        sel = "pageController:identifierForObject:",
+        managed = "Other"
+    )]
+    unsafe fn pageController_identifierForObject(
+        &self,
+        page_controller: &NSPageController,
+        object: &Object,
+    ) -> Id<NSPageControllerObjectIdentifier>;
+
+    #[cfg(all(
+        feature = "AppKit_NSPageController",
+        feature = "AppKit_NSViewController"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "pageController:viewControllerForIdentifier:",
+        managed = "Other"
+    )]
+    unsafe fn pageController_viewControllerForIdentifier(
+        &self,
+        page_controller: &NSPageController,
+        identifier: &NSPageControllerObjectIdentifier,
+    ) -> Id<NSViewController>;
+
+    #[cfg(feature = "AppKit_NSPageController")]
+    #[objc2::method(optional, sel = "pageController:frameForObject:")]
+    unsafe fn pageController_frameForObject(
+        &self,
+        page_controller: &NSPageController,
+        object: Option<&Object>,
+    ) -> NSRect;
+
+    #[cfg(all(
+        feature = "AppKit_NSPageController",
+        feature = "AppKit_NSViewController"
+    ))]
+    #[objc2::method(optional, sel = "pageController:prepareViewController:withObject:")]
+    unsafe fn pageController_prepareViewController_withObject(
+        &self,
+        page_controller: &NSPageController,
+        view_controller: &NSViewController,
+        object: Option<&Object>,
+    );
+
+    #[cfg(feature = "AppKit_NSPageController")]
+    #[objc2::method(optional, sel = "pageController:didTransitionToObject:")]
+    unsafe fn pageController_didTransitionToObject(
+        &self,
+        page_controller: &NSPageController,
+        object: &Object,
+    );
+
+    #[cfg(feature = "AppKit_NSPageController")]
+    #[objc2::method(optional, sel = "pageControllerWillStartLiveTransition:")]
+    unsafe fn pageControllerWillStartLiveTransition(&self, page_controller: &NSPageController);
+
+    #[cfg(feature = "AppKit_NSPageController")]
+    #[objc2::method(optional, sel = "pageControllerDidEndLiveTransition:")]
+    unsafe fn pageControllerDidEndLiveTransition(&self, page_controller: &NSPageController);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSViewController`
+    #[cfg(feature = "AppKit_NSPageController")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPageController")]
+    pub type NSPageController;
+
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "initWithNibName:bundle:", managed = "Init")]
+    pub unsafe fn initWithNibName_bundle(
+        this: Option<Allocated<Self>>,
+        nib_name_or_nil: Option<&NSNibName>,
+        nib_bundle_or_nil: Option<&NSBundle>,
+    ) -> Id<Self>;
+}

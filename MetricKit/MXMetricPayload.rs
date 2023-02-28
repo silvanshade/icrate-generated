@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXMetricPayload")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXMetricPayload")]
-    pub struct MXMetricPayload;
-
-    #[cfg(feature = "MetricKit_MXMetricPayload")]
-    unsafe impl ClassType for MXMetricPayload {
-        type Super = NSObject;
-    }
-);
+    pub type MXMetricPayload;
+}
 
 #[cfg(feature = "MetricKit_MXMetricPayload")]
 unsafe impl NSCoding for MXMetricPayload {}
@@ -24,97 +24,98 @@ unsafe impl NSObjectProtocol for MXMetricPayload {}
 #[cfg(feature = "MetricKit_MXMetricPayload")]
 unsafe impl NSSecureCoding for MXMetricPayload {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXMetricPayload")]
-    unsafe impl MXMetricPayload {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other latestApplicationVersion)]
-        pub unsafe fn latestApplicationVersion(&self) -> Id<NSString>;
+    pub type MXMetricPayload;
 
-        #[method(includesMultipleApplicationVersions)]
-        pub unsafe fn includesMultipleApplicationVersions(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "latestApplicationVersion", managed = "Other")]
+    pub unsafe fn latestApplicationVersion(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other timeStampBegin)]
-        pub unsafe fn timeStampBegin(&self) -> Id<NSDate>;
+    #[objc2::method(sel = "includesMultipleApplicationVersions")]
+    pub unsafe fn includesMultipleApplicationVersions(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other timeStampEnd)]
-        pub unsafe fn timeStampEnd(&self) -> Id<NSDate>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "timeStampBegin", managed = "Other")]
+    pub unsafe fn timeStampBegin(&self) -> Id<NSDate>;
 
-        #[cfg(feature = "MetricKit_MXCPUMetric")]
-        #[method_id(@__retain_semantics Other cpuMetrics)]
-        pub unsafe fn cpuMetrics(&self) -> Option<Id<MXCPUMetric>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "timeStampEnd", managed = "Other")]
+    pub unsafe fn timeStampEnd(&self) -> Id<NSDate>;
 
-        #[cfg(feature = "MetricKit_MXGPUMetric")]
-        #[method_id(@__retain_semantics Other gpuMetrics)]
-        pub unsafe fn gpuMetrics(&self) -> Option<Id<MXGPUMetric>>;
+    #[cfg(feature = "MetricKit_MXCPUMetric")]
+    #[objc2::method(sel = "cpuMetrics", managed = "Other")]
+    pub unsafe fn cpuMetrics(&self) -> Option<Id<MXCPUMetric>>;
 
-        #[cfg(feature = "MetricKit_MXCellularConditionMetric")]
-        #[method_id(@__retain_semantics Other cellularConditionMetrics)]
-        pub unsafe fn cellularConditionMetrics(&self) -> Option<Id<MXCellularConditionMetric>>;
+    #[cfg(feature = "MetricKit_MXGPUMetric")]
+    #[objc2::method(sel = "gpuMetrics", managed = "Other")]
+    pub unsafe fn gpuMetrics(&self) -> Option<Id<MXGPUMetric>>;
 
-        #[cfg(feature = "MetricKit_MXAppRunTimeMetric")]
-        #[method_id(@__retain_semantics Other applicationTimeMetrics)]
-        pub unsafe fn applicationTimeMetrics(&self) -> Option<Id<MXAppRunTimeMetric>>;
+    #[cfg(feature = "MetricKit_MXCellularConditionMetric")]
+    #[objc2::method(sel = "cellularConditionMetrics", managed = "Other")]
+    pub unsafe fn cellularConditionMetrics(&self) -> Option<Id<MXCellularConditionMetric>>;
 
-        #[cfg(feature = "MetricKit_MXLocationActivityMetric")]
-        #[method_id(@__retain_semantics Other locationActivityMetrics)]
-        pub unsafe fn locationActivityMetrics(&self) -> Option<Id<MXLocationActivityMetric>>;
+    #[cfg(feature = "MetricKit_MXAppRunTimeMetric")]
+    #[objc2::method(sel = "applicationTimeMetrics", managed = "Other")]
+    pub unsafe fn applicationTimeMetrics(&self) -> Option<Id<MXAppRunTimeMetric>>;
 
-        #[cfg(feature = "MetricKit_MXNetworkTransferMetric")]
-        #[method_id(@__retain_semantics Other networkTransferMetrics)]
-        pub unsafe fn networkTransferMetrics(&self) -> Option<Id<MXNetworkTransferMetric>>;
+    #[cfg(feature = "MetricKit_MXLocationActivityMetric")]
+    #[objc2::method(sel = "locationActivityMetrics", managed = "Other")]
+    pub unsafe fn locationActivityMetrics(&self) -> Option<Id<MXLocationActivityMetric>>;
 
-        #[cfg(feature = "MetricKit_MXAppLaunchMetric")]
-        #[method_id(@__retain_semantics Other applicationLaunchMetrics)]
-        pub unsafe fn applicationLaunchMetrics(&self) -> Option<Id<MXAppLaunchMetric>>;
+    #[cfg(feature = "MetricKit_MXNetworkTransferMetric")]
+    #[objc2::method(sel = "networkTransferMetrics", managed = "Other")]
+    pub unsafe fn networkTransferMetrics(&self) -> Option<Id<MXNetworkTransferMetric>>;
 
-        #[cfg(feature = "MetricKit_MXAppResponsivenessMetric")]
-        #[method_id(@__retain_semantics Other applicationResponsivenessMetrics)]
-        pub unsafe fn applicationResponsivenessMetrics(
-            &self,
-        ) -> Option<Id<MXAppResponsivenessMetric>>;
+    #[cfg(feature = "MetricKit_MXAppLaunchMetric")]
+    #[objc2::method(sel = "applicationLaunchMetrics", managed = "Other")]
+    pub unsafe fn applicationLaunchMetrics(&self) -> Option<Id<MXAppLaunchMetric>>;
 
-        #[cfg(feature = "MetricKit_MXDiskIOMetric")]
-        #[method_id(@__retain_semantics Other diskIOMetrics)]
-        pub unsafe fn diskIOMetrics(&self) -> Option<Id<MXDiskIOMetric>>;
+    #[cfg(feature = "MetricKit_MXAppResponsivenessMetric")]
+    #[objc2::method(sel = "applicationResponsivenessMetrics", managed = "Other")]
+    pub unsafe fn applicationResponsivenessMetrics(&self) -> Option<Id<MXAppResponsivenessMetric>>;
 
-        #[cfg(feature = "MetricKit_MXMemoryMetric")]
-        #[method_id(@__retain_semantics Other memoryMetrics)]
-        pub unsafe fn memoryMetrics(&self) -> Option<Id<MXMemoryMetric>>;
+    #[cfg(feature = "MetricKit_MXDiskIOMetric")]
+    #[objc2::method(sel = "diskIOMetrics", managed = "Other")]
+    pub unsafe fn diskIOMetrics(&self) -> Option<Id<MXDiskIOMetric>>;
 
-        #[cfg(feature = "MetricKit_MXDisplayMetric")]
-        #[method_id(@__retain_semantics Other displayMetrics)]
-        pub unsafe fn displayMetrics(&self) -> Option<Id<MXDisplayMetric>>;
+    #[cfg(feature = "MetricKit_MXMemoryMetric")]
+    #[objc2::method(sel = "memoryMetrics", managed = "Other")]
+    pub unsafe fn memoryMetrics(&self) -> Option<Id<MXMemoryMetric>>;
 
-        #[cfg(feature = "MetricKit_MXAnimationMetric")]
-        #[method_id(@__retain_semantics Other animationMetrics)]
-        pub unsafe fn animationMetrics(&self) -> Option<Id<MXAnimationMetric>>;
+    #[cfg(feature = "MetricKit_MXDisplayMetric")]
+    #[objc2::method(sel = "displayMetrics", managed = "Other")]
+    pub unsafe fn displayMetrics(&self) -> Option<Id<MXDisplayMetric>>;
 
-        #[cfg(feature = "MetricKit_MXAppExitMetric")]
-        #[method_id(@__retain_semantics Other applicationExitMetrics)]
-        pub unsafe fn applicationExitMetrics(&self) -> Option<Id<MXAppExitMetric>>;
+    #[cfg(feature = "MetricKit_MXAnimationMetric")]
+    #[objc2::method(sel = "animationMetrics", managed = "Other")]
+    pub unsafe fn animationMetrics(&self) -> Option<Id<MXAnimationMetric>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MetricKit_MXSignpostMetric"))]
-        #[method_id(@__retain_semantics Other signpostMetrics)]
-        pub unsafe fn signpostMetrics(&self) -> Option<Id<NSArray<MXSignpostMetric>>>;
+    #[cfg(feature = "MetricKit_MXAppExitMetric")]
+    #[objc2::method(sel = "applicationExitMetrics", managed = "Other")]
+    pub unsafe fn applicationExitMetrics(&self) -> Option<Id<MXAppExitMetric>>;
 
-        #[cfg(feature = "MetricKit_MXMetaData")]
-        #[method_id(@__retain_semantics Other metaData)]
-        pub unsafe fn metaData(&self) -> Option<Id<MXMetaData>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MetricKit_MXSignpostMetric"))]
+    #[objc2::method(sel = "signpostMetrics", managed = "Other")]
+    pub unsafe fn signpostMetrics(&self) -> Option<Id<NSArray<MXSignpostMetric>>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other JSONRepresentation)]
-        pub unsafe fn JSONRepresentation(&self) -> Id<NSData>;
+    #[cfg(feature = "MetricKit_MXMetaData")]
+    #[objc2::method(sel = "metaData", managed = "Other")]
+    pub unsafe fn metaData(&self) -> Option<Id<MXMetaData>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other DictionaryRepresentation)]
-        pub unsafe fn DictionaryRepresentation(&self) -> Id<NSDictionary>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "JSONRepresentation", managed = "Other")]
+    pub unsafe fn JSONRepresentation(&self) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other dictionaryRepresentation)]
-        pub unsafe fn dictionaryRepresentation(&self) -> Id<NSDictionary>;
-    }
-);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[deprecated]
+    #[objc2::method(sel = "DictionaryRepresentation", managed = "Other")]
+    pub unsafe fn DictionaryRepresentation(&self) -> Id<NSDictionary>;
+
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "dictionaryRepresentation", managed = "Other")]
+    pub unsafe fn dictionaryRepresentation(&self) -> Id<NSDictionary>;
+}

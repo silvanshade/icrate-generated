@@ -4,35 +4,38 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPersistentCloudKitContainerOptions")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSPersistentCloudKitContainerOptions")]
-    pub struct NSPersistentCloudKitContainerOptions;
-
-    #[cfg(feature = "CoreData_NSPersistentCloudKitContainerOptions")]
-    unsafe impl ClassType for NSPersistentCloudKitContainerOptions {
-        type Super = NSObject;
-    }
-);
+    pub type NSPersistentCloudKitContainerOptions;
+}
 
 #[cfg(feature = "CoreData_NSPersistentCloudKitContainerOptions")]
 unsafe impl NSObjectProtocol for NSPersistentCloudKitContainerOptions {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPersistentCloudKitContainerOptions")]
-    unsafe impl NSPersistentCloudKitContainerOptions {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other containerIdentifier)]
-        pub unsafe fn containerIdentifier(&self) -> Id<NSString>;
+    pub type NSPersistentCloudKitContainerOptions;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "containerIdentifier", managed = "Other")]
+    pub unsafe fn containerIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithContainerIdentifier:)]
-        pub unsafe fn initWithContainerIdentifier(
-            this: Option<Allocated<Self>>,
-            container_identifier: &NSString,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithContainerIdentifier:", managed = "Init")]
+    pub unsafe fn initWithContainerIdentifier(
+        this: Option<Allocated<Self>>,
+        container_identifier: &NSString,
+    ) -> Id<Self>;
+}

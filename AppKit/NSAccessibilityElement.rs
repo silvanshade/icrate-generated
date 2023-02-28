@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSAccessibilityElement")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSAccessibilityElement")]
-    pub struct NSAccessibilityElement;
-
-    #[cfg(feature = "AppKit_NSAccessibilityElement")]
-    unsafe impl ClassType for NSAccessibilityElement {
-        type Super = NSObject;
-    }
-);
+    pub type NSAccessibilityElement;
+}
 
 #[cfg(feature = "AppKit_NSAccessibilityElement")]
 unsafe impl NSAccessibility for NSAccessibilityElement {}
@@ -22,28 +22,34 @@ unsafe impl NSAccessibility for NSAccessibilityElement {}
 #[cfg(feature = "AppKit_NSAccessibilityElement")]
 unsafe impl NSObjectProtocol for NSAccessibilityElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSAccessibilityElement")]
-    unsafe impl NSAccessibilityElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other accessibilityElementWithRole:frame:label:parent:)]
-        pub unsafe fn accessibilityElementWithRole_frame_label_parent(
-            role: &NSAccessibilityRole,
-            frame: NSRect,
-            label: Option<&NSString>,
-            parent: Option<&Object>,
-        ) -> Id<Object>;
+    pub type NSAccessibilityElement;
 
-        #[method(accessibilityAddChildElement:)]
-        pub unsafe fn accessibilityAddChildElement(&self, child_element: &NSAccessibilityElement);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "accessibilityElementWithRole:frame:label:parent:",
+        managed = "Other"
+    )]
+    pub unsafe fn accessibilityElementWithRole_frame_label_parent(
+        role: &NSAccessibilityRole,
+        frame: NSRect,
+        label: Option<&NSString>,
+        parent: Option<&Object>,
+    ) -> Id<Object>;
 
-        #[method(accessibilityFrameInParentSpace)]
-        pub unsafe fn accessibilityFrameInParentSpace(&self) -> NSRect;
+    #[objc2::method(sel = "accessibilityAddChildElement:")]
+    pub unsafe fn accessibilityAddChildElement(&self, child_element: &NSAccessibilityElement);
 
-        #[method(setAccessibilityFrameInParentSpace:)]
-        pub unsafe fn setAccessibilityFrameInParentSpace(
-            &self,
-            accessibility_frame_in_parent_space: NSRect,
-        );
-    }
-);
+    #[objc2::method(sel = "accessibilityFrameInParentSpace")]
+    pub unsafe fn accessibilityFrameInParentSpace(&self) -> NSRect;
+
+    #[objc2::method(sel = "setAccessibilityFrameInParentSpace:")]
+    pub unsafe fn setAccessibilityFrameInParentSpace(
+        &self,
+        accessibility_frame_in_parent_space: NSRect,
+    );
+}

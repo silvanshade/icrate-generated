@@ -5,14 +5,16 @@ use crate::Contacts::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_methods!(
-    /// CLVisitExtensions
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreLocation_CLLocationManager")]
-    unsafe impl CLLocationManager {
-        #[method(startMonitoringVisits)]
-        pub unsafe fn startMonitoringVisits(&self);
+    pub type CLLocationManager;
 
-        #[method(stopMonitoringVisits)]
-        pub unsafe fn stopMonitoringVisits(&self);
-    }
-);
+    #[objc2::method(sel = "startMonitoringVisits")]
+    pub unsafe fn startMonitoringVisits(&self);
+
+    #[objc2::method(sel = "stopMonitoringVisits")]
+    pub unsafe fn stopMonitoringVisits(&self);
+}

@@ -5,18 +5,20 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMAttr")]
+#[objc2::interface(
+    unsafe super = DOMNode,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMAttr;
-
     #[cfg(feature = "WebKit_DOMAttr")]
-    unsafe impl ClassType for DOMAttr {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMNode;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMAttr;
+}
 
 #[cfg(feature = "WebKit_DOMAttr")]
 unsafe impl DOMEventTarget for DOMAttr {}
@@ -24,30 +26,34 @@ unsafe impl DOMEventTarget for DOMAttr {}
 #[cfg(feature = "WebKit_DOMAttr")]
 unsafe impl NSObjectProtocol for DOMAttr {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMAttr")]
-    unsafe impl DOMAttr {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMAttr;
 
-        #[method(specified)]
-        pub unsafe fn specified(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other value)]
-        pub unsafe fn value(&self) -> Id<NSString>;
+    #[objc2::method(sel = "specified")]
+    pub unsafe fn specified(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setValue:)]
-        pub unsafe fn setValue(&self, value: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "value", managed = "Other")]
+    pub unsafe fn value(&self) -> Id<NSString>;
 
-        #[cfg(feature = "WebKit_DOMElement")]
-        #[method_id(@__retain_semantics Other ownerElement)]
-        pub unsafe fn ownerElement(&self) -> Option<Id<DOMElement>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setValue:")]
+    pub unsafe fn setValue(&self, value: Option<&NSString>);
 
-        #[cfg(feature = "WebKit_DOMCSSStyleDeclaration")]
-        #[method_id(@__retain_semantics Other style)]
-        pub unsafe fn style(&self) -> Option<Id<DOMCSSStyleDeclaration>>;
-    }
-);
+    #[cfg(feature = "WebKit_DOMElement")]
+    #[objc2::method(sel = "ownerElement", managed = "Other")]
+    pub unsafe fn ownerElement(&self) -> Option<Id<DOMElement>>;
+
+    #[cfg(feature = "WebKit_DOMCSSStyleDeclaration")]
+    #[objc2::method(sel = "style", managed = "Other")]
+    pub unsafe fn style(&self) -> Option<Id<DOMCSSStyleDeclaration>>;
+}

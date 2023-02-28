@@ -5,27 +5,32 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMAbstractView")]
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMAbstractView;
-
     #[cfg(feature = "WebKit_DOMAbstractView")]
-    unsafe impl ClassType for DOMAbstractView {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMAbstractView;
+}
 
 #[cfg(feature = "WebKit_DOMAbstractView")]
 unsafe impl NSObjectProtocol for DOMAbstractView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMAbstractView")]
-    unsafe impl DOMAbstractView {
-        #[cfg(feature = "WebKit_DOMDocument")]
-        #[method_id(@__retain_semantics Other document)]
-        pub unsafe fn document(&self) -> Option<Id<DOMDocument>>;
-    }
-);
+    #[deprecated]
+    pub type DOMAbstractView;
+
+    #[cfg(feature = "WebKit_DOMDocument")]
+    #[objc2::method(sel = "document", managed = "Other")]
+    pub unsafe fn document(&self) -> Option<Id<DOMDocument>>;
+}

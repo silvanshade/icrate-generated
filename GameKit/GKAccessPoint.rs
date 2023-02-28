@@ -5,85 +5,87 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum GKAccessPointLocation {
-        GKAccessPointLocationTopLeading = 0,
-        GKAccessPointLocationTopTrailing = 1,
-        GKAccessPointLocationBottomLeading = 2,
-        GKAccessPointLocationBottomTrailing = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum GKAccessPointLocation {
+    GKAccessPointLocationTopLeading = 0,
+    GKAccessPointLocationTopTrailing = 1,
+    GKAccessPointLocationBottomLeading = 2,
+    GKAccessPointLocationBottomTrailing = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameKit_GKAccessPoint")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKAccessPoint")]
-    pub struct GKAccessPoint;
-
-    #[cfg(feature = "GameKit_GKAccessPoint")]
-    unsafe impl ClassType for GKAccessPoint {
-        type Super = NSObject;
-    }
-);
+    pub type GKAccessPoint;
+}
 
 #[cfg(feature = "GameKit_GKAccessPoint")]
 unsafe impl NSObjectProtocol for GKAccessPoint {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKAccessPoint")]
-    unsafe impl GKAccessPoint {
-        #[method_id(@__retain_semantics Other shared)]
-        pub unsafe fn shared() -> Id<GKAccessPoint>;
+    pub type GKAccessPoint;
 
-        #[method(isActive)]
-        pub unsafe fn isActive(&self) -> bool;
+    #[objc2::method(sel = "shared", managed = "Other")]
+    pub unsafe fn shared() -> Id<GKAccessPoint>;
 
-        #[method(setActive:)]
-        pub unsafe fn setActive(&self, active: bool);
+    #[objc2::method(sel = "isActive")]
+    pub unsafe fn isActive(&self) -> bool;
 
-        #[method(isFocused)]
-        pub unsafe fn isFocused(&self) -> bool;
+    #[objc2::method(sel = "setActive:")]
+    pub unsafe fn setActive(&self, active: bool);
 
-        #[method(setFocused:)]
-        pub unsafe fn setFocused(&self, focused: bool);
+    #[objc2::method(sel = "isFocused")]
+    pub unsafe fn isFocused(&self) -> bool;
 
-        #[method(isVisible)]
-        pub unsafe fn isVisible(&self) -> bool;
+    #[objc2::method(sel = "setFocused:")]
+    pub unsafe fn setFocused(&self, focused: bool);
 
-        #[method(isPresentingGameCenter)]
-        pub unsafe fn isPresentingGameCenter(&self) -> bool;
+    #[objc2::method(sel = "isVisible")]
+    pub unsafe fn isVisible(&self) -> bool;
 
-        #[method(showHighlights)]
-        pub unsafe fn showHighlights(&self) -> bool;
+    #[objc2::method(sel = "isPresentingGameCenter")]
+    pub unsafe fn isPresentingGameCenter(&self) -> bool;
 
-        #[method(setShowHighlights:)]
-        pub unsafe fn setShowHighlights(&self, show_highlights: bool);
+    #[objc2::method(sel = "showHighlights")]
+    pub unsafe fn showHighlights(&self) -> bool;
 
-        #[method(location)]
-        pub unsafe fn location(&self) -> GKAccessPointLocation;
+    #[objc2::method(sel = "setShowHighlights:")]
+    pub unsafe fn setShowHighlights(&self, show_highlights: bool);
 
-        #[method(setLocation:)]
-        pub unsafe fn setLocation(&self, location: GKAccessPointLocation);
+    #[objc2::method(sel = "location")]
+    pub unsafe fn location(&self) -> GKAccessPointLocation;
 
-        #[method(frameInScreenCoordinates)]
-        pub unsafe fn frameInScreenCoordinates(&self) -> NSRect;
+    #[objc2::method(sel = "setLocation:")]
+    pub unsafe fn setLocation(&self, location: GKAccessPointLocation);
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method_id(@__retain_semantics Other parentWindow)]
-        pub unsafe fn parentWindow(&self) -> Option<Id<NSWindow>>;
+    #[objc2::method(sel = "frameInScreenCoordinates")]
+    pub unsafe fn frameInScreenCoordinates(&self) -> NSRect;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(setParentWindow:)]
-        pub unsafe fn setParentWindow(&self, parent_window: Option<&NSWindow>);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "parentWindow", managed = "Other")]
+    pub unsafe fn parentWindow(&self) -> Option<Id<NSWindow>>;
 
-        #[method(triggerAccessPointWithHandler:)]
-        pub unsafe fn triggerAccessPointWithHandler(&self, handler: &Block<(), ()>);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "setParentWindow:")]
+    pub unsafe fn setParentWindow(&self, parent_window: Option<&NSWindow>);
 
-        #[method(triggerAccessPointWithState:handler:)]
-        pub unsafe fn triggerAccessPointWithState_handler(
-            &self,
-            state: GKGameCenterViewControllerState,
-            handler: &Block<(), ()>,
-        );
-    }
-);
+    #[objc2::method(sel = "triggerAccessPointWithHandler:")]
+    pub unsafe fn triggerAccessPointWithHandler(&self, handler: &Block<(), ()>);
+
+    #[objc2::method(sel = "triggerAccessPointWithState:handler:")]
+    pub unsafe fn triggerAccessPointWithState_handler(
+        &self,
+        state: GKGameCenterViewControllerState,
+        handler: &Block<(), ()>,
+    );
+}

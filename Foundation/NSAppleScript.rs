@@ -13,77 +13,80 @@ extern_static!(NSAppleScriptErrorBriefMessage: &'static NSString);
 
 extern_static!(NSAppleScriptErrorRange: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSAppleScript")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSAppleScript")]
-    pub struct NSAppleScript;
-
-    #[cfg(feature = "Foundation_NSAppleScript")]
-    unsafe impl ClassType for NSAppleScript {
-        type Super = NSObject;
-    }
-);
+    pub type NSAppleScript;
+}
 
 #[cfg(feature = "Foundation_NSAppleScript")]
 unsafe impl NSObjectProtocol for NSAppleScript {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAppleScript")]
-    unsafe impl NSAppleScript {
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:error:)]
-        pub unsafe fn initWithContentsOfURL_error(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
-        ) -> Option<Id<Self>>;
+    pub type NSAppleScript;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithSource:)]
-        pub unsafe fn initWithSource(
-            this: Option<Allocated<Self>>,
-            source: &NSString,
-        ) -> Option<Id<Self>>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "initWithContentsOfURL:error:", managed = "Init")]
+    pub unsafe fn initWithContentsOfURL_error(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other source)]
-        pub unsafe fn source(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithSource:", managed = "Init")]
+    pub unsafe fn initWithSource(
+        this: Option<Allocated<Self>>,
+        source: &NSString,
+    ) -> Option<Id<Self>>;
 
-        #[method(isCompiled)]
-        pub unsafe fn isCompiled(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "source", managed = "Other")]
+    pub unsafe fn source(&self) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(compileAndReturnError:)]
-        pub unsafe fn compileAndReturnError(
-            &self,
-            error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
-        ) -> bool;
+    #[objc2::method(sel = "isCompiled")]
+    pub unsafe fn isCompiled(&self) -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSAppleEventDescriptor",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other executeAndReturnError:)]
-        pub unsafe fn executeAndReturnError(
-            &self,
-            error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
-        ) -> Id<NSAppleEventDescriptor>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "compileAndReturnError:")]
+    pub unsafe fn compileAndReturnError(
+        &self,
+        error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
+    ) -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSAppleEventDescriptor",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other executeAppleEvent:error:)]
-        pub unsafe fn executeAppleEvent_error(
-            &self,
-            event: &NSAppleEventDescriptor,
-            error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
-        ) -> Id<NSAppleEventDescriptor>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSAppleEventDescriptor",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "executeAndReturnError:", managed = "Other")]
+    pub unsafe fn executeAndReturnError(
+        &self,
+        error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
+    ) -> Id<NSAppleEventDescriptor>;
+
+    #[cfg(all(
+        feature = "Foundation_NSAppleEventDescriptor",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "executeAppleEvent:error:", managed = "Other")]
+    pub unsafe fn executeAppleEvent_error(
+        &self,
+        event: &NSAppleEventDescriptor,
+        error_info: Option<&mut Option<Id<NSDictionary<NSString, Object>>>>,
+    ) -> Id<NSAppleEventDescriptor>;
+}

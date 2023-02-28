@@ -7,304 +7,302 @@ typed_extensible_enum!(
     pub type NSStreamPropertyKey = NSString;
 );
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSStreamStatus {
-        NSStreamStatusNotOpen = 0,
-        NSStreamStatusOpening = 1,
-        NSStreamStatusOpen = 2,
-        NSStreamStatusReading = 3,
-        NSStreamStatusWriting = 4,
-        NSStreamStatusAtEnd = 5,
-        NSStreamStatusClosed = 6,
-        NSStreamStatusError = 7,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSStreamStatus {
+    NSStreamStatusNotOpen = 0,
+    NSStreamStatusOpening = 1,
+    NSStreamStatusOpen = 2,
+    NSStreamStatusReading = 3,
+    NSStreamStatusWriting = 4,
+    NSStreamStatusAtEnd = 5,
+    NSStreamStatusClosed = 6,
+    NSStreamStatusError = 7,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSStreamEvent {
-        NSStreamEventNone = 0,
-        NSStreamEventOpenCompleted = 1 << 0,
-        NSStreamEventHasBytesAvailable = 1 << 1,
-        NSStreamEventHasSpaceAvailable = 1 << 2,
-        NSStreamEventErrorOccurred = 1 << 3,
-        NSStreamEventEndEncountered = 1 << 4,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSStreamEvent {
+    NSStreamEventNone = 0,
+    NSStreamEventOpenCompleted = 1 << 0,
+    NSStreamEventHasBytesAvailable = 1 << 1,
+    NSStreamEventHasSpaceAvailable = 1 << 2,
+    NSStreamEventErrorOccurred = 1 << 3,
+    NSStreamEventEndEncountered = 1 << 4,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSStream")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSStream")]
-    pub struct NSStream;
-
-    #[cfg(feature = "Foundation_NSStream")]
-    unsafe impl ClassType for NSStream {
-        type Super = NSObject;
-    }
-);
+    pub type NSStream;
+}
 
 #[cfg(feature = "Foundation_NSStream")]
 unsafe impl NSObjectProtocol for NSStream {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSStream")]
-    unsafe impl NSStream {
-        #[method(open)]
-        pub unsafe fn open(&self);
+    pub type NSStream;
 
-        #[method(close)]
-        pub unsafe fn close(&self);
+    #[objc2::method(sel = "open")]
+    pub unsafe fn open(&self);
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSStreamDelegate>>>;
+    #[objc2::method(sel = "close")]
+    pub unsafe fn close(&self);
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSStreamDelegate>>);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSStreamDelegate>>>;
 
-        #[method_id(@__retain_semantics Other propertyForKey:)]
-        pub unsafe fn propertyForKey(&self, key: &NSStreamPropertyKey) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSStreamDelegate>>);
 
-        #[method(setProperty:forKey:)]
-        pub unsafe fn setProperty_forKey(
-            &self,
-            property: Option<&Object>,
-            key: &NSStreamPropertyKey,
-        ) -> bool;
+    #[objc2::method(sel = "propertyForKey:", managed = "Other")]
+    pub unsafe fn propertyForKey(&self, key: &NSStreamPropertyKey) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSRunLoop")]
-        #[method(scheduleInRunLoop:forMode:)]
-        pub unsafe fn scheduleInRunLoop_forMode(
-            &self,
-            a_run_loop: &NSRunLoop,
-            mode: &NSRunLoopMode,
-        );
+    #[objc2::method(sel = "setProperty:forKey:")]
+    pub unsafe fn setProperty_forKey(
+        &self,
+        property: Option<&Object>,
+        key: &NSStreamPropertyKey,
+    ) -> bool;
 
-        #[cfg(feature = "Foundation_NSRunLoop")]
-        #[method(removeFromRunLoop:forMode:)]
-        pub unsafe fn removeFromRunLoop_forMode(
-            &self,
-            a_run_loop: &NSRunLoop,
-            mode: &NSRunLoopMode,
-        );
+    #[cfg(feature = "Foundation_NSRunLoop")]
+    #[objc2::method(sel = "scheduleInRunLoop:forMode:")]
+    pub unsafe fn scheduleInRunLoop_forMode(&self, a_run_loop: &NSRunLoop, mode: &NSRunLoopMode);
 
-        #[method(streamStatus)]
-        pub unsafe fn streamStatus(&self) -> NSStreamStatus;
+    #[cfg(feature = "Foundation_NSRunLoop")]
+    #[objc2::method(sel = "removeFromRunLoop:forMode:")]
+    pub unsafe fn removeFromRunLoop_forMode(&self, a_run_loop: &NSRunLoop, mode: &NSRunLoopMode);
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other streamError)]
-        pub unsafe fn streamError(&self) -> Option<Id<NSError>>;
-    }
-);
+    #[objc2::method(sel = "streamStatus")]
+    pub unsafe fn streamStatus(&self) -> NSStreamStatus;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "streamError", managed = "Other")]
+    pub unsafe fn streamError(&self) -> Option<Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSStream,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSInputStream")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSInputStream")]
-    pub struct NSInputStream;
-
-    #[cfg(feature = "Foundation_NSInputStream")]
-    unsafe impl ClassType for NSInputStream {
-        #[inherits(NSObject)]
-        type Super = NSStream;
-    }
-);
+    pub type NSInputStream;
+}
 
 #[cfg(feature = "Foundation_NSInputStream")]
 unsafe impl NSObjectProtocol for NSInputStream {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSInputStream")]
-    unsafe impl NSInputStream {
-        #[method(read:maxLength:)]
-        pub unsafe fn read_maxLength(&self, buffer: NonNull<u8>, len: NSUInteger) -> NSInteger;
+    pub type NSInputStream;
 
-        #[method(getBuffer:length:)]
-        pub unsafe fn getBuffer_length(
-            &self,
-            buffer: NonNull<*mut u8>,
-            len: NonNull<NSUInteger>,
-        ) -> bool;
+    #[objc2::method(sel = "read:maxLength:")]
+    pub unsafe fn read_maxLength(&self, buffer: NonNull<u8>, len: NSUInteger) -> NSInteger;
 
-        #[method(hasBytesAvailable)]
-        pub unsafe fn hasBytesAvailable(&self) -> bool;
+    #[objc2::method(sel = "getBuffer:length:")]
+    pub unsafe fn getBuffer_length(
+        &self,
+        buffer: NonNull<*mut u8>,
+        len: NonNull<NSUInteger>,
+    ) -> bool;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Init initWithData:)]
-        pub unsafe fn initWithData(this: Option<Allocated<Self>>, data: &NSData) -> Id<Self>;
+    #[objc2::method(sel = "hasBytesAvailable")]
+    pub unsafe fn hasBytesAvailable(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithURL:)]
-        pub unsafe fn initWithURL(this: Option<Allocated<Self>>, url: &NSURL) -> Option<Id<Self>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "initWithData:", managed = "Init")]
+    pub unsafe fn initWithData(this: Option<Allocated<Self>>, data: &NSData) -> Id<Self>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initWithURL:", managed = "Init")]
+    pub unsafe fn initWithURL(this: Option<Allocated<Self>>, url: &NSURL) -> Option<Id<Self>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSStream,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSOutputStream")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSOutputStream")]
-    pub struct NSOutputStream;
-
-    #[cfg(feature = "Foundation_NSOutputStream")]
-    unsafe impl ClassType for NSOutputStream {
-        #[inherits(NSObject)]
-        type Super = NSStream;
-    }
-);
+    pub type NSOutputStream;
+}
 
 #[cfg(feature = "Foundation_NSOutputStream")]
 unsafe impl NSObjectProtocol for NSOutputStream {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSOutputStream")]
-    unsafe impl NSOutputStream {
-        #[method(write:maxLength:)]
-        pub unsafe fn write_maxLength(&self, buffer: NonNull<u8>, len: NSUInteger) -> NSInteger;
+    pub type NSOutputStream;
 
-        #[method(hasSpaceAvailable)]
-        pub unsafe fn hasSpaceAvailable(&self) -> bool;
+    #[objc2::method(sel = "write:maxLength:")]
+    pub unsafe fn write_maxLength(&self, buffer: NonNull<u8>, len: NSUInteger) -> NSInteger;
 
-        #[method_id(@__retain_semantics Init initToMemory)]
-        pub unsafe fn initToMemory(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "hasSpaceAvailable")]
+    pub unsafe fn hasSpaceAvailable(&self) -> bool;
 
-        #[method_id(@__retain_semantics Init initToBuffer:capacity:)]
-        pub unsafe fn initToBuffer_capacity(
-            this: Option<Allocated<Self>>,
-            buffer: NonNull<u8>,
-            capacity: NSUInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initToMemory", managed = "Init")]
+    pub unsafe fn initToMemory(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithURL:append:)]
-        pub unsafe fn initWithURL_append(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            should_append: bool,
-        ) -> Option<Id<Self>>;
-    }
-);
+    #[objc2::method(sel = "initToBuffer:capacity:", managed = "Init")]
+    pub unsafe fn initToBuffer_capacity(
+        this: Option<Allocated<Self>>,
+        buffer: NonNull<u8>,
+        capacity: NSUInteger,
+    ) -> Id<Self>;
 
-extern_methods!(
-    /// NSSocketStreamCreationExtensions
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initWithURL:append:", managed = "Init")]
+    pub unsafe fn initWithURL_append(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        should_append: bool,
+    ) -> Option<Id<Self>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSStream")]
-    unsafe impl NSStream {
-        #[cfg(all(
-            feature = "Foundation_NSInputStream",
-            feature = "Foundation_NSOutputStream",
-            feature = "Foundation_NSString"
-        ))]
-        #[deprecated = "Use nw_connection_t in Network framework instead"]
-        #[method(getStreamsToHostWithName:port:inputStream:outputStream:)]
-        pub unsafe fn getStreamsToHostWithName_port_inputStream_outputStream(
-            hostname: &NSString,
-            port: NSInteger,
-            input_stream: Option<&mut Option<Id<NSInputStream>>>,
-            output_stream: Option<&mut Option<Id<NSOutputStream>>>,
-        );
+    pub type NSStream;
 
-        #[cfg(all(
-            feature = "Foundation_NSHost",
-            feature = "Foundation_NSInputStream",
-            feature = "Foundation_NSOutputStream"
-        ))]
-        #[deprecated = "Use nw_connection_t in Network framework instead"]
-        #[method(getStreamsToHost:port:inputStream:outputStream:)]
-        pub unsafe fn getStreamsToHost_port_inputStream_outputStream(
-            host: &NSHost,
-            port: NSInteger,
-            input_stream: Option<&mut Option<Id<NSInputStream>>>,
-            output_stream: Option<&mut Option<Id<NSOutputStream>>>,
-        );
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSInputStream",
+        feature = "Foundation_NSOutputStream",
+        feature = "Foundation_NSString"
+    ))]
+    #[deprecated = "Use nw_connection_t in Network framework instead"]
+    #[objc2::method(sel = "getStreamsToHostWithName:port:inputStream:outputStream:")]
+    pub unsafe fn getStreamsToHostWithName_port_inputStream_outputStream(
+        hostname: &NSString,
+        port: NSInteger,
+        input_stream: Option<&mut Option<Id<NSInputStream>>>,
+        output_stream: Option<&mut Option<Id<NSOutputStream>>>,
+    );
 
-extern_methods!(
-    /// NSStreamBoundPairCreationExtensions
+    #[cfg(all(
+        feature = "Foundation_NSHost",
+        feature = "Foundation_NSInputStream",
+        feature = "Foundation_NSOutputStream"
+    ))]
+    #[deprecated = "Use nw_connection_t in Network framework instead"]
+    #[objc2::method(sel = "getStreamsToHost:port:inputStream:outputStream:")]
+    pub unsafe fn getStreamsToHost_port_inputStream_outputStream(
+        host: &NSHost,
+        port: NSInteger,
+        input_stream: Option<&mut Option<Id<NSInputStream>>>,
+        output_stream: Option<&mut Option<Id<NSOutputStream>>>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSStream")]
-    unsafe impl NSStream {
-        #[cfg(all(
-            feature = "Foundation_NSInputStream",
-            feature = "Foundation_NSOutputStream"
-        ))]
-        #[method(getBoundStreamsWithBufferSize:inputStream:outputStream:)]
-        pub unsafe fn getBoundStreamsWithBufferSize_inputStream_outputStream(
-            buffer_size: NSUInteger,
-            input_stream: Option<&mut Option<Id<NSInputStream>>>,
-            output_stream: Option<&mut Option<Id<NSOutputStream>>>,
-        );
-    }
-);
+    pub type NSStream;
 
-extern_methods!(
-    /// NSInputStreamExtensions
+    #[cfg(all(
+        feature = "Foundation_NSInputStream",
+        feature = "Foundation_NSOutputStream"
+    ))]
+    #[objc2::method(sel = "getBoundStreamsWithBufferSize:inputStream:outputStream:")]
+    pub unsafe fn getBoundStreamsWithBufferSize_inputStream_outputStream(
+        buffer_size: NSUInteger,
+        input_stream: Option<&mut Option<Id<NSInputStream>>>,
+        output_stream: Option<&mut Option<Id<NSOutputStream>>>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSInputStream")]
-    unsafe impl NSInputStream {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithFileAtPath:)]
-        pub unsafe fn initWithFileAtPath(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-        ) -> Option<Id<Self>>;
+    pub type NSInputStream;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other inputStreamWithData:)]
-        pub unsafe fn inputStreamWithData(data: &NSData) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithFileAtPath:", managed = "Init")]
+    pub unsafe fn initWithFileAtPath(
+        this: Option<Allocated<Self>>,
+        path: &NSString,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other inputStreamWithFileAtPath:)]
-        pub unsafe fn inputStreamWithFileAtPath(path: &NSString) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "inputStreamWithData:", managed = "Other")]
+    pub unsafe fn inputStreamWithData(data: &NSData) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other inputStreamWithURL:)]
-        pub unsafe fn inputStreamWithURL(url: &NSURL) -> Option<Id<Self>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "inputStreamWithFileAtPath:", managed = "Other")]
+    pub unsafe fn inputStreamWithFileAtPath(path: &NSString) -> Option<Id<Self>>;
 
-extern_methods!(
-    /// NSOutputStreamExtensions
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "inputStreamWithURL:", managed = "Other")]
+    pub unsafe fn inputStreamWithURL(url: &NSURL) -> Option<Id<Self>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSOutputStream")]
-    unsafe impl NSOutputStream {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initToFileAtPath:append:)]
-        pub unsafe fn initToFileAtPath_append(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-            should_append: bool,
-        ) -> Option<Id<Self>>;
+    pub type NSOutputStream;
 
-        #[method_id(@__retain_semantics Other outputStreamToMemory)]
-        pub unsafe fn outputStreamToMemory() -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initToFileAtPath:append:", managed = "Init")]
+    pub unsafe fn initToFileAtPath_append(
+        this: Option<Allocated<Self>>,
+        path: &NSString,
+        should_append: bool,
+    ) -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Other outputStreamToBuffer:capacity:)]
-        pub unsafe fn outputStreamToBuffer_capacity(
-            buffer: NonNull<u8>,
-            capacity: NSUInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "outputStreamToMemory", managed = "Other")]
+    pub unsafe fn outputStreamToMemory() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other outputStreamToFileAtPath:append:)]
-        pub unsafe fn outputStreamToFileAtPath_append(
-            path: &NSString,
-            should_append: bool,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "outputStreamToBuffer:capacity:", managed = "Other")]
+    pub unsafe fn outputStreamToBuffer_capacity(
+        buffer: NonNull<u8>,
+        capacity: NSUInteger,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other outputStreamWithURL:append:)]
-        pub unsafe fn outputStreamWithURL_append(
-            url: &NSURL,
-            should_append: bool,
-        ) -> Option<Id<Self>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "outputStreamToFileAtPath:append:", managed = "Other")]
+    pub unsafe fn outputStreamToFileAtPath_append(path: &NSString, should_append: bool)
+        -> Id<Self>;
 
-extern_protocol!(
-    pub unsafe trait NSStreamDelegate: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSStream")]
-        #[optional]
-        #[method(stream:handleEvent:)]
-        unsafe fn stream_handleEvent(&self, a_stream: &NSStream, event_code: NSStreamEvent);
-    }
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "outputStreamWithURL:append:", managed = "Other")]
+    pub unsafe fn outputStreamWithURL_append(url: &NSURL, should_append: bool) -> Option<Id<Self>>;
+}
 
-    unsafe impl ProtocolType for dyn NSStreamDelegate {}
-);
+#[objc2::protocol]
+pub unsafe trait NSStreamDelegate: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSStream")]
+    #[objc2::method(optional, sel = "stream:handleEvent:")]
+    unsafe fn stream_handleEvent(&self, a_stream: &NSStream, event_code: NSStreamEvent);
+}
 
 extern_static!(NSStreamSocketSecurityLevelKey: &'static NSStreamPropertyKey);
 

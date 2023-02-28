@@ -5,43 +5,48 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMRGBColor")]
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMRGBColor;
-
     #[cfg(feature = "WebKit_DOMRGBColor")]
-    unsafe impl ClassType for DOMRGBColor {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMRGBColor;
+}
 
 #[cfg(feature = "WebKit_DOMRGBColor")]
 unsafe impl NSObjectProtocol for DOMRGBColor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMRGBColor")]
-    unsafe impl DOMRGBColor {
-        #[cfg(feature = "WebKit_DOMCSSPrimitiveValue")]
-        #[method_id(@__retain_semantics Other red)]
-        pub unsafe fn red(&self) -> Option<Id<DOMCSSPrimitiveValue>>;
+    #[deprecated]
+    pub type DOMRGBColor;
 
-        #[cfg(feature = "WebKit_DOMCSSPrimitiveValue")]
-        #[method_id(@__retain_semantics Other green)]
-        pub unsafe fn green(&self) -> Option<Id<DOMCSSPrimitiveValue>>;
+    #[cfg(feature = "WebKit_DOMCSSPrimitiveValue")]
+    #[objc2::method(sel = "red", managed = "Other")]
+    pub unsafe fn red(&self) -> Option<Id<DOMCSSPrimitiveValue>>;
 
-        #[cfg(feature = "WebKit_DOMCSSPrimitiveValue")]
-        #[method_id(@__retain_semantics Other blue)]
-        pub unsafe fn blue(&self) -> Option<Id<DOMCSSPrimitiveValue>>;
+    #[cfg(feature = "WebKit_DOMCSSPrimitiveValue")]
+    #[objc2::method(sel = "green", managed = "Other")]
+    pub unsafe fn green(&self) -> Option<Id<DOMCSSPrimitiveValue>>;
 
-        #[cfg(feature = "WebKit_DOMCSSPrimitiveValue")]
-        #[method_id(@__retain_semantics Other alpha)]
-        pub unsafe fn alpha(&self) -> Option<Id<DOMCSSPrimitiveValue>>;
+    #[cfg(feature = "WebKit_DOMCSSPrimitiveValue")]
+    #[objc2::method(sel = "blue", managed = "Other")]
+    pub unsafe fn blue(&self) -> Option<Id<DOMCSSPrimitiveValue>>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other color)]
-        pub unsafe fn color(&self) -> Id<NSColor>;
-    }
-);
+    #[cfg(feature = "WebKit_DOMCSSPrimitiveValue")]
+    #[objc2::method(sel = "alpha", managed = "Other")]
+    pub unsafe fn alpha(&self) -> Option<Id<DOMCSSPrimitiveValue>>;
+
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "color", managed = "Other")]
+    pub unsafe fn color(&self) -> Id<NSColor>;
+}

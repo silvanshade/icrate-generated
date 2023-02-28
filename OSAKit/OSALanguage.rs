@@ -5,86 +5,88 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::OSAKit::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum OSALanguageFeatures {
-        OSASupportsCompiling = 0x0002,
-        OSASupportsGetSource = 0x0004,
-        OSASupportsAECoercion = 0x0008,
-        OSASupportsAESending = 0x0010,
-        OSASupportsRecording = 0x0020,
-        OSASupportsConvenience = 0x0040,
-        OSASupportsDialects = 0x0080,
-        OSASupportsEventHandling = 0x0100,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum OSALanguageFeatures {
+    OSASupportsCompiling = 0x0002,
+    OSASupportsGetSource = 0x0004,
+    OSASupportsAECoercion = 0x0008,
+    OSASupportsAESending = 0x0010,
+    OSASupportsRecording = 0x0020,
+    OSASupportsConvenience = 0x0040,
+    OSASupportsDialects = 0x0080,
+    OSASupportsEventHandling = 0x0100,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "OSAKit_OSALanguage")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "OSAKit_OSALanguage")]
-    pub struct OSALanguage;
-
-    #[cfg(feature = "OSAKit_OSALanguage")]
-    unsafe impl ClassType for OSALanguage {
-        type Super = NSObject;
-    }
-);
+    pub type OSALanguage;
+}
 
 #[cfg(feature = "OSAKit_OSALanguage")]
 unsafe impl NSObjectProtocol for OSALanguage {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "OSAKit_OSALanguage")]
-    unsafe impl OSALanguage {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other availableLanguages)]
-        pub unsafe fn availableLanguages() -> Id<NSArray<OSALanguage>>;
+    pub type OSALanguage;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other languageForName:)]
-        pub unsafe fn languageForName(name: &NSString) -> Option<Id<OSALanguage>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "availableLanguages", managed = "Other")]
+    pub unsafe fn availableLanguages() -> Id<NSArray<OSALanguage>>;
 
-        #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
-        #[method_id(@__retain_semantics Other languageForScriptDataDescriptor:)]
-        pub unsafe fn languageForScriptDataDescriptor(
-            descriptor: &NSAppleEventDescriptor,
-        ) -> Option<Id<OSALanguage>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "languageForName:", managed = "Other")]
+    pub unsafe fn languageForName(name: &NSString) -> Option<Id<OSALanguage>>;
 
-        #[method_id(@__retain_semantics Other defaultLanguage)]
-        pub unsafe fn defaultLanguage() -> Option<Id<OSALanguage>>;
+    #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
+    #[objc2::method(sel = "languageForScriptDataDescriptor:", managed = "Other")]
+    pub unsafe fn languageForScriptDataDescriptor(
+        descriptor: &NSAppleEventDescriptor,
+    ) -> Option<Id<OSALanguage>>;
 
-        #[method(setDefaultLanguage:)]
-        pub unsafe fn setDefaultLanguage(default_language: &OSALanguage);
+    #[objc2::method(sel = "defaultLanguage", managed = "Other")]
+    pub unsafe fn defaultLanguage() -> Option<Id<OSALanguage>>;
 
-        #[cfg(feature = "OSAKit_OSALanguageInstance")]
-        #[method_id(@__retain_semantics Other sharedLanguageInstance)]
-        pub unsafe fn sharedLanguageInstance(&self) -> Id<OSALanguageInstance>;
+    #[objc2::method(sel = "setDefaultLanguage:")]
+    pub unsafe fn setDefaultLanguage(default_language: &OSALanguage);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "OSAKit_OSALanguageInstance")]
+    #[objc2::method(sel = "sharedLanguageInstance", managed = "Other")]
+    pub unsafe fn sharedLanguageInstance(&self) -> Id<OSALanguageInstance>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other info)]
-        pub unsafe fn info(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other version)]
-        pub unsafe fn version(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "info", managed = "Other")]
+    pub unsafe fn info(&self) -> Option<Id<NSString>>;
 
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> OSType;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "version", managed = "Other")]
+    pub unsafe fn version(&self) -> Option<Id<NSString>>;
 
-        #[method(subType)]
-        pub unsafe fn subType(&self) -> OSType;
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> OSType;
 
-        #[method(manufacturer)]
-        pub unsafe fn manufacturer(&self) -> OSType;
+    #[objc2::method(sel = "subType")]
+    pub unsafe fn subType(&self) -> OSType;
 
-        #[method(features)]
-        pub unsafe fn features(&self) -> OSALanguageFeatures;
+    #[objc2::method(sel = "manufacturer")]
+    pub unsafe fn manufacturer(&self) -> OSType;
 
-        #[method(isThreadSafe)]
-        pub unsafe fn isThreadSafe(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "features")]
+    pub unsafe fn features(&self) -> OSALanguageFeatures;
+
+    #[objc2::method(sel = "isThreadSafe")]
+    pub unsafe fn isThreadSafe(&self) -> bool;
+}

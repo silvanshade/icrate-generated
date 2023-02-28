@@ -6,162 +6,165 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = PHObject,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHAsset")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHAsset")]
-    pub struct PHAsset;
-
-    #[cfg(feature = "PhotoKit_PHAsset")]
-    unsafe impl ClassType for PHAsset {
-        #[inherits(NSObject)]
-        type Super = PHObject;
-    }
-);
+    pub type PHAsset;
+}
 
 #[cfg(feature = "PhotoKit_PHAsset")]
 unsafe impl NSObjectProtocol for PHAsset {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHAsset")]
-    unsafe impl PHAsset {
-        #[method(playbackStyle)]
-        pub unsafe fn playbackStyle(&self) -> PHAssetPlaybackStyle;
+    pub type PHAsset;
 
-        #[method(mediaType)]
-        pub unsafe fn mediaType(&self) -> PHAssetMediaType;
+    #[objc2::method(sel = "playbackStyle")]
+    pub unsafe fn playbackStyle(&self) -> PHAssetPlaybackStyle;
 
-        #[method(mediaSubtypes)]
-        pub unsafe fn mediaSubtypes(&self) -> PHAssetMediaSubtype;
+    #[objc2::method(sel = "mediaType")]
+    pub unsafe fn mediaType(&self) -> PHAssetMediaType;
 
-        #[method(pixelWidth)]
-        pub unsafe fn pixelWidth(&self) -> NSUInteger;
+    #[objc2::method(sel = "mediaSubtypes")]
+    pub unsafe fn mediaSubtypes(&self) -> PHAssetMediaSubtype;
 
-        #[method(pixelHeight)]
-        pub unsafe fn pixelHeight(&self) -> NSUInteger;
+    #[objc2::method(sel = "pixelWidth")]
+    pub unsafe fn pixelWidth(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other creationDate)]
-        pub unsafe fn creationDate(&self) -> Option<Id<NSDate>>;
+    #[objc2::method(sel = "pixelHeight")]
+    pub unsafe fn pixelHeight(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other modificationDate)]
-        pub unsafe fn modificationDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "creationDate", managed = "Other")]
+    pub unsafe fn creationDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "CoreLocation_CLLocation")]
-        #[method_id(@__retain_semantics Other location)]
-        pub unsafe fn location(&self) -> Option<Id<CLLocation>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "modificationDate", managed = "Other")]
+    pub unsafe fn modificationDate(&self) -> Option<Id<NSDate>>;
 
-        #[method(duration)]
-        pub unsafe fn duration(&self) -> NSTimeInterval;
+    #[cfg(feature = "CoreLocation_CLLocation")]
+    #[objc2::method(sel = "location", managed = "Other")]
+    pub unsafe fn location(&self) -> Option<Id<CLLocation>>;
 
-        #[method(isHidden)]
-        pub unsafe fn isHidden(&self) -> bool;
+    #[objc2::method(sel = "duration")]
+    pub unsafe fn duration(&self) -> NSTimeInterval;
 
-        #[method(isFavorite)]
-        pub unsafe fn isFavorite(&self) -> bool;
+    #[objc2::method(sel = "isHidden")]
+    pub unsafe fn isHidden(&self) -> bool;
 
-        #[deprecated = "No longer supported"]
-        #[method(isSyncFailureHidden)]
-        pub unsafe fn isSyncFailureHidden(&self) -> bool;
+    #[objc2::method(sel = "isFavorite")]
+    pub unsafe fn isFavorite(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other burstIdentifier)]
-        pub unsafe fn burstIdentifier(&self) -> Option<Id<NSString>>;
+    #[deprecated = "No longer supported"]
+    #[objc2::method(sel = "isSyncFailureHidden")]
+    pub unsafe fn isSyncFailureHidden(&self) -> bool;
 
-        #[method(burstSelectionTypes)]
-        pub unsafe fn burstSelectionTypes(&self) -> PHAssetBurstSelectionType;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "burstIdentifier", managed = "Other")]
+    pub unsafe fn burstIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[method(representsBurst)]
-        pub unsafe fn representsBurst(&self) -> bool;
+    #[objc2::method(sel = "burstSelectionTypes")]
+    pub unsafe fn burstSelectionTypes(&self) -> PHAssetBurstSelectionType;
 
-        #[method(sourceType)]
-        pub unsafe fn sourceType(&self) -> PHAssetSourceType;
+    #[objc2::method(sel = "representsBurst")]
+    pub unsafe fn representsBurst(&self) -> bool;
 
-        #[method(hasAdjustments)]
-        pub unsafe fn hasAdjustments(&self) -> bool;
+    #[objc2::method(sel = "sourceType")]
+    pub unsafe fn sourceType(&self) -> PHAssetSourceType;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other adjustmentFormatIdentifier)]
-        pub unsafe fn adjustmentFormatIdentifier(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "hasAdjustments")]
+    pub unsafe fn hasAdjustments(&self) -> bool;
 
-        #[method(canPerformEditOperation:)]
-        pub unsafe fn canPerformEditOperation(&self, edit_operation: PHAssetEditOperation) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "adjustmentFormatIdentifier", managed = "Other")]
+    pub unsafe fn adjustmentFormatIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[cfg(all(
-            feature = "PhotoKit_PHAssetCollection",
-            feature = "PhotoKit_PHFetchOptions",
-            feature = "PhotoKit_PHFetchResult"
-        ))]
-        #[method_id(@__retain_semantics Other fetchAssetsInAssetCollection:options:)]
-        pub unsafe fn fetchAssetsInAssetCollection_options(
-            asset_collection: &PHAssetCollection,
-            options: Option<&PHFetchOptions>,
-        ) -> Id<PHFetchResult<PHAsset>>;
+    #[objc2::method(sel = "canPerformEditOperation:")]
+    pub unsafe fn canPerformEditOperation(&self, edit_operation: PHAssetEditOperation) -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString",
-            feature = "PhotoKit_PHFetchOptions",
-            feature = "PhotoKit_PHFetchResult"
-        ))]
-        #[method_id(@__retain_semantics Other fetchAssetsWithLocalIdentifiers:options:)]
-        pub unsafe fn fetchAssetsWithLocalIdentifiers_options(
-            identifiers: &NSArray<NSString>,
-            options: Option<&PHFetchOptions>,
-        ) -> Id<PHFetchResult<PHAsset>>;
+    #[cfg(all(
+        feature = "PhotoKit_PHAssetCollection",
+        feature = "PhotoKit_PHFetchOptions",
+        feature = "PhotoKit_PHFetchResult"
+    ))]
+    #[objc2::method(sel = "fetchAssetsInAssetCollection:options:", managed = "Other")]
+    pub unsafe fn fetchAssetsInAssetCollection_options(
+        asset_collection: &PHAssetCollection,
+        options: Option<&PHFetchOptions>,
+    ) -> Id<PHFetchResult<PHAsset>>;
 
-        #[cfg(all(
-            feature = "PhotoKit_PHAssetCollection",
-            feature = "PhotoKit_PHFetchOptions",
-            feature = "PhotoKit_PHFetchResult"
-        ))]
-        #[method_id(@__retain_semantics Other fetchKeyAssetsInAssetCollection:options:)]
-        pub unsafe fn fetchKeyAssetsInAssetCollection_options(
-            asset_collection: &PHAssetCollection,
-            options: Option<&PHFetchOptions>,
-        ) -> Option<Id<PHFetchResult<PHAsset>>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString",
+        feature = "PhotoKit_PHFetchOptions",
+        feature = "PhotoKit_PHFetchResult"
+    ))]
+    #[objc2::method(sel = "fetchAssetsWithLocalIdentifiers:options:", managed = "Other")]
+    pub unsafe fn fetchAssetsWithLocalIdentifiers_options(
+        identifiers: &NSArray<NSString>,
+        options: Option<&PHFetchOptions>,
+    ) -> Id<PHFetchResult<PHAsset>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "PhotoKit_PHFetchOptions",
-            feature = "PhotoKit_PHFetchResult"
-        ))]
-        #[method_id(@__retain_semantics Other fetchAssetsWithBurstIdentifier:options:)]
-        pub unsafe fn fetchAssetsWithBurstIdentifier_options(
-            burst_identifier: &NSString,
-            options: Option<&PHFetchOptions>,
-        ) -> Id<PHFetchResult<PHAsset>>;
+    #[cfg(all(
+        feature = "PhotoKit_PHAssetCollection",
+        feature = "PhotoKit_PHFetchOptions",
+        feature = "PhotoKit_PHFetchResult"
+    ))]
+    #[objc2::method(sel = "fetchKeyAssetsInAssetCollection:options:", managed = "Other")]
+    pub unsafe fn fetchKeyAssetsInAssetCollection_options(
+        asset_collection: &PHAssetCollection,
+        options: Option<&PHFetchOptions>,
+    ) -> Option<Id<PHFetchResult<PHAsset>>>;
 
-        #[cfg(all(
-            feature = "PhotoKit_PHFetchOptions",
-            feature = "PhotoKit_PHFetchResult"
-        ))]
-        #[method_id(@__retain_semantics Other fetchAssetsWithOptions:)]
-        pub unsafe fn fetchAssetsWithOptions(
-            options: Option<&PHFetchOptions>,
-        ) -> Id<PHFetchResult<PHAsset>>;
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "PhotoKit_PHFetchOptions",
+        feature = "PhotoKit_PHFetchResult"
+    ))]
+    #[objc2::method(sel = "fetchAssetsWithBurstIdentifier:options:", managed = "Other")]
+    pub unsafe fn fetchAssetsWithBurstIdentifier_options(
+        burst_identifier: &NSString,
+        options: Option<&PHFetchOptions>,
+    ) -> Id<PHFetchResult<PHAsset>>;
 
-        #[cfg(all(
-            feature = "PhotoKit_PHFetchOptions",
-            feature = "PhotoKit_PHFetchResult"
-        ))]
-        #[method_id(@__retain_semantics Other fetchAssetsWithMediaType:options:)]
-        pub unsafe fn fetchAssetsWithMediaType_options(
-            media_type: PHAssetMediaType,
-            options: Option<&PHFetchOptions>,
-        ) -> Id<PHFetchResult<PHAsset>>;
+    #[cfg(all(
+        feature = "PhotoKit_PHFetchOptions",
+        feature = "PhotoKit_PHFetchResult"
+    ))]
+    #[objc2::method(sel = "fetchAssetsWithOptions:", managed = "Other")]
+    pub unsafe fn fetchAssetsWithOptions(
+        options: Option<&PHFetchOptions>,
+    ) -> Id<PHFetchResult<PHAsset>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSURL",
-            feature = "PhotoKit_PHFetchOptions",
-            feature = "PhotoKit_PHFetchResult"
-        ))]
-        #[deprecated = "Will be removed in a future release"]
-        #[method_id(@__retain_semantics Other fetchAssetsWithALAssetURLs:options:)]
-        pub unsafe fn fetchAssetsWithALAssetURLs_options(
-            asset_ur_ls: &NSArray<NSURL>,
-            options: Option<&PHFetchOptions>,
-        ) -> Id<PHFetchResult<PHAsset>>;
-    }
-);
+    #[cfg(all(
+        feature = "PhotoKit_PHFetchOptions",
+        feature = "PhotoKit_PHFetchResult"
+    ))]
+    #[objc2::method(sel = "fetchAssetsWithMediaType:options:", managed = "Other")]
+    pub unsafe fn fetchAssetsWithMediaType_options(
+        media_type: PHAssetMediaType,
+        options: Option<&PHFetchOptions>,
+    ) -> Id<PHFetchResult<PHAsset>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSURL",
+        feature = "PhotoKit_PHFetchOptions",
+        feature = "PhotoKit_PHFetchResult"
+    ))]
+    #[deprecated = "Will be removed in a future release"]
+    #[objc2::method(sel = "fetchAssetsWithALAssetURLs:options:", managed = "Other")]
+    pub unsafe fn fetchAssetsWithALAssetURLs_options(
+        asset_ur_ls: &NSArray<NSURL>,
+        options: Option<&PHFetchOptions>,
+    ) -> Id<PHFetchResult<PHAsset>>;
+}

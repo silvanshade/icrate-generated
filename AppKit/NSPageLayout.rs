@@ -5,91 +5,100 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPageLayout")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPageLayout")]
-    pub struct NSPageLayout;
-
-    #[cfg(feature = "AppKit_NSPageLayout")]
-    unsafe impl ClassType for NSPageLayout {
-        type Super = NSObject;
-    }
-);
+    pub type NSPageLayout;
+}
 
 #[cfg(feature = "AppKit_NSPageLayout")]
 unsafe impl NSObjectProtocol for NSPageLayout {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPageLayout")]
-    unsafe impl NSPageLayout {
-        #[method_id(@__retain_semantics Other pageLayout)]
-        pub unsafe fn pageLayout() -> Id<NSPageLayout>;
+    pub type NSPageLayout;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method(addAccessoryController:)]
-        pub unsafe fn addAccessoryController(&self, accessory_controller: &NSViewController);
+    #[objc2::method(sel = "pageLayout", managed = "Other")]
+    pub unsafe fn pageLayout() -> Id<NSPageLayout>;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method(removeAccessoryController:)]
-        pub unsafe fn removeAccessoryController(&self, accessory_controller: &NSViewController);
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "addAccessoryController:")]
+    pub unsafe fn addAccessoryController(&self, accessory_controller: &NSViewController);
 
-        #[cfg(all(feature = "AppKit_NSViewController", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other accessoryControllers)]
-        pub unsafe fn accessoryControllers(&self) -> Id<NSArray<NSViewController>>;
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "removeAccessoryController:")]
+    pub unsafe fn removeAccessoryController(&self, accessory_controller: &NSViewController);
 
-        #[cfg(all(feature = "AppKit_NSPrintInfo", feature = "AppKit_NSWindow"))]
-        #[method(beginSheetWithPrintInfo:modalForWindow:delegate:didEndSelector:contextInfo:)]
-        pub unsafe fn beginSheetWithPrintInfo_modalForWindow_delegate_didEndSelector_contextInfo(
-            &self,
-            print_info: &NSPrintInfo,
-            doc_window: &NSWindow,
-            delegate: Option<&Object>,
-            did_end_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
+    #[cfg(all(feature = "AppKit_NSViewController", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "accessoryControllers", managed = "Other")]
+    pub unsafe fn accessoryControllers(&self) -> Id<NSArray<NSViewController>>;
 
-        #[cfg(feature = "AppKit_NSPrintInfo")]
-        #[method(runModalWithPrintInfo:)]
-        pub unsafe fn runModalWithPrintInfo(&self, print_info: &NSPrintInfo) -> NSInteger;
+    #[cfg(all(feature = "AppKit_NSPrintInfo", feature = "AppKit_NSWindow"))]
+    #[objc2::method(
+        sel = "beginSheetWithPrintInfo:modalForWindow:delegate:didEndSelector:contextInfo:"
+    )]
+    pub unsafe fn beginSheetWithPrintInfo_modalForWindow_delegate_didEndSelector_contextInfo(
+        &self,
+        print_info: &NSPrintInfo,
+        doc_window: &NSWindow,
+        delegate: Option<&Object>,
+        did_end_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
 
-        #[method(runModal)]
-        pub unsafe fn runModal(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSPrintInfo")]
+    #[objc2::method(sel = "runModalWithPrintInfo:")]
+    pub unsafe fn runModalWithPrintInfo(&self, print_info: &NSPrintInfo) -> NSInteger;
 
-        #[cfg(feature = "AppKit_NSPrintInfo")]
-        #[method_id(@__retain_semantics Other printInfo)]
-        pub unsafe fn printInfo(&self) -> Option<Id<NSPrintInfo>>;
-    }
-);
+    #[objc2::method(sel = "runModal")]
+    pub unsafe fn runModal(&self) -> NSInteger;
 
-extern_methods!(
-    /// NSDeprecated
+    #[cfg(feature = "AppKit_NSPrintInfo")]
+    #[objc2::method(sel = "printInfo", managed = "Other")]
+    pub unsafe fn printInfo(&self) -> Option<Id<NSPrintInfo>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPageLayout")]
-    unsafe impl NSPageLayout {
-        #[cfg(feature = "AppKit_NSView")]
-        #[deprecated]
-        #[method(setAccessoryView:)]
-        pub unsafe fn setAccessoryView(&self, accessory_view: Option<&NSView>);
+    pub type NSPageLayout;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other accessoryView)]
-        pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
+    #[cfg(feature = "AppKit_NSView")]
+    #[deprecated]
+    #[objc2::method(sel = "setAccessoryView:")]
+    pub unsafe fn setAccessoryView(&self, accessory_view: Option<&NSView>);
 
-        #[deprecated]
-        #[method(readPrintInfo)]
-        pub unsafe fn readPrintInfo(&self);
+    #[cfg(feature = "AppKit_NSView")]
+    #[deprecated]
+    #[objc2::method(sel = "accessoryView", managed = "Other")]
+    pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
 
-        #[deprecated]
-        #[method(writePrintInfo)]
-        pub unsafe fn writePrintInfo(&self);
-    }
-);
+    #[deprecated]
+    #[objc2::method(sel = "readPrintInfo")]
+    pub unsafe fn readPrintInfo(&self);
 
-extern_methods!(
-    /// NSPageLayoutPanel
+    #[deprecated]
+    #[objc2::method(sel = "writePrintInfo")]
+    pub unsafe fn writePrintInfo(&self);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[method(runPageLayout:)]
-        pub unsafe fn runPageLayout(&self, sender: Option<&Object>);
-    }
-);
+    pub type NSApplication;
+
+    #[objc2::method(sel = "runPageLayout:")]
+    pub unsafe fn runPageLayout(&self, sender: Option<&Object>);
+}

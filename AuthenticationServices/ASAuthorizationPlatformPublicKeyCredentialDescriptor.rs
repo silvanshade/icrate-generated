@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialDescriptor")]
-    pub struct ASAuthorizationPlatformPublicKeyCredentialDescriptor;
-
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialDescriptor")]
-    unsafe impl ClassType for ASAuthorizationPlatformPublicKeyCredentialDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type ASAuthorizationPlatformPublicKeyCredentialDescriptor;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialDescriptor")]
 unsafe impl ASAuthorizationPublicKeyCredentialDescriptor
@@ -30,20 +30,23 @@ unsafe impl NSObjectProtocol for ASAuthorizationPlatformPublicKeyCredentialDescr
 #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialDescriptor")]
 unsafe impl NSSecureCoding for ASAuthorizationPlatformPublicKeyCredentialDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialDescriptor")]
-    unsafe impl ASAuthorizationPlatformPublicKeyCredentialDescriptor {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Init initWithCredentialID:)]
-        pub unsafe fn initWithCredentialID(
-            this: Option<Allocated<Self>>,
-            credential_id: &NSData,
-        ) -> Id<Self>;
+    pub type ASAuthorizationPlatformPublicKeyCredentialDescriptor;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "initWithCredentialID:", managed = "Init")]
+    pub unsafe fn initWithCredentialID(
+        this: Option<Allocated<Self>>,
+        credential_id: &NSData,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

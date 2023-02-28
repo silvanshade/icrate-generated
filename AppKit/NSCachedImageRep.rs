@@ -5,18 +5,18 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSCachedImageRep")]
+#[objc2::interface(
+    unsafe super = NSImageRep,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct NSCachedImageRep;
-
     #[cfg(feature = "AppKit_NSCachedImageRep")]
-    unsafe impl ClassType for NSCachedImageRep {
-        #[inherits(NSObject)]
-        type Super = NSImageRep;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type NSCachedImageRep;
+}
 
 #[cfg(feature = "AppKit_NSCachedImageRep")]
 unsafe impl NSCoding for NSCachedImageRep {}
@@ -24,35 +24,39 @@ unsafe impl NSCoding for NSCachedImageRep {}
 #[cfg(feature = "AppKit_NSCachedImageRep")]
 unsafe impl NSObjectProtocol for NSCachedImageRep {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSCachedImageRep")]
-    unsafe impl NSCachedImageRep {
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithWindow:rect:)]
-        pub unsafe fn initWithWindow_rect(
-            this: Option<Allocated<Self>>,
-            win: Option<&NSWindow>,
-            rect: NSRect,
-        ) -> Option<Id<Self>>;
+    #[deprecated]
+    pub type NSCachedImageRep;
 
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithSize:depth:separate:alpha:)]
-        pub unsafe fn initWithSize_depth_separate_alpha(
-            this: Option<Allocated<Self>>,
-            size: NSSize,
-            depth: NSWindowDepth,
-            flag: bool,
-            alpha: bool,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[deprecated]
+    #[objc2::method(sel = "initWithWindow:rect:", managed = "Init")]
+    pub unsafe fn initWithWindow_rect(
+        this: Option<Allocated<Self>>,
+        win: Option<&NSWindow>,
+        rect: NSRect,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other window)]
-        pub unsafe fn window(&self) -> Option<Id<NSWindow>>;
+    #[deprecated]
+    #[objc2::method(sel = "initWithSize:depth:separate:alpha:", managed = "Init")]
+    pub unsafe fn initWithSize_depth_separate_alpha(
+        this: Option<Allocated<Self>>,
+        size: NSSize,
+        depth: NSWindowDepth,
+        flag: bool,
+        alpha: bool,
+    ) -> Option<Id<Self>>;
 
-        #[deprecated]
-        #[method(rect)]
-        pub unsafe fn rect(&self) -> NSRect;
-    }
-);
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[deprecated]
+    #[objc2::method(sel = "window", managed = "Other")]
+    pub unsafe fn window(&self) -> Option<Id<NSWindow>>;
+
+    #[deprecated]
+    #[objc2::method(sel = "rect")]
+    pub unsafe fn rect(&self) -> NSRect;
+}

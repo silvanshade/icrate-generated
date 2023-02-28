@@ -23,35 +23,35 @@ extern_static!(NSRuleEditorPredicateCustomSelector: &'static NSRuleEditorPredica
 
 extern_static!(NSRuleEditorPredicateCompoundType: &'static NSRuleEditorPredicatePartKey);
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSRuleEditorNestingMode {
-        NSRuleEditorNestingModeSingle = 0,
-        NSRuleEditorNestingModeList = 1,
-        NSRuleEditorNestingModeCompound = 2,
-        NSRuleEditorNestingModeSimple = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSRuleEditorNestingMode {
+    NSRuleEditorNestingModeSingle = 0,
+    NSRuleEditorNestingModeList = 1,
+    NSRuleEditorNestingModeCompound = 2,
+    NSRuleEditorNestingModeSimple = 3,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSRuleEditorRowType {
-        NSRuleEditorRowTypeSimple = 0,
-        NSRuleEditorRowTypeCompound = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSRuleEditorRowType {
+    NSRuleEditorRowTypeSimple = 0,
+    NSRuleEditorRowTypeCompound = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSControl,
+    unsafe inherits = [
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSRuleEditor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSRuleEditor")]
-    pub struct NSRuleEditor;
-
-    #[cfg(feature = "AppKit_NSRuleEditor")]
-    unsafe impl ClassType for NSRuleEditor {
-        #[inherits(NSView, NSResponder, NSObject)]
-        type Super = NSControl;
-    }
-);
+    pub type NSRuleEditor;
+}
 
 #[cfg(feature = "AppKit_NSRuleEditor")]
 unsafe impl NSAccessibility for NSRuleEditor {}
@@ -77,243 +77,244 @@ unsafe impl NSObjectProtocol for NSRuleEditor {}
 #[cfg(feature = "AppKit_NSRuleEditor")]
 unsafe impl NSUserInterfaceItemIdentification for NSRuleEditor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSRuleEditor")]
-    unsafe impl NSRuleEditor {
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSRuleEditorDelegate>>>;
+    pub type NSRuleEditor;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSRuleEditorDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSRuleEditorDelegate>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other formattingStringsFilename)]
-        pub unsafe fn formattingStringsFilename(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSRuleEditorDelegate>>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setFormattingStringsFilename:)]
-        pub unsafe fn setFormattingStringsFilename(
-            &self,
-            formatting_strings_filename: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "formattingStringsFilename", managed = "Other")]
+    pub unsafe fn formattingStringsFilename(&self) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other formattingDictionary)]
-        pub unsafe fn formattingDictionary(&self) -> Option<Id<NSDictionary<NSString, NSString>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setFormattingStringsFilename:")]
+    pub unsafe fn setFormattingStringsFilename(
+        &self,
+        formatting_strings_filename: Option<&NSString>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(setFormattingDictionary:)]
-        pub unsafe fn setFormattingDictionary(
-            &self,
-            formatting_dictionary: Option<&NSDictionary<NSString, NSString>>,
-        );
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "formattingDictionary", managed = "Other")]
+    pub unsafe fn formattingDictionary(&self) -> Option<Id<NSDictionary<NSString, NSString>>>;
 
-        #[method(reloadCriteria)]
-        pub unsafe fn reloadCriteria(&self);
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setFormattingDictionary:")]
+    pub unsafe fn setFormattingDictionary(
+        &self,
+        formatting_dictionary: Option<&NSDictionary<NSString, NSString>>,
+    );
 
-        #[method(nestingMode)]
-        pub unsafe fn nestingMode(&self) -> NSRuleEditorNestingMode;
+    #[objc2::method(sel = "reloadCriteria")]
+    pub unsafe fn reloadCriteria(&self);
 
-        #[method(setNestingMode:)]
-        pub unsafe fn setNestingMode(&self, nesting_mode: NSRuleEditorNestingMode);
+    #[objc2::method(sel = "nestingMode")]
+    pub unsafe fn nestingMode(&self) -> NSRuleEditorNestingMode;
 
-        #[method(rowHeight)]
-        pub unsafe fn rowHeight(&self) -> CGFloat;
+    #[objc2::method(sel = "setNestingMode:")]
+    pub unsafe fn setNestingMode(&self, nesting_mode: NSRuleEditorNestingMode);
 
-        #[method(setRowHeight:)]
-        pub unsafe fn setRowHeight(&self, row_height: CGFloat);
+    #[objc2::method(sel = "rowHeight")]
+    pub unsafe fn rowHeight(&self) -> CGFloat;
 
-        #[method(isEditable)]
-        pub unsafe fn isEditable(&self) -> bool;
+    #[objc2::method(sel = "setRowHeight:")]
+    pub unsafe fn setRowHeight(&self, row_height: CGFloat);
 
-        #[method(setEditable:)]
-        pub unsafe fn setEditable(&self, editable: bool);
+    #[objc2::method(sel = "isEditable")]
+    pub unsafe fn isEditable(&self) -> bool;
 
-        #[method(canRemoveAllRows)]
-        pub unsafe fn canRemoveAllRows(&self) -> bool;
+    #[objc2::method(sel = "setEditable:")]
+    pub unsafe fn setEditable(&self, editable: bool);
 
-        #[method(setCanRemoveAllRows:)]
-        pub unsafe fn setCanRemoveAllRows(&self, can_remove_all_rows: bool);
+    #[objc2::method(sel = "canRemoveAllRows")]
+    pub unsafe fn canRemoveAllRows(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicate)]
-        pub unsafe fn predicate(&self) -> Option<Id<NSPredicate>>;
+    #[objc2::method(sel = "setCanRemoveAllRows:")]
+    pub unsafe fn setCanRemoveAllRows(&self, can_remove_all_rows: bool);
 
-        #[method(reloadPredicate)]
-        pub unsafe fn reloadPredicate(&self);
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "predicate", managed = "Other")]
+    pub unsafe fn predicate(&self) -> Option<Id<NSPredicate>>;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicateForRow:)]
-        pub unsafe fn predicateForRow(&self, row: NSInteger) -> Option<Id<NSPredicate>>;
+    #[objc2::method(sel = "reloadPredicate")]
+    pub unsafe fn reloadPredicate(&self);
 
-        #[method(numberOfRows)]
-        pub unsafe fn numberOfRows(&self) -> NSInteger;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "predicateForRow:", managed = "Other")]
+    pub unsafe fn predicateForRow(&self, row: NSInteger) -> Option<Id<NSPredicate>>;
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method_id(@__retain_semantics Other subrowIndexesForRow:)]
-        pub unsafe fn subrowIndexesForRow(&self, row_index: NSInteger) -> Id<NSIndexSet>;
+    #[objc2::method(sel = "numberOfRows")]
+    pub unsafe fn numberOfRows(&self) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other criteriaForRow:)]
-        pub unsafe fn criteriaForRow(&self, row: NSInteger) -> Id<NSArray>;
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "subrowIndexesForRow:", managed = "Other")]
+    pub unsafe fn subrowIndexesForRow(&self, row_index: NSInteger) -> Id<NSIndexSet>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other displayValuesForRow:)]
-        pub unsafe fn displayValuesForRow(&self, row: NSInteger) -> Id<NSArray>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "criteriaForRow:", managed = "Other")]
+    pub unsafe fn criteriaForRow(&self, row: NSInteger) -> Id<NSArray>;
 
-        #[method(rowForDisplayValue:)]
-        pub unsafe fn rowForDisplayValue(&self, display_value: &Object) -> NSInteger;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "displayValuesForRow:", managed = "Other")]
+    pub unsafe fn displayValuesForRow(&self, row: NSInteger) -> Id<NSArray>;
 
-        #[method(rowTypeForRow:)]
-        pub unsafe fn rowTypeForRow(&self, row_index: NSInteger) -> NSRuleEditorRowType;
+    #[objc2::method(sel = "rowForDisplayValue:")]
+    pub unsafe fn rowForDisplayValue(&self, display_value: &Object) -> NSInteger;
 
-        #[method(parentRowForRow:)]
-        pub unsafe fn parentRowForRow(&self, row_index: NSInteger) -> NSInteger;
+    #[objc2::method(sel = "rowTypeForRow:")]
+    pub unsafe fn rowTypeForRow(&self, row_index: NSInteger) -> NSRuleEditorRowType;
 
-        #[method(addRow:)]
-        pub unsafe fn addRow(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "parentRowForRow:")]
+    pub unsafe fn parentRowForRow(&self, row_index: NSInteger) -> NSInteger;
 
-        #[method(insertRowAtIndex:withType:asSubrowOfRow:animate:)]
-        pub unsafe fn insertRowAtIndex_withType_asSubrowOfRow_animate(
-            &self,
-            row_index: NSInteger,
-            row_type: NSRuleEditorRowType,
-            parent_row: NSInteger,
-            should_animate: bool,
-        );
+    #[objc2::method(sel = "addRow:")]
+    pub unsafe fn addRow(&self, sender: Option<&Object>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setCriteria:andDisplayValues:forRowAtIndex:)]
-        pub unsafe fn setCriteria_andDisplayValues_forRowAtIndex(
-            &self,
-            criteria: &NSArray,
-            values: &NSArray,
-            row_index: NSInteger,
-        );
+    #[objc2::method(sel = "insertRowAtIndex:withType:asSubrowOfRow:animate:")]
+    pub unsafe fn insertRowAtIndex_withType_asSubrowOfRow_animate(
+        &self,
+        row_index: NSInteger,
+        row_type: NSRuleEditorRowType,
+        parent_row: NSInteger,
+        should_animate: bool,
+    );
 
-        #[method(removeRowAtIndex:)]
-        pub unsafe fn removeRowAtIndex(&self, row_index: NSInteger);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setCriteria:andDisplayValues:forRowAtIndex:")]
+    pub unsafe fn setCriteria_andDisplayValues_forRowAtIndex(
+        &self,
+        criteria: &NSArray,
+        values: &NSArray,
+        row_index: NSInteger,
+    );
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(removeRowsAtIndexes:includeSubrows:)]
-        pub unsafe fn removeRowsAtIndexes_includeSubrows(
-            &self,
-            row_indexes: &NSIndexSet,
-            include_subrows: bool,
-        );
+    #[objc2::method(sel = "removeRowAtIndex:")]
+    pub unsafe fn removeRowAtIndex(&self, row_index: NSInteger);
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method_id(@__retain_semantics Other selectedRowIndexes)]
-        pub unsafe fn selectedRowIndexes(&self) -> Id<NSIndexSet>;
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "removeRowsAtIndexes:includeSubrows:")]
+    pub unsafe fn removeRowsAtIndexes_includeSubrows(
+        &self,
+        row_indexes: &NSIndexSet,
+        include_subrows: bool,
+    );
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(selectRowIndexes:byExtendingSelection:)]
-        pub unsafe fn selectRowIndexes_byExtendingSelection(
-            &self,
-            indexes: &NSIndexSet,
-            extend: bool,
-        );
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "selectedRowIndexes", managed = "Other")]
+    pub unsafe fn selectedRowIndexes(&self) -> Id<NSIndexSet>;
 
-        #[method(rowClass)]
-        pub unsafe fn rowClass(&self) -> &'static Class;
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "selectRowIndexes:byExtendingSelection:")]
+    pub unsafe fn selectRowIndexes_byExtendingSelection(&self, indexes: &NSIndexSet, extend: bool);
 
-        #[method(setRowClass:)]
-        pub unsafe fn setRowClass(&self, row_class: &Class);
+    #[objc2::method(sel = "rowClass")]
+    pub unsafe fn rowClass(&self) -> &'static Class;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other rowTypeKeyPath)]
-        pub unsafe fn rowTypeKeyPath(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setRowClass:")]
+    pub unsafe fn setRowClass(&self, row_class: &Class);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setRowTypeKeyPath:)]
-        pub unsafe fn setRowTypeKeyPath(&self, row_type_key_path: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "rowTypeKeyPath", managed = "Other")]
+    pub unsafe fn rowTypeKeyPath(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subrowsKeyPath)]
-        pub unsafe fn subrowsKeyPath(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setRowTypeKeyPath:")]
+    pub unsafe fn setRowTypeKeyPath(&self, row_type_key_path: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSubrowsKeyPath:)]
-        pub unsafe fn setSubrowsKeyPath(&self, subrows_key_path: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subrowsKeyPath", managed = "Other")]
+    pub unsafe fn subrowsKeyPath(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other criteriaKeyPath)]
-        pub unsafe fn criteriaKeyPath(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSubrowsKeyPath:")]
+    pub unsafe fn setSubrowsKeyPath(&self, subrows_key_path: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCriteriaKeyPath:)]
-        pub unsafe fn setCriteriaKeyPath(&self, criteria_key_path: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "criteriaKeyPath", managed = "Other")]
+    pub unsafe fn criteriaKeyPath(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other displayValuesKeyPath)]
-        pub unsafe fn displayValuesKeyPath(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCriteriaKeyPath:")]
+    pub unsafe fn setCriteriaKeyPath(&self, criteria_key_path: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setDisplayValuesKeyPath:)]
-        pub unsafe fn setDisplayValuesKeyPath(&self, display_values_key_path: &NSString);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "displayValuesKeyPath", managed = "Other")]
+    pub unsafe fn displayValuesKeyPath(&self) -> Id<NSString>;
 
-extern_protocol!(
-    pub unsafe trait NSRuleEditorDelegate: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSRuleEditor")]
-        #[method(ruleEditor:numberOfChildrenForCriterion:withRowType:)]
-        unsafe fn ruleEditor_numberOfChildrenForCriterion_withRowType(
-            &self,
-            editor: &NSRuleEditor,
-            criterion: Option<&Object>,
-            row_type: NSRuleEditorRowType,
-        ) -> NSInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setDisplayValuesKeyPath:")]
+    pub unsafe fn setDisplayValuesKeyPath(&self, display_values_key_path: &NSString);
+}
 
-        #[cfg(feature = "AppKit_NSRuleEditor")]
-        #[method_id(@__retain_semantics Other ruleEditor:child:forCriterion:withRowType:)]
-        unsafe fn ruleEditor_child_forCriterion_withRowType(
-            &self,
-            editor: &NSRuleEditor,
-            index: NSInteger,
-            criterion: Option<&Object>,
-            row_type: NSRuleEditorRowType,
-        ) -> Id<Object>;
+#[objc2::protocol]
+pub unsafe trait NSRuleEditorDelegate: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSRuleEditor")]
+    #[objc2::method(sel = "ruleEditor:numberOfChildrenForCriterion:withRowType:")]
+    unsafe fn ruleEditor_numberOfChildrenForCriterion_withRowType(
+        &self,
+        editor: &NSRuleEditor,
+        criterion: Option<&Object>,
+        row_type: NSRuleEditorRowType,
+    ) -> NSInteger;
 
-        #[cfg(feature = "AppKit_NSRuleEditor")]
-        #[method_id(@__retain_semantics Other ruleEditor:displayValueForCriterion:inRow:)]
-        unsafe fn ruleEditor_displayValueForCriterion_inRow(
-            &self,
-            editor: &NSRuleEditor,
-            criterion: &Object,
-            row: NSInteger,
-        ) -> Id<Object>;
+    #[cfg(feature = "AppKit_NSRuleEditor")]
+    #[objc2::method(sel = "ruleEditor:child:forCriterion:withRowType:", managed = "Other")]
+    unsafe fn ruleEditor_child_forCriterion_withRowType(
+        &self,
+        editor: &NSRuleEditor,
+        index: NSInteger,
+        criterion: Option<&Object>,
+        row_type: NSRuleEditorRowType,
+    ) -> Id<Object>;
 
-        #[cfg(all(feature = "AppKit_NSRuleEditor", feature = "Foundation_NSDictionary"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other ruleEditor:predicatePartsForCriterion:withDisplayValue:inRow:)]
-        unsafe fn ruleEditor_predicatePartsForCriterion_withDisplayValue_inRow(
-            &self,
-            editor: &NSRuleEditor,
-            criterion: &Object,
-            value: &Object,
-            row: NSInteger,
-        ) -> Option<Id<NSDictionary<NSRuleEditorPredicatePartKey, Object>>>;
+    #[cfg(feature = "AppKit_NSRuleEditor")]
+    #[objc2::method(sel = "ruleEditor:displayValueForCriterion:inRow:", managed = "Other")]
+    unsafe fn ruleEditor_displayValueForCriterion_inRow(
+        &self,
+        editor: &NSRuleEditor,
+        criterion: &Object,
+        row: NSInteger,
+    ) -> Id<Object>;
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(ruleEditorRowsDidChange:)]
-        unsafe fn ruleEditorRowsDidChange(&self, notification: &NSNotification);
-    }
+    #[cfg(all(feature = "AppKit_NSRuleEditor", feature = "Foundation_NSDictionary"))]
+    #[objc2::method(
+        optional,
+        sel = "ruleEditor:predicatePartsForCriterion:withDisplayValue:inRow:",
+        managed = "Other"
+    )]
+    unsafe fn ruleEditor_predicatePartsForCriterion_withDisplayValue_inRow(
+        &self,
+        editor: &NSRuleEditor,
+        criterion: &Object,
+        value: &Object,
+        row: NSInteger,
+    ) -> Option<Id<NSDictionary<NSRuleEditorPredicatePartKey, Object>>>;
 
-    unsafe impl ProtocolType for dyn NSRuleEditorDelegate {}
-);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "ruleEditorRowsDidChange:")]
+    unsafe fn ruleEditorRowsDidChange(&self, notification: &NSNotification);
+}
 
 extern_static!(NSRuleEditorRowsDidChangeNotification: &'static NSNotificationName);
 
-extern_methods!(
-    /// Methods declared on superclass `NSControl`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSControl`
     #[cfg(feature = "AppKit_NSRuleEditor")]
-    unsafe impl NSRuleEditor {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSRuleEditor")]
+    pub type NSRuleEditor;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

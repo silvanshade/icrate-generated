@@ -5,17 +5,20 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSRuleEditor,
+    unsafe inherits = [
+        NSControl,
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPredicateEditor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPredicateEditor")]
-    pub struct NSPredicateEditor;
-
-    #[cfg(feature = "AppKit_NSPredicateEditor")]
-    unsafe impl ClassType for NSPredicateEditor {
-        #[inherits(NSControl, NSView, NSResponder, NSObject)]
-        type Super = NSRuleEditor;
-    }
-);
+    pub type NSPredicateEditor;
+}
 
 #[cfg(feature = "AppKit_NSPredicateEditor")]
 unsafe impl NSAccessibility for NSPredicateEditor {}
@@ -41,30 +44,39 @@ unsafe impl NSObjectProtocol for NSPredicateEditor {}
 #[cfg(feature = "AppKit_NSPredicateEditor")]
 unsafe impl NSUserInterfaceItemIdentification for NSPredicateEditor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPredicateEditor")]
-    unsafe impl NSPredicateEditor {
-        #[cfg(all(
-            feature = "AppKit_NSPredicateEditorRowTemplate",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other rowTemplates)]
-        pub unsafe fn rowTemplates(&self) -> Id<NSArray<NSPredicateEditorRowTemplate>>;
+    pub type NSPredicateEditor;
 
-        #[cfg(all(
-            feature = "AppKit_NSPredicateEditorRowTemplate",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method(setRowTemplates:)]
-        pub unsafe fn setRowTemplates(&self, row_templates: &NSArray<NSPredicateEditorRowTemplate>);
-    }
-);
+    #[cfg(all(
+        feature = "AppKit_NSPredicateEditorRowTemplate",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "rowTemplates", managed = "Other")]
+    pub unsafe fn rowTemplates(&self) -> Id<NSArray<NSPredicateEditorRowTemplate>>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSControl`
+    #[cfg(all(
+        feature = "AppKit_NSPredicateEditorRowTemplate",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "setRowTemplates:")]
+    pub unsafe fn setRowTemplates(&self, row_templates: &NSArray<NSPredicateEditorRowTemplate>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSControl`
     #[cfg(feature = "AppKit_NSPredicateEditor")]
-    unsafe impl NSPredicateEditor {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPredicateEditor")]
+    pub type NSPredicateEditor;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

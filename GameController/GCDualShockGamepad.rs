@@ -5,34 +5,38 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = GCExtendedGamepad,
+    unsafe inherits = [
+        GCPhysicalInputProfile,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCDualShockGamepad")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCDualShockGamepad")]
-    pub struct GCDualShockGamepad;
-
-    #[cfg(feature = "GameController_GCDualShockGamepad")]
-    unsafe impl ClassType for GCDualShockGamepad {
-        #[inherits(GCPhysicalInputProfile, NSObject)]
-        type Super = GCExtendedGamepad;
-    }
-);
+    pub type GCDualShockGamepad;
+}
 
 #[cfg(feature = "GameController_GCDualShockGamepad")]
 unsafe impl NSObjectProtocol for GCDualShockGamepad {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCDualShockGamepad")]
-    unsafe impl GCDualShockGamepad {
-        #[cfg(feature = "GameController_GCControllerButtonInput")]
-        #[method_id(@__retain_semantics Other touchpadButton)]
-        pub unsafe fn touchpadButton(&self) -> Option<Id<GCControllerButtonInput>>;
+    pub type GCDualShockGamepad;
 
-        #[cfg(feature = "GameController_GCControllerDirectionPad")]
-        #[method_id(@__retain_semantics Other touchpadPrimary)]
-        pub unsafe fn touchpadPrimary(&self) -> Option<Id<GCControllerDirectionPad>>;
+    #[cfg(feature = "GameController_GCControllerButtonInput")]
+    #[objc2::method(sel = "touchpadButton", managed = "Other")]
+    pub unsafe fn touchpadButton(&self) -> Option<Id<GCControllerButtonInput>>;
 
-        #[cfg(feature = "GameController_GCControllerDirectionPad")]
-        #[method_id(@__retain_semantics Other touchpadSecondary)]
-        pub unsafe fn touchpadSecondary(&self) -> Option<Id<GCControllerDirectionPad>>;
-    }
-);
+    #[cfg(feature = "GameController_GCControllerDirectionPad")]
+    #[objc2::method(sel = "touchpadPrimary", managed = "Other")]
+    pub unsafe fn touchpadPrimary(&self) -> Option<Id<GCControllerDirectionPad>>;
+
+    #[cfg(feature = "GameController_GCControllerDirectionPad")]
+    #[objc2::method(sel = "touchpadSecondary", managed = "Other")]
+    pub unsafe fn touchpadSecondary(&self) -> Option<Id<GCControllerDirectionPad>>;
+}

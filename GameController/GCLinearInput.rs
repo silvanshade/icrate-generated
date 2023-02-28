@@ -5,50 +5,47 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_protocol!(
-    pub unsafe trait GCLinearInput: NSObjectProtocol {
-        #[method(valueDidChangeHandler)]
-        unsafe fn valueDidChangeHandler(
-            &self,
-        ) -> *mut Block<
-            (
-                NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
-                NonNull<ProtocolObject<dyn GCLinearInput>>,
-                c_float,
-            ),
-            (),
-        >;
+#[objc2::protocol]
+pub unsafe trait GCLinearInput: NSObjectProtocol {
+    #[objc2::method(sel = "valueDidChangeHandler")]
+    unsafe fn valueDidChangeHandler(
+        &self,
+    ) -> *mut Block<
+        (
+            NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
+            NonNull<ProtocolObject<dyn GCLinearInput>>,
+            c_float,
+        ),
+        (),
+    >;
 
-        #[method(setValueDidChangeHandler:)]
-        unsafe fn setValueDidChangeHandler(
-            &self,
-            value_did_change_handler: Option<
-                &Block<
-                    (
-                        NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
-                        NonNull<ProtocolObject<dyn GCLinearInput>>,
-                        c_float,
-                    ),
-                    (),
-                >,
+    #[objc2::method(sel = "setValueDidChangeHandler:")]
+    unsafe fn setValueDidChangeHandler(
+        &self,
+        value_did_change_handler: Option<
+            &Block<
+                (
+                    NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
+                    NonNull<ProtocolObject<dyn GCLinearInput>>,
+                    c_float,
+                ),
+                (),
             >,
-        );
+        >,
+    );
 
-        #[method(value)]
-        unsafe fn value(&self) -> c_float;
+    #[objc2::method(sel = "value")]
+    unsafe fn value(&self) -> c_float;
 
-        #[method(isAnalog)]
-        unsafe fn isAnalog(&self) -> bool;
+    #[objc2::method(sel = "isAnalog")]
+    unsafe fn isAnalog(&self) -> bool;
 
-        #[method(canWrap)]
-        unsafe fn canWrap(&self) -> bool;
+    #[objc2::method(sel = "canWrap")]
+    unsafe fn canWrap(&self) -> bool;
 
-        #[method(lastValueTimestamp)]
-        unsafe fn lastValueTimestamp(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "lastValueTimestamp")]
+    unsafe fn lastValueTimestamp(&self) -> NSTimeInterval;
 
-        #[method(lastValueLatency)]
-        unsafe fn lastValueLatency(&self) -> NSTimeInterval;
-    }
-
-    unsafe impl ProtocolType for dyn GCLinearInput {}
-);
+    #[objc2::method(sel = "lastValueLatency")]
+    unsafe fn lastValueLatency(&self) -> NSTimeInterval;
+}

@@ -7,17 +7,17 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKMapConfiguration,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKHybridMapConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKHybridMapConfiguration")]
-    pub struct MKHybridMapConfiguration;
-
-    #[cfg(feature = "MapKit_MKHybridMapConfiguration")]
-    unsafe impl ClassType for MKHybridMapConfiguration {
-        #[inherits(NSObject)]
-        type Super = MKMapConfiguration;
-    }
-);
+    pub type MKHybridMapConfiguration;
+}
 
 #[cfg(feature = "MapKit_MKHybridMapConfiguration")]
 unsafe impl NSCoding for MKHybridMapConfiguration {}
@@ -28,33 +28,36 @@ unsafe impl NSObjectProtocol for MKHybridMapConfiguration {}
 #[cfg(feature = "MapKit_MKHybridMapConfiguration")]
 unsafe impl NSSecureCoding for MKHybridMapConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKHybridMapConfiguration")]
-    unsafe impl MKHybridMapConfiguration {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type MKHybridMapConfiguration;
 
-        #[method_id(@__retain_semantics Init initWithElevationStyle:)]
-        pub unsafe fn initWithElevationStyle(
-            this: Option<Allocated<Self>>,
-            elevation_style: MKMapElevationStyle,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-        #[method_id(@__retain_semantics Other pointOfInterestFilter)]
-        pub unsafe fn pointOfInterestFilter(&self) -> Option<Id<MKPointOfInterestFilter>>;
+    #[objc2::method(sel = "initWithElevationStyle:", managed = "Init")]
+    pub unsafe fn initWithElevationStyle(
+        this: Option<Allocated<Self>>,
+        elevation_style: MKMapElevationStyle,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-        #[method(setPointOfInterestFilter:)]
-        pub unsafe fn setPointOfInterestFilter(
-            &self,
-            point_of_interest_filter: Option<&MKPointOfInterestFilter>,
-        );
+    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
+    #[objc2::method(sel = "pointOfInterestFilter", managed = "Other")]
+    pub unsafe fn pointOfInterestFilter(&self) -> Option<Id<MKPointOfInterestFilter>>;
 
-        #[method(showsTraffic)]
-        pub unsafe fn showsTraffic(&self) -> bool;
+    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
+    #[objc2::method(sel = "setPointOfInterestFilter:")]
+    pub unsafe fn setPointOfInterestFilter(
+        &self,
+        point_of_interest_filter: Option<&MKPointOfInterestFilter>,
+    );
 
-        #[method(setShowsTraffic:)]
-        pub unsafe fn setShowsTraffic(&self, shows_traffic: bool);
-    }
-);
+    #[objc2::method(sel = "showsTraffic")]
+    pub unsafe fn showsTraffic(&self) -> bool;
+
+    #[objc2::method(sel = "setShowsTraffic:")]
+    pub unsafe fn setShowsTraffic(&self, shows_traffic: bool);
+}

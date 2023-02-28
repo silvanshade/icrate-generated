@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MXMetric,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXAppResponsivenessMetric")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXAppResponsivenessMetric")]
-    pub struct MXAppResponsivenessMetric;
-
-    #[cfg(feature = "MetricKit_MXAppResponsivenessMetric")]
-    unsafe impl ClassType for MXAppResponsivenessMetric {
-        #[inherits(NSObject)]
-        type Super = MXMetric;
-    }
-);
+    pub type MXAppResponsivenessMetric;
+}
 
 #[cfg(feature = "MetricKit_MXAppResponsivenessMetric")]
 unsafe impl NSCoding for MXAppResponsivenessMetric {}
@@ -25,14 +25,17 @@ unsafe impl NSObjectProtocol for MXAppResponsivenessMetric {}
 #[cfg(feature = "MetricKit_MXAppResponsivenessMetric")]
 unsafe impl NSSecureCoding for MXAppResponsivenessMetric {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXAppResponsivenessMetric")]
-    unsafe impl MXAppResponsivenessMetric {
-        #[cfg(all(
-            feature = "Foundation_NSUnitDuration",
-            feature = "MetricKit_MXHistogram"
-        ))]
-        #[method_id(@__retain_semantics Other histogrammedApplicationHangTime)]
-        pub unsafe fn histogrammedApplicationHangTime(&self) -> Id<MXHistogram<NSUnitDuration>>;
-    }
-);
+    pub type MXAppResponsivenessMetric;
+
+    #[cfg(all(
+        feature = "Foundation_NSUnitDuration",
+        feature = "MetricKit_MXHistogram"
+    ))]
+    #[objc2::method(sel = "histogrammedApplicationHangTime", managed = "Other")]
+    pub unsafe fn histogrammedApplicationHangTime(&self) -> Id<MXHistogram<NSUnitDuration>>;
+}

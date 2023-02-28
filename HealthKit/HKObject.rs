@@ -6,16 +6,16 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKObject")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKObject")]
-    pub struct HKObject;
-
-    #[cfg(feature = "HealthKit_HKObject")]
-    unsafe impl ClassType for HKObject {
-        type Super = NSObject;
-    }
-);
+    pub type HKObject;
+}
 
 #[cfg(feature = "HealthKit_HKObject")]
 unsafe impl NSCoding for HKObject {}
@@ -26,34 +26,37 @@ unsafe impl NSObjectProtocol for HKObject {}
 #[cfg(feature = "HealthKit_HKObject")]
 unsafe impl NSSecureCoding for HKObject {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKObject")]
-    unsafe impl HKObject {
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Other UUID)]
-        pub unsafe fn UUID(&self) -> Id<NSUUID>;
+    pub type HKObject;
 
-        #[cfg(feature = "HealthKit_HKSource")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other source)]
-        pub unsafe fn source(&self) -> Id<HKSource>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "UUID", managed = "Other")]
+    pub unsafe fn UUID(&self) -> Id<NSUUID>;
 
-        #[cfg(feature = "HealthKit_HKSourceRevision")]
-        #[method_id(@__retain_semantics Other sourceRevision)]
-        pub unsafe fn sourceRevision(&self) -> Id<HKSourceRevision>;
+    #[cfg(feature = "HealthKit_HKSource")]
+    #[deprecated]
+    #[objc2::method(sel = "source", managed = "Other")]
+    pub unsafe fn source(&self) -> Id<HKSource>;
 
-        #[cfg(feature = "HealthKit_HKDevice")]
-        #[method_id(@__retain_semantics Other device)]
-        pub unsafe fn device(&self) -> Option<Id<HKDevice>>;
+    #[cfg(feature = "HealthKit_HKSourceRevision")]
+    #[objc2::method(sel = "sourceRevision", managed = "Other")]
+    pub unsafe fn sourceRevision(&self) -> Id<HKSourceRevision>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other metadata)]
-        pub unsafe fn metadata(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
+    #[cfg(feature = "HealthKit_HKDevice")]
+    #[objc2::method(sel = "device", managed = "Other")]
+    pub unsafe fn device(&self) -> Option<Id<HKDevice>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "metadata", managed = "Other")]
+    pub unsafe fn metadata(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}
 
 extern_static!(HKPredicateKeyPathUUID: &'static NSString);
 

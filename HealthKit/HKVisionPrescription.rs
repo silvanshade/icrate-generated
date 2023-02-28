@@ -6,25 +6,25 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum HKVisionPrescriptionType {
-        HKVisionPrescriptionTypeGlasses = 1,
-        HKVisionPrescriptionTypeContacts = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum HKVisionPrescriptionType {
+    HKVisionPrescriptionTypeGlasses = 1,
+    HKVisionPrescriptionTypeContacts = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSample,
+    unsafe inherits = [
+        HKObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKVisionPrescription")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKVisionPrescription")]
-    pub struct HKVisionPrescription;
-
-    #[cfg(feature = "HealthKit_HKVisionPrescription")]
-    unsafe impl ClassType for HKVisionPrescription {
-        #[inherits(HKObject, NSObject)]
-        type Super = HKSample;
-    }
-);
+    pub type HKVisionPrescription;
+}
 
 #[cfg(feature = "HealthKit_HKVisionPrescription")]
 unsafe impl NSCoding for HKVisionPrescription {}
@@ -35,39 +35,45 @@ unsafe impl NSObjectProtocol for HKVisionPrescription {}
 #[cfg(feature = "HealthKit_HKVisionPrescription")]
 unsafe impl NSSecureCoding for HKVisionPrescription {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKVisionPrescription")]
-    unsafe impl HKVisionPrescription {
-        #[method(prescriptionType)]
-        pub unsafe fn prescriptionType(&self) -> HKVisionPrescriptionType;
+    pub type HKVisionPrescription;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other dateIssued)]
-        pub unsafe fn dateIssued(&self) -> Id<NSDate>;
+    #[objc2::method(sel = "prescriptionType")]
+    pub unsafe fn prescriptionType(&self) -> HKVisionPrescriptionType;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other expirationDate)]
-        pub unsafe fn expirationDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "dateIssued", managed = "Other")]
+    pub unsafe fn dateIssued(&self) -> Id<NSDate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "HealthKit_HKDevice"
-        ))]
-        #[method_id(@__retain_semantics Other prescriptionWithType:dateIssued:expirationDate:device:metadata:)]
-        pub unsafe fn prescriptionWithType_dateIssued_expirationDate_device_metadata(
-            r#type: HKVisionPrescriptionType,
-            date_issued: &NSDate,
-            expiration_date: Option<&NSDate>,
-            device: Option<&HKDevice>,
-            metadata: Option<&NSDictionary<NSString, Object>>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "expirationDate", managed = "Other")]
+    pub unsafe fn expirationDate(&self) -> Option<Id<NSDate>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "HealthKit_HKDevice"
+    ))]
+    #[objc2::method(
+        sel = "prescriptionWithType:dateIssued:expirationDate:device:metadata:",
+        managed = "Other"
+    )]
+    pub unsafe fn prescriptionWithType_dateIssued_expirationDate_device_metadata(
+        r#type: HKVisionPrescriptionType,
+        date_issued: &NSDate,
+        expiration_date: Option<&NSDate>,
+        device: Option<&HKDevice>,
+        metadata: Option<&NSDictionary<NSString, Object>>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

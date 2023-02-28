@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSTouchBarItem,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSColorPickerTouchBarItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSColorPickerTouchBarItem")]
-    pub struct NSColorPickerTouchBarItem;
-
-    #[cfg(feature = "AppKit_NSColorPickerTouchBarItem")]
-    unsafe impl ClassType for NSColorPickerTouchBarItem {
-        #[inherits(NSObject)]
-        type Super = NSTouchBarItem;
-    }
-);
+    pub type NSColorPickerTouchBarItem;
+}
 
 #[cfg(feature = "AppKit_NSColorPickerTouchBarItem")]
 unsafe impl NSCoding for NSColorPickerTouchBarItem {}
@@ -23,98 +23,105 @@ unsafe impl NSCoding for NSColorPickerTouchBarItem {}
 #[cfg(feature = "AppKit_NSColorPickerTouchBarItem")]
 unsafe impl NSObjectProtocol for NSColorPickerTouchBarItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSColorPickerTouchBarItem")]
-    unsafe impl NSColorPickerTouchBarItem {
-        #[method_id(@__retain_semantics Other colorPickerWithIdentifier:)]
-        pub unsafe fn colorPickerWithIdentifier(identifier: &NSTouchBarItemIdentifier) -> Id<Self>;
+    pub type NSColorPickerTouchBarItem;
 
-        #[method_id(@__retain_semantics Other textColorPickerWithIdentifier:)]
-        pub unsafe fn textColorPickerWithIdentifier(
-            identifier: &NSTouchBarItemIdentifier,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "colorPickerWithIdentifier:", managed = "Other")]
+    pub unsafe fn colorPickerWithIdentifier(identifier: &NSTouchBarItemIdentifier) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other strokeColorPickerWithIdentifier:)]
-        pub unsafe fn strokeColorPickerWithIdentifier(
-            identifier: &NSTouchBarItemIdentifier,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "textColorPickerWithIdentifier:", managed = "Other")]
+    pub unsafe fn textColorPickerWithIdentifier(identifier: &NSTouchBarItemIdentifier) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other colorPickerWithIdentifier:buttonImage:)]
-        pub unsafe fn colorPickerWithIdentifier_buttonImage(
-            identifier: &NSTouchBarItemIdentifier,
-            image: &NSImage,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "strokeColorPickerWithIdentifier:", managed = "Other")]
+    pub unsafe fn strokeColorPickerWithIdentifier(
+        identifier: &NSTouchBarItemIdentifier,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other color)]
-        pub unsafe fn color(&self) -> Id<NSColor>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "colorPickerWithIdentifier:buttonImage:", managed = "Other")]
+    pub unsafe fn colorPickerWithIdentifier_buttonImage(
+        identifier: &NSTouchBarItemIdentifier,
+        image: &NSImage,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setColor:)]
-        pub unsafe fn setColor(&self, color: &NSColor);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "color", managed = "Other")]
+    pub unsafe fn color(&self) -> Id<NSColor>;
 
-        #[method(showsAlpha)]
-        pub unsafe fn showsAlpha(&self) -> bool;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setColor:")]
+    pub unsafe fn setColor(&self, color: &NSColor);
 
-        #[method(setShowsAlpha:)]
-        pub unsafe fn setShowsAlpha(&self, shows_alpha: bool);
+    #[objc2::method(sel = "showsAlpha")]
+    pub unsafe fn showsAlpha(&self) -> bool;
 
-        #[cfg(all(feature = "AppKit_NSColorSpace", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other allowedColorSpaces)]
-        pub unsafe fn allowedColorSpaces(&self) -> Option<Id<NSArray<NSColorSpace>>>;
+    #[objc2::method(sel = "setShowsAlpha:")]
+    pub unsafe fn setShowsAlpha(&self, shows_alpha: bool);
 
-        #[cfg(all(feature = "AppKit_NSColorSpace", feature = "Foundation_NSArray"))]
-        #[method(setAllowedColorSpaces:)]
-        pub unsafe fn setAllowedColorSpaces(
-            &self,
-            allowed_color_spaces: Option<&NSArray<NSColorSpace>>,
-        );
+    #[cfg(all(feature = "AppKit_NSColorSpace", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "allowedColorSpaces", managed = "Other")]
+    pub unsafe fn allowedColorSpaces(&self) -> Option<Id<NSArray<NSColorSpace>>>;
 
-        #[cfg(feature = "AppKit_NSColorList")]
-        #[method_id(@__retain_semantics Other colorList)]
-        pub unsafe fn colorList(&self) -> Option<Id<NSColorList>>;
+    #[cfg(all(feature = "AppKit_NSColorSpace", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setAllowedColorSpaces:")]
+    pub unsafe fn setAllowedColorSpaces(
+        &self,
+        allowed_color_spaces: Option<&NSArray<NSColorSpace>>,
+    );
 
-        #[cfg(feature = "AppKit_NSColorList")]
-        #[method(setColorList:)]
-        pub unsafe fn setColorList(&self, color_list: Option<&NSColorList>);
+    #[cfg(feature = "AppKit_NSColorList")]
+    #[objc2::method(sel = "colorList", managed = "Other")]
+    pub unsafe fn colorList(&self) -> Option<Id<NSColorList>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other customizationLabel)]
-        pub unsafe fn customizationLabel(&self) -> Id<NSString>;
+    #[cfg(feature = "AppKit_NSColorList")]
+    #[objc2::method(sel = "setColorList:")]
+    pub unsafe fn setColorList(&self, color_list: Option<&NSColorList>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCustomizationLabel:)]
-        pub unsafe fn setCustomizationLabel(&self, customization_label: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "customizationLabel", managed = "Other")]
+    pub unsafe fn customizationLabel(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Other target)]
-        pub unsafe fn target(&self) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCustomizationLabel:")]
+    pub unsafe fn setCustomizationLabel(&self, customization_label: Option<&NSString>);
 
-        #[method(setTarget:)]
-        pub unsafe fn setTarget(&self, target: Option<&Object>);
+    #[objc2::method(sel = "target", managed = "Other")]
+    pub unsafe fn target(&self) -> Option<Id<Object>>;
 
-        #[method(action)]
-        pub unsafe fn action(&self) -> Option<Sel>;
+    #[objc2::method(sel = "setTarget:")]
+    pub unsafe fn setTarget(&self, target: Option<&Object>);
 
-        #[method(setAction:)]
-        pub unsafe fn setAction(&self, action: Option<Sel>);
+    #[objc2::method(sel = "action")]
+    pub unsafe fn action(&self) -> Option<Sel>;
 
-        #[method(isEnabled)]
-        pub unsafe fn isEnabled(&self) -> bool;
+    #[objc2::method(sel = "setAction:")]
+    pub unsafe fn setAction(&self, action: Option<Sel>);
 
-        #[method(setEnabled:)]
-        pub unsafe fn setEnabled(&self, enabled: bool);
-    }
-);
+    #[objc2::method(sel = "isEnabled")]
+    pub unsafe fn isEnabled(&self) -> bool;
 
-extern_methods!(
-    /// Methods declared on superclass `NSTouchBarItem`
+    #[objc2::method(sel = "setEnabled:")]
+    pub unsafe fn setEnabled(&self, enabled: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSTouchBarItem`
     #[cfg(feature = "AppKit_NSColorPickerTouchBarItem")]
-    unsafe impl NSColorPickerTouchBarItem {
-        #[method_id(@__retain_semantics Init initWithIdentifier:)]
-        pub unsafe fn initWithIdentifier(
-            this: Option<Allocated<Self>>,
-            identifier: &NSTouchBarItemIdentifier,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSColorPickerTouchBarItem")]
+    pub type NSColorPickerTouchBarItem;
+
+    #[objc2::method(sel = "initWithIdentifier:", managed = "Init")]
+    pub unsafe fn initWithIdentifier(
+        this: Option<Allocated<Self>>,
+        identifier: &NSTouchBarItemIdentifier,
+    ) -> Id<Self>;
+}

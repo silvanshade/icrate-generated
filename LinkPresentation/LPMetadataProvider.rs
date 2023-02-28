@@ -5,60 +5,63 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::LinkPresentation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "LinkPresentation_LPMetadataProvider")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "LinkPresentation_LPMetadataProvider")]
-    pub struct LPMetadataProvider;
-
-    #[cfg(feature = "LinkPresentation_LPMetadataProvider")]
-    unsafe impl ClassType for LPMetadataProvider {
-        type Super = NSObject;
-    }
-);
+    pub type LPMetadataProvider;
+}
 
 #[cfg(feature = "LinkPresentation_LPMetadataProvider")]
 unsafe impl NSObjectProtocol for LPMetadataProvider {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "LinkPresentation_LPMetadataProvider")]
-    unsafe impl LPMetadataProvider {
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL",
-            feature = "LinkPresentation_LPLinkMetadata"
-        ))]
-        #[method(startFetchingMetadataForURL:completionHandler:)]
-        pub unsafe fn startFetchingMetadataForURL_completionHandler(
-            &self,
-            url: &NSURL,
-            completion_handler: &Block<(*mut LPLinkMetadata, *mut NSError), ()>,
-        );
+    pub type LPMetadataProvider;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURLRequest",
-            feature = "LinkPresentation_LPLinkMetadata"
-        ))]
-        #[method(startFetchingMetadataForRequest:completionHandler:)]
-        pub unsafe fn startFetchingMetadataForRequest_completionHandler(
-            &self,
-            request: &NSURLRequest,
-            completion_handler: &Block<(*mut LPLinkMetadata, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL",
+        feature = "LinkPresentation_LPLinkMetadata"
+    ))]
+    #[objc2::method(sel = "startFetchingMetadataForURL:completionHandler:")]
+    pub unsafe fn startFetchingMetadataForURL_completionHandler(
+        &self,
+        url: &NSURL,
+        completion_handler: &Block<(*mut LPLinkMetadata, *mut NSError), ()>,
+    );
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURLRequest",
+        feature = "LinkPresentation_LPLinkMetadata"
+    ))]
+    #[objc2::method(sel = "startFetchingMetadataForRequest:completionHandler:")]
+    pub unsafe fn startFetchingMetadataForRequest_completionHandler(
+        &self,
+        request: &NSURLRequest,
+        completion_handler: &Block<(*mut LPLinkMetadata, *mut NSError), ()>,
+    );
 
-        #[method(shouldFetchSubresources)]
-        pub unsafe fn shouldFetchSubresources(&self) -> bool;
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
 
-        #[method(setShouldFetchSubresources:)]
-        pub unsafe fn setShouldFetchSubresources(&self, should_fetch_subresources: bool);
+    #[objc2::method(sel = "shouldFetchSubresources")]
+    pub unsafe fn shouldFetchSubresources(&self) -> bool;
 
-        #[method(timeout)]
-        pub unsafe fn timeout(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "setShouldFetchSubresources:")]
+    pub unsafe fn setShouldFetchSubresources(&self, should_fetch_subresources: bool);
 
-        #[method(setTimeout:)]
-        pub unsafe fn setTimeout(&self, timeout: NSTimeInterval);
-    }
-);
+    #[objc2::method(sel = "timeout")]
+    pub unsafe fn timeout(&self) -> NSTimeInterval;
+
+    #[objc2::method(sel = "setTimeout:")]
+    pub unsafe fn setTimeout(&self, timeout: NSTimeInterval);
+}

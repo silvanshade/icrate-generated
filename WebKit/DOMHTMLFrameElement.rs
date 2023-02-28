@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLFrameElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLFrameElement;
-
     #[cfg(feature = "WebKit_DOMHTMLFrameElement")]
-    unsafe impl ClassType for DOMHTMLFrameElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLFrameElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLFrameElement")]
 unsafe impl DOMEventTarget for DOMHTMLFrameElement {}
@@ -24,91 +28,95 @@ unsafe impl DOMEventTarget for DOMHTMLFrameElement {}
 #[cfg(feature = "WebKit_DOMHTMLFrameElement")]
 unsafe impl NSObjectProtocol for DOMHTMLFrameElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLFrameElement")]
-    unsafe impl DOMHTMLFrameElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other frameBorder)]
-        pub unsafe fn frameBorder(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMHTMLFrameElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setFrameBorder:)]
-        pub unsafe fn setFrameBorder(&self, frame_border: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "frameBorder", managed = "Other")]
+    pub unsafe fn frameBorder(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other longDesc)]
-        pub unsafe fn longDesc(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setFrameBorder:")]
+    pub unsafe fn setFrameBorder(&self, frame_border: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLongDesc:)]
-        pub unsafe fn setLongDesc(&self, long_desc: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "longDesc", managed = "Other")]
+    pub unsafe fn longDesc(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other marginHeight)]
-        pub unsafe fn marginHeight(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLongDesc:")]
+    pub unsafe fn setLongDesc(&self, long_desc: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMarginHeight:)]
-        pub unsafe fn setMarginHeight(&self, margin_height: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "marginHeight", managed = "Other")]
+    pub unsafe fn marginHeight(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other marginWidth)]
-        pub unsafe fn marginWidth(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMarginHeight:")]
+    pub unsafe fn setMarginHeight(&self, margin_height: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMarginWidth:)]
-        pub unsafe fn setMarginWidth(&self, margin_width: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "marginWidth", managed = "Other")]
+    pub unsafe fn marginWidth(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMarginWidth:")]
+    pub unsafe fn setMarginWidth(&self, margin_width: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[method(noResize)]
-        pub unsafe fn noResize(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
 
-        #[method(setNoResize:)]
-        pub unsafe fn setNoResize(&self, no_resize: bool);
+    #[objc2::method(sel = "noResize")]
+    pub unsafe fn noResize(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other scrolling)]
-        pub unsafe fn scrolling(&self) -> Id<NSString>;
+    #[objc2::method(sel = "setNoResize:")]
+    pub unsafe fn setNoResize(&self, no_resize: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setScrolling:)]
-        pub unsafe fn setScrolling(&self, scrolling: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "scrolling", managed = "Other")]
+    pub unsafe fn scrolling(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other src)]
-        pub unsafe fn src(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setScrolling:")]
+    pub unsafe fn setScrolling(&self, scrolling: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSrc:)]
-        pub unsafe fn setSrc(&self, src: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "src", managed = "Other")]
+    pub unsafe fn src(&self) -> Id<NSString>;
 
-        #[cfg(feature = "WebKit_DOMDocument")]
-        #[method_id(@__retain_semantics Other contentDocument)]
-        pub unsafe fn contentDocument(&self) -> Option<Id<DOMDocument>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSrc:")]
+    pub unsafe fn setSrc(&self, src: Option<&NSString>);
 
-        #[cfg(feature = "WebKit_DOMAbstractView")]
-        #[method_id(@__retain_semantics Other contentWindow)]
-        pub unsafe fn contentWindow(&self) -> Option<Id<DOMAbstractView>>;
+    #[cfg(feature = "WebKit_DOMDocument")]
+    #[objc2::method(sel = "contentDocument", managed = "Other")]
+    pub unsafe fn contentDocument(&self) -> Option<Id<DOMDocument>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other location)]
-        pub unsafe fn location(&self) -> Id<NSString>;
+    #[cfg(feature = "WebKit_DOMAbstractView")]
+    #[objc2::method(sel = "contentWindow", managed = "Other")]
+    pub unsafe fn contentWindow(&self) -> Option<Id<DOMAbstractView>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLocation:)]
-        pub unsafe fn setLocation(&self, location: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "location", managed = "Other")]
+    pub unsafe fn location(&self) -> Id<NSString>;
 
-        #[method(width)]
-        pub unsafe fn width(&self) -> c_int;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLocation:")]
+    pub unsafe fn setLocation(&self, location: Option<&NSString>);
 
-        #[method(height)]
-        pub unsafe fn height(&self) -> c_int;
-    }
-);
+    #[objc2::method(sel = "width")]
+    pub unsafe fn width(&self) -> c_int;
+
+    #[objc2::method(sel = "height")]
+    pub unsafe fn height(&self) -> c_int;
+}

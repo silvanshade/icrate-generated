@@ -6,17 +6,18 @@ use crate::Automator::*;
 use crate::Foundation::*;
 use crate::OSAKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = AMBundleAction,
+    unsafe inherits = [
+        AMAction,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Automator_AMAppleScriptAction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Automator_AMAppleScriptAction")]
-    pub struct AMAppleScriptAction;
-
-    #[cfg(feature = "Automator_AMAppleScriptAction")]
-    unsafe impl ClassType for AMAppleScriptAction {
-        #[inherits(AMAction, NSObject)]
-        type Super = AMBundleAction;
-    }
-);
+    pub type AMAppleScriptAction;
+}
 
 #[cfg(feature = "Automator_AMAppleScriptAction")]
 unsafe impl NSCoding for AMAppleScriptAction {}
@@ -27,36 +28,45 @@ unsafe impl NSObjectProtocol for AMAppleScriptAction {}
 #[cfg(feature = "Automator_AMAppleScriptAction")]
 unsafe impl NSSecureCoding for AMAppleScriptAction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Automator_AMAppleScriptAction")]
-    unsafe impl AMAppleScriptAction {
-        #[cfg(feature = "OSAKit_OSAScript")]
-        #[method_id(@__retain_semantics Other script)]
-        pub unsafe fn script(&self) -> Option<Id<OSAScript>>;
+    pub type AMAppleScriptAction;
 
-        #[cfg(feature = "OSAKit_OSAScript")]
-        #[method(setScript:)]
-        pub unsafe fn setScript(&self, script: Option<&OSAScript>);
-    }
-);
+    #[cfg(feature = "OSAKit_OSAScript")]
+    #[objc2::method(sel = "script", managed = "Other")]
+    pub unsafe fn script(&self) -> Option<Id<OSAScript>>;
 
-extern_methods!(
-    /// Methods declared on superclass `AMAction`
+    #[cfg(feature = "OSAKit_OSAScript")]
+    #[objc2::method(sel = "setScript:")]
+    pub unsafe fn setScript(&self, script: Option<&OSAScript>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `AMAction`
     #[cfg(feature = "Automator_AMAppleScriptAction")]
-    unsafe impl AMAppleScriptAction {
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithDefinition:fromArchive:)]
-        pub unsafe fn initWithDefinition_fromArchive(
-            this: Option<Allocated<Self>>,
-            dict: Option<&NSDictionary<NSString, Object>>,
-            archived: bool,
-        ) -> Option<Id<Self>>;
-
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:error:_)]
-        pub unsafe fn initWithContentsOfURL_error(
-            this: Option<Allocated<Self>>,
-            file_url: &NSURL,
-        ) -> Result<Id<Self>, Id<NSError>>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Automator_AMAppleScriptAction")]
+    pub type AMAppleScriptAction;
+
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithDefinition:fromArchive:", managed = "Init")]
+    pub unsafe fn initWithDefinition_fromArchive(
+        this: Option<Allocated<Self>>,
+        dict: Option<&NSDictionary<NSString, Object>>,
+        archived: bool,
+    ) -> Option<Id<Self>>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "initWithContentsOfURL:error:", managed = "Init", throws)]
+    pub unsafe fn initWithContentsOfURL_error(
+        this: Option<Allocated<Self>>,
+        file_url: &NSURL,
+    ) -> Result<Id<Self>, Id<NSError>>;
+}

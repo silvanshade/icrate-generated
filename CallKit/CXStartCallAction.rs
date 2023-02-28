@@ -4,17 +4,18 @@ use crate::common::*;
 use crate::CallKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CXCallAction,
+    unsafe inherits = [
+        CXAction,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CallKit_CXStartCallAction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CallKit_CXStartCallAction")]
-    pub struct CXStartCallAction;
-
-    #[cfg(feature = "CallKit_CXStartCallAction")]
-    unsafe impl ClassType for CXStartCallAction {
-        #[inherits(CXAction, NSObject)]
-        type Super = CXCallAction;
-    }
-);
+    pub type CXStartCallAction;
+}
 
 #[cfg(feature = "CallKit_CXStartCallAction")]
 unsafe impl NSCoding for CXStartCallAction {}
@@ -25,55 +26,55 @@ unsafe impl NSObjectProtocol for CXStartCallAction {}
 #[cfg(feature = "CallKit_CXStartCallAction")]
 unsafe impl NSSecureCoding for CXStartCallAction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CallKit_CXStartCallAction")]
-    unsafe impl CXStartCallAction {
-        #[cfg(all(feature = "CallKit_CXHandle", feature = "Foundation_NSUUID"))]
-        #[method_id(@__retain_semantics Init initWithCallUUID:handle:)]
-        pub unsafe fn initWithCallUUID_handle(
-            this: Option<Allocated<Self>>,
-            call_uuid: &NSUUID,
-            handle: &CXHandle,
-        ) -> Id<Self>;
+    pub type CXStartCallAction;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            a_decoder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[cfg(all(feature = "CallKit_CXHandle", feature = "Foundation_NSUUID"))]
+    #[objc2::method(sel = "initWithCallUUID:handle:", managed = "Init")]
+    pub unsafe fn initWithCallUUID_handle(
+        this: Option<Allocated<Self>>,
+        call_uuid: &NSUUID,
+        handle: &CXHandle,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Init initWithCallUUID:)]
-        pub unsafe fn initWithCallUUID(
-            this: Option<Allocated<Self>>,
-            call_uuid: &NSUUID,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(
+        this: Option<Allocated<Self>>,
+        a_decoder: &NSCoder,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "CallKit_CXHandle")]
-        #[method_id(@__retain_semantics Other handle)]
-        pub unsafe fn handle(&self) -> Id<CXHandle>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "initWithCallUUID:", managed = "Init")]
+    pub unsafe fn initWithCallUUID(this: Option<Allocated<Self>>, call_uuid: &NSUUID) -> Id<Self>;
 
-        #[cfg(feature = "CallKit_CXHandle")]
-        #[method(setHandle:)]
-        pub unsafe fn setHandle(&self, handle: &CXHandle);
+    #[cfg(feature = "CallKit_CXHandle")]
+    #[objc2::method(sel = "handle", managed = "Other")]
+    pub unsafe fn handle(&self) -> Id<CXHandle>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other contactIdentifier)]
-        pub unsafe fn contactIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "CallKit_CXHandle")]
+    #[objc2::method(sel = "setHandle:")]
+    pub unsafe fn setHandle(&self, handle: &CXHandle);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setContactIdentifier:)]
-        pub unsafe fn setContactIdentifier(&self, contact_identifier: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "contactIdentifier", managed = "Other")]
+    pub unsafe fn contactIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[method(isVideo)]
-        pub unsafe fn isVideo(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setContactIdentifier:")]
+    pub unsafe fn setContactIdentifier(&self, contact_identifier: Option<&NSString>);
 
-        #[method(setVideo:)]
-        pub unsafe fn setVideo(&self, video: bool);
+    #[objc2::method(sel = "isVideo")]
+    pub unsafe fn isVideo(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(fulfillWithDateStarted:)]
-        pub unsafe fn fulfillWithDateStarted(&self, date_started: &NSDate);
-    }
-);
+    #[objc2::method(sel = "setVideo:")]
+    pub unsafe fn setVideo(&self, video: bool);
+
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "fulfillWithDateStarted:")]
+    pub unsafe fn fulfillWithDateStarted(&self, date_started: &NSDate);
+}

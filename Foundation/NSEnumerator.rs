@@ -13,35 +13,27 @@ extern_struct!(
     }
 );
 
-extern_protocol!(
-    pub unsafe trait NSFastEnumeration {
-        #[method(countByEnumeratingWithState:objects:count:)]
-        unsafe fn countByEnumeratingWithState_objects_count(
-            &self,
-            state: NonNull<NSFastEnumerationState>,
-            buffer: NonNull<*mut Object>,
-            len: NSUInteger,
-        ) -> NSUInteger;
-    }
+#[objc2::protocol]
+pub unsafe trait NSFastEnumeration {
+    #[objc2::method(sel = "countByEnumeratingWithState:objects:count:")]
+    unsafe fn countByEnumeratingWithState_objects_count(
+        &self,
+        state: NonNull<NSFastEnumerationState>,
+        buffer: NonNull<*mut Object>,
+        len: NSUInteger,
+    ) -> NSUInteger;
+}
 
-    unsafe impl ProtocolType for dyn NSFastEnumeration {}
-);
-
-__inner_extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSEnumerator")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSEnumerator")]
-    pub struct NSEnumerator<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared> {
-        _inner0: PhantomData<*mut (ObjectType, ObjectTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "Foundation_NSEnumerator")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> ClassType
-        for NSEnumerator<ObjectType, ObjectTypeOwnership>
-    {
-        type Super = NSObject;
-    }
-);
+    pub type NSEnumerator<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
+}
 
 #[cfg(feature = "Foundation_NSEnumerator")]
 unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSFastEnumeration
@@ -55,24 +47,25 @@ unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSObjectProtoco
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSEnumerator")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSEnumerator<ObjectType, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Other nextObject)]
-        pub unsafe fn nextObject(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
-    }
-);
+    pub type NSEnumerator<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-extern_methods!(
-    /// NSExtendedEnumerator
+    #[objc2::method(sel = "nextObject", managed = "Other")]
+    pub unsafe fn nextObject(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSEnumerator")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSEnumerator<ObjectType, ObjectTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other allObjects)]
-        pub unsafe fn allObjects(&self) -> Id<NSArray<ObjectType>>;
-    }
-);
+    pub type NSEnumerator<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "allObjects", managed = "Other")]
+    pub unsafe fn allObjects(&self) -> Id<NSArray<ObjectType>>;
+}

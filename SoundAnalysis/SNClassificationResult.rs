@@ -4,48 +4,51 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::SoundAnalysis::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "SoundAnalysis_SNClassification")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "SoundAnalysis_SNClassification")]
-    pub struct SNClassification;
-
-    #[cfg(feature = "SoundAnalysis_SNClassification")]
-    unsafe impl ClassType for SNClassification {
-        type Super = NSObject;
-    }
-);
+    pub type SNClassification;
+}
 
 #[cfg(feature = "SoundAnalysis_SNClassification")]
 unsafe impl NSObjectProtocol for SNClassification {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "SoundAnalysis_SNClassification")]
-    unsafe impl SNClassification {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    pub type SNClassification;
 
-        #[method(confidence)]
-        pub unsafe fn confidence(&self) -> c_double;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "confidence")]
+    pub unsafe fn confidence(&self) -> c_double;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-extern_class!(
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "SoundAnalysis_SNClassificationResult")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "SoundAnalysis_SNClassificationResult")]
-    pub struct SNClassificationResult;
-
-    #[cfg(feature = "SoundAnalysis_SNClassificationResult")]
-    unsafe impl ClassType for SNClassificationResult {
-        type Super = NSObject;
-    }
-);
+    pub type SNClassificationResult;
+}
 
 #[cfg(feature = "SoundAnalysis_SNClassificationResult")]
 unsafe impl NSObjectProtocol for SNClassificationResult {}
@@ -53,30 +56,33 @@ unsafe impl NSObjectProtocol for SNClassificationResult {}
 #[cfg(feature = "SoundAnalysis_SNClassificationResult")]
 unsafe impl SNResult for SNClassificationResult {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "SoundAnalysis_SNClassificationResult")]
-    unsafe impl SNClassificationResult {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "SoundAnalysis_SNClassification"
-        ))]
-        #[method_id(@__retain_semantics Other classifications)]
-        pub unsafe fn classifications(&self) -> Id<NSArray<SNClassification>>;
+    pub type SNClassificationResult;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "SoundAnalysis_SNClassification"
+    ))]
+    #[objc2::method(sel = "classifications", managed = "Other")]
+    pub unsafe fn classifications(&self) -> Id<NSArray<SNClassification>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "SoundAnalysis_SNClassification"
-        ))]
-        #[method_id(@__retain_semantics Other classificationForIdentifier:)]
-        pub unsafe fn classificationForIdentifier(
-            &self,
-            identifier: &NSString,
-        ) -> Option<Id<SNClassification>>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "SoundAnalysis_SNClassification"
+    ))]
+    #[objc2::method(sel = "classificationForIdentifier:", managed = "Other")]
+    pub unsafe fn classificationForIdentifier(
+        &self,
+        identifier: &NSString,
+    ) -> Option<Id<SNClassification>>;
+}

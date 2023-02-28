@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialAssertion")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialAssertion")]
-    pub struct ASAuthorizationPlatformPublicKeyCredentialAssertion;
-
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialAssertion")]
-    unsafe impl ClassType for ASAuthorizationPlatformPublicKeyCredentialAssertion {
-        type Super = NSObject;
-    }
-);
+    pub type ASAuthorizationPlatformPublicKeyCredentialAssertion;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialAssertion")]
 unsafe impl ASAuthorizationCredential for ASAuthorizationPlatformPublicKeyCredentialAssertion {}
@@ -36,13 +36,16 @@ unsafe impl NSObjectProtocol for ASAuthorizationPlatformPublicKeyCredentialAsser
 #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialAssertion")]
 unsafe impl NSSecureCoding for ASAuthorizationPlatformPublicKeyCredentialAssertion {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialAssertion")]
-    unsafe impl ASAuthorizationPlatformPublicKeyCredentialAssertion {
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    pub type ASAuthorizationPlatformPublicKeyCredentialAssertion;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLFieldSetElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLFieldSetElement;
-
     #[cfg(feature = "WebKit_DOMHTMLFieldSetElement")]
-    unsafe impl ClassType for DOMHTMLFieldSetElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLFieldSetElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLFieldSetElement")]
 unsafe impl DOMEventTarget for DOMHTMLFieldSetElement {}
@@ -24,11 +28,15 @@ unsafe impl DOMEventTarget for DOMHTMLFieldSetElement {}
 #[cfg(feature = "WebKit_DOMHTMLFieldSetElement")]
 unsafe impl NSObjectProtocol for DOMHTMLFieldSetElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLFieldSetElement")]
-    unsafe impl DOMHTMLFieldSetElement {
-        #[cfg(feature = "WebKit_DOMHTMLFormElement")]
-        #[method_id(@__retain_semantics Other form)]
-        pub unsafe fn form(&self) -> Option<Id<DOMHTMLFormElement>>;
-    }
-);
+    #[deprecated]
+    pub type DOMHTMLFieldSetElement;
+
+    #[cfg(feature = "WebKit_DOMHTMLFormElement")]
+    #[objc2::method(sel = "form", managed = "Other")]
+    pub unsafe fn form(&self) -> Option<Id<DOMHTMLFormElement>>;
+}

@@ -16,109 +16,118 @@ extern_static!(NSMigrationPropertyMappingKey: &'static NSString);
 
 extern_static!(NSMigrationEntityPolicyKey: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSEntityMigrationPolicy")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSEntityMigrationPolicy")]
-    pub struct NSEntityMigrationPolicy;
-
-    #[cfg(feature = "CoreData_NSEntityMigrationPolicy")]
-    unsafe impl ClassType for NSEntityMigrationPolicy {
-        type Super = NSObject;
-    }
-);
+    pub type NSEntityMigrationPolicy;
+}
 
 #[cfg(feature = "CoreData_NSEntityMigrationPolicy")]
 unsafe impl NSObjectProtocol for NSEntityMigrationPolicy {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSEntityMigrationPolicy")]
-    unsafe impl NSEntityMigrationPolicy {
-        #[cfg(all(
-            feature = "CoreData_NSEntityMapping",
-            feature = "CoreData_NSMigrationManager",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(beginEntityMapping:manager:error:_)]
-        pub unsafe fn beginEntityMapping_manager_error(
-            &self,
-            mapping: &NSEntityMapping,
-            manager: &NSMigrationManager,
-        ) -> Result<(), Id<NSError>>;
+    pub type NSEntityMigrationPolicy;
 
-        #[cfg(all(
-            feature = "CoreData_NSEntityMapping",
-            feature = "CoreData_NSManagedObject",
-            feature = "CoreData_NSMigrationManager",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(createDestinationInstancesForSourceInstance:entityMapping:manager:error:_)]
-        pub unsafe fn createDestinationInstancesForSourceInstance_entityMapping_manager_error(
-            &self,
-            s_instance: &NSManagedObject,
-            mapping: &NSEntityMapping,
-            manager: &NSMigrationManager,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "CoreData_NSEntityMapping",
+        feature = "CoreData_NSMigrationManager",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "beginEntityMapping:manager:error:", throws)]
+    pub unsafe fn beginEntityMapping_manager_error(
+        &self,
+        mapping: &NSEntityMapping,
+        manager: &NSMigrationManager,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSEntityMapping",
-            feature = "CoreData_NSMigrationManager",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(endInstanceCreationForEntityMapping:manager:error:_)]
-        pub unsafe fn endInstanceCreationForEntityMapping_manager_error(
-            &self,
-            mapping: &NSEntityMapping,
-            manager: &NSMigrationManager,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "CoreData_NSEntityMapping",
+        feature = "CoreData_NSManagedObject",
+        feature = "CoreData_NSMigrationManager",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(
+        sel = "createDestinationInstancesForSourceInstance:entityMapping:manager:error:",
+        throws
+    )]
+    pub unsafe fn createDestinationInstancesForSourceInstance_entityMapping_manager_error(
+        &self,
+        s_instance: &NSManagedObject,
+        mapping: &NSEntityMapping,
+        manager: &NSMigrationManager,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSEntityMapping",
-            feature = "CoreData_NSManagedObject",
-            feature = "CoreData_NSMigrationManager",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(createRelationshipsForDestinationInstance:entityMapping:manager:error:_)]
-        pub unsafe fn createRelationshipsForDestinationInstance_entityMapping_manager_error(
-            &self,
-            d_instance: &NSManagedObject,
-            mapping: &NSEntityMapping,
-            manager: &NSMigrationManager,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "CoreData_NSEntityMapping",
+        feature = "CoreData_NSMigrationManager",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "endInstanceCreationForEntityMapping:manager:error:", throws)]
+    pub unsafe fn endInstanceCreationForEntityMapping_manager_error(
+        &self,
+        mapping: &NSEntityMapping,
+        manager: &NSMigrationManager,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSEntityMapping",
-            feature = "CoreData_NSMigrationManager",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(endRelationshipCreationForEntityMapping:manager:error:_)]
-        pub unsafe fn endRelationshipCreationForEntityMapping_manager_error(
-            &self,
-            mapping: &NSEntityMapping,
-            manager: &NSMigrationManager,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "CoreData_NSEntityMapping",
+        feature = "CoreData_NSManagedObject",
+        feature = "CoreData_NSMigrationManager",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(
+        sel = "createRelationshipsForDestinationInstance:entityMapping:manager:error:",
+        throws
+    )]
+    pub unsafe fn createRelationshipsForDestinationInstance_entityMapping_manager_error(
+        &self,
+        d_instance: &NSManagedObject,
+        mapping: &NSEntityMapping,
+        manager: &NSMigrationManager,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSEntityMapping",
-            feature = "CoreData_NSMigrationManager",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(performCustomValidationForEntityMapping:manager:error:_)]
-        pub unsafe fn performCustomValidationForEntityMapping_manager_error(
-            &self,
-            mapping: &NSEntityMapping,
-            manager: &NSMigrationManager,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "CoreData_NSEntityMapping",
+        feature = "CoreData_NSMigrationManager",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "endRelationshipCreationForEntityMapping:manager:error:", throws)]
+    pub unsafe fn endRelationshipCreationForEntityMapping_manager_error(
+        &self,
+        mapping: &NSEntityMapping,
+        manager: &NSMigrationManager,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSEntityMapping",
-            feature = "CoreData_NSMigrationManager",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(endEntityMapping:manager:error:_)]
-        pub unsafe fn endEntityMapping_manager_error(
-            &self,
-            mapping: &NSEntityMapping,
-            manager: &NSMigrationManager,
-        ) -> Result<(), Id<NSError>>;
-    }
-);
+    #[cfg(all(
+        feature = "CoreData_NSEntityMapping",
+        feature = "CoreData_NSMigrationManager",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "performCustomValidationForEntityMapping:manager:error:", throws)]
+    pub unsafe fn performCustomValidationForEntityMapping_manager_error(
+        &self,
+        mapping: &NSEntityMapping,
+        manager: &NSMigrationManager,
+    ) -> Result<(), Id<NSError>>;
+
+    #[cfg(all(
+        feature = "CoreData_NSEntityMapping",
+        feature = "CoreData_NSMigrationManager",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "endEntityMapping:manager:error:", throws)]
+    pub unsafe fn endEntityMapping_manager_error(
+        &self,
+        mapping: &NSEntityMapping,
+        manager: &NSMigrationManager,
+    ) -> Result<(), Id<NSError>>;
+}

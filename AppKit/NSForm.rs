@@ -5,18 +5,21 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSForm")]
+#[objc2::interface(
+    unsafe super = NSMatrix,
+    unsafe inherits = [
+        NSControl,
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated = "Use NSTextField directly instead, and consider NSStackView for layout assistance"]
-    pub struct NSForm;
-
     #[cfg(feature = "AppKit_NSForm")]
-    unsafe impl ClassType for NSForm {
-        #[inherits(NSControl, NSView, NSResponder, NSObject)]
-        type Super = NSMatrix;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type NSForm;
+}
 
 #[cfg(feature = "AppKit_NSForm")]
 unsafe impl NSAccessibility for NSForm {}
@@ -48,108 +51,124 @@ unsafe impl NSUserInterfaceValidations for NSForm {}
 #[cfg(feature = "AppKit_NSForm")]
 unsafe impl NSViewToolTipOwner for NSForm {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSForm")]
-    unsafe impl NSForm {
-        #[method(indexOfSelectedItem)]
-        pub unsafe fn indexOfSelectedItem(&self) -> NSInteger;
+    #[deprecated = "Use NSTextField directly instead, and consider NSStackView for layout assistance"]
+    pub type NSForm;
 
-        #[method(setEntryWidth:)]
-        pub unsafe fn setEntryWidth(&self, width: CGFloat);
+    #[objc2::method(sel = "indexOfSelectedItem")]
+    pub unsafe fn indexOfSelectedItem(&self) -> NSInteger;
 
-        #[method(setInterlineSpacing:)]
-        pub unsafe fn setInterlineSpacing(&self, spacing: CGFloat);
+    #[objc2::method(sel = "setEntryWidth:")]
+    pub unsafe fn setEntryWidth(&self, width: CGFloat);
 
-        #[method(setBordered:)]
-        pub unsafe fn setBordered(&self, flag: bool);
+    #[objc2::method(sel = "setInterlineSpacing:")]
+    pub unsafe fn setInterlineSpacing(&self, spacing: CGFloat);
 
-        #[method(setBezeled:)]
-        pub unsafe fn setBezeled(&self, flag: bool);
+    #[objc2::method(sel = "setBordered:")]
+    pub unsafe fn setBordered(&self, flag: bool);
 
-        #[method(setTitleAlignment:)]
-        pub unsafe fn setTitleAlignment(&self, mode: NSTextAlignment);
+    #[objc2::method(sel = "setBezeled:")]
+    pub unsafe fn setBezeled(&self, flag: bool);
 
-        #[method(setTextAlignment:)]
-        pub unsafe fn setTextAlignment(&self, mode: NSTextAlignment);
+    #[objc2::method(sel = "setTitleAlignment:")]
+    pub unsafe fn setTitleAlignment(&self, mode: NSTextAlignment);
 
-        #[cfg(feature = "AppKit_NSFont")]
-        #[method(setTitleFont:)]
-        pub unsafe fn setTitleFont(&self, font_obj: &NSFont);
+    #[objc2::method(sel = "setTextAlignment:")]
+    pub unsafe fn setTextAlignment(&self, mode: NSTextAlignment);
 
-        #[cfg(feature = "AppKit_NSFont")]
-        #[method(setTextFont:)]
-        pub unsafe fn setTextFont(&self, font_obj: &NSFont);
+    #[cfg(feature = "AppKit_NSFont")]
+    #[objc2::method(sel = "setTitleFont:")]
+    pub unsafe fn setTitleFont(&self, font_obj: &NSFont);
 
-        #[method_id(@__retain_semantics Other cellAtIndex:)]
-        pub unsafe fn cellAtIndex(&self, index: NSInteger) -> Option<Id<Object>>;
+    #[cfg(feature = "AppKit_NSFont")]
+    #[objc2::method(sel = "setTextFont:")]
+    pub unsafe fn setTextFont(&self, font_obj: &NSFont);
 
-        #[method(drawCellAtIndex:)]
-        pub unsafe fn drawCellAtIndex(&self, index: NSInteger);
+    #[objc2::method(sel = "cellAtIndex:", managed = "Other")]
+    pub unsafe fn cellAtIndex(&self, index: NSInteger) -> Option<Id<Object>>;
 
-        #[cfg(all(feature = "AppKit_NSFormCell", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other addEntry:)]
-        pub unsafe fn addEntry(&self, title: &NSString) -> Id<NSFormCell>;
+    #[objc2::method(sel = "drawCellAtIndex:")]
+    pub unsafe fn drawCellAtIndex(&self, index: NSInteger);
 
-        #[cfg(all(feature = "AppKit_NSFormCell", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other insertEntry:atIndex:)]
-        pub unsafe fn insertEntry_atIndex(
-            &self,
-            title: &NSString,
-            index: NSInteger,
-        ) -> Option<Id<NSFormCell>>;
+    #[cfg(all(feature = "AppKit_NSFormCell", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "addEntry:", managed = "Other")]
+    pub unsafe fn addEntry(&self, title: &NSString) -> Id<NSFormCell>;
 
-        #[method(removeEntryAtIndex:)]
-        pub unsafe fn removeEntryAtIndex(&self, index: NSInteger);
+    #[cfg(all(feature = "AppKit_NSFormCell", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "insertEntry:atIndex:", managed = "Other")]
+    pub unsafe fn insertEntry_atIndex(
+        &self,
+        title: &NSString,
+        index: NSInteger,
+    ) -> Option<Id<NSFormCell>>;
 
-        #[method(indexOfCellWithTag:)]
-        pub unsafe fn indexOfCellWithTag(&self, tag: NSInteger) -> NSInteger;
+    #[objc2::method(sel = "removeEntryAtIndex:")]
+    pub unsafe fn removeEntryAtIndex(&self, index: NSInteger);
 
-        #[method(selectTextAtIndex:)]
-        pub unsafe fn selectTextAtIndex(&self, index: NSInteger);
+    #[objc2::method(sel = "indexOfCellWithTag:")]
+    pub unsafe fn indexOfCellWithTag(&self, tag: NSInteger) -> NSInteger;
 
-        #[method(setFrameSize:)]
-        pub unsafe fn setFrameSize(&self, new_size: NSSize);
+    #[objc2::method(sel = "selectTextAtIndex:")]
+    pub unsafe fn selectTextAtIndex(&self, index: NSInteger);
 
-        #[method(setTitleBaseWritingDirection:)]
-        pub unsafe fn setTitleBaseWritingDirection(&self, writing_direction: NSWritingDirection);
+    #[objc2::method(sel = "setFrameSize:")]
+    pub unsafe fn setFrameSize(&self, new_size: NSSize);
 
-        #[method(setTextBaseWritingDirection:)]
-        pub unsafe fn setTextBaseWritingDirection(&self, writing_direction: NSWritingDirection);
+    #[objc2::method(sel = "setTitleBaseWritingDirection:")]
+    pub unsafe fn setTitleBaseWritingDirection(&self, writing_direction: NSWritingDirection);
 
-        #[method(setPreferredTextFieldWidth:)]
-        pub unsafe fn setPreferredTextFieldWidth(&self, preferred_width: CGFloat);
+    #[objc2::method(sel = "setTextBaseWritingDirection:")]
+    pub unsafe fn setTextBaseWritingDirection(&self, writing_direction: NSWritingDirection);
 
-        #[method(preferredTextFieldWidth)]
-        pub unsafe fn preferredTextFieldWidth(&self) -> CGFloat;
-    }
-);
+    #[objc2::method(sel = "setPreferredTextFieldWidth:")]
+    pub unsafe fn setPreferredTextFieldWidth(&self, preferred_width: CGFloat);
 
-extern_methods!(
-    /// Methods declared on superclass `NSMatrix`
+    #[objc2::method(sel = "preferredTextFieldWidth")]
+    pub unsafe fn preferredTextFieldWidth(&self) -> CGFloat;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSMatrix`
     #[cfg(feature = "AppKit_NSForm")]
-    unsafe impl NSForm {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSCell")]
-        #[method_id(@__retain_semantics Init initWithFrame:mode:prototype:numberOfRows:numberOfColumns:)]
-        pub unsafe fn initWithFrame_mode_prototype_numberOfRows_numberOfColumns(
-            this: Option<Allocated<Self>>,
-            frame_rect: NSRect,
-            mode: NSMatrixMode,
-            cell: &NSCell,
-            rows_high: NSInteger,
-            cols_wide: NSInteger,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Init initWithFrame:mode:cellClass:numberOfRows:numberOfColumns:)]
-        pub unsafe fn initWithFrame_mode_cellClass_numberOfRows_numberOfColumns(
-            this: Option<Allocated<Self>>,
-            frame_rect: NSRect,
-            mode: NSMatrixMode,
-            factory_id: Option<&Class>,
-            rows_high: NSInteger,
-            cols_wide: NSInteger,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSForm")]
+    pub type NSForm;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSCell")]
+    #[objc2::method(
+        sel = "initWithFrame:mode:prototype:numberOfRows:numberOfColumns:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithFrame_mode_prototype_numberOfRows_numberOfColumns(
+        this: Option<Allocated<Self>>,
+        frame_rect: NSRect,
+        mode: NSMatrixMode,
+        cell: &NSCell,
+        rows_high: NSInteger,
+        cols_wide: NSInteger,
+    ) -> Id<Self>;
+
+    #[objc2::method(
+        sel = "initWithFrame:mode:cellClass:numberOfRows:numberOfColumns:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithFrame_mode_cellClass_numberOfRows_numberOfColumns(
+        this: Option<Allocated<Self>>,
+        frame_rect: NSRect,
+        mode: NSMatrixMode,
+        factory_id: Option<&Class>,
+        rows_high: NSInteger,
+        cols_wide: NSInteger,
+    ) -> Id<Self>;
+}

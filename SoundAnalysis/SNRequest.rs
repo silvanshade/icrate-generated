@@ -4,8 +4,5 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::SoundAnalysis::*;
 
-extern_protocol!(
-    pub unsafe trait SNRequest: NSObjectProtocol {}
-
-    unsafe impl ProtocolType for dyn SNRequest {}
-);
+#[objc2::protocol]
+pub unsafe trait SNRequest: NSObjectProtocol {}

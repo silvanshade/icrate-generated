@@ -6,99 +6,104 @@ use crate::FileProvider::*;
 use crate::Foundation::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "FileProvider_NSFileProviderExtension")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "FileProvider_NSFileProviderExtension")]
-    pub struct NSFileProviderExtension;
-
-    #[cfg(feature = "FileProvider_NSFileProviderExtension")]
-    unsafe impl ClassType for NSFileProviderExtension {
-        type Super = NSObject;
-    }
-);
+    pub type NSFileProviderExtension;
+}
 
 #[cfg(feature = "FileProvider_NSFileProviderExtension")]
 unsafe impl NSObjectProtocol for NSFileProviderExtension {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderExtension")]
-    unsafe impl NSFileProviderExtension {
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other itemForIdentifier:error:_)]
-        pub unsafe fn itemForIdentifier_error(
-            &self,
-            identifier: &NSFileProviderItemIdentifier,
-        ) -> Result<Id<NSFileProviderItem>, Id<NSError>>;
+    pub type NSFileProviderExtension;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URLForItemWithPersistentIdentifier:)]
-        pub unsafe fn URLForItemWithPersistentIdentifier(
-            &self,
-            identifier: &NSFileProviderItemIdentifier,
-        ) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "itemForIdentifier:error:", managed = "Other", throws)]
+    pub unsafe fn itemForIdentifier_error(
+        &self,
+        identifier: &NSFileProviderItemIdentifier,
+    ) -> Result<Id<NSFileProviderItem>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other persistentIdentifierForItemAtURL:)]
-        pub unsafe fn persistentIdentifierForItemAtURL(
-            &self,
-            url: &NSURL,
-        ) -> Option<Id<NSFileProviderItemIdentifier>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URLForItemWithPersistentIdentifier:", managed = "Other")]
+    pub unsafe fn URLForItemWithPersistentIdentifier(
+        &self,
+        identifier: &NSFileProviderItemIdentifier,
+    ) -> Option<Id<NSURL>>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method(providePlaceholderAtURL:completionHandler:)]
-        pub unsafe fn providePlaceholderAtURL_completionHandler(
-            &self,
-            url: &NSURL,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "persistentIdentifierForItemAtURL:", managed = "Other")]
+    pub unsafe fn persistentIdentifierForItemAtURL(
+        &self,
+        url: &NSURL,
+    ) -> Option<Id<NSFileProviderItemIdentifier>>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method(startProvidingItemAtURL:completionHandler:)]
-        pub unsafe fn startProvidingItemAtURL_completionHandler(
-            &self,
-            url: &NSURL,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "providePlaceholderAtURL:completionHandler:")]
+    pub unsafe fn providePlaceholderAtURL_completionHandler(
+        &self,
+        url: &NSURL,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(stopProvidingItemAtURL:)]
-        pub unsafe fn stopProvidingItemAtURL(&self, url: &NSURL);
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "startProvidingItemAtURL:completionHandler:")]
+    pub unsafe fn startProvidingItemAtURL_completionHandler(
+        &self,
+        url: &NSURL,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(itemChangedAtURL:)]
-        pub unsafe fn itemChangedAtURL(&self, url: &NSURL);
-    }
-);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "stopProvidingItemAtURL:")]
+    pub unsafe fn stopProvidingItemAtURL(&self, url: &NSURL);
 
-extern_methods!(
-    /// Deprecated
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "itemChangedAtURL:")]
+    pub unsafe fn itemChangedAtURL(&self, url: &NSURL);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderExtension")]
-    unsafe impl NSFileProviderExtension {
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[deprecated = "Use the corresponding method on NSFileProviderManager instead"]
-        #[method(writePlaceholderAtURL:withMetadata:error:_)]
-        pub unsafe fn writePlaceholderAtURL_withMetadata_error(
-            placeholder_url: &NSURL,
-            metadata: &NSDictionary<NSURLResourceKey, Object>,
-        ) -> Result<(), Id<NSError>>;
+    pub type NSFileProviderExtension;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other placeholderURLForURL:)]
-        pub unsafe fn placeholderURLForURL(url: &NSURL) -> Id<NSURL>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[deprecated = "Use the corresponding method on NSFileProviderManager instead"]
+    #[objc2::method(sel = "writePlaceholderAtURL:withMetadata:error:", throws)]
+    pub unsafe fn writePlaceholderAtURL_withMetadata_error(
+        placeholder_url: &NSURL,
+        metadata: &NSDictionary<NSURLResourceKey, Object>,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other providerIdentifier)]
-        pub unsafe fn providerIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[deprecated]
+    #[objc2::method(sel = "placeholderURLForURL:", managed = "Other")]
+    pub unsafe fn placeholderURLForURL(url: &NSURL) -> Id<NSURL>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other documentStorageURL)]
-        pub unsafe fn documentStorageURL(&self) -> Id<NSURL>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "providerIdentifier", managed = "Other")]
+    pub unsafe fn providerIdentifier(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[deprecated]
+    #[objc2::method(sel = "documentStorageURL", managed = "Other")]
+    pub unsafe fn documentStorageURL(&self) -> Id<NSURL>;
+}

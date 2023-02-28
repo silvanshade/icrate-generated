@@ -5,24 +5,27 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKNavigation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKNavigation")]
-    pub struct WKNavigation;
-
-    #[cfg(feature = "WebKit_WKNavigation")]
-    unsafe impl ClassType for WKNavigation {
-        type Super = NSObject;
-    }
-);
+    pub type WKNavigation;
+}
 
 #[cfg(feature = "WebKit_WKNavigation")]
 unsafe impl NSObjectProtocol for WKNavigation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKNavigation")]
-    unsafe impl WKNavigation {
-        #[method(effectiveContentMode)]
-        pub unsafe fn effectiveContentMode(&self) -> WKContentMode;
-    }
-);
+    pub type WKNavigation;
+
+    #[objc2::method(sel = "effectiveContentMode")]
+    pub unsafe fn effectiveContentMode(&self) -> WKContentMode;
+}

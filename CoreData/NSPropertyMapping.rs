@@ -4,45 +4,48 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPropertyMapping")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSPropertyMapping")]
-    pub struct NSPropertyMapping;
-
-    #[cfg(feature = "CoreData_NSPropertyMapping")]
-    unsafe impl ClassType for NSPropertyMapping {
-        type Super = NSObject;
-    }
-);
+    pub type NSPropertyMapping;
+}
 
 #[cfg(feature = "CoreData_NSPropertyMapping")]
 unsafe impl NSObjectProtocol for NSPropertyMapping {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPropertyMapping")]
-    unsafe impl NSPropertyMapping {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSString>>;
+    pub type NSPropertyMapping;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSExpression")]
-        #[method_id(@__retain_semantics Other valueExpression)]
-        pub unsafe fn valueExpression(&self) -> Option<Id<NSExpression>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSExpression")]
-        #[method(setValueExpression:)]
-        pub unsafe fn setValueExpression(&self, value_expression: Option<&NSExpression>);
+    #[cfg(feature = "Foundation_NSExpression")]
+    #[objc2::method(sel = "valueExpression", managed = "Other")]
+    pub unsafe fn valueExpression(&self) -> Option<Id<NSExpression>>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other userInfo)]
-        pub unsafe fn userInfo(&self) -> Option<Id<NSDictionary>>;
+    #[cfg(feature = "Foundation_NSExpression")]
+    #[objc2::method(sel = "setValueExpression:")]
+    pub unsafe fn setValueExpression(&self, value_expression: Option<&NSExpression>);
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(setUserInfo:)]
-        pub unsafe fn setUserInfo(&self, user_info: Option<&NSDictionary>);
-    }
-);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "userInfo", managed = "Other")]
+    pub unsafe fn userInfo(&self) -> Option<Id<NSDictionary>>;
+
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "setUserInfo:")]
+    pub unsafe fn setUserInfo(&self, user_info: Option<&NSDictionary>);
+}

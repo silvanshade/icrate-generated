@@ -6,17 +6,18 @@ use crate::Automator::*;
 use crate::Foundation::*;
 use crate::OSAKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Automator_AMWorkflowView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Automator_AMWorkflowView")]
-    pub struct AMWorkflowView;
-
-    #[cfg(feature = "Automator_AMWorkflowView")]
-    unsafe impl ClassType for AMWorkflowView {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type AMWorkflowView;
+}
 
 #[cfg(feature = "Automator_AMWorkflowView")]
 unsafe impl NSAccessibility for AMWorkflowView {}
@@ -42,33 +43,39 @@ unsafe impl NSObjectProtocol for AMWorkflowView {}
 #[cfg(feature = "Automator_AMWorkflowView")]
 unsafe impl NSUserInterfaceItemIdentification for AMWorkflowView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Automator_AMWorkflowView")]
-    unsafe impl AMWorkflowView {
-        #[method(isEditable)]
-        pub unsafe fn isEditable(&self) -> bool;
+    pub type AMWorkflowView;
 
-        #[method(setEditable:)]
-        pub unsafe fn setEditable(&self, editable: bool);
+    #[objc2::method(sel = "isEditable")]
+    pub unsafe fn isEditable(&self) -> bool;
 
-        #[cfg(feature = "Automator_AMWorkflowController")]
-        #[method_id(@__retain_semantics Other workflowController)]
-        pub unsafe fn workflowController(&self) -> Option<Id<AMWorkflowController>>;
+    #[objc2::method(sel = "setEditable:")]
+    pub unsafe fn setEditable(&self, editable: bool);
 
-        #[cfg(feature = "Automator_AMWorkflowController")]
-        #[method(setWorkflowController:)]
-        pub unsafe fn setWorkflowController(
-            &self,
-            workflow_controller: Option<&AMWorkflowController>,
-        );
-    }
-);
+    #[cfg(feature = "Automator_AMWorkflowController")]
+    #[objc2::method(sel = "workflowController", managed = "Other")]
+    pub unsafe fn workflowController(&self) -> Option<Id<AMWorkflowController>>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[cfg(feature = "Automator_AMWorkflowController")]
+    #[objc2::method(sel = "setWorkflowController:")]
+    pub unsafe fn setWorkflowController(&self, workflow_controller: Option<&AMWorkflowController>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "Automator_AMWorkflowView")]
-    unsafe impl AMWorkflowView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Automator_AMWorkflowView")]
+    pub type AMWorkflowView;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

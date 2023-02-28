@@ -6,86 +6,92 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKQuery,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKQuantitySeriesSampleQuery")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKQuantitySeriesSampleQuery")]
-    pub struct HKQuantitySeriesSampleQuery;
-
-    #[cfg(feature = "HealthKit_HKQuantitySeriesSampleQuery")]
-    unsafe impl ClassType for HKQuantitySeriesSampleQuery {
-        #[inherits(NSObject)]
-        type Super = HKQuery;
-    }
-);
+    pub type HKQuantitySeriesSampleQuery;
+}
 
 #[cfg(feature = "HealthKit_HKQuantitySeriesSampleQuery")]
 unsafe impl NSObjectProtocol for HKQuantitySeriesSampleQuery {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQuantitySeriesSampleQuery")]
-    unsafe impl HKQuantitySeriesSampleQuery {
-        #[method(includeSample)]
-        pub unsafe fn includeSample(&self) -> bool;
+    pub type HKQuantitySeriesSampleQuery;
 
-        #[method(setIncludeSample:)]
-        pub unsafe fn setIncludeSample(&self, include_sample: bool);
+    #[objc2::method(sel = "includeSample")]
+    pub unsafe fn includeSample(&self) -> bool;
 
-        #[method(orderByQuantitySampleStartDate)]
-        pub unsafe fn orderByQuantitySampleStartDate(&self) -> bool;
+    #[objc2::method(sel = "setIncludeSample:")]
+    pub unsafe fn setIncludeSample(&self, include_sample: bool);
 
-        #[method(setOrderByQuantitySampleStartDate:)]
-        pub unsafe fn setOrderByQuantitySampleStartDate(
-            &self,
-            order_by_quantity_sample_start_date: bool,
-        );
+    #[objc2::method(sel = "orderByQuantitySampleStartDate")]
+    pub unsafe fn orderByQuantitySampleStartDate(&self) -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSDateInterval",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKQuantity",
-            feature = "HealthKit_HKQuantitySample",
-            feature = "HealthKit_HKQuantityType"
-        ))]
-        #[method_id(@__retain_semantics Init initWithQuantityType:predicate:quantityHandler:)]
-        pub unsafe fn initWithQuantityType_predicate_quantityHandler(
-            this: Option<Allocated<Self>>,
-            quantity_type: &HKQuantityType,
-            predicate: Option<&NSPredicate>,
-            quantity_handler: &Block<
-                (
-                    NonNull<HKQuantitySeriesSampleQuery>,
-                    *mut HKQuantity,
-                    *mut NSDateInterval,
-                    *mut HKQuantitySample,
-                    Bool,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "setOrderByQuantitySampleStartDate:")]
+    pub unsafe fn setOrderByQuantitySampleStartDate(
+        &self,
+        order_by_quantity_sample_start_date: bool,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKQuantity",
-            feature = "HealthKit_HKQuantitySample"
-        ))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithSample:quantityHandler:)]
-        pub unsafe fn initWithSample_quantityHandler(
-            this: Option<Allocated<Self>>,
-            quantity_sample: &HKQuantitySample,
-            quantity_handler: &Block<
-                (
-                    NonNull<HKQuantitySeriesSampleQuery>,
-                    *mut HKQuantity,
-                    *mut NSDate,
-                    Bool,
-                    *mut NSError,
-                ),
-                (),
-            >,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSDateInterval",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKQuantity",
+        feature = "HealthKit_HKQuantitySample",
+        feature = "HealthKit_HKQuantityType"
+    ))]
+    #[objc2::method(
+        sel = "initWithQuantityType:predicate:quantityHandler:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithQuantityType_predicate_quantityHandler(
+        this: Option<Allocated<Self>>,
+        quantity_type: &HKQuantityType,
+        predicate: Option<&NSPredicate>,
+        quantity_handler: &Block<
+            (
+                NonNull<HKQuantitySeriesSampleQuery>,
+                *mut HKQuantity,
+                *mut NSDateInterval,
+                *mut HKQuantitySample,
+                Bool,
+                *mut NSError,
+            ),
+            (),
+        >,
+    ) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKQuantity",
+        feature = "HealthKit_HKQuantitySample"
+    ))]
+    #[deprecated]
+    #[objc2::method(sel = "initWithSample:quantityHandler:", managed = "Init")]
+    pub unsafe fn initWithSample_quantityHandler(
+        this: Option<Allocated<Self>>,
+        quantity_sample: &HKQuantitySample,
+        quantity_handler: &Block<
+            (
+                NonNull<HKQuantitySeriesSampleQuery>,
+                *mut HKQuantity,
+                *mut NSDate,
+                Bool,
+                *mut NSError,
+            ),
+            (),
+        >,
+    ) -> Id<Self>;
+}

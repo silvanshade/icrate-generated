@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSShadow")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSShadow")]
-    pub struct NSShadow;
-
-    #[cfg(feature = "AppKit_NSShadow")]
-    unsafe impl ClassType for NSShadow {
-        type Super = NSObject;
-    }
-);
+    pub type NSShadow;
+}
 
 #[cfg(feature = "AppKit_NSShadow")]
 unsafe impl NSCoding for NSShadow {}
@@ -25,33 +25,36 @@ unsafe impl NSObjectProtocol for NSShadow {}
 #[cfg(feature = "AppKit_NSShadow")]
 unsafe impl NSSecureCoding for NSShadow {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSShadow")]
-    unsafe impl NSShadow {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSShadow;
 
-        #[method(shadowOffset)]
-        pub unsafe fn shadowOffset(&self) -> NSSize;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(setShadowOffset:)]
-        pub unsafe fn setShadowOffset(&self, shadow_offset: NSSize);
+    #[objc2::method(sel = "shadowOffset")]
+    pub unsafe fn shadowOffset(&self) -> NSSize;
 
-        #[method(shadowBlurRadius)]
-        pub unsafe fn shadowBlurRadius(&self) -> CGFloat;
+    #[objc2::method(sel = "setShadowOffset:")]
+    pub unsafe fn setShadowOffset(&self, shadow_offset: NSSize);
 
-        #[method(setShadowBlurRadius:)]
-        pub unsafe fn setShadowBlurRadius(&self, shadow_blur_radius: CGFloat);
+    #[objc2::method(sel = "shadowBlurRadius")]
+    pub unsafe fn shadowBlurRadius(&self) -> CGFloat;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other shadowColor)]
-        pub unsafe fn shadowColor(&self) -> Option<Id<NSColor>>;
+    #[objc2::method(sel = "setShadowBlurRadius:")]
+    pub unsafe fn setShadowBlurRadius(&self, shadow_blur_radius: CGFloat);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setShadowColor:)]
-        pub unsafe fn setShadowColor(&self, shadow_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "shadowColor", managed = "Other")]
+    pub unsafe fn shadowColor(&self) -> Option<Id<NSColor>>;
 
-        #[method(set)]
-        pub unsafe fn set(&self);
-    }
-);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setShadowColor:")]
+    pub unsafe fn setShadowColor(&self, shadow_color: Option<&NSColor>);
+
+    #[objc2::method(sel = "set")]
+    pub unsafe fn set(&self);
+}

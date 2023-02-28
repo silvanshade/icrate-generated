@@ -6,39 +6,35 @@ use crate::Metal::*;
 
 extern_static!(MTLDynamicLibraryDomain: &'static NSErrorDomain);
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLDynamicLibraryError {
-        MTLDynamicLibraryErrorNone = 0,
-        MTLDynamicLibraryErrorInvalidFile = 1,
-        MTLDynamicLibraryErrorCompilationFailure = 2,
-        MTLDynamicLibraryErrorUnresolvedInstallName = 3,
-        MTLDynamicLibraryErrorDependencyLoadFailure = 4,
-        MTLDynamicLibraryErrorUnsupported = 5,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLDynamicLibraryError {
+    MTLDynamicLibraryErrorNone = 0,
+    MTLDynamicLibraryErrorInvalidFile = 1,
+    MTLDynamicLibraryErrorCompilationFailure = 2,
+    MTLDynamicLibraryErrorUnresolvedInstallName = 3,
+    MTLDynamicLibraryErrorDependencyLoadFailure = 4,
+    MTLDynamicLibraryErrorUnsupported = 5,
+}
 
-extern_protocol!(
-    pub unsafe trait MTLDynamicLibrary: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        fn label(&self) -> Option<Id<NSString>>;
+#[objc2::protocol]
+pub unsafe trait MTLDynamicLibrary: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    fn label(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        fn setLabel(&self, label: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    fn setLabel(&self, label: Option<&NSString>);
 
-        #[method_id(@__retain_semantics Other device)]
-        fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
+    #[objc2::method(sel = "device", managed = "Other")]
+    fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other installName)]
-        fn installName(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "installName", managed = "Other")]
+    fn installName(&self) -> Id<NSString>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method(serializeToURL:error:_)]
-        fn serializeToURL_error(&self, url: &NSURL) -> Result<(), Id<NSError>>;
-    }
-
-    unsafe impl ProtocolType for dyn MTLDynamicLibrary {}
-);
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "serializeToURL:error:", throws)]
+    fn serializeToURL_error(&self, url: &NSURL) -> Result<(), Id<NSError>>;
+}

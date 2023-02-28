@@ -5,132 +5,143 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSScreen")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSScreen")]
-    pub struct NSScreen;
-
-    #[cfg(feature = "AppKit_NSScreen")]
-    unsafe impl ClassType for NSScreen {
-        type Super = NSObject;
-    }
-);
+    pub type NSScreen;
+}
 
 #[cfg(feature = "AppKit_NSScreen")]
 unsafe impl NSObjectProtocol for NSScreen {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSScreen")]
-    unsafe impl NSScreen {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other screens)]
-        pub unsafe fn screens() -> Id<NSArray<NSScreen>>;
+    pub type NSScreen;
 
-        #[method_id(@__retain_semantics Other mainScreen)]
-        pub unsafe fn mainScreen() -> Option<Id<NSScreen>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "screens", managed = "Other")]
+    pub unsafe fn screens() -> Id<NSArray<NSScreen>>;
 
-        #[method_id(@__retain_semantics Other deepestScreen)]
-        pub unsafe fn deepestScreen() -> Option<Id<NSScreen>>;
+    #[objc2::method(sel = "mainScreen", managed = "Other")]
+    pub unsafe fn mainScreen() -> Option<Id<NSScreen>>;
 
-        #[method(screensHaveSeparateSpaces)]
-        pub unsafe fn screensHaveSeparateSpaces() -> bool;
+    #[objc2::method(sel = "deepestScreen", managed = "Other")]
+    pub unsafe fn deepestScreen() -> Option<Id<NSScreen>>;
 
-        #[method(depth)]
-        pub unsafe fn depth(&self) -> NSWindowDepth;
+    #[objc2::method(sel = "screensHaveSeparateSpaces")]
+    pub unsafe fn screensHaveSeparateSpaces() -> bool;
 
-        #[method(frame)]
-        pub unsafe fn frame(&self) -> NSRect;
+    #[objc2::method(sel = "depth")]
+    pub unsafe fn depth(&self) -> NSWindowDepth;
 
-        #[method(visibleFrame)]
-        pub unsafe fn visibleFrame(&self) -> NSRect;
+    #[objc2::method(sel = "frame")]
+    pub unsafe fn frame(&self) -> NSRect;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other deviceDescription)]
-        pub unsafe fn deviceDescription(&self) -> Id<NSDictionary<NSDeviceDescriptionKey, Object>>;
+    #[objc2::method(sel = "visibleFrame")]
+    pub unsafe fn visibleFrame(&self) -> NSRect;
 
-        #[cfg(feature = "AppKit_NSColorSpace")]
-        #[method_id(@__retain_semantics Other colorSpace)]
-        pub unsafe fn colorSpace(&self) -> Option<Id<NSColorSpace>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "deviceDescription", managed = "Other")]
+    pub unsafe fn deviceDescription(&self) -> Id<NSDictionary<NSDeviceDescriptionKey, Object>>;
 
-        #[method(supportedWindowDepths)]
-        pub unsafe fn supportedWindowDepths(&self) -> NonNull<NSWindowDepth>;
+    #[cfg(feature = "AppKit_NSColorSpace")]
+    #[objc2::method(sel = "colorSpace", managed = "Other")]
+    pub unsafe fn colorSpace(&self) -> Option<Id<NSColorSpace>>;
 
-        #[method(canRepresentDisplayGamut:)]
-        pub unsafe fn canRepresentDisplayGamut(&self, display_gamut: NSDisplayGamut) -> bool;
+    #[objc2::method(sel = "supportedWindowDepths")]
+    pub unsafe fn supportedWindowDepths(&self) -> NonNull<NSWindowDepth>;
 
-        #[method(convertRectToBacking:)]
-        pub unsafe fn convertRectToBacking(&self, rect: NSRect) -> NSRect;
+    #[objc2::method(sel = "canRepresentDisplayGamut:")]
+    pub unsafe fn canRepresentDisplayGamut(&self, display_gamut: NSDisplayGamut) -> bool;
 
-        #[method(convertRectFromBacking:)]
-        pub unsafe fn convertRectFromBacking(&self, rect: NSRect) -> NSRect;
+    #[objc2::method(sel = "convertRectToBacking:")]
+    pub unsafe fn convertRectToBacking(&self, rect: NSRect) -> NSRect;
 
-        #[method(backingAlignedRect:options:)]
-        pub unsafe fn backingAlignedRect_options(
-            &self,
-            rect: NSRect,
-            options: NSAlignmentOptions,
-        ) -> NSRect;
+    #[objc2::method(sel = "convertRectFromBacking:")]
+    pub unsafe fn convertRectFromBacking(&self, rect: NSRect) -> NSRect;
 
-        #[method(backingScaleFactor)]
-        pub unsafe fn backingScaleFactor(&self) -> CGFloat;
+    #[objc2::method(sel = "backingAlignedRect:options:")]
+    pub unsafe fn backingAlignedRect_options(
+        &self,
+        rect: NSRect,
+        options: NSAlignmentOptions,
+    ) -> NSRect;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedName)]
-        pub unsafe fn localizedName(&self) -> Id<NSString>;
+    #[objc2::method(sel = "backingScaleFactor")]
+    pub unsafe fn backingScaleFactor(&self) -> CGFloat;
 
-        #[method(safeAreaInsets)]
-        pub unsafe fn safeAreaInsets(&self) -> NSEdgeInsets;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedName", managed = "Other")]
+    pub unsafe fn localizedName(&self) -> Id<NSString>;
 
-        #[method(auxiliaryTopLeftArea)]
-        pub unsafe fn auxiliaryTopLeftArea(&self) -> NSRect;
+    #[objc2::method(sel = "safeAreaInsets")]
+    pub unsafe fn safeAreaInsets(&self) -> NSEdgeInsets;
 
-        #[method(auxiliaryTopRightArea)]
-        pub unsafe fn auxiliaryTopRightArea(&self) -> NSRect;
-    }
-);
+    #[objc2::method(sel = "auxiliaryTopLeftArea")]
+    pub unsafe fn auxiliaryTopLeftArea(&self) -> NSRect;
+
+    #[objc2::method(sel = "auxiliaryTopRightArea")]
+    pub unsafe fn auxiliaryTopRightArea(&self) -> NSRect;
+}
 
 extern_static!(NSScreenColorSpaceDidChangeNotification: &'static NSNotificationName);
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSScreen")]
-    unsafe impl NSScreen {
-        #[method(maximumExtendedDynamicRangeColorComponentValue)]
-        pub unsafe fn maximumExtendedDynamicRangeColorComponentValue(&self) -> CGFloat;
+    pub type NSScreen;
 
-        #[method(maximumPotentialExtendedDynamicRangeColorComponentValue)]
-        pub unsafe fn maximumPotentialExtendedDynamicRangeColorComponentValue(&self) -> CGFloat;
+    #[objc2::method(sel = "maximumExtendedDynamicRangeColorComponentValue")]
+    pub unsafe fn maximumExtendedDynamicRangeColorComponentValue(&self) -> CGFloat;
 
-        #[method(maximumReferenceExtendedDynamicRangeColorComponentValue)]
-        pub unsafe fn maximumReferenceExtendedDynamicRangeColorComponentValue(&self) -> CGFloat;
-    }
-);
+    #[objc2::method(sel = "maximumPotentialExtendedDynamicRangeColorComponentValue")]
+    pub unsafe fn maximumPotentialExtendedDynamicRangeColorComponentValue(&self) -> CGFloat;
 
-extern_methods!(
+    #[objc2::method(sel = "maximumReferenceExtendedDynamicRangeColorComponentValue")]
+    pub unsafe fn maximumReferenceExtendedDynamicRangeColorComponentValue(&self) -> CGFloat;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSScreen")]
-    unsafe impl NSScreen {
-        #[method(maximumFramesPerSecond)]
-        pub unsafe fn maximumFramesPerSecond(&self) -> NSInteger;
+    pub type NSScreen;
 
-        #[method(minimumRefreshInterval)]
-        pub unsafe fn minimumRefreshInterval(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "maximumFramesPerSecond")]
+    pub unsafe fn maximumFramesPerSecond(&self) -> NSInteger;
 
-        #[method(maximumRefreshInterval)]
-        pub unsafe fn maximumRefreshInterval(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "minimumRefreshInterval")]
+    pub unsafe fn minimumRefreshInterval(&self) -> NSTimeInterval;
 
-        #[method(displayUpdateGranularity)]
-        pub unsafe fn displayUpdateGranularity(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "maximumRefreshInterval")]
+    pub unsafe fn maximumRefreshInterval(&self) -> NSTimeInterval;
 
-        #[method(lastDisplayUpdateTimestamp)]
-        pub unsafe fn lastDisplayUpdateTimestamp(&self) -> NSTimeInterval;
-    }
-);
+    #[objc2::method(sel = "displayUpdateGranularity")]
+    pub unsafe fn displayUpdateGranularity(&self) -> NSTimeInterval;
 
-extern_methods!(
-    /// NSDeprecated
+    #[objc2::method(sel = "lastDisplayUpdateTimestamp")]
+    pub unsafe fn lastDisplayUpdateTimestamp(&self) -> NSTimeInterval;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSScreen")]
-    unsafe impl NSScreen {
-        #[deprecated = "Use -convertRectToBacking: or -backingScaleFactor instead"]
-        #[method(userSpaceScaleFactor)]
-        pub unsafe fn userSpaceScaleFactor(&self) -> CGFloat;
-    }
-);
+    pub type NSScreen;
+
+    #[deprecated = "Use -convertRectToBacking: or -backingScaleFactor instead"]
+    #[objc2::method(sel = "userSpaceScaleFactor")]
+    pub unsafe fn userSpaceScaleFactor(&self) -> CGFloat;
+}

@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCSteeringWheelElement")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCSteeringWheelElement")]
-    pub struct GCSteeringWheelElement;
-
-    #[cfg(feature = "GameController_GCSteeringWheelElement")]
-    unsafe impl ClassType for GCSteeringWheelElement {
-        type Super = NSObject;
-    }
-);
+    pub type GCSteeringWheelElement;
+}
 
 #[cfg(feature = "GameController_GCSteeringWheelElement")]
 unsafe impl GCAxisElement for GCSteeringWheelElement {}
@@ -25,13 +25,16 @@ unsafe impl GCPhysicalInputElement for GCSteeringWheelElement {}
 #[cfg(feature = "GameController_GCSteeringWheelElement")]
 unsafe impl NSObjectProtocol for GCSteeringWheelElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCSteeringWheelElement")]
-    unsafe impl GCSteeringWheelElement {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type GCSteeringWheelElement;
 
-        #[method(maximumDegreesOfRotation)]
-        pub unsafe fn maximumDegreesOfRotation(&self) -> c_float;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "maximumDegreesOfRotation")]
+    pub unsafe fn maximumDegreesOfRotation(&self) -> c_float;
+}

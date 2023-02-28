@@ -7,17 +7,18 @@ use crate::Foundation::*;
 
 extern_static!(NSSplitViewControllerAutomaticDimension: CGFloat);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSViewController,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSplitViewController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSSplitViewController")]
-    pub struct NSSplitViewController;
-
-    #[cfg(feature = "AppKit_NSSplitViewController")]
-    unsafe impl ClassType for NSSplitViewController {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSViewController;
-    }
-);
+    pub type NSSplitViewController;
+}
 
 #[cfg(feature = "AppKit_NSSplitViewController")]
 unsafe impl NSCoding for NSSplitViewController {}
@@ -40,131 +41,142 @@ unsafe impl NSUserInterfaceItemIdentification for NSSplitViewController {}
 #[cfg(feature = "AppKit_NSSplitViewController")]
 unsafe impl NSUserInterfaceValidations for NSSplitViewController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSplitViewController")]
-    unsafe impl NSSplitViewController {
-        #[cfg(feature = "AppKit_NSSplitView")]
-        #[method_id(@__retain_semantics Other splitView)]
-        pub unsafe fn splitView(&self) -> Id<NSSplitView>;
+    pub type NSSplitViewController;
 
-        #[cfg(feature = "AppKit_NSSplitView")]
-        #[method(setSplitView:)]
-        pub unsafe fn setSplitView(&self, split_view: &NSSplitView);
+    #[cfg(feature = "AppKit_NSSplitView")]
+    #[objc2::method(sel = "splitView", managed = "Other")]
+    pub unsafe fn splitView(&self) -> Id<NSSplitView>;
 
-        #[cfg(all(feature = "AppKit_NSSplitViewItem", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other splitViewItems)]
-        pub unsafe fn splitViewItems(&self) -> Id<NSArray<NSSplitViewItem>>;
+    #[cfg(feature = "AppKit_NSSplitView")]
+    #[objc2::method(sel = "setSplitView:")]
+    pub unsafe fn setSplitView(&self, split_view: &NSSplitView);
 
-        #[cfg(all(feature = "AppKit_NSSplitViewItem", feature = "Foundation_NSArray"))]
-        #[method(setSplitViewItems:)]
-        pub unsafe fn setSplitViewItems(&self, split_view_items: &NSArray<NSSplitViewItem>);
+    #[cfg(all(feature = "AppKit_NSSplitViewItem", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "splitViewItems", managed = "Other")]
+    pub unsafe fn splitViewItems(&self) -> Id<NSArray<NSSplitViewItem>>;
 
-        #[cfg(feature = "AppKit_NSSplitViewItem")]
-        #[method(addSplitViewItem:)]
-        pub unsafe fn addSplitViewItem(&self, split_view_item: &NSSplitViewItem);
+    #[cfg(all(feature = "AppKit_NSSplitViewItem", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setSplitViewItems:")]
+    pub unsafe fn setSplitViewItems(&self, split_view_items: &NSArray<NSSplitViewItem>);
 
-        #[cfg(feature = "AppKit_NSSplitViewItem")]
-        #[method(insertSplitViewItem:atIndex:)]
-        pub unsafe fn insertSplitViewItem_atIndex(
-            &self,
-            split_view_item: &NSSplitViewItem,
-            index: NSInteger,
-        );
+    #[cfg(feature = "AppKit_NSSplitViewItem")]
+    #[objc2::method(sel = "addSplitViewItem:")]
+    pub unsafe fn addSplitViewItem(&self, split_view_item: &NSSplitViewItem);
 
-        #[cfg(feature = "AppKit_NSSplitViewItem")]
-        #[method(removeSplitViewItem:)]
-        pub unsafe fn removeSplitViewItem(&self, split_view_item: &NSSplitViewItem);
+    #[cfg(feature = "AppKit_NSSplitViewItem")]
+    #[objc2::method(sel = "insertSplitViewItem:atIndex:")]
+    pub unsafe fn insertSplitViewItem_atIndex(
+        &self,
+        split_view_item: &NSSplitViewItem,
+        index: NSInteger,
+    );
 
-        #[cfg(feature = "AppKit_NSSplitViewItem")]
-        #[method_id(@__retain_semantics Other splitViewItemForViewController:)]
-        pub unsafe fn splitViewItemForViewController(
-            &self,
-            view_controller: &NSViewController,
-        ) -> Option<Id<NSSplitViewItem>>;
+    #[cfg(feature = "AppKit_NSSplitViewItem")]
+    #[objc2::method(sel = "removeSplitViewItem:")]
+    pub unsafe fn removeSplitViewItem(&self, split_view_item: &NSSplitViewItem);
 
-        #[method(minimumThicknessForInlineSidebars)]
-        pub unsafe fn minimumThicknessForInlineSidebars(&self) -> CGFloat;
+    #[cfg(feature = "AppKit_NSSplitViewItem")]
+    #[objc2::method(sel = "splitViewItemForViewController:", managed = "Other")]
+    pub unsafe fn splitViewItemForViewController(
+        &self,
+        view_controller: &NSViewController,
+    ) -> Option<Id<NSSplitViewItem>>;
 
-        #[method(setMinimumThicknessForInlineSidebars:)]
-        pub unsafe fn setMinimumThicknessForInlineSidebars(
-            &self,
-            minimum_thickness_for_inline_sidebars: CGFloat,
-        );
+    #[objc2::method(sel = "minimumThicknessForInlineSidebars")]
+    pub unsafe fn minimumThicknessForInlineSidebars(&self) -> CGFloat;
 
-        #[method(validateUserInterfaceItem:)]
-        pub unsafe fn validateUserInterfaceItem(
-            &self,
-            item: &ProtocolObject<dyn NSValidatedUserInterfaceItem>,
-        ) -> bool;
+    #[objc2::method(sel = "setMinimumThicknessForInlineSidebars:")]
+    pub unsafe fn setMinimumThicknessForInlineSidebars(
+        &self,
+        minimum_thickness_for_inline_sidebars: CGFloat,
+    );
 
-        #[method(viewDidLoad)]
-        pub unsafe fn viewDidLoad(&self);
+    #[objc2::method(sel = "validateUserInterfaceItem:")]
+    pub unsafe fn validateUserInterfaceItem(
+        &self,
+        item: &ProtocolObject<dyn NSValidatedUserInterfaceItem>,
+    ) -> bool;
 
-        #[cfg(all(feature = "AppKit_NSSplitView", feature = "AppKit_NSView"))]
-        #[method(splitView:canCollapseSubview:)]
-        pub unsafe fn splitView_canCollapseSubview(
-            &self,
-            split_view: &NSSplitView,
-            subview: &NSView,
-        ) -> bool;
+    #[objc2::method(sel = "viewDidLoad")]
+    pub unsafe fn viewDidLoad(&self);
 
-        #[cfg(all(feature = "AppKit_NSSplitView", feature = "AppKit_NSView"))]
-        #[deprecated = "NSSplitView no longer supports collapsing sections via double-click. This delegate method is never called, and NSSplitViewController's implementation always returns NO."]
-        #[method(splitView:shouldCollapseSubview:forDoubleClickOnDividerAtIndex:)]
-        pub unsafe fn splitView_shouldCollapseSubview_forDoubleClickOnDividerAtIndex(
-            &self,
-            split_view: &NSSplitView,
-            subview: &NSView,
-            divider_index: NSInteger,
-        ) -> bool;
+    #[cfg(all(feature = "AppKit_NSSplitView", feature = "AppKit_NSView"))]
+    #[objc2::method(sel = "splitView:canCollapseSubview:")]
+    pub unsafe fn splitView_canCollapseSubview(
+        &self,
+        split_view: &NSSplitView,
+        subview: &NSView,
+    ) -> bool;
 
-        #[cfg(feature = "AppKit_NSSplitView")]
-        #[method(splitView:shouldHideDividerAtIndex:)]
-        pub unsafe fn splitView_shouldHideDividerAtIndex(
-            &self,
-            split_view: &NSSplitView,
-            divider_index: NSInteger,
-        ) -> bool;
+    #[cfg(all(feature = "AppKit_NSSplitView", feature = "AppKit_NSView"))]
+    #[deprecated = "NSSplitView no longer supports collapsing sections via double-click. This delegate method is never called, and NSSplitViewController's implementation always returns NO."]
+    #[objc2::method(sel = "splitView:shouldCollapseSubview:forDoubleClickOnDividerAtIndex:")]
+    pub unsafe fn splitView_shouldCollapseSubview_forDoubleClickOnDividerAtIndex(
+        &self,
+        split_view: &NSSplitView,
+        subview: &NSView,
+        divider_index: NSInteger,
+    ) -> bool;
 
-        #[cfg(feature = "AppKit_NSSplitView")]
-        #[method(splitView:effectiveRect:forDrawnRect:ofDividerAtIndex:)]
-        pub unsafe fn splitView_effectiveRect_forDrawnRect_ofDividerAtIndex(
-            &self,
-            split_view: &NSSplitView,
-            proposed_effective_rect: NSRect,
-            drawn_rect: NSRect,
-            divider_index: NSInteger,
-        ) -> NSRect;
+    #[cfg(feature = "AppKit_NSSplitView")]
+    #[objc2::method(sel = "splitView:shouldHideDividerAtIndex:")]
+    pub unsafe fn splitView_shouldHideDividerAtIndex(
+        &self,
+        split_view: &NSSplitView,
+        divider_index: NSInteger,
+    ) -> bool;
 
-        #[cfg(feature = "AppKit_NSSplitView")]
-        #[method(splitView:additionalEffectiveRectOfDividerAtIndex:)]
-        pub unsafe fn splitView_additionalEffectiveRectOfDividerAtIndex(
-            &self,
-            split_view: &NSSplitView,
-            divider_index: NSInteger,
-        ) -> NSRect;
-    }
-);
+    #[cfg(feature = "AppKit_NSSplitView")]
+    #[objc2::method(sel = "splitView:effectiveRect:forDrawnRect:ofDividerAtIndex:")]
+    pub unsafe fn splitView_effectiveRect_forDrawnRect_ofDividerAtIndex(
+        &self,
+        split_view: &NSSplitView,
+        proposed_effective_rect: NSRect,
+        drawn_rect: NSRect,
+        divider_index: NSInteger,
+    ) -> NSRect;
 
-extern_methods!(
-    /// NSSplitViewControllerToggleSidebarAction
+    #[cfg(feature = "AppKit_NSSplitView")]
+    #[objc2::method(sel = "splitView:additionalEffectiveRectOfDividerAtIndex:")]
+    pub unsafe fn splitView_additionalEffectiveRectOfDividerAtIndex(
+        &self,
+        split_view: &NSSplitView,
+        divider_index: NSInteger,
+    ) -> NSRect;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSSplitViewController")]
-    unsafe impl NSSplitViewController {
-        #[method(toggleSidebar:)]
-        pub unsafe fn toggleSidebar(&self, sender: Option<&Object>);
-    }
-);
+    pub type NSSplitViewController;
 
-extern_methods!(
-    /// Methods declared on superclass `NSViewController`
+    #[objc2::method(sel = "toggleSidebar:")]
+    pub unsafe fn toggleSidebar(&self, sender: Option<&Object>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSViewController`
     #[cfg(feature = "AppKit_NSSplitViewController")]
-    unsafe impl NSSplitViewController {
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Init initWithNibName:bundle:)]
-        pub unsafe fn initWithNibName_bundle(
-            this: Option<Allocated<Self>>,
-            nib_name_or_nil: Option<&NSNibName>,
-            nib_bundle_or_nil: Option<&NSBundle>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSSplitViewController")]
+    pub type NSSplitViewController;
+
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "initWithNibName:bundle:", managed = "Init")]
+    pub unsafe fn initWithNibName_bundle(
+        this: Option<Allocated<Self>>,
+        nib_name_or_nil: Option<&NSNibName>,
+        nib_bundle_or_nil: Option<&NSBundle>,
+    ) -> Id<Self>;
+}

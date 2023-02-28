@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Contacts::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Contacts_CNSocialProfile")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Contacts_CNSocialProfile")]
-    pub struct CNSocialProfile;
-
-    #[cfg(feature = "Contacts_CNSocialProfile")]
-    unsafe impl ClassType for CNSocialProfile {
-        type Super = NSObject;
-    }
-);
+    pub type CNSocialProfile;
+}
 
 #[cfg(feature = "Contacts_CNSocialProfile")]
 unsafe impl NSCoding for CNSocialProfile {}
@@ -24,44 +24,50 @@ unsafe impl NSObjectProtocol for CNSocialProfile {}
 #[cfg(feature = "Contacts_CNSocialProfile")]
 unsafe impl NSSecureCoding for CNSocialProfile {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Contacts_CNSocialProfile")]
-    unsafe impl CNSocialProfile {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other urlString)]
-        pub unsafe fn urlString(&self) -> Id<NSString>;
+    pub type CNSocialProfile;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other username)]
-        pub unsafe fn username(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "urlString", managed = "Other")]
+    pub unsafe fn urlString(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other userIdentifier)]
-        pub unsafe fn userIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "username", managed = "Other")]
+    pub unsafe fn username(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other service)]
-        pub unsafe fn service(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "userIdentifier", managed = "Other")]
+    pub unsafe fn userIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithUrlString:username:userIdentifier:service:)]
-        pub unsafe fn initWithUrlString_username_userIdentifier_service(
-            this: Option<Allocated<Self>>,
-            url_string: Option<&NSString>,
-            username: Option<&NSString>,
-            user_identifier: Option<&NSString>,
-            service: Option<&NSString>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "service", managed = "Other")]
+    pub unsafe fn service(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedStringForKey:)]
-        pub unsafe fn localizedStringForKey(key: &NSString) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "initWithUrlString:username:userIdentifier:service:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithUrlString_username_userIdentifier_service(
+        this: Option<Allocated<Self>>,
+        url_string: Option<&NSString>,
+        username: Option<&NSString>,
+        user_identifier: Option<&NSString>,
+        service: Option<&NSString>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedStringForService:)]
-        pub unsafe fn localizedStringForService(service: &NSString) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedStringForKey:", managed = "Other")]
+    pub unsafe fn localizedStringForKey(key: &NSString) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedStringForService:", managed = "Other")]
+    pub unsafe fn localizedStringForService(service: &NSString) -> Id<NSString>;
+}
 
 extern_static!(CNSocialProfileURLStringKey: &'static NSString);
 

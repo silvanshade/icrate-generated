@@ -7,100 +7,103 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKMapItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKMapItem")]
-    pub struct MKMapItem;
-
-    #[cfg(feature = "MapKit_MKMapItem")]
-    unsafe impl ClassType for MKMapItem {
-        type Super = NSObject;
-    }
-);
+    pub type MKMapItem;
+}
 
 #[cfg(feature = "MapKit_MKMapItem")]
 unsafe impl NSObjectProtocol for MKMapItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMapItem")]
-    unsafe impl MKMapItem {
-        #[cfg(feature = "MapKit_MKPlacemark")]
-        #[method_id(@__retain_semantics Other placemark)]
-        pub unsafe fn placemark(&self) -> Id<MKPlacemark>;
+    pub type MKMapItem;
 
-        #[method(isCurrentLocation)]
-        pub unsafe fn isCurrentLocation(&self) -> bool;
+    #[cfg(feature = "MapKit_MKPlacemark")]
+    #[objc2::method(sel = "placemark", managed = "Other")]
+    pub unsafe fn placemark(&self) -> Id<MKPlacemark>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "isCurrentLocation")]
+    pub unsafe fn isCurrentLocation(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        pub unsafe fn setName(&self, name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other phoneNumber)]
-        pub unsafe fn phoneNumber(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    pub unsafe fn setName(&self, name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPhoneNumber:)]
-        pub unsafe fn setPhoneNumber(&self, phone_number: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "phoneNumber", managed = "Other")]
+    pub unsafe fn phoneNumber(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other url)]
-        pub unsafe fn url(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPhoneNumber:")]
+    pub unsafe fn setPhoneNumber(&self, phone_number: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setUrl:)]
-        pub unsafe fn setUrl(&self, url: Option<&NSURL>);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "url", managed = "Other")]
+    pub unsafe fn url(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "Foundation_NSTimeZone")]
-        #[method_id(@__retain_semantics Other timeZone)]
-        pub unsafe fn timeZone(&self) -> Option<Id<NSTimeZone>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setUrl:")]
+    pub unsafe fn setUrl(&self, url: Option<&NSURL>);
 
-        #[cfg(feature = "Foundation_NSTimeZone")]
-        #[method(setTimeZone:)]
-        pub unsafe fn setTimeZone(&self, time_zone: Option<&NSTimeZone>);
+    #[cfg(feature = "Foundation_NSTimeZone")]
+    #[objc2::method(sel = "timeZone", managed = "Other")]
+    pub unsafe fn timeZone(&self) -> Option<Id<NSTimeZone>>;
 
-        #[method_id(@__retain_semantics Other pointOfInterestCategory)]
-        pub unsafe fn pointOfInterestCategory(&self) -> Option<Id<MKPointOfInterestCategory>>;
+    #[cfg(feature = "Foundation_NSTimeZone")]
+    #[objc2::method(sel = "setTimeZone:")]
+    pub unsafe fn setTimeZone(&self, time_zone: Option<&NSTimeZone>);
 
-        #[method(setPointOfInterestCategory:)]
-        pub unsafe fn setPointOfInterestCategory(
-            &self,
-            point_of_interest_category: Option<&MKPointOfInterestCategory>,
-        );
+    #[objc2::method(sel = "pointOfInterestCategory", managed = "Other")]
+    pub unsafe fn pointOfInterestCategory(&self) -> Option<Id<MKPointOfInterestCategory>>;
 
-        #[method_id(@__retain_semantics Other mapItemForCurrentLocation)]
-        pub unsafe fn mapItemForCurrentLocation() -> Id<MKMapItem>;
+    #[objc2::method(sel = "setPointOfInterestCategory:")]
+    pub unsafe fn setPointOfInterestCategory(
+        &self,
+        point_of_interest_category: Option<&MKPointOfInterestCategory>,
+    );
 
-        #[cfg(feature = "MapKit_MKPlacemark")]
-        #[method_id(@__retain_semantics Init initWithPlacemark:)]
-        pub unsafe fn initWithPlacemark(
-            this: Option<Allocated<Self>>,
-            placemark: &MKPlacemark,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "mapItemForCurrentLocation", managed = "Other")]
+    pub unsafe fn mapItemForCurrentLocation() -> Id<MKMapItem>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(openInMapsWithLaunchOptions:)]
-        pub unsafe fn openInMapsWithLaunchOptions(
-            &self,
-            launch_options: Option<&NSDictionary<NSString, Object>>,
-        ) -> bool;
+    #[cfg(feature = "MapKit_MKPlacemark")]
+    #[objc2::method(sel = "initWithPlacemark:", managed = "Init")]
+    pub unsafe fn initWithPlacemark(
+        this: Option<Allocated<Self>>,
+        placemark: &MKPlacemark,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(openMapsWithItems:launchOptions:)]
-        pub unsafe fn openMapsWithItems_launchOptions(
-            map_items: &NSArray<MKMapItem>,
-            launch_options: Option<&NSDictionary<NSString, Object>>,
-        ) -> bool;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "openInMapsWithLaunchOptions:")]
+    pub unsafe fn openInMapsWithLaunchOptions(
+        &self,
+        launch_options: Option<&NSDictionary<NSString, Object>>,
+    ) -> bool;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "openMapsWithItems:launchOptions:")]
+    pub unsafe fn openMapsWithItems_launchOptions(
+        map_items: &NSArray<MKMapItem>,
+        launch_options: Option<&NSDictionary<NSString, Object>>,
+    ) -> bool;
+}
 
 extern_static!(MKLaunchOptionsDirectionsModeKey: &'static NSString);
 
@@ -122,11 +125,13 @@ extern_static!(MKLaunchOptionsMapSpanKey: &'static NSString);
 
 extern_static!(MKLaunchOptionsCameraKey: &'static NSString);
 
-extern_methods!(
-    /// MKMapItemSerialization
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMapItem")]
-    unsafe impl MKMapItem {}
-);
+    pub type MKMapItem;
+}
 
 #[cfg(feature = "MapKit_MKMapItem")]
 unsafe impl NSSecureCoding for MKMapItem {}

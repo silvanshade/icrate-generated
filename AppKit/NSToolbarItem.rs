@@ -17,185 +17,188 @@ extern_static!(NSToolbarItemVisibilityPriorityHigh: NSToolbarItemVisibilityPrior
 
 extern_static!(NSToolbarItemVisibilityPriorityUser: NSToolbarItemVisibilityPriority = 2000);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSToolbarItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSToolbarItem")]
-    pub struct NSToolbarItem;
-
-    #[cfg(feature = "AppKit_NSToolbarItem")]
-    unsafe impl ClassType for NSToolbarItem {
-        type Super = NSObject;
-    }
-);
+    pub type NSToolbarItem;
+}
 
 #[cfg(feature = "AppKit_NSToolbarItem")]
 unsafe impl NSObjectProtocol for NSToolbarItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSToolbarItem")]
-    unsafe impl NSToolbarItem {
-        #[method_id(@__retain_semantics Init initWithItemIdentifier:)]
-        pub unsafe fn initWithItemIdentifier(
-            this: Option<Allocated<Self>>,
-            item_identifier: &NSToolbarItemIdentifier,
-        ) -> Id<Self>;
+    pub type NSToolbarItem;
 
-        #[method_id(@__retain_semantics Other itemIdentifier)]
-        pub unsafe fn itemIdentifier(&self) -> Id<NSToolbarItemIdentifier>;
+    #[objc2::method(sel = "initWithItemIdentifier:", managed = "Init")]
+    pub unsafe fn initWithItemIdentifier(
+        this: Option<Allocated<Self>>,
+        item_identifier: &NSToolbarItemIdentifier,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSToolbar")]
-        #[method_id(@__retain_semantics Other toolbar)]
-        pub unsafe fn toolbar(&self) -> Option<Id<NSToolbar>>;
+    #[objc2::method(sel = "itemIdentifier", managed = "Other")]
+    pub unsafe fn itemIdentifier(&self) -> Id<NSToolbarItemIdentifier>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        pub unsafe fn label(&self) -> Id<NSString>;
+    #[cfg(feature = "AppKit_NSToolbar")]
+    #[objc2::method(sel = "toolbar", managed = "Other")]
+    pub unsafe fn toolbar(&self) -> Option<Id<NSToolbar>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        pub unsafe fn setLabel(&self, label: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    pub unsafe fn label(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other paletteLabel)]
-        pub unsafe fn paletteLabel(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    pub unsafe fn setLabel(&self, label: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPaletteLabel:)]
-        pub unsafe fn setPaletteLabel(&self, palette_label: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "paletteLabel", managed = "Other")]
+    pub unsafe fn paletteLabel(&self) -> Id<NSString>;
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other possibleLabels)]
-        pub unsafe fn possibleLabels(&self) -> Id<NSSet<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPaletteLabel:")]
+    pub unsafe fn setPaletteLabel(&self, palette_label: &NSString);
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
-        #[method(setPossibleLabels:)]
-        pub unsafe fn setPossibleLabels(&self, possible_labels: &NSSet<NSString>);
+    #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "possibleLabels", managed = "Other")]
+    pub unsafe fn possibleLabels(&self) -> Id<NSSet<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other toolTip)]
-        pub unsafe fn toolTip(&self) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setPossibleLabels:")]
+    pub unsafe fn setPossibleLabels(&self, possible_labels: &NSSet<NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setToolTip:)]
-        pub unsafe fn setToolTip(&self, tool_tip: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "toolTip", managed = "Other")]
+    pub unsafe fn toolTip(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "AppKit_NSMenuItem")]
-        #[method_id(@__retain_semantics Other menuFormRepresentation)]
-        pub unsafe fn menuFormRepresentation(&self) -> Option<Id<NSMenuItem>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setToolTip:")]
+    pub unsafe fn setToolTip(&self, tool_tip: Option<&NSString>);
 
-        #[cfg(feature = "AppKit_NSMenuItem")]
-        #[method(setMenuFormRepresentation:)]
-        pub unsafe fn setMenuFormRepresentation(
-            &self,
-            menu_form_representation: Option<&NSMenuItem>,
-        );
+    #[cfg(feature = "AppKit_NSMenuItem")]
+    #[objc2::method(sel = "menuFormRepresentation", managed = "Other")]
+    pub unsafe fn menuFormRepresentation(&self) -> Option<Id<NSMenuItem>>;
 
-        #[method(tag)]
-        pub unsafe fn tag(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSMenuItem")]
+    #[objc2::method(sel = "setMenuFormRepresentation:")]
+    pub unsafe fn setMenuFormRepresentation(&self, menu_form_representation: Option<&NSMenuItem>);
 
-        #[method(setTag:)]
-        pub unsafe fn setTag(&self, tag: NSInteger);
+    #[objc2::method(sel = "tag")]
+    pub unsafe fn tag(&self) -> NSInteger;
 
-        #[method_id(@__retain_semantics Other target)]
-        pub unsafe fn target(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setTag:")]
+    pub unsafe fn setTag(&self, tag: NSInteger);
 
-        #[method(setTarget:)]
-        pub unsafe fn setTarget(&self, target: Option<&Object>);
+    #[objc2::method(sel = "target", managed = "Other")]
+    pub unsafe fn target(&self) -> Option<Id<Object>>;
 
-        #[method(action)]
-        pub unsafe fn action(&self) -> Option<Sel>;
+    #[objc2::method(sel = "setTarget:")]
+    pub unsafe fn setTarget(&self, target: Option<&Object>);
 
-        #[method(setAction:)]
-        pub unsafe fn setAction(&self, action: Option<Sel>);
+    #[objc2::method(sel = "action")]
+    pub unsafe fn action(&self) -> Option<Sel>;
 
-        #[method(isEnabled)]
-        pub unsafe fn isEnabled(&self) -> bool;
+    #[objc2::method(sel = "setAction:")]
+    pub unsafe fn setAction(&self, action: Option<Sel>);
 
-        #[method(setEnabled:)]
-        pub unsafe fn setEnabled(&self, enabled: bool);
+    #[objc2::method(sel = "isEnabled")]
+    pub unsafe fn isEnabled(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Option<Id<NSImage>>;
+    #[objc2::method(sel = "setEnabled:")]
+    pub unsafe fn setEnabled(&self, enabled: bool);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setImage:)]
-        pub unsafe fn setImage(&self, image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Option<Id<NSImage>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setImage:")]
+    pub unsafe fn setImage(&self, image: Option<&NSImage>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[method(isBordered)]
-        pub unsafe fn isBordered(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
 
-        #[method(setBordered:)]
-        pub unsafe fn setBordered(&self, bordered: bool);
+    #[objc2::method(sel = "isBordered")]
+    pub unsafe fn isBordered(&self) -> bool;
 
-        #[method(isNavigational)]
-        pub unsafe fn isNavigational(&self) -> bool;
+    #[objc2::method(sel = "setBordered:")]
+    pub unsafe fn setBordered(&self, bordered: bool);
 
-        #[method(setNavigational:)]
-        pub unsafe fn setNavigational(&self, navigational: bool);
+    #[objc2::method(sel = "isNavigational")]
+    pub unsafe fn isNavigational(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other view)]
-        pub unsafe fn view(&self) -> Option<Id<NSView>>;
+    #[objc2::method(sel = "setNavigational:")]
+    pub unsafe fn setNavigational(&self, navigational: bool);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setView:)]
-        pub unsafe fn setView(&self, view: Option<&NSView>);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "view", managed = "Other")]
+    pub unsafe fn view(&self) -> Option<Id<NSView>>;
 
-        #[method(isVisible)]
-        pub unsafe fn isVisible(&self) -> bool;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setView:")]
+    pub unsafe fn setView(&self, view: Option<&NSView>);
 
-        #[deprecated = "This property is no longer recommended. Instead, let the system automatically measure the size of the view using constraints."]
-        #[method(minSize)]
-        pub unsafe fn minSize(&self) -> NSSize;
+    #[objc2::method(sel = "isVisible")]
+    pub unsafe fn isVisible(&self) -> bool;
 
-        #[deprecated = "This property is no longer recommended. Instead, let the system automatically measure the size of the view using constraints."]
-        #[method(setMinSize:)]
-        pub unsafe fn setMinSize(&self, min_size: NSSize);
+    #[deprecated = "This property is no longer recommended. Instead, let the system automatically measure the size of the view using constraints."]
+    #[objc2::method(sel = "minSize")]
+    pub unsafe fn minSize(&self) -> NSSize;
 
-        #[deprecated = "This property is no longer recommended. Instead, let the system automatically measure the size of the view using constraints."]
-        #[method(maxSize)]
-        pub unsafe fn maxSize(&self) -> NSSize;
+    #[deprecated = "This property is no longer recommended. Instead, let the system automatically measure the size of the view using constraints."]
+    #[objc2::method(sel = "setMinSize:")]
+    pub unsafe fn setMinSize(&self, min_size: NSSize);
 
-        #[deprecated = "This property is no longer recommended. Instead, let the system automatically measure the size of the view using constraints."]
-        #[method(setMaxSize:)]
-        pub unsafe fn setMaxSize(&self, max_size: NSSize);
+    #[deprecated = "This property is no longer recommended. Instead, let the system automatically measure the size of the view using constraints."]
+    #[objc2::method(sel = "maxSize")]
+    pub unsafe fn maxSize(&self) -> NSSize;
 
-        #[method(visibilityPriority)]
-        pub unsafe fn visibilityPriority(&self) -> NSToolbarItemVisibilityPriority;
+    #[deprecated = "This property is no longer recommended. Instead, let the system automatically measure the size of the view using constraints."]
+    #[objc2::method(sel = "setMaxSize:")]
+    pub unsafe fn setMaxSize(&self, max_size: NSSize);
 
-        #[method(setVisibilityPriority:)]
-        pub unsafe fn setVisibilityPriority(
-            &self,
-            visibility_priority: NSToolbarItemVisibilityPriority,
-        );
+    #[objc2::method(sel = "visibilityPriority")]
+    pub unsafe fn visibilityPriority(&self) -> NSToolbarItemVisibilityPriority;
 
-        #[method(validate)]
-        pub unsafe fn validate(&self);
+    #[objc2::method(sel = "setVisibilityPriority:")]
+    pub unsafe fn setVisibilityPriority(
+        &self,
+        visibility_priority: NSToolbarItemVisibilityPriority,
+    );
 
-        #[method(autovalidates)]
-        pub unsafe fn autovalidates(&self) -> bool;
+    #[objc2::method(sel = "validate")]
+    pub unsafe fn validate(&self);
 
-        #[method(setAutovalidates:)]
-        pub unsafe fn setAutovalidates(&self, autovalidates: bool);
+    #[objc2::method(sel = "autovalidates")]
+    pub unsafe fn autovalidates(&self) -> bool;
 
-        #[method(allowsDuplicatesInToolbar)]
-        pub unsafe fn allowsDuplicatesInToolbar(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "setAutovalidates:")]
+    pub unsafe fn setAutovalidates(&self, autovalidates: bool);
 
-extern_methods!(
+    #[objc2::method(sel = "allowsDuplicatesInToolbar")]
+    pub unsafe fn allowsDuplicatesInToolbar(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSToolbarItem")]
-    unsafe impl NSToolbarItem {}
-);
+    pub type NSToolbarItem;
+}
 
 #[cfg(feature = "AppKit_NSToolbarItem")]
 unsafe impl NSMenuItemValidation for NSToolbarItem {}
@@ -203,15 +206,12 @@ unsafe impl NSMenuItemValidation for NSToolbarItem {}
 #[cfg(feature = "AppKit_NSToolbarItem")]
 unsafe impl NSValidatedUserInterfaceItem for NSToolbarItem {}
 
-extern_protocol!(
-    pub unsafe trait NSToolbarItemValidation: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSToolbarItem")]
-        #[method(validateToolbarItem:)]
-        unsafe fn validateToolbarItem(&self, item: &NSToolbarItem) -> bool;
-    }
-
-    unsafe impl ProtocolType for dyn NSToolbarItemValidation {}
-);
+#[objc2::protocol]
+pub unsafe trait NSToolbarItemValidation: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSToolbarItem")]
+    #[objc2::method(sel = "validateToolbarItem:")]
+    unsafe fn validateToolbarItem(&self, item: &NSToolbarItem) -> bool;
+}
 
 extern_static!(NSToolbarSpaceItemIdentifier: &'static NSToolbarItemIdentifier);
 

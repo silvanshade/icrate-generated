@@ -8,16 +8,16 @@ typed_enum!(
     pub type CAValueFunctionName = NSString;
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAValueFunction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CAValueFunction")]
-    pub struct CAValueFunction;
-
-    #[cfg(feature = "CoreAnimation_CAValueFunction")]
-    unsafe impl ClassType for CAValueFunction {
-        type Super = NSObject;
-    }
-);
+    pub type CAValueFunction;
+}
 
 #[cfg(feature = "CoreAnimation_CAValueFunction")]
 unsafe impl NSCoding for CAValueFunction {}
@@ -28,16 +28,19 @@ unsafe impl NSObjectProtocol for CAValueFunction {}
 #[cfg(feature = "CoreAnimation_CAValueFunction")]
 unsafe impl NSSecureCoding for CAValueFunction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CAValueFunction")]
-    unsafe impl CAValueFunction {
-        #[method_id(@__retain_semantics Other functionWithName:)]
-        pub unsafe fn functionWithName(name: &CAValueFunctionName) -> Option<Id<Self>>;
+    pub type CAValueFunction;
 
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<CAValueFunctionName>;
-    }
-);
+    #[objc2::method(sel = "functionWithName:", managed = "Other")]
+    pub unsafe fn functionWithName(name: &CAValueFunctionName) -> Option<Id<Self>>;
+
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<CAValueFunctionName>;
+}
 
 extern_static!(kCAValueFunctionRotateX: &'static CAValueFunctionName);
 

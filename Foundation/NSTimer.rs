@@ -3,120 +3,138 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSTimer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSTimer")]
-    pub struct NSTimer;
-
-    #[cfg(feature = "Foundation_NSTimer")]
-    unsafe impl ClassType for NSTimer {
-        type Super = NSObject;
-    }
-);
+    pub type NSTimer;
+}
 
 #[cfg(feature = "Foundation_NSTimer")]
 unsafe impl NSObjectProtocol for NSTimer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSTimer")]
-    unsafe impl NSTimer {
-        #[cfg(feature = "Foundation_NSInvocation")]
-        #[method_id(@__retain_semantics Other timerWithTimeInterval:invocation:repeats:)]
-        pub unsafe fn timerWithTimeInterval_invocation_repeats(
-            ti: NSTimeInterval,
-            invocation: &NSInvocation,
-            yes_or_no: bool,
-        ) -> Id<NSTimer>;
+    pub type NSTimer;
 
-        #[cfg(feature = "Foundation_NSInvocation")]
-        #[method_id(@__retain_semantics Other scheduledTimerWithTimeInterval:invocation:repeats:)]
-        pub unsafe fn scheduledTimerWithTimeInterval_invocation_repeats(
-            ti: NSTimeInterval,
-            invocation: &NSInvocation,
-            yes_or_no: bool,
-        ) -> Id<NSTimer>;
+    #[cfg(feature = "Foundation_NSInvocation")]
+    #[objc2::method(sel = "timerWithTimeInterval:invocation:repeats:", managed = "Other")]
+    pub unsafe fn timerWithTimeInterval_invocation_repeats(
+        ti: NSTimeInterval,
+        invocation: &NSInvocation,
+        yes_or_no: bool,
+    ) -> Id<NSTimer>;
 
-        #[method_id(@__retain_semantics Other timerWithTimeInterval:target:selector:userInfo:repeats:)]
-        pub unsafe fn timerWithTimeInterval_target_selector_userInfo_repeats(
-            ti: NSTimeInterval,
-            a_target: &Object,
-            a_selector: Sel,
-            user_info: Option<&Object>,
-            yes_or_no: bool,
-        ) -> Id<NSTimer>;
+    #[cfg(feature = "Foundation_NSInvocation")]
+    #[objc2::method(
+        sel = "scheduledTimerWithTimeInterval:invocation:repeats:",
+        managed = "Other"
+    )]
+    pub unsafe fn scheduledTimerWithTimeInterval_invocation_repeats(
+        ti: NSTimeInterval,
+        invocation: &NSInvocation,
+        yes_or_no: bool,
+    ) -> Id<NSTimer>;
 
-        #[method_id(@__retain_semantics Other scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:)]
-        pub unsafe fn scheduledTimerWithTimeInterval_target_selector_userInfo_repeats(
-            ti: NSTimeInterval,
-            a_target: &Object,
-            a_selector: Sel,
-            user_info: Option<&Object>,
-            yes_or_no: bool,
-        ) -> Id<NSTimer>;
+    #[objc2::method(
+        sel = "timerWithTimeInterval:target:selector:userInfo:repeats:",
+        managed = "Other"
+    )]
+    pub unsafe fn timerWithTimeInterval_target_selector_userInfo_repeats(
+        ti: NSTimeInterval,
+        a_target: &Object,
+        a_selector: Sel,
+        user_info: Option<&Object>,
+        yes_or_no: bool,
+    ) -> Id<NSTimer>;
 
-        #[method_id(@__retain_semantics Other timerWithTimeInterval:repeats:block:)]
-        pub unsafe fn timerWithTimeInterval_repeats_block(
-            interval: NSTimeInterval,
-            repeats: bool,
-            block: &Block<(NonNull<NSTimer>,), ()>,
-        ) -> Id<NSTimer>;
+    #[objc2::method(
+        sel = "scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:",
+        managed = "Other"
+    )]
+    pub unsafe fn scheduledTimerWithTimeInterval_target_selector_userInfo_repeats(
+        ti: NSTimeInterval,
+        a_target: &Object,
+        a_selector: Sel,
+        user_info: Option<&Object>,
+        yes_or_no: bool,
+    ) -> Id<NSTimer>;
 
-        #[method_id(@__retain_semantics Other scheduledTimerWithTimeInterval:repeats:block:)]
-        pub unsafe fn scheduledTimerWithTimeInterval_repeats_block(
-            interval: NSTimeInterval,
-            repeats: bool,
-            block: &Block<(NonNull<NSTimer>,), ()>,
-        ) -> Id<NSTimer>;
+    #[objc2::method(sel = "timerWithTimeInterval:repeats:block:", managed = "Other")]
+    pub unsafe fn timerWithTimeInterval_repeats_block(
+        interval: NSTimeInterval,
+        repeats: bool,
+        block: &Block<(NonNull<NSTimer>,), ()>,
+    ) -> Id<NSTimer>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Init initWithFireDate:interval:repeats:block:)]
-        pub unsafe fn initWithFireDate_interval_repeats_block(
-            this: Option<Allocated<Self>>,
-            date: &NSDate,
-            interval: NSTimeInterval,
-            repeats: bool,
-            block: &Block<(NonNull<NSTimer>,), ()>,
-        ) -> Id<Self>;
+    #[objc2::method(
+        sel = "scheduledTimerWithTimeInterval:repeats:block:",
+        managed = "Other"
+    )]
+    pub unsafe fn scheduledTimerWithTimeInterval_repeats_block(
+        interval: NSTimeInterval,
+        repeats: bool,
+        block: &Block<(NonNull<NSTimer>,), ()>,
+    ) -> Id<NSTimer>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Init initWithFireDate:interval:target:selector:userInfo:repeats:)]
-        pub unsafe fn initWithFireDate_interval_target_selector_userInfo_repeats(
-            this: Option<Allocated<Self>>,
-            date: &NSDate,
-            ti: NSTimeInterval,
-            t: &Object,
-            s: Sel,
-            ui: Option<&Object>,
-            rep: bool,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "initWithFireDate:interval:repeats:block:", managed = "Init")]
+    pub unsafe fn initWithFireDate_interval_repeats_block(
+        this: Option<Allocated<Self>>,
+        date: &NSDate,
+        interval: NSTimeInterval,
+        repeats: bool,
+        block: &Block<(NonNull<NSTimer>,), ()>,
+    ) -> Id<Self>;
 
-        #[method(fire)]
-        pub unsafe fn fire(&self);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(
+        sel = "initWithFireDate:interval:target:selector:userInfo:repeats:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithFireDate_interval_target_selector_userInfo_repeats(
+        this: Option<Allocated<Self>>,
+        date: &NSDate,
+        ti: NSTimeInterval,
+        t: &Object,
+        s: Sel,
+        ui: Option<&Object>,
+        rep: bool,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other fireDate)]
-        pub unsafe fn fireDate(&self) -> Id<NSDate>;
+    #[objc2::method(sel = "fire")]
+    pub unsafe fn fire(&self);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(setFireDate:)]
-        pub unsafe fn setFireDate(&self, fire_date: &NSDate);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "fireDate", managed = "Other")]
+    pub unsafe fn fireDate(&self) -> Id<NSDate>;
 
-        #[method(timeInterval)]
-        pub unsafe fn timeInterval(&self) -> NSTimeInterval;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "setFireDate:")]
+    pub unsafe fn setFireDate(&self, fire_date: &NSDate);
 
-        #[method(tolerance)]
-        pub unsafe fn tolerance(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "timeInterval")]
+    pub unsafe fn timeInterval(&self) -> NSTimeInterval;
 
-        #[method(setTolerance:)]
-        pub unsafe fn setTolerance(&self, tolerance: NSTimeInterval);
+    #[objc2::method(sel = "tolerance")]
+    pub unsafe fn tolerance(&self) -> NSTimeInterval;
 
-        #[method(invalidate)]
-        pub unsafe fn invalidate(&self);
+    #[objc2::method(sel = "setTolerance:")]
+    pub unsafe fn setTolerance(&self, tolerance: NSTimeInterval);
 
-        #[method(isValid)]
-        pub unsafe fn isValid(&self) -> bool;
+    #[objc2::method(sel = "invalidate")]
+    pub unsafe fn invalidate(&self);
 
-        #[method_id(@__retain_semantics Other userInfo)]
-        pub unsafe fn userInfo(&self) -> Option<Id<Object>>;
-    }
-);
+    #[objc2::method(sel = "isValid")]
+    pub unsafe fn isValid(&self) -> bool;
+
+    #[objc2::method(sel = "userInfo", managed = "Other")]
+    pub unsafe fn userInfo(&self) -> Option<Id<Object>>;
+}

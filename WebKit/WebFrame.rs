@@ -5,122 +5,126 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WebFrame")]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct WebFrame;
-
     #[cfg(feature = "WebKit_WebFrame")]
-    unsafe impl ClassType for WebFrame {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type WebFrame;
+}
 
 #[cfg(feature = "WebKit_WebFrame")]
 unsafe impl NSObjectProtocol for WebFrame {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WebFrame")]
-    unsafe impl WebFrame {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "WebKit_WebFrameView",
-            feature = "WebKit_WebView"
-        ))]
-        #[method_id(@__retain_semantics Init initWithName:webFrameView:webView:)]
-        pub unsafe fn initWithName_webFrameView_webView(
-            this: Option<Allocated<Self>>,
-            name: Option<&NSString>,
-            view: Option<&WebFrameView>,
-            web_view: Option<&WebView>,
-        ) -> Option<Id<Self>>;
+    #[deprecated]
+    pub type WebFrame;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "WebKit_WebFrameView",
+        feature = "WebKit_WebView"
+    ))]
+    #[objc2::method(sel = "initWithName:webFrameView:webView:", managed = "Init")]
+    pub unsafe fn initWithName_webFrameView_webView(
+        this: Option<Allocated<Self>>,
+        name: Option<&NSString>,
+        view: Option<&WebFrameView>,
+        web_view: Option<&WebView>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "WebKit_WebView")]
-        #[method_id(@__retain_semantics Other webView)]
-        pub unsafe fn webView(&self) -> Option<Id<WebView>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[cfg(feature = "WebKit_WebFrameView")]
-        #[method_id(@__retain_semantics Other frameView)]
-        pub unsafe fn frameView(&self) -> Option<Id<WebFrameView>>;
+    #[cfg(feature = "WebKit_WebView")]
+    #[objc2::method(sel = "webView", managed = "Other")]
+    pub unsafe fn webView(&self) -> Option<Id<WebView>>;
 
-        #[cfg(feature = "WebKit_DOMDocument")]
-        #[method_id(@__retain_semantics Other DOMDocument)]
-        pub unsafe fn DOMDocument(&self) -> Option<Id<DOMDocument>>;
+    #[cfg(feature = "WebKit_WebFrameView")]
+    #[objc2::method(sel = "frameView", managed = "Other")]
+    pub unsafe fn frameView(&self) -> Option<Id<WebFrameView>>;
 
-        #[cfg(feature = "WebKit_DOMHTMLElement")]
-        #[method_id(@__retain_semantics Other frameElement)]
-        pub unsafe fn frameElement(&self) -> Option<Id<DOMHTMLElement>>;
+    #[cfg(feature = "WebKit_DOMDocument")]
+    #[objc2::method(sel = "DOMDocument", managed = "Other")]
+    pub unsafe fn DOMDocument(&self) -> Option<Id<DOMDocument>>;
 
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[method(loadRequest:)]
-        pub unsafe fn loadRequest(&self, request: Option<&NSURLRequest>);
+    #[cfg(feature = "WebKit_DOMHTMLElement")]
+    #[objc2::method(sel = "frameElement", managed = "Other")]
+    pub unsafe fn frameElement(&self) -> Option<Id<DOMHTMLElement>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(loadData:MIMEType:textEncodingName:baseURL:)]
-        pub unsafe fn loadData_MIMEType_textEncodingName_baseURL(
-            &self,
-            data: Option<&NSData>,
-            mime_type: Option<&NSString>,
-            encoding_name: Option<&NSString>,
-            url: Option<&NSURL>,
-        );
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[objc2::method(sel = "loadRequest:")]
+    pub unsafe fn loadRequest(&self, request: Option<&NSURLRequest>);
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
-        #[method(loadHTMLString:baseURL:)]
-        pub unsafe fn loadHTMLString_baseURL(&self, string: Option<&NSString>, url: Option<&NSURL>);
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "loadData:MIMEType:textEncodingName:baseURL:")]
+    pub unsafe fn loadData_MIMEType_textEncodingName_baseURL(
+        &self,
+        data: Option<&NSData>,
+        mime_type: Option<&NSString>,
+        encoding_name: Option<&NSString>,
+        url: Option<&NSURL>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
-        #[method(loadAlternateHTMLString:baseURL:forUnreachableURL:)]
-        pub unsafe fn loadAlternateHTMLString_baseURL_forUnreachableURL(
-            &self,
-            string: Option<&NSString>,
-            base_url: Option<&NSURL>,
-            unreachable_url: Option<&NSURL>,
-        );
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "loadHTMLString:baseURL:")]
+    pub unsafe fn loadHTMLString_baseURL(&self, string: Option<&NSString>, url: Option<&NSURL>);
 
-        #[cfg(feature = "WebKit_WebArchive")]
-        #[method(loadArchive:)]
-        pub unsafe fn loadArchive(&self, archive: Option<&WebArchive>);
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "loadAlternateHTMLString:baseURL:forUnreachableURL:")]
+    pub unsafe fn loadAlternateHTMLString_baseURL_forUnreachableURL(
+        &self,
+        string: Option<&NSString>,
+        base_url: Option<&NSURL>,
+        unreachable_url: Option<&NSURL>,
+    );
 
-        #[cfg(feature = "WebKit_WebDataSource")]
-        #[method_id(@__retain_semantics Other dataSource)]
-        pub unsafe fn dataSource(&self) -> Option<Id<WebDataSource>>;
+    #[cfg(feature = "WebKit_WebArchive")]
+    #[objc2::method(sel = "loadArchive:")]
+    pub unsafe fn loadArchive(&self, archive: Option<&WebArchive>);
 
-        #[cfg(feature = "WebKit_WebDataSource")]
-        #[method_id(@__retain_semantics Other provisionalDataSource)]
-        pub unsafe fn provisionalDataSource(&self) -> Option<Id<WebDataSource>>;
+    #[cfg(feature = "WebKit_WebDataSource")]
+    #[objc2::method(sel = "dataSource", managed = "Other")]
+    pub unsafe fn dataSource(&self) -> Option<Id<WebDataSource>>;
 
-        #[method(stopLoading)]
-        pub unsafe fn stopLoading(&self);
+    #[cfg(feature = "WebKit_WebDataSource")]
+    #[objc2::method(sel = "provisionalDataSource", managed = "Other")]
+    pub unsafe fn provisionalDataSource(&self) -> Option<Id<WebDataSource>>;
 
-        #[method(reload)]
-        pub unsafe fn reload(&self);
+    #[objc2::method(sel = "stopLoading")]
+    pub unsafe fn stopLoading(&self);
 
-        #[method(reloadFromOrigin)]
-        pub unsafe fn reloadFromOrigin(&self);
+    #[objc2::method(sel = "reload")]
+    pub unsafe fn reload(&self);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other findFrameNamed:)]
-        pub unsafe fn findFrameNamed(&self, name: Option<&NSString>) -> Option<Id<WebFrame>>;
+    #[objc2::method(sel = "reloadFromOrigin")]
+    pub unsafe fn reloadFromOrigin(&self);
 
-        #[method_id(@__retain_semantics Other parentFrame)]
-        pub unsafe fn parentFrame(&self) -> Option<Id<WebFrame>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "findFrameNamed:", managed = "Other")]
+    pub unsafe fn findFrameNamed(&self, name: Option<&NSString>) -> Option<Id<WebFrame>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other childFrames)]
-        pub unsafe fn childFrames(&self) -> Id<NSArray>;
+    #[objc2::method(sel = "parentFrame", managed = "Other")]
+    pub unsafe fn parentFrame(&self) -> Option<Id<WebFrame>>;
 
-        #[cfg(feature = "WebKit_WebScriptObject")]
-        #[method_id(@__retain_semantics Other windowObject)]
-        pub unsafe fn windowObject(&self) -> Option<Id<WebScriptObject>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "childFrames", managed = "Other")]
+    pub unsafe fn childFrames(&self) -> Id<NSArray>;
+
+    #[cfg(feature = "WebKit_WebScriptObject")]
+    #[objc2::method(sel = "windowObject", managed = "Other")]
+    pub unsafe fn windowObject(&self) -> Option<Id<WebScriptObject>>;
+}

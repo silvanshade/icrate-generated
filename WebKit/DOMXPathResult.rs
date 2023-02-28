@@ -5,81 +5,85 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_enum!(
-    #[underlying(c_uint)]
+#[extern_enum]
+#[underlying(c_uint)]
+#[deprecated]
+pub enum __anonymous__ {
     #[deprecated]
-    pub enum __anonymous__ {
-        #[deprecated]
-        DOM_ANY_TYPE = 0,
-        #[deprecated]
-        DOM_NUMBER_TYPE = 1,
-        #[deprecated]
-        DOM_STRING_TYPE = 2,
-        #[deprecated]
-        DOM_BOOLEAN_TYPE = 3,
-        #[deprecated]
-        DOM_UNORDERED_NODE_ITERATOR_TYPE = 4,
-        #[deprecated]
-        DOM_ORDERED_NODE_ITERATOR_TYPE = 5,
-        #[deprecated]
-        DOM_UNORDERED_NODE_SNAPSHOT_TYPE = 6,
-        #[deprecated]
-        DOM_ORDERED_NODE_SNAPSHOT_TYPE = 7,
-        #[deprecated]
-        DOM_ANY_UNORDERED_NODE_TYPE = 8,
-        #[deprecated]
-        DOM_FIRST_ORDERED_NODE_TYPE = 9,
-    }
-);
+    DOM_ANY_TYPE = 0,
+    #[deprecated]
+    DOM_NUMBER_TYPE = 1,
+    #[deprecated]
+    DOM_STRING_TYPE = 2,
+    #[deprecated]
+    DOM_BOOLEAN_TYPE = 3,
+    #[deprecated]
+    DOM_UNORDERED_NODE_ITERATOR_TYPE = 4,
+    #[deprecated]
+    DOM_ORDERED_NODE_ITERATOR_TYPE = 5,
+    #[deprecated]
+    DOM_UNORDERED_NODE_SNAPSHOT_TYPE = 6,
+    #[deprecated]
+    DOM_ORDERED_NODE_SNAPSHOT_TYPE = 7,
+    #[deprecated]
+    DOM_ANY_UNORDERED_NODE_TYPE = 8,
+    #[deprecated]
+    DOM_FIRST_ORDERED_NODE_TYPE = 9,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[deprecated]
+    #[cfg(feature = "WebKit_DOMXPathResult")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMXPathResult")]
-    #[deprecated]
-    pub struct DOMXPathResult;
-
-    #[cfg(feature = "WebKit_DOMXPathResult")]
-    unsafe impl ClassType for DOMXPathResult {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    pub type DOMXPathResult;
+}
 
 #[cfg(feature = "WebKit_DOMXPathResult")]
 unsafe impl NSObjectProtocol for DOMXPathResult {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMXPathResult")]
-    unsafe impl DOMXPathResult {
-        #[method(resultType)]
-        pub unsafe fn resultType(&self) -> c_ushort;
+    #[deprecated]
+    pub type DOMXPathResult;
 
-        #[method(numberValue)]
-        pub unsafe fn numberValue(&self) -> c_double;
+    #[objc2::method(sel = "resultType")]
+    pub unsafe fn resultType(&self) -> c_ushort;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringValue)]
-        pub unsafe fn stringValue(&self) -> Id<NSString>;
+    #[objc2::method(sel = "numberValue")]
+    pub unsafe fn numberValue(&self) -> c_double;
 
-        #[method(booleanValue)]
-        pub unsafe fn booleanValue(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringValue", managed = "Other")]
+    pub unsafe fn stringValue(&self) -> Id<NSString>;
 
-        #[cfg(feature = "WebKit_DOMNode")]
-        #[method_id(@__retain_semantics Other singleNodeValue)]
-        pub unsafe fn singleNodeValue(&self) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "booleanValue")]
+    pub unsafe fn booleanValue(&self) -> bool;
 
-        #[method(invalidIteratorState)]
-        pub unsafe fn invalidIteratorState(&self) -> bool;
+    #[cfg(feature = "WebKit_DOMNode")]
+    #[objc2::method(sel = "singleNodeValue", managed = "Other")]
+    pub unsafe fn singleNodeValue(&self) -> Option<Id<DOMNode>>;
 
-        #[method(snapshotLength)]
-        pub unsafe fn snapshotLength(&self) -> c_uint;
+    #[objc2::method(sel = "invalidIteratorState")]
+    pub unsafe fn invalidIteratorState(&self) -> bool;
 
-        #[cfg(feature = "WebKit_DOMNode")]
-        #[method_id(@__retain_semantics Other iterateNext)]
-        pub unsafe fn iterateNext(&self) -> Option<Id<DOMNode>>;
+    #[objc2::method(sel = "snapshotLength")]
+    pub unsafe fn snapshotLength(&self) -> c_uint;
 
-        #[cfg(feature = "WebKit_DOMNode")]
-        #[method_id(@__retain_semantics Other snapshotItem:)]
-        pub unsafe fn snapshotItem(&self, index: c_uint) -> Option<Id<DOMNode>>;
-    }
-);
+    #[cfg(feature = "WebKit_DOMNode")]
+    #[objc2::method(sel = "iterateNext", managed = "Other")]
+    pub unsafe fn iterateNext(&self) -> Option<Id<DOMNode>>;
+
+    #[cfg(feature = "WebKit_DOMNode")]
+    #[objc2::method(sel = "snapshotItem:", managed = "Other")]
+    pub unsafe fn snapshotItem(&self, index: c_uint) -> Option<Id<DOMNode>>;
+}

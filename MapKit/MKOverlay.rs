@@ -7,22 +7,17 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_protocol!(
-    pub unsafe trait MKOverlay: MKAnnotation {
-        #[method(coordinate)]
-        unsafe fn coordinate(&self) -> CLLocationCoordinate2D;
+#[objc2::protocol]
+pub unsafe trait MKOverlay: MKAnnotation {
+    #[objc2::method(sel = "coordinate")]
+    unsafe fn coordinate(&self) -> CLLocationCoordinate2D;
 
-        #[method(boundingMapRect)]
-        unsafe fn boundingMapRect(&self) -> MKMapRect;
+    #[objc2::method(sel = "boundingMapRect")]
+    unsafe fn boundingMapRect(&self) -> MKMapRect;
 
-        #[optional]
-        #[method(intersectsMapRect:)]
-        unsafe fn intersectsMapRect(&self, map_rect: MKMapRect) -> bool;
+    #[objc2::method(optional, sel = "intersectsMapRect:")]
+    unsafe fn intersectsMapRect(&self, map_rect: MKMapRect) -> bool;
 
-        #[optional]
-        #[method(canReplaceMapContent)]
-        unsafe fn canReplaceMapContent(&self) -> bool;
-    }
-
-    unsafe impl ProtocolType for dyn MKOverlay {}
-);
+    #[objc2::method(optional, sel = "canReplaceMapContent")]
+    unsafe fn canReplaceMapContent(&self) -> bool;
+}

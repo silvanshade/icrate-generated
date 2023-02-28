@@ -5,13 +5,10 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_protocol!(
-    #[deprecated]
-    pub unsafe trait DOMEventListener: NSObjectProtocol {
-        #[cfg(feature = "WebKit_DOMEvent")]
-        #[method(handleEvent:)]
-        unsafe fn handleEvent(&self, event: Option<&DOMEvent>);
-    }
-
-    unsafe impl ProtocolType for dyn DOMEventListener {}
-);
+#[objc2::protocol]
+#[deprecated]
+pub unsafe trait DOMEventListener: NSObjectProtocol {
+    #[cfg(feature = "WebKit_DOMEvent")]
+    #[objc2::method(sel = "handleEvent:")]
+    unsafe fn handleEvent(&self, event: Option<&DOMEvent>);
+}

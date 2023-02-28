@@ -5,44 +5,41 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_protocol!(
-    pub unsafe trait GCPressedStateInput: NSObjectProtocol {
-        #[method(pressedDidChangeHandler)]
-        unsafe fn pressedDidChangeHandler(
-            &self,
-        ) -> *mut Block<
-            (
-                NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
-                NonNull<ProtocolObject<dyn GCPressedStateInput>>,
-                Bool,
-            ),
-            (),
-        >;
+#[objc2::protocol]
+pub unsafe trait GCPressedStateInput: NSObjectProtocol {
+    #[objc2::method(sel = "pressedDidChangeHandler")]
+    unsafe fn pressedDidChangeHandler(
+        &self,
+    ) -> *mut Block<
+        (
+            NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
+            NonNull<ProtocolObject<dyn GCPressedStateInput>>,
+            Bool,
+        ),
+        (),
+    >;
 
-        #[method(setPressedDidChangeHandler:)]
-        unsafe fn setPressedDidChangeHandler(
-            &self,
-            pressed_did_change_handler: Option<
-                &Block<
-                    (
-                        NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
-                        NonNull<ProtocolObject<dyn GCPressedStateInput>>,
-                        Bool,
-                    ),
-                    (),
-                >,
+    #[objc2::method(sel = "setPressedDidChangeHandler:")]
+    unsafe fn setPressedDidChangeHandler(
+        &self,
+        pressed_did_change_handler: Option<
+            &Block<
+                (
+                    NonNull<ProtocolObject<dyn GCPhysicalInputElement>>,
+                    NonNull<ProtocolObject<dyn GCPressedStateInput>>,
+                    Bool,
+                ),
+                (),
             >,
-        );
+        >,
+    );
 
-        #[method(isPressed)]
-        unsafe fn isPressed(&self) -> bool;
+    #[objc2::method(sel = "isPressed")]
+    unsafe fn isPressed(&self) -> bool;
 
-        #[method(lastPressedStateTimestamp)]
-        unsafe fn lastPressedStateTimestamp(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "lastPressedStateTimestamp")]
+    unsafe fn lastPressedStateTimestamp(&self) -> NSTimeInterval;
 
-        #[method(lastPressedStateLatency)]
-        unsafe fn lastPressedStateLatency(&self) -> NSTimeInterval;
-    }
-
-    unsafe impl ProtocolType for dyn GCPressedStateInput {}
-);
+    #[objc2::method(sel = "lastPressedStateLatency")]
+    unsafe fn lastPressedStateLatency(&self) -> NSTimeInterval;
+}

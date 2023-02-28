@@ -4,122 +4,125 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSPersistentStore,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSAtomicStore")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSAtomicStore")]
-    pub struct NSAtomicStore;
-
-    #[cfg(feature = "CoreData_NSAtomicStore")]
-    unsafe impl ClassType for NSAtomicStore {
-        #[inherits(NSObject)]
-        type Super = NSPersistentStore;
-    }
-);
+    pub type NSAtomicStore;
+}
 
 #[cfg(feature = "CoreData_NSAtomicStore")]
 unsafe impl NSObjectProtocol for NSAtomicStore {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSAtomicStore")]
-    unsafe impl NSAtomicStore {
-        #[cfg(all(
-            feature = "CoreData_NSPersistentStoreCoordinator",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Init initWithPersistentStoreCoordinator:configurationName:URL:options:)]
-        pub unsafe fn initWithPersistentStoreCoordinator_configurationName_URL_options(
-            this: Option<Allocated<Self>>,
-            coordinator: Option<&NSPersistentStoreCoordinator>,
-            configuration_name: Option<&NSString>,
-            url: &NSURL,
-            options: Option<&NSDictionary>,
-        ) -> Id<Self>;
+    pub type NSAtomicStore;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(load:_)]
-        pub unsafe fn load(&self) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "CoreData_NSPersistentStoreCoordinator",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "initWithPersistentStoreCoordinator:configurationName:URL:options:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithPersistentStoreCoordinator_configurationName_URL_options(
+        this: Option<Allocated<Self>>,
+        coordinator: Option<&NSPersistentStoreCoordinator>,
+        configuration_name: Option<&NSString>,
+        url: &NSURL,
+        options: Option<&NSDictionary>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(save:_)]
-        pub unsafe fn save(&self) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "load:", throws)]
+    pub unsafe fn load(&self) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSAtomicStoreCacheNode",
-            feature = "CoreData_NSManagedObject"
-        ))]
-        #[method_id(@__retain_semantics New newCacheNodeForManagedObject:)]
-        pub unsafe fn newCacheNodeForManagedObject(
-            &self,
-            managed_object: &NSManagedObject,
-        ) -> Id<NSAtomicStoreCacheNode>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "save:", throws)]
+    pub unsafe fn save(&self) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSAtomicStoreCacheNode",
-            feature = "CoreData_NSManagedObject"
-        ))]
-        #[method(updateCacheNode:fromManagedObject:)]
-        pub unsafe fn updateCacheNode_fromManagedObject(
-            &self,
-            node: &NSAtomicStoreCacheNode,
-            managed_object: &NSManagedObject,
-        );
+    #[cfg(all(
+        feature = "CoreData_NSAtomicStoreCacheNode",
+        feature = "CoreData_NSManagedObject"
+    ))]
+    #[objc2::method(sel = "newCacheNodeForManagedObject:", managed = "New")]
+    pub unsafe fn newCacheNodeForManagedObject(
+        &self,
+        managed_object: &NSManagedObject,
+    ) -> Id<NSAtomicStoreCacheNode>;
 
-        #[cfg(all(
-            feature = "CoreData_NSAtomicStoreCacheNode",
-            feature = "Foundation_NSSet"
-        ))]
-        #[method_id(@__retain_semantics Other cacheNodes)]
-        pub unsafe fn cacheNodes(&self) -> Id<NSSet<NSAtomicStoreCacheNode>>;
+    #[cfg(all(
+        feature = "CoreData_NSAtomicStoreCacheNode",
+        feature = "CoreData_NSManagedObject"
+    ))]
+    #[objc2::method(sel = "updateCacheNode:fromManagedObject:")]
+    pub unsafe fn updateCacheNode_fromManagedObject(
+        &self,
+        node: &NSAtomicStoreCacheNode,
+        managed_object: &NSManagedObject,
+    );
 
-        #[cfg(all(
-            feature = "CoreData_NSAtomicStoreCacheNode",
-            feature = "Foundation_NSSet"
-        ))]
-        #[method(addCacheNodes:)]
-        pub unsafe fn addCacheNodes(&self, cache_nodes: &NSSet<NSAtomicStoreCacheNode>);
+    #[cfg(all(
+        feature = "CoreData_NSAtomicStoreCacheNode",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(sel = "cacheNodes", managed = "Other")]
+    pub unsafe fn cacheNodes(&self) -> Id<NSSet<NSAtomicStoreCacheNode>>;
 
-        #[cfg(all(
-            feature = "CoreData_NSAtomicStoreCacheNode",
-            feature = "Foundation_NSSet"
-        ))]
-        #[method(willRemoveCacheNodes:)]
-        pub unsafe fn willRemoveCacheNodes(&self, cache_nodes: &NSSet<NSAtomicStoreCacheNode>);
+    #[cfg(all(
+        feature = "CoreData_NSAtomicStoreCacheNode",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(sel = "addCacheNodes:")]
+    pub unsafe fn addCacheNodes(&self, cache_nodes: &NSSet<NSAtomicStoreCacheNode>);
 
-        #[cfg(all(
-            feature = "CoreData_NSAtomicStoreCacheNode",
-            feature = "CoreData_NSManagedObjectID"
-        ))]
-        #[method_id(@__retain_semantics Other cacheNodeForObjectID:)]
-        pub unsafe fn cacheNodeForObjectID(
-            &self,
-            object_id: &NSManagedObjectID,
-        ) -> Option<Id<NSAtomicStoreCacheNode>>;
+    #[cfg(all(
+        feature = "CoreData_NSAtomicStoreCacheNode",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(sel = "willRemoveCacheNodes:")]
+    pub unsafe fn willRemoveCacheNodes(&self, cache_nodes: &NSSet<NSAtomicStoreCacheNode>);
 
-        #[cfg(all(
-            feature = "CoreData_NSEntityDescription",
-            feature = "CoreData_NSManagedObjectID"
-        ))]
-        #[method_id(@__retain_semantics Other objectIDForEntity:referenceObject:)]
-        pub unsafe fn objectIDForEntity_referenceObject(
-            &self,
-            entity: &NSEntityDescription,
-            data: &Object,
-        ) -> Id<NSManagedObjectID>;
+    #[cfg(all(
+        feature = "CoreData_NSAtomicStoreCacheNode",
+        feature = "CoreData_NSManagedObjectID"
+    ))]
+    #[objc2::method(sel = "cacheNodeForObjectID:", managed = "Other")]
+    pub unsafe fn cacheNodeForObjectID(
+        &self,
+        object_id: &NSManagedObjectID,
+    ) -> Option<Id<NSAtomicStoreCacheNode>>;
 
-        #[cfg(feature = "CoreData_NSManagedObject")]
-        #[method_id(@__retain_semantics New newReferenceObjectForManagedObject:)]
-        pub unsafe fn newReferenceObjectForManagedObject(
-            &self,
-            managed_object: &NSManagedObject,
-        ) -> Id<Object>;
+    #[cfg(all(
+        feature = "CoreData_NSEntityDescription",
+        feature = "CoreData_NSManagedObjectID"
+    ))]
+    #[objc2::method(sel = "objectIDForEntity:referenceObject:", managed = "Other")]
+    pub unsafe fn objectIDForEntity_referenceObject(
+        &self,
+        entity: &NSEntityDescription,
+        data: &Object,
+    ) -> Id<NSManagedObjectID>;
 
-        #[cfg(feature = "CoreData_NSManagedObjectID")]
-        #[method_id(@__retain_semantics Other referenceObjectForObjectID:)]
-        pub unsafe fn referenceObjectForObjectID(
-            &self,
-            object_id: &NSManagedObjectID,
-        ) -> Id<Object>;
-    }
-);
+    #[cfg(feature = "CoreData_NSManagedObject")]
+    #[objc2::method(sel = "newReferenceObjectForManagedObject:", managed = "New")]
+    pub unsafe fn newReferenceObjectForManagedObject(
+        &self,
+        managed_object: &NSManagedObject,
+    ) -> Id<Object>;
+
+    #[cfg(feature = "CoreData_NSManagedObjectID")]
+    #[objc2::method(sel = "referenceObjectForObjectID:", managed = "Other")]
+    pub unsafe fn referenceObjectForObjectID(&self, object_id: &NSManagedObjectID) -> Id<Object>;
+}

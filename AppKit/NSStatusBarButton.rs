@@ -5,17 +5,20 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSButton,
+    unsafe inherits = [
+        NSControl,
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSStatusBarButton")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSStatusBarButton")]
-    pub struct NSStatusBarButton;
-
-    #[cfg(feature = "AppKit_NSStatusBarButton")]
-    unsafe impl ClassType for NSStatusBarButton {
-        #[inherits(NSControl, NSView, NSResponder, NSObject)]
-        type Super = NSButton;
-    }
-);
+    pub type NSStatusBarButton;
+}
 
 #[cfg(feature = "AppKit_NSStatusBarButton")]
 unsafe impl NSAccessibility for NSStatusBarButton {}
@@ -50,69 +53,84 @@ unsafe impl NSUserInterfaceItemIdentification for NSStatusBarButton {}
 #[cfg(feature = "AppKit_NSStatusBarButton")]
 unsafe impl NSUserInterfaceValidations for NSStatusBarButton {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSStatusBarButton")]
-    unsafe impl NSStatusBarButton {
-        #[method(appearsDisabled)]
-        pub unsafe fn appearsDisabled(&self) -> bool;
+    pub type NSStatusBarButton;
 
-        #[method(setAppearsDisabled:)]
-        pub unsafe fn setAppearsDisabled(&self, appears_disabled: bool);
-    }
-);
+    #[objc2::method(sel = "appearsDisabled")]
+    pub unsafe fn appearsDisabled(&self) -> bool;
 
-extern_methods!(
-    /// Methods declared on superclass `NSButton`
+    #[objc2::method(sel = "setAppearsDisabled:")]
+    pub unsafe fn setAppearsDisabled(&self, appears_disabled: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSButton`
     #[cfg(feature = "AppKit_NSStatusBarButton")]
-    unsafe impl NSStatusBarButton {
-        #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other buttonWithTitle:image:target:action:)]
-        pub unsafe fn buttonWithTitle_image_target_action(
-            title: &NSString,
-            image: &NSImage,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other buttonWithTitle:target:action:)]
-        pub unsafe fn buttonWithTitle_target_action(
-            title: &NSString,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other buttonWithImage:target:action:)]
-        pub unsafe fn buttonWithImage_target_action(
-            image: &NSImage,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other checkboxWithTitle:target:action:)]
-        pub unsafe fn checkboxWithTitle_target_action(
-            title: &NSString,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other radioButtonWithTitle:target:action:)]
-        pub unsafe fn radioButtonWithTitle_target_action(
-            title: &NSString,
-            target: Option<&Object>,
-            action: Option<Sel>,
-        ) -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSControl`
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSStatusBarButton")]
-    unsafe impl NSStatusBarButton {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+    pub type NSStatusBarButton;
+
+    #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "buttonWithTitle:image:target:action:", managed = "Other")]
+    pub unsafe fn buttonWithTitle_image_target_action(
+        title: &NSString,
+        image: &NSImage,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "buttonWithTitle:target:action:", managed = "Other")]
+    pub unsafe fn buttonWithTitle_target_action(
+        title: &NSString,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "buttonWithImage:target:action:", managed = "Other")]
+    pub unsafe fn buttonWithImage_target_action(
+        image: &NSImage,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "checkboxWithTitle:target:action:", managed = "Other")]
+    pub unsafe fn checkboxWithTitle_target_action(
+        title: &NSString,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "radioButtonWithTitle:target:action:", managed = "Other")]
+    pub unsafe fn radioButtonWithTitle_target_action(
+        title: &NSString,
+        target: Option<&Object>,
+        action: Option<Sel>,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSControl`
+    #[cfg(feature = "AppKit_NSStatusBarButton")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSStatusBarButton")]
+    pub type NSStatusBarButton;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

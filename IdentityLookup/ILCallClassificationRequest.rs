@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::IdentityLookup::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = ILClassificationRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "IdentityLookup_ILCallClassificationRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "IdentityLookup_ILCallClassificationRequest")]
-    pub struct ILCallClassificationRequest;
-
-    #[cfg(feature = "IdentityLookup_ILCallClassificationRequest")]
-    unsafe impl ClassType for ILCallClassificationRequest {
-        #[inherits(NSObject)]
-        type Super = ILClassificationRequest;
-    }
-);
+    pub type ILCallClassificationRequest;
+}
 
 #[cfg(feature = "IdentityLookup_ILCallClassificationRequest")]
 unsafe impl NSCoding for ILCallClassificationRequest {}
@@ -25,17 +25,20 @@ unsafe impl NSObjectProtocol for ILCallClassificationRequest {}
 #[cfg(feature = "IdentityLookup_ILCallClassificationRequest")]
 unsafe impl NSSecureCoding for ILCallClassificationRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "IdentityLookup_ILCallClassificationRequest")]
-    unsafe impl ILCallClassificationRequest {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "IdentityLookup_ILCallCommunication"
-        ))]
-        #[method_id(@__retain_semantics Other callCommunications)]
-        pub unsafe fn callCommunications(&self) -> Id<NSArray<ILCallCommunication>>;
+    pub type ILCallClassificationRequest;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "IdentityLookup_ILCallCommunication"
+    ))]
+    #[objc2::method(sel = "callCommunications", managed = "Other")]
+    pub unsafe fn callCommunications(&self) -> Id<NSArray<ILCallCommunication>>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

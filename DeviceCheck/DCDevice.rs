@@ -4,34 +4,37 @@ use crate::common::*;
 use crate::DeviceCheck::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "DeviceCheck_DCDevice")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "DeviceCheck_DCDevice")]
-    pub struct DCDevice;
-
-    #[cfg(feature = "DeviceCheck_DCDevice")]
-    unsafe impl ClassType for DCDevice {
-        type Super = NSObject;
-    }
-);
+    pub type DCDevice;
+}
 
 #[cfg(feature = "DeviceCheck_DCDevice")]
 unsafe impl NSObjectProtocol for DCDevice {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "DeviceCheck_DCDevice")]
-    unsafe impl DCDevice {
-        #[method_id(@__retain_semantics Other currentDevice)]
-        pub unsafe fn currentDevice() -> Id<DCDevice>;
+    pub type DCDevice;
 
-        #[method(isSupported)]
-        pub unsafe fn isSupported(&self) -> bool;
+    #[objc2::method(sel = "currentDevice", managed = "Other")]
+    pub unsafe fn currentDevice() -> Id<DCDevice>;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method(generateTokenWithCompletionHandler:)]
-        pub unsafe fn generateTokenWithCompletionHandler(
-            &self,
-            completion: &Block<(*mut NSData, *mut NSError), ()>,
-        );
-    }
-);
+    #[objc2::method(sel = "isSupported")]
+    pub unsafe fn isSupported(&self) -> bool;
+
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "generateTokenWithCompletionHandler:")]
+    pub unsafe fn generateTokenWithCompletionHandler(
+        &self,
+        completion: &Block<(*mut NSData, *mut NSError), ()>,
+    );
+}

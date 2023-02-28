@@ -5,35 +5,33 @@ use crate::Contacts::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-ns_closed_enum!(
-    #[underlying(NSInteger)]
-    pub enum CLRegionState {
-        CLRegionStateUnknown = 0,
-        CLRegionStateInside = 1,
-        CLRegionStateOutside = 2,
-    }
-);
+#[ns_closed_enum]
+#[underlying(NSInteger)]
+pub enum CLRegionState {
+    CLRegionStateUnknown = 0,
+    CLRegionStateInside = 1,
+    CLRegionStateOutside = 2,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CLProximity {
-        CLProximityUnknown = 0,
-        CLProximityImmediate = 1,
-        CLProximityNear = 2,
-        CLProximityFar = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CLProximity {
+    CLProximityUnknown = 0,
+    CLProximityImmediate = 1,
+    CLProximityNear = 2,
+    CLProximityFar = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreLocation_CLRegion")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreLocation_CLRegion")]
-    pub struct CLRegion;
-
-    #[cfg(feature = "CoreLocation_CLRegion")]
-    unsafe impl ClassType for CLRegion {
-        type Super = NSObject;
-    }
-);
+    pub type CLRegion;
+}
 
 #[cfg(feature = "CoreLocation_CLRegion")]
 unsafe impl NSCoding for CLRegion {}
@@ -44,45 +42,51 @@ unsafe impl NSObjectProtocol for CLRegion {}
 #[cfg(feature = "CoreLocation_CLRegion")]
 unsafe impl NSSecureCoding for CLRegion {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreLocation_CLRegion")]
-    unsafe impl CLRegion {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Please see CLCircularRegion"]
-        #[method_id(@__retain_semantics Init initCircularRegionWithCenter:radius:identifier:)]
-        pub unsafe fn initCircularRegionWithCenter_radius_identifier(
-            this: Option<Allocated<Self>>,
-            center: CLLocationCoordinate2D,
-            radius: CLLocationDistance,
-            identifier: &NSString,
-        ) -> Id<Self>;
+    pub type CLRegion;
 
-        #[deprecated = "Please see CLCircularRegion"]
-        #[method(center)]
-        pub unsafe fn center(&self) -> CLLocationCoordinate2D;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Please see CLCircularRegion"]
+    #[objc2::method(
+        sel = "initCircularRegionWithCenter:radius:identifier:",
+        managed = "Init"
+    )]
+    pub unsafe fn initCircularRegionWithCenter_radius_identifier(
+        this: Option<Allocated<Self>>,
+        center: CLLocationCoordinate2D,
+        radius: CLLocationDistance,
+        identifier: &NSString,
+    ) -> Id<Self>;
 
-        #[deprecated = "Please see CLCircularRegion"]
-        #[method(radius)]
-        pub unsafe fn radius(&self) -> CLLocationDistance;
+    #[deprecated = "Please see CLCircularRegion"]
+    #[objc2::method(sel = "center")]
+    pub unsafe fn center(&self) -> CLLocationCoordinate2D;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    #[deprecated = "Please see CLCircularRegion"]
+    #[objc2::method(sel = "radius")]
+    pub unsafe fn radius(&self) -> CLLocationDistance;
 
-        #[method(notifyOnEntry)]
-        pub unsafe fn notifyOnEntry(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
 
-        #[method(setNotifyOnEntry:)]
-        pub unsafe fn setNotifyOnEntry(&self, notify_on_entry: bool);
+    #[objc2::method(sel = "notifyOnEntry")]
+    pub unsafe fn notifyOnEntry(&self) -> bool;
 
-        #[method(notifyOnExit)]
-        pub unsafe fn notifyOnExit(&self) -> bool;
+    #[objc2::method(sel = "setNotifyOnEntry:")]
+    pub unsafe fn setNotifyOnEntry(&self, notify_on_entry: bool);
 
-        #[method(setNotifyOnExit:)]
-        pub unsafe fn setNotifyOnExit(&self, notify_on_exit: bool);
+    #[objc2::method(sel = "notifyOnExit")]
+    pub unsafe fn notifyOnExit(&self) -> bool;
 
-        #[deprecated = "Please see CLCircularRegion"]
-        #[method(containsCoordinate:)]
-        pub unsafe fn containsCoordinate(&self, coordinate: CLLocationCoordinate2D) -> bool;
-    }
-);
+    #[objc2::method(sel = "setNotifyOnExit:")]
+    pub unsafe fn setNotifyOnExit(&self, notify_on_exit: bool);
+
+    #[deprecated = "Please see CLCircularRegion"]
+    #[objc2::method(sel = "containsCoordinate:")]
+    pub unsafe fn containsCoordinate(&self, coordinate: CLLocationCoordinate2D) -> bool;
+}

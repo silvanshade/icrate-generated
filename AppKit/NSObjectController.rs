@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSController,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSObjectController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSObjectController")]
-    pub struct NSObjectController;
-
-    #[cfg(feature = "AppKit_NSObjectController")]
-    unsafe impl ClassType for NSObjectController {
-        #[inherits(NSObject)]
-        type Super = NSController;
-    }
-);
+    pub type NSObjectController;
+}
 
 #[cfg(feature = "AppKit_NSObjectController")]
 unsafe impl NSCoding for NSObjectController {}
@@ -29,135 +29,138 @@ unsafe impl NSEditorRegistration for NSObjectController {}
 #[cfg(feature = "AppKit_NSObjectController")]
 unsafe impl NSObjectProtocol for NSObjectController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSObjectController")]
-    unsafe impl NSObjectController {
-        #[method_id(@__retain_semantics Init initWithContent:)]
-        pub unsafe fn initWithContent(
-            this: Option<Allocated<Self>>,
-            content: Option<&Object>,
-        ) -> Id<Self>;
+    pub type NSObjectController;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "initWithContent:", managed = "Init")]
+    pub unsafe fn initWithContent(
+        this: Option<Allocated<Self>>,
+        content: Option<&Object>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other content)]
-        pub unsafe fn content(&self) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[method(setContent:)]
-        pub unsafe fn setContent(&self, content: Option<&Object>);
+    #[objc2::method(sel = "content", managed = "Other")]
+    pub unsafe fn content(&self) -> Option<Id<Object>>;
 
-        #[method_id(@__retain_semantics Other selection)]
-        pub unsafe fn selection(&self) -> Id<Object>;
+    #[objc2::method(sel = "setContent:")]
+    pub unsafe fn setContent(&self, content: Option<&Object>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other selectedObjects)]
-        pub unsafe fn selectedObjects(&self) -> Id<NSArray>;
+    #[objc2::method(sel = "selection", managed = "Other")]
+    pub unsafe fn selection(&self) -> Id<Object>;
 
-        #[method(automaticallyPreparesContent)]
-        pub unsafe fn automaticallyPreparesContent(&self) -> bool;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "selectedObjects", managed = "Other")]
+    pub unsafe fn selectedObjects(&self) -> Id<NSArray>;
 
-        #[method(setAutomaticallyPreparesContent:)]
-        pub unsafe fn setAutomaticallyPreparesContent(&self, automatically_prepares_content: bool);
+    #[objc2::method(sel = "automaticallyPreparesContent")]
+    pub unsafe fn automaticallyPreparesContent(&self) -> bool;
 
-        #[method(prepareContent)]
-        pub unsafe fn prepareContent(&self);
+    #[objc2::method(sel = "setAutomaticallyPreparesContent:")]
+    pub unsafe fn setAutomaticallyPreparesContent(&self, automatically_prepares_content: bool);
 
-        #[method(objectClass)]
-        pub unsafe fn objectClass(&self) -> Option<&'static Class>;
+    #[objc2::method(sel = "prepareContent")]
+    pub unsafe fn prepareContent(&self);
 
-        #[method(setObjectClass:)]
-        pub unsafe fn setObjectClass(&self, object_class: Option<&Class>);
+    #[objc2::method(sel = "objectClass")]
+    pub unsafe fn objectClass(&self) -> Option<&'static Class>;
 
-        #[method_id(@__retain_semantics New newObject)]
-        pub unsafe fn newObject(&self) -> Id<Object>;
+    #[objc2::method(sel = "setObjectClass:")]
+    pub unsafe fn setObjectClass(&self, object_class: Option<&Class>);
 
-        #[method(addObject:)]
-        pub unsafe fn addObject(&self, object: &Object);
+    #[objc2::method(sel = "newObject", managed = "New")]
+    pub unsafe fn newObject(&self) -> Id<Object>;
 
-        #[method(removeObject:)]
-        pub unsafe fn removeObject(&self, object: &Object);
+    #[objc2::method(sel = "addObject:")]
+    pub unsafe fn addObject(&self, object: &Object);
 
-        #[method(isEditable)]
-        pub unsafe fn isEditable(&self) -> bool;
+    #[objc2::method(sel = "removeObject:")]
+    pub unsafe fn removeObject(&self, object: &Object);
 
-        #[method(setEditable:)]
-        pub unsafe fn setEditable(&self, editable: bool);
+    #[objc2::method(sel = "isEditable")]
+    pub unsafe fn isEditable(&self) -> bool;
 
-        #[method(add:)]
-        pub unsafe fn add(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "setEditable:")]
+    pub unsafe fn setEditable(&self, editable: bool);
 
-        #[method(canAdd)]
-        pub unsafe fn canAdd(&self) -> bool;
+    #[objc2::method(sel = "add:")]
+    pub unsafe fn add(&self, sender: Option<&Object>);
 
-        #[method(remove:)]
-        pub unsafe fn remove(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "canAdd")]
+    pub unsafe fn canAdd(&self) -> bool;
 
-        #[method(canRemove)]
-        pub unsafe fn canRemove(&self) -> bool;
+    #[objc2::method(sel = "remove:")]
+    pub unsafe fn remove(&self, sender: Option<&Object>);
 
-        #[method(validateUserInterfaceItem:)]
-        pub unsafe fn validateUserInterfaceItem(
-            &self,
-            item: &ProtocolObject<dyn NSValidatedUserInterfaceItem>,
-        ) -> bool;
-    }
-);
+    #[objc2::method(sel = "canRemove")]
+    pub unsafe fn canRemove(&self) -> bool;
 
-extern_methods!(
-    /// NSManagedController
+    #[objc2::method(sel = "validateUserInterfaceItem:")]
+    pub unsafe fn validateUserInterfaceItem(
+        &self,
+        item: &ProtocolObject<dyn NSValidatedUserInterfaceItem>,
+    ) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSObjectController")]
-    unsafe impl NSObjectController {
-        #[cfg(feature = "CoreData_NSManagedObjectContext")]
-        #[method_id(@__retain_semantics Other managedObjectContext)]
-        pub unsafe fn managedObjectContext(&self) -> Option<Id<NSManagedObjectContext>>;
+    pub type NSObjectController;
 
-        #[cfg(feature = "CoreData_NSManagedObjectContext")]
-        #[method(setManagedObjectContext:)]
-        pub unsafe fn setManagedObjectContext(
-            &self,
-            managed_object_context: Option<&NSManagedObjectContext>,
-        );
+    #[cfg(feature = "CoreData_NSManagedObjectContext")]
+    #[objc2::method(sel = "managedObjectContext", managed = "Other")]
+    pub unsafe fn managedObjectContext(&self) -> Option<Id<NSManagedObjectContext>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other entityName)]
-        pub unsafe fn entityName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "CoreData_NSManagedObjectContext")]
+    #[objc2::method(sel = "setManagedObjectContext:")]
+    pub unsafe fn setManagedObjectContext(
+        &self,
+        managed_object_context: Option<&NSManagedObjectContext>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setEntityName:)]
-        pub unsafe fn setEntityName(&self, entity_name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "entityName", managed = "Other")]
+    pub unsafe fn entityName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other fetchPredicate)]
-        pub unsafe fn fetchPredicate(&self) -> Option<Id<NSPredicate>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setEntityName:")]
+    pub unsafe fn setEntityName(&self, entity_name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method(setFetchPredicate:)]
-        pub unsafe fn setFetchPredicate(&self, fetch_predicate: Option<&NSPredicate>);
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "fetchPredicate", managed = "Other")]
+    pub unsafe fn fetchPredicate(&self) -> Option<Id<NSPredicate>>;
 
-        #[cfg(all(feature = "CoreData_NSFetchRequest", feature = "Foundation_NSError"))]
-        #[method(fetchWithRequest:merge:error:_)]
-        pub unsafe fn fetchWithRequest_merge_error(
-            &self,
-            fetch_request: Option<&NSFetchRequest>,
-            merge: bool,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "setFetchPredicate:")]
+    pub unsafe fn setFetchPredicate(&self, fetch_predicate: Option<&NSPredicate>);
 
-        #[method(fetch:)]
-        pub unsafe fn fetch(&self, sender: Option<&Object>);
+    #[cfg(all(feature = "CoreData_NSFetchRequest", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "fetchWithRequest:merge:error:", throws)]
+    pub unsafe fn fetchWithRequest_merge_error(
+        &self,
+        fetch_request: Option<&NSFetchRequest>,
+        merge: bool,
+    ) -> Result<(), Id<NSError>>;
 
-        #[method(usesLazyFetching)]
-        pub unsafe fn usesLazyFetching(&self) -> bool;
+    #[objc2::method(sel = "fetch:")]
+    pub unsafe fn fetch(&self, sender: Option<&Object>);
 
-        #[method(setUsesLazyFetching:)]
-        pub unsafe fn setUsesLazyFetching(&self, uses_lazy_fetching: bool);
+    #[objc2::method(sel = "usesLazyFetching")]
+    pub unsafe fn usesLazyFetching(&self) -> bool;
 
-        #[cfg(feature = "CoreData_NSFetchRequest")]
-        #[method_id(@__retain_semantics Other defaultFetchRequest)]
-        pub unsafe fn defaultFetchRequest(&self) -> Id<NSFetchRequest>;
-    }
-);
+    #[objc2::method(sel = "setUsesLazyFetching:")]
+    pub unsafe fn setUsesLazyFetching(&self, uses_lazy_fetching: bool);
+
+    #[cfg(feature = "CoreData_NSFetchRequest")]
+    #[objc2::method(sel = "defaultFetchRequest", managed = "Other")]
+    pub unsafe fn defaultFetchRequest(&self) -> Id<NSFetchRequest>;
+}

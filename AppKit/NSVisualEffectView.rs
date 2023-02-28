@@ -5,64 +5,62 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSVisualEffectMaterial {
-        NSVisualEffectMaterialTitlebar = 3,
-        NSVisualEffectMaterialSelection = 4,
-        NSVisualEffectMaterialMenu = 5,
-        NSVisualEffectMaterialPopover = 6,
-        NSVisualEffectMaterialSidebar = 7,
-        NSVisualEffectMaterialHeaderView = 10,
-        NSVisualEffectMaterialSheet = 11,
-        NSVisualEffectMaterialWindowBackground = 12,
-        NSVisualEffectMaterialHUDWindow = 13,
-        NSVisualEffectMaterialFullScreenUI = 15,
-        NSVisualEffectMaterialToolTip = 17,
-        NSVisualEffectMaterialContentBackground = 18,
-        NSVisualEffectMaterialUnderWindowBackground = 21,
-        NSVisualEffectMaterialUnderPageBackground = 22,
-        #[deprecated = "Use a specific semantic material instead."]
-        NSVisualEffectMaterialAppearanceBased = 0,
-        #[deprecated = "Use a semantic material instead.  To force the appearance of a view hierarchy, set the `appearance` property to an appropriate NSAppearance value."]
-        NSVisualEffectMaterialLight = 1,
-        #[deprecated = "Use a semantic material instead.  To force the appearance of a view hierarchy, set the `appearance` property to an appropriate NSAppearance value."]
-        NSVisualEffectMaterialDark = 2,
-        #[deprecated = "Use a semantic material instead.  To force the appearance of a view hierarchy, set the `appearance` property to an appropriate NSAppearance value."]
-        NSVisualEffectMaterialMediumLight = 8,
-        #[deprecated = "Use a semantic material instead.  To force the appearance of a view hierarchy, set the `appearance` property to an appropriate NSAppearance value."]
-        NSVisualEffectMaterialUltraDark = 9,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSVisualEffectMaterial {
+    NSVisualEffectMaterialTitlebar = 3,
+    NSVisualEffectMaterialSelection = 4,
+    NSVisualEffectMaterialMenu = 5,
+    NSVisualEffectMaterialPopover = 6,
+    NSVisualEffectMaterialSidebar = 7,
+    NSVisualEffectMaterialHeaderView = 10,
+    NSVisualEffectMaterialSheet = 11,
+    NSVisualEffectMaterialWindowBackground = 12,
+    NSVisualEffectMaterialHUDWindow = 13,
+    NSVisualEffectMaterialFullScreenUI = 15,
+    NSVisualEffectMaterialToolTip = 17,
+    NSVisualEffectMaterialContentBackground = 18,
+    NSVisualEffectMaterialUnderWindowBackground = 21,
+    NSVisualEffectMaterialUnderPageBackground = 22,
+    #[deprecated = "Use a specific semantic material instead."]
+    NSVisualEffectMaterialAppearanceBased = 0,
+    #[deprecated = "Use a semantic material instead.  To force the appearance of a view hierarchy, set the `appearance` property to an appropriate NSAppearance value."]
+    NSVisualEffectMaterialLight = 1,
+    #[deprecated = "Use a semantic material instead.  To force the appearance of a view hierarchy, set the `appearance` property to an appropriate NSAppearance value."]
+    NSVisualEffectMaterialDark = 2,
+    #[deprecated = "Use a semantic material instead.  To force the appearance of a view hierarchy, set the `appearance` property to an appropriate NSAppearance value."]
+    NSVisualEffectMaterialMediumLight = 8,
+    #[deprecated = "Use a semantic material instead.  To force the appearance of a view hierarchy, set the `appearance` property to an appropriate NSAppearance value."]
+    NSVisualEffectMaterialUltraDark = 9,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSVisualEffectBlendingMode {
-        NSVisualEffectBlendingModeBehindWindow = 0,
-        NSVisualEffectBlendingModeWithinWindow = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSVisualEffectBlendingMode {
+    NSVisualEffectBlendingModeBehindWindow = 0,
+    NSVisualEffectBlendingModeWithinWindow = 1,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSVisualEffectState {
-        NSVisualEffectStateFollowsWindowActiveState = 0,
-        NSVisualEffectStateActive = 1,
-        NSVisualEffectStateInactive = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSVisualEffectState {
+    NSVisualEffectStateFollowsWindowActiveState = 0,
+    NSVisualEffectStateActive = 1,
+    NSVisualEffectStateInactive = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSVisualEffectView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSVisualEffectView")]
-    pub struct NSVisualEffectView;
-
-    #[cfg(feature = "AppKit_NSVisualEffectView")]
-    unsafe impl ClassType for NSVisualEffectView {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type NSVisualEffectView;
+}
 
 #[cfg(feature = "AppKit_NSVisualEffectView")]
 unsafe impl NSAccessibility for NSVisualEffectView {}
@@ -88,58 +86,67 @@ unsafe impl NSObjectProtocol for NSVisualEffectView {}
 #[cfg(feature = "AppKit_NSVisualEffectView")]
 unsafe impl NSUserInterfaceItemIdentification for NSVisualEffectView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSVisualEffectView")]
-    unsafe impl NSVisualEffectView {
-        #[method(material)]
-        pub unsafe fn material(&self) -> NSVisualEffectMaterial;
+    pub type NSVisualEffectView;
 
-        #[method(setMaterial:)]
-        pub unsafe fn setMaterial(&self, material: NSVisualEffectMaterial);
+    #[objc2::method(sel = "material")]
+    pub unsafe fn material(&self) -> NSVisualEffectMaterial;
 
-        #[method(interiorBackgroundStyle)]
-        pub unsafe fn interiorBackgroundStyle(&self) -> NSBackgroundStyle;
+    #[objc2::method(sel = "setMaterial:")]
+    pub unsafe fn setMaterial(&self, material: NSVisualEffectMaterial);
 
-        #[method(blendingMode)]
-        pub unsafe fn blendingMode(&self) -> NSVisualEffectBlendingMode;
+    #[objc2::method(sel = "interiorBackgroundStyle")]
+    pub unsafe fn interiorBackgroundStyle(&self) -> NSBackgroundStyle;
 
-        #[method(setBlendingMode:)]
-        pub unsafe fn setBlendingMode(&self, blending_mode: NSVisualEffectBlendingMode);
+    #[objc2::method(sel = "blendingMode")]
+    pub unsafe fn blendingMode(&self) -> NSVisualEffectBlendingMode;
 
-        #[method(state)]
-        pub unsafe fn state(&self) -> NSVisualEffectState;
+    #[objc2::method(sel = "setBlendingMode:")]
+    pub unsafe fn setBlendingMode(&self, blending_mode: NSVisualEffectBlendingMode);
 
-        #[method(setState:)]
-        pub unsafe fn setState(&self, state: NSVisualEffectState);
+    #[objc2::method(sel = "state")]
+    pub unsafe fn state(&self) -> NSVisualEffectState;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other maskImage)]
-        pub unsafe fn maskImage(&self) -> Option<Id<NSImage>>;
+    #[objc2::method(sel = "setState:")]
+    pub unsafe fn setState(&self, state: NSVisualEffectState);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setMaskImage:)]
-        pub unsafe fn setMaskImage(&self, mask_image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "maskImage", managed = "Other")]
+    pub unsafe fn maskImage(&self) -> Option<Id<NSImage>>;
 
-        #[method(isEmphasized)]
-        pub unsafe fn isEmphasized(&self) -> bool;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setMaskImage:")]
+    pub unsafe fn setMaskImage(&self, mask_image: Option<&NSImage>);
 
-        #[method(setEmphasized:)]
-        pub unsafe fn setEmphasized(&self, emphasized: bool);
+    #[objc2::method(sel = "isEmphasized")]
+    pub unsafe fn isEmphasized(&self) -> bool;
 
-        #[method(viewDidMoveToWindow)]
-        pub unsafe fn viewDidMoveToWindow(&self);
+    #[objc2::method(sel = "setEmphasized:")]
+    pub unsafe fn setEmphasized(&self, emphasized: bool);
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(viewWillMoveToWindow:)]
-        pub unsafe fn viewWillMoveToWindow(&self, new_window: Option<&NSWindow>);
-    }
-);
+    #[objc2::method(sel = "viewDidMoveToWindow")]
+    pub unsafe fn viewDidMoveToWindow(&self);
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "viewWillMoveToWindow:")]
+    pub unsafe fn viewWillMoveToWindow(&self, new_window: Option<&NSWindow>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "AppKit_NSVisualEffectView")]
-    unsafe impl NSVisualEffectView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSVisualEffectView")]
+    pub type NSVisualEffectView;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

@@ -4,45 +4,54 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_methods!(
-    /// UTAdditions
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSString")]
-    unsafe impl NSString {
-        #[cfg(feature = "UniformTypeIdentifiers_UTType")]
-        #[method_id(@__retain_semantics Other stringByAppendingPathComponent:conformingToType:)]
-        pub unsafe fn stringByAppendingPathComponent_conformingToType(
-            &self,
-            partial_name: &NSString,
-            content_type: &UTType,
-        ) -> Id<NSString>;
+    pub type NSString;
 
-        #[cfg(feature = "UniformTypeIdentifiers_UTType")]
-        #[method_id(@__retain_semantics Other stringByAppendingPathExtensionForType:)]
-        pub unsafe fn stringByAppendingPathExtensionForType(
-            &self,
-            content_type: &UTType,
-        ) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "UniformTypeIdentifiers_UTType")]
+    #[objc2::method(
+        sel = "stringByAppendingPathComponent:conformingToType:",
+        managed = "Other"
+    )]
+    pub unsafe fn stringByAppendingPathComponent_conformingToType(
+        &self,
+        partial_name: &NSString,
+        content_type: &UTType,
+    ) -> Id<NSString>;
 
-extern_methods!(
-    /// UTAdditions
+    #[cfg(feature = "UniformTypeIdentifiers_UTType")]
+    #[objc2::method(sel = "stringByAppendingPathExtensionForType:", managed = "Other")]
+    pub unsafe fn stringByAppendingPathExtensionForType(
+        &self,
+        content_type: &UTType,
+    ) -> Id<NSString>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURL")]
-    unsafe impl NSURL {
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "UniformTypeIdentifiers_UTType"
-        ))]
-        #[method_id(@__retain_semantics Other URLByAppendingPathComponent:conformingToType:)]
-        pub unsafe fn URLByAppendingPathComponent_conformingToType(
-            &self,
-            partial_name: &NSString,
-            content_type: &UTType,
-        ) -> Id<NSURL>;
+    pub type NSURL;
 
-        #[cfg(feature = "UniformTypeIdentifiers_UTType")]
-        #[method_id(@__retain_semantics Other URLByAppendingPathExtensionForType:)]
-        pub unsafe fn URLByAppendingPathExtensionForType(&self, content_type: &UTType)
-            -> Id<NSURL>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "UniformTypeIdentifiers_UTType"
+    ))]
+    #[objc2::method(
+        sel = "URLByAppendingPathComponent:conformingToType:",
+        managed = "Other"
+    )]
+    pub unsafe fn URLByAppendingPathComponent_conformingToType(
+        &self,
+        partial_name: &NSString,
+        content_type: &UTType,
+    ) -> Id<NSURL>;
+
+    #[cfg(feature = "UniformTypeIdentifiers_UTType")]
+    #[objc2::method(sel = "URLByAppendingPathExtensionForType:", managed = "Other")]
+    pub unsafe fn URLByAppendingPathExtensionForType(&self, content_type: &UTType) -> Id<NSURL>;
+}

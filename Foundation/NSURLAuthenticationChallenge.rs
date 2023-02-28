@@ -3,60 +3,55 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSURLAuthenticationChallengeSender: NSObjectProtocol {
-        #[cfg(all(
-            feature = "Foundation_NSURLAuthenticationChallenge",
-            feature = "Foundation_NSURLCredential"
-        ))]
-        #[method(useCredential:forAuthenticationChallenge:)]
-        unsafe fn useCredential_forAuthenticationChallenge(
-            &self,
-            credential: &NSURLCredential,
-            challenge: &NSURLAuthenticationChallenge,
-        );
+#[objc2::protocol]
+pub unsafe trait NSURLAuthenticationChallengeSender: NSObjectProtocol {
+    #[cfg(all(
+        feature = "Foundation_NSURLAuthenticationChallenge",
+        feature = "Foundation_NSURLCredential"
+    ))]
+    #[objc2::method(sel = "useCredential:forAuthenticationChallenge:")]
+    unsafe fn useCredential_forAuthenticationChallenge(
+        &self,
+        credential: &NSURLCredential,
+        challenge: &NSURLAuthenticationChallenge,
+    );
 
-        #[cfg(feature = "Foundation_NSURLAuthenticationChallenge")]
-        #[method(continueWithoutCredentialForAuthenticationChallenge:)]
-        unsafe fn continueWithoutCredentialForAuthenticationChallenge(
-            &self,
-            challenge: &NSURLAuthenticationChallenge,
-        );
+    #[cfg(feature = "Foundation_NSURLAuthenticationChallenge")]
+    #[objc2::method(sel = "continueWithoutCredentialForAuthenticationChallenge:")]
+    unsafe fn continueWithoutCredentialForAuthenticationChallenge(
+        &self,
+        challenge: &NSURLAuthenticationChallenge,
+    );
 
-        #[cfg(feature = "Foundation_NSURLAuthenticationChallenge")]
-        #[method(cancelAuthenticationChallenge:)]
-        unsafe fn cancelAuthenticationChallenge(&self, challenge: &NSURLAuthenticationChallenge);
+    #[cfg(feature = "Foundation_NSURLAuthenticationChallenge")]
+    #[objc2::method(sel = "cancelAuthenticationChallenge:")]
+    unsafe fn cancelAuthenticationChallenge(&self, challenge: &NSURLAuthenticationChallenge);
 
-        #[cfg(feature = "Foundation_NSURLAuthenticationChallenge")]
-        #[optional]
-        #[method(performDefaultHandlingForAuthenticationChallenge:)]
-        unsafe fn performDefaultHandlingForAuthenticationChallenge(
-            &self,
-            challenge: &NSURLAuthenticationChallenge,
-        );
+    #[cfg(feature = "Foundation_NSURLAuthenticationChallenge")]
+    #[objc2::method(optional, sel = "performDefaultHandlingForAuthenticationChallenge:")]
+    unsafe fn performDefaultHandlingForAuthenticationChallenge(
+        &self,
+        challenge: &NSURLAuthenticationChallenge,
+    );
 
-        #[cfg(feature = "Foundation_NSURLAuthenticationChallenge")]
-        #[optional]
-        #[method(rejectProtectionSpaceAndContinueWithChallenge:)]
-        unsafe fn rejectProtectionSpaceAndContinueWithChallenge(
-            &self,
-            challenge: &NSURLAuthenticationChallenge,
-        );
-    }
+    #[cfg(feature = "Foundation_NSURLAuthenticationChallenge")]
+    #[objc2::method(optional, sel = "rejectProtectionSpaceAndContinueWithChallenge:")]
+    unsafe fn rejectProtectionSpaceAndContinueWithChallenge(
+        &self,
+        challenge: &NSURLAuthenticationChallenge,
+    );
+}
 
-    unsafe impl ProtocolType for dyn NSURLAuthenticationChallengeSender {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSURLAuthenticationChallenge")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSURLAuthenticationChallenge")]
-    pub struct NSURLAuthenticationChallenge;
-
-    #[cfg(feature = "Foundation_NSURLAuthenticationChallenge")]
-    unsafe impl ClassType for NSURLAuthenticationChallenge {
-        type Super = NSObject;
-    }
-);
+    pub type NSURLAuthenticationChallenge;
+}
 
 #[cfg(feature = "Foundation_NSURLAuthenticationChallenge")]
 unsafe impl NSCoding for NSURLAuthenticationChallenge {}
@@ -67,55 +62,61 @@ unsafe impl NSObjectProtocol for NSURLAuthenticationChallenge {}
 #[cfg(feature = "Foundation_NSURLAuthenticationChallenge")]
 unsafe impl NSSecureCoding for NSURLAuthenticationChallenge {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLAuthenticationChallenge")]
-    unsafe impl NSURLAuthenticationChallenge {
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURLCredential",
-            feature = "Foundation_NSURLProtectionSpace",
-            feature = "Foundation_NSURLResponse"
-        ))]
-        #[method_id(@__retain_semantics Init initWithProtectionSpace:proposedCredential:previousFailureCount:failureResponse:error:sender:)]
-        pub unsafe fn initWithProtectionSpace_proposedCredential_previousFailureCount_failureResponse_error_sender(
-            this: Option<Allocated<Self>>,
-            space: &NSURLProtectionSpace,
-            credential: Option<&NSURLCredential>,
-            previous_failure_count: NSInteger,
-            response: Option<&NSURLResponse>,
-            error: Option<&NSError>,
-            sender: &ProtocolObject<dyn NSURLAuthenticationChallengeSender>,
-        ) -> Id<Self>;
+    pub type NSURLAuthenticationChallenge;
 
-        #[method_id(@__retain_semantics Init initWithAuthenticationChallenge:sender:)]
-        pub unsafe fn initWithAuthenticationChallenge_sender(
-            this: Option<Allocated<Self>>,
-            challenge: &NSURLAuthenticationChallenge,
-            sender: &ProtocolObject<dyn NSURLAuthenticationChallengeSender>,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURLCredential",
+        feature = "Foundation_NSURLProtectionSpace",
+        feature = "Foundation_NSURLResponse"
+    ))]
+    #[objc2::method(
+        sel = "initWithProtectionSpace:proposedCredential:previousFailureCount:failureResponse:error:sender:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithProtectionSpace_proposedCredential_previousFailureCount_failureResponse_error_sender(
+        this: Option<Allocated<Self>>,
+        space: &NSURLProtectionSpace,
+        credential: Option<&NSURLCredential>,
+        previous_failure_count: NSInteger,
+        response: Option<&NSURLResponse>,
+        error: Option<&NSError>,
+        sender: &ProtocolObject<dyn NSURLAuthenticationChallengeSender>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURLProtectionSpace")]
-        #[method_id(@__retain_semantics Other protectionSpace)]
-        pub unsafe fn protectionSpace(&self) -> Id<NSURLProtectionSpace>;
+    #[objc2::method(sel = "initWithAuthenticationChallenge:sender:", managed = "Init")]
+    pub unsafe fn initWithAuthenticationChallenge_sender(
+        this: Option<Allocated<Self>>,
+        challenge: &NSURLAuthenticationChallenge,
+        sender: &ProtocolObject<dyn NSURLAuthenticationChallengeSender>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURLCredential")]
-        #[method_id(@__retain_semantics Other proposedCredential)]
-        pub unsafe fn proposedCredential(&self) -> Option<Id<NSURLCredential>>;
+    #[cfg(feature = "Foundation_NSURLProtectionSpace")]
+    #[objc2::method(sel = "protectionSpace", managed = "Other")]
+    pub unsafe fn protectionSpace(&self) -> Id<NSURLProtectionSpace>;
 
-        #[method(previousFailureCount)]
-        pub unsafe fn previousFailureCount(&self) -> NSInteger;
+    #[cfg(feature = "Foundation_NSURLCredential")]
+    #[objc2::method(sel = "proposedCredential", managed = "Other")]
+    pub unsafe fn proposedCredential(&self) -> Option<Id<NSURLCredential>>;
 
-        #[cfg(feature = "Foundation_NSURLResponse")]
-        #[method_id(@__retain_semantics Other failureResponse)]
-        pub unsafe fn failureResponse(&self) -> Option<Id<NSURLResponse>>;
+    #[objc2::method(sel = "previousFailureCount")]
+    pub unsafe fn previousFailureCount(&self) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other error)]
-        pub unsafe fn error(&self) -> Option<Id<NSError>>;
+    #[cfg(feature = "Foundation_NSURLResponse")]
+    #[objc2::method(sel = "failureResponse", managed = "Other")]
+    pub unsafe fn failureResponse(&self) -> Option<Id<NSURLResponse>>;
 
-        #[method_id(@__retain_semantics Other sender)]
-        pub unsafe fn sender(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn NSURLAuthenticationChallengeSender>>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "error", managed = "Other")]
+    pub unsafe fn error(&self) -> Option<Id<NSError>>;
+
+    #[objc2::method(sel = "sender", managed = "Other")]
+    pub unsafe fn sender(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn NSURLAuthenticationChallengeSender>>>;
+}

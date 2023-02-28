@@ -5,29 +5,30 @@ use crate::AppKit::*;
 use crate::BusinessChat::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
+#[ns_enum]
+#[underlying(NSInteger)]
+#[deprecated]
+pub enum BCChatButtonStyle {
     #[deprecated]
-    pub enum BCChatButtonStyle {
-        #[deprecated]
-        BCChatButtonStyleLight = 0,
-        #[deprecated]
-        BCChatButtonStyleDark = 1,
-    }
-);
+    BCChatButtonStyleLight = 0,
+    #[deprecated]
+    BCChatButtonStyleDark = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSControl,
+    unsafe inherits = [
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[deprecated]
+    #[cfg(feature = "BusinessChat_BCChatButton")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "BusinessChat_BCChatButton")]
-    #[deprecated]
-    pub struct BCChatButton;
-
-    #[cfg(feature = "BusinessChat_BCChatButton")]
-    unsafe impl ClassType for BCChatButton {
-        #[inherits(NSView, NSResponder, NSObject)]
-        type Super = NSControl;
-    }
-);
+    pub type BCChatButton;
+}
 
 #[cfg(feature = "BusinessChat_BCChatButton")]
 unsafe impl NSAccessibility for BCChatButton {}
@@ -53,31 +54,39 @@ unsafe impl NSObjectProtocol for BCChatButton {}
 #[cfg(feature = "BusinessChat_BCChatButton")]
 unsafe impl NSUserInterfaceItemIdentification for BCChatButton {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "BusinessChat_BCChatButton")]
-    unsafe impl BCChatButton {
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithStyle:)]
-        pub unsafe fn initWithStyle(
-            this: Option<Allocated<Self>>,
-            style: BCChatButtonStyle,
-        ) -> Id<Self>;
+    #[deprecated]
+    pub type BCChatButton;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
-    }
-);
+    #[deprecated]
+    #[objc2::method(sel = "initWithStyle:", managed = "Init")]
+    pub unsafe fn initWithStyle(
+        this: Option<Allocated<Self>>,
+        style: BCChatButtonStyle,
+    ) -> Id<Self>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSControl`
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[deprecated]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSControl`
     #[cfg(feature = "BusinessChat_BCChatButton")]
-    unsafe impl BCChatButton {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "BusinessChat_BCChatButton")]
+    pub type BCChatButton;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

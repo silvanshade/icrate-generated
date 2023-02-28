@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKProcessPool")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKProcessPool")]
-    pub struct WKProcessPool;
-
-    #[cfg(feature = "WebKit_WKProcessPool")]
-    unsafe impl ClassType for WKProcessPool {
-        type Super = NSObject;
-    }
-);
+    pub type WKProcessPool;
+}
 
 #[cfg(feature = "WebKit_WKProcessPool")]
 unsafe impl NSCoding for WKProcessPool {}
@@ -25,7 +25,10 @@ unsafe impl NSObjectProtocol for WKProcessPool {}
 #[cfg(feature = "WebKit_WKProcessPool")]
 unsafe impl NSSecureCoding for WKProcessPool {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKProcessPool")]
-    unsafe impl WKProcessPool {}
-);
+    pub type WKProcessPool;
+}

@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSTouchBarItem,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSCustomTouchBarItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSCustomTouchBarItem")]
-    pub struct NSCustomTouchBarItem;
-
-    #[cfg(feature = "AppKit_NSCustomTouchBarItem")]
-    unsafe impl ClassType for NSCustomTouchBarItem {
-        #[inherits(NSObject)]
-        type Super = NSTouchBarItem;
-    }
-);
+    pub type NSCustomTouchBarItem;
+}
 
 #[cfg(feature = "AppKit_NSCustomTouchBarItem")]
 unsafe impl NSCoding for NSCustomTouchBarItem {}
@@ -23,43 +23,52 @@ unsafe impl NSCoding for NSCustomTouchBarItem {}
 #[cfg(feature = "AppKit_NSCustomTouchBarItem")]
 unsafe impl NSObjectProtocol for NSCustomTouchBarItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSCustomTouchBarItem")]
-    unsafe impl NSCustomTouchBarItem {
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other view)]
-        pub unsafe fn view(&self) -> Id<NSView>;
+    pub type NSCustomTouchBarItem;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setView:)]
-        pub unsafe fn setView(&self, view: &NSView);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "view", managed = "Other")]
+    pub unsafe fn view(&self) -> Id<NSView>;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other viewController)]
-        pub unsafe fn viewController(&self) -> Option<Id<NSViewController>>;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setView:")]
+    pub unsafe fn setView(&self, view: &NSView);
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method(setViewController:)]
-        pub unsafe fn setViewController(&self, view_controller: Option<&NSViewController>);
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "viewController", managed = "Other")]
+    pub unsafe fn viewController(&self) -> Option<Id<NSViewController>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other customizationLabel)]
-        pub unsafe fn customizationLabel(&self) -> Id<NSString>;
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "setViewController:")]
+    pub unsafe fn setViewController(&self, view_controller: Option<&NSViewController>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCustomizationLabel:)]
-        pub unsafe fn setCustomizationLabel(&self, customization_label: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "customizationLabel", managed = "Other")]
+    pub unsafe fn customizationLabel(&self) -> Id<NSString>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSTouchBarItem`
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCustomizationLabel:")]
+    pub unsafe fn setCustomizationLabel(&self, customization_label: Option<&NSString>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSTouchBarItem`
     #[cfg(feature = "AppKit_NSCustomTouchBarItem")]
-    unsafe impl NSCustomTouchBarItem {
-        #[method_id(@__retain_semantics Init initWithIdentifier:)]
-        pub unsafe fn initWithIdentifier(
-            this: Option<Allocated<Self>>,
-            identifier: &NSTouchBarItemIdentifier,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSCustomTouchBarItem")]
+    pub type NSCustomTouchBarItem;
+
+    #[objc2::method(sel = "initWithIdentifier:", managed = "Init")]
+    pub unsafe fn initWithIdentifier(
+        this: Option<Allocated<Self>>,
+        identifier: &NSTouchBarItemIdentifier,
+    ) -> Id<Self>;
+}

@@ -15,30 +15,34 @@ extern_static!(BCParameterNameGroup: &'static BCParameterName);
 
 extern_static!(BCParameterNameBody: &'static BCParameterName);
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "BusinessChat_BCChatAction")]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct BCChatAction;
-
     #[cfg(feature = "BusinessChat_BCChatAction")]
-    unsafe impl ClassType for BCChatAction {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type BCChatAction;
+}
 
 #[cfg(feature = "BusinessChat_BCChatAction")]
 unsafe impl NSObjectProtocol for BCChatAction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "BusinessChat_BCChatAction")]
-    unsafe impl BCChatAction {
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[deprecated]
-        #[method(openTranscript:intentParameters:)]
-        pub unsafe fn openTranscript_intentParameters(
-            business_identifier: &NSString,
-            intent_parameters: &NSDictionary<BCParameterName, NSString>,
-        );
-    }
-);
+    #[deprecated]
+    pub type BCChatAction;
+
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[deprecated]
+    #[objc2::method(sel = "openTranscript:intentParameters:")]
+    pub unsafe fn openTranscript_intentParameters(
+        business_identifier: &NSString,
+        intent_parameters: &NSDictionary<BCParameterName, NSString>,
+    );
+}

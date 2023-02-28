@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Contacts::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Contacts_CNContactProperty")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Contacts_CNContactProperty")]
-    pub struct CNContactProperty;
-
-    #[cfg(feature = "Contacts_CNContactProperty")]
-    unsafe impl ClassType for CNContactProperty {
-        type Super = NSObject;
-    }
-);
+    pub type CNContactProperty;
+}
 
 #[cfg(feature = "Contacts_CNContactProperty")]
 unsafe impl NSCoding for CNContactProperty {}
@@ -24,26 +24,29 @@ unsafe impl NSObjectProtocol for CNContactProperty {}
 #[cfg(feature = "Contacts_CNContactProperty")]
 unsafe impl NSSecureCoding for CNContactProperty {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Contacts_CNContactProperty")]
-    unsafe impl CNContactProperty {
-        #[cfg(feature = "Contacts_CNContact")]
-        #[method_id(@__retain_semantics Other contact)]
-        pub unsafe fn contact(&self) -> Id<CNContact>;
+    pub type CNContactProperty;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other key)]
-        pub unsafe fn key(&self) -> Id<NSString>;
+    #[cfg(feature = "Contacts_CNContact")]
+    #[objc2::method(sel = "contact", managed = "Other")]
+    pub unsafe fn contact(&self) -> Id<CNContact>;
 
-        #[method_id(@__retain_semantics Other value)]
-        pub unsafe fn value(&self) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "key", managed = "Other")]
+    pub unsafe fn key(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "value", managed = "Other")]
+    pub unsafe fn value(&self) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        pub unsafe fn label(&self) -> Option<Id<NSString>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    pub unsafe fn label(&self) -> Option<Id<NSString>>;
+}

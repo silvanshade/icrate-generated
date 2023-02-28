@@ -5,17 +5,20 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::OSAKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSTextView,
+    unsafe inherits = [
+        NSText,
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "OSAKit_OSAScriptView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "OSAKit_OSAScriptView")]
-    pub struct OSAScriptView;
-
-    #[cfg(feature = "OSAKit_OSAScriptView")]
-    unsafe impl ClassType for OSAScriptView {
-        #[inherits(NSText, NSView, NSResponder, NSObject)]
-        type Super = NSTextView;
-    }
-);
+    pub type OSAScriptView;
+}
 
 #[cfg(feature = "OSAKit_OSAScriptView")]
 unsafe impl NSAccessibility for OSAScriptView {}
@@ -80,88 +83,103 @@ unsafe impl NSUserInterfaceItemIdentification for OSAScriptView {}
 #[cfg(feature = "OSAKit_OSAScriptView")]
 unsafe impl NSUserInterfaceValidations for OSAScriptView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "OSAKit_OSAScriptView")]
-    unsafe impl OSAScriptView {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other source)]
-        pub unsafe fn source(&self) -> Option<Id<NSString>>;
+    pub type OSAScriptView;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSource:)]
-        pub unsafe fn setSource(&self, source: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "source", managed = "Other")]
+    pub unsafe fn source(&self) -> Option<Id<NSString>>;
 
-        #[method(usesScriptAssistant)]
-        pub unsafe fn usesScriptAssistant(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSource:")]
+    pub unsafe fn setSource(&self, source: Option<&NSString>);
 
-        #[method(setUsesScriptAssistant:)]
-        pub unsafe fn setUsesScriptAssistant(&self, uses_script_assistant: bool);
+    #[objc2::method(sel = "usesScriptAssistant")]
+    pub unsafe fn usesScriptAssistant(&self) -> bool;
 
-        #[method(usesTabs)]
-        pub unsafe fn usesTabs(&self) -> bool;
+    #[objc2::method(sel = "setUsesScriptAssistant:")]
+    pub unsafe fn setUsesScriptAssistant(&self, uses_script_assistant: bool);
 
-        #[method(setUsesTabs:)]
-        pub unsafe fn setUsesTabs(&self, uses_tabs: bool);
+    #[objc2::method(sel = "usesTabs")]
+    pub unsafe fn usesTabs(&self) -> bool;
 
-        #[method(tabWidth)]
-        pub unsafe fn tabWidth(&self) -> NSUInteger;
+    #[objc2::method(sel = "setUsesTabs:")]
+    pub unsafe fn setUsesTabs(&self, uses_tabs: bool);
 
-        #[method(setTabWidth:)]
-        pub unsafe fn setTabWidth(&self, tab_width: NSUInteger);
+    #[objc2::method(sel = "tabWidth")]
+    pub unsafe fn tabWidth(&self) -> NSUInteger;
 
-        #[method(wrapsLines)]
-        pub unsafe fn wrapsLines(&self) -> bool;
+    #[objc2::method(sel = "setTabWidth:")]
+    pub unsafe fn setTabWidth(&self, tab_width: NSUInteger);
 
-        #[method(setWrapsLines:)]
-        pub unsafe fn setWrapsLines(&self, wraps_lines: bool);
+    #[objc2::method(sel = "wrapsLines")]
+    pub unsafe fn wrapsLines(&self) -> bool;
 
-        #[method(indentsWrappedLines)]
-        pub unsafe fn indentsWrappedLines(&self) -> bool;
+    #[objc2::method(sel = "setWrapsLines:")]
+    pub unsafe fn setWrapsLines(&self, wraps_lines: bool);
 
-        #[method(setIndentsWrappedLines:)]
-        pub unsafe fn setIndentsWrappedLines(&self, indents_wrapped_lines: bool);
+    #[objc2::method(sel = "indentsWrappedLines")]
+    pub unsafe fn indentsWrappedLines(&self) -> bool;
 
-        #[method(indentWidth)]
-        pub unsafe fn indentWidth(&self) -> NSUInteger;
+    #[objc2::method(sel = "setIndentsWrappedLines:")]
+    pub unsafe fn setIndentsWrappedLines(&self, indents_wrapped_lines: bool);
 
-        #[method(setIndentWidth:)]
-        pub unsafe fn setIndentWidth(&self, indent_width: NSUInteger);
-    }
-);
+    #[objc2::method(sel = "indentWidth")]
+    pub unsafe fn indentWidth(&self) -> NSUInteger;
 
-extern_methods!(
-    /// Methods declared on superclass `NSTextView`
+    #[objc2::method(sel = "setIndentWidth:")]
+    pub unsafe fn setIndentWidth(&self, indent_width: NSUInteger);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSTextView`
     #[cfg(feature = "OSAKit_OSAScriptView")]
-    unsafe impl OSAScriptView {
-        #[cfg(feature = "AppKit_NSTextContainer")]
-        #[method_id(@__retain_semantics Init initWithFrame:textContainer:)]
-        pub unsafe fn initWithFrame_textContainer(
-            this: Option<Allocated<Self>>,
-            frame_rect: NSRect,
-            container: Option<&NSTextContainer>,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Init initUsingTextLayoutManager:)]
-        pub unsafe fn initUsingTextLayoutManager(
-            this: Option<Allocated<Self>>,
-            using_text_layout_manager: bool,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other textViewUsingTextLayoutManager:)]
-        pub unsafe fn textViewUsingTextLayoutManager(using_text_layout_manager: bool) -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSTextView`
-    ///
-    /// NSTextView_Factory
+)]
+extern "Objective-C" {
     #[cfg(feature = "OSAKit_OSAScriptView")]
-    unsafe impl OSAScriptView {
-        #[method_id(@__retain_semantics Other fieldEditor)]
-        pub unsafe fn fieldEditor() -> Id<Self>;
+    pub type OSAScriptView;
+
+    #[cfg(feature = "AppKit_NSTextContainer")]
+    #[objc2::method(sel = "initWithFrame:textContainer:", managed = "Init")]
+    pub unsafe fn initWithFrame_textContainer(
+        this: Option<Allocated<Self>>,
+        frame_rect: NSRect,
+        container: Option<&NSTextContainer>,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+
+    #[objc2::method(sel = "initUsingTextLayoutManager:", managed = "Init")]
+    pub unsafe fn initUsingTextLayoutManager(
+        this: Option<Allocated<Self>>,
+        using_text_layout_manager: bool,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "textViewUsingTextLayoutManager:", managed = "Other")]
+    pub unsafe fn textViewUsingTextLayoutManager(using_text_layout_manager: bool) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSTextView`
+        ///
+        /// NSTextView_Factory
+    #[cfg(feature = "OSAKit_OSAScriptView")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "OSAKit_OSAScriptView")]
+    pub type OSAScriptView;
+
+    #[objc2::method(sel = "fieldEditor", managed = "Other")]
+    pub unsafe fn fieldEditor() -> Id<Self>;
+}

@@ -242,14 +242,13 @@ extern_static!(NSAccessibilityAnnotationElement: &'static NSAccessibilityAnnotat
 
 extern_static!(NSAccessibilityAnnotationLocation: &'static NSAccessibilityAnnotationAttributeKey);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSAccessibilityAnnotationPosition {
-        NSAccessibilityAnnotationPositionFullRange = 0,
-        NSAccessibilityAnnotationPositionStart = 1,
-        NSAccessibilityAnnotationPositionEnd = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSAccessibilityAnnotationPosition {
+    NSAccessibilityAnnotationPositionFullRange = 0,
+    NSAccessibilityAnnotationPositionStart = 1,
+    NSAccessibilityAnnotationPositionEnd = 2,
+}
 
 typed_enum!(
     pub type NSAccessibilityFontAttributeKey = NSString;
@@ -303,14 +302,13 @@ extern_static!(NSAccessibilityFocusedUIElementAttribute: &'static NSAccessibilit
 
 extern_static!(NSAccessibilityExtrasMenuBarAttribute: &'static NSAccessibilityAttributeName);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSAccessibilityOrientation {
-        NSAccessibilityOrientationUnknown = 0,
-        NSAccessibilityOrientationVertical = 1,
-        NSAccessibilityOrientationHorizontal = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSAccessibilityOrientation {
+    NSAccessibilityOrientationUnknown = 0,
+    NSAccessibilityOrientationVertical = 1,
+    NSAccessibilityOrientationHorizontal = 2,
+}
 
 extern_static!(NSAccessibilityOrientationAttribute: &'static NSAccessibilityAttributeName);
 
@@ -415,14 +413,13 @@ extern_static!(
     NSAccessibilityUnknownSortDirectionValue: &'static NSAccessibilitySortDirectionValue
 );
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSAccessibilitySortDirection {
-        NSAccessibilitySortDirectionUnknown = 0,
-        NSAccessibilitySortDirectionAscending = 1,
-        NSAccessibilitySortDirectionDescending = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSAccessibilitySortDirection {
+    NSAccessibilitySortDirectionUnknown = 0,
+    NSAccessibilitySortDirectionAscending = 1,
+    NSAccessibilitySortDirectionDescending = 2,
+}
 
 extern_static!(NSAccessibilityDisclosingAttribute: &'static NSAccessibilityAttributeName);
 
@@ -496,19 +493,18 @@ extern_static!(
 
 extern_static!(NSAccessibilityUnknownMarkerTypeValue: &'static NSAccessibilityRulerMarkerTypeValue);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSAccessibilityRulerMarkerType {
-        NSAccessibilityRulerMarkerTypeUnknown = 0,
-        NSAccessibilityRulerMarkerTypeTabStopLeft = 1,
-        NSAccessibilityRulerMarkerTypeTabStopRight = 2,
-        NSAccessibilityRulerMarkerTypeTabStopCenter = 3,
-        NSAccessibilityRulerMarkerTypeTabStopDecimal = 4,
-        NSAccessibilityRulerMarkerTypeIndentHead = 5,
-        NSAccessibilityRulerMarkerTypeIndentTail = 6,
-        NSAccessibilityRulerMarkerTypeIndentFirstLine = 7,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSAccessibilityRulerMarkerType {
+    NSAccessibilityRulerMarkerTypeUnknown = 0,
+    NSAccessibilityRulerMarkerTypeTabStopLeft = 1,
+    NSAccessibilityRulerMarkerTypeTabStopRight = 2,
+    NSAccessibilityRulerMarkerTypeTabStopCenter = 3,
+    NSAccessibilityRulerMarkerTypeTabStopDecimal = 4,
+    NSAccessibilityRulerMarkerTypeIndentHead = 5,
+    NSAccessibilityRulerMarkerTypeIndentTail = 6,
+    NSAccessibilityRulerMarkerTypeIndentFirstLine = 7,
+}
 
 typed_enum!(
     pub type NSAccessibilityRulerUnitValue = NSString;
@@ -524,16 +520,15 @@ extern_static!(NSAccessibilityPicasUnitValue: &'static NSAccessibilityRulerUnitV
 
 extern_static!(NSAccessibilityUnknownUnitValue: &'static NSAccessibilityRulerUnitValue);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSAccessibilityUnits {
-        NSAccessibilityUnitsUnknown = 0,
-        NSAccessibilityUnitsInches = 1,
-        NSAccessibilityUnitsCentimeters = 2,
-        NSAccessibilityUnitsPoints = 3,
-        NSAccessibilityUnitsPicas = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSAccessibilityUnits {
+    NSAccessibilityUnitsUnknown = 0,
+    NSAccessibilityUnitsInches = 1,
+    NSAccessibilityUnitsCentimeters = 2,
+    NSAccessibilityUnitsPoints = 3,
+    NSAccessibilityUnitsPicas = 4,
+}
 
 typed_extensible_enum!(
     pub type NSAccessibilityActionName = NSString;
@@ -870,14 +865,13 @@ extern_fn!(
     );
 );
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSAccessibilityPriorityLevel {
-        NSAccessibilityPriorityLow = 10,
-        NSAccessibilityPriorityMedium = 50,
-        NSAccessibilityPriorityHigh = 90,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSAccessibilityPriorityLevel {
+    NSAccessibilityPriorityLow = 10,
+    NSAccessibilityPriorityMedium = 50,
+    NSAccessibilityPriorityHigh = 90,
+}
 
 pub type NSAccessibilityLoadingToken = TodoProtocols;
 

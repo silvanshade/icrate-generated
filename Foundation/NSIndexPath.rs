@@ -3,16 +3,16 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSIndexPath")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSIndexPath")]
-    pub struct NSIndexPath;
-
-    #[cfg(feature = "Foundation_NSIndexPath")]
-    unsafe impl ClassType for NSIndexPath {
-        type Super = NSObject;
-    }
-);
+    pub type NSIndexPath;
+}
 
 #[cfg(feature = "Foundation_NSIndexPath")]
 unsafe impl NSCoding for NSIndexPath {}
@@ -23,58 +23,59 @@ unsafe impl NSObjectProtocol for NSIndexPath {}
 #[cfg(feature = "Foundation_NSIndexPath")]
 unsafe impl NSSecureCoding for NSIndexPath {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSIndexPath")]
-    unsafe impl NSIndexPath {
-        #[method_id(@__retain_semantics Other indexPathWithIndex:)]
-        pub unsafe fn indexPathWithIndex(index: NSUInteger) -> Id<Self>;
+    pub type NSIndexPath;
 
-        #[method_id(@__retain_semantics Other indexPathWithIndexes:length:)]
-        pub unsafe fn indexPathWithIndexes_length(
-            indexes: *mut NSUInteger,
-            length: NSUInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "indexPathWithIndex:", managed = "Other")]
+    pub unsafe fn indexPathWithIndex(index: NSUInteger) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithIndexes:length:)]
-        pub unsafe fn initWithIndexes_length(
-            this: Option<Allocated<Self>>,
-            indexes: *mut NSUInteger,
-            length: NSUInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "indexPathWithIndexes:length:", managed = "Other")]
+    pub unsafe fn indexPathWithIndexes_length(
+        indexes: *mut NSUInteger,
+        length: NSUInteger,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithIndex:)]
-        pub unsafe fn initWithIndex(this: Option<Allocated<Self>>, index: NSUInteger) -> Id<Self>;
+    #[objc2::method(sel = "initWithIndexes:length:", managed = "Init")]
+    pub unsafe fn initWithIndexes_length(
+        this: Option<Allocated<Self>>,
+        indexes: *mut NSUInteger,
+        length: NSUInteger,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other indexPathByAddingIndex:)]
-        pub unsafe fn indexPathByAddingIndex(&self, index: NSUInteger) -> Id<NSIndexPath>;
+    #[objc2::method(sel = "initWithIndex:", managed = "Init")]
+    pub unsafe fn initWithIndex(this: Option<Allocated<Self>>, index: NSUInteger) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other indexPathByRemovingLastIndex)]
-        pub unsafe fn indexPathByRemovingLastIndex(&self) -> Id<NSIndexPath>;
+    #[objc2::method(sel = "indexPathByAddingIndex:", managed = "Other")]
+    pub unsafe fn indexPathByAddingIndex(&self, index: NSUInteger) -> Id<NSIndexPath>;
 
-        #[method(indexAtPosition:)]
-        pub unsafe fn indexAtPosition(&self, position: NSUInteger) -> NSUInteger;
+    #[objc2::method(sel = "indexPathByRemovingLastIndex", managed = "Other")]
+    pub unsafe fn indexPathByRemovingLastIndex(&self) -> Id<NSIndexPath>;
 
-        #[method(length)]
-        pub unsafe fn length(&self) -> NSUInteger;
+    #[objc2::method(sel = "indexAtPosition:")]
+    pub unsafe fn indexAtPosition(&self, position: NSUInteger) -> NSUInteger;
 
-        #[method(getIndexes:range:)]
-        pub unsafe fn getIndexes_range(
-            &self,
-            indexes: NonNull<NSUInteger>,
-            position_range: NSRange,
-        );
+    #[objc2::method(sel = "length")]
+    pub unsafe fn length(&self) -> NSUInteger;
 
-        #[method(compare:)]
-        pub unsafe fn compare(&self, other_object: &NSIndexPath) -> NSComparisonResult;
-    }
-);
+    #[objc2::method(sel = "getIndexes:range:")]
+    pub unsafe fn getIndexes_range(&self, indexes: NonNull<NSUInteger>, position_range: NSRange);
 
-extern_methods!(
-    /// NSDeprecated
+    #[objc2::method(sel = "compare:")]
+    pub unsafe fn compare(&self, other_object: &NSIndexPath) -> NSComparisonResult;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSIndexPath")]
-    unsafe impl NSIndexPath {
-        #[deprecated]
-        #[method(getIndexes:)]
-        pub unsafe fn getIndexes(&self, indexes: NonNull<NSUInteger>);
-    }
-);
+    pub type NSIndexPath;
+
+    #[deprecated]
+    #[objc2::method(sel = "getIndexes:")]
+    pub unsafe fn getIndexes(&self, indexes: NonNull<NSUInteger>);
+}

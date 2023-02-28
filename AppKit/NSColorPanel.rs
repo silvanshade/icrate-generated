@@ -5,47 +5,47 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSColorPanelMode {
-        NSColorPanelModeNone = -1,
-        NSColorPanelModeGray = 0,
-        NSColorPanelModeRGB = 1,
-        NSColorPanelModeCMYK = 2,
-        NSColorPanelModeHSB = 3,
-        NSColorPanelModeCustomPalette = 4,
-        NSColorPanelModeColorList = 5,
-        NSColorPanelModeWheel = 6,
-        NSColorPanelModeCrayon = 7,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSColorPanelMode {
+    NSColorPanelModeNone = -1,
+    NSColorPanelModeGray = 0,
+    NSColorPanelModeRGB = 1,
+    NSColorPanelModeCMYK = 2,
+    NSColorPanelModeHSB = 3,
+    NSColorPanelModeCustomPalette = 4,
+    NSColorPanelModeColorList = 5,
+    NSColorPanelModeWheel = 6,
+    NSColorPanelModeCrayon = 7,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSColorPanelOptions {
-        NSColorPanelGrayModeMask = 0x00000001,
-        NSColorPanelRGBModeMask = 0x00000002,
-        NSColorPanelCMYKModeMask = 0x00000004,
-        NSColorPanelHSBModeMask = 0x00000008,
-        NSColorPanelCustomPaletteModeMask = 0x00000010,
-        NSColorPanelColorListModeMask = 0x00000020,
-        NSColorPanelWheelModeMask = 0x00000040,
-        NSColorPanelCrayonModeMask = 0x00000080,
-        NSColorPanelAllModesMask = 0x0000ffff,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSColorPanelOptions {
+    NSColorPanelGrayModeMask = 0x00000001,
+    NSColorPanelRGBModeMask = 0x00000002,
+    NSColorPanelCMYKModeMask = 0x00000004,
+    NSColorPanelHSBModeMask = 0x00000008,
+    NSColorPanelCustomPaletteModeMask = 0x00000010,
+    NSColorPanelColorListModeMask = 0x00000020,
+    NSColorPanelWheelModeMask = 0x00000040,
+    NSColorPanelCrayonModeMask = 0x00000080,
+    NSColorPanelAllModesMask = 0x0000ffff,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSPanel,
+    unsafe inherits = [
+        NSWindow,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSColorPanel")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSColorPanel")]
-    pub struct NSColorPanel;
-
-    #[cfg(feature = "AppKit_NSColorPanel")]
-    unsafe impl ClassType for NSColorPanel {
-        #[inherits(NSWindow, NSResponder, NSObject)]
-        type Super = NSPanel;
-    }
-);
+    pub type NSColorPanel;
+}
 
 #[cfg(feature = "AppKit_NSColorPanel")]
 unsafe impl NSAccessibility for NSColorPanel {}
@@ -74,104 +74,106 @@ unsafe impl NSUserInterfaceItemIdentification for NSColorPanel {}
 #[cfg(feature = "AppKit_NSColorPanel")]
 unsafe impl NSUserInterfaceValidations for NSColorPanel {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSColorPanel")]
-    unsafe impl NSColorPanel {
-        #[method_id(@__retain_semantics Other sharedColorPanel)]
-        pub unsafe fn sharedColorPanel() -> Id<NSColorPanel>;
+    pub type NSColorPanel;
 
-        #[method(sharedColorPanelExists)]
-        pub unsafe fn sharedColorPanelExists() -> bool;
+    #[objc2::method(sel = "sharedColorPanel", managed = "Other")]
+    pub unsafe fn sharedColorPanel() -> Id<NSColorPanel>;
 
-        #[cfg(all(
-            feature = "AppKit_NSColor",
-            feature = "AppKit_NSEvent",
-            feature = "AppKit_NSView"
-        ))]
-        #[method(dragColor:withEvent:fromView:)]
-        pub unsafe fn dragColor_withEvent_fromView(
-            color: &NSColor,
-            event: &NSEvent,
-            source_view: &NSView,
-        ) -> bool;
+    #[objc2::method(sel = "sharedColorPanelExists")]
+    pub unsafe fn sharedColorPanelExists() -> bool;
 
-        #[method(setPickerMask:)]
-        pub unsafe fn setPickerMask(mask: NSColorPanelOptions);
+    #[cfg(all(
+        feature = "AppKit_NSColor",
+        feature = "AppKit_NSEvent",
+        feature = "AppKit_NSView"
+    ))]
+    #[objc2::method(sel = "dragColor:withEvent:fromView:")]
+    pub unsafe fn dragColor_withEvent_fromView(
+        color: &NSColor,
+        event: &NSEvent,
+        source_view: &NSView,
+    ) -> bool;
 
-        #[method(setPickerMode:)]
-        pub unsafe fn setPickerMode(mode: NSColorPanelMode);
+    #[objc2::method(sel = "setPickerMask:")]
+    pub unsafe fn setPickerMask(mask: NSColorPanelOptions);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other accessoryView)]
-        pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
+    #[objc2::method(sel = "setPickerMode:")]
+    pub unsafe fn setPickerMode(mode: NSColorPanelMode);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setAccessoryView:)]
-        pub unsafe fn setAccessoryView(&self, accessory_view: Option<&NSView>);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "accessoryView", managed = "Other")]
+    pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
 
-        #[method(isContinuous)]
-        pub unsafe fn isContinuous(&self) -> bool;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setAccessoryView:")]
+    pub unsafe fn setAccessoryView(&self, accessory_view: Option<&NSView>);
 
-        #[method(setContinuous:)]
-        pub unsafe fn setContinuous(&self, continuous: bool);
+    #[objc2::method(sel = "isContinuous")]
+    pub unsafe fn isContinuous(&self) -> bool;
 
-        #[method(showsAlpha)]
-        pub unsafe fn showsAlpha(&self) -> bool;
+    #[objc2::method(sel = "setContinuous:")]
+    pub unsafe fn setContinuous(&self, continuous: bool);
 
-        #[method(setShowsAlpha:)]
-        pub unsafe fn setShowsAlpha(&self, shows_alpha: bool);
+    #[objc2::method(sel = "showsAlpha")]
+    pub unsafe fn showsAlpha(&self) -> bool;
 
-        #[method(mode)]
-        pub unsafe fn mode(&self) -> NSColorPanelMode;
+    #[objc2::method(sel = "setShowsAlpha:")]
+    pub unsafe fn setShowsAlpha(&self, shows_alpha: bool);
 
-        #[method(setMode:)]
-        pub unsafe fn setMode(&self, mode: NSColorPanelMode);
+    #[objc2::method(sel = "mode")]
+    pub unsafe fn mode(&self) -> NSColorPanelMode;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other color)]
-        pub unsafe fn color(&self) -> Id<NSColor>;
+    #[objc2::method(sel = "setMode:")]
+    pub unsafe fn setMode(&self, mode: NSColorPanelMode);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setColor:)]
-        pub unsafe fn setColor(&self, color: &NSColor);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "color", managed = "Other")]
+    pub unsafe fn color(&self) -> Id<NSColor>;
 
-        #[method(alpha)]
-        pub unsafe fn alpha(&self) -> CGFloat;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setColor:")]
+    pub unsafe fn setColor(&self, color: &NSColor);
 
-        #[method(setAction:)]
-        pub unsafe fn setAction(&self, selector: Option<Sel>);
+    #[objc2::method(sel = "alpha")]
+    pub unsafe fn alpha(&self) -> CGFloat;
 
-        #[method(setTarget:)]
-        pub unsafe fn setTarget(&self, target: Option<&Object>);
+    #[objc2::method(sel = "setAction:")]
+    pub unsafe fn setAction(&self, selector: Option<Sel>);
 
-        #[cfg(feature = "AppKit_NSColorList")]
-        #[method(attachColorList:)]
-        pub unsafe fn attachColorList(&self, color_list: &NSColorList);
+    #[objc2::method(sel = "setTarget:")]
+    pub unsafe fn setTarget(&self, target: Option<&Object>);
 
-        #[cfg(feature = "AppKit_NSColorList")]
-        #[method(detachColorList:)]
-        pub unsafe fn detachColorList(&self, color_list: &NSColorList);
-    }
-);
+    #[cfg(feature = "AppKit_NSColorList")]
+    #[objc2::method(sel = "attachColorList:")]
+    pub unsafe fn attachColorList(&self, color_list: &NSColorList);
 
-extern_methods!(
-    /// NSColorPanel
+    #[cfg(feature = "AppKit_NSColorList")]
+    #[objc2::method(sel = "detachColorList:")]
+    pub unsafe fn detachColorList(&self, color_list: &NSColorList);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSApplication")]
-    unsafe impl NSApplication {
-        #[method(orderFrontColorPanel:)]
-        pub unsafe fn orderFrontColorPanel(&self, sender: Option<&Object>);
-    }
-);
+    pub type NSApplication;
 
-extern_protocol!(
-    pub unsafe trait NSColorChanging: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSColorPanel")]
-        #[method(changeColor:)]
-        unsafe fn changeColor(&self, sender: Option<&NSColorPanel>);
-    }
+    #[objc2::method(sel = "orderFrontColorPanel:")]
+    pub unsafe fn orderFrontColorPanel(&self, sender: Option<&Object>);
+}
 
-    unsafe impl ProtocolType for dyn NSColorChanging {}
-);
+#[objc2::protocol]
+pub unsafe trait NSColorChanging: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSColorPanel")]
+    #[objc2::method(sel = "changeColor:")]
+    unsafe fn changeColor(&self, sender: Option<&NSColorPanel>);
+}
 
 extern_static!(NSColorPanelColorDidChangeNotification: &'static NSNotificationName);
 
@@ -193,34 +195,43 @@ extern_static!(NSWheelModeColorPanel: NSColorPanelMode = NSColorPanelModeWheel);
 
 extern_static!(NSCrayonModeColorPanel: NSColorPanelMode = NSColorPanelModeCrayon);
 
-extern_methods!(
-    /// Methods declared on superclass `NSWindow`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSWindow`
     #[cfg(feature = "AppKit_NSColorPanel")]
-    unsafe impl NSColorPanel {
-        #[method_id(@__retain_semantics Init initWithContentRect:styleMask:backing:defer:)]
-        pub unsafe fn initWithContentRect_styleMask_backing_defer(
-            this: Option<Allocated<Self>>,
-            content_rect: NSRect,
-            style: NSWindowStyleMask,
-            backing_store_type: NSBackingStoreType,
-            flag: bool,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSScreen")]
-        #[method_id(@__retain_semantics Init initWithContentRect:styleMask:backing:defer:screen:)]
-        pub unsafe fn initWithContentRect_styleMask_backing_defer_screen(
-            this: Option<Allocated<Self>>,
-            content_rect: NSRect,
-            style: NSWindowStyleMask,
-            backing_store_type: NSBackingStoreType,
-            flag: bool,
-            screen: Option<&NSScreen>,
-        ) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other windowWithContentViewController:)]
-        pub unsafe fn windowWithContentViewController(
-            content_view_controller: &NSViewController,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSColorPanel")]
+    pub type NSColorPanel;
+
+    #[objc2::method(sel = "initWithContentRect:styleMask:backing:defer:", managed = "Init")]
+    pub unsafe fn initWithContentRect_styleMask_backing_defer(
+        this: Option<Allocated<Self>>,
+        content_rect: NSRect,
+        style: NSWindowStyleMask,
+        backing_store_type: NSBackingStoreType,
+        flag: bool,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSScreen")]
+    #[objc2::method(
+        sel = "initWithContentRect:styleMask:backing:defer:screen:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithContentRect_styleMask_backing_defer_screen(
+        this: Option<Allocated<Self>>,
+        content_rect: NSRect,
+        style: NSWindowStyleMask,
+        backing_store_type: NSBackingStoreType,
+        flag: bool,
+        screen: Option<&NSScreen>,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "windowWithContentViewController:", managed = "Other")]
+    pub unsafe fn windowWithContentViewController(
+        content_view_controller: &NSViewController,
+    ) -> Id<Self>;
+}

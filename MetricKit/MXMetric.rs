@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXMetric")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXMetric")]
-    pub struct MXMetric;
-
-    #[cfg(feature = "MetricKit_MXMetric")]
-    unsafe impl ClassType for MXMetric {
-        type Super = NSObject;
-    }
-);
+    pub type MXMetric;
+}
 
 #[cfg(feature = "MetricKit_MXMetric")]
 unsafe impl NSCoding for MXMetric {}
@@ -24,20 +24,23 @@ unsafe impl NSObjectProtocol for MXMetric {}
 #[cfg(feature = "MetricKit_MXMetric")]
 unsafe impl NSSecureCoding for MXMetric {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXMetric")]
-    unsafe impl MXMetric {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other JSONRepresentation)]
-        pub unsafe fn JSONRepresentation(&self) -> Id<NSData>;
+    pub type MXMetric;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other DictionaryRepresentation)]
-        pub unsafe fn DictionaryRepresentation(&self) -> Id<NSDictionary>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "JSONRepresentation", managed = "Other")]
+    pub unsafe fn JSONRepresentation(&self) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other dictionaryRepresentation)]
-        pub unsafe fn dictionaryRepresentation(&self) -> Id<NSDictionary>;
-    }
-);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[deprecated]
+    #[objc2::method(sel = "DictionaryRepresentation", managed = "Other")]
+    pub unsafe fn DictionaryRepresentation(&self) -> Id<NSDictionary>;
+
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "dictionaryRepresentation", managed = "Other")]
+    pub unsafe fn dictionaryRepresentation(&self) -> Id<NSDictionary>;
+}

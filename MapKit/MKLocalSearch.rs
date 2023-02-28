@@ -10,47 +10,50 @@ use crate::MapKit::*;
 pub type MKLocalSearchCompletionHandler =
     *mut Block<(*mut MKLocalSearchResponse, *mut NSError), ()>;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKLocalSearch")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKLocalSearch")]
-    pub struct MKLocalSearch;
-
-    #[cfg(feature = "MapKit_MKLocalSearch")]
-    unsafe impl ClassType for MKLocalSearch {
-        type Super = NSObject;
-    }
-);
+    pub type MKLocalSearch;
+}
 
 #[cfg(feature = "MapKit_MKLocalSearch")]
 unsafe impl NSObjectProtocol for MKLocalSearch {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKLocalSearch")]
-    unsafe impl MKLocalSearch {
-        #[cfg(feature = "MapKit_MKLocalSearchRequest")]
-        #[method_id(@__retain_semantics Init initWithRequest:)]
-        pub unsafe fn initWithRequest(
-            this: Option<Allocated<Self>>,
-            request: &MKLocalSearchRequest,
-        ) -> Id<Self>;
+    pub type MKLocalSearch;
 
-        #[cfg(feature = "MapKit_MKLocalPointsOfInterestRequest")]
-        #[method_id(@__retain_semantics Init initWithPointsOfInterestRequest:)]
-        pub unsafe fn initWithPointsOfInterestRequest(
-            this: Option<Allocated<Self>>,
-            request: &MKLocalPointsOfInterestRequest,
-        ) -> Id<Self>;
+    #[cfg(feature = "MapKit_MKLocalSearchRequest")]
+    #[objc2::method(sel = "initWithRequest:", managed = "Init")]
+    pub unsafe fn initWithRequest(
+        this: Option<Allocated<Self>>,
+        request: &MKLocalSearchRequest,
+    ) -> Id<Self>;
 
-        #[method(startWithCompletionHandler:)]
-        pub unsafe fn startWithCompletionHandler(
-            &self,
-            completion_handler: MKLocalSearchCompletionHandler,
-        );
+    #[cfg(feature = "MapKit_MKLocalPointsOfInterestRequest")]
+    #[objc2::method(sel = "initWithPointsOfInterestRequest:", managed = "Init")]
+    pub unsafe fn initWithPointsOfInterestRequest(
+        this: Option<Allocated<Self>>,
+        request: &MKLocalPointsOfInterestRequest,
+    ) -> Id<Self>;
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
+    #[objc2::method(sel = "startWithCompletionHandler:")]
+    pub unsafe fn startWithCompletionHandler(
+        &self,
+        completion_handler: MKLocalSearchCompletionHandler,
+    );
 
-        #[method(isSearching)]
-        pub unsafe fn isSearching(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
+
+    #[objc2::method(sel = "isSearching")]
+    pub unsafe fn isSearching(&self) -> bool;
+}

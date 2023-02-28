@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Speech::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Speech_SFSpeechRecognitionResult")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Speech_SFSpeechRecognitionResult")]
-    pub struct SFSpeechRecognitionResult;
-
-    #[cfg(feature = "Speech_SFSpeechRecognitionResult")]
-    unsafe impl ClassType for SFSpeechRecognitionResult {
-        type Super = NSObject;
-    }
-);
+    pub type SFSpeechRecognitionResult;
+}
 
 #[cfg(feature = "Speech_SFSpeechRecognitionResult")]
 unsafe impl NSCoding for SFSpeechRecognitionResult {}
@@ -24,22 +24,25 @@ unsafe impl NSObjectProtocol for SFSpeechRecognitionResult {}
 #[cfg(feature = "Speech_SFSpeechRecognitionResult")]
 unsafe impl NSSecureCoding for SFSpeechRecognitionResult {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Speech_SFSpeechRecognitionResult")]
-    unsafe impl SFSpeechRecognitionResult {
-        #[cfg(feature = "Speech_SFTranscription")]
-        #[method_id(@__retain_semantics Other bestTranscription)]
-        pub unsafe fn bestTranscription(&self) -> Id<SFTranscription>;
+    pub type SFSpeechRecognitionResult;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Speech_SFTranscription"))]
-        #[method_id(@__retain_semantics Other transcriptions)]
-        pub unsafe fn transcriptions(&self) -> Id<NSArray<SFTranscription>>;
+    #[cfg(feature = "Speech_SFTranscription")]
+    #[objc2::method(sel = "bestTranscription", managed = "Other")]
+    pub unsafe fn bestTranscription(&self) -> Id<SFTranscription>;
 
-        #[method(isFinal)]
-        pub unsafe fn isFinal(&self) -> bool;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Speech_SFTranscription"))]
+    #[objc2::method(sel = "transcriptions", managed = "Other")]
+    pub unsafe fn transcriptions(&self) -> Id<NSArray<SFTranscription>>;
 
-        #[cfg(feature = "Speech_SFSpeechRecognitionMetadata")]
-        #[method_id(@__retain_semantics Other speechRecognitionMetadata)]
-        pub unsafe fn speechRecognitionMetadata(&self) -> Option<Id<SFSpeechRecognitionMetadata>>;
-    }
-);
+    #[objc2::method(sel = "isFinal")]
+    pub unsafe fn isFinal(&self) -> bool;
+
+    #[cfg(feature = "Speech_SFSpeechRecognitionMetadata")]
+    #[objc2::method(sel = "speechRecognitionMetadata", managed = "Other")]
+    pub unsafe fn speechRecognitionMetadata(&self) -> Option<Id<SFSpeechRecognitionMetadata>>;
+}

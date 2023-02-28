@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextContainer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextContainer")]
-    pub struct NSTextContainer;
-
-    #[cfg(feature = "AppKit_NSTextContainer")]
-    unsafe impl ClassType for NSTextContainer {
-        type Super = NSObject;
-    }
-);
+    pub type NSTextContainer;
+}
 
 #[cfg(feature = "AppKit_NSTextContainer")]
 unsafe impl NSCoding for NSTextContainer {}
@@ -28,146 +28,153 @@ unsafe impl NSSecureCoding for NSTextContainer {}
 #[cfg(feature = "AppKit_NSTextContainer")]
 unsafe impl NSTextLayoutOrientationProvider for NSTextContainer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextContainer")]
-    unsafe impl NSTextContainer {
-        #[method_id(@__retain_semantics Init initWithSize:)]
-        pub unsafe fn initWithSize(this: Option<Allocated<Self>>, size: NSSize) -> Id<Self>;
+    pub type NSTextContainer;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+    #[objc2::method(sel = "initWithSize:", managed = "Init")]
+    pub unsafe fn initWithSize(this: Option<Allocated<Self>>, size: NSSize) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSLayoutManager")]
-        #[method_id(@__retain_semantics Other layoutManager)]
-        pub unsafe fn layoutManager(&self) -> Option<Id<NSLayoutManager>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSLayoutManager")]
-        #[method(setLayoutManager:)]
-        pub unsafe fn setLayoutManager(&self, layout_manager: Option<&NSLayoutManager>);
+    #[cfg(feature = "AppKit_NSLayoutManager")]
+    #[objc2::method(sel = "layoutManager", managed = "Other")]
+    pub unsafe fn layoutManager(&self) -> Option<Id<NSLayoutManager>>;
 
-        #[cfg(feature = "AppKit_NSLayoutManager")]
-        #[method(replaceLayoutManager:)]
-        pub unsafe fn replaceLayoutManager(&self, new_layout_manager: &NSLayoutManager);
+    #[cfg(feature = "AppKit_NSLayoutManager")]
+    #[objc2::method(sel = "setLayoutManager:")]
+    pub unsafe fn setLayoutManager(&self, layout_manager: Option<&NSLayoutManager>);
 
-        #[cfg(feature = "AppKit_NSTextLayoutManager")]
-        #[method_id(@__retain_semantics Other textLayoutManager)]
-        pub unsafe fn textLayoutManager(&self) -> Option<Id<NSTextLayoutManager>>;
+    #[cfg(feature = "AppKit_NSLayoutManager")]
+    #[objc2::method(sel = "replaceLayoutManager:")]
+    pub unsafe fn replaceLayoutManager(&self, new_layout_manager: &NSLayoutManager);
 
-        #[method(size)]
-        pub unsafe fn size(&self) -> NSSize;
+    #[cfg(feature = "AppKit_NSTextLayoutManager")]
+    #[objc2::method(sel = "textLayoutManager", managed = "Other")]
+    pub unsafe fn textLayoutManager(&self) -> Option<Id<NSTextLayoutManager>>;
 
-        #[method(setSize:)]
-        pub unsafe fn setSize(&self, size: NSSize);
+    #[objc2::method(sel = "size")]
+    pub unsafe fn size(&self) -> NSSize;
 
-        #[cfg(all(feature = "AppKit_NSBezierPath", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other exclusionPaths)]
-        pub unsafe fn exclusionPaths(&self) -> Id<NSArray<NSBezierPath>>;
+    #[objc2::method(sel = "setSize:")]
+    pub unsafe fn setSize(&self, size: NSSize);
 
-        #[cfg(all(feature = "AppKit_NSBezierPath", feature = "Foundation_NSArray"))]
-        #[method(setExclusionPaths:)]
-        pub unsafe fn setExclusionPaths(&self, exclusion_paths: &NSArray<NSBezierPath>);
+    #[cfg(all(feature = "AppKit_NSBezierPath", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "exclusionPaths", managed = "Other")]
+    pub unsafe fn exclusionPaths(&self) -> Id<NSArray<NSBezierPath>>;
 
-        #[method(lineBreakMode)]
-        pub unsafe fn lineBreakMode(&self) -> NSLineBreakMode;
+    #[cfg(all(feature = "AppKit_NSBezierPath", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setExclusionPaths:")]
+    pub unsafe fn setExclusionPaths(&self, exclusion_paths: &NSArray<NSBezierPath>);
 
-        #[method(setLineBreakMode:)]
-        pub unsafe fn setLineBreakMode(&self, line_break_mode: NSLineBreakMode);
+    #[objc2::method(sel = "lineBreakMode")]
+    pub unsafe fn lineBreakMode(&self) -> NSLineBreakMode;
 
-        #[method(lineFragmentPadding)]
-        pub unsafe fn lineFragmentPadding(&self) -> CGFloat;
+    #[objc2::method(sel = "setLineBreakMode:")]
+    pub unsafe fn setLineBreakMode(&self, line_break_mode: NSLineBreakMode);
 
-        #[method(setLineFragmentPadding:)]
-        pub unsafe fn setLineFragmentPadding(&self, line_fragment_padding: CGFloat);
+    #[objc2::method(sel = "lineFragmentPadding")]
+    pub unsafe fn lineFragmentPadding(&self) -> CGFloat;
 
-        #[method(maximumNumberOfLines)]
-        pub unsafe fn maximumNumberOfLines(&self) -> NSUInteger;
+    #[objc2::method(sel = "setLineFragmentPadding:")]
+    pub unsafe fn setLineFragmentPadding(&self, line_fragment_padding: CGFloat);
 
-        #[method(setMaximumNumberOfLines:)]
-        pub unsafe fn setMaximumNumberOfLines(&self, maximum_number_of_lines: NSUInteger);
+    #[objc2::method(sel = "maximumNumberOfLines")]
+    pub unsafe fn maximumNumberOfLines(&self) -> NSUInteger;
 
-        #[method(lineFragmentRectForProposedRect:atIndex:writingDirection:remainingRect:)]
-        pub unsafe fn lineFragmentRectForProposedRect_atIndex_writingDirection_remainingRect(
-            &self,
-            proposed_rect: NSRect,
-            character_index: NSUInteger,
-            base_writing_direction: NSWritingDirection,
-            remaining_rect: *mut NSRect,
-        ) -> NSRect;
+    #[objc2::method(sel = "setMaximumNumberOfLines:")]
+    pub unsafe fn setMaximumNumberOfLines(&self, maximum_number_of_lines: NSUInteger);
 
-        #[method(isSimpleRectangularTextContainer)]
-        pub unsafe fn isSimpleRectangularTextContainer(&self) -> bool;
+    #[objc2::method(
+        sel = "lineFragmentRectForProposedRect:atIndex:writingDirection:remainingRect:"
+    )]
+    pub unsafe fn lineFragmentRectForProposedRect_atIndex_writingDirection_remainingRect(
+        &self,
+        proposed_rect: NSRect,
+        character_index: NSUInteger,
+        base_writing_direction: NSWritingDirection,
+        remaining_rect: *mut NSRect,
+    ) -> NSRect;
 
-        #[method(widthTracksTextView)]
-        pub unsafe fn widthTracksTextView(&self) -> bool;
+    #[objc2::method(sel = "isSimpleRectangularTextContainer")]
+    pub unsafe fn isSimpleRectangularTextContainer(&self) -> bool;
 
-        #[method(setWidthTracksTextView:)]
-        pub unsafe fn setWidthTracksTextView(&self, width_tracks_text_view: bool);
+    #[objc2::method(sel = "widthTracksTextView")]
+    pub unsafe fn widthTracksTextView(&self) -> bool;
 
-        #[method(heightTracksTextView)]
-        pub unsafe fn heightTracksTextView(&self) -> bool;
+    #[objc2::method(sel = "setWidthTracksTextView:")]
+    pub unsafe fn setWidthTracksTextView(&self, width_tracks_text_view: bool);
 
-        #[method(setHeightTracksTextView:)]
-        pub unsafe fn setHeightTracksTextView(&self, height_tracks_text_view: bool);
+    #[objc2::method(sel = "heightTracksTextView")]
+    pub unsafe fn heightTracksTextView(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSTextView")]
-        #[method_id(@__retain_semantics Other textView)]
-        pub unsafe fn textView(&self) -> Option<Id<NSTextView>>;
+    #[objc2::method(sel = "setHeightTracksTextView:")]
+    pub unsafe fn setHeightTracksTextView(&self, height_tracks_text_view: bool);
 
-        #[cfg(feature = "AppKit_NSTextView")]
-        #[method(setTextView:)]
-        pub unsafe fn setTextView(&self, text_view: Option<&NSTextView>);
-    }
-);
+    #[cfg(feature = "AppKit_NSTextView")]
+    #[objc2::method(sel = "textView", managed = "Other")]
+    pub unsafe fn textView(&self) -> Option<Id<NSTextView>>;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSLineSweepDirection {
-        NSLineSweepLeft = 0,
-        NSLineSweepRight = 1,
-        NSLineSweepDown = 2,
-        NSLineSweepUp = 3,
-    }
-);
+    #[cfg(feature = "AppKit_NSTextView")]
+    #[objc2::method(sel = "setTextView:")]
+    pub unsafe fn setTextView(&self, text_view: Option<&NSTextView>);
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSLineMovementDirection {
-        NSLineDoesntMove = 0,
-        NSLineMovesLeft = 1,
-        NSLineMovesRight = 2,
-        NSLineMovesDown = 3,
-        NSLineMovesUp = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSLineSweepDirection {
+    NSLineSweepLeft = 0,
+    NSLineSweepRight = 1,
+    NSLineSweepDown = 2,
+    NSLineSweepUp = 3,
+}
 
-extern_methods!(
-    /// NSTextContainerDeprecated
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSLineMovementDirection {
+    NSLineDoesntMove = 0,
+    NSLineMovesLeft = 1,
+    NSLineMovesRight = 2,
+    NSLineMovesDown = 3,
+    NSLineMovesUp = 4,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextContainer")]
-    unsafe impl NSTextContainer {
-        #[method_id(@__retain_semantics Init initWithContainerSize:)]
-        pub unsafe fn initWithContainerSize(
-            this: Option<Allocated<Self>>,
-            a_container_size: NSSize,
-        ) -> Id<Self>;
+    pub type NSTextContainer;
 
-        #[method(containerSize)]
-        pub unsafe fn containerSize(&self) -> NSSize;
+    #[objc2::method(sel = "initWithContainerSize:", managed = "Init")]
+    pub unsafe fn initWithContainerSize(
+        this: Option<Allocated<Self>>,
+        a_container_size: NSSize,
+    ) -> Id<Self>;
 
-        #[method(setContainerSize:)]
-        pub unsafe fn setContainerSize(&self, container_size: NSSize);
+    #[objc2::method(sel = "containerSize")]
+    pub unsafe fn containerSize(&self) -> NSSize;
 
-        #[method(lineFragmentRectForProposedRect:sweepDirection:movementDirection:remainingRect:)]
-        pub unsafe fn lineFragmentRectForProposedRect_sweepDirection_movementDirection_remainingRect(
-            &self,
-            proposed_rect: NSRect,
-            sweep_direction: NSLineSweepDirection,
-            movement_direction: NSLineMovementDirection,
-            remaining_rect: NSRectPointer,
-        ) -> NSRect;
+    #[objc2::method(sel = "setContainerSize:")]
+    pub unsafe fn setContainerSize(&self, container_size: NSSize);
 
-        #[deprecated]
-        #[method(containsPoint:)]
-        pub unsafe fn containsPoint(&self, point: NSPoint) -> bool;
-    }
-);
+    #[objc2::method(
+        sel = "lineFragmentRectForProposedRect:sweepDirection:movementDirection:remainingRect:"
+    )]
+    pub unsafe fn lineFragmentRectForProposedRect_sweepDirection_movementDirection_remainingRect(
+        &self,
+        proposed_rect: NSRect,
+        sweep_direction: NSLineSweepDirection,
+        movement_direction: NSLineMovementDirection,
+        remaining_rect: NSRectPointer,
+    ) -> NSRect;
+
+    #[deprecated]
+    #[objc2::method(sel = "containsPoint:")]
+    pub unsafe fn containsPoint(&self, point: NSPoint) -> bool;
+}

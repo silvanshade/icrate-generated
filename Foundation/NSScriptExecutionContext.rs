@@ -3,42 +3,45 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSScriptExecutionContext")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSScriptExecutionContext")]
-    pub struct NSScriptExecutionContext;
-
-    #[cfg(feature = "Foundation_NSScriptExecutionContext")]
-    unsafe impl ClassType for NSScriptExecutionContext {
-        type Super = NSObject;
-    }
-);
+    pub type NSScriptExecutionContext;
+}
 
 #[cfg(feature = "Foundation_NSScriptExecutionContext")]
 unsafe impl NSObjectProtocol for NSScriptExecutionContext {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSScriptExecutionContext")]
-    unsafe impl NSScriptExecutionContext {
-        #[method_id(@__retain_semantics Other sharedScriptExecutionContext)]
-        pub unsafe fn sharedScriptExecutionContext() -> Id<NSScriptExecutionContext>;
+    pub type NSScriptExecutionContext;
 
-        #[method_id(@__retain_semantics Other topLevelObject)]
-        pub unsafe fn topLevelObject(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "sharedScriptExecutionContext", managed = "Other")]
+    pub unsafe fn sharedScriptExecutionContext() -> Id<NSScriptExecutionContext>;
 
-        #[method(setTopLevelObject:)]
-        pub unsafe fn setTopLevelObject(&self, top_level_object: Option<&Object>);
+    #[objc2::method(sel = "topLevelObject", managed = "Other")]
+    pub unsafe fn topLevelObject(&self) -> Option<Id<Object>>;
 
-        #[method_id(@__retain_semantics Other objectBeingTested)]
-        pub unsafe fn objectBeingTested(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setTopLevelObject:")]
+    pub unsafe fn setTopLevelObject(&self, top_level_object: Option<&Object>);
 
-        #[method(setObjectBeingTested:)]
-        pub unsafe fn setObjectBeingTested(&self, object_being_tested: Option<&Object>);
+    #[objc2::method(sel = "objectBeingTested", managed = "Other")]
+    pub unsafe fn objectBeingTested(&self) -> Option<Id<Object>>;
 
-        #[method_id(@__retain_semantics Other rangeContainerObject)]
-        pub unsafe fn rangeContainerObject(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setObjectBeingTested:")]
+    pub unsafe fn setObjectBeingTested(&self, object_being_tested: Option<&Object>);
 
-        #[method(setRangeContainerObject:)]
-        pub unsafe fn setRangeContainerObject(&self, range_container_object: Option<&Object>);
-    }
-);
+    #[objc2::method(sel = "rangeContainerObject", managed = "Other")]
+    pub unsafe fn rangeContainerObject(&self) -> Option<Id<Object>>;
+
+    #[objc2::method(sel = "setRangeContainerObject:")]
+    pub unsafe fn setRangeContainerObject(&self, range_container_object: Option<&Object>);
+}

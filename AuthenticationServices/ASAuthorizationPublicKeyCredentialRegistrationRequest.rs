@@ -4,68 +4,64 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait ASAuthorizationPublicKeyCredentialRegistrationRequest:
-        NSObjectProtocol + NSSecureCoding
-    {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other relyingPartyIdentifier)]
-        unsafe fn relyingPartyIdentifier(&self) -> Id<NSString>;
+#[objc2::protocol]
+pub unsafe trait ASAuthorizationPublicKeyCredentialRegistrationRequest:
+    NSObjectProtocol + NSSecureCoding
+{
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "relyingPartyIdentifier", managed = "Other")]
+    unsafe fn relyingPartyIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other userID)]
-        unsafe fn userID(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "userID", managed = "Other")]
+    unsafe fn userID(&self) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(setUserID:)]
-        unsafe fn setUserID(&self, user_id: &NSData);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "setUserID:")]
+    unsafe fn setUserID(&self, user_id: &NSData);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    unsafe fn name(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setName:)]
-        unsafe fn setName(&self, name: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setName:")]
+    unsafe fn setName(&self, name: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other displayName)]
-        unsafe fn displayName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "displayName", managed = "Other")]
+    unsafe fn displayName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setDisplayName:)]
-        unsafe fn setDisplayName(&self, display_name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setDisplayName:")]
+    unsafe fn setDisplayName(&self, display_name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other challenge)]
-        unsafe fn challenge(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "challenge", managed = "Other")]
+    unsafe fn challenge(&self) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(setChallenge:)]
-        unsafe fn setChallenge(&self, challenge: &NSData);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "setChallenge:")]
+    unsafe fn setChallenge(&self, challenge: &NSData);
 
-        #[method_id(@__retain_semantics Other userVerificationPreference)]
-        unsafe fn userVerificationPreference(
-            &self,
-        ) -> Id<ASAuthorizationPublicKeyCredentialUserVerificationPreference>;
+    #[objc2::method(sel = "userVerificationPreference", managed = "Other")]
+    unsafe fn userVerificationPreference(
+        &self,
+    ) -> Id<ASAuthorizationPublicKeyCredentialUserVerificationPreference>;
 
-        #[method(setUserVerificationPreference:)]
-        unsafe fn setUserVerificationPreference(
-            &self,
-            user_verification_preference: &ASAuthorizationPublicKeyCredentialUserVerificationPreference,
-        );
+    #[objc2::method(sel = "setUserVerificationPreference:")]
+    unsafe fn setUserVerificationPreference(
+        &self,
+        user_verification_preference: &ASAuthorizationPublicKeyCredentialUserVerificationPreference,
+    );
 
-        #[method_id(@__retain_semantics Other attestationPreference)]
-        unsafe fn attestationPreference(
-            &self,
-        ) -> Id<ASAuthorizationPublicKeyCredentialAttestationKind>;
+    #[objc2::method(sel = "attestationPreference", managed = "Other")]
+    unsafe fn attestationPreference(&self)
+        -> Id<ASAuthorizationPublicKeyCredentialAttestationKind>;
 
-        #[method(setAttestationPreference:)]
-        unsafe fn setAttestationPreference(
-            &self,
-            attestation_preference: &ASAuthorizationPublicKeyCredentialAttestationKind,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn ASAuthorizationPublicKeyCredentialRegistrationRequest {}
-);
+    #[objc2::method(sel = "setAttestationPreference:")]
+    unsafe fn setAttestationPreference(
+        &self,
+        attestation_preference: &ASAuthorizationPublicKeyCredentialAttestationKind,
+    );
+}

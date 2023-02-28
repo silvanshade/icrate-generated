@@ -7,17 +7,17 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKShape,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKPointAnnotation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKPointAnnotation")]
-    pub struct MKPointAnnotation;
-
-    #[cfg(feature = "MapKit_MKPointAnnotation")]
-    unsafe impl ClassType for MKPointAnnotation {
-        #[inherits(NSObject)]
-        type Super = MKShape;
-    }
-);
+    pub type MKPointAnnotation;
+}
 
 #[cfg(feature = "MapKit_MKPointAnnotation")]
 unsafe impl MKAnnotation for MKPointAnnotation {}
@@ -25,31 +25,34 @@ unsafe impl MKAnnotation for MKPointAnnotation {}
 #[cfg(feature = "MapKit_MKPointAnnotation")]
 unsafe impl NSObjectProtocol for MKPointAnnotation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKPointAnnotation")]
-    unsafe impl MKPointAnnotation {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type MKPointAnnotation;
 
-        #[method_id(@__retain_semantics Init initWithCoordinate:)]
-        pub unsafe fn initWithCoordinate(
-            this: Option<Allocated<Self>>,
-            coordinate: CLLocationCoordinate2D,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithCoordinate:title:subtitle:)]
-        pub unsafe fn initWithCoordinate_title_subtitle(
-            this: Option<Allocated<Self>>,
-            coordinate: CLLocationCoordinate2D,
-            title: Option<&NSString>,
-            subtitle: Option<&NSString>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithCoordinate:", managed = "Init")]
+    pub unsafe fn initWithCoordinate(
+        this: Option<Allocated<Self>>,
+        coordinate: CLLocationCoordinate2D,
+    ) -> Id<Self>;
 
-        #[method(coordinate)]
-        pub unsafe fn coordinate(&self) -> CLLocationCoordinate2D;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithCoordinate:title:subtitle:", managed = "Init")]
+    pub unsafe fn initWithCoordinate_title_subtitle(
+        this: Option<Allocated<Self>>,
+        coordinate: CLLocationCoordinate2D,
+        title: Option<&NSString>,
+        subtitle: Option<&NSString>,
+    ) -> Id<Self>;
 
-        #[method(setCoordinate:)]
-        pub unsafe fn setCoordinate(&self, coordinate: CLLocationCoordinate2D);
-    }
-);
+    #[objc2::method(sel = "coordinate")]
+    pub unsafe fn coordinate(&self) -> CLLocationCoordinate2D;
+
+    #[objc2::method(sel = "setCoordinate:")]
+    pub unsafe fn setCoordinate(&self, coordinate: CLLocationCoordinate2D);
+}

@@ -8,17 +8,17 @@ typed_enum!(
     pub type CAScrollLayerScrollMode = NSString;
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CALayer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAScrollLayer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CAScrollLayer")]
-    pub struct CAScrollLayer;
-
-    #[cfg(feature = "CoreAnimation_CAScrollLayer")]
-    unsafe impl ClassType for CAScrollLayer {
-        #[inherits(NSObject)]
-        type Super = CALayer;
-    }
-);
+    pub type CAScrollLayer;
+}
 
 #[cfg(feature = "CoreAnimation_CAScrollLayer")]
 unsafe impl CAMediaTiming for CAScrollLayer {}
@@ -32,37 +32,42 @@ unsafe impl NSObjectProtocol for CAScrollLayer {}
 #[cfg(feature = "CoreAnimation_CAScrollLayer")]
 unsafe impl NSSecureCoding for CAScrollLayer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CAScrollLayer")]
-    unsafe impl CAScrollLayer {
-        #[method(scrollToPoint:)]
-        pub unsafe fn scrollToPoint(&self, p: CGPoint);
+    pub type CAScrollLayer;
 
-        #[method(scrollToRect:)]
-        pub unsafe fn scrollToRect(&self, r: CGRect);
+    #[objc2::method(sel = "scrollToPoint:")]
+    pub unsafe fn scrollToPoint(&self, p: CGPoint);
 
-        #[method_id(@__retain_semantics Other scrollMode)]
-        pub unsafe fn scrollMode(&self) -> Id<CAScrollLayerScrollMode>;
+    #[objc2::method(sel = "scrollToRect:")]
+    pub unsafe fn scrollToRect(&self, r: CGRect);
 
-        #[method(setScrollMode:)]
-        pub unsafe fn setScrollMode(&self, scroll_mode: &CAScrollLayerScrollMode);
-    }
-);
+    #[objc2::method(sel = "scrollMode", managed = "Other")]
+    pub unsafe fn scrollMode(&self) -> Id<CAScrollLayerScrollMode>;
 
-extern_methods!(
-    /// CALayerScrolling
+    #[objc2::method(sel = "setScrollMode:")]
+    pub unsafe fn setScrollMode(&self, scroll_mode: &CAScrollLayerScrollMode);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CALayer")]
-    unsafe impl CALayer {
-        #[method(scrollPoint:)]
-        pub unsafe fn scrollPoint(&self, p: CGPoint);
+    pub type CALayer;
 
-        #[method(scrollRectToVisible:)]
-        pub unsafe fn scrollRectToVisible(&self, r: CGRect);
+    #[objc2::method(sel = "scrollPoint:")]
+    pub unsafe fn scrollPoint(&self, p: CGPoint);
 
-        #[method(visibleRect)]
-        pub unsafe fn visibleRect(&self) -> CGRect;
-    }
-);
+    #[objc2::method(sel = "scrollRectToVisible:")]
+    pub unsafe fn scrollRectToVisible(&self, r: CGRect);
+
+    #[objc2::method(sel = "visibleRect")]
+    pub unsafe fn visibleRect(&self) -> CGRect;
+}
 
 extern_static!(kCAScrollNone: &'static CAScrollLayerScrollMode);
 
@@ -72,14 +77,20 @@ extern_static!(kCAScrollHorizontally: &'static CAScrollLayerScrollMode);
 
 extern_static!(kCAScrollBoth: &'static CAScrollLayerScrollMode);
 
-extern_methods!(
-    /// Methods declared on superclass `CALayer`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CALayer`
     #[cfg(feature = "CoreAnimation_CAScrollLayer")]
-    unsafe impl CAScrollLayer {
-        #[method_id(@__retain_semantics Other layer)]
-        pub unsafe fn layer() -> Id<Self>;
-
-        #[method_id(@__retain_semantics Init initWithLayer:)]
-        pub unsafe fn initWithLayer(this: Option<Allocated<Self>>, layer: &Object) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAScrollLayer")]
+    pub type CAScrollLayer;
+
+    #[objc2::method(sel = "layer", managed = "Other")]
+    pub unsafe fn layer() -> Id<Self>;
+
+    #[objc2::method(sel = "initWithLayer:", managed = "Init")]
+    pub unsafe fn initWithLayer(this: Option<Allocated<Self>>, layer: &Object) -> Id<Self>;
+}

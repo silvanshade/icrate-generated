@@ -5,41 +5,44 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKContentWorld")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKContentWorld")]
-    pub struct WKContentWorld;
-
-    #[cfg(feature = "WebKit_WKContentWorld")]
-    unsafe impl ClassType for WKContentWorld {
-        type Super = NSObject;
-    }
-);
+    pub type WKContentWorld;
+}
 
 #[cfg(feature = "WebKit_WKContentWorld")]
 unsafe impl NSObjectProtocol for WKContentWorld {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKContentWorld")]
-    unsafe impl WKContentWorld {
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    pub type WKContentWorld;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other pageWorld)]
-        pub unsafe fn pageWorld() -> Id<WKContentWorld>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other defaultClientWorld)]
-        pub unsafe fn defaultClientWorld() -> Id<WKContentWorld>;
+    #[objc2::method(sel = "pageWorld", managed = "Other")]
+    pub unsafe fn pageWorld() -> Id<WKContentWorld>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other worldWithName:)]
-        pub unsafe fn worldWithName(name: &NSString) -> Id<WKContentWorld>;
+    #[objc2::method(sel = "defaultClientWorld", managed = "Other")]
+    pub unsafe fn defaultClientWorld() -> Id<WKContentWorld>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSString>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "worldWithName:", managed = "Other")]
+    pub unsafe fn worldWithName(name: &NSString) -> Id<WKContentWorld>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSString>>;
+}

@@ -6,52 +6,55 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHAssetResource")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHAssetResource")]
-    pub struct PHAssetResource;
-
-    #[cfg(feature = "PhotoKit_PHAssetResource")]
-    unsafe impl ClassType for PHAssetResource {
-        type Super = NSObject;
-    }
-);
+    pub type PHAssetResource;
+}
 
 #[cfg(feature = "PhotoKit_PHAssetResource")]
 unsafe impl NSObjectProtocol for PHAssetResource {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHAssetResource")]
-    unsafe impl PHAssetResource {
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> PHAssetResourceType;
+    pub type PHAssetResource;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other assetLocalIdentifier)]
-        pub unsafe fn assetLocalIdentifier(&self) -> Id<NSString>;
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> PHAssetResourceType;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other uniformTypeIdentifier)]
-        pub unsafe fn uniformTypeIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "assetLocalIdentifier", managed = "Other")]
+    pub unsafe fn assetLocalIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other originalFilename)]
-        pub unsafe fn originalFilename(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "uniformTypeIdentifier", managed = "Other")]
+    pub unsafe fn uniformTypeIdentifier(&self) -> Id<NSString>;
 
-        #[method(pixelWidth)]
-        pub unsafe fn pixelWidth(&self) -> NSInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "originalFilename", managed = "Other")]
+    pub unsafe fn originalFilename(&self) -> Id<NSString>;
 
-        #[method(pixelHeight)]
-        pub unsafe fn pixelHeight(&self) -> NSInteger;
+    #[objc2::method(sel = "pixelWidth")]
+    pub unsafe fn pixelWidth(&self) -> NSInteger;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "PhotoKit_PHAsset"))]
-        #[method_id(@__retain_semantics Other assetResourcesForAsset:)]
-        pub unsafe fn assetResourcesForAsset(asset: &PHAsset) -> Id<NSArray<PHAssetResource>>;
+    #[objc2::method(sel = "pixelHeight")]
+    pub unsafe fn pixelHeight(&self) -> NSInteger;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "PhotoKit_PHLivePhoto"))]
-        #[method_id(@__retain_semantics Other assetResourcesForLivePhoto:)]
-        pub unsafe fn assetResourcesForLivePhoto(
-            live_photo: &PHLivePhoto,
-        ) -> Id<NSArray<PHAssetResource>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "PhotoKit_PHAsset"))]
+    #[objc2::method(sel = "assetResourcesForAsset:", managed = "Other")]
+    pub unsafe fn assetResourcesForAsset(asset: &PHAsset) -> Id<NSArray<PHAssetResource>>;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "PhotoKit_PHLivePhoto"))]
+    #[objc2::method(sel = "assetResourcesForLivePhoto:", managed = "Other")]
+    pub unsafe fn assetResourcesForLivePhoto(
+        live_photo: &PHLivePhoto,
+    ) -> Id<NSArray<PHAssetResource>>;
+}

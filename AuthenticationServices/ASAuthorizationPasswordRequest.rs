@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = ASAuthorizationRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationPasswordRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationPasswordRequest")]
-    pub struct ASAuthorizationPasswordRequest;
-
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationPasswordRequest")]
-    unsafe impl ClassType for ASAuthorizationPasswordRequest {
-        #[inherits(NSObject)]
-        type Super = ASAuthorizationRequest;
-    }
-);
+    pub type ASAuthorizationPasswordRequest;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationPasswordRequest")]
 unsafe impl NSCoding for ASAuthorizationPasswordRequest {}
@@ -25,7 +25,10 @@ unsafe impl NSObjectProtocol for ASAuthorizationPasswordRequest {}
 #[cfg(feature = "AuthenticationServices_ASAuthorizationPasswordRequest")]
 unsafe impl NSSecureCoding for ASAuthorizationPasswordRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAuthorizationPasswordRequest")]
-    unsafe impl ASAuthorizationPasswordRequest {}
-);
+    pub type ASAuthorizationPasswordRequest;
+}

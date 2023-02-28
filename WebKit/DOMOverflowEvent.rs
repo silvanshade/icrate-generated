@@ -5,53 +5,58 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_enum!(
-    #[underlying(c_uint)]
+#[extern_enum]
+#[underlying(c_uint)]
+#[deprecated]
+pub enum __anonymous__ {
     #[deprecated]
-    pub enum __anonymous__ {
-        #[deprecated]
-        DOM_HORIZONTAL = 0,
-        #[deprecated]
-        DOM_VERTICAL = 1,
-        #[deprecated]
-        DOM_BOTH = 2,
-    }
-);
+    DOM_HORIZONTAL = 0,
+    #[deprecated]
+    DOM_VERTICAL = 1,
+    #[deprecated]
+    DOM_BOTH = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = DOMEvent,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[deprecated]
+    #[cfg(feature = "WebKit_DOMOverflowEvent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMOverflowEvent")]
-    #[deprecated]
-    pub struct DOMOverflowEvent;
-
-    #[cfg(feature = "WebKit_DOMOverflowEvent")]
-    unsafe impl ClassType for DOMOverflowEvent {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMEvent;
-    }
-);
+    pub type DOMOverflowEvent;
+}
 
 #[cfg(feature = "WebKit_DOMOverflowEvent")]
 unsafe impl NSObjectProtocol for DOMOverflowEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMOverflowEvent")]
-    unsafe impl DOMOverflowEvent {
-        #[method(orient)]
-        pub unsafe fn orient(&self) -> c_ushort;
+    #[deprecated]
+    pub type DOMOverflowEvent;
 
-        #[method(horizontalOverflow)]
-        pub unsafe fn horizontalOverflow(&self) -> bool;
+    #[objc2::method(sel = "orient")]
+    pub unsafe fn orient(&self) -> c_ushort;
 
-        #[method(verticalOverflow)]
-        pub unsafe fn verticalOverflow(&self) -> bool;
+    #[objc2::method(sel = "horizontalOverflow")]
+    pub unsafe fn horizontalOverflow(&self) -> bool;
 
-        #[method(initOverflowEvent:horizontalOverflow:verticalOverflow:)]
-        pub unsafe fn initOverflowEvent_horizontalOverflow_verticalOverflow(
-            &self,
-            orient: c_ushort,
-            horizontal_overflow: bool,
-            vertical_overflow: bool,
-        );
-    }
-);
+    #[objc2::method(sel = "verticalOverflow")]
+    pub unsafe fn verticalOverflow(&self) -> bool;
+
+    #[objc2::method(sel = "initOverflowEvent:horizontalOverflow:verticalOverflow:")]
+    pub unsafe fn initOverflowEvent_horizontalOverflow_verticalOverflow(
+        &self,
+        orient: c_ushort,
+        horizontal_overflow: bool,
+        vertical_overflow: bool,
+    );
+}

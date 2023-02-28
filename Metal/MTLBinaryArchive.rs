@@ -6,102 +6,101 @@ use crate::Metal::*;
 
 extern_static!(MTLBinaryArchiveDomain: &'static NSErrorDomain);
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MTLBinaryArchiveError {
-        MTLBinaryArchiveErrorNone = 0,
-        MTLBinaryArchiveErrorInvalidFile = 1,
-        MTLBinaryArchiveErrorUnexpectedElement = 2,
-        MTLBinaryArchiveErrorCompilationFailure = 3,
-        MTLBinaryArchiveErrorInternalError = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MTLBinaryArchiveError {
+    MTLBinaryArchiveErrorNone = 0,
+    MTLBinaryArchiveErrorInvalidFile = 1,
+    MTLBinaryArchiveErrorUnexpectedElement = 2,
+    MTLBinaryArchiveErrorCompilationFailure = 3,
+    MTLBinaryArchiveErrorInternalError = 4,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLBinaryArchiveDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLBinaryArchiveDescriptor")]
-    pub struct MTLBinaryArchiveDescriptor;
-
-    #[cfg(feature = "Metal_MTLBinaryArchiveDescriptor")]
-    unsafe impl ClassType for MTLBinaryArchiveDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLBinaryArchiveDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLBinaryArchiveDescriptor")]
 unsafe impl NSObjectProtocol for MTLBinaryArchiveDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLBinaryArchiveDescriptor")]
-    unsafe impl MTLBinaryArchiveDescriptor {
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other url)]
-        pub fn url(&self) -> Option<Id<NSURL>>;
+    pub type MTLBinaryArchiveDescriptor;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setUrl:)]
-        pub fn setUrl(&self, url: Option<&NSURL>);
-    }
-);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "url", managed = "Other")]
+    pub fn url(&self) -> Option<Id<NSURL>>;
 
-extern_protocol!(
-    pub unsafe trait MTLBinaryArchive: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        fn label(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setUrl:")]
+    pub fn setUrl(&self, url: Option<&NSURL>);
+}
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        fn setLabel(&self, label: Option<&NSString>);
+#[objc2::protocol]
+pub unsafe trait MTLBinaryArchive: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    fn label(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other device)]
-        fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    fn setLabel(&self, label: Option<&NSString>);
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Metal_MTLComputePipelineDescriptor"
-        ))]
-        #[method(addComputePipelineFunctionsWithDescriptor:error:_)]
-        fn addComputePipelineFunctionsWithDescriptor_error(
-            &self,
-            descriptor: &MTLComputePipelineDescriptor,
-        ) -> Result<(), Id<NSError>>;
+    #[objc2::method(sel = "device", managed = "Other")]
+    fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Metal_MTLRenderPipelineDescriptor"
-        ))]
-        #[method(addRenderPipelineFunctionsWithDescriptor:error:_)]
-        fn addRenderPipelineFunctionsWithDescriptor_error(
-            &self,
-            descriptor: &MTLRenderPipelineDescriptor,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Metal_MTLComputePipelineDescriptor"
+    ))]
+    #[objc2::method(sel = "addComputePipelineFunctionsWithDescriptor:error:", throws)]
+    fn addComputePipelineFunctionsWithDescriptor_error(
+        &self,
+        descriptor: &MTLComputePipelineDescriptor,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Metal_MTLTileRenderPipelineDescriptor"
-        ))]
-        #[method(addTileRenderPipelineFunctionsWithDescriptor:error:_)]
-        unsafe fn addTileRenderPipelineFunctionsWithDescriptor_error(
-            &self,
-            descriptor: &MTLTileRenderPipelineDescriptor,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Metal_MTLRenderPipelineDescriptor"
+    ))]
+    #[objc2::method(sel = "addRenderPipelineFunctionsWithDescriptor:error:", throws)]
+    fn addRenderPipelineFunctionsWithDescriptor_error(
+        &self,
+        descriptor: &MTLRenderPipelineDescriptor,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method(serializeToURL:error:_)]
-        fn serializeToURL_error(&self, url: &NSURL) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Metal_MTLTileRenderPipelineDescriptor"
+    ))]
+    #[objc2::method(sel = "addTileRenderPipelineFunctionsWithDescriptor:error:", throws)]
+    unsafe fn addTileRenderPipelineFunctionsWithDescriptor_error(
+        &self,
+        descriptor: &MTLTileRenderPipelineDescriptor,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Metal_MTLFunctionDescriptor"
-        ))]
-        #[method(addFunctionWithDescriptor:library:error:_)]
-        unsafe fn addFunctionWithDescriptor_library_error(
-            &self,
-            descriptor: &MTLFunctionDescriptor,
-            library: &ProtocolObject<dyn MTLLibrary>,
-        ) -> Result<(), Id<NSError>>;
-    }
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "serializeToURL:error:", throws)]
+    fn serializeToURL_error(&self, url: &NSURL) -> Result<(), Id<NSError>>;
 
-    unsafe impl ProtocolType for dyn MTLBinaryArchive {}
-);
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Metal_MTLFunctionDescriptor"
+    ))]
+    #[objc2::method(sel = "addFunctionWithDescriptor:library:error:", throws)]
+    unsafe fn addFunctionWithDescriptor_library_error(
+        &self,
+        descriptor: &MTLFunctionDescriptor,
+        library: &ProtocolObject<dyn MTLLibrary>,
+    ) -> Result<(), Id<NSError>>;
+}

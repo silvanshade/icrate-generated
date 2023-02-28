@@ -5,13 +5,10 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_protocol!(
-    #[deprecated]
-    pub unsafe trait DOMXPathNSResolver: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other lookupNamespaceURI:)]
-        unsafe fn lookupNamespaceURI(&self, prefix: Option<&NSString>) -> Option<Id<NSString>>;
-    }
-
-    unsafe impl ProtocolType for dyn DOMXPathNSResolver {}
-);
+#[objc2::protocol]
+#[deprecated]
+pub unsafe trait DOMXPathNSResolver: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "lookupNamespaceURI:", managed = "Other")]
+    unsafe fn lookupNamespaceURI(&self, prefix: Option<&NSString>) -> Option<Id<NSString>>;
+}

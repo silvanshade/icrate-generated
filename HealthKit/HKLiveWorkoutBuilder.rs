@@ -6,117 +6,113 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_protocol!(
-    pub unsafe trait HKLiveWorkoutBuilderDelegate: NSObjectProtocol {
-        #[cfg(all(
-            feature = "Foundation_NSSet",
-            feature = "HealthKit_HKLiveWorkoutBuilder",
-            feature = "HealthKit_HKSampleType"
-        ))]
-        #[method(workoutBuilder:didCollectDataOfTypes:)]
-        unsafe fn workoutBuilder_didCollectDataOfTypes(
-            &self,
-            workout_builder: &HKLiveWorkoutBuilder,
-            collected_types: &NSSet<HKSampleType>,
-        );
+#[objc2::protocol]
+pub unsafe trait HKLiveWorkoutBuilderDelegate: NSObjectProtocol {
+    #[cfg(all(
+        feature = "Foundation_NSSet",
+        feature = "HealthKit_HKLiveWorkoutBuilder",
+        feature = "HealthKit_HKSampleType"
+    ))]
+    #[objc2::method(sel = "workoutBuilder:didCollectDataOfTypes:")]
+    unsafe fn workoutBuilder_didCollectDataOfTypes(
+        &self,
+        workout_builder: &HKLiveWorkoutBuilder,
+        collected_types: &NSSet<HKSampleType>,
+    );
 
-        #[cfg(feature = "HealthKit_HKLiveWorkoutBuilder")]
-        #[method(workoutBuilderDidCollectEvent:)]
-        unsafe fn workoutBuilderDidCollectEvent(&self, workout_builder: &HKLiveWorkoutBuilder);
+    #[cfg(feature = "HealthKit_HKLiveWorkoutBuilder")]
+    #[objc2::method(sel = "workoutBuilderDidCollectEvent:")]
+    unsafe fn workoutBuilderDidCollectEvent(&self, workout_builder: &HKLiveWorkoutBuilder);
 
-        #[cfg(all(
-            feature = "HealthKit_HKLiveWorkoutBuilder",
-            feature = "HealthKit_HKWorkoutActivity"
-        ))]
-        #[optional]
-        #[method(workoutBuilder:didBeginActivity:)]
-        unsafe fn workoutBuilder_didBeginActivity(
-            &self,
-            workout_builder: &HKLiveWorkoutBuilder,
-            workout_activity: &HKWorkoutActivity,
-        );
+    #[cfg(all(
+        feature = "HealthKit_HKLiveWorkoutBuilder",
+        feature = "HealthKit_HKWorkoutActivity"
+    ))]
+    #[objc2::method(optional, sel = "workoutBuilder:didBeginActivity:")]
+    unsafe fn workoutBuilder_didBeginActivity(
+        &self,
+        workout_builder: &HKLiveWorkoutBuilder,
+        workout_activity: &HKWorkoutActivity,
+    );
 
-        #[cfg(all(
-            feature = "HealthKit_HKLiveWorkoutBuilder",
-            feature = "HealthKit_HKWorkoutActivity"
-        ))]
-        #[optional]
-        #[method(workoutBuilder:didEndActivity:)]
-        unsafe fn workoutBuilder_didEndActivity(
-            &self,
-            workout_builder: &HKLiveWorkoutBuilder,
-            workout_activity: &HKWorkoutActivity,
-        );
-    }
+    #[cfg(all(
+        feature = "HealthKit_HKLiveWorkoutBuilder",
+        feature = "HealthKit_HKWorkoutActivity"
+    ))]
+    #[objc2::method(optional, sel = "workoutBuilder:didEndActivity:")]
+    unsafe fn workoutBuilder_didEndActivity(
+        &self,
+        workout_builder: &HKLiveWorkoutBuilder,
+        workout_activity: &HKWorkoutActivity,
+    );
+}
 
-    unsafe impl ProtocolType for dyn HKLiveWorkoutBuilderDelegate {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKWorkoutBuilder,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKLiveWorkoutBuilder")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKLiveWorkoutBuilder")]
-    pub struct HKLiveWorkoutBuilder;
-
-    #[cfg(feature = "HealthKit_HKLiveWorkoutBuilder")]
-    unsafe impl ClassType for HKLiveWorkoutBuilder {
-        #[inherits(NSObject)]
-        type Super = HKWorkoutBuilder;
-    }
-);
+    pub type HKLiveWorkoutBuilder;
+}
 
 #[cfg(feature = "HealthKit_HKLiveWorkoutBuilder")]
 unsafe impl NSObjectProtocol for HKLiveWorkoutBuilder {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKLiveWorkoutBuilder")]
-    unsafe impl HKLiveWorkoutBuilder {
-        #[cfg(all(
-            feature = "HealthKit_HKDevice",
-            feature = "HealthKit_HKHealthStore",
-            feature = "HealthKit_HKWorkoutConfiguration"
-        ))]
-        #[method_id(@__retain_semantics Init initWithHealthStore:configuration:device:)]
-        pub unsafe fn initWithHealthStore_configuration_device(
-            this: Option<Allocated<Self>>,
-            health_store: &HKHealthStore,
-            configuration: &HKWorkoutConfiguration,
-            device: Option<&HKDevice>,
-        ) -> Id<Self>;
+    pub type HKLiveWorkoutBuilder;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn HKLiveWorkoutBuilderDelegate>>>;
+    #[cfg(all(
+        feature = "HealthKit_HKDevice",
+        feature = "HealthKit_HKHealthStore",
+        feature = "HealthKit_HKWorkoutConfiguration"
+    ))]
+    #[objc2::method(sel = "initWithHealthStore:configuration:device:", managed = "Init")]
+    pub unsafe fn initWithHealthStore_configuration_device(
+        this: Option<Allocated<Self>>,
+        health_store: &HKHealthStore,
+        configuration: &HKWorkoutConfiguration,
+        device: Option<&HKDevice>,
+    ) -> Id<Self>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn HKLiveWorkoutBuilderDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn HKLiveWorkoutBuilderDelegate>>>;
 
-        #[cfg(feature = "HealthKit_HKWorkoutSession")]
-        #[method_id(@__retain_semantics Other workoutSession)]
-        pub unsafe fn workoutSession(&self) -> Option<Id<HKWorkoutSession>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn HKLiveWorkoutBuilderDelegate>>,
+    );
 
-        #[method(shouldCollectWorkoutEvents)]
-        pub unsafe fn shouldCollectWorkoutEvents(&self) -> bool;
+    #[cfg(feature = "HealthKit_HKWorkoutSession")]
+    #[objc2::method(sel = "workoutSession", managed = "Other")]
+    pub unsafe fn workoutSession(&self) -> Option<Id<HKWorkoutSession>>;
 
-        #[method(setShouldCollectWorkoutEvents:)]
-        pub unsafe fn setShouldCollectWorkoutEvents(&self, should_collect_workout_events: bool);
+    #[objc2::method(sel = "shouldCollectWorkoutEvents")]
+    pub unsafe fn shouldCollectWorkoutEvents(&self) -> bool;
 
-        #[cfg(feature = "HealthKit_HKLiveWorkoutDataSource")]
-        #[method_id(@__retain_semantics Other dataSource)]
-        pub unsafe fn dataSource(&self) -> Option<Id<HKLiveWorkoutDataSource>>;
+    #[objc2::method(sel = "setShouldCollectWorkoutEvents:")]
+    pub unsafe fn setShouldCollectWorkoutEvents(&self, should_collect_workout_events: bool);
 
-        #[cfg(feature = "HealthKit_HKLiveWorkoutDataSource")]
-        #[method(setDataSource:)]
-        pub unsafe fn setDataSource(&self, data_source: Option<&HKLiveWorkoutDataSource>);
+    #[cfg(feature = "HealthKit_HKLiveWorkoutDataSource")]
+    #[objc2::method(sel = "dataSource", managed = "Other")]
+    pub unsafe fn dataSource(&self) -> Option<Id<HKLiveWorkoutDataSource>>;
 
-        #[method(elapsedTime)]
-        pub unsafe fn elapsedTime(&self) -> NSTimeInterval;
+    #[cfg(feature = "HealthKit_HKLiveWorkoutDataSource")]
+    #[objc2::method(sel = "setDataSource:")]
+    pub unsafe fn setDataSource(&self, data_source: Option<&HKLiveWorkoutDataSource>);
 
-        #[cfg(feature = "HealthKit_HKWorkoutActivity")]
-        #[method_id(@__retain_semantics Other currentWorkoutActivity)]
-        pub unsafe fn currentWorkoutActivity(&self) -> Option<Id<HKWorkoutActivity>>;
-    }
-);
+    #[objc2::method(sel = "elapsedTime")]
+    pub unsafe fn elapsedTime(&self) -> NSTimeInterval;
+
+    #[cfg(feature = "HealthKit_HKWorkoutActivity")]
+    #[objc2::method(sel = "currentWorkoutActivity", managed = "Other")]
+    pub unsafe fn currentWorkoutActivity(&self) -> Option<Id<HKWorkoutActivity>>;
+}

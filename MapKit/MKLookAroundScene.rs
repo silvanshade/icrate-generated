@@ -7,27 +7,30 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKLookAroundScene")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKLookAroundScene")]
-    pub struct MKLookAroundScene;
-
-    #[cfg(feature = "MapKit_MKLookAroundScene")]
-    unsafe impl ClassType for MKLookAroundScene {
-        type Super = NSObject;
-    }
-);
+    pub type MKLookAroundScene;
+}
 
 #[cfg(feature = "MapKit_MKLookAroundScene")]
 unsafe impl NSObjectProtocol for MKLookAroundScene {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKLookAroundScene")]
-    unsafe impl MKLookAroundScene {
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    pub type MKLookAroundScene;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

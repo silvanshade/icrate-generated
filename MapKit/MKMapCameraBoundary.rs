@@ -7,16 +7,16 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKMapCameraBoundary")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKMapCameraBoundary")]
-    pub struct MKMapCameraBoundary;
-
-    #[cfg(feature = "MapKit_MKMapCameraBoundary")]
-    unsafe impl ClassType for MKMapCameraBoundary {
-        type Super = NSObject;
-    }
-);
+    pub type MKMapCameraBoundary;
+}
 
 #[cfg(feature = "MapKit_MKMapCameraBoundary")]
 unsafe impl NSCoding for MKMapCameraBoundary {}
@@ -27,32 +27,33 @@ unsafe impl NSObjectProtocol for MKMapCameraBoundary {}
 #[cfg(feature = "MapKit_MKMapCameraBoundary")]
 unsafe impl NSSecureCoding for MKMapCameraBoundary {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMapCameraBoundary")]
-    unsafe impl MKMapCameraBoundary {
-        #[method_id(@__retain_semantics Init initWithMapRect:)]
-        pub unsafe fn initWithMapRect(
-            this: Option<Allocated<Self>>,
-            map_rect: MKMapRect,
-        ) -> Option<Id<Self>>;
+    pub type MKMapCameraBoundary;
 
-        #[method_id(@__retain_semantics Init initWithCoordinateRegion:)]
-        pub unsafe fn initWithCoordinateRegion(
-            this: Option<Allocated<Self>>,
-            region: MKCoordinateRegion,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "initWithMapRect:", managed = "Init")]
+    pub unsafe fn initWithMapRect(
+        this: Option<Allocated<Self>>,
+        map_rect: MKMapRect,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "initWithCoordinateRegion:", managed = "Init")]
+    pub unsafe fn initWithCoordinateRegion(
+        this: Option<Allocated<Self>>,
+        region: MKCoordinateRegion,
+    ) -> Option<Id<Self>>;
 
-        #[method(mapRect)]
-        pub unsafe fn mapRect(&self) -> MKMapRect;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[method(region)]
-        pub unsafe fn region(&self) -> MKCoordinateRegion;
-    }
-);
+    #[objc2::method(sel = "mapRect")]
+    pub unsafe fn mapRect(&self) -> MKMapRect;
+
+    #[objc2::method(sel = "region")]
+    pub unsafe fn region(&self) -> MKCoordinateRegion;
+}

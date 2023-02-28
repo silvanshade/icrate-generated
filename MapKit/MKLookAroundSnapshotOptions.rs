@@ -7,38 +7,41 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKLookAroundSnapshotOptions")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKLookAroundSnapshotOptions")]
-    pub struct MKLookAroundSnapshotOptions;
-
-    #[cfg(feature = "MapKit_MKLookAroundSnapshotOptions")]
-    unsafe impl ClassType for MKLookAroundSnapshotOptions {
-        type Super = NSObject;
-    }
-);
+    pub type MKLookAroundSnapshotOptions;
+}
 
 #[cfg(feature = "MapKit_MKLookAroundSnapshotOptions")]
 unsafe impl NSObjectProtocol for MKLookAroundSnapshotOptions {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKLookAroundSnapshotOptions")]
-    unsafe impl MKLookAroundSnapshotOptions {
-        #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-        #[method_id(@__retain_semantics Other pointOfInterestFilter)]
-        pub unsafe fn pointOfInterestFilter(&self) -> Option<Id<MKPointOfInterestFilter>>;
+    pub type MKLookAroundSnapshotOptions;
 
-        #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
-        #[method(setPointOfInterestFilter:)]
-        pub unsafe fn setPointOfInterestFilter(
-            &self,
-            point_of_interest_filter: Option<&MKPointOfInterestFilter>,
-        );
+    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
+    #[objc2::method(sel = "pointOfInterestFilter", managed = "Other")]
+    pub unsafe fn pointOfInterestFilter(&self) -> Option<Id<MKPointOfInterestFilter>>;
 
-        #[method(size)]
-        pub unsafe fn size(&self) -> CGSize;
+    #[cfg(feature = "MapKit_MKPointOfInterestFilter")]
+    #[objc2::method(sel = "setPointOfInterestFilter:")]
+    pub unsafe fn setPointOfInterestFilter(
+        &self,
+        point_of_interest_filter: Option<&MKPointOfInterestFilter>,
+    );
 
-        #[method(setSize:)]
-        pub unsafe fn setSize(&self, size: CGSize);
-    }
-);
+    #[objc2::method(sel = "size")]
+    pub unsafe fn size(&self) -> CGSize;
+
+    #[objc2::method(sel = "setSize:")]
+    pub unsafe fn setSize(&self, size: CGSize);
+}

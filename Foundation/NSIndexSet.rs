@@ -3,16 +3,16 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSIndexSet")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSIndexSet")]
-    pub struct NSIndexSet;
-
-    #[cfg(feature = "Foundation_NSIndexSet")]
-    unsafe impl ClassType for NSIndexSet {
-        type Super = NSObject;
-    }
-);
+    pub type NSIndexSet;
+}
 
 #[cfg(feature = "Foundation_NSIndexSet")]
 unsafe impl NSCoding for NSIndexSet {}
@@ -23,174 +23,172 @@ unsafe impl NSObjectProtocol for NSIndexSet {}
 #[cfg(feature = "Foundation_NSIndexSet")]
 unsafe impl NSSecureCoding for NSIndexSet {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSIndexSet")]
-    unsafe impl NSIndexSet {
-        #[method_id(@__retain_semantics Other indexSet)]
-        pub unsafe fn indexSet() -> Id<Self>;
+    pub type NSIndexSet;
 
-        #[method_id(@__retain_semantics Other indexSetWithIndex:)]
-        pub unsafe fn indexSetWithIndex(value: NSUInteger) -> Id<Self>;
+    #[objc2::method(sel = "indexSet", managed = "Other")]
+    pub unsafe fn indexSet() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other indexSetWithIndexesInRange:)]
-        pub unsafe fn indexSetWithIndexesInRange(range: NSRange) -> Id<Self>;
+    #[objc2::method(sel = "indexSetWithIndex:", managed = "Other")]
+    pub unsafe fn indexSetWithIndex(value: NSUInteger) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithIndexesInRange:)]
-        pub unsafe fn initWithIndexesInRange(
-            this: Option<Allocated<Self>>,
-            range: NSRange,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "indexSetWithIndexesInRange:", managed = "Other")]
+    pub unsafe fn indexSetWithIndexesInRange(range: NSRange) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithIndexSet:)]
-        pub unsafe fn initWithIndexSet(
-            this: Option<Allocated<Self>>,
-            index_set: &NSIndexSet,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithIndexesInRange:", managed = "Init")]
+    pub unsafe fn initWithIndexesInRange(this: Option<Allocated<Self>>, range: NSRange)
+        -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithIndex:)]
-        pub unsafe fn initWithIndex(this: Option<Allocated<Self>>, value: NSUInteger) -> Id<Self>;
+    #[objc2::method(sel = "initWithIndexSet:", managed = "Init")]
+    pub unsafe fn initWithIndexSet(
+        this: Option<Allocated<Self>>,
+        index_set: &NSIndexSet,
+    ) -> Id<Self>;
 
-        #[method(isEqualToIndexSet:)]
-        pub unsafe fn isEqualToIndexSet(&self, index_set: &NSIndexSet) -> bool;
+    #[objc2::method(sel = "initWithIndex:", managed = "Init")]
+    pub unsafe fn initWithIndex(this: Option<Allocated<Self>>, value: NSUInteger) -> Id<Self>;
 
-        #[method(count)]
-        pub unsafe fn count(&self) -> NSUInteger;
+    #[objc2::method(sel = "isEqualToIndexSet:")]
+    pub unsafe fn isEqualToIndexSet(&self, index_set: &NSIndexSet) -> bool;
 
-        #[method(firstIndex)]
-        pub unsafe fn firstIndex(&self) -> NSUInteger;
+    #[objc2::method(sel = "count")]
+    pub unsafe fn count(&self) -> NSUInteger;
 
-        #[method(lastIndex)]
-        pub unsafe fn lastIndex(&self) -> NSUInteger;
+    #[objc2::method(sel = "firstIndex")]
+    pub unsafe fn firstIndex(&self) -> NSUInteger;
 
-        #[method(indexGreaterThanIndex:)]
-        pub unsafe fn indexGreaterThanIndex(&self, value: NSUInteger) -> NSUInteger;
+    #[objc2::method(sel = "lastIndex")]
+    pub unsafe fn lastIndex(&self) -> NSUInteger;
 
-        #[method(indexLessThanIndex:)]
-        pub unsafe fn indexLessThanIndex(&self, value: NSUInteger) -> NSUInteger;
+    #[objc2::method(sel = "indexGreaterThanIndex:")]
+    pub unsafe fn indexGreaterThanIndex(&self, value: NSUInteger) -> NSUInteger;
 
-        #[method(indexGreaterThanOrEqualToIndex:)]
-        pub unsafe fn indexGreaterThanOrEqualToIndex(&self, value: NSUInteger) -> NSUInteger;
+    #[objc2::method(sel = "indexLessThanIndex:")]
+    pub unsafe fn indexLessThanIndex(&self, value: NSUInteger) -> NSUInteger;
 
-        #[method(indexLessThanOrEqualToIndex:)]
-        pub unsafe fn indexLessThanOrEqualToIndex(&self, value: NSUInteger) -> NSUInteger;
+    #[objc2::method(sel = "indexGreaterThanOrEqualToIndex:")]
+    pub unsafe fn indexGreaterThanOrEqualToIndex(&self, value: NSUInteger) -> NSUInteger;
 
-        #[method(getIndexes:maxCount:inIndexRange:)]
-        pub unsafe fn getIndexes_maxCount_inIndexRange(
-            &self,
-            index_buffer: NonNull<NSUInteger>,
-            buffer_size: NSUInteger,
-            range: NSRangePointer,
-        ) -> NSUInteger;
+    #[objc2::method(sel = "indexLessThanOrEqualToIndex:")]
+    pub unsafe fn indexLessThanOrEqualToIndex(&self, value: NSUInteger) -> NSUInteger;
 
-        #[method(countOfIndexesInRange:)]
-        pub unsafe fn countOfIndexesInRange(&self, range: NSRange) -> NSUInteger;
+    #[objc2::method(sel = "getIndexes:maxCount:inIndexRange:")]
+    pub unsafe fn getIndexes_maxCount_inIndexRange(
+        &self,
+        index_buffer: NonNull<NSUInteger>,
+        buffer_size: NSUInteger,
+        range: NSRangePointer,
+    ) -> NSUInteger;
 
-        #[method(containsIndex:)]
-        pub unsafe fn containsIndex(&self, value: NSUInteger) -> bool;
+    #[objc2::method(sel = "countOfIndexesInRange:")]
+    pub unsafe fn countOfIndexesInRange(&self, range: NSRange) -> NSUInteger;
 
-        #[method(containsIndexesInRange:)]
-        pub unsafe fn containsIndexesInRange(&self, range: NSRange) -> bool;
+    #[objc2::method(sel = "containsIndex:")]
+    pub unsafe fn containsIndex(&self, value: NSUInteger) -> bool;
 
-        #[method(containsIndexes:)]
-        pub unsafe fn containsIndexes(&self, index_set: &NSIndexSet) -> bool;
+    #[objc2::method(sel = "containsIndexesInRange:")]
+    pub unsafe fn containsIndexesInRange(&self, range: NSRange) -> bool;
 
-        #[method(intersectsIndexesInRange:)]
-        pub unsafe fn intersectsIndexesInRange(&self, range: NSRange) -> bool;
+    #[objc2::method(sel = "containsIndexes:")]
+    pub unsafe fn containsIndexes(&self, index_set: &NSIndexSet) -> bool;
 
-        #[method(enumerateIndexesUsingBlock:)]
-        pub unsafe fn enumerateIndexesUsingBlock(
-            &self,
-            block: &Block<(NSUInteger, NonNull<Bool>), ()>,
-        );
+    #[objc2::method(sel = "intersectsIndexesInRange:")]
+    pub unsafe fn intersectsIndexesInRange(&self, range: NSRange) -> bool;
 
-        #[method(enumerateIndexesWithOptions:usingBlock:)]
-        pub unsafe fn enumerateIndexesWithOptions_usingBlock(
-            &self,
-            opts: NSEnumerationOptions,
-            block: &Block<(NSUInteger, NonNull<Bool>), ()>,
-        );
+    #[objc2::method(sel = "enumerateIndexesUsingBlock:")]
+    pub unsafe fn enumerateIndexesUsingBlock(&self, block: &Block<(NSUInteger, NonNull<Bool>), ()>);
 
-        #[method(enumerateIndexesInRange:options:usingBlock:)]
-        pub unsafe fn enumerateIndexesInRange_options_usingBlock(
-            &self,
-            range: NSRange,
-            opts: NSEnumerationOptions,
-            block: &Block<(NSUInteger, NonNull<Bool>), ()>,
-        );
+    #[objc2::method(sel = "enumerateIndexesWithOptions:usingBlock:")]
+    pub unsafe fn enumerateIndexesWithOptions_usingBlock(
+        &self,
+        opts: NSEnumerationOptions,
+        block: &Block<(NSUInteger, NonNull<Bool>), ()>,
+    );
 
-        #[method(indexPassingTest:)]
-        pub unsafe fn indexPassingTest(
-            &self,
-            predicate: &Block<(NSUInteger, NonNull<Bool>), Bool>,
-        ) -> NSUInteger;
+    #[objc2::method(sel = "enumerateIndexesInRange:options:usingBlock:")]
+    pub unsafe fn enumerateIndexesInRange_options_usingBlock(
+        &self,
+        range: NSRange,
+        opts: NSEnumerationOptions,
+        block: &Block<(NSUInteger, NonNull<Bool>), ()>,
+    );
 
-        #[method(indexWithOptions:passingTest:)]
-        pub unsafe fn indexWithOptions_passingTest(
-            &self,
-            opts: NSEnumerationOptions,
-            predicate: &Block<(NSUInteger, NonNull<Bool>), Bool>,
-        ) -> NSUInteger;
+    #[objc2::method(sel = "indexPassingTest:")]
+    pub unsafe fn indexPassingTest(
+        &self,
+        predicate: &Block<(NSUInteger, NonNull<Bool>), Bool>,
+    ) -> NSUInteger;
 
-        #[method(indexInRange:options:passingTest:)]
-        pub unsafe fn indexInRange_options_passingTest(
-            &self,
-            range: NSRange,
-            opts: NSEnumerationOptions,
-            predicate: &Block<(NSUInteger, NonNull<Bool>), Bool>,
-        ) -> NSUInteger;
+    #[objc2::method(sel = "indexWithOptions:passingTest:")]
+    pub unsafe fn indexWithOptions_passingTest(
+        &self,
+        opts: NSEnumerationOptions,
+        predicate: &Block<(NSUInteger, NonNull<Bool>), Bool>,
+    ) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other indexesPassingTest:)]
-        pub unsafe fn indexesPassingTest(
-            &self,
-            predicate: &Block<(NSUInteger, NonNull<Bool>), Bool>,
-        ) -> Id<NSIndexSet>;
+    #[objc2::method(sel = "indexInRange:options:passingTest:")]
+    pub unsafe fn indexInRange_options_passingTest(
+        &self,
+        range: NSRange,
+        opts: NSEnumerationOptions,
+        predicate: &Block<(NSUInteger, NonNull<Bool>), Bool>,
+    ) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other indexesWithOptions:passingTest:)]
-        pub unsafe fn indexesWithOptions_passingTest(
-            &self,
-            opts: NSEnumerationOptions,
-            predicate: &Block<(NSUInteger, NonNull<Bool>), Bool>,
-        ) -> Id<NSIndexSet>;
+    #[objc2::method(sel = "indexesPassingTest:", managed = "Other")]
+    pub unsafe fn indexesPassingTest(
+        &self,
+        predicate: &Block<(NSUInteger, NonNull<Bool>), Bool>,
+    ) -> Id<NSIndexSet>;
 
-        #[method_id(@__retain_semantics Other indexesInRange:options:passingTest:)]
-        pub unsafe fn indexesInRange_options_passingTest(
-            &self,
-            range: NSRange,
-            opts: NSEnumerationOptions,
-            predicate: &Block<(NSUInteger, NonNull<Bool>), Bool>,
-        ) -> Id<NSIndexSet>;
+    #[objc2::method(sel = "indexesWithOptions:passingTest:", managed = "Other")]
+    pub unsafe fn indexesWithOptions_passingTest(
+        &self,
+        opts: NSEnumerationOptions,
+        predicate: &Block<(NSUInteger, NonNull<Bool>), Bool>,
+    ) -> Id<NSIndexSet>;
 
-        #[method(enumerateRangesUsingBlock:)]
-        pub unsafe fn enumerateRangesUsingBlock(&self, block: &Block<(NSRange, NonNull<Bool>), ()>);
+    #[objc2::method(sel = "indexesInRange:options:passingTest:", managed = "Other")]
+    pub unsafe fn indexesInRange_options_passingTest(
+        &self,
+        range: NSRange,
+        opts: NSEnumerationOptions,
+        predicate: &Block<(NSUInteger, NonNull<Bool>), Bool>,
+    ) -> Id<NSIndexSet>;
 
-        #[method(enumerateRangesWithOptions:usingBlock:)]
-        pub unsafe fn enumerateRangesWithOptions_usingBlock(
-            &self,
-            opts: NSEnumerationOptions,
-            block: &Block<(NSRange, NonNull<Bool>), ()>,
-        );
+    #[objc2::method(sel = "enumerateRangesUsingBlock:")]
+    pub unsafe fn enumerateRangesUsingBlock(&self, block: &Block<(NSRange, NonNull<Bool>), ()>);
 
-        #[method(enumerateRangesInRange:options:usingBlock:)]
-        pub unsafe fn enumerateRangesInRange_options_usingBlock(
-            &self,
-            range: NSRange,
-            opts: NSEnumerationOptions,
-            block: &Block<(NSRange, NonNull<Bool>), ()>,
-        );
-    }
-);
+    #[objc2::method(sel = "enumerateRangesWithOptions:usingBlock:")]
+    pub unsafe fn enumerateRangesWithOptions_usingBlock(
+        &self,
+        opts: NSEnumerationOptions,
+        block: &Block<(NSRange, NonNull<Bool>), ()>,
+    );
 
-extern_class!(
+    #[objc2::method(sel = "enumerateRangesInRange:options:usingBlock:")]
+    pub unsafe fn enumerateRangesInRange_options_usingBlock(
+        &self,
+        range: NSRange,
+        opts: NSEnumerationOptions,
+        block: &Block<(NSRange, NonNull<Bool>), ()>,
+    );
+}
+
+#[objc2::interface(
+    unsafe super = NSIndexSet,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMutableIndexSet")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSMutableIndexSet")]
-    pub struct NSMutableIndexSet;
-
-    #[cfg(feature = "Foundation_NSMutableIndexSet")]
-    unsafe impl ClassType for NSMutableIndexSet {
-        #[inherits(NSObject)]
-        type Super = NSIndexSet;
-    }
-);
+    pub type NSMutableIndexSet;
+}
 
 #[cfg(feature = "Foundation_NSMutableIndexSet")]
 unsafe impl NSCoding for NSMutableIndexSet {}
@@ -201,64 +199,73 @@ unsafe impl NSObjectProtocol for NSMutableIndexSet {}
 #[cfg(feature = "Foundation_NSMutableIndexSet")]
 unsafe impl NSSecureCoding for NSMutableIndexSet {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableIndexSet")]
-    unsafe impl NSMutableIndexSet {
-        #[method(addIndexes:)]
-        pub unsafe fn addIndexes(&self, index_set: &NSIndexSet);
+    pub type NSMutableIndexSet;
 
-        #[method(removeIndexes:)]
-        pub unsafe fn removeIndexes(&self, index_set: &NSIndexSet);
+    #[objc2::method(sel = "addIndexes:")]
+    pub unsafe fn addIndexes(&self, index_set: &NSIndexSet);
 
-        #[method(removeAllIndexes)]
-        pub unsafe fn removeAllIndexes(&self);
+    #[objc2::method(sel = "removeIndexes:")]
+    pub unsafe fn removeIndexes(&self, index_set: &NSIndexSet);
 
-        #[method(addIndex:)]
-        pub unsafe fn addIndex(&self, value: NSUInteger);
+    #[objc2::method(sel = "removeAllIndexes")]
+    pub unsafe fn removeAllIndexes(&self);
 
-        #[method(removeIndex:)]
-        pub unsafe fn removeIndex(&self, value: NSUInteger);
+    #[objc2::method(sel = "addIndex:")]
+    pub unsafe fn addIndex(&self, value: NSUInteger);
 
-        #[method(addIndexesInRange:)]
-        pub unsafe fn addIndexesInRange(&self, range: NSRange);
+    #[objc2::method(sel = "removeIndex:")]
+    pub unsafe fn removeIndex(&self, value: NSUInteger);
 
-        #[method(removeIndexesInRange:)]
-        pub unsafe fn removeIndexesInRange(&self, range: NSRange);
+    #[objc2::method(sel = "addIndexesInRange:")]
+    pub unsafe fn addIndexesInRange(&self, range: NSRange);
 
-        #[method(shiftIndexesStartingAtIndex:by:)]
-        pub unsafe fn shiftIndexesStartingAtIndex_by(&self, index: NSUInteger, delta: NSInteger);
-    }
-);
+    #[objc2::method(sel = "removeIndexesInRange:")]
+    pub unsafe fn removeIndexesInRange(&self, range: NSRange);
 
-extern_methods!(
-    /// Methods declared on superclass `NSIndexSet`
+    #[objc2::method(sel = "shiftIndexesStartingAtIndex:by:")]
+    pub unsafe fn shiftIndexesStartingAtIndex_by(&self, index: NSUInteger, delta: NSInteger);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSIndexSet`
     #[cfg(feature = "Foundation_NSMutableIndexSet")]
-    unsafe impl NSMutableIndexSet {
-        #[method_id(@__retain_semantics Other indexSet)]
-        pub unsafe fn indexSet() -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Other indexSetWithIndex:)]
-        pub unsafe fn indexSetWithIndex(value: NSUInteger) -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Other indexSetWithIndexesInRange:)]
-        pub unsafe fn indexSetWithIndexesInRange(range: NSRange) -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Init initWithIndexesInRange:)]
-        pub unsafe fn initWithIndexesInRange(
-            this: Option<Allocated<Self>>,
-            range: NSRange,
-        ) -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Init initWithIndexSet:)]
-        pub unsafe fn initWithIndexSet(
-            this: Option<Allocated<Self>>,
-            index_set: &NSIndexSet,
-        ) -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Init initWithIndex:)]
-        pub unsafe fn initWithIndex(
-            this: Option<Allocated<Self>>,
-            value: NSUInteger,
-        ) -> Id<Self, Owned>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMutableIndexSet")]
+    pub type NSMutableIndexSet;
+
+    #[objc2::method(sel = "indexSet", managed = "Other")]
+    pub unsafe fn indexSet() -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "indexSetWithIndex:", managed = "Other")]
+    pub unsafe fn indexSetWithIndex(value: NSUInteger) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "indexSetWithIndexesInRange:", managed = "Other")]
+    pub unsafe fn indexSetWithIndexesInRange(range: NSRange) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "initWithIndexesInRange:", managed = "Init")]
+    pub unsafe fn initWithIndexesInRange(
+        this: Option<Allocated<Self>>,
+        range: NSRange,
+    ) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "initWithIndexSet:", managed = "Init")]
+    pub unsafe fn initWithIndexSet(
+        this: Option<Allocated<Self>>,
+        index_set: &NSIndexSet,
+    ) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "initWithIndex:", managed = "Init")]
+    pub unsafe fn initWithIndex(
+        this: Option<Allocated<Self>>,
+        value: NSUInteger,
+    ) -> Id<Self, Owned>;
+}

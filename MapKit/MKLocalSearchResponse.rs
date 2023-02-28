@@ -7,28 +7,31 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKLocalSearchResponse")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKLocalSearchResponse")]
-    pub struct MKLocalSearchResponse;
-
-    #[cfg(feature = "MapKit_MKLocalSearchResponse")]
-    unsafe impl ClassType for MKLocalSearchResponse {
-        type Super = NSObject;
-    }
-);
+    pub type MKLocalSearchResponse;
+}
 
 #[cfg(feature = "MapKit_MKLocalSearchResponse")]
 unsafe impl NSObjectProtocol for MKLocalSearchResponse {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKLocalSearchResponse")]
-    unsafe impl MKLocalSearchResponse {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MapKit_MKMapItem"))]
-        #[method_id(@__retain_semantics Other mapItems)]
-        pub unsafe fn mapItems(&self) -> Id<NSArray<MKMapItem>>;
+    pub type MKLocalSearchResponse;
 
-        #[method(boundingRegion)]
-        pub unsafe fn boundingRegion(&self) -> MKCoordinateRegion;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MapKit_MKMapItem"))]
+    #[objc2::method(sel = "mapItems", managed = "Other")]
+    pub unsafe fn mapItems(&self) -> Id<NSArray<MKMapItem>>;
+
+    #[objc2::method(sel = "boundingRegion")]
+    pub unsafe fn boundingRegion(&self) -> MKCoordinateRegion;
+}

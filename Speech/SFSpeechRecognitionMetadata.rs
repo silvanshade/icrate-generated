@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Speech::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Speech_SFSpeechRecognitionMetadata")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Speech_SFSpeechRecognitionMetadata")]
-    pub struct SFSpeechRecognitionMetadata;
-
-    #[cfg(feature = "Speech_SFSpeechRecognitionMetadata")]
-    unsafe impl ClassType for SFSpeechRecognitionMetadata {
-        type Super = NSObject;
-    }
-);
+    pub type SFSpeechRecognitionMetadata;
+}
 
 #[cfg(feature = "Speech_SFSpeechRecognitionMetadata")]
 unsafe impl NSCoding for SFSpeechRecognitionMetadata {}
@@ -24,23 +24,26 @@ unsafe impl NSObjectProtocol for SFSpeechRecognitionMetadata {}
 #[cfg(feature = "Speech_SFSpeechRecognitionMetadata")]
 unsafe impl NSSecureCoding for SFSpeechRecognitionMetadata {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Speech_SFSpeechRecognitionMetadata")]
-    unsafe impl SFSpeechRecognitionMetadata {
-        #[method(speakingRate)]
-        pub unsafe fn speakingRate(&self) -> c_double;
+    pub type SFSpeechRecognitionMetadata;
 
-        #[method(averagePauseDuration)]
-        pub unsafe fn averagePauseDuration(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "speakingRate")]
+    pub unsafe fn speakingRate(&self) -> c_double;
 
-        #[method(speechStartTimestamp)]
-        pub unsafe fn speechStartTimestamp(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "averagePauseDuration")]
+    pub unsafe fn averagePauseDuration(&self) -> NSTimeInterval;
 
-        #[method(speechDuration)]
-        pub unsafe fn speechDuration(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "speechStartTimestamp")]
+    pub unsafe fn speechStartTimestamp(&self) -> NSTimeInterval;
 
-        #[cfg(feature = "Speech_SFVoiceAnalytics")]
-        #[method_id(@__retain_semantics Other voiceAnalytics)]
-        pub unsafe fn voiceAnalytics(&self) -> Option<Id<SFVoiceAnalytics>>;
-    }
-);
+    #[objc2::method(sel = "speechDuration")]
+    pub unsafe fn speechDuration(&self) -> NSTimeInterval;
+
+    #[cfg(feature = "Speech_SFVoiceAnalytics")]
+    #[objc2::method(sel = "voiceAnalytics", managed = "Other")]
+    pub unsafe fn voiceAnalytics(&self) -> Option<Id<SFVoiceAnalytics>>;
+}

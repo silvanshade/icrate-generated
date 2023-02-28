@@ -5,55 +5,53 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSHapticFeedbackPattern {
-        NSHapticFeedbackPatternGeneric = 0,
-        NSHapticFeedbackPatternAlignment = 1,
-        NSHapticFeedbackPatternLevelChange = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSHapticFeedbackPattern {
+    NSHapticFeedbackPatternGeneric = 0,
+    NSHapticFeedbackPatternAlignment = 1,
+    NSHapticFeedbackPatternLevelChange = 2,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSHapticFeedbackPerformanceTime {
-        NSHapticFeedbackPerformanceTimeDefault = 0,
-        NSHapticFeedbackPerformanceTimeNow = 1,
-        NSHapticFeedbackPerformanceTimeDrawCompleted = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSHapticFeedbackPerformanceTime {
+    NSHapticFeedbackPerformanceTimeDefault = 0,
+    NSHapticFeedbackPerformanceTimeNow = 1,
+    NSHapticFeedbackPerformanceTimeDrawCompleted = 2,
+}
 
-extern_protocol!(
-    pub unsafe trait NSHapticFeedbackPerformer: NSObjectProtocol {
-        #[method(performFeedbackPattern:performanceTime:)]
-        unsafe fn performFeedbackPattern_performanceTime(
-            &self,
-            pattern: NSHapticFeedbackPattern,
-            performance_time: NSHapticFeedbackPerformanceTime,
-        );
-    }
+#[objc2::protocol]
+pub unsafe trait NSHapticFeedbackPerformer: NSObjectProtocol {
+    #[objc2::method(sel = "performFeedbackPattern:performanceTime:")]
+    unsafe fn performFeedbackPattern_performanceTime(
+        &self,
+        pattern: NSHapticFeedbackPattern,
+        performance_time: NSHapticFeedbackPerformanceTime,
+    );
+}
 
-    unsafe impl ProtocolType for dyn NSHapticFeedbackPerformer {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSHapticFeedbackManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSHapticFeedbackManager")]
-    pub struct NSHapticFeedbackManager;
-
-    #[cfg(feature = "AppKit_NSHapticFeedbackManager")]
-    unsafe impl ClassType for NSHapticFeedbackManager {
-        type Super = NSObject;
-    }
-);
+    pub type NSHapticFeedbackManager;
+}
 
 #[cfg(feature = "AppKit_NSHapticFeedbackManager")]
 unsafe impl NSObjectProtocol for NSHapticFeedbackManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSHapticFeedbackManager")]
-    unsafe impl NSHapticFeedbackManager {
-        #[method_id(@__retain_semantics Other defaultPerformer)]
-        pub unsafe fn defaultPerformer() -> Id<ProtocolObject<dyn NSHapticFeedbackPerformer>>;
-    }
-);
+    pub type NSHapticFeedbackManager;
+
+    #[objc2::method(sel = "defaultPerformer", managed = "Other")]
+    pub unsafe fn defaultPerformer() -> Id<ProtocolObject<dyn NSHapticFeedbackPerformer>>;
+}

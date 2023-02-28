@@ -4,49 +4,51 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::SoundAnalysis::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum SNTimeDurationConstraintType {
-        SNTimeDurationConstraintTypeEnumerated = 1,
-        SNTimeDurationConstraintTypeRange = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum SNTimeDurationConstraintType {
+    SNTimeDurationConstraintTypeEnumerated = 1,
+    SNTimeDurationConstraintTypeRange = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "SoundAnalysis_SNTimeDurationConstraint")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "SoundAnalysis_SNTimeDurationConstraint")]
-    pub struct SNTimeDurationConstraint;
-
-    #[cfg(feature = "SoundAnalysis_SNTimeDurationConstraint")]
-    unsafe impl ClassType for SNTimeDurationConstraint {
-        type Super = NSObject;
-    }
-);
+    pub type SNTimeDurationConstraint;
+}
 
 #[cfg(feature = "SoundAnalysis_SNTimeDurationConstraint")]
 unsafe impl NSObjectProtocol for SNTimeDurationConstraint {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "SoundAnalysis_SNTimeDurationConstraint")]
-    unsafe impl SNTimeDurationConstraint {
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> SNTimeDurationConstraintType;
+    pub type SNTimeDurationConstraint;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
-        #[method_id(@__retain_semantics Other enumeratedDurations)]
-        pub unsafe fn enumeratedDurations(&self) -> Id<NSArray<NSValue>>;
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> SNTimeDurationConstraintType;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
-        #[method_id(@__retain_semantics Init initWithEnumeratedDurations:)]
-        pub unsafe fn initWithEnumeratedDurations(
-            this: Option<Allocated<Self>>,
-            enumerated_durations: &NSArray<NSValue>,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
+    #[objc2::method(sel = "enumeratedDurations", managed = "Other")]
+    pub unsafe fn enumeratedDurations(&self) -> Id<NSArray<NSValue>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSValue"))]
+    #[objc2::method(sel = "initWithEnumeratedDurations:", managed = "Init")]
+    pub unsafe fn initWithEnumeratedDurations(
+        this: Option<Allocated<Self>>,
+        enumerated_durations: &NSArray<NSValue>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

@@ -20,21 +20,16 @@ extern_static!(NSHashTableWeakMemory: NSPointerFunctionsOptions = NSPointerFunct
 
 pub type NSHashTableOptions = NSUInteger;
 
-__inner_extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSHashTable")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSHashTable")]
-    pub struct NSHashTable<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared> {
-        _inner0: PhantomData<*mut (ObjectType, ObjectTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "Foundation_NSHashTable")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> ClassType
-        for NSHashTable<ObjectType, ObjectTypeOwnership>
-    {
-        type Super = NSObject;
-    }
-);
+    pub type NSHashTable<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
+}
 
 #[cfg(feature = "Foundation_NSHashTable")]
 unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSCoding
@@ -60,97 +55,98 @@ unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSSecureCoding
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSHashTable")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSHashTable<ObjectType, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Init initWithOptions:capacity:)]
-        pub unsafe fn initWithOptions_capacity(
-            this: Option<Allocated<Self>>,
-            options: NSPointerFunctionsOptions,
-            initial_capacity: NSUInteger,
-        ) -> Id<Self>;
+    pub type NSHashTable<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[cfg(feature = "Foundation_NSPointerFunctions")]
-        #[method_id(@__retain_semantics Init initWithPointerFunctions:capacity:)]
-        pub unsafe fn initWithPointerFunctions_capacity(
-            this: Option<Allocated<Self>>,
-            functions: &NSPointerFunctions,
-            initial_capacity: NSUInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithOptions:capacity:", managed = "Init")]
+    pub unsafe fn initWithOptions_capacity(
+        this: Option<Allocated<Self>>,
+        options: NSPointerFunctionsOptions,
+        initial_capacity: NSUInteger,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other hashTableWithOptions:)]
-        pub unsafe fn hashTableWithOptions(
-            options: NSPointerFunctionsOptions,
-        ) -> Id<NSHashTable<ObjectType>>;
+    #[cfg(feature = "Foundation_NSPointerFunctions")]
+    #[objc2::method(sel = "initWithPointerFunctions:capacity:", managed = "Init")]
+    pub unsafe fn initWithPointerFunctions_capacity(
+        this: Option<Allocated<Self>>,
+        functions: &NSPointerFunctions,
+        initial_capacity: NSUInteger,
+    ) -> Id<Self>;
 
-        #[deprecated = "GC no longer supported"]
-        #[method_id(@__retain_semantics Other hashTableWithWeakObjects)]
-        pub unsafe fn hashTableWithWeakObjects() -> Id<Object>;
+    #[objc2::method(sel = "hashTableWithOptions:", managed = "Other")]
+    pub unsafe fn hashTableWithOptions(
+        options: NSPointerFunctionsOptions,
+    ) -> Id<NSHashTable<ObjectType>>;
 
-        #[method_id(@__retain_semantics Other weakObjectsHashTable)]
-        pub unsafe fn weakObjectsHashTable() -> Id<NSHashTable<ObjectType>>;
+    #[deprecated = "GC no longer supported"]
+    #[objc2::method(sel = "hashTableWithWeakObjects", managed = "Other")]
+    pub unsafe fn hashTableWithWeakObjects() -> Id<Object>;
 
-        #[cfg(feature = "Foundation_NSPointerFunctions")]
-        #[method_id(@__retain_semantics Other pointerFunctions)]
-        pub unsafe fn pointerFunctions(&self) -> Id<NSPointerFunctions>;
+    #[objc2::method(sel = "weakObjectsHashTable", managed = "Other")]
+    pub unsafe fn weakObjectsHashTable() -> Id<NSHashTable<ObjectType>>;
 
-        #[method(count)]
-        pub unsafe fn count(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSPointerFunctions")]
+    #[objc2::method(sel = "pointerFunctions", managed = "Other")]
+    pub unsafe fn pointerFunctions(&self) -> Id<NSPointerFunctions>;
 
-        #[method_id(@__retain_semantics Other member:)]
-        pub unsafe fn member(
-            &self,
-            object: Option<&ObjectType>,
-        ) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
+    #[objc2::method(sel = "count")]
+    pub unsafe fn count(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSEnumerator")]
-        #[method_id(@__retain_semantics Other objectEnumerator)]
-        pub unsafe fn objectEnumerator(&self) -> Id<NSEnumerator<ObjectType>>;
+    #[objc2::method(sel = "member:", managed = "Other")]
+    pub unsafe fn member(
+        &self,
+        object: Option<&ObjectType>,
+    ) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
 
-        #[method(addObject:)]
-        pub unsafe fn addObject(&self, object: Option<&ObjectType>);
+    #[cfg(feature = "Foundation_NSEnumerator")]
+    #[objc2::method(sel = "objectEnumerator", managed = "Other")]
+    pub unsafe fn objectEnumerator(&self) -> Id<NSEnumerator<ObjectType>>;
 
-        #[method(removeObject:)]
-        pub unsafe fn removeObject(&self, object: Option<&ObjectType>);
+    #[objc2::method(sel = "addObject:")]
+    pub unsafe fn addObject(&self, object: Option<&ObjectType>);
 
-        #[method(removeAllObjects)]
-        pub unsafe fn removeAllObjects(&self);
+    #[objc2::method(sel = "removeObject:")]
+    pub unsafe fn removeObject(&self, object: Option<&ObjectType>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other allObjects)]
-        pub unsafe fn allObjects(&self) -> Id<NSArray<ObjectType>>;
+    #[objc2::method(sel = "removeAllObjects")]
+    pub unsafe fn removeAllObjects(&self);
 
-        #[method_id(@__retain_semantics Other anyObject)]
-        pub unsafe fn anyObject(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "allObjects", managed = "Other")]
+    pub unsafe fn allObjects(&self) -> Id<NSArray<ObjectType>>;
 
-        #[method(containsObject:)]
-        pub unsafe fn containsObject(&self, an_object: Option<&ObjectType>) -> bool;
+    #[objc2::method(sel = "anyObject", managed = "Other")]
+    pub unsafe fn anyObject(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
 
-        #[method(intersectsHashTable:)]
-        pub unsafe fn intersectsHashTable(&self, other: &NSHashTable<ObjectType>) -> bool;
+    #[objc2::method(sel = "containsObject:")]
+    pub unsafe fn containsObject(&self, an_object: Option<&ObjectType>) -> bool;
 
-        #[method(isEqualToHashTable:)]
-        pub unsafe fn isEqualToHashTable(&self, other: &NSHashTable<ObjectType>) -> bool;
+    #[objc2::method(sel = "intersectsHashTable:")]
+    pub unsafe fn intersectsHashTable(&self, other: &NSHashTable<ObjectType>) -> bool;
 
-        #[method(isSubsetOfHashTable:)]
-        pub unsafe fn isSubsetOfHashTable(&self, other: &NSHashTable<ObjectType>) -> bool;
+    #[objc2::method(sel = "isEqualToHashTable:")]
+    pub unsafe fn isEqualToHashTable(&self, other: &NSHashTable<ObjectType>) -> bool;
 
-        #[method(intersectHashTable:)]
-        pub unsafe fn intersectHashTable(&self, other: &NSHashTable<ObjectType>);
+    #[objc2::method(sel = "isSubsetOfHashTable:")]
+    pub unsafe fn isSubsetOfHashTable(&self, other: &NSHashTable<ObjectType>) -> bool;
 
-        #[method(unionHashTable:)]
-        pub unsafe fn unionHashTable(&self, other: &NSHashTable<ObjectType>);
+    #[objc2::method(sel = "intersectHashTable:")]
+    pub unsafe fn intersectHashTable(&self, other: &NSHashTable<ObjectType>);
 
-        #[method(minusHashTable:)]
-        pub unsafe fn minusHashTable(&self, other: &NSHashTable<ObjectType>);
+    #[objc2::method(sel = "unionHashTable:")]
+    pub unsafe fn unionHashTable(&self, other: &NSHashTable<ObjectType>);
 
-        #[cfg(feature = "Foundation_NSSet")]
-        #[method_id(@__retain_semantics Other setRepresentation)]
-        pub unsafe fn setRepresentation(&self) -> Id<NSSet<ObjectType>>;
-    }
-);
+    #[objc2::method(sel = "minusHashTable:")]
+    pub unsafe fn minusHashTable(&self, other: &NSHashTable<ObjectType>);
+
+    #[cfg(feature = "Foundation_NSSet")]
+    #[objc2::method(sel = "setRepresentation", managed = "Other")]
+    pub unsafe fn setRepresentation(&self) -> Id<NSSet<ObjectType>>;
+}
 
 extern_struct!(
     #[encoding_name("?")]

@@ -7,16 +7,16 @@ typed_enum!(
     pub type NSLocaleKey = NSString;
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSLocale")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSLocale")]
-    pub struct NSLocale;
-
-    #[cfg(feature = "Foundation_NSLocale")]
-    unsafe impl ClassType for NSLocale {
-        type Super = NSObject;
-    }
-);
+    pub type NSLocale;
+}
 
 #[cfg(feature = "Foundation_NSLocale")]
 unsafe impl NSCoding for NSLocale {}
@@ -27,278 +27,282 @@ unsafe impl NSObjectProtocol for NSLocale {}
 #[cfg(feature = "Foundation_NSLocale")]
 unsafe impl NSSecureCoding for NSLocale {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSLocale")]
-    unsafe impl NSLocale {
-        #[method_id(@__retain_semantics Other objectForKey:)]
-        pub unsafe fn objectForKey(&self, key: &NSLocaleKey) -> Option<Id<Object>>;
+    pub type NSLocale;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other displayNameForKey:value:)]
-        pub unsafe fn displayNameForKey_value(
-            &self,
-            key: &NSLocaleKey,
-            value: &Object,
-        ) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "objectForKey:", managed = "Other")]
+    pub unsafe fn objectForKey(&self, key: &NSLocaleKey) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithLocaleIdentifier:)]
-        pub unsafe fn initWithLocaleIdentifier(
-            this: Option<Allocated<Self>>,
-            string: &NSString,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "displayNameForKey:value:", managed = "Other")]
+    pub unsafe fn displayNameForKey_value(
+        &self,
+        key: &NSLocaleKey,
+        value: &Object,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithLocaleIdentifier:", managed = "Init")]
+    pub unsafe fn initWithLocaleIdentifier(
+        this: Option<Allocated<Self>>,
+        string: &NSString,
+    ) -> Id<Self>;
 
-extern_methods!(
-    /// NSExtendedLocale
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSLocale")]
-    unsafe impl NSLocale {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localeIdentifier)]
-        pub unsafe fn localeIdentifier(&self) -> Id<NSString>;
+    pub type NSLocale;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedStringForLocaleIdentifier:)]
-        pub unsafe fn localizedStringForLocaleIdentifier(
-            &self,
-            locale_identifier: &NSString,
-        ) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localeIdentifier", managed = "Other")]
+    pub unsafe fn localeIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other languageCode)]
-        pub unsafe fn languageCode(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedStringForLocaleIdentifier:", managed = "Other")]
+    pub unsafe fn localizedStringForLocaleIdentifier(
+        &self,
+        locale_identifier: &NSString,
+    ) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedStringForLanguageCode:)]
-        pub unsafe fn localizedStringForLanguageCode(
-            &self,
-            language_code: &NSString,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "languageCode", managed = "Other")]
+    pub unsafe fn languageCode(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other countryCode)]
-        pub unsafe fn countryCode(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedStringForLanguageCode:", managed = "Other")]
+    pub unsafe fn localizedStringForLanguageCode(
+        &self,
+        language_code: &NSString,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedStringForCountryCode:)]
-        pub unsafe fn localizedStringForCountryCode(
-            &self,
-            country_code: &NSString,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "countryCode", managed = "Other")]
+    pub unsafe fn countryCode(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other scriptCode)]
-        pub unsafe fn scriptCode(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedStringForCountryCode:", managed = "Other")]
+    pub unsafe fn localizedStringForCountryCode(
+        &self,
+        country_code: &NSString,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedStringForScriptCode:)]
-        pub unsafe fn localizedStringForScriptCode(
-            &self,
-            script_code: &NSString,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "scriptCode", managed = "Other")]
+    pub unsafe fn scriptCode(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other variantCode)]
-        pub unsafe fn variantCode(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedStringForScriptCode:", managed = "Other")]
+    pub unsafe fn localizedStringForScriptCode(
+        &self,
+        script_code: &NSString,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedStringForVariantCode:)]
-        pub unsafe fn localizedStringForVariantCode(
-            &self,
-            variant_code: &NSString,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "variantCode", managed = "Other")]
+    pub unsafe fn variantCode(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSCharacterSet")]
-        #[method_id(@__retain_semantics Other exemplarCharacterSet)]
-        pub unsafe fn exemplarCharacterSet(&self) -> Id<NSCharacterSet>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedStringForVariantCode:", managed = "Other")]
+    pub unsafe fn localizedStringForVariantCode(
+        &self,
+        variant_code: &NSString,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other calendarIdentifier)]
-        pub unsafe fn calendarIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSCharacterSet")]
+    #[objc2::method(sel = "exemplarCharacterSet", managed = "Other")]
+    pub unsafe fn exemplarCharacterSet(&self) -> Id<NSCharacterSet>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedStringForCalendarIdentifier:)]
-        pub unsafe fn localizedStringForCalendarIdentifier(
-            &self,
-            calendar_identifier: &NSString,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "calendarIdentifier", managed = "Other")]
+    pub unsafe fn calendarIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other collationIdentifier)]
-        pub unsafe fn collationIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedStringForCalendarIdentifier:", managed = "Other")]
+    pub unsafe fn localizedStringForCalendarIdentifier(
+        &self,
+        calendar_identifier: &NSString,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedStringForCollationIdentifier:)]
-        pub unsafe fn localizedStringForCollationIdentifier(
-            &self,
-            collation_identifier: &NSString,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "collationIdentifier", managed = "Other")]
+    pub unsafe fn collationIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[method(usesMetricSystem)]
-        pub unsafe fn usesMetricSystem(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedStringForCollationIdentifier:", managed = "Other")]
+    pub unsafe fn localizedStringForCollationIdentifier(
+        &self,
+        collation_identifier: &NSString,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other decimalSeparator)]
-        pub unsafe fn decimalSeparator(&self) -> Id<NSString>;
+    #[objc2::method(sel = "usesMetricSystem")]
+    pub unsafe fn usesMetricSystem(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other groupingSeparator)]
-        pub unsafe fn groupingSeparator(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "decimalSeparator", managed = "Other")]
+    pub unsafe fn decimalSeparator(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other currencySymbol)]
-        pub unsafe fn currencySymbol(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "groupingSeparator", managed = "Other")]
+    pub unsafe fn groupingSeparator(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other currencyCode)]
-        pub unsafe fn currencyCode(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "currencySymbol", managed = "Other")]
+    pub unsafe fn currencySymbol(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedStringForCurrencyCode:)]
-        pub unsafe fn localizedStringForCurrencyCode(
-            &self,
-            currency_code: &NSString,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "currencyCode", managed = "Other")]
+    pub unsafe fn currencyCode(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other collatorIdentifier)]
-        pub unsafe fn collatorIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedStringForCurrencyCode:", managed = "Other")]
+    pub unsafe fn localizedStringForCurrencyCode(
+        &self,
+        currency_code: &NSString,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedStringForCollatorIdentifier:)]
-        pub unsafe fn localizedStringForCollatorIdentifier(
-            &self,
-            collator_identifier: &NSString,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "collatorIdentifier", managed = "Other")]
+    pub unsafe fn collatorIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other quotationBeginDelimiter)]
-        pub unsafe fn quotationBeginDelimiter(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedStringForCollatorIdentifier:", managed = "Other")]
+    pub unsafe fn localizedStringForCollatorIdentifier(
+        &self,
+        collator_identifier: &NSString,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other quotationEndDelimiter)]
-        pub unsafe fn quotationEndDelimiter(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "quotationBeginDelimiter", managed = "Other")]
+    pub unsafe fn quotationBeginDelimiter(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other alternateQuotationBeginDelimiter)]
-        pub unsafe fn alternateQuotationBeginDelimiter(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "quotationEndDelimiter", managed = "Other")]
+    pub unsafe fn quotationEndDelimiter(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other alternateQuotationEndDelimiter)]
-        pub unsafe fn alternateQuotationEndDelimiter(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "alternateQuotationBeginDelimiter", managed = "Other")]
+    pub unsafe fn alternateQuotationBeginDelimiter(&self) -> Id<NSString>;
 
-extern_methods!(
-    /// NSLocaleCreation
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "alternateQuotationEndDelimiter", managed = "Other")]
+    pub unsafe fn alternateQuotationEndDelimiter(&self) -> Id<NSString>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSLocale")]
-    unsafe impl NSLocale {
-        #[method_id(@__retain_semantics Other autoupdatingCurrentLocale)]
-        pub unsafe fn autoupdatingCurrentLocale() -> Id<NSLocale>;
+    pub type NSLocale;
 
-        #[method_id(@__retain_semantics Other currentLocale)]
-        pub unsafe fn currentLocale() -> Id<NSLocale>;
+    #[objc2::method(sel = "autoupdatingCurrentLocale", managed = "Other")]
+    pub unsafe fn autoupdatingCurrentLocale() -> Id<NSLocale>;
 
-        #[method_id(@__retain_semantics Other systemLocale)]
-        pub unsafe fn systemLocale() -> Id<NSLocale>;
+    #[objc2::method(sel = "currentLocale", managed = "Other")]
+    pub unsafe fn currentLocale() -> Id<NSLocale>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localeWithLocaleIdentifier:)]
-        pub unsafe fn localeWithLocaleIdentifier(ident: &NSString) -> Id<Self>;
+    #[objc2::method(sel = "systemLocale", managed = "Other")]
+    pub unsafe fn systemLocale() -> Id<NSLocale>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localeWithLocaleIdentifier:", managed = "Other")]
+    pub unsafe fn localeWithLocaleIdentifier(ident: &NSString) -> Id<Self>;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSLocaleLanguageDirection {
-        NSLocaleLanguageDirectionUnknown = 0,
-        NSLocaleLanguageDirectionLeftToRight = 1,
-        NSLocaleLanguageDirectionRightToLeft = 2,
-        NSLocaleLanguageDirectionTopToBottom = 3,
-        NSLocaleLanguageDirectionBottomToTop = 4,
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}
 
-extern_methods!(
-    /// NSLocaleGeneralInfo
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSLocaleLanguageDirection {
+    NSLocaleLanguageDirectionUnknown = 0,
+    NSLocaleLanguageDirectionLeftToRight = 1,
+    NSLocaleLanguageDirectionRightToLeft = 2,
+    NSLocaleLanguageDirectionTopToBottom = 3,
+    NSLocaleLanguageDirectionBottomToTop = 4,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSLocale")]
-    unsafe impl NSLocale {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other availableLocaleIdentifiers)]
-        pub unsafe fn availableLocaleIdentifiers() -> Id<NSArray<NSString>>;
+    pub type NSLocale;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other ISOLanguageCodes)]
-        pub unsafe fn ISOLanguageCodes() -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "availableLocaleIdentifiers", managed = "Other")]
+    pub unsafe fn availableLocaleIdentifiers() -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other ISOCountryCodes)]
-        pub unsafe fn ISOCountryCodes() -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "ISOLanguageCodes", managed = "Other")]
+    pub unsafe fn ISOLanguageCodes() -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other ISOCurrencyCodes)]
-        pub unsafe fn ISOCurrencyCodes() -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "ISOCountryCodes", managed = "Other")]
+    pub unsafe fn ISOCountryCodes() -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other commonISOCurrencyCodes)]
-        pub unsafe fn commonISOCurrencyCodes() -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "ISOCurrencyCodes", managed = "Other")]
+    pub unsafe fn ISOCurrencyCodes() -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other preferredLanguages)]
-        pub unsafe fn preferredLanguages() -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "commonISOCurrencyCodes", managed = "Other")]
+    pub unsafe fn commonISOCurrencyCodes() -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other componentsFromLocaleIdentifier:)]
-        pub unsafe fn componentsFromLocaleIdentifier(
-            string: &NSString,
-        ) -> Id<NSDictionary<NSString, NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "preferredLanguages", managed = "Other")]
+    pub unsafe fn preferredLanguages() -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other localeIdentifierFromComponents:)]
-        pub unsafe fn localeIdentifierFromComponents(
-            dict: &NSDictionary<NSString, NSString>,
-        ) -> Id<NSString>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "componentsFromLocaleIdentifier:", managed = "Other")]
+    pub unsafe fn componentsFromLocaleIdentifier(
+        string: &NSString,
+    ) -> Id<NSDictionary<NSString, NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other canonicalLocaleIdentifierFromString:)]
-        pub unsafe fn canonicalLocaleIdentifierFromString(string: &NSString) -> Id<NSString>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "localeIdentifierFromComponents:", managed = "Other")]
+    pub unsafe fn localeIdentifierFromComponents(
+        dict: &NSDictionary<NSString, NSString>,
+    ) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other canonicalLanguageIdentifierFromString:)]
-        pub unsafe fn canonicalLanguageIdentifierFromString(string: &NSString) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "canonicalLocaleIdentifierFromString:", managed = "Other")]
+    pub unsafe fn canonicalLocaleIdentifierFromString(string: &NSString) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localeIdentifierFromWindowsLocaleCode:)]
-        pub unsafe fn localeIdentifierFromWindowsLocaleCode(lcid: u32) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "canonicalLanguageIdentifierFromString:", managed = "Other")]
+    pub unsafe fn canonicalLanguageIdentifierFromString(string: &NSString) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(windowsLocaleCodeFromLocaleIdentifier:)]
-        pub unsafe fn windowsLocaleCodeFromLocaleIdentifier(locale_identifier: &NSString) -> u32;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localeIdentifierFromWindowsLocaleCode:", managed = "Other")]
+    pub unsafe fn localeIdentifierFromWindowsLocaleCode(lcid: u32) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(characterDirectionForLanguage:)]
-        pub unsafe fn characterDirectionForLanguage(
-            iso_lang_code: &NSString,
-        ) -> NSLocaleLanguageDirection;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "windowsLocaleCodeFromLocaleIdentifier:")]
+    pub unsafe fn windowsLocaleCodeFromLocaleIdentifier(locale_identifier: &NSString) -> u32;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(lineDirectionForLanguage:)]
-        pub unsafe fn lineDirectionForLanguage(
-            iso_lang_code: &NSString,
-        ) -> NSLocaleLanguageDirection;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "characterDirectionForLanguage:")]
+    pub unsafe fn characterDirectionForLanguage(
+        iso_lang_code: &NSString,
+    ) -> NSLocaleLanguageDirection;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "lineDirectionForLanguage:")]
+    pub unsafe fn lineDirectionForLanguage(iso_lang_code: &NSString) -> NSLocaleLanguageDirection;
+}
 
 extern_static!(NSCurrentLocaleDidChangeNotification: &'static NSNotificationName);
 

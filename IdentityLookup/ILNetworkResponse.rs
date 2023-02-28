@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::IdentityLookup::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "IdentityLookup_ILNetworkResponse")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "IdentityLookup_ILNetworkResponse")]
-    pub struct ILNetworkResponse;
-
-    #[cfg(feature = "IdentityLookup_ILNetworkResponse")]
-    unsafe impl ClassType for ILNetworkResponse {
-        type Super = NSObject;
-    }
-);
+    pub type ILNetworkResponse;
+}
 
 #[cfg(feature = "IdentityLookup_ILNetworkResponse")]
 unsafe impl NSCoding for ILNetworkResponse {}
@@ -24,18 +24,21 @@ unsafe impl NSObjectProtocol for ILNetworkResponse {}
 #[cfg(feature = "IdentityLookup_ILNetworkResponse")]
 unsafe impl NSSecureCoding for ILNetworkResponse {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "IdentityLookup_ILNetworkResponse")]
-    unsafe impl ILNetworkResponse {
-        #[cfg(feature = "Foundation_NSHTTPURLResponse")]
-        #[method_id(@__retain_semantics Other urlResponse)]
-        pub unsafe fn urlResponse(&self) -> Id<NSHTTPURLResponse>;
+    pub type ILNetworkResponse;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other data)]
-        pub unsafe fn data(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSHTTPURLResponse")]
+    #[objc2::method(sel = "urlResponse", managed = "Other")]
+    pub unsafe fn urlResponse(&self) -> Id<NSHTTPURLResponse>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "data", managed = "Other")]
+    pub unsafe fn data(&self) -> Id<NSData>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

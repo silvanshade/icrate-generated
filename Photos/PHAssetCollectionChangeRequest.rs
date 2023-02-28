@@ -6,94 +6,95 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = PHChangeRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHAssetCollectionChangeRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHAssetCollectionChangeRequest")]
-    pub struct PHAssetCollectionChangeRequest;
-
-    #[cfg(feature = "PhotoKit_PHAssetCollectionChangeRequest")]
-    unsafe impl ClassType for PHAssetCollectionChangeRequest {
-        #[inherits(NSObject)]
-        type Super = PHChangeRequest;
-    }
-);
+    pub type PHAssetCollectionChangeRequest;
+}
 
 #[cfg(feature = "PhotoKit_PHAssetCollectionChangeRequest")]
 unsafe impl NSObjectProtocol for PHAssetCollectionChangeRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHAssetCollectionChangeRequest")]
-    unsafe impl PHAssetCollectionChangeRequest {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other creationRequestForAssetCollectionWithTitle:)]
-        pub unsafe fn creationRequestForAssetCollectionWithTitle(title: &NSString) -> Id<Self>;
+    pub type PHAssetCollectionChangeRequest;
 
-        #[cfg(feature = "PhotoKit_PHObjectPlaceholder")]
-        #[method_id(@__retain_semantics Other placeholderForCreatedAssetCollection)]
-        pub unsafe fn placeholderForCreatedAssetCollection(&self) -> Id<PHObjectPlaceholder>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "creationRequestForAssetCollectionWithTitle:", managed = "Other")]
+    pub unsafe fn creationRequestForAssetCollectionWithTitle(title: &NSString) -> Id<Self>;
 
-        #[method(deleteAssetCollections:)]
-        pub unsafe fn deleteAssetCollections(
-            asset_collections: &ProtocolObject<dyn NSFastEnumeration>,
-        );
+    #[cfg(feature = "PhotoKit_PHObjectPlaceholder")]
+    #[objc2::method(sel = "placeholderForCreatedAssetCollection", managed = "Other")]
+    pub unsafe fn placeholderForCreatedAssetCollection(&self) -> Id<PHObjectPlaceholder>;
 
-        #[cfg(feature = "PhotoKit_PHAssetCollection")]
-        #[method_id(@__retain_semantics Other changeRequestForAssetCollection:)]
-        pub unsafe fn changeRequestForAssetCollection(
-            asset_collection: &PHAssetCollection,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "deleteAssetCollections:")]
+    pub unsafe fn deleteAssetCollections(asset_collections: &ProtocolObject<dyn NSFastEnumeration>);
 
-        #[cfg(all(
-            feature = "PhotoKit_PHAsset",
-            feature = "PhotoKit_PHAssetCollection",
-            feature = "PhotoKit_PHFetchResult"
-        ))]
-        #[method_id(@__retain_semantics Other changeRequestForAssetCollection:assets:)]
-        pub unsafe fn changeRequestForAssetCollection_assets(
-            asset_collection: &PHAssetCollection,
-            assets: &PHFetchResult<PHAsset>,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "PhotoKit_PHAssetCollection")]
+    #[objc2::method(sel = "changeRequestForAssetCollection:", managed = "Other")]
+    pub unsafe fn changeRequestForAssetCollection(
+        asset_collection: &PHAssetCollection,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[cfg(all(
+        feature = "PhotoKit_PHAsset",
+        feature = "PhotoKit_PHAssetCollection",
+        feature = "PhotoKit_PHFetchResult"
+    ))]
+    #[objc2::method(sel = "changeRequestForAssetCollection:assets:", managed = "Other")]
+    pub unsafe fn changeRequestForAssetCollection_assets(
+        asset_collection: &PHAssetCollection,
+        assets: &PHFetchResult<PHAsset>,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[method(addAssets:)]
-        pub unsafe fn addAssets(&self, assets: &ProtocolObject<dyn NSFastEnumeration>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(insertAssets:atIndexes:)]
-        pub unsafe fn insertAssets_atIndexes(
-            &self,
-            assets: &ProtocolObject<dyn NSFastEnumeration>,
-            indexes: &NSIndexSet,
-        );
+    #[objc2::method(sel = "addAssets:")]
+    pub unsafe fn addAssets(&self, assets: &ProtocolObject<dyn NSFastEnumeration>);
 
-        #[method(removeAssets:)]
-        pub unsafe fn removeAssets(&self, assets: &ProtocolObject<dyn NSFastEnumeration>);
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "insertAssets:atIndexes:")]
+    pub unsafe fn insertAssets_atIndexes(
+        &self,
+        assets: &ProtocolObject<dyn NSFastEnumeration>,
+        indexes: &NSIndexSet,
+    );
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(removeAssetsAtIndexes:)]
-        pub unsafe fn removeAssetsAtIndexes(&self, indexes: &NSIndexSet);
+    #[objc2::method(sel = "removeAssets:")]
+    pub unsafe fn removeAssets(&self, assets: &ProtocolObject<dyn NSFastEnumeration>);
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(replaceAssetsAtIndexes:withAssets:)]
-        pub unsafe fn replaceAssetsAtIndexes_withAssets(
-            &self,
-            indexes: &NSIndexSet,
-            assets: &ProtocolObject<dyn NSFastEnumeration>,
-        );
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "removeAssetsAtIndexes:")]
+    pub unsafe fn removeAssetsAtIndexes(&self, indexes: &NSIndexSet);
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(moveAssetsAtIndexes:toIndex:)]
-        pub unsafe fn moveAssetsAtIndexes_toIndex(
-            &self,
-            from_indexes: &NSIndexSet,
-            to_index: NSUInteger,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "replaceAssetsAtIndexes:withAssets:")]
+    pub unsafe fn replaceAssetsAtIndexes_withAssets(
+        &self,
+        indexes: &NSIndexSet,
+        assets: &ProtocolObject<dyn NSFastEnumeration>,
+    );
+
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "moveAssetsAtIndexes:toIndex:")]
+    pub unsafe fn moveAssetsAtIndexes_toIndex(
+        &self,
+        from_indexes: &NSIndexSet,
+        to_index: NSUInteger,
+    );
+}

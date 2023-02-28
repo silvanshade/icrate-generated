@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPDFInfo")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPDFInfo")]
-    pub struct NSPDFInfo;
-
-    #[cfg(feature = "AppKit_NSPDFInfo")]
-    unsafe impl ClassType for NSPDFInfo {
-        type Super = NSObject;
-    }
-);
+    pub type NSPDFInfo;
+}
 
 #[cfg(feature = "AppKit_NSPDFInfo")]
 unsafe impl NSCoding for NSPDFInfo {}
@@ -22,47 +22,50 @@ unsafe impl NSCoding for NSPDFInfo {}
 #[cfg(feature = "AppKit_NSPDFInfo")]
 unsafe impl NSObjectProtocol for NSPDFInfo {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPDFInfo")]
-    unsafe impl NSPDFInfo {
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
+    pub type NSPDFInfo;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setURL:)]
-        pub unsafe fn setURL(&self, url: Option<&NSURL>);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
 
-        #[method(isFileExtensionHidden)]
-        pub unsafe fn isFileExtensionHidden(&self) -> bool;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setURL:")]
+    pub unsafe fn setURL(&self, url: Option<&NSURL>);
 
-        #[method(setFileExtensionHidden:)]
-        pub unsafe fn setFileExtensionHidden(&self, file_extension_hidden: bool);
+    #[objc2::method(sel = "isFileExtensionHidden")]
+    pub unsafe fn isFileExtensionHidden(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other tagNames)]
-        pub unsafe fn tagNames(&self) -> Id<NSArray<NSString>>;
+    #[objc2::method(sel = "setFileExtensionHidden:")]
+    pub unsafe fn setFileExtensionHidden(&self, file_extension_hidden: bool);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method(setTagNames:)]
-        pub unsafe fn setTagNames(&self, tag_names: &NSArray<NSString>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "tagNames", managed = "Other")]
+    pub unsafe fn tagNames(&self) -> Id<NSArray<NSString>>;
 
-        #[method(orientation)]
-        pub unsafe fn orientation(&self) -> NSPaperOrientation;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setTagNames:")]
+    pub unsafe fn setTagNames(&self, tag_names: &NSArray<NSString>);
 
-        #[method(setOrientation:)]
-        pub unsafe fn setOrientation(&self, orientation: NSPaperOrientation);
+    #[objc2::method(sel = "orientation")]
+    pub unsafe fn orientation(&self) -> NSPaperOrientation;
 
-        #[method(paperSize)]
-        pub unsafe fn paperSize(&self) -> NSSize;
+    #[objc2::method(sel = "setOrientation:")]
+    pub unsafe fn setOrientation(&self, orientation: NSPaperOrientation);
 
-        #[method(setPaperSize:)]
-        pub unsafe fn setPaperSize(&self, paper_size: NSSize);
+    #[objc2::method(sel = "paperSize")]
+    pub unsafe fn paperSize(&self) -> NSSize;
 
-        #[cfg(feature = "Foundation_NSMutableDictionary")]
-        #[method_id(@__retain_semantics Other attributes)]
-        pub unsafe fn attributes(
-            &self,
-        ) -> Id<NSMutableDictionary<NSPrintInfoAttributeKey, Object>, Owned>;
-    }
-);
+    #[objc2::method(sel = "setPaperSize:")]
+    pub unsafe fn setPaperSize(&self, paper_size: NSSize);
+
+    #[cfg(feature = "Foundation_NSMutableDictionary")]
+    #[objc2::method(sel = "attributes", managed = "Other")]
+    pub unsafe fn attributes(
+        &self,
+    ) -> Id<NSMutableDictionary<NSPrintInfoAttributeKey, Object>, Owned>;
+}

@@ -7,103 +7,109 @@ use crate::GameKit::*;
 
 extern_static!(GKPlayerIDNoLongerAvailable: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = GKBasePlayer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameKit_GKPlayer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKPlayer")]
-    pub struct GKPlayer;
-
-    #[cfg(feature = "GameKit_GKPlayer")]
-    unsafe impl ClassType for GKPlayer {
-        #[inherits(NSObject)]
-        type Super = GKBasePlayer;
-    }
-);
+    pub type GKPlayer;
+}
 
 #[cfg(feature = "GameKit_GKPlayer")]
 unsafe impl NSObjectProtocol for GKPlayer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKPlayer")]
-    unsafe impl GKPlayer {
-        #[method(scopedIDsArePersistent)]
-        pub unsafe fn scopedIDsArePersistent(&self) -> bool;
+    pub type GKPlayer;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other gamePlayerID)]
-        pub unsafe fn gamePlayerID(&self) -> Id<NSString>;
+    #[objc2::method(sel = "scopedIDsArePersistent")]
+    pub unsafe fn scopedIDsArePersistent(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other teamPlayerID)]
-        pub unsafe fn teamPlayerID(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "gamePlayerID", managed = "Other")]
+    pub unsafe fn gamePlayerID(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other displayName)]
-        pub unsafe fn displayName(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "teamPlayerID", managed = "Other")]
+    pub unsafe fn teamPlayerID(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other alias)]
-        pub unsafe fn alias(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "displayName", managed = "Other")]
+    pub unsafe fn displayName(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other anonymousGuestPlayerWithIdentifier:)]
-        pub unsafe fn anonymousGuestPlayerWithIdentifier(guest_identifier: &NSString) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "alias", managed = "Other")]
+    pub unsafe fn alias(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other guestIdentifier)]
-        pub unsafe fn guestIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "anonymousGuestPlayerWithIdentifier:", managed = "Other")]
+    pub unsafe fn anonymousGuestPlayerWithIdentifier(guest_identifier: &NSString) -> Id<Self>;
 
-        #[method(isInvitable)]
-        pub unsafe fn isInvitable(&self) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "guestIdentifier", managed = "Other")]
+    pub unsafe fn guestIdentifier(&self) -> Option<Id<NSString>>;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum GKPhotoSize {
-        GKPhotoSizeSmall = 0,
-        GKPhotoSizeNormal = 1,
-    }
-);
+    #[objc2::method(sel = "isInvitable")]
+    pub unsafe fn isInvitable(&self) -> bool;
+}
 
-extern_methods!(
-    /// UI
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum GKPhotoSize {
+    GKPhotoSizeSmall = 0,
+    GKPhotoSizeNormal = 1,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKPlayer")]
-    unsafe impl GKPlayer {
-        #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSError"))]
-        #[method(loadPhotoForSize:withCompletionHandler:)]
-        pub unsafe fn loadPhotoForSize_withCompletionHandler(
-            &self,
-            size: GKPhotoSize,
-            completion_handler: Option<&Block<(*mut NSImage, *mut NSError), ()>>,
-        );
-    }
-);
+    pub type GKPlayer;
+
+    #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "loadPhotoForSize:withCompletionHandler:")]
+    pub unsafe fn loadPhotoForSize_withCompletionHandler(
+        &self,
+        size: GKPhotoSize,
+        completion_handler: Option<&Block<(*mut NSImage, *mut NSError), ()>>,
+    );
+}
 
 extern_static!(GKPlayerDidChangeNotificationName: &'static NSNotificationName);
 
-extern_methods!(
-    /// Deprecated
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKPlayer")]
-    unsafe impl GKPlayer {
-        #[deprecated = "use -[GKLocalPlayer loadFriendPlayers...]"]
-        #[method(isFriend)]
-        pub unsafe fn isFriend(&self) -> bool;
+    pub type GKPlayer;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "use the teamPlayerID property to identify a player"]
-        #[method_id(@__retain_semantics Other playerID)]
-        pub unsafe fn playerID(&self) -> Id<NSString>;
+    #[deprecated = "use -[GKLocalPlayer loadFriendPlayers...]"]
+    #[objc2::method(sel = "isFriend")]
+    pub unsafe fn isFriend(&self) -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[deprecated = "use GKLocalPlayer.loadFriendsWithIdentifiers to load a friend's GKPlayer object."]
-        #[method(loadPlayersForIdentifiers:withCompletionHandler:)]
-        pub unsafe fn loadPlayersForIdentifiers_withCompletionHandler(
-            identifiers: &NSArray<NSString>,
-            completion_handler: Option<&Block<(*mut NSArray<GKPlayer>, *mut NSError), ()>>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "use the teamPlayerID property to identify a player"]
+    #[objc2::method(sel = "playerID", managed = "Other")]
+    pub unsafe fn playerID(&self) -> Id<NSString>;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[deprecated = "use GKLocalPlayer.loadFriendsWithIdentifiers to load a friend's GKPlayer object."]
+    #[objc2::method(sel = "loadPlayersForIdentifiers:withCompletionHandler:")]
+    pub unsafe fn loadPlayersForIdentifiers_withCompletionHandler(
+        identifiers: &NSArray<NSString>,
+        completion_handler: Option<&Block<(*mut NSArray<GKPlayer>, *mut NSError), ()>>,
+    );
+}

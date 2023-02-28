@@ -5,17 +5,18 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTableHeaderView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTableHeaderView")]
-    pub struct NSTableHeaderView;
-
-    #[cfg(feature = "AppKit_NSTableHeaderView")]
-    unsafe impl ClassType for NSTableHeaderView {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type NSTableHeaderView;
+}
 
 #[cfg(feature = "AppKit_NSTableHeaderView")]
 unsafe impl NSAccessibility for NSTableHeaderView {}
@@ -44,39 +45,48 @@ unsafe impl NSUserInterfaceItemIdentification for NSTableHeaderView {}
 #[cfg(feature = "AppKit_NSTableHeaderView")]
 unsafe impl NSViewToolTipOwner for NSTableHeaderView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTableHeaderView")]
-    unsafe impl NSTableHeaderView {
-        #[cfg(feature = "AppKit_NSTableView")]
-        #[method_id(@__retain_semantics Other tableView)]
-        pub unsafe fn tableView(&self) -> Option<Id<NSTableView>>;
+    pub type NSTableHeaderView;
 
-        #[cfg(feature = "AppKit_NSTableView")]
-        #[method(setTableView:)]
-        pub unsafe fn setTableView(&self, table_view: Option<&NSTableView>);
+    #[cfg(feature = "AppKit_NSTableView")]
+    #[objc2::method(sel = "tableView", managed = "Other")]
+    pub unsafe fn tableView(&self) -> Option<Id<NSTableView>>;
 
-        #[method(draggedColumn)]
-        pub unsafe fn draggedColumn(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSTableView")]
+    #[objc2::method(sel = "setTableView:")]
+    pub unsafe fn setTableView(&self, table_view: Option<&NSTableView>);
 
-        #[method(draggedDistance)]
-        pub unsafe fn draggedDistance(&self) -> CGFloat;
+    #[objc2::method(sel = "draggedColumn")]
+    pub unsafe fn draggedColumn(&self) -> NSInteger;
 
-        #[method(resizedColumn)]
-        pub unsafe fn resizedColumn(&self) -> NSInteger;
+    #[objc2::method(sel = "draggedDistance")]
+    pub unsafe fn draggedDistance(&self) -> CGFloat;
 
-        #[method(headerRectOfColumn:)]
-        pub unsafe fn headerRectOfColumn(&self, column: NSInteger) -> NSRect;
+    #[objc2::method(sel = "resizedColumn")]
+    pub unsafe fn resizedColumn(&self) -> NSInteger;
 
-        #[method(columnAtPoint:)]
-        pub unsafe fn columnAtPoint(&self, point: NSPoint) -> NSInteger;
-    }
-);
+    #[objc2::method(sel = "headerRectOfColumn:")]
+    pub unsafe fn headerRectOfColumn(&self, column: NSInteger) -> NSRect;
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[objc2::method(sel = "columnAtPoint:")]
+    pub unsafe fn columnAtPoint(&self, point: NSPoint) -> NSInteger;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "AppKit_NSTableHeaderView")]
-    unsafe impl NSTableHeaderView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTableHeaderView")]
+    pub type NSTableHeaderView;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

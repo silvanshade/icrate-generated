@@ -5,30 +5,29 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::UserNotifications::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum UNNotificationCategoryOptions {
-        UNNotificationCategoryOptionCustomDismissAction = 1 << 0,
-        UNNotificationCategoryOptionAllowInCarPlay = 1 << 1,
-        UNNotificationCategoryOptionHiddenPreviewsShowTitle = 1 << 2,
-        UNNotificationCategoryOptionHiddenPreviewsShowSubtitle = 1 << 3,
-        #[deprecated = "Announcement option is ignored"]
-        UNNotificationCategoryOptionAllowAnnouncement = 1 << 4,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum UNNotificationCategoryOptions {
+    UNNotificationCategoryOptionCustomDismissAction = 1 << 0,
+    UNNotificationCategoryOptionAllowInCarPlay = 1 << 1,
+    UNNotificationCategoryOptionHiddenPreviewsShowTitle = 1 << 2,
+    UNNotificationCategoryOptionHiddenPreviewsShowSubtitle = 1 << 3,
+    #[deprecated = "Announcement option is ignored"]
+    UNNotificationCategoryOptionAllowAnnouncement = 1 << 4,
+}
 
 extern_static!(UNNotificationCategoryOptionNone: UNNotificationCategoryOptions = 0);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNNotificationCategory")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "UserNotifications_UNNotificationCategory")]
-    pub struct UNNotificationCategory;
-
-    #[cfg(feature = "UserNotifications_UNNotificationCategory")]
-    unsafe impl ClassType for UNNotificationCategory {
-        type Super = NSObject;
-    }
-);
+    pub type UNNotificationCategory;
+}
 
 #[cfg(feature = "UserNotifications_UNNotificationCategory")]
 unsafe impl NSCoding for UNNotificationCategory {}
@@ -39,78 +38,90 @@ unsafe impl NSObjectProtocol for UNNotificationCategory {}
 #[cfg(feature = "UserNotifications_UNNotificationCategory")]
 unsafe impl NSSecureCoding for UNNotificationCategory {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "UserNotifications_UNNotificationCategory")]
-    unsafe impl UNNotificationCategory {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    pub type UNNotificationCategory;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "UserNotifications_UNNotificationAction"
-        ))]
-        #[method_id(@__retain_semantics Other actions)]
-        pub unsafe fn actions(&self) -> Id<NSArray<UNNotificationAction>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other intentIdentifiers)]
-        pub unsafe fn intentIdentifiers(&self) -> Id<NSArray<NSString>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "UserNotifications_UNNotificationAction"
+    ))]
+    #[objc2::method(sel = "actions", managed = "Other")]
+    pub unsafe fn actions(&self) -> Id<NSArray<UNNotificationAction>>;
 
-        #[method(options)]
-        pub unsafe fn options(&self) -> UNNotificationCategoryOptions;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "intentIdentifiers", managed = "Other")]
+    pub unsafe fn intentIdentifiers(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other hiddenPreviewsBodyPlaceholder)]
-        pub unsafe fn hiddenPreviewsBodyPlaceholder(&self) -> Id<NSString>;
+    #[objc2::method(sel = "options")]
+    pub unsafe fn options(&self) -> UNNotificationCategoryOptions;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other categorySummaryFormat)]
-        pub unsafe fn categorySummaryFormat(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "hiddenPreviewsBodyPlaceholder", managed = "Other")]
+    pub unsafe fn hiddenPreviewsBodyPlaceholder(&self) -> Id<NSString>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString",
-            feature = "UserNotifications_UNNotificationAction"
-        ))]
-        #[method_id(@__retain_semantics Other categoryWithIdentifier:actions:intentIdentifiers:options:)]
-        pub unsafe fn categoryWithIdentifier_actions_intentIdentifiers_options(
-            identifier: &NSString,
-            actions: &NSArray<UNNotificationAction>,
-            intent_identifiers: &NSArray<NSString>,
-            options: UNNotificationCategoryOptions,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "categorySummaryFormat", managed = "Other")]
+    pub unsafe fn categorySummaryFormat(&self) -> Id<NSString>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString",
-            feature = "UserNotifications_UNNotificationAction"
-        ))]
-        #[method_id(@__retain_semantics Other categoryWithIdentifier:actions:intentIdentifiers:hiddenPreviewsBodyPlaceholder:options:)]
-        pub unsafe fn categoryWithIdentifier_actions_intentIdentifiers_hiddenPreviewsBodyPlaceholder_options(
-            identifier: &NSString,
-            actions: &NSArray<UNNotificationAction>,
-            intent_identifiers: &NSArray<NSString>,
-            hidden_previews_body_placeholder: &NSString,
-            options: UNNotificationCategoryOptions,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString",
+        feature = "UserNotifications_UNNotificationAction"
+    ))]
+    #[objc2::method(
+        sel = "categoryWithIdentifier:actions:intentIdentifiers:options:",
+        managed = "Other"
+    )]
+    pub unsafe fn categoryWithIdentifier_actions_intentIdentifiers_options(
+        identifier: &NSString,
+        actions: &NSArray<UNNotificationAction>,
+        intent_identifiers: &NSArray<NSString>,
+        options: UNNotificationCategoryOptions,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString",
-            feature = "UserNotifications_UNNotificationAction"
-        ))]
-        #[method_id(@__retain_semantics Other categoryWithIdentifier:actions:intentIdentifiers:hiddenPreviewsBodyPlaceholder:categorySummaryFormat:options:)]
-        pub unsafe fn categoryWithIdentifier_actions_intentIdentifiers_hiddenPreviewsBodyPlaceholder_categorySummaryFormat_options(
-            identifier: &NSString,
-            actions: &NSArray<UNNotificationAction>,
-            intent_identifiers: &NSArray<NSString>,
-            hidden_previews_body_placeholder: Option<&NSString>,
-            category_summary_format: Option<&NSString>,
-            options: UNNotificationCategoryOptions,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString",
+        feature = "UserNotifications_UNNotificationAction"
+    ))]
+    #[objc2::method(
+        sel = "categoryWithIdentifier:actions:intentIdentifiers:hiddenPreviewsBodyPlaceholder:options:",
+        managed = "Other"
+    )]
+    pub unsafe fn categoryWithIdentifier_actions_intentIdentifiers_hiddenPreviewsBodyPlaceholder_options(
+        identifier: &NSString,
+        actions: &NSArray<UNNotificationAction>,
+        intent_identifiers: &NSArray<NSString>,
+        hidden_previews_body_placeholder: &NSString,
+        options: UNNotificationCategoryOptions,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString",
+        feature = "UserNotifications_UNNotificationAction"
+    ))]
+    #[objc2::method(
+        sel = "categoryWithIdentifier:actions:intentIdentifiers:hiddenPreviewsBodyPlaceholder:categorySummaryFormat:options:",
+        managed = "Other"
+    )]
+    pub unsafe fn categoryWithIdentifier_actions_intentIdentifiers_hiddenPreviewsBodyPlaceholder_categorySummaryFormat_options(
+        identifier: &NSString,
+        actions: &NSArray<UNNotificationAction>,
+        intent_identifiers: &NSArray<NSString>,
+        hidden_previews_body_placeholder: Option<&NSString>,
+        category_summary_format: Option<&NSString>,
+        options: UNNotificationCategoryOptions,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

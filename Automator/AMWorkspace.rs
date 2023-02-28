@@ -6,24 +6,27 @@ use crate::Automator::*;
 use crate::Foundation::*;
 use crate::OSAKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Automator_AMWorkspace")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Automator_AMWorkspace")]
-    pub struct AMWorkspace;
-
-    #[cfg(feature = "Automator_AMWorkspace")]
-    unsafe impl ClassType for AMWorkspace {
-        type Super = NSObject;
-    }
-);
+    pub type AMWorkspace;
+}
 
 #[cfg(feature = "Automator_AMWorkspace")]
 unsafe impl NSObjectProtocol for AMWorkspace {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Automator_AMWorkspace")]
-    unsafe impl AMWorkspace {
-        #[method_id(@__retain_semantics Other sharedWorkspace)]
-        pub unsafe fn sharedWorkspace() -> Option<Id<AMWorkspace>>;
-    }
-);
+    pub type AMWorkspace;
+
+    #[objc2::method(sel = "sharedWorkspace", managed = "Other")]
+    pub unsafe fn sharedWorkspace() -> Option<Id<AMWorkspace>>;
+}

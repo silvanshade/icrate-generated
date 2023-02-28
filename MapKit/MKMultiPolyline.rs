@@ -7,17 +7,17 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKShape,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKMultiPolyline")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKMultiPolyline")]
-    pub struct MKMultiPolyline;
-
-    #[cfg(feature = "MapKit_MKMultiPolyline")]
-    unsafe impl ClassType for MKMultiPolyline {
-        #[inherits(NSObject)]
-        type Super = MKShape;
-    }
-);
+    pub type MKMultiPolyline;
+}
 
 #[cfg(feature = "MapKit_MKMultiPolyline")]
 unsafe impl MKAnnotation for MKMultiPolyline {}
@@ -28,18 +28,21 @@ unsafe impl MKOverlay for MKMultiPolyline {}
 #[cfg(feature = "MapKit_MKMultiPolyline")]
 unsafe impl NSObjectProtocol for MKMultiPolyline {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMultiPolyline")]
-    unsafe impl MKMultiPolyline {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MapKit_MKPolyline"))]
-        #[method_id(@__retain_semantics Init initWithPolylines:)]
-        pub unsafe fn initWithPolylines(
-            this: Option<Allocated<Self>>,
-            polylines: &NSArray<MKPolyline>,
-        ) -> Id<Self>;
+    pub type MKMultiPolyline;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MapKit_MKPolyline"))]
-        #[method_id(@__retain_semantics Other polylines)]
-        pub unsafe fn polylines(&self) -> Id<NSArray<MKPolyline>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MapKit_MKPolyline"))]
+    #[objc2::method(sel = "initWithPolylines:", managed = "Init")]
+    pub unsafe fn initWithPolylines(
+        this: Option<Allocated<Self>>,
+        polylines: &NSArray<MKPolyline>,
+    ) -> Id<Self>;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MapKit_MKPolyline"))]
+    #[objc2::method(sel = "polylines", managed = "Other")]
+    pub unsafe fn polylines(&self) -> Id<NSArray<MKPolyline>>;
+}

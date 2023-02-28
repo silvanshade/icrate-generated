@@ -7,106 +7,111 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MKDirectionsRoutePreference {
-        MKDirectionsRoutePreferenceAny = 0,
-        MKDirectionsRoutePreferenceAvoid = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MKDirectionsRoutePreference {
+    MKDirectionsRoutePreferenceAny = 0,
+    MKDirectionsRoutePreferenceAvoid = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKDirectionsRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKDirectionsRequest")]
-    pub struct MKDirectionsRequest;
-
-    #[cfg(feature = "MapKit_MKDirectionsRequest")]
-    unsafe impl ClassType for MKDirectionsRequest {
-        type Super = NSObject;
-    }
-);
+    pub type MKDirectionsRequest;
+}
 
 #[cfg(feature = "MapKit_MKDirectionsRequest")]
 unsafe impl NSObjectProtocol for MKDirectionsRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKDirectionsRequest")]
-    unsafe impl MKDirectionsRequest {
-        #[cfg(feature = "MapKit_MKMapItem")]
-        #[method_id(@__retain_semantics Other source)]
-        pub unsafe fn source(&self) -> Option<Id<MKMapItem>>;
+    pub type MKDirectionsRequest;
 
-        #[cfg(feature = "MapKit_MKMapItem")]
-        #[method(setSource:)]
-        pub unsafe fn setSource(&self, source: Option<&MKMapItem>);
+    #[cfg(feature = "MapKit_MKMapItem")]
+    #[objc2::method(sel = "source", managed = "Other")]
+    pub unsafe fn source(&self) -> Option<Id<MKMapItem>>;
 
-        #[cfg(feature = "MapKit_MKMapItem")]
-        #[method_id(@__retain_semantics Other destination)]
-        pub unsafe fn destination(&self) -> Option<Id<MKMapItem>>;
+    #[cfg(feature = "MapKit_MKMapItem")]
+    #[objc2::method(sel = "setSource:")]
+    pub unsafe fn setSource(&self, source: Option<&MKMapItem>);
 
-        #[cfg(feature = "MapKit_MKMapItem")]
-        #[method(setDestination:)]
-        pub unsafe fn setDestination(&self, destination: Option<&MKMapItem>);
-    }
-);
+    #[cfg(feature = "MapKit_MKMapItem")]
+    #[objc2::method(sel = "destination", managed = "Other")]
+    pub unsafe fn destination(&self) -> Option<Id<MKMapItem>>;
 
-extern_methods!(
-    /// MKRequestOptions
+    #[cfg(feature = "MapKit_MKMapItem")]
+    #[objc2::method(sel = "setDestination:")]
+    pub unsafe fn setDestination(&self, destination: Option<&MKMapItem>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKDirectionsRequest")]
-    unsafe impl MKDirectionsRequest {
-        #[method(transportType)]
-        pub unsafe fn transportType(&self) -> MKDirectionsTransportType;
+    pub type MKDirectionsRequest;
 
-        #[method(setTransportType:)]
-        pub unsafe fn setTransportType(&self, transport_type: MKDirectionsTransportType);
+    #[objc2::method(sel = "transportType")]
+    pub unsafe fn transportType(&self) -> MKDirectionsTransportType;
 
-        #[method(requestsAlternateRoutes)]
-        pub unsafe fn requestsAlternateRoutes(&self) -> bool;
+    #[objc2::method(sel = "setTransportType:")]
+    pub unsafe fn setTransportType(&self, transport_type: MKDirectionsTransportType);
 
-        #[method(setRequestsAlternateRoutes:)]
-        pub unsafe fn setRequestsAlternateRoutes(&self, requests_alternate_routes: bool);
+    #[objc2::method(sel = "requestsAlternateRoutes")]
+    pub unsafe fn requestsAlternateRoutes(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other departureDate)]
-        pub unsafe fn departureDate(&self) -> Option<Id<NSDate>>;
+    #[objc2::method(sel = "setRequestsAlternateRoutes:")]
+    pub unsafe fn setRequestsAlternateRoutes(&self, requests_alternate_routes: bool);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(setDepartureDate:)]
-        pub unsafe fn setDepartureDate(&self, departure_date: Option<&NSDate>);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "departureDate", managed = "Other")]
+    pub unsafe fn departureDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other arrivalDate)]
-        pub unsafe fn arrivalDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "setDepartureDate:")]
+    pub unsafe fn setDepartureDate(&self, departure_date: Option<&NSDate>);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(setArrivalDate:)]
-        pub unsafe fn setArrivalDate(&self, arrival_date: Option<&NSDate>);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "arrivalDate", managed = "Other")]
+    pub unsafe fn arrivalDate(&self) -> Option<Id<NSDate>>;
 
-        #[method(tollPreference)]
-        pub unsafe fn tollPreference(&self) -> MKDirectionsRoutePreference;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "setArrivalDate:")]
+    pub unsafe fn setArrivalDate(&self, arrival_date: Option<&NSDate>);
 
-        #[method(setTollPreference:)]
-        pub unsafe fn setTollPreference(&self, toll_preference: MKDirectionsRoutePreference);
+    #[objc2::method(sel = "tollPreference")]
+    pub unsafe fn tollPreference(&self) -> MKDirectionsRoutePreference;
 
-        #[method(highwayPreference)]
-        pub unsafe fn highwayPreference(&self) -> MKDirectionsRoutePreference;
+    #[objc2::method(sel = "setTollPreference:")]
+    pub unsafe fn setTollPreference(&self, toll_preference: MKDirectionsRoutePreference);
 
-        #[method(setHighwayPreference:)]
-        pub unsafe fn setHighwayPreference(&self, highway_preference: MKDirectionsRoutePreference);
-    }
-);
+    #[objc2::method(sel = "highwayPreference")]
+    pub unsafe fn highwayPreference(&self) -> MKDirectionsRoutePreference;
 
-extern_methods!(
-    /// MKDirectionsURL
+    #[objc2::method(sel = "setHighwayPreference:")]
+    pub unsafe fn setHighwayPreference(&self, highway_preference: MKDirectionsRoutePreference);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKDirectionsRequest")]
-    unsafe impl MKDirectionsRequest {
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:)]
-        pub unsafe fn initWithContentsOfURL(this: Option<Allocated<Self>>, url: &NSURL)
-            -> Id<Self>;
+    pub type MKDirectionsRequest;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(isDirectionsRequestURL:)]
-        pub unsafe fn isDirectionsRequestURL(url: &NSURL) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initWithContentsOfURL:", managed = "Init")]
+    pub unsafe fn initWithContentsOfURL(this: Option<Allocated<Self>>, url: &NSURL) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "isDirectionsRequestURL:")]
+    pub unsafe fn isDirectionsRequestURL(url: &NSURL) -> bool;
+}

@@ -5,105 +5,124 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSTextParagraph,
+    unsafe inherits = [
+        NSTextElement,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextListElement")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextListElement")]
-    pub struct NSTextListElement;
-
-    #[cfg(feature = "AppKit_NSTextListElement")]
-    unsafe impl ClassType for NSTextListElement {
-        #[inherits(NSTextElement, NSObject)]
-        type Super = NSTextParagraph;
-    }
-);
+    pub type NSTextListElement;
+}
 
 #[cfg(feature = "AppKit_NSTextListElement")]
 unsafe impl NSObjectProtocol for NSTextListElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextListElement")]
-    unsafe impl NSTextListElement {
-        #[cfg(all(
-            feature = "AppKit_NSTextList",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSAttributedString",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[method_id(@__retain_semantics Init initWithParentElement:textList:contents:markerAttributes:childElements:)]
-        pub unsafe fn initWithParentElement_textList_contents_markerAttributes_childElements(
-            this: Option<Allocated<Self>>,
-            parent: Option<&NSTextListElement>,
-            text_list: &NSTextList,
-            contents: Option<&NSAttributedString>,
-            marker_attributes: Option<&NSDictionary<NSAttributedStringKey, Object>>,
-            children: Option<&NSArray<NSTextListElement>>,
-        ) -> Id<Self>;
+    pub type NSTextListElement;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Init initWithAttributedString:)]
-        pub unsafe fn initWithAttributedString(
-            this: Option<Allocated<Self>>,
-            attributed_string: Option<&NSAttributedString>,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "AppKit_NSTextList",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSAttributedString",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[objc2::method(
+        sel = "initWithParentElement:textList:contents:markerAttributes:childElements:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithParentElement_textList_contents_markerAttributes_childElements(
+        this: Option<Allocated<Self>>,
+        parent: Option<&NSTextListElement>,
+        text_list: &NSTextList,
+        contents: Option<&NSAttributedString>,
+        marker_attributes: Option<&NSDictionary<NSAttributedStringKey, Object>>,
+        children: Option<&NSArray<NSTextListElement>>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "AppKit_NSTextList",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSAttributedString",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[method_id(@__retain_semantics Other textListElementWithContents:markerAttributes:textList:childElements:)]
-        pub unsafe fn textListElementWithContents_markerAttributes_textList_childElements(
-            contents: &NSAttributedString,
-            marker_attributes: Option<&NSDictionary<NSAttributedStringKey, Object>>,
-            text_list: &NSTextList,
-            children: Option<&NSArray<NSTextListElement>>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "initWithAttributedString:", managed = "Init")]
+    pub unsafe fn initWithAttributedString(
+        this: Option<Allocated<Self>>,
+        attributed_string: Option<&NSAttributedString>,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "AppKit_NSTextList", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other textListElementWithChildElements:textList:nestingLevel:)]
-        pub unsafe fn textListElementWithChildElements_textList_nestingLevel(
-            children: &NSArray<NSTextListElement>,
-            text_list: &NSTextList,
-            nesting_level: NSInteger,
-        ) -> Option<Id<Self>>;
+    #[cfg(all(
+        feature = "AppKit_NSTextList",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSAttributedString",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[objc2::method(
+        sel = "textListElementWithContents:markerAttributes:textList:childElements:",
+        managed = "Other"
+    )]
+    pub unsafe fn textListElementWithContents_markerAttributes_textList_childElements(
+        contents: &NSAttributedString,
+        marker_attributes: Option<&NSDictionary<NSAttributedStringKey, Object>>,
+        text_list: &NSTextList,
+        children: Option<&NSArray<NSTextListElement>>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSTextList")]
-        #[method_id(@__retain_semantics Other textList)]
-        pub unsafe fn textList(&self) -> Id<NSTextList>;
+    #[cfg(all(feature = "AppKit_NSTextList", feature = "Foundation_NSArray"))]
+    #[objc2::method(
+        sel = "textListElementWithChildElements:textList:nestingLevel:",
+        managed = "Other"
+    )]
+    pub unsafe fn textListElementWithChildElements_textList_nestingLevel(
+        children: &NSArray<NSTextListElement>,
+        text_list: &NSTextList,
+        nesting_level: NSInteger,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other contents)]
-        pub unsafe fn contents(&self) -> Option<Id<NSAttributedString>>;
+    #[cfg(feature = "AppKit_NSTextList")]
+    #[objc2::method(sel = "textList", managed = "Other")]
+    pub unsafe fn textList(&self) -> Id<NSTextList>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other markerAttributes)]
-        pub unsafe fn markerAttributes(
-            &self,
-        ) -> Option<Id<NSDictionary<NSAttributedStringKey, Object>>>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "contents", managed = "Other")]
+    pub unsafe fn contents(&self) -> Option<Id<NSAttributedString>>;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other attributedString)]
-        pub unsafe fn attributedString(&self) -> Id<NSAttributedString>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "markerAttributes", managed = "Other")]
+    pub unsafe fn markerAttributes(
+        &self,
+    ) -> Option<Id<NSDictionary<NSAttributedStringKey, Object>>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other childElements)]
-        pub unsafe fn childElements(&self) -> Id<NSArray<NSTextListElement>>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "attributedString", managed = "Other")]
+    pub unsafe fn attributedString(&self) -> Id<NSAttributedString>;
 
-        #[method_id(@__retain_semantics Other parentElement)]
-        pub unsafe fn parentElement(&self) -> Option<Id<NSTextListElement>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "childElements", managed = "Other")]
+    pub unsafe fn childElements(&self) -> Id<NSArray<NSTextListElement>>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSTextElement`
+    #[objc2::method(sel = "parentElement", managed = "Other")]
+    pub unsafe fn parentElement(&self) -> Option<Id<NSTextListElement>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSTextElement`
     #[cfg(feature = "AppKit_NSTextListElement")]
-    unsafe impl NSTextListElement {
-        #[cfg(feature = "AppKit_NSTextContentManager")]
-        #[method_id(@__retain_semantics Init initWithTextContentManager:)]
-        pub unsafe fn initWithTextContentManager(
-            this: Option<Allocated<Self>>,
-            text_content_manager: Option<&NSTextContentManager>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextListElement")]
+    pub type NSTextListElement;
+
+    #[cfg(feature = "AppKit_NSTextContentManager")]
+    #[objc2::method(sel = "initWithTextContentManager:", managed = "Init")]
+    pub unsafe fn initWithTextContentManager(
+        this: Option<Allocated<Self>>,
+        text_content_manager: Option<&NSTextContentManager>,
+    ) -> Id<Self>;
+}

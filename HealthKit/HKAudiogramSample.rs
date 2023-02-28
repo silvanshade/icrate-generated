@@ -6,17 +6,18 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSample,
+    unsafe inherits = [
+        HKObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKAudiogramSample")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKAudiogramSample")]
-    pub struct HKAudiogramSample;
-
-    #[cfg(feature = "HealthKit_HKAudiogramSample")]
-    unsafe impl ClassType for HKAudiogramSample {
-        #[inherits(HKObject, NSObject)]
-        type Super = HKSample;
-    }
-);
+    pub type HKAudiogramSample;
+}
 
 #[cfg(feature = "HealthKit_HKAudiogramSample")]
 unsafe impl NSCoding for HKAudiogramSample {}
@@ -27,71 +28,84 @@ unsafe impl NSObjectProtocol for HKAudiogramSample {}
 #[cfg(feature = "HealthKit_HKAudiogramSample")]
 unsafe impl NSSecureCoding for HKAudiogramSample {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKAudiogramSample")]
-    unsafe impl HKAudiogramSample {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "HealthKit_HKAudiogramSensitivityPoint"
-        ))]
-        #[method_id(@__retain_semantics Other sensitivityPoints)]
-        pub unsafe fn sensitivityPoints(&self) -> Id<NSArray<HKAudiogramSensitivityPoint>>;
+    pub type HKAudiogramSample;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString",
-            feature = "HealthKit_HKAudiogramSensitivityPoint"
-        ))]
-        #[method_id(@__retain_semantics Other audiogramSampleWithSensitivityPoints:startDate:endDate:metadata:)]
-        pub unsafe fn audiogramSampleWithSensitivityPoints_startDate_endDate_metadata(
-            sensitivity_points: &NSArray<HKAudiogramSensitivityPoint>,
-            start_date: &NSDate,
-            end_date: &NSDate,
-            metadata: Option<&NSDictionary<NSString, Object>>,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "HealthKit_HKAudiogramSensitivityPoint"
+    ))]
+    #[objc2::method(sel = "sensitivityPoints", managed = "Other")]
+    pub unsafe fn sensitivityPoints(&self) -> Id<NSArray<HKAudiogramSensitivityPoint>>;
 
-extern_class!(
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString",
+        feature = "HealthKit_HKAudiogramSensitivityPoint"
+    ))]
+    #[objc2::method(
+        sel = "audiogramSampleWithSensitivityPoints:startDate:endDate:metadata:",
+        managed = "Other"
+    )]
+    pub unsafe fn audiogramSampleWithSensitivityPoints_startDate_endDate_metadata(
+        sensitivity_points: &NSArray<HKAudiogramSensitivityPoint>,
+        start_date: &NSDate,
+        end_date: &NSDate,
+        metadata: Option<&NSDictionary<NSString, Object>>,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKAudiogramSensitivityPoint")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKAudiogramSensitivityPoint")]
-    pub struct HKAudiogramSensitivityPoint;
-
-    #[cfg(feature = "HealthKit_HKAudiogramSensitivityPoint")]
-    unsafe impl ClassType for HKAudiogramSensitivityPoint {
-        type Super = NSObject;
-    }
-);
+    pub type HKAudiogramSensitivityPoint;
+}
 
 #[cfg(feature = "HealthKit_HKAudiogramSensitivityPoint")]
 unsafe impl NSObjectProtocol for HKAudiogramSensitivityPoint {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKAudiogramSensitivityPoint")]
-    unsafe impl HKAudiogramSensitivityPoint {
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other frequency)]
-        pub unsafe fn frequency(&self) -> Id<HKQuantity>;
+    pub type HKAudiogramSensitivityPoint;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other leftEarSensitivity)]
-        pub unsafe fn leftEarSensitivity(&self) -> Option<Id<HKQuantity>>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "frequency", managed = "Other")]
+    pub unsafe fn frequency(&self) -> Id<HKQuantity>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other rightEarSensitivity)]
-        pub unsafe fn rightEarSensitivity(&self) -> Option<Id<HKQuantity>>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "leftEarSensitivity", managed = "Other")]
+    pub unsafe fn leftEarSensitivity(&self) -> Option<Id<HKQuantity>>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "HealthKit_HKQuantity"))]
-        #[method_id(@__retain_semantics Other sensitivityPointWithFrequency:leftEarSensitivity:rightEarSensitivity:error:_)]
-        pub unsafe fn sensitivityPointWithFrequency_leftEarSensitivity_rightEarSensitivity_error(
-            frequency: &HKQuantity,
-            left_ear_sensitivity: Option<&HKQuantity>,
-            right_ear_sensitivity: Option<&HKQuantity>,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "rightEarSensitivity", managed = "Other")]
+    pub unsafe fn rightEarSensitivity(&self) -> Option<Id<HKQuantity>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSError", feature = "HealthKit_HKQuantity"))]
+    #[objc2::method(
+        sel = "sensitivityPointWithFrequency:leftEarSensitivity:rightEarSensitivity:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn sensitivityPointWithFrequency_leftEarSensitivity_rightEarSensitivity_error(
+        frequency: &HKQuantity,
+        left_ear_sensitivity: Option<&HKQuantity>,
+        right_ear_sensitivity: Option<&HKQuantity>,
+    ) -> Result<Id<Self>, Id<NSError>>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

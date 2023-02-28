@@ -5,19 +5,21 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-extern_methods!(
-    /// MPAdditions
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AVFoundation_AVPlayerItem")]
-    unsafe impl AVPlayerItem {
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other nowPlayingInfo)]
-        pub unsafe fn nowPlayingInfo(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
+    pub type AVPlayerItem;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(setNowPlayingInfo:)]
-        pub unsafe fn setNowPlayingInfo(
-            &self,
-            now_playing_info: Option<&NSDictionary<NSString, Object>>,
-        );
-    }
-);
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "nowPlayingInfo", managed = "Other")]
+    pub unsafe fn nowPlayingInfo(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
+
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setNowPlayingInfo:")]
+    pub unsafe fn setNowPlayingInfo(
+        &self,
+        now_playing_info: Option<&NSDictionary<NSString, Object>>,
+    );
+}

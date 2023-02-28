@@ -5,20 +5,16 @@ use crate::Contacts::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait CLLocationPushServiceExtension: NSObjectProtocol {
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(didReceiveLocationPushPayload:completion:)]
-        unsafe fn didReceiveLocationPushPayload_completion(
-            &self,
-            payload: &NSDictionary<NSString, Object>,
-            completion: &Block<(), ()>,
-        );
+#[objc2::protocol]
+pub unsafe trait CLLocationPushServiceExtension: NSObjectProtocol {
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "didReceiveLocationPushPayload:completion:")]
+    unsafe fn didReceiveLocationPushPayload_completion(
+        &self,
+        payload: &NSDictionary<NSString, Object>,
+        completion: &Block<(), ()>,
+    );
 
-        #[optional]
-        #[method(serviceExtensionWillTerminate)]
-        unsafe fn serviceExtensionWillTerminate(&self);
-    }
-
-    unsafe impl ProtocolType for dyn CLLocationPushServiceExtension {}
-);
+    #[objc2::method(optional, sel = "serviceExtensionWillTerminate")]
+    unsafe fn serviceExtensionWillTerminate(&self);
+}

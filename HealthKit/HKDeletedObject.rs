@@ -6,16 +6,16 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKDeletedObject")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKDeletedObject")]
-    pub struct HKDeletedObject;
-
-    #[cfg(feature = "HealthKit_HKDeletedObject")]
-    unsafe impl ClassType for HKDeletedObject {
-        type Super = NSObject;
-    }
-);
+    pub type HKDeletedObject;
+}
 
 #[cfg(feature = "HealthKit_HKDeletedObject")]
 unsafe impl NSCoding for HKDeletedObject {}
@@ -26,18 +26,21 @@ unsafe impl NSObjectProtocol for HKDeletedObject {}
 #[cfg(feature = "HealthKit_HKDeletedObject")]
 unsafe impl NSSecureCoding for HKDeletedObject {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKDeletedObject")]
-    unsafe impl HKDeletedObject {
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Other UUID)]
-        pub unsafe fn UUID(&self) -> Id<NSUUID>;
+    pub type HKDeletedObject;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other metadata)]
-        pub unsafe fn metadata(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "UUID", managed = "Other")]
+    pub unsafe fn UUID(&self) -> Id<NSUUID>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "metadata", managed = "Other")]
+    pub unsafe fn metadata(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

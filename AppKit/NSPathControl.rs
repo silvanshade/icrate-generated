@@ -5,17 +5,19 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSControl,
+    unsafe inherits = [
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPathControl")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPathControl")]
-    pub struct NSPathControl;
-
-    #[cfg(feature = "AppKit_NSPathControl")]
-    unsafe impl ClassType for NSPathControl {
-        #[inherits(NSView, NSResponder, NSObject)]
-        type Super = NSControl;
-    }
-);
+    pub type NSPathControl;
+}
 
 #[cfg(feature = "AppKit_NSPathControl")]
 unsafe impl NSAccessibility for NSPathControl {}
@@ -41,200 +43,202 @@ unsafe impl NSObjectProtocol for NSPathControl {}
 #[cfg(feature = "AppKit_NSPathControl")]
 unsafe impl NSUserInterfaceItemIdentification for NSPathControl {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPathControl")]
-    unsafe impl NSPathControl {
-        #[method(isEditable)]
-        pub unsafe fn isEditable(&self) -> bool;
+    pub type NSPathControl;
 
-        #[method(setEditable:)]
-        pub unsafe fn setEditable(&self, editable: bool);
+    #[objc2::method(sel = "isEditable")]
+    pub unsafe fn isEditable(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other allowedTypes)]
-        pub unsafe fn allowedTypes(&self) -> Option<Id<NSArray<NSString>>>;
+    #[objc2::method(sel = "setEditable:")]
+    pub unsafe fn setEditable(&self, editable: bool);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method(setAllowedTypes:)]
-        pub unsafe fn setAllowedTypes(&self, allowed_types: Option<&NSArray<NSString>>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "allowedTypes", managed = "Other")]
+    pub unsafe fn allowedTypes(&self) -> Option<Id<NSArray<NSString>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other placeholderString)]
-        pub unsafe fn placeholderString(&self) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setAllowedTypes:")]
+    pub unsafe fn setAllowedTypes(&self, allowed_types: Option<&NSArray<NSString>>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPlaceholderString:)]
-        pub unsafe fn setPlaceholderString(&self, placeholder_string: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "placeholderString", managed = "Other")]
+    pub unsafe fn placeholderString(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other placeholderAttributedString)]
-        pub unsafe fn placeholderAttributedString(&self) -> Option<Id<NSAttributedString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPlaceholderString:")]
+    pub unsafe fn setPlaceholderString(&self, placeholder_string: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(setPlaceholderAttributedString:)]
-        pub unsafe fn setPlaceholderAttributedString(
-            &self,
-            placeholder_attributed_string: Option<&NSAttributedString>,
-        );
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "placeholderAttributedString", managed = "Other")]
+    pub unsafe fn placeholderAttributedString(&self) -> Option<Id<NSAttributedString>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "setPlaceholderAttributedString:")]
+    pub unsafe fn setPlaceholderAttributedString(
+        &self,
+        placeholder_attributed_string: Option<&NSAttributedString>,
+    );
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setURL:)]
-        pub unsafe fn setURL(&self, url: Option<&NSURL>);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
 
-        #[method(doubleAction)]
-        pub unsafe fn doubleAction(&self) -> Option<Sel>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setURL:")]
+    pub unsafe fn setURL(&self, url: Option<&NSURL>);
 
-        #[method(setDoubleAction:)]
-        pub unsafe fn setDoubleAction(&self, double_action: Option<Sel>);
+    #[objc2::method(sel = "doubleAction")]
+    pub unsafe fn doubleAction(&self) -> Option<Sel>;
 
-        #[method(pathStyle)]
-        pub unsafe fn pathStyle(&self) -> NSPathStyle;
+    #[objc2::method(sel = "setDoubleAction:")]
+    pub unsafe fn setDoubleAction(&self, double_action: Option<Sel>);
 
-        #[method(setPathStyle:)]
-        pub unsafe fn setPathStyle(&self, path_style: NSPathStyle);
+    #[objc2::method(sel = "pathStyle")]
+    pub unsafe fn pathStyle(&self) -> NSPathStyle;
 
-        #[cfg(feature = "AppKit_NSPathControlItem")]
-        #[method_id(@__retain_semantics Other clickedPathItem)]
-        pub unsafe fn clickedPathItem(&self) -> Option<Id<NSPathControlItem>>;
+    #[objc2::method(sel = "setPathStyle:")]
+    pub unsafe fn setPathStyle(&self, path_style: NSPathStyle);
 
-        #[cfg(all(feature = "AppKit_NSPathControlItem", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other pathItems)]
-        pub unsafe fn pathItems(&self) -> Id<NSArray<NSPathControlItem>>;
+    #[cfg(feature = "AppKit_NSPathControlItem")]
+    #[objc2::method(sel = "clickedPathItem", managed = "Other")]
+    pub unsafe fn clickedPathItem(&self) -> Option<Id<NSPathControlItem>>;
 
-        #[cfg(all(feature = "AppKit_NSPathControlItem", feature = "Foundation_NSArray"))]
-        #[method(setPathItems:)]
-        pub unsafe fn setPathItems(&self, path_items: &NSArray<NSPathControlItem>);
+    #[cfg(all(feature = "AppKit_NSPathControlItem", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "pathItems", managed = "Other")]
+    pub unsafe fn pathItems(&self) -> Id<NSArray<NSPathControlItem>>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other backgroundColor)]
-        pub unsafe fn backgroundColor(&self) -> Option<Id<NSColor>>;
+    #[cfg(all(feature = "AppKit_NSPathControlItem", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setPathItems:")]
+    pub unsafe fn setPathItems(&self, path_items: &NSArray<NSPathControlItem>);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setBackgroundColor:)]
-        pub unsafe fn setBackgroundColor(&self, background_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "backgroundColor", managed = "Other")]
+    pub unsafe fn backgroundColor(&self) -> Option<Id<NSColor>>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSPathControlDelegate>>>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setBackgroundColor:")]
+    pub unsafe fn setBackgroundColor(&self, background_color: Option<&NSColor>);
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSPathControlDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSPathControlDelegate>>>;
 
-        #[method(setDraggingSourceOperationMask:forLocal:)]
-        pub unsafe fn setDraggingSourceOperationMask_forLocal(
-            &self,
-            mask: NSDragOperation,
-            is_local: bool,
-        );
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSPathControlDelegate>>);
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method_id(@__retain_semantics Other menu)]
-        pub unsafe fn menu(&self) -> Option<Id<NSMenu>>;
+    #[objc2::method(sel = "setDraggingSourceOperationMask:forLocal:")]
+    pub unsafe fn setDraggingSourceOperationMask_forLocal(
+        &self,
+        mask: NSDragOperation,
+        is_local: bool,
+    );
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method(setMenu:)]
-        pub unsafe fn setMenu(&self, menu: Option<&NSMenu>);
-    }
-);
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "menu", managed = "Other")]
+    pub unsafe fn menu(&self) -> Option<Id<NSMenu>>;
 
-extern_protocol!(
-    pub unsafe trait NSPathControlDelegate: NSObjectProtocol {
-        #[cfg(all(
-            feature = "AppKit_NSPasteboard",
-            feature = "AppKit_NSPathControl",
-            feature = "AppKit_NSPathControlItem"
-        ))]
-        #[optional]
-        #[method(pathControl:shouldDragItem:withPasteboard:)]
-        unsafe fn pathControl_shouldDragItem_withPasteboard(
-            &self,
-            path_control: &NSPathControl,
-            path_item: &NSPathControlItem,
-            pasteboard: &NSPasteboard,
-        ) -> bool;
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "setMenu:")]
+    pub unsafe fn setMenu(&self, menu: Option<&NSMenu>);
+}
 
-        #[cfg(all(
-            feature = "AppKit_NSPasteboard",
-            feature = "AppKit_NSPathComponentCell",
-            feature = "AppKit_NSPathControl"
-        ))]
-        #[optional]
-        #[method(pathControl:shouldDragPathComponentCell:withPasteboard:)]
-        unsafe fn pathControl_shouldDragPathComponentCell_withPasteboard(
-            &self,
-            path_control: &NSPathControl,
-            path_component_cell: &NSPathComponentCell,
-            pasteboard: &NSPasteboard,
-        ) -> bool;
+#[objc2::protocol]
+pub unsafe trait NSPathControlDelegate: NSObjectProtocol {
+    #[cfg(all(
+        feature = "AppKit_NSPasteboard",
+        feature = "AppKit_NSPathControl",
+        feature = "AppKit_NSPathControlItem"
+    ))]
+    #[objc2::method(optional, sel = "pathControl:shouldDragItem:withPasteboard:")]
+    unsafe fn pathControl_shouldDragItem_withPasteboard(
+        &self,
+        path_control: &NSPathControl,
+        path_item: &NSPathControlItem,
+        pasteboard: &NSPasteboard,
+    ) -> bool;
 
-        #[cfg(feature = "AppKit_NSPathControl")]
-        #[optional]
-        #[method(pathControl:validateDrop:)]
-        unsafe fn pathControl_validateDrop(
-            &self,
-            path_control: &NSPathControl,
-            info: &ProtocolObject<dyn NSDraggingInfo>,
-        ) -> NSDragOperation;
+    #[cfg(all(
+        feature = "AppKit_NSPasteboard",
+        feature = "AppKit_NSPathComponentCell",
+        feature = "AppKit_NSPathControl"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "pathControl:shouldDragPathComponentCell:withPasteboard:"
+    )]
+    unsafe fn pathControl_shouldDragPathComponentCell_withPasteboard(
+        &self,
+        path_control: &NSPathControl,
+        path_component_cell: &NSPathComponentCell,
+        pasteboard: &NSPasteboard,
+    ) -> bool;
 
-        #[cfg(feature = "AppKit_NSPathControl")]
-        #[optional]
-        #[method(pathControl:acceptDrop:)]
-        unsafe fn pathControl_acceptDrop(
-            &self,
-            path_control: &NSPathControl,
-            info: &ProtocolObject<dyn NSDraggingInfo>,
-        ) -> bool;
-
-        #[cfg(all(feature = "AppKit_NSOpenPanel", feature = "AppKit_NSPathControl"))]
-        #[optional]
-        #[method(pathControl:willDisplayOpenPanel:)]
-        unsafe fn pathControl_willDisplayOpenPanel(
-            &self,
-            path_control: &NSPathControl,
-            open_panel: &NSOpenPanel,
-        );
-
-        #[cfg(all(feature = "AppKit_NSMenu", feature = "AppKit_NSPathControl"))]
-        #[optional]
-        #[method(pathControl:willPopUpMenu:)]
-        unsafe fn pathControl_willPopUpMenu(&self, path_control: &NSPathControl, menu: &NSMenu);
-    }
-
-    unsafe impl ProtocolType for dyn NSPathControlDelegate {}
-);
-
-extern_methods!(
-    /// NSDeprecated
     #[cfg(feature = "AppKit_NSPathControl")]
-    unsafe impl NSPathControl {
-        #[cfg(feature = "AppKit_NSPathComponentCell")]
-        #[deprecated = "Use the clickedPathItem property instead"]
-        #[method_id(@__retain_semantics Other clickedPathComponentCell)]
-        pub unsafe fn clickedPathComponentCell(&self) -> Option<Id<NSPathComponentCell>>;
+    #[objc2::method(optional, sel = "pathControl:validateDrop:")]
+    unsafe fn pathControl_validateDrop(
+        &self,
+        path_control: &NSPathControl,
+        info: &ProtocolObject<dyn NSDraggingInfo>,
+    ) -> NSDragOperation;
 
-        #[cfg(all(feature = "AppKit_NSPathComponentCell", feature = "Foundation_NSArray"))]
-        #[deprecated = "Use the pathItems property instead"]
-        #[method_id(@__retain_semantics Other pathComponentCells)]
-        pub unsafe fn pathComponentCells(&self) -> Id<NSArray<NSPathComponentCell>>;
-
-        #[cfg(all(feature = "AppKit_NSPathComponentCell", feature = "Foundation_NSArray"))]
-        #[deprecated = "Use the pathItems property instead"]
-        #[method(setPathComponentCells:)]
-        pub unsafe fn setPathComponentCells(&self, cells: &NSArray<NSPathComponentCell>);
-    }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSControl`
     #[cfg(feature = "AppKit_NSPathControl")]
-    unsafe impl NSPathControl {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+    #[objc2::method(optional, sel = "pathControl:acceptDrop:")]
+    unsafe fn pathControl_acceptDrop(
+        &self,
+        path_control: &NSPathControl,
+        info: &ProtocolObject<dyn NSDraggingInfo>,
+    ) -> bool;
+
+    #[cfg(all(feature = "AppKit_NSOpenPanel", feature = "AppKit_NSPathControl"))]
+    #[objc2::method(optional, sel = "pathControl:willDisplayOpenPanel:")]
+    unsafe fn pathControl_willDisplayOpenPanel(
+        &self,
+        path_control: &NSPathControl,
+        open_panel: &NSOpenPanel,
+    );
+
+    #[cfg(all(feature = "AppKit_NSMenu", feature = "AppKit_NSPathControl"))]
+    #[objc2::method(optional, sel = "pathControl:willPopUpMenu:")]
+    unsafe fn pathControl_willPopUpMenu(&self, path_control: &NSPathControl, menu: &NSMenu);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPathControl")]
+    pub type NSPathControl;
+
+    #[cfg(feature = "AppKit_NSPathComponentCell")]
+    #[deprecated = "Use the clickedPathItem property instead"]
+    #[objc2::method(sel = "clickedPathComponentCell", managed = "Other")]
+    pub unsafe fn clickedPathComponentCell(&self) -> Option<Id<NSPathComponentCell>>;
+
+    #[cfg(all(feature = "AppKit_NSPathComponentCell", feature = "Foundation_NSArray"))]
+    #[deprecated = "Use the pathItems property instead"]
+    #[objc2::method(sel = "pathComponentCells", managed = "Other")]
+    pub unsafe fn pathComponentCells(&self) -> Id<NSArray<NSPathComponentCell>>;
+
+    #[cfg(all(feature = "AppKit_NSPathComponentCell", feature = "Foundation_NSArray"))]
+    #[deprecated = "Use the pathItems property instead"]
+    #[objc2::method(sel = "setPathComponentCells:")]
+    pub unsafe fn setPathComponentCells(&self, cells: &NSArray<NSPathComponentCell>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSControl`
+    #[cfg(feature = "AppKit_NSPathControl")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPathControl")]
+    pub type NSPathControl;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

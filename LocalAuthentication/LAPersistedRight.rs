@@ -4,49 +4,58 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::LocalAuthentication::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = LARight,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "LocalAuthentication_LAPersistedRight")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "LocalAuthentication_LAPersistedRight")]
-    pub struct LAPersistedRight;
-
-    #[cfg(feature = "LocalAuthentication_LAPersistedRight")]
-    unsafe impl ClassType for LAPersistedRight {
-        #[inherits(NSObject)]
-        type Super = LARight;
-    }
-);
+    pub type LAPersistedRight;
+}
 
 #[cfg(feature = "LocalAuthentication_LAPersistedRight")]
 unsafe impl NSObjectProtocol for LAPersistedRight {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "LocalAuthentication_LAPersistedRight")]
-    unsafe impl LAPersistedRight {
-        #[cfg(feature = "LocalAuthentication_LAPrivateKey")]
-        #[method_id(@__retain_semantics Other key)]
-        pub unsafe fn key(&self) -> Id<LAPrivateKey>;
+    pub type LAPersistedRight;
 
-        #[cfg(feature = "LocalAuthentication_LASecret")]
-        #[method_id(@__retain_semantics Other secret)]
-        pub unsafe fn secret(&self) -> Id<LASecret>;
+    #[cfg(feature = "LocalAuthentication_LAPrivateKey")]
+    #[objc2::method(sel = "key", managed = "Other")]
+    pub unsafe fn key(&self) -> Id<LAPrivateKey>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(feature = "LocalAuthentication_LASecret")]
+    #[objc2::method(sel = "secret", managed = "Other")]
+    pub unsafe fn secret(&self) -> Id<LASecret>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-extern_methods!(
-    /// Methods declared on superclass `LARight`
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `LARight`
     #[cfg(feature = "LocalAuthentication_LAPersistedRight")]
-    unsafe impl LAPersistedRight {
-        #[cfg(feature = "LocalAuthentication_LAAuthenticationRequirement")]
-        #[method_id(@__retain_semantics Init initWithRequirement:)]
-        pub unsafe fn initWithRequirement(
-            this: Option<Allocated<Self>>,
-            requirement: &LAAuthenticationRequirement,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "LocalAuthentication_LAPersistedRight")]
+    pub type LAPersistedRight;
+
+    #[cfg(feature = "LocalAuthentication_LAAuthenticationRequirement")]
+    #[objc2::method(sel = "initWithRequirement:", managed = "Init")]
+    pub unsafe fn initWithRequirement(
+        this: Option<Allocated<Self>>,
+        requirement: &LAAuthenticationRequirement,
+    ) -> Id<Self>;
+}

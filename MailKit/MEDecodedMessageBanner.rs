@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MailKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MailKit_MEDecodedMessageBanner")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MailKit_MEDecodedMessageBanner")]
-    pub struct MEDecodedMessageBanner;
-
-    #[cfg(feature = "MailKit_MEDecodedMessageBanner")]
-    unsafe impl ClassType for MEDecodedMessageBanner {
-        type Super = NSObject;
-    }
-);
+    pub type MEDecodedMessageBanner;
+}
 
 #[cfg(feature = "MailKit_MEDecodedMessageBanner")]
 unsafe impl NSCoding for MEDecodedMessageBanner {}
@@ -25,33 +25,39 @@ unsafe impl NSObjectProtocol for MEDecodedMessageBanner {}
 #[cfg(feature = "MailKit_MEDecodedMessageBanner")]
 unsafe impl NSSecureCoding for MEDecodedMessageBanner {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MailKit_MEDecodedMessageBanner")]
-    unsafe impl MEDecodedMessageBanner {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    pub type MEDecodedMessageBanner;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other primaryActionTitle)]
-        pub unsafe fn primaryActionTitle(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[method(isDismissable)]
-        pub unsafe fn isDismissable(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "primaryActionTitle", managed = "Other")]
+    pub unsafe fn primaryActionTitle(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "isDismissable")]
+    pub unsafe fn isDismissable(&self) -> bool;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithTitle:primaryActionTitle:dismissable:)]
-        pub unsafe fn initWithTitle_primaryActionTitle_dismissable(
-            this: Option<Allocated<Self>>,
-            title: &NSString,
-            primary_action_title: &NSString,
-            dismissable: bool,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "initWithTitle:primaryActionTitle:dismissable:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithTitle_primaryActionTitle_dismissable(
+        this: Option<Allocated<Self>>,
+        title: &NSString,
+        primary_action_title: &NSString,
+        dismissable: bool,
+    ) -> Id<Self>;
+}

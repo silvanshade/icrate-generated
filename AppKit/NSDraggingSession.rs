@@ -5,68 +5,73 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSDraggingSession")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSDraggingSession")]
-    pub struct NSDraggingSession;
-
-    #[cfg(feature = "AppKit_NSDraggingSession")]
-    unsafe impl ClassType for NSDraggingSession {
-        type Super = NSObject;
-    }
-);
+    pub type NSDraggingSession;
+}
 
 #[cfg(feature = "AppKit_NSDraggingSession")]
 unsafe impl NSObjectProtocol for NSDraggingSession {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSDraggingSession")]
-    unsafe impl NSDraggingSession {
-        #[method(draggingFormation)]
-        pub unsafe fn draggingFormation(&self) -> NSDraggingFormation;
+    pub type NSDraggingSession;
 
-        #[method(setDraggingFormation:)]
-        pub unsafe fn setDraggingFormation(&self, dragging_formation: NSDraggingFormation);
+    #[objc2::method(sel = "draggingFormation")]
+    pub unsafe fn draggingFormation(&self) -> NSDraggingFormation;
 
-        #[method(animatesToStartingPositionsOnCancelOrFail)]
-        pub unsafe fn animatesToStartingPositionsOnCancelOrFail(&self) -> bool;
+    #[objc2::method(sel = "setDraggingFormation:")]
+    pub unsafe fn setDraggingFormation(&self, dragging_formation: NSDraggingFormation);
 
-        #[method(setAnimatesToStartingPositionsOnCancelOrFail:)]
-        pub unsafe fn setAnimatesToStartingPositionsOnCancelOrFail(
-            &self,
-            animates_to_starting_positions_on_cancel_or_fail: bool,
-        );
+    #[objc2::method(sel = "animatesToStartingPositionsOnCancelOrFail")]
+    pub unsafe fn animatesToStartingPositionsOnCancelOrFail(&self) -> bool;
 
-        #[method(draggingLeaderIndex)]
-        pub unsafe fn draggingLeaderIndex(&self) -> NSInteger;
+    #[objc2::method(sel = "setAnimatesToStartingPositionsOnCancelOrFail:")]
+    pub unsafe fn setAnimatesToStartingPositionsOnCancelOrFail(
+        &self,
+        animates_to_starting_positions_on_cancel_or_fail: bool,
+    );
 
-        #[method(setDraggingLeaderIndex:)]
-        pub unsafe fn setDraggingLeaderIndex(&self, dragging_leader_index: NSInteger);
+    #[objc2::method(sel = "draggingLeaderIndex")]
+    pub unsafe fn draggingLeaderIndex(&self) -> NSInteger;
 
-        #[cfg(feature = "AppKit_NSPasteboard")]
-        #[method_id(@__retain_semantics Other draggingPasteboard)]
-        pub unsafe fn draggingPasteboard(&self) -> Id<NSPasteboard>;
+    #[objc2::method(sel = "setDraggingLeaderIndex:")]
+    pub unsafe fn setDraggingLeaderIndex(&self, dragging_leader_index: NSInteger);
 
-        #[method(draggingSequenceNumber)]
-        pub unsafe fn draggingSequenceNumber(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSPasteboard")]
+    #[objc2::method(sel = "draggingPasteboard", managed = "Other")]
+    pub unsafe fn draggingPasteboard(&self) -> Id<NSPasteboard>;
 
-        #[method(draggingLocation)]
-        pub unsafe fn draggingLocation(&self) -> NSPoint;
+    #[objc2::method(sel = "draggingSequenceNumber")]
+    pub unsafe fn draggingSequenceNumber(&self) -> NSInteger;
 
-        #[cfg(all(
-            feature = "AppKit_NSDraggingItem",
-            feature = "AppKit_NSView",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[method(enumerateDraggingItemsWithOptions:forView:classes:searchOptions:usingBlock:)]
-        pub unsafe fn enumerateDraggingItemsWithOptions_forView_classes_searchOptions_usingBlock(
-            &self,
-            enum_opts: NSDraggingItemEnumerationOptions,
-            view: Option<&NSView>,
-            class_array: &NSArray<TodoClass>,
-            search_options: &NSDictionary<NSPasteboardReadingOptionKey, Object>,
-            block: &Block<(NonNull<NSDraggingItem>, NSInteger, NonNull<Bool>), ()>,
-        );
-    }
-);
+    #[objc2::method(sel = "draggingLocation")]
+    pub unsafe fn draggingLocation(&self) -> NSPoint;
+
+    #[cfg(all(
+        feature = "AppKit_NSDraggingItem",
+        feature = "AppKit_NSView",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[objc2::method(
+        sel = "enumerateDraggingItemsWithOptions:forView:classes:searchOptions:usingBlock:"
+    )]
+    pub unsafe fn enumerateDraggingItemsWithOptions_forView_classes_searchOptions_usingBlock(
+        &self,
+        enum_opts: NSDraggingItemEnumerationOptions,
+        view: Option<&NSView>,
+        class_array: &NSArray<TodoClass>,
+        search_options: &NSDictionary<NSPasteboardReadingOptionKey, Object>,
+        block: &Block<(NonNull<NSDraggingItem>, NSInteger, NonNull<Bool>), ()>,
+    );
+}

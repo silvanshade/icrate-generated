@@ -6,16 +6,16 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHPersistentChangeToken")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHPersistentChangeToken")]
-    pub struct PHPersistentChangeToken;
-
-    #[cfg(feature = "PhotoKit_PHPersistentChangeToken")]
-    unsafe impl ClassType for PHPersistentChangeToken {
-        type Super = NSObject;
-    }
-);
+    pub type PHPersistentChangeToken;
+}
 
 #[cfg(feature = "PhotoKit_PHPersistentChangeToken")]
 unsafe impl NSCoding for PHPersistentChangeToken {}
@@ -26,13 +26,16 @@ unsafe impl NSObjectProtocol for PHPersistentChangeToken {}
 #[cfg(feature = "PhotoKit_PHPersistentChangeToken")]
 unsafe impl NSSecureCoding for PHPersistentChangeToken {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHPersistentChangeToken")]
-    unsafe impl PHPersistentChangeToken {
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    pub type PHPersistentChangeToken;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

@@ -5,17 +5,18 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::StoreKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSViewController,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKStoreProductViewController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKStoreProductViewController")]
-    pub struct SKStoreProductViewController;
-
-    #[cfg(feature = "StoreKit_SKStoreProductViewController")]
-    unsafe impl ClassType for SKStoreProductViewController {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSViewController;
-    }
-);
+    pub type SKStoreProductViewController;
+}
 
 #[cfg(feature = "StoreKit_SKStoreProductViewController")]
 unsafe impl NSCoding for SKStoreProductViewController {}
@@ -32,61 +33,57 @@ unsafe impl NSSeguePerforming for SKStoreProductViewController {}
 #[cfg(feature = "StoreKit_SKStoreProductViewController")]
 unsafe impl NSUserInterfaceItemIdentification for SKStoreProductViewController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKStoreProductViewController")]
-    unsafe impl SKStoreProductViewController {
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn SKStoreProductViewControllerDelegate>>>;
+    pub type SKStoreProductViewController;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn SKStoreProductViewControllerDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn SKStoreProductViewControllerDelegate>>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(loadProductWithParameters:completionBlock:)]
-        pub unsafe fn loadProductWithParameters_completionBlock(
-            &self,
-            parameters: &NSDictionary<NSString, Object>,
-            block: Option<&Block<(Bool, *mut NSError), ()>>,
-        );
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn SKStoreProductViewControllerDelegate>>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "StoreKit_SKAdImpression"
-        ))]
-        #[method(loadProductWithParameters:impression:completionBlock:)]
-        pub unsafe fn loadProductWithParameters_impression_completionBlock(
-            &self,
-            parameters: &NSDictionary<NSString, Object>,
-            impression: &SKAdImpression,
-            block: Option<&Block<(Bool, *mut NSError), ()>>,
-        );
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "loadProductWithParameters:completionBlock:")]
+    pub unsafe fn loadProductWithParameters_completionBlock(
+        &self,
+        parameters: &NSDictionary<NSString, Object>,
+        block: Option<&Block<(Bool, *mut NSError), ()>>,
+    );
 
-extern_protocol!(
-    pub unsafe trait SKStoreProductViewControllerDelegate: NSObjectProtocol {
-        #[cfg(feature = "StoreKit_SKStoreProductViewController")]
-        #[optional]
-        #[method(productViewControllerDidFinish:)]
-        unsafe fn productViewControllerDidFinish(
-            &self,
-            view_controller: &SKStoreProductViewController,
-        );
-    }
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "StoreKit_SKAdImpression"
+    ))]
+    #[objc2::method(sel = "loadProductWithParameters:impression:completionBlock:")]
+    pub unsafe fn loadProductWithParameters_impression_completionBlock(
+        &self,
+        parameters: &NSDictionary<NSString, Object>,
+        impression: &SKAdImpression,
+        block: Option<&Block<(Bool, *mut NSError), ()>>,
+    );
+}
 
-    unsafe impl ProtocolType for dyn SKStoreProductViewControllerDelegate {}
-);
+#[objc2::protocol]
+pub unsafe trait SKStoreProductViewControllerDelegate: NSObjectProtocol {
+    #[cfg(feature = "StoreKit_SKStoreProductViewController")]
+    #[objc2::method(optional, sel = "productViewControllerDidFinish:")]
+    unsafe fn productViewControllerDidFinish(&self, view_controller: &SKStoreProductViewController);
+}
 
 extern_static!(SKStoreProductParameterITunesItemIdentifier: &'static NSString);
 
@@ -102,16 +99,22 @@ extern_static!(SKStoreProductParameterProviderToken: &'static NSString);
 
 extern_static!(SKStoreProductParameterAdvertisingPartnerToken: &'static NSString);
 
-extern_methods!(
-    /// Methods declared on superclass `NSViewController`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSViewController`
     #[cfg(feature = "StoreKit_SKStoreProductViewController")]
-    unsafe impl SKStoreProductViewController {
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Init initWithNibName:bundle:)]
-        pub unsafe fn initWithNibName_bundle(
-            this: Option<Allocated<Self>>,
-            nib_name_or_nil: Option<&NSNibName>,
-            nib_bundle_or_nil: Option<&NSBundle>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKStoreProductViewController")]
+    pub type SKStoreProductViewController;
+
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "initWithNibName:bundle:", managed = "Init")]
+    pub unsafe fn initWithNibName_bundle(
+        this: Option<Allocated<Self>>,
+        nib_name_or_nil: Option<&NSNibName>,
+        nib_bundle_or_nil: Option<&NSBundle>,
+    ) -> Id<Self>;
+}

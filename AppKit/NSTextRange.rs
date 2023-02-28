@@ -5,88 +5,80 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSTextLocation: NSObjectProtocol {
-        #[method(compare:)]
-        unsafe fn compare(
-            &self,
-            location: &ProtocolObject<dyn NSTextLocation>,
-        ) -> NSComparisonResult;
-    }
+#[objc2::protocol]
+pub unsafe trait NSTextLocation: NSObjectProtocol {
+    #[objc2::method(sel = "compare:")]
+    unsafe fn compare(&self, location: &ProtocolObject<dyn NSTextLocation>) -> NSComparisonResult;
+}
 
-    unsafe impl ProtocolType for dyn NSTextLocation {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextRange")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextRange")]
-    pub struct NSTextRange;
-
-    #[cfg(feature = "AppKit_NSTextRange")]
-    unsafe impl ClassType for NSTextRange {
-        type Super = NSObject;
-    }
-);
+    pub type NSTextRange;
+}
 
 #[cfg(feature = "AppKit_NSTextRange")]
 unsafe impl NSObjectProtocol for NSTextRange {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextRange")]
-    unsafe impl NSTextRange {
-        #[method_id(@__retain_semantics Init initWithLocation:endLocation:)]
-        pub unsafe fn initWithLocation_endLocation(
-            this: Option<Allocated<Self>>,
-            location: &ProtocolObject<dyn NSTextLocation>,
-            end_location: Option<&ProtocolObject<dyn NSTextLocation>>,
-        ) -> Option<Id<Self>>;
+    pub type NSTextRange;
 
-        #[method_id(@__retain_semantics Init initWithLocation:)]
-        pub unsafe fn initWithLocation(
-            this: Option<Allocated<Self>>,
-            location: &ProtocolObject<dyn NSTextLocation>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithLocation:endLocation:", managed = "Init")]
+    pub unsafe fn initWithLocation_endLocation(
+        this: Option<Allocated<Self>>,
+        location: &ProtocolObject<dyn NSTextLocation>,
+        end_location: Option<&ProtocolObject<dyn NSTextLocation>>,
+    ) -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "initWithLocation:", managed = "Init")]
+    pub unsafe fn initWithLocation(
+        this: Option<Allocated<Self>>,
+        location: &ProtocolObject<dyn NSTextLocation>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(isEmpty)]
-        pub unsafe fn isEmpty(&self) -> bool;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other location)]
-        pub unsafe fn location(&self) -> Id<ProtocolObject<dyn NSTextLocation>>;
+    #[objc2::method(sel = "isEmpty")]
+    pub unsafe fn isEmpty(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other endLocation)]
-        pub unsafe fn endLocation(&self) -> Id<ProtocolObject<dyn NSTextLocation>>;
+    #[objc2::method(sel = "location", managed = "Other")]
+    pub unsafe fn location(&self) -> Id<ProtocolObject<dyn NSTextLocation>>;
 
-        #[method(isEqualToTextRange:)]
-        pub unsafe fn isEqualToTextRange(&self, text_range: &NSTextRange) -> bool;
+    #[objc2::method(sel = "endLocation", managed = "Other")]
+    pub unsafe fn endLocation(&self) -> Id<ProtocolObject<dyn NSTextLocation>>;
 
-        #[method(containsLocation:)]
-        pub unsafe fn containsLocation(
-            &self,
-            location: &ProtocolObject<dyn NSTextLocation>,
-        ) -> bool;
+    #[objc2::method(sel = "isEqualToTextRange:")]
+    pub unsafe fn isEqualToTextRange(&self, text_range: &NSTextRange) -> bool;
 
-        #[method(containsRange:)]
-        pub unsafe fn containsRange(&self, text_range: &NSTextRange) -> bool;
+    #[objc2::method(sel = "containsLocation:")]
+    pub unsafe fn containsLocation(&self, location: &ProtocolObject<dyn NSTextLocation>) -> bool;
 
-        #[method(intersectsWithTextRange:)]
-        pub unsafe fn intersectsWithTextRange(&self, text_range: &NSTextRange) -> bool;
+    #[objc2::method(sel = "containsRange:")]
+    pub unsafe fn containsRange(&self, text_range: &NSTextRange) -> bool;
 
-        #[method_id(@__retain_semantics Other textRangeByIntersectingWithTextRange:)]
-        pub unsafe fn textRangeByIntersectingWithTextRange(
-            &self,
-            text_range: &NSTextRange,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "intersectsWithTextRange:")]
+    pub unsafe fn intersectsWithTextRange(&self, text_range: &NSTextRange) -> bool;
 
-        #[method_id(@__retain_semantics Other textRangeByFormingUnionWithTextRange:)]
-        pub unsafe fn textRangeByFormingUnionWithTextRange(
-            &self,
-            text_range: &NSTextRange,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "textRangeByIntersectingWithTextRange:", managed = "Other")]
+    pub unsafe fn textRangeByIntersectingWithTextRange(
+        &self,
+        text_range: &NSTextRange,
+    ) -> Option<Id<Self>>;
+
+    #[objc2::method(sel = "textRangeByFormingUnionWithTextRange:", managed = "Other")]
+    pub unsafe fn textRangeByFormingUnionWithTextRange(&self, text_range: &NSTextRange)
+        -> Id<Self>;
+}

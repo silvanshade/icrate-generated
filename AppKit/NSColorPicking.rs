@@ -5,72 +5,66 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSColorPickingDefault {
-        #[cfg(feature = "AppKit_NSColorPanel")]
-        #[method_id(@__retain_semantics Init initWithPickerMask:colorPanel:)]
-        unsafe fn initWithPickerMask_colorPanel(
-            this: Option<Allocated<Self>>,
-            mask: NSUInteger,
-            owning_color_panel: &NSColorPanel,
-        ) -> Option<Id<Self>>;
+#[objc2::protocol]
+pub unsafe trait NSColorPickingDefault {
+    #[cfg(feature = "AppKit_NSColorPanel")]
+    #[objc2::method(sel = "initWithPickerMask:colorPanel:", managed = "Init")]
+    unsafe fn initWithPickerMask_colorPanel(
+        this: Option<Allocated<Self>>,
+        mask: NSUInteger,
+        owning_color_panel: &NSColorPanel,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other provideNewButtonImage)]
-        unsafe fn provideNewButtonImage(&self) -> Id<NSImage>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "provideNewButtonImage", managed = "Other")]
+    unsafe fn provideNewButtonImage(&self) -> Id<NSImage>;
 
-        #[cfg(all(feature = "AppKit_NSButtonCell", feature = "AppKit_NSImage"))]
-        #[method(insertNewButtonImage:in:)]
-        unsafe fn insertNewButtonImage_in(
-            &self,
-            new_button_image: &NSImage,
-            button_cell: &NSButtonCell,
-        );
+    #[cfg(all(feature = "AppKit_NSButtonCell", feature = "AppKit_NSImage"))]
+    #[objc2::method(sel = "insertNewButtonImage:in:")]
+    unsafe fn insertNewButtonImage_in(
+        &self,
+        new_button_image: &NSImage,
+        button_cell: &NSButtonCell,
+    );
 
-        #[method(viewSizeChanged:)]
-        unsafe fn viewSizeChanged(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "viewSizeChanged:")]
+    unsafe fn viewSizeChanged(&self, sender: Option<&Object>);
 
-        #[method(alphaControlAddedOrRemoved:)]
-        unsafe fn alphaControlAddedOrRemoved(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "alphaControlAddedOrRemoved:")]
+    unsafe fn alphaControlAddedOrRemoved(&self, sender: Option<&Object>);
 
-        #[cfg(feature = "AppKit_NSColorList")]
-        #[method(attachColorList:)]
-        unsafe fn attachColorList(&self, color_list: &NSColorList);
+    #[cfg(feature = "AppKit_NSColorList")]
+    #[objc2::method(sel = "attachColorList:")]
+    unsafe fn attachColorList(&self, color_list: &NSColorList);
 
-        #[cfg(feature = "AppKit_NSColorList")]
-        #[method(detachColorList:)]
-        unsafe fn detachColorList(&self, color_list: &NSColorList);
+    #[cfg(feature = "AppKit_NSColorList")]
+    #[objc2::method(sel = "detachColorList:")]
+    unsafe fn detachColorList(&self, color_list: &NSColorList);
 
-        #[method(setMode:)]
-        unsafe fn setMode(&self, mode: NSColorPanelMode);
+    #[objc2::method(sel = "setMode:")]
+    unsafe fn setMode(&self, mode: NSColorPanelMode);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other buttonToolTip)]
-        unsafe fn buttonToolTip(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "buttonToolTip", managed = "Other")]
+    unsafe fn buttonToolTip(&self) -> Id<NSString>;
 
-        #[method(minContentSize)]
-        unsafe fn minContentSize(&self) -> NSSize;
-    }
+    #[objc2::method(sel = "minContentSize")]
+    unsafe fn minContentSize(&self) -> NSSize;
+}
 
-    unsafe impl ProtocolType for dyn NSColorPickingDefault {}
-);
+#[objc2::protocol]
+pub unsafe trait NSColorPickingCustom: NSColorPickingDefault {
+    #[objc2::method(sel = "supportsMode:")]
+    unsafe fn supportsMode(&self, mode: NSColorPanelMode) -> bool;
 
-extern_protocol!(
-    pub unsafe trait NSColorPickingCustom: NSColorPickingDefault {
-        #[method(supportsMode:)]
-        unsafe fn supportsMode(&self, mode: NSColorPanelMode) -> bool;
+    #[objc2::method(sel = "currentMode")]
+    unsafe fn currentMode(&self) -> NSColorPanelMode;
 
-        #[method(currentMode)]
-        unsafe fn currentMode(&self) -> NSColorPanelMode;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "provideNewView:", managed = "Other")]
+    unsafe fn provideNewView(&self, initial_request: bool) -> Id<NSView>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other provideNewView:)]
-        unsafe fn provideNewView(&self, initial_request: bool) -> Id<NSView>;
-
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setColor:)]
-        unsafe fn setColor(&self, new_color: &NSColor);
-    }
-
-    unsafe impl ProtocolType for dyn NSColorPickingCustom {}
-);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setColor:")]
+    unsafe fn setColor(&self, new_color: &NSColor);
+}

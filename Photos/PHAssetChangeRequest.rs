@@ -6,167 +6,171 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = PHChangeRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHAssetChangeRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHAssetChangeRequest")]
-    pub struct PHAssetChangeRequest;
-
-    #[cfg(feature = "PhotoKit_PHAssetChangeRequest")]
-    unsafe impl ClassType for PHAssetChangeRequest {
-        #[inherits(NSObject)]
-        type Super = PHChangeRequest;
-    }
-);
+    pub type PHAssetChangeRequest;
+}
 
 #[cfg(feature = "PhotoKit_PHAssetChangeRequest")]
 unsafe impl NSObjectProtocol for PHAssetChangeRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHAssetChangeRequest")]
-    unsafe impl PHAssetChangeRequest {
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other creationRequestForAssetFromImage:)]
-        pub unsafe fn creationRequestForAssetFromImage(image: &NSImage) -> Id<Self>;
+    pub type PHAssetChangeRequest;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other creationRequestForAssetFromImageAtFileURL:)]
-        pub unsafe fn creationRequestForAssetFromImageAtFileURL(
-            file_url: &NSURL,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "creationRequestForAssetFromImage:", managed = "Other")]
+    pub unsafe fn creationRequestForAssetFromImage(image: &NSImage) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other creationRequestForAssetFromVideoAtFileURL:)]
-        pub unsafe fn creationRequestForAssetFromVideoAtFileURL(
-            file_url: &NSURL,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "creationRequestForAssetFromImageAtFileURL:", managed = "Other")]
+    pub unsafe fn creationRequestForAssetFromImageAtFileURL(file_url: &NSURL) -> Option<Id<Self>>;
 
-        #[cfg(feature = "PhotoKit_PHObjectPlaceholder")]
-        #[method_id(@__retain_semantics Other placeholderForCreatedAsset)]
-        pub unsafe fn placeholderForCreatedAsset(&self) -> Option<Id<PHObjectPlaceholder>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "creationRequestForAssetFromVideoAtFileURL:", managed = "Other")]
+    pub unsafe fn creationRequestForAssetFromVideoAtFileURL(file_url: &NSURL) -> Option<Id<Self>>;
 
-        #[method(deleteAssets:)]
-        pub unsafe fn deleteAssets(assets: &ProtocolObject<dyn NSFastEnumeration>);
+    #[cfg(feature = "PhotoKit_PHObjectPlaceholder")]
+    #[objc2::method(sel = "placeholderForCreatedAsset", managed = "Other")]
+    pub unsafe fn placeholderForCreatedAsset(&self) -> Option<Id<PHObjectPlaceholder>>;
 
-        #[cfg(feature = "PhotoKit_PHAsset")]
-        #[method_id(@__retain_semantics Other changeRequestForAsset:)]
-        pub unsafe fn changeRequestForAsset(asset: &PHAsset) -> Id<Self>;
+    #[objc2::method(sel = "deleteAssets:")]
+    pub unsafe fn deleteAssets(assets: &ProtocolObject<dyn NSFastEnumeration>);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other creationDate)]
-        pub unsafe fn creationDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "PhotoKit_PHAsset")]
+    #[objc2::method(sel = "changeRequestForAsset:", managed = "Other")]
+    pub unsafe fn changeRequestForAsset(asset: &PHAsset) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(setCreationDate:)]
-        pub unsafe fn setCreationDate(&self, creation_date: Option<&NSDate>);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "creationDate", managed = "Other")]
+    pub unsafe fn creationDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "CoreLocation_CLLocation")]
-        #[method_id(@__retain_semantics Other location)]
-        pub unsafe fn location(&self) -> Option<Id<CLLocation>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "setCreationDate:")]
+    pub unsafe fn setCreationDate(&self, creation_date: Option<&NSDate>);
 
-        #[cfg(feature = "CoreLocation_CLLocation")]
-        #[method(setLocation:)]
-        pub unsafe fn setLocation(&self, location: Option<&CLLocation>);
+    #[cfg(feature = "CoreLocation_CLLocation")]
+    #[objc2::method(sel = "location", managed = "Other")]
+    pub unsafe fn location(&self) -> Option<Id<CLLocation>>;
 
-        #[method(isFavorite)]
-        pub unsafe fn isFavorite(&self) -> bool;
+    #[cfg(feature = "CoreLocation_CLLocation")]
+    #[objc2::method(sel = "setLocation:")]
+    pub unsafe fn setLocation(&self, location: Option<&CLLocation>);
 
-        #[method(setFavorite:)]
-        pub unsafe fn setFavorite(&self, favorite: bool);
+    #[objc2::method(sel = "isFavorite")]
+    pub unsafe fn isFavorite(&self) -> bool;
 
-        #[method(isHidden)]
-        pub unsafe fn isHidden(&self) -> bool;
+    #[objc2::method(sel = "setFavorite:")]
+    pub unsafe fn setFavorite(&self, favorite: bool);
 
-        #[method(setHidden:)]
-        pub unsafe fn setHidden(&self, hidden: bool);
+    #[objc2::method(sel = "isHidden")]
+    pub unsafe fn isHidden(&self) -> bool;
 
-        #[cfg(feature = "PhotoKit_PHContentEditingOutput")]
-        #[method_id(@__retain_semantics Other contentEditingOutput)]
-        pub unsafe fn contentEditingOutput(&self) -> Option<Id<PHContentEditingOutput>>;
+    #[objc2::method(sel = "setHidden:")]
+    pub unsafe fn setHidden(&self, hidden: bool);
 
-        #[cfg(feature = "PhotoKit_PHContentEditingOutput")]
-        #[method(setContentEditingOutput:)]
-        pub unsafe fn setContentEditingOutput(
-            &self,
-            content_editing_output: Option<&PHContentEditingOutput>,
-        );
+    #[cfg(feature = "PhotoKit_PHContentEditingOutput")]
+    #[objc2::method(sel = "contentEditingOutput", managed = "Other")]
+    pub unsafe fn contentEditingOutput(&self) -> Option<Id<PHContentEditingOutput>>;
 
-        #[method(revertAssetContentToOriginal)]
-        pub unsafe fn revertAssetContentToOriginal(&self);
-    }
-);
+    #[cfg(feature = "PhotoKit_PHContentEditingOutput")]
+    #[objc2::method(sel = "setContentEditingOutput:")]
+    pub unsafe fn setContentEditingOutput(
+        &self,
+        content_editing_output: Option<&PHContentEditingOutput>,
+    );
+
+    #[objc2::method(sel = "revertAssetContentToOriginal")]
+    pub unsafe fn revertAssetContentToOriginal(&self);
+}
 
 pub type PHContentEditingInputRequestID = NSUInteger;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHContentEditingInputRequestOptions")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHContentEditingInputRequestOptions")]
-    pub struct PHContentEditingInputRequestOptions;
-
-    #[cfg(feature = "PhotoKit_PHContentEditingInputRequestOptions")]
-    unsafe impl ClassType for PHContentEditingInputRequestOptions {
-        type Super = NSObject;
-    }
-);
+    pub type PHContentEditingInputRequestOptions;
+}
 
 #[cfg(feature = "PhotoKit_PHContentEditingInputRequestOptions")]
 unsafe impl NSObjectProtocol for PHContentEditingInputRequestOptions {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHContentEditingInputRequestOptions")]
-    unsafe impl PHContentEditingInputRequestOptions {
-        #[cfg(feature = "PhotoKit_PHAdjustmentData")]
-        #[method(canHandleAdjustmentData)]
-        pub unsafe fn canHandleAdjustmentData(
-            &self,
-        ) -> NonNull<Block<(NonNull<PHAdjustmentData>,), Bool>>;
+    pub type PHContentEditingInputRequestOptions;
 
-        #[cfg(feature = "PhotoKit_PHAdjustmentData")]
-        #[method(setCanHandleAdjustmentData:)]
-        pub unsafe fn setCanHandleAdjustmentData(
-            &self,
-            can_handle_adjustment_data: &Block<(NonNull<PHAdjustmentData>,), Bool>,
-        );
+    #[cfg(feature = "PhotoKit_PHAdjustmentData")]
+    #[objc2::method(sel = "canHandleAdjustmentData")]
+    pub unsafe fn canHandleAdjustmentData(
+        &self,
+    ) -> NonNull<Block<(NonNull<PHAdjustmentData>,), Bool>>;
 
-        #[method(isNetworkAccessAllowed)]
-        pub unsafe fn isNetworkAccessAllowed(&self) -> bool;
+    #[cfg(feature = "PhotoKit_PHAdjustmentData")]
+    #[objc2::method(sel = "setCanHandleAdjustmentData:")]
+    pub unsafe fn setCanHandleAdjustmentData(
+        &self,
+        can_handle_adjustment_data: &Block<(NonNull<PHAdjustmentData>,), Bool>,
+    );
 
-        #[method(setNetworkAccessAllowed:)]
-        pub unsafe fn setNetworkAccessAllowed(&self, network_access_allowed: bool);
+    #[objc2::method(sel = "isNetworkAccessAllowed")]
+    pub unsafe fn isNetworkAccessAllowed(&self) -> bool;
 
-        #[method(progressHandler)]
-        pub unsafe fn progressHandler(&self) -> *mut Block<(c_double, NonNull<Bool>), ()>;
+    #[objc2::method(sel = "setNetworkAccessAllowed:")]
+    pub unsafe fn setNetworkAccessAllowed(&self, network_access_allowed: bool);
 
-        #[method(setProgressHandler:)]
-        pub unsafe fn setProgressHandler(
-            &self,
-            progress_handler: Option<&Block<(c_double, NonNull<Bool>), ()>>,
-        );
-    }
-);
+    #[objc2::method(sel = "progressHandler")]
+    pub unsafe fn progressHandler(&self) -> *mut Block<(c_double, NonNull<Bool>), ()>;
 
-extern_methods!(
-    /// PHContentEditingInput
+    #[objc2::method(sel = "setProgressHandler:")]
+    pub unsafe fn setProgressHandler(
+        &self,
+        progress_handler: Option<&Block<(c_double, NonNull<Bool>), ()>>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHAsset")]
-    unsafe impl PHAsset {
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "PhotoKit_PHContentEditingInput",
-            feature = "PhotoKit_PHContentEditingInputRequestOptions"
-        ))]
-        #[method(requestContentEditingInputWithOptions:completionHandler:)]
-        pub unsafe fn requestContentEditingInputWithOptions_completionHandler(
-            &self,
-            options: Option<&PHContentEditingInputRequestOptions>,
-            completion_handler: &Block<(*mut PHContentEditingInput, NonNull<NSDictionary>), ()>,
-        ) -> PHContentEditingInputRequestID;
+    pub type PHAsset;
 
-        #[method(cancelContentEditingInputRequest:)]
-        pub unsafe fn cancelContentEditingInputRequest(
-            &self,
-            request_id: PHContentEditingInputRequestID,
-        );
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "PhotoKit_PHContentEditingInput",
+        feature = "PhotoKit_PHContentEditingInputRequestOptions"
+    ))]
+    #[objc2::method(sel = "requestContentEditingInputWithOptions:completionHandler:")]
+    pub unsafe fn requestContentEditingInputWithOptions_completionHandler(
+        &self,
+        options: Option<&PHContentEditingInputRequestOptions>,
+        completion_handler: &Block<(*mut PHContentEditingInput, NonNull<NSDictionary>), ()>,
+    ) -> PHContentEditingInputRequestID;
+
+    #[objc2::method(sel = "cancelContentEditingInputRequest:")]
+    pub unsafe fn cancelContentEditingInputRequest(
+        &self,
+        request_id: PHContentEditingInputRequestID,
+    );
+}
 
 extern_static!(PHContentEditingInputResultIsInCloudKey: &'static NSString);
 
@@ -174,15 +178,17 @@ extern_static!(PHContentEditingInputCancelledKey: &'static NSString);
 
 extern_static!(PHContentEditingInputErrorKey: &'static NSString);
 
-extern_methods!(
-    /// PHAssetChangeRequest
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHContentEditingOutput")]
-    unsafe impl PHContentEditingOutput {
-        #[cfg(feature = "PhotoKit_PHObjectPlaceholder")]
-        #[method_id(@__retain_semantics Init initWithPlaceholderForCreatedAsset:)]
-        pub unsafe fn initWithPlaceholderForCreatedAsset(
-            this: Option<Allocated<Self>>,
-            placeholder_for_created_asset: &PHObjectPlaceholder,
-        ) -> Id<Self>;
-    }
-);
+    pub type PHContentEditingOutput;
+
+    #[cfg(feature = "PhotoKit_PHObjectPlaceholder")]
+    #[objc2::method(sel = "initWithPlaceholderForCreatedAsset:", managed = "Init")]
+    pub unsafe fn initWithPlaceholderForCreatedAsset(
+        this: Option<Allocated<Self>>,
+        placeholder_for_created_asset: &PHObjectPlaceholder,
+    ) -> Id<Self>;
+}

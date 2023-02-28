@@ -5,40 +5,37 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_enum!(
-    #[underlying(c_uint)]
-    pub enum __anonymous__ {
-        GCDualSenseAdaptiveTriggerDiscretePositionCount = 10,
-    }
-);
+#[extern_enum]
+#[underlying(c_uint)]
+pub enum __anonymous__ {
+    GCDualSenseAdaptiveTriggerDiscretePositionCount = 10,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum GCDualSenseAdaptiveTriggerMode {
-        GCDualSenseAdaptiveTriggerModeOff = 0,
-        GCDualSenseAdaptiveTriggerModeFeedback = 1,
-        GCDualSenseAdaptiveTriggerModeWeapon = 2,
-        GCDualSenseAdaptiveTriggerModeVibration = 3,
-        GCDualSenseAdaptiveTriggerModeSlopeFeedback = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum GCDualSenseAdaptiveTriggerMode {
+    GCDualSenseAdaptiveTriggerModeOff = 0,
+    GCDualSenseAdaptiveTriggerModeFeedback = 1,
+    GCDualSenseAdaptiveTriggerModeWeapon = 2,
+    GCDualSenseAdaptiveTriggerModeVibration = 3,
+    GCDualSenseAdaptiveTriggerModeSlopeFeedback = 4,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum GCDualSenseAdaptiveTriggerStatus {
-        GCDualSenseAdaptiveTriggerStatusUnknown = -1,
-        GCDualSenseAdaptiveTriggerStatusFeedbackNoLoad = 0,
-        GCDualSenseAdaptiveTriggerStatusFeedbackLoadApplied = 1,
-        GCDualSenseAdaptiveTriggerStatusWeaponReady = 2,
-        GCDualSenseAdaptiveTriggerStatusWeaponFiring = 3,
-        GCDualSenseAdaptiveTriggerStatusWeaponFired = 4,
-        GCDualSenseAdaptiveTriggerStatusVibrationNotVibrating = 5,
-        GCDualSenseAdaptiveTriggerStatusVibrationIsVibrating = 6,
-        GCDualSenseAdaptiveTriggerStatusSlopeFeedbackReady = 7,
-        GCDualSenseAdaptiveTriggerStatusSlopeFeedbackApplyingLoad = 8,
-        GCDualSenseAdaptiveTriggerStatusSlopeFeedbackFinished = 9,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum GCDualSenseAdaptiveTriggerStatus {
+    GCDualSenseAdaptiveTriggerStatusUnknown = -1,
+    GCDualSenseAdaptiveTriggerStatusFeedbackNoLoad = 0,
+    GCDualSenseAdaptiveTriggerStatusFeedbackLoadApplied = 1,
+    GCDualSenseAdaptiveTriggerStatusWeaponReady = 2,
+    GCDualSenseAdaptiveTriggerStatusWeaponFiring = 3,
+    GCDualSenseAdaptiveTriggerStatusWeaponFired = 4,
+    GCDualSenseAdaptiveTriggerStatusVibrationNotVibrating = 5,
+    GCDualSenseAdaptiveTriggerStatusVibrationIsVibrating = 6,
+    GCDualSenseAdaptiveTriggerStatusSlopeFeedbackReady = 7,
+    GCDualSenseAdaptiveTriggerStatusSlopeFeedbackApplyingLoad = 8,
+    GCDualSenseAdaptiveTriggerStatusSlopeFeedbackFinished = 9,
+}
 
 extern_struct!(
     #[encoding_name("?")]
@@ -54,79 +51,85 @@ extern_struct!(
     }
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = GCControllerButtonInput,
+    unsafe inherits = [
+        GCControllerElement,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCDualSenseAdaptiveTrigger")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCDualSenseAdaptiveTrigger")]
-    pub struct GCDualSenseAdaptiveTrigger;
-
-    #[cfg(feature = "GameController_GCDualSenseAdaptiveTrigger")]
-    unsafe impl ClassType for GCDualSenseAdaptiveTrigger {
-        #[inherits(GCControllerElement, NSObject)]
-        type Super = GCControllerButtonInput;
-    }
-);
+    pub type GCDualSenseAdaptiveTrigger;
+}
 
 #[cfg(feature = "GameController_GCDualSenseAdaptiveTrigger")]
 unsafe impl NSObjectProtocol for GCDualSenseAdaptiveTrigger {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCDualSenseAdaptiveTrigger")]
-    unsafe impl GCDualSenseAdaptiveTrigger {
-        #[method(mode)]
-        pub unsafe fn mode(&self) -> GCDualSenseAdaptiveTriggerMode;
+    pub type GCDualSenseAdaptiveTrigger;
 
-        #[method(status)]
-        pub unsafe fn status(&self) -> GCDualSenseAdaptiveTriggerStatus;
+    #[objc2::method(sel = "mode")]
+    pub unsafe fn mode(&self) -> GCDualSenseAdaptiveTriggerMode;
 
-        #[method(armPosition)]
-        pub unsafe fn armPosition(&self) -> c_float;
+    #[objc2::method(sel = "status")]
+    pub unsafe fn status(&self) -> GCDualSenseAdaptiveTriggerStatus;
 
-        #[method(setModeSlopeFeedbackWithStartPosition:endPosition:startStrength:endStrength:)]
-        pub unsafe fn setModeSlopeFeedbackWithStartPosition_endPosition_startStrength_endStrength(
-            &self,
-            start_position: c_float,
-            end_position: c_float,
-            start_strength: c_float,
-            end_strength: c_float,
-        );
+    #[objc2::method(sel = "armPosition")]
+    pub unsafe fn armPosition(&self) -> c_float;
 
-        #[method(setModeFeedbackWithStartPosition:resistiveStrength:)]
-        pub unsafe fn setModeFeedbackWithStartPosition_resistiveStrength(
-            &self,
-            start_position: c_float,
-            resistive_strength: c_float,
-        );
+    #[objc2::method(
+        sel = "setModeSlopeFeedbackWithStartPosition:endPosition:startStrength:endStrength:"
+    )]
+    pub unsafe fn setModeSlopeFeedbackWithStartPosition_endPosition_startStrength_endStrength(
+        &self,
+        start_position: c_float,
+        end_position: c_float,
+        start_strength: c_float,
+        end_strength: c_float,
+    );
 
-        #[method(setModeFeedbackWithResistiveStrengths:)]
-        pub unsafe fn setModeFeedbackWithResistiveStrengths(
-            &self,
-            positional_resistive_strengths: GCDualSenseAdaptiveTriggerPositionalResistiveStrengths,
-        );
+    #[objc2::method(sel = "setModeFeedbackWithStartPosition:resistiveStrength:")]
+    pub unsafe fn setModeFeedbackWithStartPosition_resistiveStrength(
+        &self,
+        start_position: c_float,
+        resistive_strength: c_float,
+    );
 
-        #[method(setModeWeaponWithStartPosition:endPosition:resistiveStrength:)]
-        pub unsafe fn setModeWeaponWithStartPosition_endPosition_resistiveStrength(
-            &self,
-            start_position: c_float,
-            end_position: c_float,
-            resistive_strength: c_float,
-        );
+    #[objc2::method(sel = "setModeFeedbackWithResistiveStrengths:")]
+    pub unsafe fn setModeFeedbackWithResistiveStrengths(
+        &self,
+        positional_resistive_strengths: GCDualSenseAdaptiveTriggerPositionalResistiveStrengths,
+    );
 
-        #[method(setModeVibrationWithStartPosition:amplitude:frequency:)]
-        pub unsafe fn setModeVibrationWithStartPosition_amplitude_frequency(
-            &self,
-            start_position: c_float,
-            amplitude: c_float,
-            frequency: c_float,
-        );
+    #[objc2::method(sel = "setModeWeaponWithStartPosition:endPosition:resistiveStrength:")]
+    pub unsafe fn setModeWeaponWithStartPosition_endPosition_resistiveStrength(
+        &self,
+        start_position: c_float,
+        end_position: c_float,
+        resistive_strength: c_float,
+    );
 
-        #[method(setModeVibrationWithAmplitudes:frequency:)]
-        pub unsafe fn setModeVibrationWithAmplitudes_frequency(
-            &self,
-            positional_amplitudes: GCDualSenseAdaptiveTriggerPositionalAmplitudes,
-            frequency: c_float,
-        );
+    #[objc2::method(sel = "setModeVibrationWithStartPosition:amplitude:frequency:")]
+    pub unsafe fn setModeVibrationWithStartPosition_amplitude_frequency(
+        &self,
+        start_position: c_float,
+        amplitude: c_float,
+        frequency: c_float,
+    );
 
-        #[method(setModeOff)]
-        pub unsafe fn setModeOff(&self);
-    }
-);
+    #[objc2::method(sel = "setModeVibrationWithAmplitudes:frequency:")]
+    pub unsafe fn setModeVibrationWithAmplitudes_frequency(
+        &self,
+        positional_amplitudes: GCDualSenseAdaptiveTriggerPositionalAmplitudes,
+        frequency: c_float,
+    );
+
+    #[objc2::method(sel = "setModeOff")]
+    pub unsafe fn setModeOff(&self);
+}

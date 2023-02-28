@@ -5,16 +5,16 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKQueryCursor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKQueryCursor")]
-    pub struct CKQueryCursor;
-
-    #[cfg(feature = "CloudKit_CKQueryCursor")]
-    unsafe impl ClassType for CKQueryCursor {
-        type Super = NSObject;
-    }
-);
+    pub type CKQueryCursor;
+}
 
 #[cfg(feature = "CloudKit_CKQueryCursor")]
 unsafe impl NSCoding for CKQueryCursor {}
@@ -25,136 +25,141 @@ unsafe impl NSObjectProtocol for CKQueryCursor {}
 #[cfg(feature = "CloudKit_CKQueryCursor")]
 unsafe impl NSSecureCoding for CKQueryCursor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKQueryCursor")]
-    unsafe impl CKQueryCursor {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKQueryCursor;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}
 
 extern_static!(CKQueryOperationMaximumResults: NSUInteger);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CKDatabaseOperation,
+    unsafe inherits = [
+        CKOperation,
+        NSOperation,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKQueryOperation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKQueryOperation")]
-    pub struct CKQueryOperation;
-
-    #[cfg(feature = "CloudKit_CKQueryOperation")]
-    unsafe impl ClassType for CKQueryOperation {
-        #[inherits(CKOperation, NSOperation, NSObject)]
-        type Super = CKDatabaseOperation;
-    }
-);
+    pub type CKQueryOperation;
+}
 
 #[cfg(feature = "CloudKit_CKQueryOperation")]
 unsafe impl NSObjectProtocol for CKQueryOperation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKQueryOperation")]
-    unsafe impl CKQueryOperation {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKQueryOperation;
 
-        #[cfg(feature = "CloudKit_CKQuery")]
-        #[method_id(@__retain_semantics Init initWithQuery:)]
-        pub unsafe fn initWithQuery(this: Option<Allocated<Self>>, query: &CKQuery) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKQueryCursor")]
-        #[method_id(@__retain_semantics Init initWithCursor:)]
-        pub unsafe fn initWithCursor(
-            this: Option<Allocated<Self>>,
-            cursor: &CKQueryCursor,
-        ) -> Id<Self>;
+    #[cfg(feature = "CloudKit_CKQuery")]
+    #[objc2::method(sel = "initWithQuery:", managed = "Init")]
+    pub unsafe fn initWithQuery(this: Option<Allocated<Self>>, query: &CKQuery) -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKQuery")]
-        #[method_id(@__retain_semantics Other query)]
-        pub unsafe fn query(&self) -> Option<Id<CKQuery>>;
+    #[cfg(feature = "CloudKit_CKQueryCursor")]
+    #[objc2::method(sel = "initWithCursor:", managed = "Init")]
+    pub unsafe fn initWithCursor(this: Option<Allocated<Self>>, cursor: &CKQueryCursor)
+        -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKQuery")]
-        #[method(setQuery:)]
-        pub unsafe fn setQuery(&self, query: Option<&CKQuery>);
+    #[cfg(feature = "CloudKit_CKQuery")]
+    #[objc2::method(sel = "query", managed = "Other")]
+    pub unsafe fn query(&self) -> Option<Id<CKQuery>>;
 
-        #[cfg(feature = "CloudKit_CKQueryCursor")]
-        #[method_id(@__retain_semantics Other cursor)]
-        pub unsafe fn cursor(&self) -> Option<Id<CKQueryCursor>>;
+    #[cfg(feature = "CloudKit_CKQuery")]
+    #[objc2::method(sel = "setQuery:")]
+    pub unsafe fn setQuery(&self, query: Option<&CKQuery>);
 
-        #[cfg(feature = "CloudKit_CKQueryCursor")]
-        #[method(setCursor:)]
-        pub unsafe fn setCursor(&self, cursor: Option<&CKQueryCursor>);
+    #[cfg(feature = "CloudKit_CKQueryCursor")]
+    #[objc2::method(sel = "cursor", managed = "Other")]
+    pub unsafe fn cursor(&self) -> Option<Id<CKQueryCursor>>;
 
-        #[cfg(feature = "CloudKit_CKRecordZoneID")]
-        #[method_id(@__retain_semantics Other zoneID)]
-        pub unsafe fn zoneID(&self) -> Option<Id<CKRecordZoneID>>;
+    #[cfg(feature = "CloudKit_CKQueryCursor")]
+    #[objc2::method(sel = "setCursor:")]
+    pub unsafe fn setCursor(&self, cursor: Option<&CKQueryCursor>);
 
-        #[cfg(feature = "CloudKit_CKRecordZoneID")]
-        #[method(setZoneID:)]
-        pub unsafe fn setZoneID(&self, zone_id: Option<&CKRecordZoneID>);
+    #[cfg(feature = "CloudKit_CKRecordZoneID")]
+    #[objc2::method(sel = "zoneID", managed = "Other")]
+    pub unsafe fn zoneID(&self) -> Option<Id<CKRecordZoneID>>;
 
-        #[method(resultsLimit)]
-        pub unsafe fn resultsLimit(&self) -> NSUInteger;
+    #[cfg(feature = "CloudKit_CKRecordZoneID")]
+    #[objc2::method(sel = "setZoneID:")]
+    pub unsafe fn setZoneID(&self, zone_id: Option<&CKRecordZoneID>);
 
-        #[method(setResultsLimit:)]
-        pub unsafe fn setResultsLimit(&self, results_limit: NSUInteger);
+    #[objc2::method(sel = "resultsLimit")]
+    pub unsafe fn resultsLimit(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other desiredKeys)]
-        pub unsafe fn desiredKeys(&self) -> Option<Id<NSArray<CKRecordFieldKey>>>;
+    #[objc2::method(sel = "setResultsLimit:")]
+    pub unsafe fn setResultsLimit(&self, results_limit: NSUInteger);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setDesiredKeys:)]
-        pub unsafe fn setDesiredKeys(&self, desired_keys: Option<&NSArray<CKRecordFieldKey>>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "desiredKeys", managed = "Other")]
+    pub unsafe fn desiredKeys(&self) -> Option<Id<NSArray<CKRecordFieldKey>>>;
 
-        #[cfg(feature = "CloudKit_CKRecord")]
-        #[deprecated = "Use recordMatchedBlock instead, which surfaces per-record errors"]
-        #[method(recordFetchedBlock)]
-        pub unsafe fn recordFetchedBlock(&self) -> *mut Block<(NonNull<CKRecord>,), ()>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setDesiredKeys:")]
+    pub unsafe fn setDesiredKeys(&self, desired_keys: Option<&NSArray<CKRecordFieldKey>>);
 
-        #[cfg(feature = "CloudKit_CKRecord")]
-        #[deprecated = "Use recordMatchedBlock instead, which surfaces per-record errors"]
-        #[method(setRecordFetchedBlock:)]
-        pub unsafe fn setRecordFetchedBlock(
-            &self,
-            record_fetched_block: Option<&Block<(NonNull<CKRecord>,), ()>>,
-        );
+    #[cfg(feature = "CloudKit_CKRecord")]
+    #[deprecated = "Use recordMatchedBlock instead, which surfaces per-record errors"]
+    #[objc2::method(sel = "recordFetchedBlock")]
+    pub unsafe fn recordFetchedBlock(&self) -> *mut Block<(NonNull<CKRecord>,), ()>;
 
-        #[cfg(all(
-            feature = "CloudKit_CKRecord",
-            feature = "CloudKit_CKRecordID",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(recordMatchedBlock)]
-        pub unsafe fn recordMatchedBlock(
-            &self,
-        ) -> *mut Block<(NonNull<CKRecordID>, *mut CKRecord, *mut NSError), ()>;
+    #[cfg(feature = "CloudKit_CKRecord")]
+    #[deprecated = "Use recordMatchedBlock instead, which surfaces per-record errors"]
+    #[objc2::method(sel = "setRecordFetchedBlock:")]
+    pub unsafe fn setRecordFetchedBlock(
+        &self,
+        record_fetched_block: Option<&Block<(NonNull<CKRecord>,), ()>>,
+    );
 
-        #[cfg(all(
-            feature = "CloudKit_CKRecord",
-            feature = "CloudKit_CKRecordID",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(setRecordMatchedBlock:)]
-        pub unsafe fn setRecordMatchedBlock(
-            &self,
-            record_matched_block: Option<
-                &Block<(NonNull<CKRecordID>, *mut CKRecord, *mut NSError), ()>,
-            >,
-        );
+    #[cfg(all(
+        feature = "CloudKit_CKRecord",
+        feature = "CloudKit_CKRecordID",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "recordMatchedBlock")]
+    pub unsafe fn recordMatchedBlock(
+        &self,
+    ) -> *mut Block<(NonNull<CKRecordID>, *mut CKRecord, *mut NSError), ()>;
 
-        #[cfg(all(feature = "CloudKit_CKQueryCursor", feature = "Foundation_NSError"))]
-        #[method(queryCompletionBlock)]
-        pub unsafe fn queryCompletionBlock(
-            &self,
-        ) -> *mut Block<(*mut CKQueryCursor, *mut NSError), ()>;
+    #[cfg(all(
+        feature = "CloudKit_CKRecord",
+        feature = "CloudKit_CKRecordID",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "setRecordMatchedBlock:")]
+    pub unsafe fn setRecordMatchedBlock(
+        &self,
+        record_matched_block: Option<
+            &Block<(NonNull<CKRecordID>, *mut CKRecord, *mut NSError), ()>,
+        >,
+    );
 
-        #[cfg(all(feature = "CloudKit_CKQueryCursor", feature = "Foundation_NSError"))]
-        #[method(setQueryCompletionBlock:)]
-        pub unsafe fn setQueryCompletionBlock(
-            &self,
-            query_completion_block: Option<&Block<(*mut CKQueryCursor, *mut NSError), ()>>,
-        );
-    }
-);
+    #[cfg(all(feature = "CloudKit_CKQueryCursor", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "queryCompletionBlock")]
+    pub unsafe fn queryCompletionBlock(&self)
+        -> *mut Block<(*mut CKQueryCursor, *mut NSError), ()>;
+
+    #[cfg(all(feature = "CloudKit_CKQueryCursor", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "setQueryCompletionBlock:")]
+    pub unsafe fn setQueryCompletionBlock(
+        &self,
+        query_completion_block: Option<&Block<(*mut CKQueryCursor, *mut NSError), ()>>,
+    );
+}

@@ -7,65 +7,66 @@ use crate::EventKit::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = EKCalendarItem,
+    unsafe inherits = [
+        EKObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "EventKit_EKReminder")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "EventKit_EKReminder")]
-    pub struct EKReminder;
-
-    #[cfg(feature = "EventKit_EKReminder")]
-    unsafe impl ClassType for EKReminder {
-        #[inherits(EKObject, NSObject)]
-        type Super = EKCalendarItem;
-    }
-);
+    pub type EKReminder;
+}
 
 #[cfg(feature = "EventKit_EKReminder")]
 unsafe impl NSObjectProtocol for EKReminder {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "EventKit_EKReminder")]
-    unsafe impl EKReminder {
-        #[cfg(feature = "EventKit_EKEventStore")]
-        #[method_id(@__retain_semantics Other reminderWithEventStore:)]
-        pub unsafe fn reminderWithEventStore(event_store: &EKEventStore) -> Id<EKReminder>;
+    pub type EKReminder;
 
-        #[cfg(feature = "Foundation_NSDateComponents")]
-        #[method_id(@__retain_semantics Other startDateComponents)]
-        pub unsafe fn startDateComponents(&self) -> Option<Id<NSDateComponents>>;
+    #[cfg(feature = "EventKit_EKEventStore")]
+    #[objc2::method(sel = "reminderWithEventStore:", managed = "Other")]
+    pub unsafe fn reminderWithEventStore(event_store: &EKEventStore) -> Id<EKReminder>;
 
-        #[cfg(feature = "Foundation_NSDateComponents")]
-        #[method(setStartDateComponents:)]
-        pub unsafe fn setStartDateComponents(
-            &self,
-            start_date_components: Option<&NSDateComponents>,
-        );
+    #[cfg(feature = "Foundation_NSDateComponents")]
+    #[objc2::method(sel = "startDateComponents", managed = "Other")]
+    pub unsafe fn startDateComponents(&self) -> Option<Id<NSDateComponents>>;
 
-        #[cfg(feature = "Foundation_NSDateComponents")]
-        #[method_id(@__retain_semantics Other dueDateComponents)]
-        pub unsafe fn dueDateComponents(&self) -> Option<Id<NSDateComponents>>;
+    #[cfg(feature = "Foundation_NSDateComponents")]
+    #[objc2::method(sel = "setStartDateComponents:")]
+    pub unsafe fn setStartDateComponents(&self, start_date_components: Option<&NSDateComponents>);
 
-        #[cfg(feature = "Foundation_NSDateComponents")]
-        #[method(setDueDateComponents:)]
-        pub unsafe fn setDueDateComponents(&self, due_date_components: Option<&NSDateComponents>);
+    #[cfg(feature = "Foundation_NSDateComponents")]
+    #[objc2::method(sel = "dueDateComponents", managed = "Other")]
+    pub unsafe fn dueDateComponents(&self) -> Option<Id<NSDateComponents>>;
 
-        #[method(isCompleted)]
-        pub unsafe fn isCompleted(&self) -> bool;
+    #[cfg(feature = "Foundation_NSDateComponents")]
+    #[objc2::method(sel = "setDueDateComponents:")]
+    pub unsafe fn setDueDateComponents(&self, due_date_components: Option<&NSDateComponents>);
 
-        #[method(setCompleted:)]
-        pub unsafe fn setCompleted(&self, completed: bool);
+    #[objc2::method(sel = "isCompleted")]
+    pub unsafe fn isCompleted(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other completionDate)]
-        pub unsafe fn completionDate(&self) -> Option<Id<NSDate>>;
+    #[objc2::method(sel = "setCompleted:")]
+    pub unsafe fn setCompleted(&self, completed: bool);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(setCompletionDate:)]
-        pub unsafe fn setCompletionDate(&self, completion_date: Option<&NSDate>);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "completionDate", managed = "Other")]
+    pub unsafe fn completionDate(&self) -> Option<Id<NSDate>>;
 
-        #[method(priority)]
-        pub unsafe fn priority(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "setCompletionDate:")]
+    pub unsafe fn setCompletionDate(&self, completion_date: Option<&NSDate>);
 
-        #[method(setPriority:)]
-        pub unsafe fn setPriority(&self, priority: NSUInteger);
-    }
-);
+    #[objc2::method(sel = "priority")]
+    pub unsafe fn priority(&self) -> NSUInteger;
+
+    #[objc2::method(sel = "setPriority:")]
+    pub unsafe fn setPriority(&self, priority: NSUInteger);
+}

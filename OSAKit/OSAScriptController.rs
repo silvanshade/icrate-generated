@@ -5,26 +5,25 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::OSAKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum OSAScriptState {
-        OSAScriptStopped = 0,
-        OSAScriptRunning = 1,
-        OSAScriptRecording = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum OSAScriptState {
+    OSAScriptStopped = 0,
+    OSAScriptRunning = 1,
+    OSAScriptRecording = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSController,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "OSAKit_OSAScriptController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "OSAKit_OSAScriptController")]
-    pub struct OSAScriptController;
-
-    #[cfg(feature = "OSAKit_OSAScriptController")]
-    unsafe impl ClassType for OSAScriptController {
-        #[inherits(NSObject)]
-        type Super = NSController;
-    }
-);
+    pub type OSAScriptController;
+}
 
 #[cfg(feature = "OSAKit_OSAScriptController")]
 unsafe impl NSCoding for OSAScriptController {}
@@ -38,57 +37,60 @@ unsafe impl NSEditorRegistration for OSAScriptController {}
 #[cfg(feature = "OSAKit_OSAScriptController")]
 unsafe impl NSObjectProtocol for OSAScriptController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "OSAKit_OSAScriptController")]
-    unsafe impl OSAScriptController {
-        #[cfg(feature = "OSAKit_OSAScriptView")]
-        #[method_id(@__retain_semantics Other scriptView)]
-        pub unsafe fn scriptView(&self) -> Option<Id<OSAScriptView>>;
+    pub type OSAScriptController;
 
-        #[cfg(feature = "OSAKit_OSAScriptView")]
-        #[method(setScriptView:)]
-        pub unsafe fn setScriptView(&self, script_view: Option<&OSAScriptView>);
+    #[cfg(feature = "OSAKit_OSAScriptView")]
+    #[objc2::method(sel = "scriptView", managed = "Other")]
+    pub unsafe fn scriptView(&self) -> Option<Id<OSAScriptView>>;
 
-        #[cfg(feature = "AppKit_NSTextView")]
-        #[method_id(@__retain_semantics Other resultView)]
-        pub unsafe fn resultView(&self) -> Option<Id<NSTextView>>;
+    #[cfg(feature = "OSAKit_OSAScriptView")]
+    #[objc2::method(sel = "setScriptView:")]
+    pub unsafe fn setScriptView(&self, script_view: Option<&OSAScriptView>);
 
-        #[cfg(feature = "AppKit_NSTextView")]
-        #[method(setResultView:)]
-        pub unsafe fn setResultView(&self, result_view: Option<&NSTextView>);
+    #[cfg(feature = "AppKit_NSTextView")]
+    #[objc2::method(sel = "resultView", managed = "Other")]
+    pub unsafe fn resultView(&self) -> Option<Id<NSTextView>>;
 
-        #[cfg(feature = "OSAKit_OSAScript")]
-        #[method_id(@__retain_semantics Other script)]
-        pub unsafe fn script(&self) -> Option<Id<OSAScript>>;
+    #[cfg(feature = "AppKit_NSTextView")]
+    #[objc2::method(sel = "setResultView:")]
+    pub unsafe fn setResultView(&self, result_view: Option<&NSTextView>);
 
-        #[cfg(feature = "OSAKit_OSAScript")]
-        #[method(setScript:)]
-        pub unsafe fn setScript(&self, script: Option<&OSAScript>);
+    #[cfg(feature = "OSAKit_OSAScript")]
+    #[objc2::method(sel = "script", managed = "Other")]
+    pub unsafe fn script(&self) -> Option<Id<OSAScript>>;
 
-        #[cfg(feature = "OSAKit_OSALanguage")]
-        #[method_id(@__retain_semantics Other language)]
-        pub unsafe fn language(&self) -> Option<Id<OSALanguage>>;
+    #[cfg(feature = "OSAKit_OSAScript")]
+    #[objc2::method(sel = "setScript:")]
+    pub unsafe fn setScript(&self, script: Option<&OSAScript>);
 
-        #[cfg(feature = "OSAKit_OSALanguage")]
-        #[method(setLanguage:)]
-        pub unsafe fn setLanguage(&self, language: Option<&OSALanguage>);
+    #[cfg(feature = "OSAKit_OSALanguage")]
+    #[objc2::method(sel = "language", managed = "Other")]
+    pub unsafe fn language(&self) -> Option<Id<OSALanguage>>;
 
-        #[method(scriptState)]
-        pub unsafe fn scriptState(&self) -> OSAScriptState;
+    #[cfg(feature = "OSAKit_OSALanguage")]
+    #[objc2::method(sel = "setLanguage:")]
+    pub unsafe fn setLanguage(&self, language: Option<&OSALanguage>);
 
-        #[method(isCompiling)]
-        pub unsafe fn isCompiling(&self) -> bool;
+    #[objc2::method(sel = "scriptState")]
+    pub unsafe fn scriptState(&self) -> OSAScriptState;
 
-        #[method(compileScript:)]
-        pub unsafe fn compileScript(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "isCompiling")]
+    pub unsafe fn isCompiling(&self) -> bool;
 
-        #[method(recordScript:)]
-        pub unsafe fn recordScript(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "compileScript:")]
+    pub unsafe fn compileScript(&self, sender: Option<&Object>);
 
-        #[method(runScript:)]
-        pub unsafe fn runScript(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "recordScript:")]
+    pub unsafe fn recordScript(&self, sender: Option<&Object>);
 
-        #[method(stopScript:)]
-        pub unsafe fn stopScript(&self, sender: Option<&Object>);
-    }
-);
+    #[objc2::method(sel = "runScript:")]
+    pub unsafe fn runScript(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "stopScript:")]
+    pub unsafe fn stopScript(&self, sender: Option<&Object>);
+}

@@ -5,55 +5,56 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CKDatabaseOperation,
+    unsafe inherits = [
+        CKOperation,
+        NSOperation,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKFetchWebAuthTokenOperation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKFetchWebAuthTokenOperation")]
-    pub struct CKFetchWebAuthTokenOperation;
-
-    #[cfg(feature = "CloudKit_CKFetchWebAuthTokenOperation")]
-    unsafe impl ClassType for CKFetchWebAuthTokenOperation {
-        #[inherits(CKOperation, NSOperation, NSObject)]
-        type Super = CKDatabaseOperation;
-    }
-);
+    pub type CKFetchWebAuthTokenOperation;
+}
 
 #[cfg(feature = "CloudKit_CKFetchWebAuthTokenOperation")]
 unsafe impl NSObjectProtocol for CKFetchWebAuthTokenOperation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKFetchWebAuthTokenOperation")]
-    unsafe impl CKFetchWebAuthTokenOperation {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKFetchWebAuthTokenOperation;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithAPIToken:)]
-        pub unsafe fn initWithAPIToken(
-            this: Option<Allocated<Self>>,
-            api_token: &NSString,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other APIToken)]
-        pub unsafe fn APIToken(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithAPIToken:", managed = "Init")]
+    pub unsafe fn initWithAPIToken(this: Option<Allocated<Self>>, api_token: &NSString)
+        -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAPIToken:)]
-        pub unsafe fn setAPIToken(&self, api_token: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "APIToken", managed = "Other")]
+    pub unsafe fn APIToken(&self) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(fetchWebAuthTokenCompletionBlock)]
-        pub unsafe fn fetchWebAuthTokenCompletionBlock(
-            &self,
-        ) -> *mut Block<(*mut NSString, *mut NSError), ()>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAPIToken:")]
+    pub unsafe fn setAPIToken(&self, api_token: Option<&NSString>);
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(setFetchWebAuthTokenCompletionBlock:)]
-        pub unsafe fn setFetchWebAuthTokenCompletionBlock(
-            &self,
-            fetch_web_auth_token_completion_block: Option<
-                &Block<(*mut NSString, *mut NSError), ()>,
-            >,
-        );
-    }
-);
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "fetchWebAuthTokenCompletionBlock")]
+    pub unsafe fn fetchWebAuthTokenCompletionBlock(
+        &self,
+    ) -> *mut Block<(*mut NSString, *mut NSError), ()>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setFetchWebAuthTokenCompletionBlock:")]
+    pub unsafe fn setFetchWebAuthTokenCompletionBlock(
+        &self,
+        fetch_web_auth_token_completion_block: Option<&Block<(*mut NSString, *mut NSError), ()>>,
+    );
+}

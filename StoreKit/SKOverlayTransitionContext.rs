@@ -5,36 +5,39 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::StoreKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKOverlayTransitionContext")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKOverlayTransitionContext")]
-    pub struct SKOverlayTransitionContext;
-
-    #[cfg(feature = "StoreKit_SKOverlayTransitionContext")]
-    unsafe impl ClassType for SKOverlayTransitionContext {
-        type Super = NSObject;
-    }
-);
+    pub type SKOverlayTransitionContext;
+}
 
 #[cfg(feature = "StoreKit_SKOverlayTransitionContext")]
 unsafe impl NSObjectProtocol for SKOverlayTransitionContext {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKOverlayTransitionContext")]
-    unsafe impl SKOverlayTransitionContext {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type SKOverlayTransitionContext;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(addAnimationBlock:)]
-        pub unsafe fn addAnimationBlock(&self, block: &Block<(), ()>);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[method(startFrame)]
-        pub unsafe fn startFrame(&self) -> CGRect;
+    #[objc2::method(sel = "addAnimationBlock:")]
+    pub unsafe fn addAnimationBlock(&self, block: &Block<(), ()>);
 
-        #[method(endFrame)]
-        pub unsafe fn endFrame(&self) -> CGRect;
-    }
-);
+    #[objc2::method(sel = "startFrame")]
+    pub unsafe fn startFrame(&self) -> CGRect;
+
+    #[objc2::method(sel = "endFrame")]
+    pub unsafe fn endFrame(&self) -> CGRect;
+}

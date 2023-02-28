@@ -16,43 +16,45 @@ pub type NSAttributedStringCompletionHandler = *mut Block<
     (),
 >;
 
-extern_methods!(
-    /// NSAttributedStringWebKitAdditions
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAttributedString")]
-    unsafe impl NSAttributedString {
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSURLRequest"
-        ))]
-        #[method(loadFromHTMLWithRequest:options:completionHandler:)]
-        pub unsafe fn loadFromHTMLWithRequest_options_completionHandler(
-            request: &NSURLRequest,
-            options: &NSDictionary<NSAttributedStringDocumentReadingOptionKey, Object>,
-            completion_handler: NSAttributedStringCompletionHandler,
-        );
+    pub type NSAttributedString;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSURL"))]
-        #[method(loadFromHTMLWithFileURL:options:completionHandler:)]
-        pub unsafe fn loadFromHTMLWithFileURL_options_completionHandler(
-            file_url: &NSURL,
-            options: &NSDictionary<NSAttributedStringDocumentReadingOptionKey, Object>,
-            completion_handler: NSAttributedStringCompletionHandler,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSURLRequest"
+    ))]
+    #[objc2::method(sel = "loadFromHTMLWithRequest:options:completionHandler:")]
+    pub unsafe fn loadFromHTMLWithRequest_options_completionHandler(
+        request: &NSURLRequest,
+        options: &NSDictionary<NSAttributedStringDocumentReadingOptionKey, Object>,
+        completion_handler: NSAttributedStringCompletionHandler,
+    );
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(loadFromHTMLWithString:options:completionHandler:)]
-        pub unsafe fn loadFromHTMLWithString_options_completionHandler(
-            string: &NSString,
-            options: &NSDictionary<NSAttributedStringDocumentReadingOptionKey, Object>,
-            completion_handler: NSAttributedStringCompletionHandler,
-        );
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "loadFromHTMLWithFileURL:options:completionHandler:")]
+    pub unsafe fn loadFromHTMLWithFileURL_options_completionHandler(
+        file_url: &NSURL,
+        options: &NSDictionary<NSAttributedStringDocumentReadingOptionKey, Object>,
+        completion_handler: NSAttributedStringCompletionHandler,
+    );
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSDictionary"))]
-        #[method(loadFromHTMLWithData:options:completionHandler:)]
-        pub unsafe fn loadFromHTMLWithData_options_completionHandler(
-            data: &NSData,
-            options: &NSDictionary<NSAttributedStringDocumentReadingOptionKey, Object>,
-            completion_handler: NSAttributedStringCompletionHandler,
-        );
-    }
-);
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "loadFromHTMLWithString:options:completionHandler:")]
+    pub unsafe fn loadFromHTMLWithString_options_completionHandler(
+        string: &NSString,
+        options: &NSDictionary<NSAttributedStringDocumentReadingOptionKey, Object>,
+        completion_handler: NSAttributedStringCompletionHandler,
+    );
+
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSDictionary"))]
+    #[objc2::method(sel = "loadFromHTMLWithData:options:completionHandler:")]
+    pub unsafe fn loadFromHTMLWithData_options_completionHandler(
+        data: &NSData,
+        options: &NSDictionary<NSAttributedStringDocumentReadingOptionKey, Object>,
+        completion_handler: NSAttributedStringCompletionHandler,
+    );
+}

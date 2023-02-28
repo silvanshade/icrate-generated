@@ -7,16 +7,16 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKClusterAnnotation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKClusterAnnotation")]
-    pub struct MKClusterAnnotation;
-
-    #[cfg(feature = "MapKit_MKClusterAnnotation")]
-    unsafe impl ClassType for MKClusterAnnotation {
-        type Super = NSObject;
-    }
-);
+    pub type MKClusterAnnotation;
+}
 
 #[cfg(feature = "MapKit_MKClusterAnnotation")]
 unsafe impl MKAnnotation for MKClusterAnnotation {}
@@ -24,37 +24,40 @@ unsafe impl MKAnnotation for MKClusterAnnotation {}
 #[cfg(feature = "MapKit_MKClusterAnnotation")]
 unsafe impl NSObjectProtocol for MKClusterAnnotation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKClusterAnnotation")]
-    unsafe impl MKClusterAnnotation {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Option<Id<NSString>>;
+    pub type MKClusterAnnotation;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subtitle)]
-        pub unsafe fn subtitle(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSubtitle:)]
-        pub unsafe fn setSubtitle(&self, subtitle: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subtitle", managed = "Other")]
+    pub unsafe fn subtitle(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other memberAnnotations)]
-        pub unsafe fn memberAnnotations(&self) -> Id<NSArray<ProtocolObject<dyn MKAnnotation>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSubtitle:")]
+    pub unsafe fn setSubtitle(&self, subtitle: Option<&NSString>);
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "memberAnnotations", managed = "Other")]
+    pub unsafe fn memberAnnotations(&self) -> Id<NSArray<ProtocolObject<dyn MKAnnotation>>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Init initWithMemberAnnotations:)]
-        pub unsafe fn initWithMemberAnnotations(
-            this: Option<Allocated<Self>>,
-            member_annotations: &NSArray<ProtocolObject<dyn MKAnnotation>>,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "initWithMemberAnnotations:", managed = "Init")]
+    pub unsafe fn initWithMemberAnnotations(
+        this: Option<Allocated<Self>>,
+        member_annotations: &NSArray<ProtocolObject<dyn MKAnnotation>>,
+    ) -> Id<Self>;
+}

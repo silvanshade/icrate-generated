@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameKit_GKAchievement")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKAchievement")]
-    pub struct GKAchievement;
-
-    #[cfg(feature = "GameKit_GKAchievement")]
-    unsafe impl ClassType for GKAchievement {
-        type Super = NSObject;
-    }
-);
+    pub type GKAchievement;
+}
 
 #[cfg(feature = "GameKit_GKAchievement")]
 unsafe impl NSCoding for GKAchievement {}
@@ -25,108 +25,115 @@ unsafe impl NSObjectProtocol for GKAchievement {}
 #[cfg(feature = "GameKit_GKAchievement")]
 unsafe impl NSSecureCoding for GKAchievement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKAchievement")]
-    unsafe impl GKAchievement {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
-        #[method(loadAchievementsWithCompletionHandler:)]
-        pub unsafe fn loadAchievementsWithCompletionHandler(
-            completion_handler: Option<&Block<(*mut NSArray<GKAchievement>, *mut NSError), ()>>,
-        );
+    pub type GKAchievement;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(resetAchievementsWithCompletionHandler:)]
-        pub unsafe fn resetAchievementsWithCompletionHandler(
-            completion_handler: Option<&Block<(*mut NSError,), ()>>,
-        );
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "loadAchievementsWithCompletionHandler:")]
+    pub unsafe fn loadAchievementsWithCompletionHandler(
+        completion_handler: Option<&Block<(*mut NSArray<GKAchievement>, *mut NSError), ()>>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithIdentifier:)]
-        pub unsafe fn initWithIdentifier(
-            this: Option<Allocated<Self>>,
-            identifier: Option<&NSString>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "resetAchievementsWithCompletionHandler:")]
+    pub unsafe fn resetAchievementsWithCompletionHandler(
+        completion_handler: Option<&Block<(*mut NSError,), ()>>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "GameKit_GKPlayer"))]
-        #[method_id(@__retain_semantics Init initWithIdentifier:player:)]
-        pub unsafe fn initWithIdentifier_player(
-            this: Option<Allocated<Self>>,
-            identifier: Option<&NSString>,
-            player: &GKPlayer,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithIdentifier:", managed = "Init")]
+    pub unsafe fn initWithIdentifier(
+        this: Option<Allocated<Self>>,
+        identifier: Option<&NSString>,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
-        #[method(reportAchievements:withCompletionHandler:)]
-        pub unsafe fn reportAchievements_withCompletionHandler(
-            achievements: &NSArray<GKAchievement>,
-            completion_handler: Option<&Block<(*mut NSError,), ()>>,
-        );
+    #[cfg(all(feature = "Foundation_NSString", feature = "GameKit_GKPlayer"))]
+    #[objc2::method(sel = "initWithIdentifier:player:", managed = "Init")]
+    pub unsafe fn initWithIdentifier_player(
+        this: Option<Allocated<Self>>,
+        identifier: Option<&NSString>,
+        player: &GKPlayer,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "reportAchievements:withCompletionHandler:")]
+    pub unsafe fn reportAchievements_withCompletionHandler(
+        achievements: &NSArray<GKAchievement>,
+        completion_handler: Option<&Block<(*mut NSError,), ()>>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setIdentifier:)]
-        pub unsafe fn setIdentifier(&self, identifier: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Option<Id<NSString>>;
 
-        #[method(percentComplete)]
-        pub unsafe fn percentComplete(&self) -> c_double;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setIdentifier:")]
+    pub unsafe fn setIdentifier(&self, identifier: Option<&NSString>);
 
-        #[method(setPercentComplete:)]
-        pub unsafe fn setPercentComplete(&self, percent_complete: c_double);
+    #[objc2::method(sel = "percentComplete")]
+    pub unsafe fn percentComplete(&self) -> c_double;
 
-        #[method(isCompleted)]
-        pub unsafe fn isCompleted(&self) -> bool;
+    #[objc2::method(sel = "setPercentComplete:")]
+    pub unsafe fn setPercentComplete(&self, percent_complete: c_double);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other lastReportedDate)]
-        pub unsafe fn lastReportedDate(&self) -> Id<NSDate>;
+    #[objc2::method(sel = "isCompleted")]
+    pub unsafe fn isCompleted(&self) -> bool;
 
-        #[method(showsCompletionBanner)]
-        pub unsafe fn showsCompletionBanner(&self) -> bool;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "lastReportedDate", managed = "Other")]
+    pub unsafe fn lastReportedDate(&self) -> Id<NSDate>;
 
-        #[method(setShowsCompletionBanner:)]
-        pub unsafe fn setShowsCompletionBanner(&self, shows_completion_banner: bool);
+    #[objc2::method(sel = "showsCompletionBanner")]
+    pub unsafe fn showsCompletionBanner(&self) -> bool;
 
-        #[cfg(feature = "GameKit_GKPlayer")]
-        #[method_id(@__retain_semantics Other player)]
-        pub unsafe fn player(&self) -> Option<Id<GKPlayer>>;
-    }
-);
+    #[objc2::method(sel = "setShowsCompletionBanner:")]
+    pub unsafe fn setShowsCompletionBanner(&self, shows_completion_banner: bool);
 
-extern_methods!(
-    /// Deprecated
+    #[cfg(feature = "GameKit_GKPlayer")]
+    #[objc2::method(sel = "player", managed = "Other")]
+    pub unsafe fn player(&self) -> Option<Id<GKPlayer>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKAchievement")]
-    unsafe impl GKAchievement {
-        #[cfg(feature = "Foundation_NSError")]
-        #[deprecated = "Use +reportAchievements:withCompletionHandler:"]
-        #[method(reportAchievementWithCompletionHandler:)]
-        pub unsafe fn reportAchievementWithCompletionHandler(
-            &self,
-            completion_handler: Option<&Block<(*mut NSError,), ()>>,
-        );
+    pub type GKAchievement;
 
-        #[deprecated = "Use isHidden on the GKAchievementDescription class instead"]
-        #[method(isHidden)]
-        pub unsafe fn isHidden(&self) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[deprecated = "Use +reportAchievements:withCompletionHandler:"]
+    #[objc2::method(sel = "reportAchievementWithCompletionHandler:")]
+    pub unsafe fn reportAchievementWithCompletionHandler(
+        &self,
+        completion_handler: Option<&Block<(*mut NSError,), ()>>,
+    );
 
-extern_methods!(
-    /// Obsoleted
+    #[deprecated = "Use isHidden on the GKAchievementDescription class instead"]
+    #[objc2::method(sel = "isHidden")]
+    pub unsafe fn isHidden(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKAchievement")]
-    unsafe impl GKAchievement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithIdentifier:forPlayer:)]
-        pub unsafe fn initWithIdentifier_forPlayer(
-            this: Option<Allocated<Self>>,
-            identifier: Option<&NSString>,
-            player_id: &NSString,
-        ) -> Option<Id<Self>>;
+    pub type GKAchievement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other playerID)]
-        pub unsafe fn playerID(&self) -> Option<Id<NSString>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithIdentifier:forPlayer:", managed = "Init")]
+    pub unsafe fn initWithIdentifier_forPlayer(
+        this: Option<Allocated<Self>>,
+        identifier: Option<&NSString>,
+        player_id: &NSString,
+    ) -> Option<Id<Self>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "playerID", managed = "Other")]
+    pub unsafe fn playerID(&self) -> Option<Id<NSString>>;
+}

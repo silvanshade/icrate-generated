@@ -6,57 +6,57 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = PHChangeRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHProjectChangeRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHProjectChangeRequest")]
-    pub struct PHProjectChangeRequest;
-
-    #[cfg(feature = "PhotoKit_PHProjectChangeRequest")]
-    unsafe impl ClassType for PHProjectChangeRequest {
-        #[inherits(NSObject)]
-        type Super = PHChangeRequest;
-    }
-);
+    pub type PHProjectChangeRequest;
+}
 
 #[cfg(feature = "PhotoKit_PHProjectChangeRequest")]
 unsafe impl NSObjectProtocol for PHProjectChangeRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHProjectChangeRequest")]
-    unsafe impl PHProjectChangeRequest {
-        #[cfg(feature = "PhotoKit_PHProject")]
-        #[method_id(@__retain_semantics Init initWithProject:)]
-        pub unsafe fn initWithProject(
-            this: Option<Allocated<Self>>,
-            project: &PHProject,
-        ) -> Id<Self>;
+    pub type PHProjectChangeRequest;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[cfg(feature = "PhotoKit_PHProject")]
+    #[objc2::method(sel = "initWithProject:", managed = "Init")]
+    pub unsafe fn initWithProject(this: Option<Allocated<Self>>, project: &PHProject) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other projectExtensionData)]
-        pub unsafe fn projectExtensionData(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: &NSString);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(setProjectExtensionData:)]
-        pub unsafe fn setProjectExtensionData(&self, project_extension_data: &NSData);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "projectExtensionData", managed = "Other")]
+    pub unsafe fn projectExtensionData(&self) -> Id<NSData>;
 
-        #[cfg(feature = "PhotoKit_PHAsset")]
-        #[deprecated]
-        #[method(setKeyAsset:)]
-        pub unsafe fn setKeyAsset(&self, key_asset: Option<&PHAsset>);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "setProjectExtensionData:")]
+    pub unsafe fn setProjectExtensionData(&self, project_extension_data: &NSData);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setProjectPreviewImage:)]
-        pub unsafe fn setProjectPreviewImage(&self, preview_image: &NSImage);
+    #[cfg(feature = "PhotoKit_PHAsset")]
+    #[deprecated]
+    #[objc2::method(sel = "setKeyAsset:")]
+    pub unsafe fn setKeyAsset(&self, key_asset: Option<&PHAsset>);
 
-        #[method(removeAssets:)]
-        pub unsafe fn removeAssets(&self, assets: &ProtocolObject<dyn NSFastEnumeration>);
-    }
-);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setProjectPreviewImage:")]
+    pub unsafe fn setProjectPreviewImage(&self, preview_image: &NSImage);
+
+    #[objc2::method(sel = "removeAssets:")]
+    pub unsafe fn removeAssets(&self, assets: &ProtocolObject<dyn NSFastEnumeration>);
+}

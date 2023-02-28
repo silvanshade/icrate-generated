@@ -3,28 +3,27 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSDateIntervalFormatterStyle {
-        NSDateIntervalFormatterNoStyle = 0,
-        NSDateIntervalFormatterShortStyle = 1,
-        NSDateIntervalFormatterMediumStyle = 2,
-        NSDateIntervalFormatterLongStyle = 3,
-        NSDateIntervalFormatterFullStyle = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSDateIntervalFormatterStyle {
+    NSDateIntervalFormatterNoStyle = 0,
+    NSDateIntervalFormatterShortStyle = 1,
+    NSDateIntervalFormatterMediumStyle = 2,
+    NSDateIntervalFormatterLongStyle = 3,
+    NSDateIntervalFormatterFullStyle = 4,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSFormatter,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSDateIntervalFormatter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSDateIntervalFormatter")]
-    pub struct NSDateIntervalFormatter;
-
-    #[cfg(feature = "Foundation_NSDateIntervalFormatter")]
-    unsafe impl ClassType for NSDateIntervalFormatter {
-        #[inherits(NSObject)]
-        type Super = NSFormatter;
-    }
-);
+    pub type NSDateIntervalFormatter;
+}
 
 #[cfg(feature = "Foundation_NSDateIntervalFormatter")]
 unsafe impl NSCoding for NSDateIntervalFormatter {}
@@ -32,66 +31,69 @@ unsafe impl NSCoding for NSDateIntervalFormatter {}
 #[cfg(feature = "Foundation_NSDateIntervalFormatter")]
 unsafe impl NSObjectProtocol for NSDateIntervalFormatter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSDateIntervalFormatter")]
-    unsafe impl NSDateIntervalFormatter {
-        #[cfg(feature = "Foundation_NSLocale")]
-        #[method_id(@__retain_semantics Other locale)]
-        pub unsafe fn locale(&self) -> Id<NSLocale>;
+    pub type NSDateIntervalFormatter;
 
-        #[cfg(feature = "Foundation_NSLocale")]
-        #[method(setLocale:)]
-        pub unsafe fn setLocale(&self, locale: Option<&NSLocale>);
+    #[cfg(feature = "Foundation_NSLocale")]
+    #[objc2::method(sel = "locale", managed = "Other")]
+    pub unsafe fn locale(&self) -> Id<NSLocale>;
 
-        #[cfg(feature = "Foundation_NSCalendar")]
-        #[method_id(@__retain_semantics Other calendar)]
-        pub unsafe fn calendar(&self) -> Id<NSCalendar>;
+    #[cfg(feature = "Foundation_NSLocale")]
+    #[objc2::method(sel = "setLocale:")]
+    pub unsafe fn setLocale(&self, locale: Option<&NSLocale>);
 
-        #[cfg(feature = "Foundation_NSCalendar")]
-        #[method(setCalendar:)]
-        pub unsafe fn setCalendar(&self, calendar: Option<&NSCalendar>);
+    #[cfg(feature = "Foundation_NSCalendar")]
+    #[objc2::method(sel = "calendar", managed = "Other")]
+    pub unsafe fn calendar(&self) -> Id<NSCalendar>;
 
-        #[cfg(feature = "Foundation_NSTimeZone")]
-        #[method_id(@__retain_semantics Other timeZone)]
-        pub unsafe fn timeZone(&self) -> Id<NSTimeZone>;
+    #[cfg(feature = "Foundation_NSCalendar")]
+    #[objc2::method(sel = "setCalendar:")]
+    pub unsafe fn setCalendar(&self, calendar: Option<&NSCalendar>);
 
-        #[cfg(feature = "Foundation_NSTimeZone")]
-        #[method(setTimeZone:)]
-        pub unsafe fn setTimeZone(&self, time_zone: Option<&NSTimeZone>);
+    #[cfg(feature = "Foundation_NSTimeZone")]
+    #[objc2::method(sel = "timeZone", managed = "Other")]
+    pub unsafe fn timeZone(&self) -> Id<NSTimeZone>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other dateTemplate)]
-        pub unsafe fn dateTemplate(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSTimeZone")]
+    #[objc2::method(sel = "setTimeZone:")]
+    pub unsafe fn setTimeZone(&self, time_zone: Option<&NSTimeZone>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setDateTemplate:)]
-        pub unsafe fn setDateTemplate(&self, date_template: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "dateTemplate", managed = "Other")]
+    pub unsafe fn dateTemplate(&self) -> Id<NSString>;
 
-        #[method(dateStyle)]
-        pub unsafe fn dateStyle(&self) -> NSDateIntervalFormatterStyle;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setDateTemplate:")]
+    pub unsafe fn setDateTemplate(&self, date_template: Option<&NSString>);
 
-        #[method(setDateStyle:)]
-        pub unsafe fn setDateStyle(&self, date_style: NSDateIntervalFormatterStyle);
+    #[objc2::method(sel = "dateStyle")]
+    pub unsafe fn dateStyle(&self) -> NSDateIntervalFormatterStyle;
 
-        #[method(timeStyle)]
-        pub unsafe fn timeStyle(&self) -> NSDateIntervalFormatterStyle;
+    #[objc2::method(sel = "setDateStyle:")]
+    pub unsafe fn setDateStyle(&self, date_style: NSDateIntervalFormatterStyle);
 
-        #[method(setTimeStyle:)]
-        pub unsafe fn setTimeStyle(&self, time_style: NSDateIntervalFormatterStyle);
+    #[objc2::method(sel = "timeStyle")]
+    pub unsafe fn timeStyle(&self) -> NSDateIntervalFormatterStyle;
 
-        #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other stringFromDate:toDate:)]
-        pub unsafe fn stringFromDate_toDate(
-            &self,
-            from_date: &NSDate,
-            to_date: &NSDate,
-        ) -> Id<NSString>;
+    #[objc2::method(sel = "setTimeStyle:")]
+    pub unsafe fn setTimeStyle(&self, time_style: NSDateIntervalFormatterStyle);
 
-        #[cfg(all(feature = "Foundation_NSDateInterval", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other stringFromDateInterval:)]
-        pub unsafe fn stringFromDateInterval(
-            &self,
-            date_interval: &NSDateInterval,
-        ) -> Option<Id<NSString>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "stringFromDate:toDate:", managed = "Other")]
+    pub unsafe fn stringFromDate_toDate(
+        &self,
+        from_date: &NSDate,
+        to_date: &NSDate,
+    ) -> Id<NSString>;
+
+    #[cfg(all(feature = "Foundation_NSDateInterval", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "stringFromDateInterval:", managed = "Other")]
+    pub unsafe fn stringFromDateInterval(
+        &self,
+        date_interval: &NSDateInterval,
+    ) -> Option<Id<NSString>>;
+}

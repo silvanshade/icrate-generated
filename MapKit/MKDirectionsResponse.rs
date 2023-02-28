@@ -7,164 +7,176 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKDirectionsResponse")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKDirectionsResponse")]
-    pub struct MKDirectionsResponse;
-
-    #[cfg(feature = "MapKit_MKDirectionsResponse")]
-    unsafe impl ClassType for MKDirectionsResponse {
-        type Super = NSObject;
-    }
-);
+    pub type MKDirectionsResponse;
+}
 
 #[cfg(feature = "MapKit_MKDirectionsResponse")]
 unsafe impl NSObjectProtocol for MKDirectionsResponse {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKDirectionsResponse")]
-    unsafe impl MKDirectionsResponse {
-        #[cfg(feature = "MapKit_MKMapItem")]
-        #[method_id(@__retain_semantics Other source)]
-        pub unsafe fn source(&self) -> Id<MKMapItem>;
+    pub type MKDirectionsResponse;
 
-        #[cfg(feature = "MapKit_MKMapItem")]
-        #[method_id(@__retain_semantics Other destination)]
-        pub unsafe fn destination(&self) -> Id<MKMapItem>;
+    #[cfg(feature = "MapKit_MKMapItem")]
+    #[objc2::method(sel = "source", managed = "Other")]
+    pub unsafe fn source(&self) -> Id<MKMapItem>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MapKit_MKRoute"))]
-        #[method_id(@__retain_semantics Other routes)]
-        pub unsafe fn routes(&self) -> Id<NSArray<MKRoute>>;
-    }
-);
+    #[cfg(feature = "MapKit_MKMapItem")]
+    #[objc2::method(sel = "destination", managed = "Other")]
+    pub unsafe fn destination(&self) -> Id<MKMapItem>;
 
-extern_class!(
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MapKit_MKRoute"))]
+    #[objc2::method(sel = "routes", managed = "Other")]
+    pub unsafe fn routes(&self) -> Id<NSArray<MKRoute>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKRoute")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKRoute")]
-    pub struct MKRoute;
-
-    #[cfg(feature = "MapKit_MKRoute")]
-    unsafe impl ClassType for MKRoute {
-        type Super = NSObject;
-    }
-);
+    pub type MKRoute;
+}
 
 #[cfg(feature = "MapKit_MKRoute")]
 unsafe impl NSObjectProtocol for MKRoute {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKRoute")]
-    unsafe impl MKRoute {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    pub type MKRoute;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other advisoryNotices)]
-        pub unsafe fn advisoryNotices(&self) -> Id<NSArray<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[method(distance)]
-        pub unsafe fn distance(&self) -> CLLocationDistance;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "advisoryNotices", managed = "Other")]
+    pub unsafe fn advisoryNotices(&self) -> Id<NSArray<NSString>>;
 
-        #[method(expectedTravelTime)]
-        pub unsafe fn expectedTravelTime(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "distance")]
+    pub unsafe fn distance(&self) -> CLLocationDistance;
 
-        #[method(transportType)]
-        pub unsafe fn transportType(&self) -> MKDirectionsTransportType;
+    #[objc2::method(sel = "expectedTravelTime")]
+    pub unsafe fn expectedTravelTime(&self) -> NSTimeInterval;
 
-        #[cfg(feature = "MapKit_MKPolyline")]
-        #[method_id(@__retain_semantics Other polyline)]
-        pub unsafe fn polyline(&self) -> Id<MKPolyline>;
+    #[objc2::method(sel = "transportType")]
+    pub unsafe fn transportType(&self) -> MKDirectionsTransportType;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MapKit_MKRouteStep"))]
-        #[method_id(@__retain_semantics Other steps)]
-        pub unsafe fn steps(&self) -> Id<NSArray<MKRouteStep>>;
+    #[cfg(feature = "MapKit_MKPolyline")]
+    #[objc2::method(sel = "polyline", managed = "Other")]
+    pub unsafe fn polyline(&self) -> Id<MKPolyline>;
 
-        #[method(hasTolls)]
-        pub unsafe fn hasTolls(&self) -> bool;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MapKit_MKRouteStep"))]
+    #[objc2::method(sel = "steps", managed = "Other")]
+    pub unsafe fn steps(&self) -> Id<NSArray<MKRouteStep>>;
 
-        #[method(hasHighways)]
-        pub unsafe fn hasHighways(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "hasTolls")]
+    pub unsafe fn hasTolls(&self) -> bool;
 
-extern_class!(
+    #[objc2::method(sel = "hasHighways")]
+    pub unsafe fn hasHighways(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKRouteStep")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKRouteStep")]
-    pub struct MKRouteStep;
-
-    #[cfg(feature = "MapKit_MKRouteStep")]
-    unsafe impl ClassType for MKRouteStep {
-        type Super = NSObject;
-    }
-);
+    pub type MKRouteStep;
+}
 
 #[cfg(feature = "MapKit_MKRouteStep")]
 unsafe impl NSObjectProtocol for MKRouteStep {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKRouteStep")]
-    unsafe impl MKRouteStep {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other instructions)]
-        pub unsafe fn instructions(&self) -> Id<NSString>;
+    pub type MKRouteStep;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other notice)]
-        pub unsafe fn notice(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "instructions", managed = "Other")]
+    pub unsafe fn instructions(&self) -> Id<NSString>;
 
-        #[cfg(feature = "MapKit_MKPolyline")]
-        #[method_id(@__retain_semantics Other polyline)]
-        pub unsafe fn polyline(&self) -> Id<MKPolyline>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "notice", managed = "Other")]
+    pub unsafe fn notice(&self) -> Option<Id<NSString>>;
 
-        #[method(distance)]
-        pub unsafe fn distance(&self) -> CLLocationDistance;
+    #[cfg(feature = "MapKit_MKPolyline")]
+    #[objc2::method(sel = "polyline", managed = "Other")]
+    pub unsafe fn polyline(&self) -> Id<MKPolyline>;
 
-        #[method(transportType)]
-        pub unsafe fn transportType(&self) -> MKDirectionsTransportType;
-    }
-);
+    #[objc2::method(sel = "distance")]
+    pub unsafe fn distance(&self) -> CLLocationDistance;
 
-extern_class!(
+    #[objc2::method(sel = "transportType")]
+    pub unsafe fn transportType(&self) -> MKDirectionsTransportType;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKETAResponse")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKETAResponse")]
-    pub struct MKETAResponse;
-
-    #[cfg(feature = "MapKit_MKETAResponse")]
-    unsafe impl ClassType for MKETAResponse {
-        type Super = NSObject;
-    }
-);
+    pub type MKETAResponse;
+}
 
 #[cfg(feature = "MapKit_MKETAResponse")]
 unsafe impl NSObjectProtocol for MKETAResponse {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKETAResponse")]
-    unsafe impl MKETAResponse {
-        #[cfg(feature = "MapKit_MKMapItem")]
-        #[method_id(@__retain_semantics Other source)]
-        pub unsafe fn source(&self) -> Id<MKMapItem>;
+    pub type MKETAResponse;
 
-        #[cfg(feature = "MapKit_MKMapItem")]
-        #[method_id(@__retain_semantics Other destination)]
-        pub unsafe fn destination(&self) -> Id<MKMapItem>;
+    #[cfg(feature = "MapKit_MKMapItem")]
+    #[objc2::method(sel = "source", managed = "Other")]
+    pub unsafe fn source(&self) -> Id<MKMapItem>;
 
-        #[method(expectedTravelTime)]
-        pub unsafe fn expectedTravelTime(&self) -> NSTimeInterval;
+    #[cfg(feature = "MapKit_MKMapItem")]
+    #[objc2::method(sel = "destination", managed = "Other")]
+    pub unsafe fn destination(&self) -> Id<MKMapItem>;
 
-        #[method(distance)]
-        pub unsafe fn distance(&self) -> CLLocationDistance;
+    #[objc2::method(sel = "expectedTravelTime")]
+    pub unsafe fn expectedTravelTime(&self) -> NSTimeInterval;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other expectedArrivalDate)]
-        pub unsafe fn expectedArrivalDate(&self) -> Id<NSDate>;
+    #[objc2::method(sel = "distance")]
+    pub unsafe fn distance(&self) -> CLLocationDistance;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other expectedDepartureDate)]
-        pub unsafe fn expectedDepartureDate(&self) -> Id<NSDate>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "expectedArrivalDate", managed = "Other")]
+    pub unsafe fn expectedArrivalDate(&self) -> Id<NSDate>;
 
-        #[method(transportType)]
-        pub unsafe fn transportType(&self) -> MKDirectionsTransportType;
-    }
-);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "expectedDepartureDate", managed = "Other")]
+    pub unsafe fn expectedDepartureDate(&self) -> Id<NSDate>;
+
+    #[objc2::method(sel = "transportType")]
+    pub unsafe fn transportType(&self) -> MKDirectionsTransportType;
+}

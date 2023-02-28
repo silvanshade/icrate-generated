@@ -22,16 +22,16 @@ extern_static!(HKDevicePropertyKeyLocalIdentifier: &'static NSString);
 
 extern_static!(HKDevicePropertyKeyUDIDeviceIdentifier: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKDevice")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKDevice")]
-    pub struct HKDevice;
-
-    #[cfg(feature = "HealthKit_HKDevice")]
-    unsafe impl ClassType for HKDevice {
-        type Super = NSObject;
-    }
-);
+    pub type HKDevice;
+}
 
 #[cfg(feature = "HealthKit_HKDevice")]
 unsafe impl NSCoding for HKDevice {}
@@ -42,59 +42,65 @@ unsafe impl NSObjectProtocol for HKDevice {}
 #[cfg(feature = "HealthKit_HKDevice")]
 unsafe impl NSSecureCoding for HKDevice {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKDevice")]
-    unsafe impl HKDevice {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Option<Id<NSString>>;
+    pub type HKDevice;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other manufacturer)]
-        pub unsafe fn manufacturer(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other model)]
-        pub unsafe fn model(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "manufacturer", managed = "Other")]
+    pub unsafe fn manufacturer(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other hardwareVersion)]
-        pub unsafe fn hardwareVersion(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "model", managed = "Other")]
+    pub unsafe fn model(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other firmwareVersion)]
-        pub unsafe fn firmwareVersion(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "hardwareVersion", managed = "Other")]
+    pub unsafe fn hardwareVersion(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other softwareVersion)]
-        pub unsafe fn softwareVersion(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "firmwareVersion", managed = "Other")]
+    pub unsafe fn firmwareVersion(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localIdentifier)]
-        pub unsafe fn localIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "softwareVersion", managed = "Other")]
+    pub unsafe fn softwareVersion(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other UDIDeviceIdentifier)]
-        pub unsafe fn UDIDeviceIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localIdentifier", managed = "Other")]
+    pub unsafe fn localIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithName:manufacturer:model:hardwareVersion:firmwareVersion:softwareVersion:localIdentifier:UDIDeviceIdentifier:)]
-        pub unsafe fn initWithName_manufacturer_model_hardwareVersion_firmwareVersion_softwareVersion_localIdentifier_UDIDeviceIdentifier(
-            this: Option<Allocated<Self>>,
-            name: Option<&NSString>,
-            manufacturer: Option<&NSString>,
-            model: Option<&NSString>,
-            hardware_version: Option<&NSString>,
-            firmware_version: Option<&NSString>,
-            software_version: Option<&NSString>,
-            local_identifier: Option<&NSString>,
-            udi_device_identifier: Option<&NSString>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "UDIDeviceIdentifier", managed = "Other")]
+    pub unsafe fn UDIDeviceIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "initWithName:manufacturer:model:hardwareVersion:firmwareVersion:softwareVersion:localIdentifier:UDIDeviceIdentifier:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithName_manufacturer_model_hardwareVersion_firmwareVersion_softwareVersion_localIdentifier_UDIDeviceIdentifier(
+        this: Option<Allocated<Self>>,
+        name: Option<&NSString>,
+        manufacturer: Option<&NSString>,
+        model: Option<&NSString>,
+        hardware_version: Option<&NSString>,
+        firmware_version: Option<&NSString>,
+        software_version: Option<&NSString>,
+        local_identifier: Option<&NSString>,
+        udi_device_identifier: Option<&NSString>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other localDevice)]
-        pub unsafe fn localDevice() -> Id<HKDevice>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "localDevice", managed = "Other")]
+    pub unsafe fn localDevice() -> Id<HKDevice>;
+}

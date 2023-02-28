@@ -5,86 +5,89 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPContentItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPContentItem")]
-    pub struct MPContentItem;
-
-    #[cfg(feature = "MediaPlayer_MPContentItem")]
-    unsafe impl ClassType for MPContentItem {
-        type Super = NSObject;
-    }
-);
+    pub type MPContentItem;
+}
 
 #[cfg(feature = "MediaPlayer_MPContentItem")]
 unsafe impl NSObjectProtocol for MPContentItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPContentItem")]
-    unsafe impl MPContentItem {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithIdentifier:)]
-        pub unsafe fn initWithIdentifier(
-            this: Option<Allocated<Self>>,
-            identifier: &NSString,
-        ) -> Id<Self>;
+    pub type MPContentItem;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithIdentifier:", managed = "Init")]
+    pub unsafe fn initWithIdentifier(
+        this: Option<Allocated<Self>>,
+        identifier: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subtitle)]
-        pub unsafe fn subtitle(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSubtitle:)]
-        pub unsafe fn setSubtitle(&self, subtitle: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subtitle", managed = "Other")]
+    pub unsafe fn subtitle(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "MediaPlayer_MPMediaItemArtwork")]
-        #[method_id(@__retain_semantics Other artwork)]
-        pub unsafe fn artwork(&self) -> Option<Id<MPMediaItemArtwork>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSubtitle:")]
+    pub unsafe fn setSubtitle(&self, subtitle: Option<&NSString>);
 
-        #[cfg(feature = "MediaPlayer_MPMediaItemArtwork")]
-        #[method(setArtwork:)]
-        pub unsafe fn setArtwork(&self, artwork: Option<&MPMediaItemArtwork>);
+    #[cfg(feature = "MediaPlayer_MPMediaItemArtwork")]
+    #[objc2::method(sel = "artwork", managed = "Other")]
+    pub unsafe fn artwork(&self) -> Option<Id<MPMediaItemArtwork>>;
 
-        #[method(playbackProgress)]
-        pub unsafe fn playbackProgress(&self) -> c_float;
+    #[cfg(feature = "MediaPlayer_MPMediaItemArtwork")]
+    #[objc2::method(sel = "setArtwork:")]
+    pub unsafe fn setArtwork(&self, artwork: Option<&MPMediaItemArtwork>);
 
-        #[method(setPlaybackProgress:)]
-        pub unsafe fn setPlaybackProgress(&self, playback_progress: c_float);
+    #[objc2::method(sel = "playbackProgress")]
+    pub unsafe fn playbackProgress(&self) -> c_float;
 
-        #[method(isStreamingContent)]
-        pub unsafe fn isStreamingContent(&self) -> bool;
+    #[objc2::method(sel = "setPlaybackProgress:")]
+    pub unsafe fn setPlaybackProgress(&self, playback_progress: c_float);
 
-        #[method(setStreamingContent:)]
-        pub unsafe fn setStreamingContent(&self, streaming_content: bool);
+    #[objc2::method(sel = "isStreamingContent")]
+    pub unsafe fn isStreamingContent(&self) -> bool;
 
-        #[method(isExplicitContent)]
-        pub unsafe fn isExplicitContent(&self) -> bool;
+    #[objc2::method(sel = "setStreamingContent:")]
+    pub unsafe fn setStreamingContent(&self, streaming_content: bool);
 
-        #[method(setExplicitContent:)]
-        pub unsafe fn setExplicitContent(&self, explicit_content: bool);
+    #[objc2::method(sel = "isExplicitContent")]
+    pub unsafe fn isExplicitContent(&self) -> bool;
 
-        #[method(isContainer)]
-        pub unsafe fn isContainer(&self) -> bool;
+    #[objc2::method(sel = "setExplicitContent:")]
+    pub unsafe fn setExplicitContent(&self, explicit_content: bool);
 
-        #[method(setContainer:)]
-        pub unsafe fn setContainer(&self, container: bool);
+    #[objc2::method(sel = "isContainer")]
+    pub unsafe fn isContainer(&self) -> bool;
 
-        #[method(isPlayable)]
-        pub unsafe fn isPlayable(&self) -> bool;
+    #[objc2::method(sel = "setContainer:")]
+    pub unsafe fn setContainer(&self, container: bool);
 
-        #[method(setPlayable:)]
-        pub unsafe fn setPlayable(&self, playable: bool);
-    }
-);
+    #[objc2::method(sel = "isPlayable")]
+    pub unsafe fn isPlayable(&self) -> bool;
+
+    #[objc2::method(sel = "setPlayable:")]
+    pub unsafe fn setPlayable(&self, playable: bool);
+}

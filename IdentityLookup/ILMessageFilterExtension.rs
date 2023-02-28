@@ -4,21 +4,24 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::IdentityLookup::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "IdentityLookup_ILMessageFilterExtension")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "IdentityLookup_ILMessageFilterExtension")]
-    pub struct ILMessageFilterExtension;
-
-    #[cfg(feature = "IdentityLookup_ILMessageFilterExtension")]
-    unsafe impl ClassType for ILMessageFilterExtension {
-        type Super = NSObject;
-    }
-);
+    pub type ILMessageFilterExtension;
+}
 
 #[cfg(feature = "IdentityLookup_ILMessageFilterExtension")]
 unsafe impl NSObjectProtocol for ILMessageFilterExtension {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "IdentityLookup_ILMessageFilterExtension")]
-    unsafe impl ILMessageFilterExtension {}
-);
+    pub type ILMessageFilterExtension;
+}

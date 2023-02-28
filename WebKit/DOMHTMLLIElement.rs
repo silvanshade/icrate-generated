@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLLIElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLLIElement;
-
     #[cfg(feature = "WebKit_DOMHTMLLIElement")]
-    unsafe impl ClassType for DOMHTMLLIElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLLIElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLLIElement")]
 unsafe impl DOMEventTarget for DOMHTMLLIElement {}
@@ -24,21 +28,25 @@ unsafe impl DOMEventTarget for DOMHTMLLIElement {}
 #[cfg(feature = "WebKit_DOMHTMLLIElement")]
 unsafe impl NSObjectProtocol for DOMHTMLLIElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLLIElement")]
-    unsafe impl DOMHTMLLIElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other type)]
-        pub unsafe fn r#type(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMHTMLLIElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setType:)]
-        pub unsafe fn setType(&self, r#type: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "type", managed = "Other")]
+    pub unsafe fn r#type(&self) -> Id<NSString>;
 
-        #[method(value)]
-        pub unsafe fn value(&self) -> c_int;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setType:")]
+    pub unsafe fn setType(&self, r#type: Option<&NSString>);
 
-        #[method(setValue:)]
-        pub unsafe fn setValue(&self, value: c_int);
-    }
-);
+    #[objc2::method(sel = "value")]
+    pub unsafe fn value(&self) -> c_int;
+
+    #[objc2::method(sel = "setValue:")]
+    pub unsafe fn setValue(&self, value: c_int);
+}

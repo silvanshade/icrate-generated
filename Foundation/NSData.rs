@@ -3,71 +3,66 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSDataReadingOptions {
-        NSDataReadingMappedIfSafe = 1 << 0,
-        NSDataReadingUncached = 1 << 1,
-        NSDataReadingMappedAlways = 1 << 3,
-        #[deprecated]
-        NSDataReadingMapped = NSDataReadingMappedIfSafe,
-        #[deprecated]
-        NSMappedRead = NSDataReadingMapped,
-        #[deprecated]
-        NSUncachedRead = NSDataReadingUncached,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSDataReadingOptions {
+    NSDataReadingMappedIfSafe = 1 << 0,
+    NSDataReadingUncached = 1 << 1,
+    NSDataReadingMappedAlways = 1 << 3,
+    #[deprecated]
+    NSDataReadingMapped = NSDataReadingMappedIfSafe,
+    #[deprecated]
+    NSMappedRead = NSDataReadingMapped,
+    #[deprecated]
+    NSUncachedRead = NSDataReadingUncached,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSDataWritingOptions {
-        NSDataWritingAtomic = 1 << 0,
-        NSDataWritingWithoutOverwriting = 1 << 1,
-        NSDataWritingFileProtectionNone = 0x10000000,
-        NSDataWritingFileProtectionComplete = 0x20000000,
-        NSDataWritingFileProtectionCompleteUnlessOpen = 0x30000000,
-        NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication = 0x40000000,
-        NSDataWritingFileProtectionMask = 0xf0000000,
-        #[deprecated]
-        NSAtomicWrite = NSDataWritingAtomic,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSDataWritingOptions {
+    NSDataWritingAtomic = 1 << 0,
+    NSDataWritingWithoutOverwriting = 1 << 1,
+    NSDataWritingFileProtectionNone = 0x10000000,
+    NSDataWritingFileProtectionComplete = 0x20000000,
+    NSDataWritingFileProtectionCompleteUnlessOpen = 0x30000000,
+    NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication = 0x40000000,
+    NSDataWritingFileProtectionMask = 0xf0000000,
+    #[deprecated]
+    NSAtomicWrite = NSDataWritingAtomic,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSDataSearchOptions {
-        NSDataSearchBackwards = 1 << 0,
-        NSDataSearchAnchored = 1 << 1,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSDataSearchOptions {
+    NSDataSearchBackwards = 1 << 0,
+    NSDataSearchAnchored = 1 << 1,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSDataBase64EncodingOptions {
-        NSDataBase64Encoding64CharacterLineLength = 1 << 0,
-        NSDataBase64Encoding76CharacterLineLength = 1 << 1,
-        NSDataBase64EncodingEndLineWithCarriageReturn = 1 << 4,
-        NSDataBase64EncodingEndLineWithLineFeed = 1 << 5,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSDataBase64EncodingOptions {
+    NSDataBase64Encoding64CharacterLineLength = 1 << 0,
+    NSDataBase64Encoding76CharacterLineLength = 1 << 1,
+    NSDataBase64EncodingEndLineWithCarriageReturn = 1 << 4,
+    NSDataBase64EncodingEndLineWithLineFeed = 1 << 5,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSDataBase64DecodingOptions {
-        NSDataBase64DecodingIgnoreUnknownCharacters = 1 << 0,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSDataBase64DecodingOptions {
+    NSDataBase64DecodingIgnoreUnknownCharacters = 1 << 0,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSData")]
     #[derive(PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSData")]
-    pub struct NSData;
-
-    #[cfg(feature = "Foundation_NSData")]
-    unsafe impl ClassType for NSData {
-        type Super = NSObject;
-    }
-);
+    pub type NSData;
+}
 
 #[cfg(feature = "Foundation_NSData")]
 unsafe impl NSCoding for NSData {}
@@ -78,302 +73,326 @@ unsafe impl NSObjectProtocol for NSData {}
 #[cfg(feature = "Foundation_NSData")]
 unsafe impl NSSecureCoding for NSData {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSData")]
-    unsafe impl NSData {
-        #[method(length)]
-        pub fn length(&self) -> NSUInteger;
-    }
-);
+    pub type NSData;
 
-extern_methods!(
-    /// NSExtendedData
+    #[objc2::method(sel = "length")]
+    pub fn length(&self) -> NSUInteger;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSData")]
-    unsafe impl NSData {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other description)]
-        pub unsafe fn description(&self) -> Id<NSString>;
+    pub type NSData;
 
-        #[method(getBytes:length:)]
-        pub unsafe fn getBytes_length(&self, buffer: NonNull<c_void>, length: NSUInteger);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "description", managed = "Other")]
+    pub unsafe fn description(&self) -> Id<NSString>;
 
-        #[method(getBytes:range:)]
-        pub unsafe fn getBytes_range(&self, buffer: NonNull<c_void>, range: NSRange);
+    #[objc2::method(sel = "getBytes:length:")]
+    pub unsafe fn getBytes_length(&self, buffer: NonNull<c_void>, length: NSUInteger);
 
-        #[method(isEqualToData:)]
-        pub unsafe fn isEqualToData(&self, other: &NSData) -> bool;
+    #[objc2::method(sel = "getBytes:range:")]
+    pub unsafe fn getBytes_range(&self, buffer: NonNull<c_void>, range: NSRange);
 
-        #[method_id(@__retain_semantics Other subdataWithRange:)]
-        pub unsafe fn subdataWithRange(&self, range: NSRange) -> Id<NSData>;
+    #[objc2::method(sel = "isEqualToData:")]
+    pub unsafe fn isEqualToData(&self, other: &NSData) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(writeToFile:atomically:)]
-        pub unsafe fn writeToFile_atomically(
-            &self,
-            path: &NSString,
-            use_auxiliary_file: bool,
-        ) -> bool;
+    #[objc2::method(sel = "subdataWithRange:", managed = "Other")]
+    pub unsafe fn subdataWithRange(&self, range: NSRange) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(writeToURL:atomically:)]
-        pub unsafe fn writeToURL_atomically(&self, url: &NSURL, atomically: bool) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "writeToFile:atomically:")]
+    pub unsafe fn writeToFile_atomically(&self, path: &NSString, use_auxiliary_file: bool) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(writeToFile:options:error:_)]
-        pub unsafe fn writeToFile_options_error(
-            &self,
-            path: &NSString,
-            write_options_mask: NSDataWritingOptions,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "writeToURL:atomically:")]
+    pub unsafe fn writeToURL_atomically(&self, url: &NSURL, atomically: bool) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method(writeToURL:options:error:_)]
-        pub unsafe fn writeToURL_options_error(
-            &self,
-            url: &NSURL,
-            write_options_mask: NSDataWritingOptions,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "writeToFile:options:error:", throws)]
+    pub unsafe fn writeToFile_options_error(
+        &self,
+        path: &NSString,
+        write_options_mask: NSDataWritingOptions,
+    ) -> Result<(), Id<NSError>>;
 
-        #[method(rangeOfData:options:range:)]
-        pub unsafe fn rangeOfData_options_range(
-            &self,
-            data_to_find: &NSData,
-            mask: NSDataSearchOptions,
-            search_range: NSRange,
-        ) -> NSRange;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "writeToURL:options:error:", throws)]
+    pub unsafe fn writeToURL_options_error(
+        &self,
+        url: &NSURL,
+        write_options_mask: NSDataWritingOptions,
+    ) -> Result<(), Id<NSError>>;
 
-        #[method(enumerateByteRangesUsingBlock:)]
-        pub unsafe fn enumerateByteRangesUsingBlock(
-            &self,
-            block: &Block<(NonNull<c_void>, NSRange, NonNull<Bool>), ()>,
-        );
-    }
-);
+    #[objc2::method(sel = "rangeOfData:options:range:")]
+    pub unsafe fn rangeOfData_options_range(
+        &self,
+        data_to_find: &NSData,
+        mask: NSDataSearchOptions,
+        search_range: NSRange,
+    ) -> NSRange;
 
-extern_methods!(
-    /// NSDataCreation
+    #[objc2::method(sel = "enumerateByteRangesUsingBlock:")]
+    pub unsafe fn enumerateByteRangesUsingBlock(
+        &self,
+        block: &Block<(NonNull<c_void>, NSRange, NonNull<Bool>), ()>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSData")]
-    unsafe impl NSData {
-        #[method_id(@__retain_semantics Other data)]
-        pub unsafe fn data() -> Id<Self>;
+    pub type NSData;
 
-        #[method_id(@__retain_semantics Other dataWithBytes:length:)]
-        pub unsafe fn dataWithBytes_length(bytes: *mut c_void, length: NSUInteger) -> Id<Self>;
+    #[objc2::method(sel = "data", managed = "Other")]
+    pub unsafe fn data() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other dataWithBytesNoCopy:length:)]
-        pub unsafe fn dataWithBytesNoCopy_length(
-            bytes: NonNull<c_void>,
-            length: NSUInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "dataWithBytes:length:", managed = "Other")]
+    pub unsafe fn dataWithBytes_length(bytes: *mut c_void, length: NSUInteger) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other dataWithBytesNoCopy:length:freeWhenDone:)]
-        pub unsafe fn dataWithBytesNoCopy_length_freeWhenDone(
-            bytes: NonNull<c_void>,
-            length: NSUInteger,
-            b: bool,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "dataWithBytesNoCopy:length:", managed = "Other")]
+    pub unsafe fn dataWithBytesNoCopy_length(
+        bytes: NonNull<c_void>,
+        length: NSUInteger,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other dataWithContentsOfFile:options:error:_)]
-        pub unsafe fn dataWithContentsOfFile_options_error(
-            path: &NSString,
-            read_options_mask: NSDataReadingOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[objc2::method(sel = "dataWithBytesNoCopy:length:freeWhenDone:", managed = "Other")]
+    pub unsafe fn dataWithBytesNoCopy_length_freeWhenDone(
+        bytes: NonNull<c_void>,
+        length: NSUInteger,
+        b: bool,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other dataWithContentsOfURL:options:error:_)]
-        pub unsafe fn dataWithContentsOfURL_options_error(
-            url: &NSURL,
-            read_options_mask: NSDataReadingOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "dataWithContentsOfFile:options:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn dataWithContentsOfFile_options_error(
+        path: &NSString,
+        read_options_mask: NSDataReadingOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other dataWithContentsOfFile:)]
-        pub unsafe fn dataWithContentsOfFile(path: &NSString) -> Option<Id<Self>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(
+        sel = "dataWithContentsOfURL:options:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn dataWithContentsOfURL_options_error(
+        url: &NSURL,
+        read_options_mask: NSDataReadingOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other dataWithContentsOfURL:)]
-        pub unsafe fn dataWithContentsOfURL(url: &NSURL) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "dataWithContentsOfFile:", managed = "Other")]
+    pub unsafe fn dataWithContentsOfFile(path: &NSString) -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Init initWithBytes:length:)]
-        pub unsafe fn initWithBytes_length(
-            this: Option<Allocated<Self>>,
-            bytes: *mut c_void,
-            length: NSUInteger,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "dataWithContentsOfURL:", managed = "Other")]
+    pub unsafe fn dataWithContentsOfURL(url: &NSURL) -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Init initWithBytesNoCopy:length:)]
-        pub unsafe fn initWithBytesNoCopy_length(
-            this: Option<Allocated<Self>>,
-            bytes: NonNull<c_void>,
-            length: NSUInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithBytes:length:", managed = "Init")]
+    pub unsafe fn initWithBytes_length(
+        this: Option<Allocated<Self>>,
+        bytes: *mut c_void,
+        length: NSUInteger,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithBytesNoCopy:length:freeWhenDone:)]
-        pub unsafe fn initWithBytesNoCopy_length_freeWhenDone(
-            this: Option<Allocated<Self>>,
-            bytes: NonNull<c_void>,
-            length: NSUInteger,
-            b: bool,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithBytesNoCopy:length:", managed = "Init")]
+    pub unsafe fn initWithBytesNoCopy_length(
+        this: Option<Allocated<Self>>,
+        bytes: NonNull<c_void>,
+        length: NSUInteger,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithBytesNoCopy:length:deallocator:)]
-        pub unsafe fn initWithBytesNoCopy_length_deallocator(
-            this: Option<Allocated<Self>>,
-            bytes: NonNull<c_void>,
-            length: NSUInteger,
-            deallocator: Option<&Block<(NonNull<c_void>, NSUInteger), ()>>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithBytesNoCopy:length:freeWhenDone:", managed = "Init")]
+    pub unsafe fn initWithBytesNoCopy_length_freeWhenDone(
+        this: Option<Allocated<Self>>,
+        bytes: NonNull<c_void>,
+        length: NSUInteger,
+        b: bool,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithContentsOfFile:options:error:_)]
-        pub unsafe fn initWithContentsOfFile_options_error(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-            read_options_mask: NSDataReadingOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[objc2::method(sel = "initWithBytesNoCopy:length:deallocator:", managed = "Init")]
+    pub unsafe fn initWithBytesNoCopy_length_deallocator(
+        this: Option<Allocated<Self>>,
+        bytes: NonNull<c_void>,
+        length: NSUInteger,
+        deallocator: Option<&Block<(NonNull<c_void>, NSUInteger), ()>>,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:options:error:_)]
-        pub unsafe fn initWithContentsOfURL_options_error(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            read_options_mask: NSDataReadingOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "initWithContentsOfFile:options:error:",
+        managed = "Init",
+        throws
+    )]
+    pub unsafe fn initWithContentsOfFile_options_error(
+        this: Option<Allocated<Self>>,
+        path: &NSString,
+        read_options_mask: NSDataReadingOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithContentsOfFile:)]
-        pub unsafe fn initWithContentsOfFile(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-        ) -> Option<Id<Self>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "initWithContentsOfURL:options:error:", managed = "Init", throws)]
+    pub unsafe fn initWithContentsOfURL_options_error(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        read_options_mask: NSDataReadingOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:)]
-        pub unsafe fn initWithContentsOfURL(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithContentsOfFile:", managed = "Init")]
+    pub unsafe fn initWithContentsOfFile(
+        this: Option<Allocated<Self>>,
+        path: &NSString,
+    ) -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Init initWithData:)]
-        pub fn initWithData(this: Option<Allocated<Self>>, data: &NSData) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initWithContentsOfURL:", managed = "Init")]
+    pub unsafe fn initWithContentsOfURL(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+    ) -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Other dataWithData:)]
-        pub fn dataWithData(data: &NSData) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "initWithData:", managed = "Init")]
+    pub fn initWithData(this: Option<Allocated<Self>>, data: &NSData) -> Id<Self>;
 
-extern_methods!(
-    /// NSDataBase64Encoding
+    #[objc2::method(sel = "dataWithData:", managed = "Other")]
+    pub fn dataWithData(data: &NSData) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSData")]
-    unsafe impl NSData {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithBase64EncodedString:options:)]
-        pub unsafe fn initWithBase64EncodedString_options(
-            this: Option<Allocated<Self>>,
-            base64_string: &NSString,
-            options: NSDataBase64DecodingOptions,
-        ) -> Option<Id<Self>>;
+    pub type NSData;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other base64EncodedStringWithOptions:)]
-        pub unsafe fn base64EncodedStringWithOptions(
-            &self,
-            options: NSDataBase64EncodingOptions,
-        ) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithBase64EncodedString:options:", managed = "Init")]
+    pub unsafe fn initWithBase64EncodedString_options(
+        this: Option<Allocated<Self>>,
+        base64_string: &NSString,
+        options: NSDataBase64DecodingOptions,
+    ) -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Init initWithBase64EncodedData:options:)]
-        pub unsafe fn initWithBase64EncodedData_options(
-            this: Option<Allocated<Self>>,
-            base64_data: &NSData,
-            options: NSDataBase64DecodingOptions,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "base64EncodedStringWithOptions:", managed = "Other")]
+    pub unsafe fn base64EncodedStringWithOptions(
+        &self,
+        options: NSDataBase64EncodingOptions,
+    ) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Other base64EncodedDataWithOptions:)]
-        pub unsafe fn base64EncodedDataWithOptions(
-            &self,
-            options: NSDataBase64EncodingOptions,
-        ) -> Id<NSData>;
-    }
-);
+    #[objc2::method(sel = "initWithBase64EncodedData:options:", managed = "Init")]
+    pub unsafe fn initWithBase64EncodedData_options(
+        this: Option<Allocated<Self>>,
+        base64_data: &NSData,
+        options: NSDataBase64DecodingOptions,
+    ) -> Option<Id<Self>>;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSDataCompressionAlgorithm {
-        NSDataCompressionAlgorithmLZFSE = 0,
-        NSDataCompressionAlgorithmLZ4 = 1,
-        NSDataCompressionAlgorithmLZMA = 2,
-        NSDataCompressionAlgorithmZlib = 3,
-    }
-);
+    #[objc2::method(sel = "base64EncodedDataWithOptions:", managed = "Other")]
+    pub unsafe fn base64EncodedDataWithOptions(
+        &self,
+        options: NSDataBase64EncodingOptions,
+    ) -> Id<NSData>;
+}
 
-extern_methods!(
-    /// NSDataCompression
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSDataCompressionAlgorithm {
+    NSDataCompressionAlgorithmLZFSE = 0,
+    NSDataCompressionAlgorithmLZ4 = 1,
+    NSDataCompressionAlgorithmLZMA = 2,
+    NSDataCompressionAlgorithmZlib = 3,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSData")]
-    unsafe impl NSData {
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other decompressedDataUsingAlgorithm:error:_)]
-        pub unsafe fn decompressedDataUsingAlgorithm_error(
-            &self,
-            algorithm: NSDataCompressionAlgorithm,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    pub type NSData;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other compressedDataUsingAlgorithm:error:_)]
-        pub unsafe fn compressedDataUsingAlgorithm_error(
-            &self,
-            algorithm: NSDataCompressionAlgorithm,
-        ) -> Result<Id<Self>, Id<NSError>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(
+        sel = "decompressedDataUsingAlgorithm:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn decompressedDataUsingAlgorithm_error(
+        &self,
+        algorithm: NSDataCompressionAlgorithm,
+    ) -> Result<Id<Self>, Id<NSError>>;
 
-extern_methods!(
-    /// NSDeprecated
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "compressedDataUsingAlgorithm:error:", managed = "Other", throws)]
+    pub unsafe fn compressedDataUsingAlgorithm_error(
+        &self,
+        algorithm: NSDataCompressionAlgorithm,
+    ) -> Result<Id<Self>, Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSData")]
-    unsafe impl NSData {
-        #[deprecated = "This method is unsafe because it could potentially cause buffer overruns. Use -getBytes:length: instead."]
-        #[method(getBytes:)]
-        pub unsafe fn getBytes(&self, buffer: NonNull<c_void>);
+    pub type NSData;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use +dataWithContentsOfURL:options:error: and NSDataReadingMappedIfSafe or NSDataReadingMappedAlways instead."]
-        #[method_id(@__retain_semantics Other dataWithContentsOfMappedFile:)]
-        pub unsafe fn dataWithContentsOfMappedFile(path: &NSString) -> Option<Id<Object>>;
+    #[deprecated = "This method is unsafe because it could potentially cause buffer overruns. Use -getBytes:length: instead."]
+    #[objc2::method(sel = "getBytes:")]
+    pub unsafe fn getBytes(&self, buffer: NonNull<c_void>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -initWithContentsOfURL:options:error: and NSDataReadingMappedIfSafe or NSDataReadingMappedAlways instead."]
-        #[method_id(@__retain_semantics Init initWithContentsOfMappedFile:)]
-        pub unsafe fn initWithContentsOfMappedFile(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use +dataWithContentsOfURL:options:error: and NSDataReadingMappedIfSafe or NSDataReadingMappedAlways instead."]
+    #[objc2::method(sel = "dataWithContentsOfMappedFile:", managed = "Other")]
+    pub unsafe fn dataWithContentsOfMappedFile(path: &NSString) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use initWithBase64EncodedString:options: instead"]
-        #[method_id(@__retain_semantics Init initWithBase64Encoding:)]
-        pub unsafe fn initWithBase64Encoding(
-            this: Option<Allocated<Self>>,
-            base64_string: &NSString,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -initWithContentsOfURL:options:error: and NSDataReadingMappedIfSafe or NSDataReadingMappedAlways instead."]
+    #[objc2::method(sel = "initWithContentsOfMappedFile:", managed = "Init")]
+    pub unsafe fn initWithContentsOfMappedFile(
+        this: Option<Allocated<Self>>,
+        path: &NSString,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use base64EncodedStringWithOptions: instead"]
-        #[method_id(@__retain_semantics Other base64Encoding)]
-        pub unsafe fn base64Encoding(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use initWithBase64EncodedString:options: instead"]
+    #[objc2::method(sel = "initWithBase64Encoding:", managed = "Init")]
+    pub unsafe fn initWithBase64Encoding(
+        this: Option<Allocated<Self>>,
+        base64_string: &NSString,
+    ) -> Option<Id<Self>>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use base64EncodedStringWithOptions: instead"]
+    #[objc2::method(sel = "base64Encoding", managed = "Other")]
+    pub unsafe fn base64Encoding(&self) -> Id<NSString>;
+}
+
+#[objc2::interface(
+    unsafe super = NSData,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMutableData")]
     #[derive(PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSMutableData")]
-    pub struct NSMutableData;
-
-    #[cfg(feature = "Foundation_NSMutableData")]
-    unsafe impl ClassType for NSMutableData {
-        #[inherits(NSObject)]
-        type Super = NSData;
-    }
-);
+    pub type NSMutableData;
+}
 
 #[cfg(feature = "Foundation_NSMutableData")]
 unsafe impl NSCoding for NSMutableData {}
@@ -384,103 +403,113 @@ unsafe impl NSObjectProtocol for NSMutableData {}
 #[cfg(feature = "Foundation_NSMutableData")]
 unsafe impl NSSecureCoding for NSMutableData {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableData")]
-    unsafe impl NSMutableData {
-        #[method(setLength:)]
-        pub fn setLength(&mut self, length: NSUInteger);
-    }
-);
+    pub type NSMutableData;
 
-extern_methods!(
-    /// NSExtendedMutableData
+    #[objc2::method(sel = "setLength:")]
+    pub fn setLength(&mut self, length: NSUInteger);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableData")]
-    unsafe impl NSMutableData {
-        #[method(appendBytes:length:)]
-        pub unsafe fn appendBytes_length(&self, bytes: NonNull<c_void>, length: NSUInteger);
+    pub type NSMutableData;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(appendData:)]
-        pub unsafe fn appendData(&self, other: &NSData);
+    #[objc2::method(sel = "appendBytes:length:")]
+    pub unsafe fn appendBytes_length(&self, bytes: NonNull<c_void>, length: NSUInteger);
 
-        #[method(increaseLengthBy:)]
-        pub unsafe fn increaseLengthBy(&self, extra_length: NSUInteger);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "appendData:")]
+    pub unsafe fn appendData(&self, other: &NSData);
 
-        #[method(replaceBytesInRange:withBytes:)]
-        pub unsafe fn replaceBytesInRange_withBytes(&self, range: NSRange, bytes: NonNull<c_void>);
+    #[objc2::method(sel = "increaseLengthBy:")]
+    pub unsafe fn increaseLengthBy(&self, extra_length: NSUInteger);
 
-        #[method(resetBytesInRange:)]
-        pub unsafe fn resetBytesInRange(&self, range: NSRange);
+    #[objc2::method(sel = "replaceBytesInRange:withBytes:")]
+    pub unsafe fn replaceBytesInRange_withBytes(&self, range: NSRange, bytes: NonNull<c_void>);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(setData:)]
-        pub unsafe fn setData(&self, data: &NSData);
+    #[objc2::method(sel = "resetBytesInRange:")]
+    pub unsafe fn resetBytesInRange(&self, range: NSRange);
 
-        #[method(replaceBytesInRange:withBytes:length:)]
-        pub unsafe fn replaceBytesInRange_withBytes_length(
-            &self,
-            range: NSRange,
-            replacement_bytes: *mut c_void,
-            replacement_length: NSUInteger,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "setData:")]
+    pub unsafe fn setData(&self, data: &NSData);
 
-extern_methods!(
-    /// NSMutableDataCreation
+    #[objc2::method(sel = "replaceBytesInRange:withBytes:length:")]
+    pub unsafe fn replaceBytesInRange_withBytes_length(
+        &self,
+        range: NSRange,
+        replacement_bytes: *mut c_void,
+        replacement_length: NSUInteger,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableData")]
-    unsafe impl NSMutableData {
-        #[method_id(@__retain_semantics Other dataWithCapacity:)]
-        pub fn dataWithCapacity(a_num_items: NSUInteger) -> Option<Id<Self, Owned>>;
+    pub type NSMutableData;
 
-        #[method_id(@__retain_semantics Other dataWithLength:)]
-        pub unsafe fn dataWithLength(length: NSUInteger) -> Option<Id<Self, Owned>>;
+    #[objc2::method(sel = "dataWithCapacity:", managed = "Other")]
+    pub fn dataWithCapacity(a_num_items: NSUInteger) -> Option<Id<Self, Owned>>;
 
-        #[method_id(@__retain_semantics Init initWithCapacity:)]
-        pub fn initWithCapacity(
-            this: Option<Allocated<Self>>,
-            capacity: NSUInteger,
-        ) -> Option<Id<Self, Owned>>;
+    #[objc2::method(sel = "dataWithLength:", managed = "Other")]
+    pub unsafe fn dataWithLength(length: NSUInteger) -> Option<Id<Self, Owned>>;
 
-        #[method_id(@__retain_semantics Init initWithLength:)]
-        pub unsafe fn initWithLength(
-            this: Option<Allocated<Self>>,
-            length: NSUInteger,
-        ) -> Option<Id<Self, Owned>>;
-    }
-);
+    #[objc2::method(sel = "initWithCapacity:", managed = "Init")]
+    pub fn initWithCapacity(
+        this: Option<Allocated<Self>>,
+        capacity: NSUInteger,
+    ) -> Option<Id<Self, Owned>>;
 
-extern_methods!(
-    /// NSMutableDataCompression
+    #[objc2::method(sel = "initWithLength:", managed = "Init")]
+    pub unsafe fn initWithLength(
+        this: Option<Allocated<Self>>,
+        length: NSUInteger,
+    ) -> Option<Id<Self, Owned>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableData")]
-    unsafe impl NSMutableData {
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(decompressUsingAlgorithm:error:_)]
-        pub unsafe fn decompressUsingAlgorithm_error(
-            &self,
-            algorithm: NSDataCompressionAlgorithm,
-        ) -> Result<(), Id<NSError>>;
+    pub type NSMutableData;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(compressUsingAlgorithm:error:_)]
-        pub unsafe fn compressUsingAlgorithm_error(
-            &self,
-            algorithm: NSDataCompressionAlgorithm,
-        ) -> Result<(), Id<NSError>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "decompressUsingAlgorithm:error:", throws)]
+    pub unsafe fn decompressUsingAlgorithm_error(
+        &self,
+        algorithm: NSDataCompressionAlgorithm,
+    ) -> Result<(), Id<NSError>>;
 
-extern_class!(
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "compressUsingAlgorithm:error:", throws)]
+    pub unsafe fn compressUsingAlgorithm_error(
+        &self,
+        algorithm: NSDataCompressionAlgorithm,
+    ) -> Result<(), Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSMutableData,
+    unsafe inherits = [
+        NSData,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSPurgeableData")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSPurgeableData")]
-    pub struct NSPurgeableData;
-
-    #[cfg(feature = "Foundation_NSPurgeableData")]
-    unsafe impl ClassType for NSPurgeableData {
-        #[inherits(NSData, NSObject)]
-        type Super = NSMutableData;
-    }
-);
+    pub type NSPurgeableData;
+}
 
 #[cfg(feature = "Foundation_NSPurgeableData")]
 unsafe impl NSCoding for NSPurgeableData {}
@@ -494,361 +523,426 @@ unsafe impl NSObjectProtocol for NSPurgeableData {}
 #[cfg(feature = "Foundation_NSPurgeableData")]
 unsafe impl NSSecureCoding for NSPurgeableData {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSPurgeableData")]
-    unsafe impl NSPurgeableData {}
-);
+    pub type NSPurgeableData;
+}
 
-extern_methods!(
-    /// Methods declared on superclass `NSData`
-    ///
-    /// NSDataCreation
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSData`
+        ///
+        /// NSDataCreation
     #[cfg(feature = "Foundation_NSMutableData")]
-    unsafe impl NSMutableData {
-        #[method_id(@__retain_semantics Other data)]
-        pub unsafe fn data() -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Other dataWithBytes:length:)]
-        pub unsafe fn dataWithBytes_length(
-            bytes: *mut c_void,
-            length: NSUInteger,
-        ) -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Other dataWithBytesNoCopy:length:)]
-        pub unsafe fn dataWithBytesNoCopy_length(
-            bytes: NonNull<c_void>,
-            length: NSUInteger,
-        ) -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Other dataWithBytesNoCopy:length:freeWhenDone:)]
-        pub unsafe fn dataWithBytesNoCopy_length_freeWhenDone(
-            bytes: NonNull<c_void>,
-            length: NSUInteger,
-            b: bool,
-        ) -> Id<Self, Owned>;
-
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other dataWithContentsOfFile:options:error:_)]
-        pub unsafe fn dataWithContentsOfFile_options_error(
-            path: &NSString,
-            read_options_mask: NSDataReadingOptions,
-        ) -> Result<Id<Self, Owned>, Id<NSError>>;
-
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other dataWithContentsOfURL:options:error:_)]
-        pub unsafe fn dataWithContentsOfURL_options_error(
-            url: &NSURL,
-            read_options_mask: NSDataReadingOptions,
-        ) -> Result<Id<Self, Owned>, Id<NSError>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other dataWithContentsOfFile:)]
-        pub unsafe fn dataWithContentsOfFile(path: &NSString) -> Option<Id<Self, Owned>>;
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other dataWithContentsOfURL:)]
-        pub unsafe fn dataWithContentsOfURL(url: &NSURL) -> Option<Id<Self, Owned>>;
-
-        #[method_id(@__retain_semantics Init initWithBytes:length:)]
-        pub unsafe fn initWithBytes_length(
-            this: Option<Allocated<Self>>,
-            bytes: *mut c_void,
-            length: NSUInteger,
-        ) -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Init initWithBytesNoCopy:length:)]
-        pub unsafe fn initWithBytesNoCopy_length(
-            this: Option<Allocated<Self>>,
-            bytes: NonNull<c_void>,
-            length: NSUInteger,
-        ) -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Init initWithBytesNoCopy:length:freeWhenDone:)]
-        pub unsafe fn initWithBytesNoCopy_length_freeWhenDone(
-            this: Option<Allocated<Self>>,
-            bytes: NonNull<c_void>,
-            length: NSUInteger,
-            b: bool,
-        ) -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Init initWithBytesNoCopy:length:deallocator:)]
-        pub unsafe fn initWithBytesNoCopy_length_deallocator(
-            this: Option<Allocated<Self>>,
-            bytes: NonNull<c_void>,
-            length: NSUInteger,
-            deallocator: Option<&Block<(NonNull<c_void>, NSUInteger), ()>>,
-        ) -> Id<Self, Owned>;
-
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithContentsOfFile:options:error:_)]
-        pub unsafe fn initWithContentsOfFile_options_error(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-            read_options_mask: NSDataReadingOptions,
-        ) -> Result<Id<Self, Owned>, Id<NSError>>;
-
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:options:error:_)]
-        pub unsafe fn initWithContentsOfURL_options_error(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            read_options_mask: NSDataReadingOptions,
-        ) -> Result<Id<Self, Owned>, Id<NSError>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithContentsOfFile:)]
-        pub unsafe fn initWithContentsOfFile(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-        ) -> Option<Id<Self, Owned>>;
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:)]
-        pub unsafe fn initWithContentsOfURL(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-        ) -> Option<Id<Self, Owned>>;
-
-        #[method_id(@__retain_semantics Init initWithData:)]
-        pub unsafe fn initWithData(this: Option<Allocated<Self>>, data: &NSData)
-            -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Other dataWithData:)]
-        pub fn dataWithData(data: &NSData) -> Id<Self, Owned>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSData`
-    ///
-    /// NSDataBase64Encoding
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableData")]
-    unsafe impl NSMutableData {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithBase64EncodedString:options:)]
-        pub unsafe fn initWithBase64EncodedString_options(
-            this: Option<Allocated<Self>>,
-            base64_string: &NSString,
-            options: NSDataBase64DecodingOptions,
-        ) -> Option<Id<Self, Owned>>;
+    pub type NSMutableData;
 
-        #[method_id(@__retain_semantics Init initWithBase64EncodedData:options:)]
-        pub unsafe fn initWithBase64EncodedData_options(
-            this: Option<Allocated<Self>>,
-            base64_data: &NSData,
-            options: NSDataBase64DecodingOptions,
-        ) -> Option<Id<Self, Owned>>;
-    }
-);
+    #[objc2::method(sel = "data", managed = "Other")]
+    pub unsafe fn data() -> Id<Self, Owned>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSData`
-    ///
-    /// NSDeprecated
+    #[objc2::method(sel = "dataWithBytes:length:", managed = "Other")]
+    pub unsafe fn dataWithBytes_length(bytes: *mut c_void, length: NSUInteger) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "dataWithBytesNoCopy:length:", managed = "Other")]
+    pub unsafe fn dataWithBytesNoCopy_length(
+        bytes: NonNull<c_void>,
+        length: NSUInteger,
+    ) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "dataWithBytesNoCopy:length:freeWhenDone:", managed = "Other")]
+    pub unsafe fn dataWithBytesNoCopy_length_freeWhenDone(
+        bytes: NonNull<c_void>,
+        length: NSUInteger,
+        b: bool,
+    ) -> Id<Self, Owned>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "dataWithContentsOfFile:options:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn dataWithContentsOfFile_options_error(
+        path: &NSString,
+        read_options_mask: NSDataReadingOptions,
+    ) -> Result<Id<Self, Owned>, Id<NSError>>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(
+        sel = "dataWithContentsOfURL:options:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn dataWithContentsOfURL_options_error(
+        url: &NSURL,
+        read_options_mask: NSDataReadingOptions,
+    ) -> Result<Id<Self, Owned>, Id<NSError>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "dataWithContentsOfFile:", managed = "Other")]
+    pub unsafe fn dataWithContentsOfFile(path: &NSString) -> Option<Id<Self, Owned>>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "dataWithContentsOfURL:", managed = "Other")]
+    pub unsafe fn dataWithContentsOfURL(url: &NSURL) -> Option<Id<Self, Owned>>;
+
+    #[objc2::method(sel = "initWithBytes:length:", managed = "Init")]
+    pub unsafe fn initWithBytes_length(
+        this: Option<Allocated<Self>>,
+        bytes: *mut c_void,
+        length: NSUInteger,
+    ) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "initWithBytesNoCopy:length:", managed = "Init")]
+    pub unsafe fn initWithBytesNoCopy_length(
+        this: Option<Allocated<Self>>,
+        bytes: NonNull<c_void>,
+        length: NSUInteger,
+    ) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "initWithBytesNoCopy:length:freeWhenDone:", managed = "Init")]
+    pub unsafe fn initWithBytesNoCopy_length_freeWhenDone(
+        this: Option<Allocated<Self>>,
+        bytes: NonNull<c_void>,
+        length: NSUInteger,
+        b: bool,
+    ) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "initWithBytesNoCopy:length:deallocator:", managed = "Init")]
+    pub unsafe fn initWithBytesNoCopy_length_deallocator(
+        this: Option<Allocated<Self>>,
+        bytes: NonNull<c_void>,
+        length: NSUInteger,
+        deallocator: Option<&Block<(NonNull<c_void>, NSUInteger), ()>>,
+    ) -> Id<Self, Owned>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "initWithContentsOfFile:options:error:",
+        managed = "Init",
+        throws
+    )]
+    pub unsafe fn initWithContentsOfFile_options_error(
+        this: Option<Allocated<Self>>,
+        path: &NSString,
+        read_options_mask: NSDataReadingOptions,
+    ) -> Result<Id<Self, Owned>, Id<NSError>>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "initWithContentsOfURL:options:error:", managed = "Init", throws)]
+    pub unsafe fn initWithContentsOfURL_options_error(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        read_options_mask: NSDataReadingOptions,
+    ) -> Result<Id<Self, Owned>, Id<NSError>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithContentsOfFile:", managed = "Init")]
+    pub unsafe fn initWithContentsOfFile(
+        this: Option<Allocated<Self>>,
+        path: &NSString,
+    ) -> Option<Id<Self, Owned>>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initWithContentsOfURL:", managed = "Init")]
+    pub unsafe fn initWithContentsOfURL(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+    ) -> Option<Id<Self, Owned>>;
+
+    #[objc2::method(sel = "initWithData:", managed = "Init")]
+    pub unsafe fn initWithData(this: Option<Allocated<Self>>, data: &NSData) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "dataWithData:", managed = "Other")]
+    pub fn dataWithData(data: &NSData) -> Id<Self, Owned>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSData`
+        ///
+        /// NSDataBase64Encoding
     #[cfg(feature = "Foundation_NSMutableData")]
-    unsafe impl NSMutableData {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -initWithContentsOfURL:options:error: and NSDataReadingMappedIfSafe or NSDataReadingMappedAlways instead."]
-        #[method_id(@__retain_semantics Init initWithContentsOfMappedFile:)]
-        pub unsafe fn initWithContentsOfMappedFile(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-        ) -> Option<Id<Self, Owned>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use initWithBase64EncodedString:options: instead"]
-        #[method_id(@__retain_semantics Init initWithBase64Encoding:)]
-        pub unsafe fn initWithBase64Encoding(
-            this: Option<Allocated<Self>>,
-            base64_string: &NSString,
-        ) -> Option<Id<Self, Owned>>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMutableData")]
+    pub type NSMutableData;
 
-extern_methods!(
-    /// Methods declared on superclass `NSMutableData`
-    ///
-    /// NSMutableDataCreation
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithBase64EncodedString:options:", managed = "Init")]
+    pub unsafe fn initWithBase64EncodedString_options(
+        this: Option<Allocated<Self>>,
+        base64_string: &NSString,
+        options: NSDataBase64DecodingOptions,
+    ) -> Option<Id<Self, Owned>>;
+
+    #[objc2::method(sel = "initWithBase64EncodedData:options:", managed = "Init")]
+    pub unsafe fn initWithBase64EncodedData_options(
+        this: Option<Allocated<Self>>,
+        base64_data: &NSData,
+        options: NSDataBase64DecodingOptions,
+    ) -> Option<Id<Self, Owned>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSData`
+        ///
+        /// NSDeprecated
+    #[cfg(feature = "Foundation_NSMutableData")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMutableData")]
+    pub type NSMutableData;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -initWithContentsOfURL:options:error: and NSDataReadingMappedIfSafe or NSDataReadingMappedAlways instead."]
+    #[objc2::method(sel = "initWithContentsOfMappedFile:", managed = "Init")]
+    pub unsafe fn initWithContentsOfMappedFile(
+        this: Option<Allocated<Self>>,
+        path: &NSString,
+    ) -> Option<Id<Self, Owned>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use initWithBase64EncodedString:options: instead"]
+    #[objc2::method(sel = "initWithBase64Encoding:", managed = "Init")]
+    pub unsafe fn initWithBase64Encoding(
+        this: Option<Allocated<Self>>,
+        base64_string: &NSString,
+    ) -> Option<Id<Self, Owned>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSMutableData`
+        ///
+        /// NSMutableDataCreation
     #[cfg(feature = "Foundation_NSPurgeableData")]
-    unsafe impl NSPurgeableData {
-        #[method_id(@__retain_semantics Other dataWithCapacity:)]
-        pub unsafe fn dataWithCapacity(a_num_items: NSUInteger) -> Option<Id<Self>>;
-
-        #[method_id(@__retain_semantics Other dataWithLength:)]
-        pub unsafe fn dataWithLength(length: NSUInteger) -> Option<Id<Self>>;
-
-        #[method_id(@__retain_semantics Init initWithCapacity:)]
-        pub unsafe fn initWithCapacity(
-            this: Option<Allocated<Self>>,
-            capacity: NSUInteger,
-        ) -> Option<Id<Self>>;
-
-        #[method_id(@__retain_semantics Init initWithLength:)]
-        pub unsafe fn initWithLength(
-            this: Option<Allocated<Self>>,
-            length: NSUInteger,
-        ) -> Option<Id<Self>>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSData`
-    ///
-    /// NSDataCreation
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSPurgeableData")]
-    unsafe impl NSPurgeableData {
-        #[method_id(@__retain_semantics Other data)]
-        pub unsafe fn data() -> Id<Self>;
+    pub type NSPurgeableData;
 
-        #[method_id(@__retain_semantics Other dataWithBytes:length:)]
-        pub unsafe fn dataWithBytes_length(bytes: *mut c_void, length: NSUInteger) -> Id<Self>;
+    #[objc2::method(sel = "dataWithCapacity:", managed = "Other")]
+    pub unsafe fn dataWithCapacity(a_num_items: NSUInteger) -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Other dataWithBytesNoCopy:length:)]
-        pub unsafe fn dataWithBytesNoCopy_length(
-            bytes: NonNull<c_void>,
-            length: NSUInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "dataWithLength:", managed = "Other")]
+    pub unsafe fn dataWithLength(length: NSUInteger) -> Option<Id<Self>>;
 
-        #[method_id(@__retain_semantics Other dataWithBytesNoCopy:length:freeWhenDone:)]
-        pub unsafe fn dataWithBytesNoCopy_length_freeWhenDone(
-            bytes: NonNull<c_void>,
-            length: NSUInteger,
-            b: bool,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithCapacity:", managed = "Init")]
+    pub unsafe fn initWithCapacity(
+        this: Option<Allocated<Self>>,
+        capacity: NSUInteger,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other dataWithContentsOfFile:options:error:_)]
-        pub unsafe fn dataWithContentsOfFile_options_error(
-            path: &NSString,
-            read_options_mask: NSDataReadingOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
+    #[objc2::method(sel = "initWithLength:", managed = "Init")]
+    pub unsafe fn initWithLength(
+        this: Option<Allocated<Self>>,
+        length: NSUInteger,
+    ) -> Option<Id<Self>>;
+}
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other dataWithContentsOfURL:options:error:_)]
-        pub unsafe fn dataWithContentsOfURL_options_error(
-            url: &NSURL,
-            read_options_mask: NSDataReadingOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other dataWithContentsOfFile:)]
-        pub unsafe fn dataWithContentsOfFile(path: &NSString) -> Option<Id<Self>>;
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other dataWithContentsOfURL:)]
-        pub unsafe fn dataWithContentsOfURL(url: &NSURL) -> Option<Id<Self>>;
-
-        #[method_id(@__retain_semantics Init initWithBytes:length:)]
-        pub unsafe fn initWithBytes_length(
-            this: Option<Allocated<Self>>,
-            bytes: *mut c_void,
-            length: NSUInteger,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Init initWithBytesNoCopy:length:)]
-        pub unsafe fn initWithBytesNoCopy_length(
-            this: Option<Allocated<Self>>,
-            bytes: NonNull<c_void>,
-            length: NSUInteger,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Init initWithBytesNoCopy:length:freeWhenDone:)]
-        pub unsafe fn initWithBytesNoCopy_length_freeWhenDone(
-            this: Option<Allocated<Self>>,
-            bytes: NonNull<c_void>,
-            length: NSUInteger,
-            b: bool,
-        ) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Init initWithBytesNoCopy:length:deallocator:)]
-        pub unsafe fn initWithBytesNoCopy_length_deallocator(
-            this: Option<Allocated<Self>>,
-            bytes: NonNull<c_void>,
-            length: NSUInteger,
-            deallocator: Option<&Block<(NonNull<c_void>, NSUInteger), ()>>,
-        ) -> Id<Self>;
-
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithContentsOfFile:options:error:_)]
-        pub unsafe fn initWithContentsOfFile_options_error(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-            read_options_mask: NSDataReadingOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
-
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:options:error:_)]
-        pub unsafe fn initWithContentsOfURL_options_error(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            read_options_mask: NSDataReadingOptions,
-        ) -> Result<Id<Self>, Id<NSError>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithContentsOfFile:)]
-        pub unsafe fn initWithContentsOfFile(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-        ) -> Option<Id<Self>>;
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:)]
-        pub unsafe fn initWithContentsOfURL(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-        ) -> Option<Id<Self>>;
-
-        #[method_id(@__retain_semantics Init initWithData:)]
-        pub unsafe fn initWithData(this: Option<Allocated<Self>>, data: &NSData) -> Id<Self>;
-
-        #[method_id(@__retain_semantics Other dataWithData:)]
-        pub unsafe fn dataWithData(data: &NSData) -> Id<Self>;
-    }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSData`
-    ///
-    /// NSDataBase64Encoding
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSData`
+        ///
+        /// NSDataCreation
     #[cfg(feature = "Foundation_NSPurgeableData")]
-    unsafe impl NSPurgeableData {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithBase64EncodedString:options:)]
-        pub unsafe fn initWithBase64EncodedString_options(
-            this: Option<Allocated<Self>>,
-            base64_string: &NSString,
-            options: NSDataBase64DecodingOptions,
-        ) -> Option<Id<Self>>;
-
-        #[method_id(@__retain_semantics Init initWithBase64EncodedData:options:)]
-        pub unsafe fn initWithBase64EncodedData_options(
-            this: Option<Allocated<Self>>,
-            base64_data: &NSData,
-            options: NSDataBase64DecodingOptions,
-        ) -> Option<Id<Self>>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSData`
-    ///
-    /// NSDeprecated
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSPurgeableData")]
-    unsafe impl NSPurgeableData {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -initWithContentsOfURL:options:error: and NSDataReadingMappedIfSafe or NSDataReadingMappedAlways instead."]
-        #[method_id(@__retain_semantics Init initWithContentsOfMappedFile:)]
-        pub unsafe fn initWithContentsOfMappedFile(
-            this: Option<Allocated<Self>>,
-            path: &NSString,
-        ) -> Option<Id<Self>>;
+    pub type NSPurgeableData;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use initWithBase64EncodedString:options: instead"]
-        #[method_id(@__retain_semantics Init initWithBase64Encoding:)]
-        pub unsafe fn initWithBase64Encoding(
-            this: Option<Allocated<Self>>,
-            base64_string: &NSString,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "data", managed = "Other")]
+    pub unsafe fn data() -> Id<Self>;
+
+    #[objc2::method(sel = "dataWithBytes:length:", managed = "Other")]
+    pub unsafe fn dataWithBytes_length(bytes: *mut c_void, length: NSUInteger) -> Id<Self>;
+
+    #[objc2::method(sel = "dataWithBytesNoCopy:length:", managed = "Other")]
+    pub unsafe fn dataWithBytesNoCopy_length(
+        bytes: NonNull<c_void>,
+        length: NSUInteger,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "dataWithBytesNoCopy:length:freeWhenDone:", managed = "Other")]
+    pub unsafe fn dataWithBytesNoCopy_length_freeWhenDone(
+        bytes: NonNull<c_void>,
+        length: NSUInteger,
+        b: bool,
+    ) -> Id<Self>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "dataWithContentsOfFile:options:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn dataWithContentsOfFile_options_error(
+        path: &NSString,
+        read_options_mask: NSDataReadingOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(
+        sel = "dataWithContentsOfURL:options:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn dataWithContentsOfURL_options_error(
+        url: &NSURL,
+        read_options_mask: NSDataReadingOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "dataWithContentsOfFile:", managed = "Other")]
+    pub unsafe fn dataWithContentsOfFile(path: &NSString) -> Option<Id<Self>>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "dataWithContentsOfURL:", managed = "Other")]
+    pub unsafe fn dataWithContentsOfURL(url: &NSURL) -> Option<Id<Self>>;
+
+    #[objc2::method(sel = "initWithBytes:length:", managed = "Init")]
+    pub unsafe fn initWithBytes_length(
+        this: Option<Allocated<Self>>,
+        bytes: *mut c_void,
+        length: NSUInteger,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "initWithBytesNoCopy:length:", managed = "Init")]
+    pub unsafe fn initWithBytesNoCopy_length(
+        this: Option<Allocated<Self>>,
+        bytes: NonNull<c_void>,
+        length: NSUInteger,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "initWithBytesNoCopy:length:freeWhenDone:", managed = "Init")]
+    pub unsafe fn initWithBytesNoCopy_length_freeWhenDone(
+        this: Option<Allocated<Self>>,
+        bytes: NonNull<c_void>,
+        length: NSUInteger,
+        b: bool,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "initWithBytesNoCopy:length:deallocator:", managed = "Init")]
+    pub unsafe fn initWithBytesNoCopy_length_deallocator(
+        this: Option<Allocated<Self>>,
+        bytes: NonNull<c_void>,
+        length: NSUInteger,
+        deallocator: Option<&Block<(NonNull<c_void>, NSUInteger), ()>>,
+    ) -> Id<Self>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "initWithContentsOfFile:options:error:",
+        managed = "Init",
+        throws
+    )]
+    pub unsafe fn initWithContentsOfFile_options_error(
+        this: Option<Allocated<Self>>,
+        path: &NSString,
+        read_options_mask: NSDataReadingOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "initWithContentsOfURL:options:error:", managed = "Init", throws)]
+    pub unsafe fn initWithContentsOfURL_options_error(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        read_options_mask: NSDataReadingOptions,
+    ) -> Result<Id<Self>, Id<NSError>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithContentsOfFile:", managed = "Init")]
+    pub unsafe fn initWithContentsOfFile(
+        this: Option<Allocated<Self>>,
+        path: &NSString,
+    ) -> Option<Id<Self>>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initWithContentsOfURL:", managed = "Init")]
+    pub unsafe fn initWithContentsOfURL(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+    ) -> Option<Id<Self>>;
+
+    #[objc2::method(sel = "initWithData:", managed = "Init")]
+    pub unsafe fn initWithData(this: Option<Allocated<Self>>, data: &NSData) -> Id<Self>;
+
+    #[objc2::method(sel = "dataWithData:", managed = "Other")]
+    pub unsafe fn dataWithData(data: &NSData) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSData`
+        ///
+        /// NSDataBase64Encoding
+    #[cfg(feature = "Foundation_NSPurgeableData")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSPurgeableData")]
+    pub type NSPurgeableData;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithBase64EncodedString:options:", managed = "Init")]
+    pub unsafe fn initWithBase64EncodedString_options(
+        this: Option<Allocated<Self>>,
+        base64_string: &NSString,
+        options: NSDataBase64DecodingOptions,
+    ) -> Option<Id<Self>>;
+
+    #[objc2::method(sel = "initWithBase64EncodedData:options:", managed = "Init")]
+    pub unsafe fn initWithBase64EncodedData_options(
+        this: Option<Allocated<Self>>,
+        base64_data: &NSData,
+        options: NSDataBase64DecodingOptions,
+    ) -> Option<Id<Self>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSData`
+        ///
+        /// NSDeprecated
+    #[cfg(feature = "Foundation_NSPurgeableData")]
+    }
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSPurgeableData")]
+    pub type NSPurgeableData;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -initWithContentsOfURL:options:error: and NSDataReadingMappedIfSafe or NSDataReadingMappedAlways instead."]
+    #[objc2::method(sel = "initWithContentsOfMappedFile:", managed = "Init")]
+    pub unsafe fn initWithContentsOfMappedFile(
+        this: Option<Allocated<Self>>,
+        path: &NSString,
+    ) -> Option<Id<Self>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use initWithBase64EncodedString:options: instead"]
+    #[objc2::method(sel = "initWithBase64Encoding:", managed = "Init")]
+    pub unsafe fn initWithBase64Encoding(
+        this: Option<Allocated<Self>>,
+        base64_string: &NSString,
+    ) -> Option<Id<Self>>;
+}

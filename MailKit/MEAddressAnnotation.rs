@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MailKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MailKit_MEAddressAnnotation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MailKit_MEAddressAnnotation")]
-    pub struct MEAddressAnnotation;
-
-    #[cfg(feature = "MailKit_MEAddressAnnotation")]
-    unsafe impl ClassType for MEAddressAnnotation {
-        type Super = NSObject;
-    }
-);
+    pub type MEAddressAnnotation;
+}
 
 #[cfg(feature = "MailKit_MEAddressAnnotation")]
 unsafe impl NSCoding for MEAddressAnnotation {}
@@ -25,31 +25,34 @@ unsafe impl NSObjectProtocol for MEAddressAnnotation {}
 #[cfg(feature = "MailKit_MEAddressAnnotation")]
 unsafe impl NSSecureCoding for MEAddressAnnotation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MailKit_MEAddressAnnotation")]
-    unsafe impl MEAddressAnnotation {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type MEAddressAnnotation;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other errorWithLocalizedDescription:)]
-        pub unsafe fn errorWithLocalizedDescription(
-            localized_description: &NSString,
-        ) -> Id<MEAddressAnnotation>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other warningWithLocalizedDescription:)]
-        pub unsafe fn warningWithLocalizedDescription(
-            localized_description: &NSString,
-        ) -> Id<MEAddressAnnotation>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "errorWithLocalizedDescription:", managed = "Other")]
+    pub unsafe fn errorWithLocalizedDescription(
+        localized_description: &NSString,
+    ) -> Id<MEAddressAnnotation>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other successWithLocalizedDescription:)]
-        pub unsafe fn successWithLocalizedDescription(
-            localized_description: &NSString,
-        ) -> Id<MEAddressAnnotation>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "warningWithLocalizedDescription:", managed = "Other")]
+    pub unsafe fn warningWithLocalizedDescription(
+        localized_description: &NSString,
+    ) -> Id<MEAddressAnnotation>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "successWithLocalizedDescription:", managed = "Other")]
+    pub unsafe fn successWithLocalizedDescription(
+        localized_description: &NSString,
+    ) -> Id<MEAddressAnnotation>;
+}

@@ -5,82 +5,90 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMUIEvent")]
+#[objc2::interface(
+    unsafe super = DOMEvent,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMUIEvent;
-
     #[cfg(feature = "WebKit_DOMUIEvent")]
-    unsafe impl ClassType for DOMUIEvent {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMEvent;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMUIEvent;
+}
 
 #[cfg(feature = "WebKit_DOMUIEvent")]
 unsafe impl NSObjectProtocol for DOMUIEvent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMUIEvent")]
-    unsafe impl DOMUIEvent {
-        #[cfg(feature = "WebKit_DOMAbstractView")]
-        #[method_id(@__retain_semantics Other view)]
-        pub unsafe fn view(&self) -> Option<Id<DOMAbstractView>>;
+    #[deprecated]
+    pub type DOMUIEvent;
 
-        #[method(detail)]
-        pub unsafe fn detail(&self) -> c_int;
+    #[cfg(feature = "WebKit_DOMAbstractView")]
+    #[objc2::method(sel = "view", managed = "Other")]
+    pub unsafe fn view(&self) -> Option<Id<DOMAbstractView>>;
 
-        #[method(keyCode)]
-        pub unsafe fn keyCode(&self) -> c_int;
+    #[objc2::method(sel = "detail")]
+    pub unsafe fn detail(&self) -> c_int;
 
-        #[method(charCode)]
-        pub unsafe fn charCode(&self) -> c_int;
+    #[objc2::method(sel = "keyCode")]
+    pub unsafe fn keyCode(&self) -> c_int;
 
-        #[deprecated]
-        #[method(layerX)]
-        pub unsafe fn layerX(&self) -> c_int;
+    #[objc2::method(sel = "charCode")]
+    pub unsafe fn charCode(&self) -> c_int;
 
-        #[deprecated]
-        #[method(layerY)]
-        pub unsafe fn layerY(&self) -> c_int;
+    #[deprecated]
+    #[objc2::method(sel = "layerX")]
+    pub unsafe fn layerX(&self) -> c_int;
 
-        #[method(pageX)]
-        pub unsafe fn pageX(&self) -> c_int;
+    #[deprecated]
+    #[objc2::method(sel = "layerY")]
+    pub unsafe fn layerY(&self) -> c_int;
 
-        #[method(pageY)]
-        pub unsafe fn pageY(&self) -> c_int;
+    #[objc2::method(sel = "pageX")]
+    pub unsafe fn pageX(&self) -> c_int;
 
-        #[method(which)]
-        pub unsafe fn which(&self) -> c_int;
+    #[objc2::method(sel = "pageY")]
+    pub unsafe fn pageY(&self) -> c_int;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMAbstractView"))]
-        #[method(initUIEvent:canBubble:cancelable:view:detail:)]
-        pub unsafe fn initUIEvent_canBubble_cancelable_view_detail(
-            &self,
-            r#type: Option<&NSString>,
-            can_bubble: bool,
-            cancelable: bool,
-            view: Option<&DOMAbstractView>,
-            detail: c_int,
-        );
-    }
-);
+    #[objc2::method(sel = "which")]
+    pub unsafe fn which(&self) -> c_int;
 
-extern_methods!(
-    /// DOMUIEventDeprecated
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMAbstractView"))]
+    #[objc2::method(sel = "initUIEvent:canBubble:cancelable:view:detail:")]
+    pub unsafe fn initUIEvent_canBubble_cancelable_view_detail(
+        &self,
+        r#type: Option<&NSString>,
+        can_bubble: bool,
+        cancelable: bool,
+        view: Option<&DOMAbstractView>,
+        detail: c_int,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMUIEvent")]
-    unsafe impl DOMUIEvent {
-        #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMAbstractView"))]
-        #[deprecated]
-        #[method(initUIEvent:::::)]
-        pub unsafe fn initUIEvent(
-            &self,
-            r#type: Option<&NSString>,
-            can_bubble: bool,
-            cancelable: bool,
-            view: Option<&DOMAbstractView>,
-            detail: c_int,
-        );
-    }
-);
+    pub type DOMUIEvent;
+
+    #[cfg(all(feature = "Foundation_NSString", feature = "WebKit_DOMAbstractView"))]
+    #[deprecated]
+    #[objc2::method(sel = "initUIEvent:::::")]
+    pub unsafe fn initUIEvent(
+        &self,
+        r#type: Option<&NSString>,
+        can_bubble: bool,
+        cancelable: bool,
+        view: Option<&DOMAbstractView>,
+        detail: c_int,
+    );
+}

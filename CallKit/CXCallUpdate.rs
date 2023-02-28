@@ -4,67 +4,70 @@ use crate::common::*;
 use crate::CallKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CallKit_CXCallUpdate")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CallKit_CXCallUpdate")]
-    pub struct CXCallUpdate;
-
-    #[cfg(feature = "CallKit_CXCallUpdate")]
-    unsafe impl ClassType for CXCallUpdate {
-        type Super = NSObject;
-    }
-);
+    pub type CXCallUpdate;
+}
 
 #[cfg(feature = "CallKit_CXCallUpdate")]
 unsafe impl NSObjectProtocol for CXCallUpdate {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CallKit_CXCallUpdate")]
-    unsafe impl CXCallUpdate {
-        #[cfg(feature = "CallKit_CXHandle")]
-        #[method_id(@__retain_semantics Other remoteHandle)]
-        pub unsafe fn remoteHandle(&self) -> Option<Id<CXHandle>>;
+    pub type CXCallUpdate;
 
-        #[cfg(feature = "CallKit_CXHandle")]
-        #[method(setRemoteHandle:)]
-        pub unsafe fn setRemoteHandle(&self, remote_handle: Option<&CXHandle>);
+    #[cfg(feature = "CallKit_CXHandle")]
+    #[objc2::method(sel = "remoteHandle", managed = "Other")]
+    pub unsafe fn remoteHandle(&self) -> Option<Id<CXHandle>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedCallerName)]
-        pub unsafe fn localizedCallerName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "CallKit_CXHandle")]
+    #[objc2::method(sel = "setRemoteHandle:")]
+    pub unsafe fn setRemoteHandle(&self, remote_handle: Option<&CXHandle>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLocalizedCallerName:)]
-        pub unsafe fn setLocalizedCallerName(&self, localized_caller_name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedCallerName", managed = "Other")]
+    pub unsafe fn localizedCallerName(&self) -> Option<Id<NSString>>;
 
-        #[method(supportsHolding)]
-        pub unsafe fn supportsHolding(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLocalizedCallerName:")]
+    pub unsafe fn setLocalizedCallerName(&self, localized_caller_name: Option<&NSString>);
 
-        #[method(setSupportsHolding:)]
-        pub unsafe fn setSupportsHolding(&self, supports_holding: bool);
+    #[objc2::method(sel = "supportsHolding")]
+    pub unsafe fn supportsHolding(&self) -> bool;
 
-        #[method(supportsGrouping)]
-        pub unsafe fn supportsGrouping(&self) -> bool;
+    #[objc2::method(sel = "setSupportsHolding:")]
+    pub unsafe fn setSupportsHolding(&self, supports_holding: bool);
 
-        #[method(setSupportsGrouping:)]
-        pub unsafe fn setSupportsGrouping(&self, supports_grouping: bool);
+    #[objc2::method(sel = "supportsGrouping")]
+    pub unsafe fn supportsGrouping(&self) -> bool;
 
-        #[method(supportsUngrouping)]
-        pub unsafe fn supportsUngrouping(&self) -> bool;
+    #[objc2::method(sel = "setSupportsGrouping:")]
+    pub unsafe fn setSupportsGrouping(&self, supports_grouping: bool);
 
-        #[method(setSupportsUngrouping:)]
-        pub unsafe fn setSupportsUngrouping(&self, supports_ungrouping: bool);
+    #[objc2::method(sel = "supportsUngrouping")]
+    pub unsafe fn supportsUngrouping(&self) -> bool;
 
-        #[method(supportsDTMF)]
-        pub unsafe fn supportsDTMF(&self) -> bool;
+    #[objc2::method(sel = "setSupportsUngrouping:")]
+    pub unsafe fn setSupportsUngrouping(&self, supports_ungrouping: bool);
 
-        #[method(setSupportsDTMF:)]
-        pub unsafe fn setSupportsDTMF(&self, supports_dtmf: bool);
+    #[objc2::method(sel = "supportsDTMF")]
+    pub unsafe fn supportsDTMF(&self) -> bool;
 
-        #[method(hasVideo)]
-        pub unsafe fn hasVideo(&self) -> bool;
+    #[objc2::method(sel = "setSupportsDTMF:")]
+    pub unsafe fn setSupportsDTMF(&self, supports_dtmf: bool);
 
-        #[method(setHasVideo:)]
-        pub unsafe fn setHasVideo(&self, has_video: bool);
-    }
-);
+    #[objc2::method(sel = "hasVideo")]
+    pub unsafe fn hasVideo(&self) -> bool;
+
+    #[objc2::method(sel = "setHasVideo:")]
+    pub unsafe fn setHasVideo(&self, has_video: bool);
+}

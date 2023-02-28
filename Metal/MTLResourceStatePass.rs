@@ -4,108 +4,113 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLResourceStatePassSampleBufferAttachmentDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLResourceStatePassSampleBufferAttachmentDescriptor")]
-    pub struct MTLResourceStatePassSampleBufferAttachmentDescriptor;
-
-    #[cfg(feature = "Metal_MTLResourceStatePassSampleBufferAttachmentDescriptor")]
-    unsafe impl ClassType for MTLResourceStatePassSampleBufferAttachmentDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLResourceStatePassSampleBufferAttachmentDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLResourceStatePassSampleBufferAttachmentDescriptor")]
 unsafe impl NSObjectProtocol for MTLResourceStatePassSampleBufferAttachmentDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLResourceStatePassSampleBufferAttachmentDescriptor")]
-    unsafe impl MTLResourceStatePassSampleBufferAttachmentDescriptor {
-        #[method_id(@__retain_semantics Other sampleBuffer)]
-        pub unsafe fn sampleBuffer(&self)
-            -> Option<Id<ProtocolObject<dyn MTLCounterSampleBuffer>>>;
+    pub type MTLResourceStatePassSampleBufferAttachmentDescriptor;
 
-        #[method(setSampleBuffer:)]
-        pub unsafe fn setSampleBuffer(
-            &self,
-            sample_buffer: Option<&ProtocolObject<dyn MTLCounterSampleBuffer>>,
-        );
+    #[objc2::method(sel = "sampleBuffer", managed = "Other")]
+    pub unsafe fn sampleBuffer(&self) -> Option<Id<ProtocolObject<dyn MTLCounterSampleBuffer>>>;
 
-        #[method(startOfEncoderSampleIndex)]
-        pub unsafe fn startOfEncoderSampleIndex(&self) -> NSUInteger;
+    #[objc2::method(sel = "setSampleBuffer:")]
+    pub unsafe fn setSampleBuffer(
+        &self,
+        sample_buffer: Option<&ProtocolObject<dyn MTLCounterSampleBuffer>>,
+    );
 
-        #[method(setStartOfEncoderSampleIndex:)]
-        pub unsafe fn setStartOfEncoderSampleIndex(
-            &self,
-            start_of_encoder_sample_index: NSUInteger,
-        );
+    #[objc2::method(sel = "startOfEncoderSampleIndex")]
+    pub unsafe fn startOfEncoderSampleIndex(&self) -> NSUInteger;
 
-        #[method(endOfEncoderSampleIndex)]
-        pub unsafe fn endOfEncoderSampleIndex(&self) -> NSUInteger;
+    #[objc2::method(sel = "setStartOfEncoderSampleIndex:")]
+    pub unsafe fn setStartOfEncoderSampleIndex(&self, start_of_encoder_sample_index: NSUInteger);
 
-        #[method(setEndOfEncoderSampleIndex:)]
-        pub unsafe fn setEndOfEncoderSampleIndex(&self, end_of_encoder_sample_index: NSUInteger);
-    }
-);
+    #[objc2::method(sel = "endOfEncoderSampleIndex")]
+    pub unsafe fn endOfEncoderSampleIndex(&self) -> NSUInteger;
 
-extern_class!(
+    #[objc2::method(sel = "setEndOfEncoderSampleIndex:")]
+    pub unsafe fn setEndOfEncoderSampleIndex(&self, end_of_encoder_sample_index: NSUInteger);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLResourceStatePassSampleBufferAttachmentDescriptorArray")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLResourceStatePassSampleBufferAttachmentDescriptorArray")]
-    pub struct MTLResourceStatePassSampleBufferAttachmentDescriptorArray;
-
-    #[cfg(feature = "Metal_MTLResourceStatePassSampleBufferAttachmentDescriptorArray")]
-    unsafe impl ClassType for MTLResourceStatePassSampleBufferAttachmentDescriptorArray {
-        type Super = NSObject;
-    }
-);
+    pub type MTLResourceStatePassSampleBufferAttachmentDescriptorArray;
+}
 
 #[cfg(feature = "Metal_MTLResourceStatePassSampleBufferAttachmentDescriptorArray")]
 unsafe impl NSObjectProtocol for MTLResourceStatePassSampleBufferAttachmentDescriptorArray {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLResourceStatePassSampleBufferAttachmentDescriptorArray")]
-    unsafe impl MTLResourceStatePassSampleBufferAttachmentDescriptorArray {
-        #[cfg(feature = "Metal_MTLResourceStatePassSampleBufferAttachmentDescriptor")]
-        #[method_id(@__retain_semantics Other objectAtIndexedSubscript:)]
-        pub unsafe fn objectAtIndexedSubscript(
-            &self,
-            attachment_index: NSUInteger,
-        ) -> Id<MTLResourceStatePassSampleBufferAttachmentDescriptor>;
+    pub type MTLResourceStatePassSampleBufferAttachmentDescriptorArray;
 
-        #[cfg(feature = "Metal_MTLResourceStatePassSampleBufferAttachmentDescriptor")]
-        #[method(setObject:atIndexedSubscript:)]
-        pub unsafe fn setObject_atIndexedSubscript(
-            &self,
-            attachment: Option<&MTLResourceStatePassSampleBufferAttachmentDescriptor>,
-            attachment_index: NSUInteger,
-        );
-    }
-);
+    #[cfg(feature = "Metal_MTLResourceStatePassSampleBufferAttachmentDescriptor")]
+    #[objc2::method(sel = "objectAtIndexedSubscript:", managed = "Other")]
+    pub unsafe fn objectAtIndexedSubscript(
+        &self,
+        attachment_index: NSUInteger,
+    ) -> Id<MTLResourceStatePassSampleBufferAttachmentDescriptor>;
 
-extern_class!(
+    #[cfg(feature = "Metal_MTLResourceStatePassSampleBufferAttachmentDescriptor")]
+    #[objc2::method(sel = "setObject:atIndexedSubscript:")]
+    pub unsafe fn setObject_atIndexedSubscript(
+        &self,
+        attachment: Option<&MTLResourceStatePassSampleBufferAttachmentDescriptor>,
+        attachment_index: NSUInteger,
+    );
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLResourceStatePassDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLResourceStatePassDescriptor")]
-    pub struct MTLResourceStatePassDescriptor;
-
-    #[cfg(feature = "Metal_MTLResourceStatePassDescriptor")]
-    unsafe impl ClassType for MTLResourceStatePassDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLResourceStatePassDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLResourceStatePassDescriptor")]
 unsafe impl NSObjectProtocol for MTLResourceStatePassDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLResourceStatePassDescriptor")]
-    unsafe impl MTLResourceStatePassDescriptor {
-        #[method_id(@__retain_semantics Other resourceStatePassDescriptor)]
-        pub unsafe fn resourceStatePassDescriptor() -> Id<MTLResourceStatePassDescriptor>;
+    pub type MTLResourceStatePassDescriptor;
 
-        #[cfg(feature = "Metal_MTLResourceStatePassSampleBufferAttachmentDescriptorArray")]
-        #[method_id(@__retain_semantics Other sampleBufferAttachments)]
-        pub unsafe fn sampleBufferAttachments(
-            &self,
-        ) -> Id<MTLResourceStatePassSampleBufferAttachmentDescriptorArray>;
-    }
-);
+    #[objc2::method(sel = "resourceStatePassDescriptor", managed = "Other")]
+    pub unsafe fn resourceStatePassDescriptor() -> Id<MTLResourceStatePassDescriptor>;
+
+    #[cfg(feature = "Metal_MTLResourceStatePassSampleBufferAttachmentDescriptorArray")]
+    #[objc2::method(sel = "sampleBufferAttachments", managed = "Other")]
+    pub unsafe fn sampleBufferAttachments(
+        &self,
+    ) -> Id<MTLResourceStatePassSampleBufferAttachmentDescriptorArray>;
+}

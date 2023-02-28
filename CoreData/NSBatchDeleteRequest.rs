@@ -4,49 +4,52 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSPersistentStoreRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSBatchDeleteRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSBatchDeleteRequest")]
-    pub struct NSBatchDeleteRequest;
-
-    #[cfg(feature = "CoreData_NSBatchDeleteRequest")]
-    unsafe impl ClassType for NSBatchDeleteRequest {
-        #[inherits(NSObject)]
-        type Super = NSPersistentStoreRequest;
-    }
-);
+    pub type NSBatchDeleteRequest;
+}
 
 #[cfg(feature = "CoreData_NSBatchDeleteRequest")]
 unsafe impl NSObjectProtocol for NSBatchDeleteRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSBatchDeleteRequest")]
-    unsafe impl NSBatchDeleteRequest {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSBatchDeleteRequest;
 
-        #[cfg(feature = "CoreData_NSFetchRequest")]
-        #[method_id(@__retain_semantics Init initWithFetchRequest:)]
-        pub unsafe fn initWithFetchRequest(
-            this: Option<Allocated<Self>>,
-            fetch: &NSFetchRequest,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(feature = "CoreData_NSManagedObjectID", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Init initWithObjectIDs:)]
-        pub unsafe fn initWithObjectIDs(
-            this: Option<Allocated<Self>>,
-            objects: &NSArray<NSManagedObjectID>,
-        ) -> Id<Self>;
+    #[cfg(feature = "CoreData_NSFetchRequest")]
+    #[objc2::method(sel = "initWithFetchRequest:", managed = "Init")]
+    pub unsafe fn initWithFetchRequest(
+        this: Option<Allocated<Self>>,
+        fetch: &NSFetchRequest,
+    ) -> Id<Self>;
 
-        #[method(resultType)]
-        pub unsafe fn resultType(&self) -> NSBatchDeleteRequestResultType;
+    #[cfg(all(feature = "CoreData_NSManagedObjectID", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "initWithObjectIDs:", managed = "Init")]
+    pub unsafe fn initWithObjectIDs(
+        this: Option<Allocated<Self>>,
+        objects: &NSArray<NSManagedObjectID>,
+    ) -> Id<Self>;
 
-        #[method(setResultType:)]
-        pub unsafe fn setResultType(&self, result_type: NSBatchDeleteRequestResultType);
+    #[objc2::method(sel = "resultType")]
+    pub unsafe fn resultType(&self) -> NSBatchDeleteRequestResultType;
 
-        #[cfg(feature = "CoreData_NSFetchRequest")]
-        #[method_id(@__retain_semantics Other fetchRequest)]
-        pub unsafe fn fetchRequest(&self) -> Id<NSFetchRequest>;
-    }
-);
+    #[objc2::method(sel = "setResultType:")]
+    pub unsafe fn setResultType(&self, result_type: NSBatchDeleteRequestResultType);
+
+    #[cfg(feature = "CoreData_NSFetchRequest")]
+    #[objc2::method(sel = "fetchRequest", managed = "Other")]
+    pub unsafe fn fetchRequest(&self) -> Id<NSFetchRequest>;
+}

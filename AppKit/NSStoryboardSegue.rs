@@ -7,76 +7,76 @@ use crate::Foundation::*;
 
 pub type NSStoryboardSegueIdentifier = NSString;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSStoryboardSegue")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSStoryboardSegue")]
-    pub struct NSStoryboardSegue;
-
-    #[cfg(feature = "AppKit_NSStoryboardSegue")]
-    unsafe impl ClassType for NSStoryboardSegue {
-        type Super = NSObject;
-    }
-);
+    pub type NSStoryboardSegue;
+}
 
 #[cfg(feature = "AppKit_NSStoryboardSegue")]
 unsafe impl NSObjectProtocol for NSStoryboardSegue {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSStoryboardSegue")]
-    unsafe impl NSStoryboardSegue {
-        #[method_id(@__retain_semantics Other segueWithIdentifier:source:destination:performHandler:)]
-        pub unsafe fn segueWithIdentifier_source_destination_performHandler(
-            identifier: &NSStoryboardSegueIdentifier,
-            source_controller: &Object,
-            destination_controller: &Object,
-            perform_handler: &Block<(), ()>,
-        ) -> Id<Self>;
+    pub type NSStoryboardSegue;
 
-        #[method_id(@__retain_semantics Init initWithIdentifier:source:destination:)]
-        pub unsafe fn initWithIdentifier_source_destination(
-            this: Option<Allocated<Self>>,
-            identifier: &NSStoryboardSegueIdentifier,
-            source_controller: &Object,
-            destination_controller: &Object,
-        ) -> Id<Self>;
+    #[objc2::method(
+        sel = "segueWithIdentifier:source:destination:performHandler:",
+        managed = "Other"
+    )]
+    pub unsafe fn segueWithIdentifier_source_destination_performHandler(
+        identifier: &NSStoryboardSegueIdentifier,
+        source_controller: &Object,
+        destination_controller: &Object,
+        perform_handler: &Block<(), ()>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Option<Id<NSStoryboardSegueIdentifier>>;
+    #[objc2::method(sel = "initWithIdentifier:source:destination:", managed = "Init")]
+    pub unsafe fn initWithIdentifier_source_destination(
+        this: Option<Allocated<Self>>,
+        identifier: &NSStoryboardSegueIdentifier,
+        source_controller: &Object,
+        destination_controller: &Object,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other sourceController)]
-        pub unsafe fn sourceController(&self) -> Id<Object>;
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Option<Id<NSStoryboardSegueIdentifier>>;
 
-        #[method_id(@__retain_semantics Other destinationController)]
-        pub unsafe fn destinationController(&self) -> Id<Object>;
+    #[objc2::method(sel = "sourceController", managed = "Other")]
+    pub unsafe fn sourceController(&self) -> Id<Object>;
 
-        #[method(perform)]
-        pub unsafe fn perform(&self);
-    }
-);
+    #[objc2::method(sel = "destinationController", managed = "Other")]
+    pub unsafe fn destinationController(&self) -> Id<Object>;
 
-extern_protocol!(
-    pub unsafe trait NSSeguePerforming: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSStoryboardSegue")]
-        #[optional]
-        #[method(prepareForSegue:sender:)]
-        unsafe fn prepareForSegue_sender(&self, segue: &NSStoryboardSegue, sender: Option<&Object>);
+    #[objc2::method(sel = "perform")]
+    pub unsafe fn perform(&self);
+}
 
-        #[optional]
-        #[method(performSegueWithIdentifier:sender:)]
-        unsafe fn performSegueWithIdentifier_sender(
-            &self,
-            identifier: &NSStoryboardSegueIdentifier,
-            sender: Option<&Object>,
-        );
+#[objc2::protocol]
+pub unsafe trait NSSeguePerforming: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSStoryboardSegue")]
+    #[objc2::method(optional, sel = "prepareForSegue:sender:")]
+    unsafe fn prepareForSegue_sender(&self, segue: &NSStoryboardSegue, sender: Option<&Object>);
 
-        #[optional]
-        #[method(shouldPerformSegueWithIdentifier:sender:)]
-        unsafe fn shouldPerformSegueWithIdentifier_sender(
-            &self,
-            identifier: &NSStoryboardSegueIdentifier,
-            sender: Option<&Object>,
-        ) -> bool;
-    }
+    #[objc2::method(optional, sel = "performSegueWithIdentifier:sender:")]
+    unsafe fn performSegueWithIdentifier_sender(
+        &self,
+        identifier: &NSStoryboardSegueIdentifier,
+        sender: Option<&Object>,
+    );
 
-    unsafe impl ProtocolType for dyn NSSeguePerforming {}
-);
+    #[objc2::method(optional, sel = "shouldPerformSegueWithIdentifier:sender:")]
+    unsafe fn shouldPerformSegueWithIdentifier_sender(
+        &self,
+        identifier: &NSStoryboardSegueIdentifier,
+        sender: Option<&Object>,
+    ) -> bool;
+}

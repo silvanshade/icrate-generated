@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXDiagnostic")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXDiagnostic")]
-    pub struct MXDiagnostic;
-
-    #[cfg(feature = "MetricKit_MXDiagnostic")]
-    unsafe impl ClassType for MXDiagnostic {
-        type Super = NSObject;
-    }
-);
+    pub type MXDiagnostic;
+}
 
 #[cfg(feature = "MetricKit_MXDiagnostic")]
 unsafe impl NSCoding for MXDiagnostic {}
@@ -24,23 +24,26 @@ unsafe impl NSObjectProtocol for MXDiagnostic {}
 #[cfg(feature = "MetricKit_MXDiagnostic")]
 unsafe impl NSSecureCoding for MXDiagnostic {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXDiagnostic")]
-    unsafe impl MXDiagnostic {
-        #[cfg(feature = "MetricKit_MXMetaData")]
-        #[method_id(@__retain_semantics Other metaData)]
-        pub unsafe fn metaData(&self) -> Id<MXMetaData>;
+    pub type MXDiagnostic;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other applicationVersion)]
-        pub unsafe fn applicationVersion(&self) -> Id<NSString>;
+    #[cfg(feature = "MetricKit_MXMetaData")]
+    #[objc2::method(sel = "metaData", managed = "Other")]
+    pub unsafe fn metaData(&self) -> Id<MXMetaData>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other JSONRepresentation)]
-        pub unsafe fn JSONRepresentation(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "applicationVersion", managed = "Other")]
+    pub unsafe fn applicationVersion(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other dictionaryRepresentation)]
-        pub unsafe fn dictionaryRepresentation(&self) -> Id<NSDictionary>;
-    }
-);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "JSONRepresentation", managed = "Other")]
+    pub unsafe fn JSONRepresentation(&self) -> Id<NSData>;
+
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "dictionaryRepresentation", managed = "Other")]
+    pub unsafe fn dictionaryRepresentation(&self) -> Id<NSDictionary>;
+}

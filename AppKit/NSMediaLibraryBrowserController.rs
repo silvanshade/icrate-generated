@@ -5,54 +5,56 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSMediaLibrary {
-        NSMediaLibraryAudio = 1 << 0,
-        NSMediaLibraryImage = 1 << 1,
-        NSMediaLibraryMovie = 1 << 2,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSMediaLibrary {
+    NSMediaLibraryAudio = 1 << 0,
+    NSMediaLibraryImage = 1 << 1,
+    NSMediaLibraryMovie = 1 << 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSMediaLibraryBrowserController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSMediaLibraryBrowserController")]
-    pub struct NSMediaLibraryBrowserController;
-
-    #[cfg(feature = "AppKit_NSMediaLibraryBrowserController")]
-    unsafe impl ClassType for NSMediaLibraryBrowserController {
-        type Super = NSObject;
-    }
-);
+    pub type NSMediaLibraryBrowserController;
+}
 
 #[cfg(feature = "AppKit_NSMediaLibraryBrowserController")]
 unsafe impl NSObjectProtocol for NSMediaLibraryBrowserController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSMediaLibraryBrowserController")]
-    unsafe impl NSMediaLibraryBrowserController {
-        #[method(isVisible)]
-        pub unsafe fn isVisible(&self) -> bool;
+    pub type NSMediaLibraryBrowserController;
 
-        #[method(setVisible:)]
-        pub unsafe fn setVisible(&self, visible: bool);
+    #[objc2::method(sel = "isVisible")]
+    pub unsafe fn isVisible(&self) -> bool;
 
-        #[method(frame)]
-        pub unsafe fn frame(&self) -> NSRect;
+    #[objc2::method(sel = "setVisible:")]
+    pub unsafe fn setVisible(&self, visible: bool);
 
-        #[method(setFrame:)]
-        pub unsafe fn setFrame(&self, frame: NSRect);
+    #[objc2::method(sel = "frame")]
+    pub unsafe fn frame(&self) -> NSRect;
 
-        #[method(mediaLibraries)]
-        pub unsafe fn mediaLibraries(&self) -> NSMediaLibrary;
+    #[objc2::method(sel = "setFrame:")]
+    pub unsafe fn setFrame(&self, frame: NSRect);
 
-        #[method(setMediaLibraries:)]
-        pub unsafe fn setMediaLibraries(&self, media_libraries: NSMediaLibrary);
+    #[objc2::method(sel = "mediaLibraries")]
+    pub unsafe fn mediaLibraries(&self) -> NSMediaLibrary;
 
-        #[method_id(@__retain_semantics Other sharedMediaLibraryBrowserController)]
-        pub unsafe fn sharedMediaLibraryBrowserController() -> Id<NSMediaLibraryBrowserController>;
+    #[objc2::method(sel = "setMediaLibraries:")]
+    pub unsafe fn setMediaLibraries(&self, media_libraries: NSMediaLibrary);
 
-        #[method(togglePanel:)]
-        pub unsafe fn togglePanel(&self, sender: Option<&Object>);
-    }
-);
+    #[objc2::method(sel = "sharedMediaLibraryBrowserController", managed = "Other")]
+    pub unsafe fn sharedMediaLibraryBrowserController() -> Id<NSMediaLibraryBrowserController>;
+
+    #[objc2::method(sel = "togglePanel:")]
+    pub unsafe fn togglePanel(&self, sender: Option<&Object>);
+}

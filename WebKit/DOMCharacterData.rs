@@ -5,18 +5,20 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMCharacterData")]
+#[objc2::interface(
+    unsafe super = DOMNode,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMCharacterData;
-
     #[cfg(feature = "WebKit_DOMCharacterData")]
-    unsafe impl ClassType for DOMCharacterData {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMNode;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMCharacterData;
+}
 
 #[cfg(feature = "WebKit_DOMCharacterData")]
 unsafe impl DOMEventTarget for DOMCharacterData {}
@@ -24,71 +26,77 @@ unsafe impl DOMEventTarget for DOMCharacterData {}
 #[cfg(feature = "WebKit_DOMCharacterData")]
 unsafe impl NSObjectProtocol for DOMCharacterData {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCharacterData")]
-    unsafe impl DOMCharacterData {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other data)]
-        pub unsafe fn data(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMCharacterData;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setData:)]
-        pub unsafe fn setData(&self, data: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "data", managed = "Other")]
+    pub unsafe fn data(&self) -> Id<NSString>;
 
-        #[method(length)]
-        pub unsafe fn length(&self) -> c_uint;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setData:")]
+    pub unsafe fn setData(&self, data: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other substringData:length:)]
-        pub unsafe fn substringData_length(
-            &self,
-            offset: c_uint,
-            length: c_uint,
-        ) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "length")]
+    pub unsafe fn length(&self) -> c_uint;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(appendData:)]
-        pub unsafe fn appendData(&self, data: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "substringData:length:", managed = "Other")]
+    pub unsafe fn substringData_length(
+        &self,
+        offset: c_uint,
+        length: c_uint,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(insertData:data:)]
-        pub unsafe fn insertData_data(&self, offset: c_uint, data: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "appendData:")]
+    pub unsafe fn appendData(&self, data: Option<&NSString>);
 
-        #[method(deleteData:length:)]
-        pub unsafe fn deleteData_length(&self, offset: c_uint, length: c_uint);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "insertData:data:")]
+    pub unsafe fn insertData_data(&self, offset: c_uint, data: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(replaceData:length:data:)]
-        pub unsafe fn replaceData_length_data(
-            &self,
-            offset: c_uint,
-            length: c_uint,
-            data: Option<&NSString>,
-        );
-    }
-);
+    #[objc2::method(sel = "deleteData:length:")]
+    pub unsafe fn deleteData_length(&self, offset: c_uint, length: c_uint);
 
-extern_methods!(
-    /// DOMCharacterDataDeprecated
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "replaceData:length:data:")]
+    pub unsafe fn replaceData_length_data(
+        &self,
+        offset: c_uint,
+        length: c_uint,
+        data: Option<&NSString>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCharacterData")]
-    unsafe impl DOMCharacterData {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other substringData::)]
-        pub unsafe fn substringData(&self, offset: c_uint, length: c_uint) -> Option<Id<NSString>>;
+    pub type DOMCharacterData;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(insertData::)]
-        pub unsafe fn insertData(&self, offset: c_uint, data: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "substringData::", managed = "Other")]
+    pub unsafe fn substringData(&self, offset: c_uint, length: c_uint) -> Option<Id<NSString>>;
 
-        #[deprecated]
-        #[method(deleteData::)]
-        pub unsafe fn deleteData(&self, offset: c_uint, length: c_uint);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "insertData::")]
+    pub unsafe fn insertData(&self, offset: c_uint, data: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(replaceData:::)]
-        pub unsafe fn replaceData(&self, offset: c_uint, length: c_uint, data: Option<&NSString>);
-    }
-);
+    #[deprecated]
+    #[objc2::method(sel = "deleteData::")]
+    pub unsafe fn deleteData(&self, offset: c_uint, length: c_uint);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "replaceData:::")]
+    pub unsafe fn replaceData(&self, offset: c_uint, length: c_uint, data: Option<&NSString>);
+}

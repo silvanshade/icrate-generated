@@ -6,35 +6,38 @@ use crate::FileProvider::*;
 use crate::Foundation::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "FileProvider_NSFileProviderRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "FileProvider_NSFileProviderRequest")]
-    pub struct NSFileProviderRequest;
-
-    #[cfg(feature = "FileProvider_NSFileProviderRequest")]
-    unsafe impl ClassType for NSFileProviderRequest {
-        type Super = NSObject;
-    }
-);
+    pub type NSFileProviderRequest;
+}
 
 #[cfg(feature = "FileProvider_NSFileProviderRequest")]
 unsafe impl NSObjectProtocol for NSFileProviderRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProvider_NSFileProviderRequest")]
-    unsafe impl NSFileProviderRequest {
-        #[method(isSystemRequest)]
-        pub unsafe fn isSystemRequest(&self) -> bool;
+    pub type NSFileProviderRequest;
 
-        #[method(isFileViewerRequest)]
-        pub unsafe fn isFileViewerRequest(&self) -> bool;
+    #[objc2::method(sel = "isSystemRequest")]
+    pub unsafe fn isSystemRequest(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other requestingExecutable)]
-        pub unsafe fn requestingExecutable(&self) -> Option<Id<NSURL>>;
+    #[objc2::method(sel = "isFileViewerRequest")]
+    pub unsafe fn isFileViewerRequest(&self) -> bool;
 
-        #[cfg(feature = "FileProvider_NSFileProviderDomainVersion")]
-        #[method_id(@__retain_semantics Other domainVersion)]
-        pub unsafe fn domainVersion(&self) -> Option<Id<NSFileProviderDomainVersion>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "requestingExecutable", managed = "Other")]
+    pub unsafe fn requestingExecutable(&self) -> Option<Id<NSURL>>;
+
+    #[cfg(feature = "FileProvider_NSFileProviderDomainVersion")]
+    #[objc2::method(sel = "domainVersion", managed = "Other")]
+    pub unsafe fn domainVersion(&self) -> Option<Id<NSFileProviderDomainVersion>>;
+}

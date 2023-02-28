@@ -4,73 +4,76 @@ use crate::common::*;
 use crate::CoreAnimation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CATransaction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CATransaction")]
-    pub struct CATransaction;
-
-    #[cfg(feature = "CoreAnimation_CATransaction")]
-    unsafe impl ClassType for CATransaction {
-        type Super = NSObject;
-    }
-);
+    pub type CATransaction;
+}
 
 #[cfg(feature = "CoreAnimation_CATransaction")]
 unsafe impl NSObjectProtocol for CATransaction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CATransaction")]
-    unsafe impl CATransaction {
-        #[method(begin)]
-        pub fn begin();
+    pub type CATransaction;
 
-        #[method(commit)]
-        pub fn commit();
+    #[objc2::method(sel = "begin")]
+    pub fn begin();
 
-        #[method(flush)]
-        pub fn flush();
+    #[objc2::method(sel = "commit")]
+    pub fn commit();
 
-        #[method(lock)]
-        pub unsafe fn lock();
+    #[objc2::method(sel = "flush")]
+    pub fn flush();
 
-        #[method(unlock)]
-        pub unsafe fn unlock();
+    #[objc2::method(sel = "lock")]
+    pub unsafe fn lock();
 
-        #[method(animationDuration)]
-        pub fn animationDuration() -> CFTimeInterval;
+    #[objc2::method(sel = "unlock")]
+    pub unsafe fn unlock();
 
-        #[method(setAnimationDuration:)]
-        pub fn setAnimationDuration(dur: CFTimeInterval);
+    #[objc2::method(sel = "animationDuration")]
+    pub fn animationDuration() -> CFTimeInterval;
 
-        #[cfg(feature = "CoreAnimation_CAMediaTimingFunction")]
-        #[method_id(@__retain_semantics Other animationTimingFunction)]
-        pub fn animationTimingFunction() -> Option<Id<CAMediaTimingFunction>>;
+    #[objc2::method(sel = "setAnimationDuration:")]
+    pub fn setAnimationDuration(dur: CFTimeInterval);
 
-        #[cfg(feature = "CoreAnimation_CAMediaTimingFunction")]
-        #[method(setAnimationTimingFunction:)]
-        pub fn setAnimationTimingFunction(function: Option<&CAMediaTimingFunction>);
+    #[cfg(feature = "CoreAnimation_CAMediaTimingFunction")]
+    #[objc2::method(sel = "animationTimingFunction", managed = "Other")]
+    pub fn animationTimingFunction() -> Option<Id<CAMediaTimingFunction>>;
 
-        #[method(disableActions)]
-        pub fn disableActions() -> bool;
+    #[cfg(feature = "CoreAnimation_CAMediaTimingFunction")]
+    #[objc2::method(sel = "setAnimationTimingFunction:")]
+    pub fn setAnimationTimingFunction(function: Option<&CAMediaTimingFunction>);
 
-        #[method(setDisableActions:)]
-        pub fn setDisableActions(flag: bool);
+    #[objc2::method(sel = "disableActions")]
+    pub fn disableActions() -> bool;
 
-        #[method(completionBlock)]
-        pub unsafe fn completionBlock() -> *mut Block<(), ()>;
+    #[objc2::method(sel = "setDisableActions:")]
+    pub fn setDisableActions(flag: bool);
 
-        #[method(setCompletionBlock:)]
-        pub unsafe fn setCompletionBlock(block: Option<&Block<(), ()>>);
+    #[objc2::method(sel = "completionBlock")]
+    pub unsafe fn completionBlock() -> *mut Block<(), ()>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other valueForKey:)]
-        pub unsafe fn valueForKey(key: &NSString) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setCompletionBlock:")]
+    pub unsafe fn setCompletionBlock(block: Option<&Block<(), ()>>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setValue:forKey:)]
-        pub unsafe fn setValue_forKey(an_object: Option<&Object>, key: &NSString);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "valueForKey:", managed = "Other")]
+    pub unsafe fn valueForKey(key: &NSString) -> Option<Id<Object>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setValue:forKey:")]
+    pub unsafe fn setValue_forKey(an_object: Option<&Object>, key: &NSString);
+}
 
 extern_static!(kCATransactionAnimationDuration: &'static NSString);
 

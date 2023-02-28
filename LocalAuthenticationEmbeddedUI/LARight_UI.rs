@@ -6,17 +6,19 @@ use crate::Foundation::*;
 use crate::LocalAuthentication::*;
 use crate::LocalAuthenticationEmbeddedUI::*;
 
-extern_methods!(
-    /// UI
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "LocalAuthentication_LARight")]
-    unsafe impl LARight {
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(authorizeWithLocalizedReason:inPresentationContext:completion:)]
-        pub unsafe fn authorizeWithLocalizedReason_inPresentationContext_completion(
-            &self,
-            localized_reason: &NSString,
-            presentation_context: &LAPresentationContext,
-            handler: &Block<(*mut NSError,), ()>,
-        );
-    }
-);
+    pub type LARight;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "authorizeWithLocalizedReason:inPresentationContext:completion:")]
+    pub unsafe fn authorizeWithLocalizedReason_inPresentationContext_completion(
+        &self,
+        localized_reason: &NSString,
+        presentation_context: &LAPresentationContext,
+        handler: &Block<(*mut NSError,), ()>,
+    );
+}

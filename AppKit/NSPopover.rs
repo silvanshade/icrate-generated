@@ -5,102 +5,101 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
+#[ns_enum]
+#[underlying(NSInteger)]
+#[deprecated]
+pub enum NSPopoverAppearance {
     #[deprecated]
-    pub enum NSPopoverAppearance {
-        #[deprecated]
-        NSPopoverAppearanceMinimal = 0,
-        #[deprecated]
-        NSPopoverAppearanceHUD = 1,
-    }
-);
+    NSPopoverAppearanceMinimal = 0,
+    #[deprecated]
+    NSPopoverAppearanceHUD = 1,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSPopoverBehavior {
-        NSPopoverBehaviorApplicationDefined = 0,
-        NSPopoverBehaviorTransient = 1,
-        NSPopoverBehaviorSemitransient = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSPopoverBehavior {
+    NSPopoverBehaviorApplicationDefined = 0,
+    NSPopoverBehaviorTransient = 1,
+    NSPopoverBehaviorSemitransient = 2,
+}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPopover")]
-    unsafe impl NSPopover {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSPopover;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSPopoverDelegate>>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSPopoverDelegate>>);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSPopoverDelegate>>>;
 
-        #[method(behavior)]
-        pub unsafe fn behavior(&self) -> NSPopoverBehavior;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSPopoverDelegate>>);
 
-        #[method(setBehavior:)]
-        pub unsafe fn setBehavior(&self, behavior: NSPopoverBehavior);
+    #[objc2::method(sel = "behavior")]
+    pub unsafe fn behavior(&self) -> NSPopoverBehavior;
 
-        #[method(animates)]
-        pub unsafe fn animates(&self) -> bool;
+    #[objc2::method(sel = "setBehavior:")]
+    pub unsafe fn setBehavior(&self, behavior: NSPopoverBehavior);
 
-        #[method(setAnimates:)]
-        pub unsafe fn setAnimates(&self, animates: bool);
+    #[objc2::method(sel = "animates")]
+    pub unsafe fn animates(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method_id(@__retain_semantics Other contentViewController)]
-        pub unsafe fn contentViewController(&self) -> Option<Id<NSViewController>>;
+    #[objc2::method(sel = "setAnimates:")]
+    pub unsafe fn setAnimates(&self, animates: bool);
 
-        #[cfg(feature = "AppKit_NSViewController")]
-        #[method(setContentViewController:)]
-        pub unsafe fn setContentViewController(
-            &self,
-            content_view_controller: Option<&NSViewController>,
-        );
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "contentViewController", managed = "Other")]
+    pub unsafe fn contentViewController(&self) -> Option<Id<NSViewController>>;
 
-        #[method(contentSize)]
-        pub unsafe fn contentSize(&self) -> NSSize;
+    #[cfg(feature = "AppKit_NSViewController")]
+    #[objc2::method(sel = "setContentViewController:")]
+    pub unsafe fn setContentViewController(
+        &self,
+        content_view_controller: Option<&NSViewController>,
+    );
 
-        #[method(setContentSize:)]
-        pub unsafe fn setContentSize(&self, content_size: NSSize);
+    #[objc2::method(sel = "contentSize")]
+    pub unsafe fn contentSize(&self) -> NSSize;
 
-        #[method(isShown)]
-        pub unsafe fn isShown(&self) -> bool;
+    #[objc2::method(sel = "setContentSize:")]
+    pub unsafe fn setContentSize(&self, content_size: NSSize);
 
-        #[method(isDetached)]
-        pub unsafe fn isDetached(&self) -> bool;
+    #[objc2::method(sel = "isShown")]
+    pub unsafe fn isShown(&self) -> bool;
 
-        #[method(positioningRect)]
-        pub unsafe fn positioningRect(&self) -> NSRect;
+    #[objc2::method(sel = "isDetached")]
+    pub unsafe fn isDetached(&self) -> bool;
 
-        #[method(setPositioningRect:)]
-        pub unsafe fn setPositioningRect(&self, positioning_rect: NSRect);
+    #[objc2::method(sel = "positioningRect")]
+    pub unsafe fn positioningRect(&self) -> NSRect;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(showRelativeToRect:ofView:preferredEdge:)]
-        pub unsafe fn showRelativeToRect_ofView_preferredEdge(
-            &self,
-            positioning_rect: NSRect,
-            positioning_view: &NSView,
-            preferred_edge: NSRectEdge,
-        );
+    #[objc2::method(sel = "setPositioningRect:")]
+    pub unsafe fn setPositioningRect(&self, positioning_rect: NSRect);
 
-        #[method(performClose:)]
-        pub unsafe fn performClose(&self, sender: Option<&Object>);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "showRelativeToRect:ofView:preferredEdge:")]
+    pub unsafe fn showRelativeToRect_ofView_preferredEdge(
+        &self,
+        positioning_rect: NSRect,
+        positioning_view: &NSView,
+        preferred_edge: NSRectEdge,
+    );
 
-        #[method(close)]
-        pub unsafe fn close(&self);
-    }
-);
+    #[objc2::method(sel = "performClose:")]
+    pub unsafe fn performClose(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "close")]
+    pub unsafe fn close(&self);
+}
 
 extern_static!(NSPopoverCloseReasonKey: &'static NSString);
 
@@ -120,48 +119,37 @@ extern_static!(NSPopoverWillCloseNotification: &'static NSNotificationName);
 
 extern_static!(NSPopoverDidCloseNotification: &'static NSNotificationName);
 
-extern_protocol!(
-    pub unsafe trait NSPopoverDelegate: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSPopover")]
-        #[optional]
-        #[method(popoverShouldClose:)]
-        unsafe fn popoverShouldClose(&self, popover: &NSPopover) -> bool;
+#[objc2::protocol]
+pub unsafe trait NSPopoverDelegate: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSPopover")]
+    #[objc2::method(optional, sel = "popoverShouldClose:")]
+    unsafe fn popoverShouldClose(&self, popover: &NSPopover) -> bool;
 
-        #[cfg(feature = "AppKit_NSPopover")]
-        #[optional]
-        #[method(popoverShouldDetach:)]
-        unsafe fn popoverShouldDetach(&self, popover: &NSPopover) -> bool;
+    #[cfg(feature = "AppKit_NSPopover")]
+    #[objc2::method(optional, sel = "popoverShouldDetach:")]
+    unsafe fn popoverShouldDetach(&self, popover: &NSPopover) -> bool;
 
-        #[cfg(feature = "AppKit_NSPopover")]
-        #[optional]
-        #[method(popoverDidDetach:)]
-        unsafe fn popoverDidDetach(&self, popover: &NSPopover);
+    #[cfg(feature = "AppKit_NSPopover")]
+    #[objc2::method(optional, sel = "popoverDidDetach:")]
+    unsafe fn popoverDidDetach(&self, popover: &NSPopover);
 
-        #[cfg(all(feature = "AppKit_NSPopover", feature = "AppKit_NSWindow"))]
-        #[optional]
-        #[method_id(@__retain_semantics Other detachableWindowForPopover:)]
-        unsafe fn detachableWindowForPopover(&self, popover: &NSPopover) -> Option<Id<NSWindow>>;
+    #[cfg(all(feature = "AppKit_NSPopover", feature = "AppKit_NSWindow"))]
+    #[objc2::method(optional, sel = "detachableWindowForPopover:", managed = "Other")]
+    unsafe fn detachableWindowForPopover(&self, popover: &NSPopover) -> Option<Id<NSWindow>>;
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(popoverWillShow:)]
-        unsafe fn popoverWillShow(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "popoverWillShow:")]
+    unsafe fn popoverWillShow(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(popoverDidShow:)]
-        unsafe fn popoverDidShow(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "popoverDidShow:")]
+    unsafe fn popoverDidShow(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(popoverWillClose:)]
-        unsafe fn popoverWillClose(&self, notification: &NSNotification);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "popoverWillClose:")]
+    unsafe fn popoverWillClose(&self, notification: &NSNotification);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[optional]
-        #[method(popoverDidClose:)]
-        unsafe fn popoverDidClose(&self, notification: &NSNotification);
-    }
-
-    unsafe impl ProtocolType for dyn NSPopoverDelegate {}
-);
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[objc2::method(optional, sel = "popoverDidClose:")]
+    unsafe fn popoverDidClose(&self, notification: &NSNotification);
+}

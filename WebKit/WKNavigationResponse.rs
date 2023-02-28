@@ -5,31 +5,34 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKNavigationResponse")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKNavigationResponse")]
-    pub struct WKNavigationResponse;
-
-    #[cfg(feature = "WebKit_WKNavigationResponse")]
-    unsafe impl ClassType for WKNavigationResponse {
-        type Super = NSObject;
-    }
-);
+    pub type WKNavigationResponse;
+}
 
 #[cfg(feature = "WebKit_WKNavigationResponse")]
 unsafe impl NSObjectProtocol for WKNavigationResponse {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKNavigationResponse")]
-    unsafe impl WKNavigationResponse {
-        #[method(isForMainFrame)]
-        pub unsafe fn isForMainFrame(&self) -> bool;
+    pub type WKNavigationResponse;
 
-        #[cfg(feature = "Foundation_NSURLResponse")]
-        #[method_id(@__retain_semantics Other response)]
-        pub unsafe fn response(&self) -> Id<NSURLResponse>;
+    #[objc2::method(sel = "isForMainFrame")]
+    pub unsafe fn isForMainFrame(&self) -> bool;
 
-        #[method(canShowMIMEType)]
-        pub unsafe fn canShowMIMEType(&self) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSURLResponse")]
+    #[objc2::method(sel = "response", managed = "Other")]
+    pub unsafe fn response(&self) -> Id<NSURLResponse>;
+
+    #[objc2::method(sel = "canShowMIMEType")]
+    pub unsafe fn canShowMIMEType(&self) -> bool;
+}

@@ -4,38 +4,41 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASCredentialProviderViewController")]
-    unsafe impl ASCredentialProviderViewController {
-        #[cfg(feature = "AuthenticationServices_ASCredentialProviderExtensionContext")]
-        #[method_id(@__retain_semantics Other extensionContext)]
-        pub unsafe fn extensionContext(&self) -> Id<ASCredentialProviderExtensionContext>;
+    pub type ASCredentialProviderViewController;
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASCredentialServiceIdentifier",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method(prepareCredentialListForServiceIdentifiers:)]
-        pub unsafe fn prepareCredentialListForServiceIdentifiers(
-            &self,
-            service_identifiers: &NSArray<ASCredentialServiceIdentifier>,
-        );
+    #[cfg(feature = "AuthenticationServices_ASCredentialProviderExtensionContext")]
+    #[objc2::method(sel = "extensionContext", managed = "Other")]
+    pub unsafe fn extensionContext(&self) -> Id<ASCredentialProviderExtensionContext>;
 
-        #[cfg(feature = "AuthenticationServices_ASPasswordCredentialIdentity")]
-        #[method(provideCredentialWithoutUserInteractionForIdentity:)]
-        pub unsafe fn provideCredentialWithoutUserInteractionForIdentity(
-            &self,
-            credential_identity: &ASPasswordCredentialIdentity,
-        );
+    #[cfg(all(
+        feature = "AuthenticationServices_ASCredentialServiceIdentifier",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "prepareCredentialListForServiceIdentifiers:")]
+    pub unsafe fn prepareCredentialListForServiceIdentifiers(
+        &self,
+        service_identifiers: &NSArray<ASCredentialServiceIdentifier>,
+    );
 
-        #[cfg(feature = "AuthenticationServices_ASPasswordCredentialIdentity")]
-        #[method(prepareInterfaceToProvideCredentialForIdentity:)]
-        pub unsafe fn prepareInterfaceToProvideCredentialForIdentity(
-            &self,
-            credential_identity: &ASPasswordCredentialIdentity,
-        );
+    #[cfg(feature = "AuthenticationServices_ASPasswordCredentialIdentity")]
+    #[objc2::method(sel = "provideCredentialWithoutUserInteractionForIdentity:")]
+    pub unsafe fn provideCredentialWithoutUserInteractionForIdentity(
+        &self,
+        credential_identity: &ASPasswordCredentialIdentity,
+    );
 
-        #[method(prepareInterfaceForExtensionConfiguration)]
-        pub unsafe fn prepareInterfaceForExtensionConfiguration(&self);
-    }
-);
+    #[cfg(feature = "AuthenticationServices_ASPasswordCredentialIdentity")]
+    #[objc2::method(sel = "prepareInterfaceToProvideCredentialForIdentity:")]
+    pub unsafe fn prepareInterfaceToProvideCredentialForIdentity(
+        &self,
+        credential_identity: &ASPasswordCredentialIdentity,
+    );
+
+    #[objc2::method(sel = "prepareInterfaceForExtensionConfiguration")]
+    pub unsafe fn prepareInterfaceForExtensionConfiguration(&self);
+}

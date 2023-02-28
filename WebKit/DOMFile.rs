@@ -5,27 +5,33 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMFile")]
+#[objc2::interface(
+    unsafe super = DOMBlob,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMFile;
-
     #[cfg(feature = "WebKit_DOMFile")]
-    unsafe impl ClassType for DOMFile {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMBlob;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMFile;
+}
 
 #[cfg(feature = "WebKit_DOMFile")]
 unsafe impl NSObjectProtocol for DOMFile {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMFile")]
-    unsafe impl DOMFile {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
-    }
-);
+    #[deprecated]
+    pub type DOMFile;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
+}

@@ -5,32 +5,31 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSDrawerState {
-        #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
-        NSDrawerClosedState = 0,
-        #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
-        NSDrawerOpeningState = 1,
-        #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
-        NSDrawerOpenState = 2,
-        #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
-        NSDrawerClosingState = 3,
-    }
-);
-
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSDrawer")]
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSDrawerState {
     #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
-    pub struct NSDrawer;
+    NSDrawerClosedState = 0,
+    #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
+    NSDrawerOpeningState = 1,
+    #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
+    NSDrawerOpenState = 2,
+    #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
+    NSDrawerClosingState = 3,
+}
 
+#[objc2::interface(
+    unsafe super = NSResponder,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
     #[cfg(feature = "AppKit_NSDrawer")]
-    unsafe impl ClassType for NSDrawer {
-        #[inherits(NSObject)]
-        type Super = NSResponder;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type NSDrawer;
+}
 
 #[cfg(feature = "AppKit_NSDrawer")]
 unsafe impl NSAccessibility for NSDrawer {}
@@ -44,162 +43,158 @@ unsafe impl NSCoding for NSDrawer {}
 #[cfg(feature = "AppKit_NSDrawer")]
 unsafe impl NSObjectProtocol for NSDrawer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSDrawer")]
-    unsafe impl NSDrawer {
-        #[method_id(@__retain_semantics Init initWithContentSize:preferredEdge:)]
-        pub unsafe fn initWithContentSize_preferredEdge(
-            this: Option<Allocated<Self>>,
-            content_size: NSSize,
-            edge: NSRectEdge,
-        ) -> Id<Self>;
+    #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
+    pub type NSDrawer;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method_id(@__retain_semantics Other parentWindow)]
-        pub unsafe fn parentWindow(&self) -> Option<Id<NSWindow>>;
+    #[objc2::method(sel = "initWithContentSize:preferredEdge:", managed = "Init")]
+    pub unsafe fn initWithContentSize_preferredEdge(
+        this: Option<Allocated<Self>>,
+        content_size: NSSize,
+        edge: NSRectEdge,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(setParentWindow:)]
-        pub unsafe fn setParentWindow(&self, parent_window: Option<&NSWindow>);
-
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other contentView)]
-        pub unsafe fn contentView(&self) -> Option<Id<NSView>>;
-
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(setContentView:)]
-        pub unsafe fn setContentView(&self, content_view: Option<&NSView>);
-
-        #[method(preferredEdge)]
-        pub unsafe fn preferredEdge(&self) -> NSRectEdge;
-
-        #[method(setPreferredEdge:)]
-        pub unsafe fn setPreferredEdge(&self, preferred_edge: NSRectEdge);
-
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSDrawerDelegate>>>;
-
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSDrawerDelegate>>);
-
-        #[method(open)]
-        pub unsafe fn open(&self);
-
-        #[method(openOnEdge:)]
-        pub unsafe fn openOnEdge(&self, edge: NSRectEdge);
-
-        #[method(close)]
-        pub unsafe fn close(&self);
-
-        #[method(open:)]
-        pub unsafe fn open_(&self, sender: Option<&Object>);
-
-        #[method(close:)]
-        pub unsafe fn close_(&self, sender: Option<&Object>);
-
-        #[method(toggle:)]
-        pub unsafe fn toggle(&self, sender: Option<&Object>);
-
-        #[method(state)]
-        pub unsafe fn state(&self) -> NSInteger;
-
-        #[method(edge)]
-        pub unsafe fn edge(&self) -> NSRectEdge;
-
-        #[method(contentSize)]
-        pub unsafe fn contentSize(&self) -> NSSize;
-
-        #[method(setContentSize:)]
-        pub unsafe fn setContentSize(&self, content_size: NSSize);
-
-        #[method(minContentSize)]
-        pub unsafe fn minContentSize(&self) -> NSSize;
-
-        #[method(setMinContentSize:)]
-        pub unsafe fn setMinContentSize(&self, min_content_size: NSSize);
-
-        #[method(maxContentSize)]
-        pub unsafe fn maxContentSize(&self) -> NSSize;
-
-        #[method(setMaxContentSize:)]
-        pub unsafe fn setMaxContentSize(&self, max_content_size: NSSize);
-
-        #[method(leadingOffset)]
-        pub unsafe fn leadingOffset(&self) -> CGFloat;
-
-        #[method(setLeadingOffset:)]
-        pub unsafe fn setLeadingOffset(&self, leading_offset: CGFloat);
-
-        #[method(trailingOffset)]
-        pub unsafe fn trailingOffset(&self) -> CGFloat;
-
-        #[method(setTrailingOffset:)]
-        pub unsafe fn setTrailingOffset(&self, trailing_offset: CGFloat);
-    }
-);
-
-extern_methods!(
-    /// NSDrawers
     #[cfg(feature = "AppKit_NSWindow")]
-    unsafe impl NSWindow {
-        #[cfg(all(feature = "AppKit_NSDrawer", feature = "Foundation_NSArray"))]
-        #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
-        #[method_id(@__retain_semantics Other drawers)]
-        pub unsafe fn drawers(&self) -> Option<Id<NSArray<NSDrawer>>>;
-    }
-);
+    #[objc2::method(sel = "parentWindow", managed = "Other")]
+    pub unsafe fn parentWindow(&self) -> Option<Id<NSWindow>>;
 
-extern_protocol!(
-    pub unsafe trait NSDrawerDelegate: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSDrawer")]
-        #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
-        #[optional]
-        #[method(drawerShouldOpen:)]
-        unsafe fn drawerShouldOpen(&self, sender: &NSDrawer) -> bool;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "setParentWindow:")]
+    pub unsafe fn setParentWindow(&self, parent_window: Option<&NSWindow>);
 
-        #[cfg(feature = "AppKit_NSDrawer")]
-        #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
-        #[optional]
-        #[method(drawerShouldClose:)]
-        unsafe fn drawerShouldClose(&self, sender: &NSDrawer) -> bool;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "contentView", managed = "Other")]
+    pub unsafe fn contentView(&self) -> Option<Id<NSView>>;
 
-        #[cfg(feature = "AppKit_NSDrawer")]
-        #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
-        #[optional]
-        #[method(drawerWillResizeContents:toSize:)]
-        unsafe fn drawerWillResizeContents_toSize(
-            &self,
-            sender: &NSDrawer,
-            content_size: NSSize,
-        ) -> NSSize;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "setContentView:")]
+    pub unsafe fn setContentView(&self, content_view: Option<&NSView>);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
-        #[optional]
-        #[method(drawerWillOpen:)]
-        unsafe fn drawerWillOpen(&self, notification: &NSNotification);
+    #[objc2::method(sel = "preferredEdge")]
+    pub unsafe fn preferredEdge(&self) -> NSRectEdge;
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
-        #[optional]
-        #[method(drawerDidOpen:)]
-        unsafe fn drawerDidOpen(&self, notification: &NSNotification);
+    #[objc2::method(sel = "setPreferredEdge:")]
+    pub unsafe fn setPreferredEdge(&self, preferred_edge: NSRectEdge);
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
-        #[optional]
-        #[method(drawerWillClose:)]
-        unsafe fn drawerWillClose(&self, notification: &NSNotification);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSDrawerDelegate>>>;
 
-        #[cfg(feature = "Foundation_NSNotification")]
-        #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
-        #[optional]
-        #[method(drawerDidClose:)]
-        unsafe fn drawerDidClose(&self, notification: &NSNotification);
-    }
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSDrawerDelegate>>);
 
-    unsafe impl ProtocolType for dyn NSDrawerDelegate {}
-);
+    #[objc2::method(sel = "open")]
+    pub unsafe fn open(&self);
+
+    #[objc2::method(sel = "openOnEdge:")]
+    pub unsafe fn openOnEdge(&self, edge: NSRectEdge);
+
+    #[objc2::method(sel = "close")]
+    pub unsafe fn close(&self);
+
+    #[objc2::method(sel = "open:")]
+    pub unsafe fn open_(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "close:")]
+    pub unsafe fn close_(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "toggle:")]
+    pub unsafe fn toggle(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "state")]
+    pub unsafe fn state(&self) -> NSInteger;
+
+    #[objc2::method(sel = "edge")]
+    pub unsafe fn edge(&self) -> NSRectEdge;
+
+    #[objc2::method(sel = "contentSize")]
+    pub unsafe fn contentSize(&self) -> NSSize;
+
+    #[objc2::method(sel = "setContentSize:")]
+    pub unsafe fn setContentSize(&self, content_size: NSSize);
+
+    #[objc2::method(sel = "minContentSize")]
+    pub unsafe fn minContentSize(&self) -> NSSize;
+
+    #[objc2::method(sel = "setMinContentSize:")]
+    pub unsafe fn setMinContentSize(&self, min_content_size: NSSize);
+
+    #[objc2::method(sel = "maxContentSize")]
+    pub unsafe fn maxContentSize(&self) -> NSSize;
+
+    #[objc2::method(sel = "setMaxContentSize:")]
+    pub unsafe fn setMaxContentSize(&self, max_content_size: NSSize);
+
+    #[objc2::method(sel = "leadingOffset")]
+    pub unsafe fn leadingOffset(&self) -> CGFloat;
+
+    #[objc2::method(sel = "setLeadingOffset:")]
+    pub unsafe fn setLeadingOffset(&self, leading_offset: CGFloat);
+
+    #[objc2::method(sel = "trailingOffset")]
+    pub unsafe fn trailingOffset(&self) -> CGFloat;
+
+    #[objc2::method(sel = "setTrailingOffset:")]
+    pub unsafe fn setTrailingOffset(&self, trailing_offset: CGFloat);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSWindow")]
+    pub type NSWindow;
+
+    #[cfg(all(feature = "AppKit_NSDrawer", feature = "Foundation_NSArray"))]
+    #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
+    #[objc2::method(sel = "drawers", managed = "Other")]
+    pub unsafe fn drawers(&self) -> Option<Id<NSArray<NSDrawer>>>;
+}
+
+#[objc2::protocol]
+pub unsafe trait NSDrawerDelegate: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSDrawer")]
+    #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
+    #[objc2::method(optional, sel = "drawerShouldOpen:")]
+    unsafe fn drawerShouldOpen(&self, sender: &NSDrawer) -> bool;
+
+    #[cfg(feature = "AppKit_NSDrawer")]
+    #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
+    #[objc2::method(optional, sel = "drawerShouldClose:")]
+    unsafe fn drawerShouldClose(&self, sender: &NSDrawer) -> bool;
+
+    #[cfg(feature = "AppKit_NSDrawer")]
+    #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
+    #[objc2::method(optional, sel = "drawerWillResizeContents:toSize:")]
+    unsafe fn drawerWillResizeContents_toSize(
+        &self,
+        sender: &NSDrawer,
+        content_size: NSSize,
+    ) -> NSSize;
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
+    #[objc2::method(optional, sel = "drawerWillOpen:")]
+    unsafe fn drawerWillOpen(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
+    #[objc2::method(optional, sel = "drawerDidOpen:")]
+    unsafe fn drawerDidOpen(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
+    #[objc2::method(optional, sel = "drawerWillClose:")]
+    unsafe fn drawerWillClose(&self, notification: &NSNotification);
+
+    #[cfg(feature = "Foundation_NSNotification")]
+    #[deprecated = "Drawers are deprecated; consider using NSSplitViewController"]
+    #[objc2::method(optional, sel = "drawerDidClose:")]
+    unsafe fn drawerDidClose(&self, notification: &NSNotification);
+}
 
 extern_static!(NSDrawerWillOpenNotification: &'static NSNotificationName);
 

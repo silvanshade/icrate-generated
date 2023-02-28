@@ -24,36 +24,35 @@ extern_struct!(
     }
 );
 
-ns_options!(
-    #[underlying(c_ulonglong)]
-    pub enum NSAlignmentOptions {
-        NSAlignMinXInward = 1 << 0,
-        NSAlignMinYInward = 1 << 1,
-        NSAlignMaxXInward = 1 << 2,
-        NSAlignMaxYInward = 1 << 3,
-        NSAlignWidthInward = 1 << 4,
-        NSAlignHeightInward = 1 << 5,
-        NSAlignMinXOutward = 1 << 8,
-        NSAlignMinYOutward = 1 << 9,
-        NSAlignMaxXOutward = 1 << 10,
-        NSAlignMaxYOutward = 1 << 11,
-        NSAlignWidthOutward = 1 << 12,
-        NSAlignHeightOutward = 1 << 13,
-        NSAlignMinXNearest = 1 << 16,
-        NSAlignMinYNearest = 1 << 17,
-        NSAlignMaxXNearest = 1 << 18,
-        NSAlignMaxYNearest = 1 << 19,
-        NSAlignWidthNearest = 1 << 20,
-        NSAlignHeightNearest = 1 << 21,
-        NSAlignRectFlipped = 1 << 63,
-        NSAlignAllEdgesInward =
-            NSAlignMinXInward | NSAlignMaxXInward | NSAlignMinYInward | NSAlignMaxYInward,
-        NSAlignAllEdgesOutward =
-            NSAlignMinXOutward | NSAlignMaxXOutward | NSAlignMinYOutward | NSAlignMaxYOutward,
-        NSAlignAllEdgesNearest =
-            NSAlignMinXNearest | NSAlignMaxXNearest | NSAlignMinYNearest | NSAlignMaxYNearest,
-    }
-);
+#[ns_options]
+#[underlying(c_ulonglong)]
+pub enum NSAlignmentOptions {
+    NSAlignMinXInward = 1 << 0,
+    NSAlignMinYInward = 1 << 1,
+    NSAlignMaxXInward = 1 << 2,
+    NSAlignMaxYInward = 1 << 3,
+    NSAlignWidthInward = 1 << 4,
+    NSAlignHeightInward = 1 << 5,
+    NSAlignMinXOutward = 1 << 8,
+    NSAlignMinYOutward = 1 << 9,
+    NSAlignMaxXOutward = 1 << 10,
+    NSAlignMaxYOutward = 1 << 11,
+    NSAlignWidthOutward = 1 << 12,
+    NSAlignHeightOutward = 1 << 13,
+    NSAlignMinXNearest = 1 << 16,
+    NSAlignMinYNearest = 1 << 17,
+    NSAlignMaxXNearest = 1 << 18,
+    NSAlignMaxYNearest = 1 << 19,
+    NSAlignWidthNearest = 1 << 20,
+    NSAlignHeightNearest = 1 << 21,
+    NSAlignRectFlipped = 1 << 63,
+    NSAlignAllEdgesInward =
+        NSAlignMinXInward | NSAlignMaxXInward | NSAlignMinYInward | NSAlignMaxYInward,
+    NSAlignAllEdgesOutward =
+        NSAlignMinXOutward | NSAlignMaxXOutward | NSAlignMinYOutward | NSAlignMaxYOutward,
+    NSAlignAllEdgesNearest =
+        NSAlignMinXNearest | NSAlignMaxXNearest | NSAlignMinYNearest | NSAlignMaxYNearest,
+}
 
 extern_static!(NSZeroPoint: NSPoint);
 
@@ -276,86 +275,92 @@ extern_fn!(
     pub unsafe fn NSRectFromString(a_string: &NSString) -> NSRect;
 );
 
-extern_methods!(
-    /// NSValueGeometryExtensions
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSValue")]
-    unsafe impl NSValue {
-        #[method_id(@__retain_semantics Other valueWithPoint:)]
-        pub unsafe fn valueWithPoint(point: NSPoint) -> Id<NSValue>;
+    pub type NSValue;
 
-        #[method_id(@__retain_semantics Other valueWithSize:)]
-        pub unsafe fn valueWithSize(size: NSSize) -> Id<NSValue>;
+    #[objc2::method(sel = "valueWithPoint:", managed = "Other")]
+    pub unsafe fn valueWithPoint(point: NSPoint) -> Id<NSValue>;
 
-        #[method_id(@__retain_semantics Other valueWithRect:)]
-        pub unsafe fn valueWithRect(rect: NSRect) -> Id<NSValue>;
+    #[objc2::method(sel = "valueWithSize:", managed = "Other")]
+    pub unsafe fn valueWithSize(size: NSSize) -> Id<NSValue>;
 
-        #[method_id(@__retain_semantics Other valueWithEdgeInsets:)]
-        pub unsafe fn valueWithEdgeInsets(insets: NSEdgeInsets) -> Id<NSValue>;
+    #[objc2::method(sel = "valueWithRect:", managed = "Other")]
+    pub unsafe fn valueWithRect(rect: NSRect) -> Id<NSValue>;
 
-        #[method(pointValue)]
-        pub unsafe fn pointValue(&self) -> NSPoint;
+    #[objc2::method(sel = "valueWithEdgeInsets:", managed = "Other")]
+    pub unsafe fn valueWithEdgeInsets(insets: NSEdgeInsets) -> Id<NSValue>;
 
-        #[method(sizeValue)]
-        pub unsafe fn sizeValue(&self) -> NSSize;
+    #[objc2::method(sel = "pointValue")]
+    pub unsafe fn pointValue(&self) -> NSPoint;
 
-        #[method(rectValue)]
-        pub unsafe fn rectValue(&self) -> NSRect;
+    #[objc2::method(sel = "sizeValue")]
+    pub unsafe fn sizeValue(&self) -> NSSize;
 
-        #[method(edgeInsetsValue)]
-        pub unsafe fn edgeInsetsValue(&self) -> NSEdgeInsets;
-    }
-);
+    #[objc2::method(sel = "rectValue")]
+    pub unsafe fn rectValue(&self) -> NSRect;
 
-extern_methods!(
-    /// NSGeometryCoding
+    #[objc2::method(sel = "edgeInsetsValue")]
+    pub unsafe fn edgeInsetsValue(&self) -> NSEdgeInsets;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCoder")]
-    unsafe impl NSCoder {
-        #[method(encodePoint:)]
-        pub unsafe fn encodePoint(&self, point: NSPoint);
+    pub type NSCoder;
 
-        #[method(decodePoint)]
-        pub unsafe fn decodePoint(&self) -> NSPoint;
+    #[objc2::method(sel = "encodePoint:")]
+    pub unsafe fn encodePoint(&self, point: NSPoint);
 
-        #[method(encodeSize:)]
-        pub unsafe fn encodeSize(&self, size: NSSize);
+    #[objc2::method(sel = "decodePoint")]
+    pub unsafe fn decodePoint(&self) -> NSPoint;
 
-        #[method(decodeSize)]
-        pub unsafe fn decodeSize(&self) -> NSSize;
+    #[objc2::method(sel = "encodeSize:")]
+    pub unsafe fn encodeSize(&self, size: NSSize);
 
-        #[method(encodeRect:)]
-        pub unsafe fn encodeRect(&self, rect: NSRect);
+    #[objc2::method(sel = "decodeSize")]
+    pub unsafe fn decodeSize(&self) -> NSSize;
 
-        #[method(decodeRect)]
-        pub unsafe fn decodeRect(&self) -> NSRect;
-    }
-);
+    #[objc2::method(sel = "encodeRect:")]
+    pub unsafe fn encodeRect(&self, rect: NSRect);
 
-extern_methods!(
-    /// NSGeometryKeyedCoding
+    #[objc2::method(sel = "decodeRect")]
+    pub unsafe fn decodeRect(&self) -> NSRect;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCoder")]
-    unsafe impl NSCoder {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(encodePoint:forKey:)]
-        pub unsafe fn encodePoint_forKey(&self, point: NSPoint, key: &NSString);
+    pub type NSCoder;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(encodeSize:forKey:)]
-        pub unsafe fn encodeSize_forKey(&self, size: NSSize, key: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "encodePoint:forKey:")]
+    pub unsafe fn encodePoint_forKey(&self, point: NSPoint, key: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(encodeRect:forKey:)]
-        pub unsafe fn encodeRect_forKey(&self, rect: NSRect, key: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "encodeSize:forKey:")]
+    pub unsafe fn encodeSize_forKey(&self, size: NSSize, key: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(decodePointForKey:)]
-        pub unsafe fn decodePointForKey(&self, key: &NSString) -> NSPoint;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "encodeRect:forKey:")]
+    pub unsafe fn encodeRect_forKey(&self, rect: NSRect, key: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(decodeSizeForKey:)]
-        pub unsafe fn decodeSizeForKey(&self, key: &NSString) -> NSSize;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "decodePointForKey:")]
+    pub unsafe fn decodePointForKey(&self, key: &NSString) -> NSPoint;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(decodeRectForKey:)]
-        pub unsafe fn decodeRectForKey(&self, key: &NSString) -> NSRect;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "decodeSizeForKey:")]
+    pub unsafe fn decodeSizeForKey(&self, key: &NSString) -> NSSize;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "decodeRectForKey:")]
+    pub unsafe fn decodeRectForKey(&self, key: &NSString) -> NSRect;
+}

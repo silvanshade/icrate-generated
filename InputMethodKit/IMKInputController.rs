@@ -5,87 +5,80 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::InputMethodKit::*;
 
-extern_protocol!(
-    pub unsafe trait IMKStateSetting {
-        #[method(activateServer:)]
-        unsafe fn activateServer(&self, sender: Option<&Object>);
+#[objc2::protocol]
+pub unsafe trait IMKStateSetting {
+    #[objc2::method(sel = "activateServer:")]
+    unsafe fn activateServer(&self, sender: Option<&Object>);
 
-        #[method(deactivateServer:)]
-        unsafe fn deactivateServer(&self, sender: Option<&Object>);
+    #[objc2::method(sel = "deactivateServer:")]
+    unsafe fn deactivateServer(&self, sender: Option<&Object>);
 
-        #[method_id(@__retain_semantics Other valueForTag:client:)]
-        unsafe fn valueForTag_client(
-            &self,
-            tag: c_long,
-            sender: Option<&Object>,
-        ) -> Option<Id<Object>>;
+    #[objc2::method(sel = "valueForTag:client:", managed = "Other")]
+    unsafe fn valueForTag_client(&self, tag: c_long, sender: Option<&Object>)
+        -> Option<Id<Object>>;
 
-        #[method(setValue:forTag:client:)]
-        unsafe fn setValue_forTag_client(
-            &self,
-            value: Option<&Object>,
-            tag: c_long,
-            sender: Option<&Object>,
-        );
+    #[objc2::method(sel = "setValue:forTag:client:")]
+    unsafe fn setValue_forTag_client(
+        &self,
+        value: Option<&Object>,
+        tag: c_long,
+        sender: Option<&Object>,
+    );
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other modes:)]
-        unsafe fn modes(&self, sender: Option<&Object>) -> Option<Id<NSDictionary>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "modes:", managed = "Other")]
+    unsafe fn modes(&self, sender: Option<&Object>) -> Option<Id<NSDictionary>>;
 
-        #[method(recognizedEvents:)]
-        unsafe fn recognizedEvents(&self, sender: Option<&Object>) -> NSUInteger;
+    #[objc2::method(sel = "recognizedEvents:")]
+    unsafe fn recognizedEvents(&self, sender: Option<&Object>) -> NSUInteger;
 
-        #[method(showPreferences:)]
-        unsafe fn showPreferences(&self, sender: Option<&Object>);
-    }
+    #[objc2::method(sel = "showPreferences:")]
+    unsafe fn showPreferences(&self, sender: Option<&Object>);
+}
 
-    unsafe impl ProtocolType for dyn IMKStateSetting {}
-);
+#[objc2::protocol]
+pub unsafe trait IMKMouseHandling {
+    #[objc2::method(
+        sel = "mouseDownOnCharacterIndex:coordinate:withModifier:continueTracking:client:"
+    )]
+    unsafe fn mouseDownOnCharacterIndex_coordinate_withModifier_continueTracking_client(
+        &self,
+        index: NSUInteger,
+        point: NSPoint,
+        flags: NSUInteger,
+        keep_tracking: *mut Bool,
+        sender: Option<&Object>,
+    ) -> bool;
 
-extern_protocol!(
-    pub unsafe trait IMKMouseHandling {
-        #[method(mouseDownOnCharacterIndex:coordinate:withModifier:continueTracking:client:)]
-        unsafe fn mouseDownOnCharacterIndex_coordinate_withModifier_continueTracking_client(
-            &self,
-            index: NSUInteger,
-            point: NSPoint,
-            flags: NSUInteger,
-            keep_tracking: *mut Bool,
-            sender: Option<&Object>,
-        ) -> bool;
+    #[objc2::method(sel = "mouseUpOnCharacterIndex:coordinate:withModifier:client:")]
+    unsafe fn mouseUpOnCharacterIndex_coordinate_withModifier_client(
+        &self,
+        index: NSUInteger,
+        point: NSPoint,
+        flags: NSUInteger,
+        sender: Option<&Object>,
+    ) -> bool;
 
-        #[method(mouseUpOnCharacterIndex:coordinate:withModifier:client:)]
-        unsafe fn mouseUpOnCharacterIndex_coordinate_withModifier_client(
-            &self,
-            index: NSUInteger,
-            point: NSPoint,
-            flags: NSUInteger,
-            sender: Option<&Object>,
-        ) -> bool;
+    #[objc2::method(sel = "mouseMovedOnCharacterIndex:coordinate:withModifier:client:")]
+    unsafe fn mouseMovedOnCharacterIndex_coordinate_withModifier_client(
+        &self,
+        index: NSUInteger,
+        point: NSPoint,
+        flags: NSUInteger,
+        sender: Option<&Object>,
+    ) -> bool;
+}
 
-        #[method(mouseMovedOnCharacterIndex:coordinate:withModifier:client:)]
-        unsafe fn mouseMovedOnCharacterIndex_coordinate_withModifier_client(
-            &self,
-            index: NSUInteger,
-            point: NSPoint,
-            flags: NSUInteger,
-            sender: Option<&Object>,
-        ) -> bool;
-    }
-
-    unsafe impl ProtocolType for dyn IMKMouseHandling {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "InputMethodKit_IMKInputController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "InputMethodKit_IMKInputController")]
-    pub struct IMKInputController;
-
-    #[cfg(feature = "InputMethodKit_IMKInputController")]
-    unsafe impl ClassType for IMKInputController {
-        type Super = NSObject;
-    }
-);
+    pub type IMKInputController;
+}
 
 #[cfg(feature = "InputMethodKit_IMKInputController")]
 unsafe impl IMKMouseHandling for IMKInputController {}
@@ -96,93 +89,93 @@ unsafe impl IMKStateSetting for IMKInputController {}
 #[cfg(feature = "InputMethodKit_IMKInputController")]
 unsafe impl NSObjectProtocol for IMKInputController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "InputMethodKit_IMKInputController")]
-    unsafe impl IMKInputController {
-        #[cfg(feature = "InputMethodKit_IMKServer")]
-        #[method_id(@__retain_semantics Init initWithServer:delegate:client:)]
-        pub unsafe fn initWithServer_delegate_client(
-            this: Option<Allocated<Self>>,
-            server: Option<&IMKServer>,
-            delegate: Option<&Object>,
-            input_client: Option<&Object>,
-        ) -> Option<Id<Self>>;
+    pub type IMKInputController;
 
-        #[method(updateComposition)]
-        pub unsafe fn updateComposition(&self);
+    #[cfg(feature = "InputMethodKit_IMKServer")]
+    #[objc2::method(sel = "initWithServer:delegate:client:", managed = "Init")]
+    pub unsafe fn initWithServer_delegate_client(
+        this: Option<Allocated<Self>>,
+        server: Option<&IMKServer>,
+        delegate: Option<&Object>,
+        input_client: Option<&Object>,
+    ) -> Option<Id<Self>>;
 
-        #[method(cancelComposition)]
-        pub unsafe fn cancelComposition(&self);
+    #[objc2::method(sel = "updateComposition")]
+    pub unsafe fn updateComposition(&self);
 
-        #[cfg(feature = "Foundation_NSMutableDictionary")]
-        #[method_id(@__retain_semantics Other compositionAttributesAtRange:)]
-        pub unsafe fn compositionAttributesAtRange(
-            &self,
-            range: NSRange,
-        ) -> Option<Id<NSMutableDictionary, Owned>>;
+    #[objc2::method(sel = "cancelComposition")]
+    pub unsafe fn cancelComposition(&self);
 
-        #[method(selectionRange)]
-        pub unsafe fn selectionRange(&self) -> NSRange;
+    #[cfg(feature = "Foundation_NSMutableDictionary")]
+    #[objc2::method(sel = "compositionAttributesAtRange:", managed = "Other")]
+    pub unsafe fn compositionAttributesAtRange(
+        &self,
+        range: NSRange,
+    ) -> Option<Id<NSMutableDictionary, Owned>>;
 
-        #[method(replacementRange)]
-        pub unsafe fn replacementRange(&self) -> NSRange;
+    #[objc2::method(sel = "selectionRange")]
+    pub unsafe fn selectionRange(&self) -> NSRange;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other markForStyle:atRange:)]
-        pub unsafe fn markForStyle_atRange(
-            &self,
-            style: NSInteger,
-            range: NSRange,
-        ) -> Option<Id<NSDictionary>>;
+    #[objc2::method(sel = "replacementRange")]
+    pub unsafe fn replacementRange(&self) -> NSRange;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(doCommandBySelector:commandDictionary:)]
-        pub unsafe fn doCommandBySelector_commandDictionary(
-            &self,
-            a_selector: Option<Sel>,
-            info_dictionary: Option<&NSDictionary>,
-        );
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "markForStyle:atRange:", managed = "Other")]
+    pub unsafe fn markForStyle_atRange(
+        &self,
+        style: NSInteger,
+        range: NSRange,
+    ) -> Option<Id<NSDictionary>>;
 
-        #[method(hidePalettes)]
-        pub unsafe fn hidePalettes(&self);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "doCommandBySelector:commandDictionary:")]
+    pub unsafe fn doCommandBySelector_commandDictionary(
+        &self,
+        a_selector: Option<Sel>,
+        info_dictionary: Option<&NSDictionary>,
+    );
 
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method_id(@__retain_semantics Other menu)]
-        pub unsafe fn menu(&self) -> Option<Id<NSMenu>>;
+    #[objc2::method(sel = "hidePalettes")]
+    pub unsafe fn hidePalettes(&self);
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<Object>>;
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "menu", managed = "Other")]
+    pub unsafe fn menu(&self) -> Option<Id<NSMenu>>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(&self, new_delegate: Option<&Object>);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<Object>>;
 
-        #[cfg(feature = "InputMethodKit_IMKServer")]
-        #[method_id(@__retain_semantics Other server)]
-        pub unsafe fn server(&self) -> Option<Id<IMKServer>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, new_delegate: Option<&Object>);
 
-        #[method_id(@__retain_semantics Other client)]
-        pub unsafe fn client(&self) -> Option<Id<TodoProtocols>>;
+    #[cfg(feature = "InputMethodKit_IMKServer")]
+    #[objc2::method(sel = "server", managed = "Other")]
+    pub unsafe fn server(&self) -> Option<Id<IMKServer>>;
 
-        #[method(inputControllerWillClose)]
-        pub unsafe fn inputControllerWillClose(&self);
+    #[objc2::method(sel = "client", managed = "Other")]
+    pub unsafe fn client(&self) -> Option<Id<TodoProtocols>>;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(annotationSelected:forCandidate:)]
-        pub unsafe fn annotationSelected_forCandidate(
-            &self,
-            annotation_string: Option<&NSAttributedString>,
-            candidate_string: Option<&NSAttributedString>,
-        );
+    #[objc2::method(sel = "inputControllerWillClose")]
+    pub unsafe fn inputControllerWillClose(&self);
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(candidateSelectionChanged:)]
-        pub unsafe fn candidateSelectionChanged(
-            &self,
-            candidate_string: Option<&NSAttributedString>,
-        );
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "annotationSelected:forCandidate:")]
+    pub unsafe fn annotationSelected_forCandidate(
+        &self,
+        annotation_string: Option<&NSAttributedString>,
+        candidate_string: Option<&NSAttributedString>,
+    );
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(candidateSelected:)]
-        pub unsafe fn candidateSelected(&self, candidate_string: Option<&NSAttributedString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "candidateSelectionChanged:")]
+    pub unsafe fn candidateSelectionChanged(&self, candidate_string: Option<&NSAttributedString>);
+
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "candidateSelected:")]
+    pub unsafe fn candidateSelected(&self, candidate_string: Option<&NSAttributedString>);
+}

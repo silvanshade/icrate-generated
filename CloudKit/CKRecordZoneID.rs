@@ -5,16 +5,16 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKRecordZoneID")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKRecordZoneID")]
-    pub struct CKRecordZoneID;
-
-    #[cfg(feature = "CloudKit_CKRecordZoneID")]
-    unsafe impl ClassType for CKRecordZoneID {
-        type Super = NSObject;
-    }
-);
+    pub type CKRecordZoneID;
+}
 
 #[cfg(feature = "CloudKit_CKRecordZoneID")]
 unsafe impl NSCoding for CKRecordZoneID {}
@@ -25,29 +25,32 @@ unsafe impl NSObjectProtocol for CKRecordZoneID {}
 #[cfg(feature = "CloudKit_CKRecordZoneID")]
 unsafe impl NSSecureCoding for CKRecordZoneID {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKRecordZoneID")]
-    unsafe impl CKRecordZoneID {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKRecordZoneID;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithZoneName:ownerName:)]
-        pub unsafe fn initWithZoneName_ownerName(
-            this: Option<Allocated<Self>>,
-            zone_name: &NSString,
-            owner_name: &NSString,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other zoneName)]
-        pub unsafe fn zoneName(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithZoneName:ownerName:", managed = "Init")]
+    pub unsafe fn initWithZoneName_ownerName(
+        this: Option<Allocated<Self>>,
+        zone_name: &NSString,
+        owner_name: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other ownerName)]
-        pub unsafe fn ownerName(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "zoneName", managed = "Other")]
+    pub unsafe fn zoneName(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "ownerName", managed = "Other")]
+    pub unsafe fn ownerName(&self) -> Id<NSString>;
+}

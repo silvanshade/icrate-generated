@@ -5,51 +5,48 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_protocol!(
+#[objc2::protocol]
+#[deprecated]
+pub unsafe trait DOMEventTarget: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "addEventListener:listener:useCapture:")]
+    unsafe fn addEventListener_listener_useCapture(
+        &self,
+        r#type: Option<&NSString>,
+        listener: Option<&ProtocolObject<dyn DOMEventListener>>,
+        use_capture: bool,
+    );
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "removeEventListener:listener:useCapture:")]
+    unsafe fn removeEventListener_listener_useCapture(
+        &self,
+        r#type: Option<&NSString>,
+        listener: Option<&ProtocolObject<dyn DOMEventListener>>,
+        use_capture: bool,
+    );
+
+    #[cfg(feature = "WebKit_DOMEvent")]
+    #[objc2::method(sel = "dispatchEvent:")]
+    unsafe fn dispatchEvent(&self, event: Option<&DOMEvent>) -> bool;
+
+    #[cfg(feature = "Foundation_NSString")]
     #[deprecated]
-    pub unsafe trait DOMEventTarget: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(addEventListener:listener:useCapture:)]
-        unsafe fn addEventListener_listener_useCapture(
-            &self,
-            r#type: Option<&NSString>,
-            listener: Option<&ProtocolObject<dyn DOMEventListener>>,
-            use_capture: bool,
-        );
+    #[objc2::method(sel = "addEventListener:::")]
+    unsafe fn addEventListener(
+        &self,
+        r#type: Option<&NSString>,
+        listener: Option<&ProtocolObject<dyn DOMEventListener>>,
+        use_capture: bool,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(removeEventListener:listener:useCapture:)]
-        unsafe fn removeEventListener_listener_useCapture(
-            &self,
-            r#type: Option<&NSString>,
-            listener: Option<&ProtocolObject<dyn DOMEventListener>>,
-            use_capture: bool,
-        );
-
-        #[cfg(feature = "WebKit_DOMEvent")]
-        #[method(dispatchEvent:)]
-        unsafe fn dispatchEvent(&self, event: Option<&DOMEvent>) -> bool;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(addEventListener:::)]
-        unsafe fn addEventListener(
-            &self,
-            r#type: Option<&NSString>,
-            listener: Option<&ProtocolObject<dyn DOMEventListener>>,
-            use_capture: bool,
-        );
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(removeEventListener:::)]
-        unsafe fn removeEventListener(
-            &self,
-            r#type: Option<&NSString>,
-            listener: Option<&ProtocolObject<dyn DOMEventListener>>,
-            use_capture: bool,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn DOMEventTarget {}
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "removeEventListener:::")]
+    unsafe fn removeEventListener(
+        &self,
+        r#type: Option<&NSString>,
+        listener: Option<&ProtocolObject<dyn DOMEventListener>>,
+        use_capture: bool,
+    );
+}

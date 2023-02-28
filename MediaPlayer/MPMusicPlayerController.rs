@@ -5,58 +5,52 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MPMusicPlaybackState {
-        MPMusicPlaybackStateStopped = 0,
-        MPMusicPlaybackStatePlaying = 1,
-        MPMusicPlaybackStatePaused = 2,
-        MPMusicPlaybackStateInterrupted = 3,
-        MPMusicPlaybackStateSeekingForward = 4,
-        MPMusicPlaybackStateSeekingBackward = 5,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MPMusicPlaybackState {
+    MPMusicPlaybackStateStopped = 0,
+    MPMusicPlaybackStatePlaying = 1,
+    MPMusicPlaybackStatePaused = 2,
+    MPMusicPlaybackStateInterrupted = 3,
+    MPMusicPlaybackStateSeekingForward = 4,
+    MPMusicPlaybackStateSeekingBackward = 5,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MPMusicRepeatMode {
-        MPMusicRepeatModeDefault = 0,
-        MPMusicRepeatModeNone = 1,
-        MPMusicRepeatModeOne = 2,
-        MPMusicRepeatModeAll = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MPMusicRepeatMode {
+    MPMusicRepeatModeDefault = 0,
+    MPMusicRepeatModeNone = 1,
+    MPMusicRepeatModeOne = 2,
+    MPMusicRepeatModeAll = 3,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MPMusicShuffleMode {
-        MPMusicShuffleModeDefault = 0,
-        MPMusicShuffleModeOff = 1,
-        MPMusicShuffleModeSongs = 2,
-        MPMusicShuffleModeAlbums = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MPMusicShuffleMode {
+    MPMusicShuffleModeDefault = 0,
+    MPMusicShuffleModeOff = 1,
+    MPMusicShuffleModeSongs = 2,
+    MPMusicShuffleModeAlbums = 3,
+}
 
-extern_protocol!(
-    pub unsafe trait MPSystemMusicPlayerController: NSObjectProtocol {
-        #[cfg(feature = "MediaPlayer_MPMusicPlayerQueueDescriptor")]
-        #[method(openToPlayQueueDescriptor:)]
-        unsafe fn openToPlayQueueDescriptor(&self, queue_descriptor: &MPMusicPlayerQueueDescriptor);
-    }
+#[objc2::protocol]
+pub unsafe trait MPSystemMusicPlayerController: NSObjectProtocol {
+    #[cfg(feature = "MediaPlayer_MPMusicPlayerQueueDescriptor")]
+    #[objc2::method(sel = "openToPlayQueueDescriptor:")]
+    unsafe fn openToPlayQueueDescriptor(&self, queue_descriptor: &MPMusicPlayerQueueDescriptor);
+}
 
-    unsafe impl ProtocolType for dyn MPSystemMusicPlayerController {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPMusicPlayerController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPMusicPlayerController")]
-    pub struct MPMusicPlayerController;
-
-    #[cfg(feature = "MediaPlayer_MPMusicPlayerController")]
-    unsafe impl ClassType for MPMusicPlayerController {
-        type Super = NSObject;
-    }
-);
+    pub type MPMusicPlayerController;
+}
 
 #[cfg(feature = "MediaPlayer_MPMusicPlayerController")]
 unsafe impl MPMediaPlayback for MPMusicPlayerController {}
@@ -64,110 +58,113 @@ unsafe impl MPMediaPlayback for MPMusicPlayerController {}
 #[cfg(feature = "MediaPlayer_MPMusicPlayerController")]
 unsafe impl NSObjectProtocol for MPMusicPlayerController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPMusicPlayerController")]
-    unsafe impl MPMusicPlayerController {
-        #[method_id(@__retain_semantics Other applicationMusicPlayer)]
-        pub unsafe fn applicationMusicPlayer() -> Id<MPMusicPlayerController>;
+    pub type MPMusicPlayerController;
 
-        #[cfg(feature = "MediaPlayer_MPMusicPlayerApplicationController")]
-        #[method_id(@__retain_semantics Other applicationQueuePlayer)]
-        pub unsafe fn applicationQueuePlayer() -> Id<MPMusicPlayerApplicationController>;
+    #[objc2::method(sel = "applicationMusicPlayer", managed = "Other")]
+    pub unsafe fn applicationMusicPlayer() -> Id<MPMusicPlayerController>;
 
-        #[method_id(@__retain_semantics Other systemMusicPlayer)]
-        pub unsafe fn systemMusicPlayer() -> Id<MPMusicPlayerController>;
+    #[cfg(feature = "MediaPlayer_MPMusicPlayerApplicationController")]
+    #[objc2::method(sel = "applicationQueuePlayer", managed = "Other")]
+    pub unsafe fn applicationQueuePlayer() -> Id<MPMusicPlayerApplicationController>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "systemMusicPlayer", managed = "Other")]
+    pub unsafe fn systemMusicPlayer() -> Id<MPMusicPlayerController>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[method(playbackState)]
-        pub unsafe fn playbackState(&self) -> MPMusicPlaybackState;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(repeatMode)]
-        pub unsafe fn repeatMode(&self) -> MPMusicRepeatMode;
+    #[objc2::method(sel = "playbackState")]
+    pub unsafe fn playbackState(&self) -> MPMusicPlaybackState;
 
-        #[method(setRepeatMode:)]
-        pub unsafe fn setRepeatMode(&self, repeat_mode: MPMusicRepeatMode);
+    #[objc2::method(sel = "repeatMode")]
+    pub unsafe fn repeatMode(&self) -> MPMusicRepeatMode;
 
-        #[method(shuffleMode)]
-        pub unsafe fn shuffleMode(&self) -> MPMusicShuffleMode;
+    #[objc2::method(sel = "setRepeatMode:")]
+    pub unsafe fn setRepeatMode(&self, repeat_mode: MPMusicRepeatMode);
 
-        #[method(setShuffleMode:)]
-        pub unsafe fn setShuffleMode(&self, shuffle_mode: MPMusicShuffleMode);
+    #[objc2::method(sel = "shuffleMode")]
+    pub unsafe fn shuffleMode(&self) -> MPMusicShuffleMode;
 
-        #[deprecated = "Use MPVolumeView for volume control."]
-        #[method(volume)]
-        pub unsafe fn volume(&self) -> c_float;
+    #[objc2::method(sel = "setShuffleMode:")]
+    pub unsafe fn setShuffleMode(&self, shuffle_mode: MPMusicShuffleMode);
 
-        #[deprecated = "Use MPVolumeView for volume control."]
-        #[method(setVolume:)]
-        pub unsafe fn setVolume(&self, volume: c_float);
+    #[deprecated = "Use MPVolumeView for volume control."]
+    #[objc2::method(sel = "volume")]
+    pub unsafe fn volume(&self) -> c_float;
 
-        #[cfg(feature = "MediaPlayer_MPMediaItem")]
-        #[method_id(@__retain_semantics Other nowPlayingItem)]
-        pub unsafe fn nowPlayingItem(&self) -> Option<Id<MPMediaItem>>;
+    #[deprecated = "Use MPVolumeView for volume control."]
+    #[objc2::method(sel = "setVolume:")]
+    pub unsafe fn setVolume(&self, volume: c_float);
 
-        #[cfg(feature = "MediaPlayer_MPMediaItem")]
-        #[method(setNowPlayingItem:)]
-        pub unsafe fn setNowPlayingItem(&self, now_playing_item: Option<&MPMediaItem>);
+    #[cfg(feature = "MediaPlayer_MPMediaItem")]
+    #[objc2::method(sel = "nowPlayingItem", managed = "Other")]
+    pub unsafe fn nowPlayingItem(&self) -> Option<Id<MPMediaItem>>;
 
-        #[method(indexOfNowPlayingItem)]
-        pub unsafe fn indexOfNowPlayingItem(&self) -> NSUInteger;
+    #[cfg(feature = "MediaPlayer_MPMediaItem")]
+    #[objc2::method(sel = "setNowPlayingItem:")]
+    pub unsafe fn setNowPlayingItem(&self, now_playing_item: Option<&MPMediaItem>);
 
-        #[cfg(feature = "MediaPlayer_MPMediaQuery")]
-        #[method(setQueueWithQuery:)]
-        pub unsafe fn setQueueWithQuery(&self, query: &MPMediaQuery);
+    #[objc2::method(sel = "indexOfNowPlayingItem")]
+    pub unsafe fn indexOfNowPlayingItem(&self) -> NSUInteger;
 
-        #[cfg(feature = "MediaPlayer_MPMediaItemCollection")]
-        #[method(setQueueWithItemCollection:)]
-        pub unsafe fn setQueueWithItemCollection(&self, item_collection: &MPMediaItemCollection);
+    #[cfg(feature = "MediaPlayer_MPMediaQuery")]
+    #[objc2::method(sel = "setQueueWithQuery:")]
+    pub unsafe fn setQueueWithQuery(&self, query: &MPMediaQuery);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method(setQueueWithStoreIDs:)]
-        pub unsafe fn setQueueWithStoreIDs(&self, store_i_ds: &NSArray<NSString>);
+    #[cfg(feature = "MediaPlayer_MPMediaItemCollection")]
+    #[objc2::method(sel = "setQueueWithItemCollection:")]
+    pub unsafe fn setQueueWithItemCollection(&self, item_collection: &MPMediaItemCollection);
 
-        #[cfg(feature = "MediaPlayer_MPMusicPlayerQueueDescriptor")]
-        #[method(setQueueWithDescriptor:)]
-        pub unsafe fn setQueueWithDescriptor(&self, descriptor: &MPMusicPlayerQueueDescriptor);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setQueueWithStoreIDs:")]
+    pub unsafe fn setQueueWithStoreIDs(&self, store_i_ds: &NSArray<NSString>);
 
-        #[cfg(feature = "MediaPlayer_MPMusicPlayerQueueDescriptor")]
-        #[method(prependQueueDescriptor:)]
-        pub unsafe fn prependQueueDescriptor(&self, descriptor: &MPMusicPlayerQueueDescriptor);
+    #[cfg(feature = "MediaPlayer_MPMusicPlayerQueueDescriptor")]
+    #[objc2::method(sel = "setQueueWithDescriptor:")]
+    pub unsafe fn setQueueWithDescriptor(&self, descriptor: &MPMusicPlayerQueueDescriptor);
 
-        #[cfg(feature = "MediaPlayer_MPMusicPlayerQueueDescriptor")]
-        #[method(appendQueueDescriptor:)]
-        pub unsafe fn appendQueueDescriptor(&self, descriptor: &MPMusicPlayerQueueDescriptor);
+    #[cfg(feature = "MediaPlayer_MPMusicPlayerQueueDescriptor")]
+    #[objc2::method(sel = "prependQueueDescriptor:")]
+    pub unsafe fn prependQueueDescriptor(&self, descriptor: &MPMusicPlayerQueueDescriptor);
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(prepareToPlayWithCompletionHandler:)]
-        pub unsafe fn prepareToPlayWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
+    #[cfg(feature = "MediaPlayer_MPMusicPlayerQueueDescriptor")]
+    #[objc2::method(sel = "appendQueueDescriptor:")]
+    pub unsafe fn appendQueueDescriptor(&self, descriptor: &MPMusicPlayerQueueDescriptor);
 
-        #[method(skipToNextItem)]
-        pub unsafe fn skipToNextItem(&self);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "prepareToPlayWithCompletionHandler:")]
+    pub unsafe fn prepareToPlayWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
 
-        #[method(skipToBeginning)]
-        pub unsafe fn skipToBeginning(&self);
+    #[objc2::method(sel = "skipToNextItem")]
+    pub unsafe fn skipToNextItem(&self);
 
-        #[method(skipToPreviousItem)]
-        pub unsafe fn skipToPreviousItem(&self);
+    #[objc2::method(sel = "skipToBeginning")]
+    pub unsafe fn skipToBeginning(&self);
 
-        #[method(beginGeneratingPlaybackNotifications)]
-        pub unsafe fn beginGeneratingPlaybackNotifications(&self);
+    #[objc2::method(sel = "skipToPreviousItem")]
+    pub unsafe fn skipToPreviousItem(&self);
 
-        #[method(endGeneratingPlaybackNotifications)]
-        pub unsafe fn endGeneratingPlaybackNotifications(&self);
+    #[objc2::method(sel = "beginGeneratingPlaybackNotifications")]
+    pub unsafe fn beginGeneratingPlaybackNotifications(&self);
 
-        #[deprecated]
-        #[method_id(@__retain_semantics Other iPodMusicPlayer)]
-        pub unsafe fn iPodMusicPlayer() -> Id<MPMusicPlayerController>;
-    }
-);
+    #[objc2::method(sel = "endGeneratingPlaybackNotifications")]
+    pub unsafe fn endGeneratingPlaybackNotifications(&self);
+
+    #[deprecated]
+    #[objc2::method(sel = "iPodMusicPlayer", managed = "Other")]
+    pub unsafe fn iPodMusicPlayer() -> Id<MPMusicPlayerController>;
+}
 
 extern_static!(
     MPMusicPlayerControllerPlaybackStateDidChangeNotification: &'static NSNotificationName

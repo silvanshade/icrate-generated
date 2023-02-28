@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSResponder")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSResponder")]
-    pub struct NSResponder;
-
-    #[cfg(feature = "AppKit_NSResponder")]
-    unsafe impl ClassType for NSResponder {
-        type Super = NSObject;
-    }
-);
+    pub type NSResponder;
+}
 
 #[cfg(feature = "AppKit_NSResponder")]
 unsafe impl NSCoding for NSResponder {}
@@ -22,692 +22,606 @@ unsafe impl NSCoding for NSResponder {}
 #[cfg(feature = "AppKit_NSResponder")]
 unsafe impl NSObjectProtocol for NSResponder {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSResponder")]
-    unsafe impl NSResponder {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
-
-        #[method_id(@__retain_semantics Other nextResponder)]
-        pub unsafe fn nextResponder(&self) -> Option<Id<NSResponder>>;
-
-        #[method(setNextResponder:)]
-        pub unsafe fn setNextResponder(&self, next_responder: Option<&NSResponder>);
-
-        #[method(tryToPerform:with:)]
-        pub unsafe fn tryToPerform_with(&self, action: Sel, object: Option<&Object>) -> bool;
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(performKeyEquivalent:)]
-        pub unsafe fn performKeyEquivalent(&self, event: &NSEvent) -> bool;
-
-        #[method_id(@__retain_semantics Other validRequestorForSendType:returnType:)]
-        pub unsafe fn validRequestorForSendType_returnType(
-            &self,
-            send_type: Option<&NSPasteboardType>,
-            return_type: Option<&NSPasteboardType>,
-        ) -> Option<Id<Object>>;
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(mouseDown:)]
-        pub unsafe fn mouseDown(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(rightMouseDown:)]
-        pub unsafe fn rightMouseDown(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(otherMouseDown:)]
-        pub unsafe fn otherMouseDown(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(mouseUp:)]
-        pub unsafe fn mouseUp(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(rightMouseUp:)]
-        pub unsafe fn rightMouseUp(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(otherMouseUp:)]
-        pub unsafe fn otherMouseUp(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(mouseMoved:)]
-        pub unsafe fn mouseMoved(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(mouseDragged:)]
-        pub unsafe fn mouseDragged(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(scrollWheel:)]
-        pub unsafe fn scrollWheel(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(rightMouseDragged:)]
-        pub unsafe fn rightMouseDragged(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(otherMouseDragged:)]
-        pub unsafe fn otherMouseDragged(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(mouseEntered:)]
-        pub unsafe fn mouseEntered(&self, event: &NSEvent);
+    pub type NSResponder;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(mouseExited:)]
-        pub unsafe fn mouseExited(&self, event: &NSEvent);
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
+
+    #[objc2::method(sel = "nextResponder", managed = "Other")]
+    pub unsafe fn nextResponder(&self) -> Option<Id<NSResponder>>;
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(keyDown:)]
-        pub unsafe fn keyDown(&self, event: &NSEvent);
+    #[objc2::method(sel = "setNextResponder:")]
+    pub unsafe fn setNextResponder(&self, next_responder: Option<&NSResponder>);
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(keyUp:)]
-        pub unsafe fn keyUp(&self, event: &NSEvent);
+    #[objc2::method(sel = "tryToPerform:with:")]
+    pub unsafe fn tryToPerform_with(&self, action: Sel, object: Option<&Object>) -> bool;
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(flagsChanged:)]
-        pub unsafe fn flagsChanged(&self, event: &NSEvent);
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "performKeyEquivalent:")]
+    pub unsafe fn performKeyEquivalent(&self, event: &NSEvent) -> bool;
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(tabletPoint:)]
-        pub unsafe fn tabletPoint(&self, event: &NSEvent);
+    #[objc2::method(sel = "validRequestorForSendType:returnType:", managed = "Other")]
+    pub unsafe fn validRequestorForSendType_returnType(
+        &self,
+        send_type: Option<&NSPasteboardType>,
+        return_type: Option<&NSPasteboardType>,
+    ) -> Option<Id<Object>>;
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "mouseDown:")]
+    pub unsafe fn mouseDown(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "rightMouseDown:")]
+    pub unsafe fn rightMouseDown(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "otherMouseDown:")]
+    pub unsafe fn otherMouseDown(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "mouseUp:")]
+    pub unsafe fn mouseUp(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "rightMouseUp:")]
+    pub unsafe fn rightMouseUp(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "otherMouseUp:")]
+    pub unsafe fn otherMouseUp(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "mouseMoved:")]
+    pub unsafe fn mouseMoved(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "mouseDragged:")]
+    pub unsafe fn mouseDragged(&self, event: &NSEvent);
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(tabletProximity:)]
-        pub unsafe fn tabletProximity(&self, event: &NSEvent);
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "scrollWheel:")]
+    pub unsafe fn scrollWheel(&self, event: &NSEvent);
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(cursorUpdate:)]
-        pub unsafe fn cursorUpdate(&self, event: &NSEvent);
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "rightMouseDragged:")]
+    pub unsafe fn rightMouseDragged(&self, event: &NSEvent);
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(magnifyWithEvent:)]
-        pub unsafe fn magnifyWithEvent(&self, event: &NSEvent);
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "otherMouseDragged:")]
+    pub unsafe fn otherMouseDragged(&self, event: &NSEvent);
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(rotateWithEvent:)]
-        pub unsafe fn rotateWithEvent(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(swipeWithEvent:)]
-        pub unsafe fn swipeWithEvent(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(beginGestureWithEvent:)]
-        pub unsafe fn beginGestureWithEvent(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(endGestureWithEvent:)]
-        pub unsafe fn endGestureWithEvent(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(smartMagnifyWithEvent:)]
-        pub unsafe fn smartMagnifyWithEvent(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(changeModeWithEvent:)]
-        pub unsafe fn changeModeWithEvent(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(touchesBeganWithEvent:)]
-        pub unsafe fn touchesBeganWithEvent(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(touchesMovedWithEvent:)]
-        pub unsafe fn touchesMovedWithEvent(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(touchesEndedWithEvent:)]
-        pub unsafe fn touchesEndedWithEvent(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(touchesCancelledWithEvent:)]
-        pub unsafe fn touchesCancelledWithEvent(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(quickLookWithEvent:)]
-        pub unsafe fn quickLookWithEvent(&self, event: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(pressureChangeWithEvent:)]
-        pub unsafe fn pressureChangeWithEvent(&self, event: &NSEvent);
-
-        #[method(noResponderFor:)]
-        pub unsafe fn noResponderFor(&self, event_selector: Sel);
-
-        #[method(acceptsFirstResponder)]
-        pub unsafe fn acceptsFirstResponder(&self) -> bool;
-
-        #[method(becomeFirstResponder)]
-        pub unsafe fn becomeFirstResponder(&self) -> bool;
-
-        #[method(resignFirstResponder)]
-        pub unsafe fn resignFirstResponder(&self) -> bool;
-
-        #[cfg(all(feature = "AppKit_NSEvent", feature = "Foundation_NSArray"))]
-        #[method(interpretKeyEvents:)]
-        pub unsafe fn interpretKeyEvents(&self, event_array: &NSArray<NSEvent>);
-
-        #[method(flushBufferedKeyEvents)]
-        pub unsafe fn flushBufferedKeyEvents(&self);
-
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method_id(@__retain_semantics Other menu)]
-        pub unsafe fn menu(&self) -> Option<Id<NSMenu>>;
-
-        #[cfg(feature = "AppKit_NSMenu")]
-        #[method(setMenu:)]
-        pub unsafe fn setMenu(&self, menu: Option<&NSMenu>);
-
-        #[method(showContextHelp:)]
-        pub unsafe fn showContextHelp(&self, sender: Option<&Object>);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(helpRequested:)]
-        pub unsafe fn helpRequested(&self, event_ptr: &NSEvent);
-
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(shouldBeTreatedAsInkEvent:)]
-        pub unsafe fn shouldBeTreatedAsInkEvent(&self, event: &NSEvent) -> bool;
-
-        #[method(wantsScrollEventsForSwipeTrackingOnAxis:)]
-        pub unsafe fn wantsScrollEventsForSwipeTrackingOnAxis(
-            &self,
-            axis: NSEventGestureAxis,
-        ) -> bool;
-
-        #[method(wantsForwardedScrollEventsForAxis:)]
-        pub unsafe fn wantsForwardedScrollEventsForAxis(&self, axis: NSEventGestureAxis) -> bool;
-
-        #[method_id(@__retain_semantics Other supplementalTargetForAction:sender:)]
-        pub unsafe fn supplementalTargetForAction_sender(
-            &self,
-            action: Sel,
-            sender: Option<&Object>,
-        ) -> Option<Id<Object>>;
-    }
-);
-
-extern_protocol!(
-    pub unsafe trait NSStandardKeyBindingResponding: NSObjectProtocol {
-        #[optional]
-        #[method(insertText:)]
-        unsafe fn insertText(&self, insert_string: &Object);
-
-        #[optional]
-        #[method(doCommandBySelector:)]
-        unsafe fn doCommandBySelector(&self, selector: Sel);
-
-        #[optional]
-        #[method(moveForward:)]
-        unsafe fn moveForward(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveRight:)]
-        unsafe fn moveRight(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveBackward:)]
-        unsafe fn moveBackward(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveLeft:)]
-        unsafe fn moveLeft(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveUp:)]
-        unsafe fn moveUp(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveDown:)]
-        unsafe fn moveDown(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveWordForward:)]
-        unsafe fn moveWordForward(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveWordBackward:)]
-        unsafe fn moveWordBackward(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveToBeginningOfLine:)]
-        unsafe fn moveToBeginningOfLine(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveToEndOfLine:)]
-        unsafe fn moveToEndOfLine(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveToBeginningOfParagraph:)]
-        unsafe fn moveToBeginningOfParagraph(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveToEndOfParagraph:)]
-        unsafe fn moveToEndOfParagraph(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveToEndOfDocument:)]
-        unsafe fn moveToEndOfDocument(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveToBeginningOfDocument:)]
-        unsafe fn moveToBeginningOfDocument(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(pageDown:)]
-        unsafe fn pageDown(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(pageUp:)]
-        unsafe fn pageUp(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(centerSelectionInVisibleArea:)]
-        unsafe fn centerSelectionInVisibleArea(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveBackwardAndModifySelection:)]
-        unsafe fn moveBackwardAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveForwardAndModifySelection:)]
-        unsafe fn moveForwardAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveWordForwardAndModifySelection:)]
-        unsafe fn moveWordForwardAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveWordBackwardAndModifySelection:)]
-        unsafe fn moveWordBackwardAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveUpAndModifySelection:)]
-        unsafe fn moveUpAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveDownAndModifySelection:)]
-        unsafe fn moveDownAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveToBeginningOfLineAndModifySelection:)]
-        unsafe fn moveToBeginningOfLineAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveToEndOfLineAndModifySelection:)]
-        unsafe fn moveToEndOfLineAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveToBeginningOfParagraphAndModifySelection:)]
-        unsafe fn moveToBeginningOfParagraphAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveToEndOfParagraphAndModifySelection:)]
-        unsafe fn moveToEndOfParagraphAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveToEndOfDocumentAndModifySelection:)]
-        unsafe fn moveToEndOfDocumentAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveToBeginningOfDocumentAndModifySelection:)]
-        unsafe fn moveToBeginningOfDocumentAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(pageDownAndModifySelection:)]
-        unsafe fn pageDownAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(pageUpAndModifySelection:)]
-        unsafe fn pageUpAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveParagraphForwardAndModifySelection:)]
-        unsafe fn moveParagraphForwardAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveParagraphBackwardAndModifySelection:)]
-        unsafe fn moveParagraphBackwardAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveWordRight:)]
-        unsafe fn moveWordRight(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveWordLeft:)]
-        unsafe fn moveWordLeft(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveRightAndModifySelection:)]
-        unsafe fn moveRightAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveLeftAndModifySelection:)]
-        unsafe fn moveLeftAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveWordRightAndModifySelection:)]
-        unsafe fn moveWordRightAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveWordLeftAndModifySelection:)]
-        unsafe fn moveWordLeftAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveToLeftEndOfLine:)]
-        unsafe fn moveToLeftEndOfLine(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveToRightEndOfLine:)]
-        unsafe fn moveToRightEndOfLine(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveToLeftEndOfLineAndModifySelection:)]
-        unsafe fn moveToLeftEndOfLineAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(moveToRightEndOfLineAndModifySelection:)]
-        unsafe fn moveToRightEndOfLineAndModifySelection(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(scrollPageUp:)]
-        unsafe fn scrollPageUp(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(scrollPageDown:)]
-        unsafe fn scrollPageDown(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(scrollLineUp:)]
-        unsafe fn scrollLineUp(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(scrollLineDown:)]
-        unsafe fn scrollLineDown(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(scrollToBeginningOfDocument:)]
-        unsafe fn scrollToBeginningOfDocument(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(scrollToEndOfDocument:)]
-        unsafe fn scrollToEndOfDocument(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(transpose:)]
-        unsafe fn transpose(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(transposeWords:)]
-        unsafe fn transposeWords(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(selectAll:)]
-        unsafe fn selectAll(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(selectParagraph:)]
-        unsafe fn selectParagraph(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(selectLine:)]
-        unsafe fn selectLine(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(selectWord:)]
-        unsafe fn selectWord(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(indent:)]
-        unsafe fn indent(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(insertTab:)]
-        unsafe fn insertTab(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(insertBacktab:)]
-        unsafe fn insertBacktab(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(insertNewline:)]
-        unsafe fn insertNewline(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(insertParagraphSeparator:)]
-        unsafe fn insertParagraphSeparator(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(insertNewlineIgnoringFieldEditor:)]
-        unsafe fn insertNewlineIgnoringFieldEditor(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(insertTabIgnoringFieldEditor:)]
-        unsafe fn insertTabIgnoringFieldEditor(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(insertLineBreak:)]
-        unsafe fn insertLineBreak(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(insertContainerBreak:)]
-        unsafe fn insertContainerBreak(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(insertSingleQuoteIgnoringSubstitution:)]
-        unsafe fn insertSingleQuoteIgnoringSubstitution(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(insertDoubleQuoteIgnoringSubstitution:)]
-        unsafe fn insertDoubleQuoteIgnoringSubstitution(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(changeCaseOfLetter:)]
-        unsafe fn changeCaseOfLetter(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(uppercaseWord:)]
-        unsafe fn uppercaseWord(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(lowercaseWord:)]
-        unsafe fn lowercaseWord(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(capitalizeWord:)]
-        unsafe fn capitalizeWord(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(deleteForward:)]
-        unsafe fn deleteForward(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(deleteBackward:)]
-        unsafe fn deleteBackward(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(deleteBackwardByDecomposingPreviousCharacter:)]
-        unsafe fn deleteBackwardByDecomposingPreviousCharacter(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(deleteWordForward:)]
-        unsafe fn deleteWordForward(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(deleteWordBackward:)]
-        unsafe fn deleteWordBackward(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(deleteToBeginningOfLine:)]
-        unsafe fn deleteToBeginningOfLine(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(deleteToEndOfLine:)]
-        unsafe fn deleteToEndOfLine(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(deleteToBeginningOfParagraph:)]
-        unsafe fn deleteToBeginningOfParagraph(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(deleteToEndOfParagraph:)]
-        unsafe fn deleteToEndOfParagraph(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(yank:)]
-        unsafe fn yank(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(complete:)]
-        unsafe fn complete(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(setMark:)]
-        unsafe fn setMark(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(deleteToMark:)]
-        unsafe fn deleteToMark(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(selectToMark:)]
-        unsafe fn selectToMark(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(swapWithMark:)]
-        unsafe fn swapWithMark(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(cancelOperation:)]
-        unsafe fn cancelOperation(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(makeBaseWritingDirectionNatural:)]
-        unsafe fn makeBaseWritingDirectionNatural(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(makeBaseWritingDirectionLeftToRight:)]
-        unsafe fn makeBaseWritingDirectionLeftToRight(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(makeBaseWritingDirectionRightToLeft:)]
-        unsafe fn makeBaseWritingDirectionRightToLeft(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(makeTextWritingDirectionNatural:)]
-        unsafe fn makeTextWritingDirectionNatural(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(makeTextWritingDirectionLeftToRight:)]
-        unsafe fn makeTextWritingDirectionLeftToRight(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(makeTextWritingDirectionRightToLeft:)]
-        unsafe fn makeTextWritingDirectionRightToLeft(&self, sender: Option<&Object>);
-
-        #[optional]
-        #[method(quickLookPreviewItems:)]
-        unsafe fn quickLookPreviewItems(&self, sender: Option<&Object>);
-    }
-
-    unsafe impl ProtocolType for dyn NSStandardKeyBindingResponding {}
-);
-
-extern_methods!(
-    /// NSStandardKeyBindingMethods
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "mouseEntered:")]
+    pub unsafe fn mouseEntered(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "mouseExited:")]
+    pub unsafe fn mouseExited(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "keyDown:")]
+    pub unsafe fn keyDown(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "keyUp:")]
+    pub unsafe fn keyUp(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "flagsChanged:")]
+    pub unsafe fn flagsChanged(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "tabletPoint:")]
+    pub unsafe fn tabletPoint(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "tabletProximity:")]
+    pub unsafe fn tabletProximity(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "cursorUpdate:")]
+    pub unsafe fn cursorUpdate(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "magnifyWithEvent:")]
+    pub unsafe fn magnifyWithEvent(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "rotateWithEvent:")]
+    pub unsafe fn rotateWithEvent(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "swipeWithEvent:")]
+    pub unsafe fn swipeWithEvent(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "beginGestureWithEvent:")]
+    pub unsafe fn beginGestureWithEvent(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "endGestureWithEvent:")]
+    pub unsafe fn endGestureWithEvent(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "smartMagnifyWithEvent:")]
+    pub unsafe fn smartMagnifyWithEvent(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "changeModeWithEvent:")]
+    pub unsafe fn changeModeWithEvent(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "touchesBeganWithEvent:")]
+    pub unsafe fn touchesBeganWithEvent(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "touchesMovedWithEvent:")]
+    pub unsafe fn touchesMovedWithEvent(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "touchesEndedWithEvent:")]
+    pub unsafe fn touchesEndedWithEvent(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "touchesCancelledWithEvent:")]
+    pub unsafe fn touchesCancelledWithEvent(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "quickLookWithEvent:")]
+    pub unsafe fn quickLookWithEvent(&self, event: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "pressureChangeWithEvent:")]
+    pub unsafe fn pressureChangeWithEvent(&self, event: &NSEvent);
+
+    #[objc2::method(sel = "noResponderFor:")]
+    pub unsafe fn noResponderFor(&self, event_selector: Sel);
+
+    #[objc2::method(sel = "acceptsFirstResponder")]
+    pub unsafe fn acceptsFirstResponder(&self) -> bool;
+
+    #[objc2::method(sel = "becomeFirstResponder")]
+    pub unsafe fn becomeFirstResponder(&self) -> bool;
+
+    #[objc2::method(sel = "resignFirstResponder")]
+    pub unsafe fn resignFirstResponder(&self) -> bool;
+
+    #[cfg(all(feature = "AppKit_NSEvent", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "interpretKeyEvents:")]
+    pub unsafe fn interpretKeyEvents(&self, event_array: &NSArray<NSEvent>);
+
+    #[objc2::method(sel = "flushBufferedKeyEvents")]
+    pub unsafe fn flushBufferedKeyEvents(&self);
+
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "menu", managed = "Other")]
+    pub unsafe fn menu(&self) -> Option<Id<NSMenu>>;
+
+    #[cfg(feature = "AppKit_NSMenu")]
+    #[objc2::method(sel = "setMenu:")]
+    pub unsafe fn setMenu(&self, menu: Option<&NSMenu>);
+
+    #[objc2::method(sel = "showContextHelp:")]
+    pub unsafe fn showContextHelp(&self, sender: Option<&Object>);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "helpRequested:")]
+    pub unsafe fn helpRequested(&self, event_ptr: &NSEvent);
+
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "shouldBeTreatedAsInkEvent:")]
+    pub unsafe fn shouldBeTreatedAsInkEvent(&self, event: &NSEvent) -> bool;
+
+    #[objc2::method(sel = "wantsScrollEventsForSwipeTrackingOnAxis:")]
+    pub unsafe fn wantsScrollEventsForSwipeTrackingOnAxis(&self, axis: NSEventGestureAxis) -> bool;
+
+    #[objc2::method(sel = "wantsForwardedScrollEventsForAxis:")]
+    pub unsafe fn wantsForwardedScrollEventsForAxis(&self, axis: NSEventGestureAxis) -> bool;
+
+    #[objc2::method(sel = "supplementalTargetForAction:sender:", managed = "Other")]
+    pub unsafe fn supplementalTargetForAction_sender(
+        &self,
+        action: Sel,
+        sender: Option<&Object>,
+    ) -> Option<Id<Object>>;
+}
+
+#[objc2::protocol]
+pub unsafe trait NSStandardKeyBindingResponding: NSObjectProtocol {
+    #[objc2::method(optional, sel = "insertText:")]
+    unsafe fn insertText(&self, insert_string: &Object);
+
+    #[objc2::method(optional, sel = "doCommandBySelector:")]
+    unsafe fn doCommandBySelector(&self, selector: Sel);
+
+    #[objc2::method(optional, sel = "moveForward:")]
+    unsafe fn moveForward(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveRight:")]
+    unsafe fn moveRight(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveBackward:")]
+    unsafe fn moveBackward(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveLeft:")]
+    unsafe fn moveLeft(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveUp:")]
+    unsafe fn moveUp(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveDown:")]
+    unsafe fn moveDown(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveWordForward:")]
+    unsafe fn moveWordForward(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveWordBackward:")]
+    unsafe fn moveWordBackward(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveToBeginningOfLine:")]
+    unsafe fn moveToBeginningOfLine(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveToEndOfLine:")]
+    unsafe fn moveToEndOfLine(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveToBeginningOfParagraph:")]
+    unsafe fn moveToBeginningOfParagraph(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveToEndOfParagraph:")]
+    unsafe fn moveToEndOfParagraph(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveToEndOfDocument:")]
+    unsafe fn moveToEndOfDocument(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveToBeginningOfDocument:")]
+    unsafe fn moveToBeginningOfDocument(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "pageDown:")]
+    unsafe fn pageDown(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "pageUp:")]
+    unsafe fn pageUp(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "centerSelectionInVisibleArea:")]
+    unsafe fn centerSelectionInVisibleArea(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveBackwardAndModifySelection:")]
+    unsafe fn moveBackwardAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveForwardAndModifySelection:")]
+    unsafe fn moveForwardAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveWordForwardAndModifySelection:")]
+    unsafe fn moveWordForwardAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveWordBackwardAndModifySelection:")]
+    unsafe fn moveWordBackwardAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveUpAndModifySelection:")]
+    unsafe fn moveUpAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveDownAndModifySelection:")]
+    unsafe fn moveDownAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveToBeginningOfLineAndModifySelection:")]
+    unsafe fn moveToBeginningOfLineAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveToEndOfLineAndModifySelection:")]
+    unsafe fn moveToEndOfLineAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveToBeginningOfParagraphAndModifySelection:")]
+    unsafe fn moveToBeginningOfParagraphAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveToEndOfParagraphAndModifySelection:")]
+    unsafe fn moveToEndOfParagraphAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveToEndOfDocumentAndModifySelection:")]
+    unsafe fn moveToEndOfDocumentAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveToBeginningOfDocumentAndModifySelection:")]
+    unsafe fn moveToBeginningOfDocumentAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "pageDownAndModifySelection:")]
+    unsafe fn pageDownAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "pageUpAndModifySelection:")]
+    unsafe fn pageUpAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveParagraphForwardAndModifySelection:")]
+    unsafe fn moveParagraphForwardAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveParagraphBackwardAndModifySelection:")]
+    unsafe fn moveParagraphBackwardAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveWordRight:")]
+    unsafe fn moveWordRight(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveWordLeft:")]
+    unsafe fn moveWordLeft(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveRightAndModifySelection:")]
+    unsafe fn moveRightAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveLeftAndModifySelection:")]
+    unsafe fn moveLeftAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveWordRightAndModifySelection:")]
+    unsafe fn moveWordRightAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveWordLeftAndModifySelection:")]
+    unsafe fn moveWordLeftAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveToLeftEndOfLine:")]
+    unsafe fn moveToLeftEndOfLine(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveToRightEndOfLine:")]
+    unsafe fn moveToRightEndOfLine(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveToLeftEndOfLineAndModifySelection:")]
+    unsafe fn moveToLeftEndOfLineAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "moveToRightEndOfLineAndModifySelection:")]
+    unsafe fn moveToRightEndOfLineAndModifySelection(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "scrollPageUp:")]
+    unsafe fn scrollPageUp(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "scrollPageDown:")]
+    unsafe fn scrollPageDown(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "scrollLineUp:")]
+    unsafe fn scrollLineUp(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "scrollLineDown:")]
+    unsafe fn scrollLineDown(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "scrollToBeginningOfDocument:")]
+    unsafe fn scrollToBeginningOfDocument(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "scrollToEndOfDocument:")]
+    unsafe fn scrollToEndOfDocument(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "transpose:")]
+    unsafe fn transpose(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "transposeWords:")]
+    unsafe fn transposeWords(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "selectAll:")]
+    unsafe fn selectAll(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "selectParagraph:")]
+    unsafe fn selectParagraph(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "selectLine:")]
+    unsafe fn selectLine(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "selectWord:")]
+    unsafe fn selectWord(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "indent:")]
+    unsafe fn indent(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "insertTab:")]
+    unsafe fn insertTab(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "insertBacktab:")]
+    unsafe fn insertBacktab(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "insertNewline:")]
+    unsafe fn insertNewline(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "insertParagraphSeparator:")]
+    unsafe fn insertParagraphSeparator(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "insertNewlineIgnoringFieldEditor:")]
+    unsafe fn insertNewlineIgnoringFieldEditor(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "insertTabIgnoringFieldEditor:")]
+    unsafe fn insertTabIgnoringFieldEditor(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "insertLineBreak:")]
+    unsafe fn insertLineBreak(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "insertContainerBreak:")]
+    unsafe fn insertContainerBreak(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "insertSingleQuoteIgnoringSubstitution:")]
+    unsafe fn insertSingleQuoteIgnoringSubstitution(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "insertDoubleQuoteIgnoringSubstitution:")]
+    unsafe fn insertDoubleQuoteIgnoringSubstitution(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "changeCaseOfLetter:")]
+    unsafe fn changeCaseOfLetter(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "uppercaseWord:")]
+    unsafe fn uppercaseWord(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "lowercaseWord:")]
+    unsafe fn lowercaseWord(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "capitalizeWord:")]
+    unsafe fn capitalizeWord(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "deleteForward:")]
+    unsafe fn deleteForward(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "deleteBackward:")]
+    unsafe fn deleteBackward(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "deleteBackwardByDecomposingPreviousCharacter:")]
+    unsafe fn deleteBackwardByDecomposingPreviousCharacter(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "deleteWordForward:")]
+    unsafe fn deleteWordForward(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "deleteWordBackward:")]
+    unsafe fn deleteWordBackward(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "deleteToBeginningOfLine:")]
+    unsafe fn deleteToBeginningOfLine(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "deleteToEndOfLine:")]
+    unsafe fn deleteToEndOfLine(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "deleteToBeginningOfParagraph:")]
+    unsafe fn deleteToBeginningOfParagraph(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "deleteToEndOfParagraph:")]
+    unsafe fn deleteToEndOfParagraph(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "yank:")]
+    unsafe fn yank(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "complete:")]
+    unsafe fn complete(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "setMark:")]
+    unsafe fn setMark(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "deleteToMark:")]
+    unsafe fn deleteToMark(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "selectToMark:")]
+    unsafe fn selectToMark(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "swapWithMark:")]
+    unsafe fn swapWithMark(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "cancelOperation:")]
+    unsafe fn cancelOperation(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "makeBaseWritingDirectionNatural:")]
+    unsafe fn makeBaseWritingDirectionNatural(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "makeBaseWritingDirectionLeftToRight:")]
+    unsafe fn makeBaseWritingDirectionLeftToRight(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "makeBaseWritingDirectionRightToLeft:")]
+    unsafe fn makeBaseWritingDirectionRightToLeft(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "makeTextWritingDirectionNatural:")]
+    unsafe fn makeTextWritingDirectionNatural(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "makeTextWritingDirectionLeftToRight:")]
+    unsafe fn makeTextWritingDirectionLeftToRight(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "makeTextWritingDirectionRightToLeft:")]
+    unsafe fn makeTextWritingDirectionRightToLeft(&self, sender: Option<&Object>);
+
+    #[objc2::method(optional, sel = "quickLookPreviewItems:")]
+    unsafe fn quickLookPreviewItems(&self, sender: Option<&Object>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSResponder")]
-    unsafe impl NSResponder {}
-);
+    pub type NSResponder;
+}
 
 #[cfg(feature = "AppKit_NSResponder")]
 unsafe impl NSStandardKeyBindingResponding for NSResponder {}
 
-extern_methods!(
-    /// NSUndoSupport
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSResponder")]
-    unsafe impl NSResponder {
-        #[cfg(feature = "Foundation_NSUndoManager")]
-        #[method_id(@__retain_semantics Other undoManager)]
-        pub unsafe fn undoManager(&self) -> Option<Id<NSUndoManager>>;
-    }
-);
+    pub type NSResponder;
 
-extern_methods!(
-    /// NSControlEditingSupport
+    #[cfg(feature = "Foundation_NSUndoManager")]
+    #[objc2::method(sel = "undoManager", managed = "Other")]
+    pub unsafe fn undoManager(&self) -> Option<Id<NSUndoManager>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSResponder")]
-    unsafe impl NSResponder {
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(validateProposedFirstResponder:forEvent:)]
-        pub unsafe fn validateProposedFirstResponder_forEvent(
-            &self,
-            responder: &NSResponder,
-            event: Option<&NSEvent>,
-        ) -> bool;
-    }
-);
+    pub type NSResponder;
 
-extern_methods!(
-    /// NSErrorPresentation
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "validateProposedFirstResponder:forEvent:")]
+    pub unsafe fn validateProposedFirstResponder_forEvent(
+        &self,
+        responder: &NSResponder,
+        event: Option<&NSEvent>,
+    ) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSResponder")]
-    unsafe impl NSResponder {
-        #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSError"))]
-        #[method(presentError:modalForWindow:delegate:didPresentSelector:contextInfo:)]
-        pub unsafe fn presentError_modalForWindow_delegate_didPresentSelector_contextInfo(
-            &self,
-            error: &NSError,
-            window: &NSWindow,
-            delegate: Option<&Object>,
-            did_present_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
+    pub type NSResponder;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(presentError:)]
-        pub unsafe fn presentError(&self, error: &NSError) -> bool;
+    #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "presentError:modalForWindow:delegate:didPresentSelector:contextInfo:")]
+    pub unsafe fn presentError_modalForWindow_delegate_didPresentSelector_contextInfo(
+        &self,
+        error: &NSError,
+        window: &NSWindow,
+        delegate: Option<&Object>,
+        did_present_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other willPresentError:)]
-        pub unsafe fn willPresentError(&self, error: &NSError) -> Id<NSError>;
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "presentError:")]
+    pub unsafe fn presentError(&self, error: &NSError) -> bool;
 
-extern_methods!(
-    /// NSTextFinderSupport
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "willPresentError:", managed = "Other")]
+    pub unsafe fn willPresentError(&self, error: &NSError) -> Id<NSError>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSResponder")]
-    unsafe impl NSResponder {
-        #[method(performTextFinderAction:)]
-        pub unsafe fn performTextFinderAction(&self, sender: Option<&Object>);
-    }
-);
+    pub type NSResponder;
 
-extern_methods!(
-    /// NSWindowTabbing
-    #[cfg(feature = "AppKit_NSResponder")]
-    unsafe impl NSResponder {
-        #[method(newWindowForTab:)]
-        pub unsafe fn newWindowForTab(&self, sender: Option<&Object>);
-    }
-);
+    #[objc2::method(sel = "performTextFinderAction:")]
+    pub unsafe fn performTextFinderAction(&self, sender: Option<&Object>);
+}
 
-extern_methods!(
-    /// NSDeprecated
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSResponder")]
-    unsafe impl NSResponder {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "This has always returned NO and had no effect on macOS"]
-        #[method(performMnemonic:)]
-        pub unsafe fn performMnemonic(&self, string: &NSString) -> bool;
-    }
-);
+    pub type NSResponder;
+
+    #[objc2::method(sel = "newWindowForTab:")]
+    pub unsafe fn newWindowForTab(&self, sender: Option<&Object>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSResponder")]
+    pub type NSResponder;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "This has always returned NO and had no effect on macOS"]
+    #[objc2::method(sel = "performMnemonic:")]
+    pub unsafe fn performMnemonic(&self, string: &NSString) -> bool;
+}

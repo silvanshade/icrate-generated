@@ -5,35 +5,38 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::UserNotifications::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNNotificationServiceExtension")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "UserNotifications_UNNotificationServiceExtension")]
-    pub struct UNNotificationServiceExtension;
-
-    #[cfg(feature = "UserNotifications_UNNotificationServiceExtension")]
-    unsafe impl ClassType for UNNotificationServiceExtension {
-        type Super = NSObject;
-    }
-);
+    pub type UNNotificationServiceExtension;
+}
 
 #[cfg(feature = "UserNotifications_UNNotificationServiceExtension")]
 unsafe impl NSObjectProtocol for UNNotificationServiceExtension {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "UserNotifications_UNNotificationServiceExtension")]
-    unsafe impl UNNotificationServiceExtension {
-        #[cfg(all(
-            feature = "UserNotifications_UNNotificationContent",
-            feature = "UserNotifications_UNNotificationRequest"
-        ))]
-        #[method(didReceiveNotificationRequest:withContentHandler:)]
-        pub unsafe fn didReceiveNotificationRequest_withContentHandler(
-            &self,
-            request: &UNNotificationRequest,
-            content_handler: &Block<(NonNull<UNNotificationContent>,), ()>,
-        );
+    pub type UNNotificationServiceExtension;
 
-        #[method(serviceExtensionTimeWillExpire)]
-        pub unsafe fn serviceExtensionTimeWillExpire(&self);
-    }
-);
+    #[cfg(all(
+        feature = "UserNotifications_UNNotificationContent",
+        feature = "UserNotifications_UNNotificationRequest"
+    ))]
+    #[objc2::method(sel = "didReceiveNotificationRequest:withContentHandler:")]
+    pub unsafe fn didReceiveNotificationRequest_withContentHandler(
+        &self,
+        request: &UNNotificationRequest,
+        content_handler: &Block<(NonNull<UNNotificationContent>,), ()>,
+    );
+
+    #[objc2::method(sel = "serviceExtensionTimeWillExpire")]
+    pub unsafe fn serviceExtensionTimeWillExpire(&self);
+}

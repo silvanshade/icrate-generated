@@ -4,24 +4,23 @@ use crate::common::*;
 use crate::Contacts::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CNPostalAddressFormatterStyle {
-        CNPostalAddressFormatterStyleMailingAddress = 0,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CNPostalAddressFormatterStyle {
+    CNPostalAddressFormatterStyleMailingAddress = 0,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSFormatter,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Contacts_CNPostalAddressFormatter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Contacts_CNPostalAddressFormatter")]
-    pub struct CNPostalAddressFormatter;
-
-    #[cfg(feature = "Contacts_CNPostalAddressFormatter")]
-    unsafe impl ClassType for CNPostalAddressFormatter {
-        #[inherits(NSObject)]
-        type Super = NSFormatter;
-    }
-);
+    pub type CNPostalAddressFormatter;
+}
 
 #[cfg(feature = "Contacts_CNPostalAddressFormatter")]
 unsafe impl NSCoding for CNPostalAddressFormatter {}
@@ -29,54 +28,60 @@ unsafe impl NSCoding for CNPostalAddressFormatter {}
 #[cfg(feature = "Contacts_CNPostalAddressFormatter")]
 unsafe impl NSObjectProtocol for CNPostalAddressFormatter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Contacts_CNPostalAddressFormatter")]
-    unsafe impl CNPostalAddressFormatter {
-        #[cfg(all(feature = "Contacts_CNPostalAddress", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other stringFromPostalAddress:style:)]
-        pub unsafe fn stringFromPostalAddress_style(
-            postal_address: &CNPostalAddress,
-            style: CNPostalAddressFormatterStyle,
-        ) -> Id<NSString>;
+    pub type CNPostalAddressFormatter;
 
-        #[cfg(all(
-            feature = "Contacts_CNPostalAddress",
-            feature = "Foundation_NSAttributedString",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[method_id(@__retain_semantics Other attributedStringFromPostalAddress:style:withDefaultAttributes:)]
-        pub unsafe fn attributedStringFromPostalAddress_style_withDefaultAttributes(
-            postal_address: &CNPostalAddress,
-            style: CNPostalAddressFormatterStyle,
-            attributes: &NSDictionary,
-        ) -> Id<NSAttributedString>;
+    #[cfg(all(feature = "Contacts_CNPostalAddress", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "stringFromPostalAddress:style:", managed = "Other")]
+    pub unsafe fn stringFromPostalAddress_style(
+        postal_address: &CNPostalAddress,
+        style: CNPostalAddressFormatterStyle,
+    ) -> Id<NSString>;
 
-        #[method(style)]
-        pub unsafe fn style(&self) -> CNPostalAddressFormatterStyle;
+    #[cfg(all(
+        feature = "Contacts_CNPostalAddress",
+        feature = "Foundation_NSAttributedString",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[objc2::method(
+        sel = "attributedStringFromPostalAddress:style:withDefaultAttributes:",
+        managed = "Other"
+    )]
+    pub unsafe fn attributedStringFromPostalAddress_style_withDefaultAttributes(
+        postal_address: &CNPostalAddress,
+        style: CNPostalAddressFormatterStyle,
+        attributes: &NSDictionary,
+    ) -> Id<NSAttributedString>;
 
-        #[method(setStyle:)]
-        pub unsafe fn setStyle(&self, style: CNPostalAddressFormatterStyle);
+    #[objc2::method(sel = "style")]
+    pub unsafe fn style(&self) -> CNPostalAddressFormatterStyle;
 
-        #[cfg(all(feature = "Contacts_CNPostalAddress", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other stringFromPostalAddress:)]
-        pub unsafe fn stringFromPostalAddress(
-            &self,
-            postal_address: &CNPostalAddress,
-        ) -> Id<NSString>;
+    #[objc2::method(sel = "setStyle:")]
+    pub unsafe fn setStyle(&self, style: CNPostalAddressFormatterStyle);
 
-        #[cfg(all(
-            feature = "Contacts_CNPostalAddress",
-            feature = "Foundation_NSAttributedString",
-            feature = "Foundation_NSDictionary"
-        ))]
-        #[method_id(@__retain_semantics Other attributedStringFromPostalAddress:withDefaultAttributes:)]
-        pub unsafe fn attributedStringFromPostalAddress_withDefaultAttributes(
-            &self,
-            postal_address: &CNPostalAddress,
-            attributes: &NSDictionary,
-        ) -> Id<NSAttributedString>;
-    }
-);
+    #[cfg(all(feature = "Contacts_CNPostalAddress", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "stringFromPostalAddress:", managed = "Other")]
+    pub unsafe fn stringFromPostalAddress(&self, postal_address: &CNPostalAddress) -> Id<NSString>;
+
+    #[cfg(all(
+        feature = "Contacts_CNPostalAddress",
+        feature = "Foundation_NSAttributedString",
+        feature = "Foundation_NSDictionary"
+    ))]
+    #[objc2::method(
+        sel = "attributedStringFromPostalAddress:withDefaultAttributes:",
+        managed = "Other"
+    )]
+    pub unsafe fn attributedStringFromPostalAddress_withDefaultAttributes(
+        &self,
+        postal_address: &CNPostalAddress,
+        attributes: &NSDictionary,
+    ) -> Id<NSAttributedString>;
+}
 
 extern_static!(CNPostalAddressPropertyAttribute: &'static NSString);
 

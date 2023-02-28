@@ -5,38 +5,42 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_methods!(
-    /// NSWorkspaceAccessibilityDisplay
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWorkspace")]
-    unsafe impl NSWorkspace {
-        #[method(accessibilityDisplayShouldIncreaseContrast)]
-        pub unsafe fn accessibilityDisplayShouldIncreaseContrast(&self) -> bool;
+    pub type NSWorkspace;
 
-        #[method(accessibilityDisplayShouldDifferentiateWithoutColor)]
-        pub unsafe fn accessibilityDisplayShouldDifferentiateWithoutColor(&self) -> bool;
+    #[objc2::method(sel = "accessibilityDisplayShouldIncreaseContrast")]
+    pub unsafe fn accessibilityDisplayShouldIncreaseContrast(&self) -> bool;
 
-        #[method(accessibilityDisplayShouldReduceTransparency)]
-        pub unsafe fn accessibilityDisplayShouldReduceTransparency(&self) -> bool;
+    #[objc2::method(sel = "accessibilityDisplayShouldDifferentiateWithoutColor")]
+    pub unsafe fn accessibilityDisplayShouldDifferentiateWithoutColor(&self) -> bool;
 
-        #[method(accessibilityDisplayShouldReduceMotion)]
-        pub unsafe fn accessibilityDisplayShouldReduceMotion(&self) -> bool;
+    #[objc2::method(sel = "accessibilityDisplayShouldReduceTransparency")]
+    pub unsafe fn accessibilityDisplayShouldReduceTransparency(&self) -> bool;
 
-        #[method(accessibilityDisplayShouldInvertColors)]
-        pub unsafe fn accessibilityDisplayShouldInvertColors(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "accessibilityDisplayShouldReduceMotion")]
+    pub unsafe fn accessibilityDisplayShouldReduceMotion(&self) -> bool;
 
-extern_methods!(
-    /// NSWorkspaceAccessibility
+    #[objc2::method(sel = "accessibilityDisplayShouldInvertColors")]
+    pub unsafe fn accessibilityDisplayShouldInvertColors(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWorkspace")]
-    unsafe impl NSWorkspace {
-        #[method(isVoiceOverEnabled)]
-        pub unsafe fn isVoiceOverEnabled(&self) -> bool;
+    pub type NSWorkspace;
 
-        #[method(isSwitchControlEnabled)]
-        pub unsafe fn isSwitchControlEnabled(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "isVoiceOverEnabled")]
+    pub unsafe fn isVoiceOverEnabled(&self) -> bool;
+
+    #[objc2::method(sel = "isSwitchControlEnabled")]
+    pub unsafe fn isSwitchControlEnabled(&self) -> bool;
+}
 
 extern_static!(
     NSWorkspaceAccessibilityDisplayOptionsDidChangeNotification: &'static NSNotificationName

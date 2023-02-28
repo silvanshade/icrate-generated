@@ -3,28 +3,27 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSMassFormatterUnit {
-        NSMassFormatterUnitGram = 11,
-        NSMassFormatterUnitKilogram = 14,
-        NSMassFormatterUnitOunce = (6 << 8) + 1,
-        NSMassFormatterUnitPound = (6 << 8) + 2,
-        NSMassFormatterUnitStone = (6 << 8) + 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSMassFormatterUnit {
+    NSMassFormatterUnitGram = 11,
+    NSMassFormatterUnitKilogram = 14,
+    NSMassFormatterUnitOunce = (6 << 8) + 1,
+    NSMassFormatterUnitPound = (6 << 8) + 2,
+    NSMassFormatterUnitStone = (6 << 8) + 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSFormatter,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMassFormatter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSMassFormatter")]
-    pub struct NSMassFormatter;
-
-    #[cfg(feature = "Foundation_NSMassFormatter")]
-    unsafe impl ClassType for NSMassFormatter {
-        #[inherits(NSObject)]
-        type Super = NSFormatter;
-    }
-);
+    pub type NSMassFormatter;
+}
 
 #[cfg(feature = "Foundation_NSMassFormatter")]
 unsafe impl NSCoding for NSMassFormatter {}
@@ -32,64 +31,67 @@ unsafe impl NSCoding for NSMassFormatter {}
 #[cfg(feature = "Foundation_NSMassFormatter")]
 unsafe impl NSObjectProtocol for NSMassFormatter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMassFormatter")]
-    unsafe impl NSMassFormatter {
-        #[cfg(feature = "Foundation_NSNumberFormatter")]
-        #[method_id(@__retain_semantics Other numberFormatter)]
-        pub unsafe fn numberFormatter(&self) -> Id<NSNumberFormatter>;
+    pub type NSMassFormatter;
 
-        #[cfg(feature = "Foundation_NSNumberFormatter")]
-        #[method(setNumberFormatter:)]
-        pub unsafe fn setNumberFormatter(&self, number_formatter: Option<&NSNumberFormatter>);
+    #[cfg(feature = "Foundation_NSNumberFormatter")]
+    #[objc2::method(sel = "numberFormatter", managed = "Other")]
+    pub unsafe fn numberFormatter(&self) -> Id<NSNumberFormatter>;
 
-        #[method(unitStyle)]
-        pub unsafe fn unitStyle(&self) -> NSFormattingUnitStyle;
+    #[cfg(feature = "Foundation_NSNumberFormatter")]
+    #[objc2::method(sel = "setNumberFormatter:")]
+    pub unsafe fn setNumberFormatter(&self, number_formatter: Option<&NSNumberFormatter>);
 
-        #[method(setUnitStyle:)]
-        pub unsafe fn setUnitStyle(&self, unit_style: NSFormattingUnitStyle);
+    #[objc2::method(sel = "unitStyle")]
+    pub unsafe fn unitStyle(&self) -> NSFormattingUnitStyle;
 
-        #[method(isForPersonMassUse)]
-        pub unsafe fn isForPersonMassUse(&self) -> bool;
+    #[objc2::method(sel = "setUnitStyle:")]
+    pub unsafe fn setUnitStyle(&self, unit_style: NSFormattingUnitStyle);
 
-        #[method(setForPersonMassUse:)]
-        pub unsafe fn setForPersonMassUse(&self, for_person_mass_use: bool);
+    #[objc2::method(sel = "isForPersonMassUse")]
+    pub unsafe fn isForPersonMassUse(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringFromValue:unit:)]
-        pub unsafe fn stringFromValue_unit(
-            &self,
-            value: c_double,
-            unit: NSMassFormatterUnit,
-        ) -> Id<NSString>;
+    #[objc2::method(sel = "setForPersonMassUse:")]
+    pub unsafe fn setForPersonMassUse(&self, for_person_mass_use: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringFromKilograms:)]
-        pub unsafe fn stringFromKilograms(&self, number_in_kilograms: c_double) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringFromValue:unit:", managed = "Other")]
+    pub unsafe fn stringFromValue_unit(
+        &self,
+        value: c_double,
+        unit: NSMassFormatterUnit,
+    ) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other unitStringFromValue:unit:)]
-        pub unsafe fn unitStringFromValue_unit(
-            &self,
-            value: c_double,
-            unit: NSMassFormatterUnit,
-        ) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringFromKilograms:", managed = "Other")]
+    pub unsafe fn stringFromKilograms(&self, number_in_kilograms: c_double) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other unitStringFromKilograms:usedUnit:)]
-        pub unsafe fn unitStringFromKilograms_usedUnit(
-            &self,
-            number_in_kilograms: c_double,
-            unitp: *mut NSMassFormatterUnit,
-        ) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "unitStringFromValue:unit:", managed = "Other")]
+    pub unsafe fn unitStringFromValue_unit(
+        &self,
+        value: c_double,
+        unit: NSMassFormatterUnit,
+    ) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(getObjectValue:forString:errorDescription:)]
-        pub unsafe fn getObjectValue_forString_errorDescription(
-            &self,
-            obj: Option<&mut Option<Id<Object>>>,
-            string: &NSString,
-            error: Option<&mut Option<Id<NSString>>>,
-        ) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "unitStringFromKilograms:usedUnit:", managed = "Other")]
+    pub unsafe fn unitStringFromKilograms_usedUnit(
+        &self,
+        number_in_kilograms: c_double,
+        unitp: *mut NSMassFormatterUnit,
+    ) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "getObjectValue:forString:errorDescription:")]
+    pub unsafe fn getObjectValue_forString_errorDescription(
+        &self,
+        obj: Option<&mut Option<Id<Object>>>,
+        string: &NSString,
+        error: Option<&mut Option<Id<NSString>>>,
+    ) -> bool;
+}

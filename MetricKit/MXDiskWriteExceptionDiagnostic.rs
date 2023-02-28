@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MXDiagnostic,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXDiskWriteExceptionDiagnostic")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXDiskWriteExceptionDiagnostic")]
-    pub struct MXDiskWriteExceptionDiagnostic;
-
-    #[cfg(feature = "MetricKit_MXDiskWriteExceptionDiagnostic")]
-    unsafe impl ClassType for MXDiskWriteExceptionDiagnostic {
-        #[inherits(NSObject)]
-        type Super = MXDiagnostic;
-    }
-);
+    pub type MXDiskWriteExceptionDiagnostic;
+}
 
 #[cfg(feature = "MetricKit_MXDiskWriteExceptionDiagnostic")]
 unsafe impl NSCoding for MXDiskWriteExceptionDiagnostic {}
@@ -25,18 +25,21 @@ unsafe impl NSObjectProtocol for MXDiskWriteExceptionDiagnostic {}
 #[cfg(feature = "MetricKit_MXDiskWriteExceptionDiagnostic")]
 unsafe impl NSSecureCoding for MXDiskWriteExceptionDiagnostic {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXDiskWriteExceptionDiagnostic")]
-    unsafe impl MXDiskWriteExceptionDiagnostic {
-        #[cfg(feature = "MetricKit_MXCallStackTree")]
-        #[method_id(@__retain_semantics Other callStackTree)]
-        pub unsafe fn callStackTree(&self) -> Id<MXCallStackTree>;
+    pub type MXDiskWriteExceptionDiagnostic;
 
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitInformationStorage"
-        ))]
-        #[method_id(@__retain_semantics Other totalWritesCaused)]
-        pub unsafe fn totalWritesCaused(&self) -> Id<NSMeasurement<NSUnitInformationStorage>>;
-    }
-);
+    #[cfg(feature = "MetricKit_MXCallStackTree")]
+    #[objc2::method(sel = "callStackTree", managed = "Other")]
+    pub unsafe fn callStackTree(&self) -> Id<MXCallStackTree>;
+
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitInformationStorage"
+    ))]
+    #[objc2::method(sel = "totalWritesCaused", managed = "Other")]
+    pub unsafe fn totalWritesCaused(&self) -> Id<NSMeasurement<NSUnitInformationStorage>>;
+}

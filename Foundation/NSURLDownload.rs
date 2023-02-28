@@ -3,198 +3,184 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSURLDownload")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSURLDownload")]
-    pub struct NSURLDownload;
-
-    #[cfg(feature = "Foundation_NSURLDownload")]
-    unsafe impl ClassType for NSURLDownload {
-        type Super = NSObject;
-    }
-);
+    pub type NSURLDownload;
+}
 
 #[cfg(feature = "Foundation_NSURLDownload")]
 unsafe impl NSObjectProtocol for NSURLDownload {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLDownload")]
-    unsafe impl NSURLDownload {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(canResumeDownloadDecodedWithEncodingMIMEType:)]
-        pub unsafe fn canResumeDownloadDecodedWithEncodingMIMEType(mime_type: &NSString) -> bool;
+    pub type NSURLDownload;
 
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[deprecated = "Use NSURLSession downloadTask (see NSURLSession.h)"]
-        #[method_id(@__retain_semantics Init initWithRequest:delegate:)]
-        pub unsafe fn initWithRequest_delegate(
-            this: Option<Allocated<Self>>,
-            request: &NSURLRequest,
-            delegate: Option<&ProtocolObject<dyn NSURLDownloadDelegate>>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "canResumeDownloadDecodedWithEncodingMIMEType:")]
+    pub unsafe fn canResumeDownloadDecodedWithEncodingMIMEType(mime_type: &NSString) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
-        #[deprecated = "Use NSURLSession downloadTask (see NSURLSession.h)"]
-        #[method_id(@__retain_semantics Init initWithResumeData:delegate:path:)]
-        pub unsafe fn initWithResumeData_delegate_path(
-            this: Option<Allocated<Self>>,
-            resume_data: &NSData,
-            delegate: Option<&ProtocolObject<dyn NSURLDownloadDelegate>>,
-            path: &NSString,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[deprecated = "Use NSURLSession downloadTask (see NSURLSession.h)"]
+    #[objc2::method(sel = "initWithRequest:delegate:", managed = "Init")]
+    pub unsafe fn initWithRequest_delegate(
+        this: Option<Allocated<Self>>,
+        request: &NSURLRequest,
+        delegate: Option<&ProtocolObject<dyn NSURLDownloadDelegate>>,
+    ) -> Id<Self>;
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
+    #[deprecated = "Use NSURLSession downloadTask (see NSURLSession.h)"]
+    #[objc2::method(sel = "initWithResumeData:delegate:path:", managed = "Init")]
+    pub unsafe fn initWithResumeData_delegate_path(
+        this: Option<Allocated<Self>>,
+        resume_data: &NSData,
+        delegate: Option<&ProtocolObject<dyn NSURLDownloadDelegate>>,
+        path: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setDestination:allowOverwrite:)]
-        pub unsafe fn setDestination_allowOverwrite(&self, path: &NSString, allow_overwrite: bool);
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
 
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[method_id(@__retain_semantics Other request)]
-        pub unsafe fn request(&self) -> Id<NSURLRequest>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setDestination:allowOverwrite:")]
+    pub unsafe fn setDestination_allowOverwrite(&self, path: &NSString, allow_overwrite: bool);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other resumeData)]
-        pub unsafe fn resumeData(&self) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[objc2::method(sel = "request", managed = "Other")]
+    pub unsafe fn request(&self) -> Id<NSURLRequest>;
 
-        #[method(deletesFileUponFailure)]
-        pub unsafe fn deletesFileUponFailure(&self) -> bool;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "resumeData", managed = "Other")]
+    pub unsafe fn resumeData(&self) -> Option<Id<NSData>>;
 
-        #[method(setDeletesFileUponFailure:)]
-        pub unsafe fn setDeletesFileUponFailure(&self, deletes_file_upon_failure: bool);
-    }
-);
+    #[objc2::method(sel = "deletesFileUponFailure")]
+    pub unsafe fn deletesFileUponFailure(&self) -> bool;
 
-extern_protocol!(
-    pub unsafe trait NSURLDownloadDelegate: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSURLDownload")]
-        #[optional]
-        #[method(downloadDidBegin:)]
-        unsafe fn downloadDidBegin(&self, download: &NSURLDownload);
+    #[objc2::method(sel = "setDeletesFileUponFailure:")]
+    pub unsafe fn setDeletesFileUponFailure(&self, deletes_file_upon_failure: bool);
+}
 
-        #[cfg(all(
-            feature = "Foundation_NSURLDownload",
-            feature = "Foundation_NSURLRequest",
-            feature = "Foundation_NSURLResponse"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other download:willSendRequest:redirectResponse:)]
-        unsafe fn download_willSendRequest_redirectResponse(
-            &self,
-            download: &NSURLDownload,
-            request: &NSURLRequest,
-            redirect_response: Option<&NSURLResponse>,
-        ) -> Option<Id<NSURLRequest>>;
+#[objc2::protocol]
+pub unsafe trait NSURLDownloadDelegate: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSURLDownload")]
+    #[objc2::method(optional, sel = "downloadDidBegin:")]
+    unsafe fn downloadDidBegin(&self, download: &NSURLDownload);
 
-        #[cfg(all(
-            feature = "Foundation_NSURLDownload",
-            feature = "Foundation_NSURLProtectionSpace"
-        ))]
-        #[optional]
-        #[method(download:canAuthenticateAgainstProtectionSpace:)]
-        unsafe fn download_canAuthenticateAgainstProtectionSpace(
-            &self,
-            connection: &NSURLDownload,
-            protection_space: &NSURLProtectionSpace,
-        ) -> bool;
+    #[cfg(all(
+        feature = "Foundation_NSURLDownload",
+        feature = "Foundation_NSURLRequest",
+        feature = "Foundation_NSURLResponse"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "download:willSendRequest:redirectResponse:",
+        managed = "Other"
+    )]
+    unsafe fn download_willSendRequest_redirectResponse(
+        &self,
+        download: &NSURLDownload,
+        request: &NSURLRequest,
+        redirect_response: Option<&NSURLResponse>,
+    ) -> Option<Id<NSURLRequest>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSURLAuthenticationChallenge",
-            feature = "Foundation_NSURLDownload"
-        ))]
-        #[optional]
-        #[method(download:didReceiveAuthenticationChallenge:)]
-        unsafe fn download_didReceiveAuthenticationChallenge(
-            &self,
-            download: &NSURLDownload,
-            challenge: &NSURLAuthenticationChallenge,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSURLDownload",
+        feature = "Foundation_NSURLProtectionSpace"
+    ))]
+    #[objc2::method(optional, sel = "download:canAuthenticateAgainstProtectionSpace:")]
+    unsafe fn download_canAuthenticateAgainstProtectionSpace(
+        &self,
+        connection: &NSURLDownload,
+        protection_space: &NSURLProtectionSpace,
+    ) -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSURLAuthenticationChallenge",
-            feature = "Foundation_NSURLDownload"
-        ))]
-        #[optional]
-        #[method(download:didCancelAuthenticationChallenge:)]
-        unsafe fn download_didCancelAuthenticationChallenge(
-            &self,
-            download: &NSURLDownload,
-            challenge: &NSURLAuthenticationChallenge,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSURLAuthenticationChallenge",
+        feature = "Foundation_NSURLDownload"
+    ))]
+    #[objc2::method(optional, sel = "download:didReceiveAuthenticationChallenge:")]
+    unsafe fn download_didReceiveAuthenticationChallenge(
+        &self,
+        download: &NSURLDownload,
+        challenge: &NSURLAuthenticationChallenge,
+    );
 
-        #[cfg(feature = "Foundation_NSURLDownload")]
-        #[optional]
-        #[method(downloadShouldUseCredentialStorage:)]
-        unsafe fn downloadShouldUseCredentialStorage(&self, download: &NSURLDownload) -> bool;
+    #[cfg(all(
+        feature = "Foundation_NSURLAuthenticationChallenge",
+        feature = "Foundation_NSURLDownload"
+    ))]
+    #[objc2::method(optional, sel = "download:didCancelAuthenticationChallenge:")]
+    unsafe fn download_didCancelAuthenticationChallenge(
+        &self,
+        download: &NSURLDownload,
+        challenge: &NSURLAuthenticationChallenge,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSURLDownload",
-            feature = "Foundation_NSURLResponse"
-        ))]
-        #[optional]
-        #[method(download:didReceiveResponse:)]
-        unsafe fn download_didReceiveResponse(
-            &self,
-            download: &NSURLDownload,
-            response: &NSURLResponse,
-        );
+    #[cfg(feature = "Foundation_NSURLDownload")]
+    #[objc2::method(optional, sel = "downloadShouldUseCredentialStorage:")]
+    unsafe fn downloadShouldUseCredentialStorage(&self, download: &NSURLDownload) -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSURLDownload",
-            feature = "Foundation_NSURLResponse"
-        ))]
-        #[optional]
-        #[method(download:willResumeWithResponse:fromByte:)]
-        unsafe fn download_willResumeWithResponse_fromByte(
-            &self,
-            download: &NSURLDownload,
-            response: &NSURLResponse,
-            starting_byte: c_longlong,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSURLDownload",
+        feature = "Foundation_NSURLResponse"
+    ))]
+    #[objc2::method(optional, sel = "download:didReceiveResponse:")]
+    unsafe fn download_didReceiveResponse(
+        &self,
+        download: &NSURLDownload,
+        response: &NSURLResponse,
+    );
 
-        #[cfg(feature = "Foundation_NSURLDownload")]
-        #[optional]
-        #[method(download:didReceiveDataOfLength:)]
-        unsafe fn download_didReceiveDataOfLength(
-            &self,
-            download: &NSURLDownload,
-            length: NSUInteger,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSURLDownload",
+        feature = "Foundation_NSURLResponse"
+    ))]
+    #[objc2::method(optional, sel = "download:willResumeWithResponse:fromByte:")]
+    unsafe fn download_willResumeWithResponse_fromByte(
+        &self,
+        download: &NSURLDownload,
+        response: &NSURLResponse,
+        starting_byte: c_longlong,
+    );
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURLDownload"))]
-        #[optional]
-        #[method(download:shouldDecodeSourceDataOfMIMEType:)]
-        unsafe fn download_shouldDecodeSourceDataOfMIMEType(
-            &self,
-            download: &NSURLDownload,
-            encoding_type: &NSString,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSURLDownload")]
+    #[objc2::method(optional, sel = "download:didReceiveDataOfLength:")]
+    unsafe fn download_didReceiveDataOfLength(&self, download: &NSURLDownload, length: NSUInteger);
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURLDownload"))]
-        #[optional]
-        #[method(download:decideDestinationWithSuggestedFilename:)]
-        unsafe fn download_decideDestinationWithSuggestedFilename(
-            &self,
-            download: &NSURLDownload,
-            filename: &NSString,
-        );
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURLDownload"))]
+    #[objc2::method(optional, sel = "download:shouldDecodeSourceDataOfMIMEType:")]
+    unsafe fn download_shouldDecodeSourceDataOfMIMEType(
+        &self,
+        download: &NSURLDownload,
+        encoding_type: &NSString,
+    ) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURLDownload"))]
-        #[optional]
-        #[method(download:didCreateDestination:)]
-        unsafe fn download_didCreateDestination(&self, download: &NSURLDownload, path: &NSString);
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURLDownload"))]
+    #[objc2::method(optional, sel = "download:decideDestinationWithSuggestedFilename:")]
+    unsafe fn download_decideDestinationWithSuggestedFilename(
+        &self,
+        download: &NSURLDownload,
+        filename: &NSString,
+    );
 
-        #[cfg(feature = "Foundation_NSURLDownload")]
-        #[optional]
-        #[method(downloadDidFinish:)]
-        unsafe fn downloadDidFinish(&self, download: &NSURLDownload);
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURLDownload"))]
+    #[objc2::method(optional, sel = "download:didCreateDestination:")]
+    unsafe fn download_didCreateDestination(&self, download: &NSURLDownload, path: &NSString);
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURLDownload"))]
-        #[optional]
-        #[method(download:didFailWithError:)]
-        unsafe fn download_didFailWithError(&self, download: &NSURLDownload, error: &NSError);
-    }
+    #[cfg(feature = "Foundation_NSURLDownload")]
+    #[objc2::method(optional, sel = "downloadDidFinish:")]
+    unsafe fn downloadDidFinish(&self, download: &NSURLDownload);
 
-    unsafe impl ProtocolType for dyn NSURLDownloadDelegate {}
-);
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURLDownload"))]
+    #[objc2::method(optional, sel = "download:didFailWithError:")]
+    unsafe fn download_didFailWithError(&self, download: &NSURLDownload, error: &NSError);
+}

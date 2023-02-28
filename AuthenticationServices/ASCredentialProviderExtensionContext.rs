@@ -4,45 +4,48 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSExtensionContext,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASCredentialProviderExtensionContext")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASCredentialProviderExtensionContext")]
-    pub struct ASCredentialProviderExtensionContext;
-
-    #[cfg(feature = "AuthenticationServices_ASCredentialProviderExtensionContext")]
-    unsafe impl ClassType for ASCredentialProviderExtensionContext {
-        #[inherits(NSObject)]
-        type Super = NSExtensionContext;
-    }
-);
+    pub type ASCredentialProviderExtensionContext;
+}
 
 #[cfg(feature = "AuthenticationServices_ASCredentialProviderExtensionContext")]
 unsafe impl NSObjectProtocol for ASCredentialProviderExtensionContext {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASCredentialProviderExtensionContext")]
-    unsafe impl ASCredentialProviderExtensionContext {
-        #[cfg(feature = "AuthenticationServices_ASPasswordCredential")]
-        #[method(completeRequestWithSelectedCredential:completionHandler:)]
-        pub unsafe fn completeRequestWithSelectedCredential_completionHandler(
-            &self,
-            credential: &ASPasswordCredential,
-            completion_handler: Option<&Block<(Bool,), ()>>,
-        );
+    pub type ASCredentialProviderExtensionContext;
 
-        #[method(completeExtensionConfigurationRequest)]
-        pub unsafe fn completeExtensionConfigurationRequest(&self);
+    #[cfg(feature = "AuthenticationServices_ASPasswordCredential")]
+    #[objc2::method(sel = "completeRequestWithSelectedCredential:completionHandler:")]
+    pub unsafe fn completeRequestWithSelectedCredential_completionHandler(
+        &self,
+        credential: &ASPasswordCredential,
+        completion_handler: Option<&Block<(Bool,), ()>>,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(completeRequestReturningItems:completionHandler:)]
-        pub unsafe fn completeRequestReturningItems_completionHandler(
-            &self,
-            items: Option<&NSArray>,
-            completion_handler: Option<&Block<(Bool,), ()>>,
-        );
+    #[objc2::method(sel = "completeExtensionConfigurationRequest")]
+    pub unsafe fn completeExtensionConfigurationRequest(&self);
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(cancelRequestWithError:)]
-        pub unsafe fn cancelRequestWithError(&self, error: &NSError);
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "completeRequestReturningItems:completionHandler:")]
+    pub unsafe fn completeRequestReturningItems_completionHandler(
+        &self,
+        items: Option<&NSArray>,
+        completion_handler: Option<&Block<(Bool,), ()>>,
+    );
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "cancelRequestWithError:")]
+    pub unsafe fn cancelRequestWithError(&self, error: &NSError);
+}

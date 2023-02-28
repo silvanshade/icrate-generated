@@ -5,166 +5,170 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CKDatabaseScope {
-        CKDatabaseScopePublic = 1,
-        CKDatabaseScopePrivate = 2,
-        CKDatabaseScopeShared = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CKDatabaseScope {
+    CKDatabaseScopePublic = 1,
+    CKDatabaseScopePrivate = 2,
+    CKDatabaseScopeShared = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKDatabase")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKDatabase")]
-    pub struct CKDatabase;
-
-    #[cfg(feature = "CloudKit_CKDatabase")]
-    unsafe impl ClassType for CKDatabase {
-        type Super = NSObject;
-    }
-);
+    pub type CKDatabase;
+}
 
 #[cfg(feature = "CloudKit_CKDatabase")]
 unsafe impl NSObjectProtocol for CKDatabase {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKDatabase")]
-    unsafe impl CKDatabase {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKDatabase;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKDatabaseOperation")]
-        #[method(addOperation:)]
-        pub unsafe fn addOperation(&self, operation: &CKDatabaseOperation);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[method(databaseScope)]
-        pub unsafe fn databaseScope(&self) -> CKDatabaseScope;
-    }
-);
+    #[cfg(feature = "CloudKit_CKDatabaseOperation")]
+    #[objc2::method(sel = "addOperation:")]
+    pub unsafe fn addOperation(&self, operation: &CKDatabaseOperation);
 
-extern_methods!(
-    /// ConvenienceMethods
+    #[objc2::method(sel = "databaseScope")]
+    pub unsafe fn databaseScope(&self) -> CKDatabaseScope;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKDatabase")]
-    unsafe impl CKDatabase {
-        #[cfg(all(
-            feature = "CloudKit_CKRecord",
-            feature = "CloudKit_CKRecordID",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(fetchRecordWithID:completionHandler:)]
-        pub unsafe fn fetchRecordWithID_completionHandler(
-            &self,
-            record_id: &CKRecordID,
-            completion_handler: &Block<(*mut CKRecord, *mut NSError), ()>,
-        );
+    pub type CKDatabase;
 
-        #[cfg(all(feature = "CloudKit_CKRecord", feature = "Foundation_NSError"))]
-        #[method(saveRecord:completionHandler:)]
-        pub unsafe fn saveRecord_completionHandler(
-            &self,
-            record: &CKRecord,
-            completion_handler: &Block<(*mut CKRecord, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "CloudKit_CKRecord",
+        feature = "CloudKit_CKRecordID",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "fetchRecordWithID:completionHandler:")]
+    pub unsafe fn fetchRecordWithID_completionHandler(
+        &self,
+        record_id: &CKRecordID,
+        completion_handler: &Block<(*mut CKRecord, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "CloudKit_CKRecordID", feature = "Foundation_NSError"))]
-        #[method(deleteRecordWithID:completionHandler:)]
-        pub unsafe fn deleteRecordWithID_completionHandler(
-            &self,
-            record_id: &CKRecordID,
-            completion_handler: &Block<(*mut CKRecordID, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "CloudKit_CKRecord", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "saveRecord:completionHandler:")]
+    pub unsafe fn saveRecord_completionHandler(
+        &self,
+        record: &CKRecord,
+        completion_handler: &Block<(*mut CKRecord, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "CloudKit_CKQuery",
-            feature = "CloudKit_CKRecord",
-            feature = "CloudKit_CKRecordZoneID",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(performQuery:inZoneWithID:completionHandler:)]
-        pub unsafe fn performQuery_inZoneWithID_completionHandler(
-            &self,
-            query: &CKQuery,
-            zone_id: Option<&CKRecordZoneID>,
-            completion_handler: &Block<(*mut NSArray<CKRecord>, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "CloudKit_CKRecordID", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "deleteRecordWithID:completionHandler:")]
+    pub unsafe fn deleteRecordWithID_completionHandler(
+        &self,
+        record_id: &CKRecordID,
+        completion_handler: &Block<(*mut CKRecordID, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "CloudKit_CKRecordZone",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(fetchAllRecordZonesWithCompletionHandler:)]
-        pub unsafe fn fetchAllRecordZonesWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(*mut NSArray<CKRecordZone>, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "CloudKit_CKQuery",
+        feature = "CloudKit_CKRecord",
+        feature = "CloudKit_CKRecordZoneID",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "performQuery:inZoneWithID:completionHandler:")]
+    pub unsafe fn performQuery_inZoneWithID_completionHandler(
+        &self,
+        query: &CKQuery,
+        zone_id: Option<&CKRecordZoneID>,
+        completion_handler: &Block<(*mut NSArray<CKRecord>, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "CloudKit_CKRecordZone",
-            feature = "CloudKit_CKRecordZoneID",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(fetchRecordZoneWithID:completionHandler:)]
-        pub unsafe fn fetchRecordZoneWithID_completionHandler(
-            &self,
-            zone_id: &CKRecordZoneID,
-            completion_handler: &Block<(*mut CKRecordZone, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "CloudKit_CKRecordZone",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "fetchAllRecordZonesWithCompletionHandler:")]
+    pub unsafe fn fetchAllRecordZonesWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(*mut NSArray<CKRecordZone>, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "CloudKit_CKRecordZone", feature = "Foundation_NSError"))]
-        #[method(saveRecordZone:completionHandler:)]
-        pub unsafe fn saveRecordZone_completionHandler(
-            &self,
-            zone: &CKRecordZone,
-            completion_handler: &Block<(*mut CKRecordZone, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "CloudKit_CKRecordZone",
+        feature = "CloudKit_CKRecordZoneID",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "fetchRecordZoneWithID:completionHandler:")]
+    pub unsafe fn fetchRecordZoneWithID_completionHandler(
+        &self,
+        zone_id: &CKRecordZoneID,
+        completion_handler: &Block<(*mut CKRecordZone, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "CloudKit_CKRecordZoneID", feature = "Foundation_NSError"))]
-        #[method(deleteRecordZoneWithID:completionHandler:)]
-        pub unsafe fn deleteRecordZoneWithID_completionHandler(
-            &self,
-            zone_id: &CKRecordZoneID,
-            completion_handler: &Block<(*mut CKRecordZoneID, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "CloudKit_CKRecordZone", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "saveRecordZone:completionHandler:")]
+    pub unsafe fn saveRecordZone_completionHandler(
+        &self,
+        zone: &CKRecordZone,
+        completion_handler: &Block<(*mut CKRecordZone, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "CloudKit_CKSubscription", feature = "Foundation_NSError"))]
-        #[method(fetchSubscriptionWithID:completionHandler:)]
-        pub unsafe fn fetchSubscriptionWithID_completionHandler(
-            &self,
-            subscription_id: &CKSubscriptionID,
-            completion_handler: &Block<(*mut CKSubscription, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "CloudKit_CKRecordZoneID", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "deleteRecordZoneWithID:completionHandler:")]
+    pub unsafe fn deleteRecordZoneWithID_completionHandler(
+        &self,
+        zone_id: &CKRecordZoneID,
+        completion_handler: &Block<(*mut CKRecordZoneID, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "CloudKit_CKSubscription",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(fetchAllSubscriptionsWithCompletionHandler:)]
-        pub unsafe fn fetchAllSubscriptionsWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(*mut NSArray<CKSubscription>, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "CloudKit_CKSubscription", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "fetchSubscriptionWithID:completionHandler:")]
+    pub unsafe fn fetchSubscriptionWithID_completionHandler(
+        &self,
+        subscription_id: &CKSubscriptionID,
+        completion_handler: &Block<(*mut CKSubscription, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "CloudKit_CKSubscription", feature = "Foundation_NSError"))]
-        #[method(saveSubscription:completionHandler:)]
-        pub unsafe fn saveSubscription_completionHandler(
-            &self,
-            subscription: &CKSubscription,
-            completion_handler: &Block<(*mut CKSubscription, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "CloudKit_CKSubscription",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "fetchAllSubscriptionsWithCompletionHandler:")]
+    pub unsafe fn fetchAllSubscriptionsWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(*mut NSArray<CKSubscription>, *mut NSError), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(deleteSubscriptionWithID:completionHandler:)]
-        pub unsafe fn deleteSubscriptionWithID_completionHandler(
-            &self,
-            subscription_id: &CKSubscriptionID,
-            completion_handler: &Block<(*mut CKSubscriptionID, *mut NSError), ()>,
-        );
-    }
-);
+    #[cfg(all(feature = "CloudKit_CKSubscription", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "saveSubscription:completionHandler:")]
+    pub unsafe fn saveSubscription_completionHandler(
+        &self,
+        subscription: &CKSubscription,
+        completion_handler: &Block<(*mut CKSubscription, *mut NSError), ()>,
+    );
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "deleteSubscriptionWithID:completionHandler:")]
+    pub unsafe fn deleteSubscriptionWithID_completionHandler(
+        &self,
+        subscription_id: &CKSubscriptionID,
+        completion_handler: &Block<(*mut CKSubscriptionID, *mut NSError), ()>,
+    );
+}

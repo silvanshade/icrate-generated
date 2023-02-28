@@ -5,65 +5,58 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_methods!(
-    /// NSScripting
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWindow")]
-    unsafe impl NSWindow {
-        #[method(hasCloseBox)]
-        pub unsafe fn hasCloseBox(&self) -> bool;
+    pub type NSWindow;
 
-        #[method(hasTitleBar)]
-        pub unsafe fn hasTitleBar(&self) -> bool;
+    #[objc2::method(sel = "hasCloseBox")]
+    pub unsafe fn hasCloseBox(&self) -> bool;
 
-        #[method(isFloatingPanel)]
-        pub unsafe fn isFloatingPanel(&self) -> bool;
+    #[objc2::method(sel = "hasTitleBar")]
+    pub unsafe fn hasTitleBar(&self) -> bool;
 
-        #[method(isMiniaturizable)]
-        pub unsafe fn isMiniaturizable(&self) -> bool;
+    #[objc2::method(sel = "isFloatingPanel")]
+    pub unsafe fn isFloatingPanel(&self) -> bool;
 
-        #[method(isModalPanel)]
-        pub unsafe fn isModalPanel(&self) -> bool;
+    #[objc2::method(sel = "isMiniaturizable")]
+    pub unsafe fn isMiniaturizable(&self) -> bool;
 
-        #[method(isResizable)]
-        pub unsafe fn isResizable(&self) -> bool;
+    #[objc2::method(sel = "isModalPanel")]
+    pub unsafe fn isModalPanel(&self) -> bool;
 
-        #[method(isZoomable)]
-        pub unsafe fn isZoomable(&self) -> bool;
+    #[objc2::method(sel = "isResizable")]
+    pub unsafe fn isResizable(&self) -> bool;
 
-        #[method(orderedIndex)]
-        pub unsafe fn orderedIndex(&self) -> NSInteger;
+    #[objc2::method(sel = "isZoomable")]
+    pub unsafe fn isZoomable(&self) -> bool;
 
-        #[method(setOrderedIndex:)]
-        pub unsafe fn setOrderedIndex(&self, ordered_index: NSInteger);
+    #[objc2::method(sel = "orderedIndex")]
+    pub unsafe fn orderedIndex(&self) -> NSInteger;
 
-        #[method(setIsMiniaturized:)]
-        pub unsafe fn setIsMiniaturized(&self, flag: bool);
+    #[objc2::method(sel = "setOrderedIndex:")]
+    pub unsafe fn setOrderedIndex(&self, ordered_index: NSInteger);
 
-        #[method(setIsVisible:)]
-        pub unsafe fn setIsVisible(&self, flag: bool);
+    #[objc2::method(sel = "setIsMiniaturized:")]
+    pub unsafe fn setIsMiniaturized(&self, flag: bool);
 
-        #[method(setIsZoomed:)]
-        pub unsafe fn setIsZoomed(&self, flag: bool);
+    #[objc2::method(sel = "setIsVisible:")]
+    pub unsafe fn setIsVisible(&self, flag: bool);
 
-        #[cfg(feature = "Foundation_NSCloseCommand")]
-        #[method_id(@__retain_semantics Other handleCloseScriptCommand:)]
-        pub unsafe fn handleCloseScriptCommand(
-            &self,
-            command: &NSCloseCommand,
-        ) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setIsZoomed:")]
+    pub unsafe fn setIsZoomed(&self, flag: bool);
 
-        #[cfg(feature = "Foundation_NSScriptCommand")]
-        #[method_id(@__retain_semantics Other handlePrintScriptCommand:)]
-        pub unsafe fn handlePrintScriptCommand(
-            &self,
-            command: &NSScriptCommand,
-        ) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSCloseCommand")]
+    #[objc2::method(sel = "handleCloseScriptCommand:", managed = "Other")]
+    pub unsafe fn handleCloseScriptCommand(&self, command: &NSCloseCommand) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSScriptCommand")]
-        #[method_id(@__retain_semantics Other handleSaveScriptCommand:)]
-        pub unsafe fn handleSaveScriptCommand(
-            &self,
-            command: &NSScriptCommand,
-        ) -> Option<Id<Object>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSScriptCommand")]
+    #[objc2::method(sel = "handlePrintScriptCommand:", managed = "Other")]
+    pub unsafe fn handlePrintScriptCommand(&self, command: &NSScriptCommand) -> Option<Id<Object>>;
+
+    #[cfg(feature = "Foundation_NSScriptCommand")]
+    #[objc2::method(sel = "handleSaveScriptCommand:", managed = "Other")]
+    pub unsafe fn handleSaveScriptCommand(&self, command: &NSScriptCommand) -> Option<Id<Object>>;
+}

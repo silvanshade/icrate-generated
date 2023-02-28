@@ -7,89 +7,89 @@ use crate::EventKit::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = EKObject,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "EventKit_EKAlarm")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "EventKit_EKAlarm")]
-    pub struct EKAlarm;
-
-    #[cfg(feature = "EventKit_EKAlarm")]
-    unsafe impl ClassType for EKAlarm {
-        #[inherits(NSObject)]
-        type Super = EKObject;
-    }
-);
+    pub type EKAlarm;
+}
 
 #[cfg(feature = "EventKit_EKAlarm")]
 unsafe impl NSObjectProtocol for EKAlarm {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "EventKit_EKAlarm")]
-    unsafe impl EKAlarm {
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other alarmWithAbsoluteDate:)]
-        pub unsafe fn alarmWithAbsoluteDate(date: &NSDate) -> Id<EKAlarm>;
+    pub type EKAlarm;
 
-        #[method_id(@__retain_semantics Other alarmWithRelativeOffset:)]
-        pub unsafe fn alarmWithRelativeOffset(offset: NSTimeInterval) -> Id<EKAlarm>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "alarmWithAbsoluteDate:", managed = "Other")]
+    pub unsafe fn alarmWithAbsoluteDate(date: &NSDate) -> Id<EKAlarm>;
 
-        #[method(relativeOffset)]
-        pub unsafe fn relativeOffset(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "alarmWithRelativeOffset:", managed = "Other")]
+    pub unsafe fn alarmWithRelativeOffset(offset: NSTimeInterval) -> Id<EKAlarm>;
 
-        #[method(setRelativeOffset:)]
-        pub unsafe fn setRelativeOffset(&self, relative_offset: NSTimeInterval);
+    #[objc2::method(sel = "relativeOffset")]
+    pub unsafe fn relativeOffset(&self) -> NSTimeInterval;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other absoluteDate)]
-        pub unsafe fn absoluteDate(&self) -> Option<Id<NSDate>>;
+    #[objc2::method(sel = "setRelativeOffset:")]
+    pub unsafe fn setRelativeOffset(&self, relative_offset: NSTimeInterval);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(setAbsoluteDate:)]
-        pub unsafe fn setAbsoluteDate(&self, absolute_date: Option<&NSDate>);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "absoluteDate", managed = "Other")]
+    pub unsafe fn absoluteDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "EventKit_EKStructuredLocation")]
-        #[method_id(@__retain_semantics Other structuredLocation)]
-        pub unsafe fn structuredLocation(&self) -> Option<Id<EKStructuredLocation>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "setAbsoluteDate:")]
+    pub unsafe fn setAbsoluteDate(&self, absolute_date: Option<&NSDate>);
 
-        #[cfg(feature = "EventKit_EKStructuredLocation")]
-        #[method(setStructuredLocation:)]
-        pub unsafe fn setStructuredLocation(
-            &self,
-            structured_location: Option<&EKStructuredLocation>,
-        );
+    #[cfg(feature = "EventKit_EKStructuredLocation")]
+    #[objc2::method(sel = "structuredLocation", managed = "Other")]
+    pub unsafe fn structuredLocation(&self) -> Option<Id<EKStructuredLocation>>;
 
-        #[method(proximity)]
-        pub unsafe fn proximity(&self) -> EKAlarmProximity;
+    #[cfg(feature = "EventKit_EKStructuredLocation")]
+    #[objc2::method(sel = "setStructuredLocation:")]
+    pub unsafe fn setStructuredLocation(&self, structured_location: Option<&EKStructuredLocation>);
 
-        #[method(setProximity:)]
-        pub unsafe fn setProximity(&self, proximity: EKAlarmProximity);
+    #[objc2::method(sel = "proximity")]
+    pub unsafe fn proximity(&self) -> EKAlarmProximity;
 
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> EKAlarmType;
+    #[objc2::method(sel = "setProximity:")]
+    pub unsafe fn setProximity(&self, proximity: EKAlarmProximity);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other emailAddress)]
-        pub unsafe fn emailAddress(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> EKAlarmType;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setEmailAddress:)]
-        pub unsafe fn setEmailAddress(&self, email_address: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "emailAddress", managed = "Other")]
+    pub unsafe fn emailAddress(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other soundName)]
-        pub unsafe fn soundName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setEmailAddress:")]
+    pub unsafe fn setEmailAddress(&self, email_address: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSoundName:)]
-        pub unsafe fn setSoundName(&self, sound_name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "soundName", managed = "Other")]
+    pub unsafe fn soundName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other url)]
-        pub unsafe fn url(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSoundName:")]
+    pub unsafe fn setSoundName(&self, sound_name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[deprecated]
-        #[method(setUrl:)]
-        pub unsafe fn setUrl(&self, url: Option<&NSURL>);
-    }
-);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[deprecated]
+    #[objc2::method(sel = "url", managed = "Other")]
+    pub unsafe fn url(&self) -> Option<Id<NSURL>>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[deprecated]
+    #[objc2::method(sel = "setUrl:")]
+    pub unsafe fn setUrl(&self, url: Option<&NSURL>);
+}

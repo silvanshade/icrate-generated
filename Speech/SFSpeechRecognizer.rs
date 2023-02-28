@@ -4,129 +4,126 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Speech::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum SFSpeechRecognizerAuthorizationStatus {
-        SFSpeechRecognizerAuthorizationStatusNotDetermined = 0,
-        SFSpeechRecognizerAuthorizationStatusDenied = 1,
-        SFSpeechRecognizerAuthorizationStatusRestricted = 2,
-        SFSpeechRecognizerAuthorizationStatusAuthorized = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum SFSpeechRecognizerAuthorizationStatus {
+    SFSpeechRecognizerAuthorizationStatusNotDetermined = 0,
+    SFSpeechRecognizerAuthorizationStatusDenied = 1,
+    SFSpeechRecognizerAuthorizationStatusRestricted = 2,
+    SFSpeechRecognizerAuthorizationStatusAuthorized = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Speech_SFSpeechRecognizer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Speech_SFSpeechRecognizer")]
-    pub struct SFSpeechRecognizer;
-
-    #[cfg(feature = "Speech_SFSpeechRecognizer")]
-    unsafe impl ClassType for SFSpeechRecognizer {
-        type Super = NSObject;
-    }
-);
+    pub type SFSpeechRecognizer;
+}
 
 #[cfg(feature = "Speech_SFSpeechRecognizer")]
 unsafe impl NSObjectProtocol for SFSpeechRecognizer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Speech_SFSpeechRecognizer")]
-    unsafe impl SFSpeechRecognizer {
-        #[cfg(all(feature = "Foundation_NSLocale", feature = "Foundation_NSSet"))]
-        #[method_id(@__retain_semantics Other supportedLocales)]
-        pub unsafe fn supportedLocales() -> Id<NSSet<NSLocale>>;
+    pub type SFSpeechRecognizer;
 
-        #[method(authorizationStatus)]
-        pub unsafe fn authorizationStatus() -> SFSpeechRecognizerAuthorizationStatus;
+    #[cfg(all(feature = "Foundation_NSLocale", feature = "Foundation_NSSet"))]
+    #[objc2::method(sel = "supportedLocales", managed = "Other")]
+    pub unsafe fn supportedLocales() -> Id<NSSet<NSLocale>>;
 
-        #[method(requestAuthorization:)]
-        pub unsafe fn requestAuthorization(
-            handler: &Block<(SFSpeechRecognizerAuthorizationStatus,), ()>,
-        );
+    #[objc2::method(sel = "authorizationStatus")]
+    pub unsafe fn authorizationStatus() -> SFSpeechRecognizerAuthorizationStatus;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Option<Id<Self>>;
+    #[objc2::method(sel = "requestAuthorization:")]
+    pub unsafe fn requestAuthorization(
+        handler: &Block<(SFSpeechRecognizerAuthorizationStatus,), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSLocale")]
-        #[method_id(@__retain_semantics Init initWithLocale:)]
-        pub unsafe fn initWithLocale(
-            this: Option<Allocated<Self>>,
-            locale: &NSLocale,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Option<Id<Self>>;
 
-        #[method(isAvailable)]
-        pub unsafe fn isAvailable(&self) -> bool;
+    #[cfg(feature = "Foundation_NSLocale")]
+    #[objc2::method(sel = "initWithLocale:", managed = "Init")]
+    pub unsafe fn initWithLocale(
+        this: Option<Allocated<Self>>,
+        locale: &NSLocale,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSLocale")]
-        #[method_id(@__retain_semantics Other locale)]
-        pub unsafe fn locale(&self) -> Id<NSLocale>;
+    #[objc2::method(sel = "isAvailable")]
+    pub unsafe fn isAvailable(&self) -> bool;
 
-        #[method(supportsOnDeviceRecognition)]
-        pub unsafe fn supportsOnDeviceRecognition(&self) -> bool;
+    #[cfg(feature = "Foundation_NSLocale")]
+    #[objc2::method(sel = "locale", managed = "Other")]
+    pub unsafe fn locale(&self) -> Id<NSLocale>;
 
-        #[method(setSupportsOnDeviceRecognition:)]
-        pub unsafe fn setSupportsOnDeviceRecognition(&self, supports_on_device_recognition: bool);
+    #[objc2::method(sel = "supportsOnDeviceRecognition")]
+    pub unsafe fn supportsOnDeviceRecognition(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self)
-            -> Option<Id<ProtocolObject<dyn SFSpeechRecognizerDelegate>>>;
+    #[objc2::method(sel = "setSupportsOnDeviceRecognition:")]
+    pub unsafe fn setSupportsOnDeviceRecognition(&self, supports_on_device_recognition: bool);
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn SFSpeechRecognizerDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn SFSpeechRecognizerDelegate>>>;
 
-        #[method(defaultTaskHint)]
-        pub unsafe fn defaultTaskHint(&self) -> SFSpeechRecognitionTaskHint;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn SFSpeechRecognizerDelegate>>,
+    );
 
-        #[method(setDefaultTaskHint:)]
-        pub unsafe fn setDefaultTaskHint(&self, default_task_hint: SFSpeechRecognitionTaskHint);
+    #[objc2::method(sel = "defaultTaskHint")]
+    pub unsafe fn defaultTaskHint(&self) -> SFSpeechRecognitionTaskHint;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Speech_SFSpeechRecognitionRequest",
-            feature = "Speech_SFSpeechRecognitionResult",
-            feature = "Speech_SFSpeechRecognitionTask"
-        ))]
-        #[method_id(@__retain_semantics Other recognitionTaskWithRequest:resultHandler:)]
-        pub unsafe fn recognitionTaskWithRequest_resultHandler(
-            &self,
-            request: &SFSpeechRecognitionRequest,
-            result_handler: &Block<(*mut SFSpeechRecognitionResult, *mut NSError), ()>,
-        ) -> Id<SFSpeechRecognitionTask>;
+    #[objc2::method(sel = "setDefaultTaskHint:")]
+    pub unsafe fn setDefaultTaskHint(&self, default_task_hint: SFSpeechRecognitionTaskHint);
 
-        #[cfg(all(
-            feature = "Speech_SFSpeechRecognitionRequest",
-            feature = "Speech_SFSpeechRecognitionTask"
-        ))]
-        #[method_id(@__retain_semantics Other recognitionTaskWithRequest:delegate:)]
-        pub unsafe fn recognitionTaskWithRequest_delegate(
-            &self,
-            request: &SFSpeechRecognitionRequest,
-            delegate: &ProtocolObject<dyn SFSpeechRecognitionTaskDelegate>,
-        ) -> Id<SFSpeechRecognitionTask>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Speech_SFSpeechRecognitionRequest",
+        feature = "Speech_SFSpeechRecognitionResult",
+        feature = "Speech_SFSpeechRecognitionTask"
+    ))]
+    #[objc2::method(sel = "recognitionTaskWithRequest:resultHandler:", managed = "Other")]
+    pub unsafe fn recognitionTaskWithRequest_resultHandler(
+        &self,
+        request: &SFSpeechRecognitionRequest,
+        result_handler: &Block<(*mut SFSpeechRecognitionResult, *mut NSError), ()>,
+    ) -> Id<SFSpeechRecognitionTask>;
 
-        #[cfg(feature = "Foundation_NSOperationQueue")]
-        #[method_id(@__retain_semantics Other queue)]
-        pub unsafe fn queue(&self) -> Id<NSOperationQueue>;
+    #[cfg(all(
+        feature = "Speech_SFSpeechRecognitionRequest",
+        feature = "Speech_SFSpeechRecognitionTask"
+    ))]
+    #[objc2::method(sel = "recognitionTaskWithRequest:delegate:", managed = "Other")]
+    pub unsafe fn recognitionTaskWithRequest_delegate(
+        &self,
+        request: &SFSpeechRecognitionRequest,
+        delegate: &ProtocolObject<dyn SFSpeechRecognitionTaskDelegate>,
+    ) -> Id<SFSpeechRecognitionTask>;
 
-        #[cfg(feature = "Foundation_NSOperationQueue")]
-        #[method(setQueue:)]
-        pub unsafe fn setQueue(&self, queue: &NSOperationQueue);
-    }
-);
+    #[cfg(feature = "Foundation_NSOperationQueue")]
+    #[objc2::method(sel = "queue", managed = "Other")]
+    pub unsafe fn queue(&self) -> Id<NSOperationQueue>;
 
-extern_protocol!(
-    pub unsafe trait SFSpeechRecognizerDelegate: NSObjectProtocol {
-        #[cfg(feature = "Speech_SFSpeechRecognizer")]
-        #[optional]
-        #[method(speechRecognizer:availabilityDidChange:)]
-        unsafe fn speechRecognizer_availabilityDidChange(
-            &self,
-            speech_recognizer: &SFSpeechRecognizer,
-            available: bool,
-        );
-    }
+    #[cfg(feature = "Foundation_NSOperationQueue")]
+    #[objc2::method(sel = "setQueue:")]
+    pub unsafe fn setQueue(&self, queue: &NSOperationQueue);
+}
 
-    unsafe impl ProtocolType for dyn SFSpeechRecognizerDelegate {}
-);
+#[objc2::protocol]
+pub unsafe trait SFSpeechRecognizerDelegate: NSObjectProtocol {
+    #[cfg(feature = "Speech_SFSpeechRecognizer")]
+    #[objc2::method(optional, sel = "speechRecognizer:availabilityDidChange:")]
+    unsafe fn speechRecognizer_availabilityDidChange(
+        &self,
+        speech_recognizer: &SFSpeechRecognizer,
+        available: bool,
+    );
+}

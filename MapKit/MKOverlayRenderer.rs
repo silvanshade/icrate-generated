@@ -7,74 +7,77 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKOverlayRenderer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKOverlayRenderer")]
-    pub struct MKOverlayRenderer;
-
-    #[cfg(feature = "MapKit_MKOverlayRenderer")]
-    unsafe impl ClassType for MKOverlayRenderer {
-        type Super = NSObject;
-    }
-);
+    pub type MKOverlayRenderer;
+}
 
 #[cfg(feature = "MapKit_MKOverlayRenderer")]
 unsafe impl NSObjectProtocol for MKOverlayRenderer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKOverlayRenderer")]
-    unsafe impl MKOverlayRenderer {
-        #[method_id(@__retain_semantics Init initWithOverlay:)]
-        pub unsafe fn initWithOverlay(
-            this: Option<Allocated<Self>>,
-            overlay: &ProtocolObject<dyn MKOverlay>,
-        ) -> Id<Self>;
+    pub type MKOverlayRenderer;
 
-        #[method_id(@__retain_semantics Other overlay)]
-        pub unsafe fn overlay(&self) -> Id<ProtocolObject<dyn MKOverlay>>;
+    #[objc2::method(sel = "initWithOverlay:", managed = "Init")]
+    pub unsafe fn initWithOverlay(
+        this: Option<Allocated<Self>>,
+        overlay: &ProtocolObject<dyn MKOverlay>,
+    ) -> Id<Self>;
 
-        #[method(pointForMapPoint:)]
-        pub unsafe fn pointForMapPoint(&self, map_point: MKMapPoint) -> CGPoint;
+    #[objc2::method(sel = "overlay", managed = "Other")]
+    pub unsafe fn overlay(&self) -> Id<ProtocolObject<dyn MKOverlay>>;
 
-        #[method(mapPointForPoint:)]
-        pub unsafe fn mapPointForPoint(&self, point: CGPoint) -> MKMapPoint;
+    #[objc2::method(sel = "pointForMapPoint:")]
+    pub unsafe fn pointForMapPoint(&self, map_point: MKMapPoint) -> CGPoint;
 
-        #[method(rectForMapRect:)]
-        pub unsafe fn rectForMapRect(&self, map_rect: MKMapRect) -> CGRect;
+    #[objc2::method(sel = "mapPointForPoint:")]
+    pub unsafe fn mapPointForPoint(&self, point: CGPoint) -> MKMapPoint;
 
-        #[method(mapRectForRect:)]
-        pub unsafe fn mapRectForRect(&self, rect: CGRect) -> MKMapRect;
+    #[objc2::method(sel = "rectForMapRect:")]
+    pub unsafe fn rectForMapRect(&self, map_rect: MKMapRect) -> CGRect;
 
-        #[method(canDrawMapRect:zoomScale:)]
-        pub unsafe fn canDrawMapRect_zoomScale(
-            &self,
-            map_rect: MKMapRect,
-            zoom_scale: MKZoomScale,
-        ) -> bool;
+    #[objc2::method(sel = "mapRectForRect:")]
+    pub unsafe fn mapRectForRect(&self, rect: CGRect) -> MKMapRect;
 
-        #[method(setNeedsDisplay)]
-        pub unsafe fn setNeedsDisplay(&self);
+    #[objc2::method(sel = "canDrawMapRect:zoomScale:")]
+    pub unsafe fn canDrawMapRect_zoomScale(
+        &self,
+        map_rect: MKMapRect,
+        zoom_scale: MKZoomScale,
+    ) -> bool;
 
-        #[method(setNeedsDisplayInMapRect:)]
-        pub unsafe fn setNeedsDisplayInMapRect(&self, map_rect: MKMapRect);
+    #[objc2::method(sel = "setNeedsDisplay")]
+    pub unsafe fn setNeedsDisplay(&self);
 
-        #[method(setNeedsDisplayInMapRect:zoomScale:)]
-        pub unsafe fn setNeedsDisplayInMapRect_zoomScale(
-            &self,
-            map_rect: MKMapRect,
-            zoom_scale: MKZoomScale,
-        );
+    #[objc2::method(sel = "setNeedsDisplayInMapRect:")]
+    pub unsafe fn setNeedsDisplayInMapRect(&self, map_rect: MKMapRect);
 
-        #[method(alpha)]
-        pub unsafe fn alpha(&self) -> CGFloat;
+    #[objc2::method(sel = "setNeedsDisplayInMapRect:zoomScale:")]
+    pub unsafe fn setNeedsDisplayInMapRect_zoomScale(
+        &self,
+        map_rect: MKMapRect,
+        zoom_scale: MKZoomScale,
+    );
 
-        #[method(setAlpha:)]
-        pub unsafe fn setAlpha(&self, alpha: CGFloat);
+    #[objc2::method(sel = "alpha")]
+    pub unsafe fn alpha(&self) -> CGFloat;
 
-        #[method(contentScaleFactor)]
-        pub unsafe fn contentScaleFactor(&self) -> CGFloat;
-    }
-);
+    #[objc2::method(sel = "setAlpha:")]
+    pub unsafe fn setAlpha(&self, alpha: CGFloat);
+
+    #[objc2::method(sel = "contentScaleFactor")]
+    pub unsafe fn contentScaleFactor(&self) -> CGFloat;
+}
 
 extern_fn!(
     pub unsafe fn MKRoadWidthAtZoomScale(zoom_scale: MKZoomScale) -> CGFloat;

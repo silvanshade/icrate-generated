@@ -5,17 +5,17 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSImageRep,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSCustomImageRep")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSCustomImageRep")]
-    pub struct NSCustomImageRep;
-
-    #[cfg(feature = "AppKit_NSCustomImageRep")]
-    unsafe impl ClassType for NSCustomImageRep {
-        #[inherits(NSObject)]
-        type Super = NSImageRep;
-    }
-);
+    pub type NSCustomImageRep;
+}
 
 #[cfg(feature = "AppKit_NSCustomImageRep")]
 unsafe impl NSCoding for NSCustomImageRep {}
@@ -23,31 +23,34 @@ unsafe impl NSCoding for NSCustomImageRep {}
 #[cfg(feature = "AppKit_NSCustomImageRep")]
 unsafe impl NSObjectProtocol for NSCustomImageRep {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSCustomImageRep")]
-    unsafe impl NSCustomImageRep {
-        #[method_id(@__retain_semantics Init initWithSize:flipped:drawingHandler:)]
-        pub unsafe fn initWithSize_flipped_drawingHandler(
-            this: Option<Allocated<Self>>,
-            size: NSSize,
-            drawing_handler_should_be_called_with_flipped_context: bool,
-            drawing_handler: &Block<(NSRect,), Bool>,
-        ) -> Id<Self>;
+    pub type NSCustomImageRep;
 
-        #[method(drawingHandler)]
-        pub unsafe fn drawingHandler(&self) -> *mut Block<(NSRect,), Bool>;
+    #[objc2::method(sel = "initWithSize:flipped:drawingHandler:", managed = "Init")]
+    pub unsafe fn initWithSize_flipped_drawingHandler(
+        this: Option<Allocated<Self>>,
+        size: NSSize,
+        drawing_handler_should_be_called_with_flipped_context: bool,
+        drawing_handler: &Block<(NSRect,), Bool>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithDrawSelector:delegate:)]
-        pub unsafe fn initWithDrawSelector_delegate(
-            this: Option<Allocated<Self>>,
-            selector: Sel,
-            delegate: &Object,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "drawingHandler")]
+    pub unsafe fn drawingHandler(&self) -> *mut Block<(NSRect,), Bool>;
 
-        #[method(drawSelector)]
-        pub unsafe fn drawSelector(&self) -> Option<Sel>;
+    #[objc2::method(sel = "initWithDrawSelector:delegate:", managed = "Init")]
+    pub unsafe fn initWithDrawSelector_delegate(
+        this: Option<Allocated<Self>>,
+        selector: Sel,
+        delegate: &Object,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<Object>>;
-    }
-);
+    #[objc2::method(sel = "drawSelector")]
+    pub unsafe fn drawSelector(&self) -> Option<Sel>;
+
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<Object>>;
+}

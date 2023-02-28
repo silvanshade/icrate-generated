@@ -5,34 +5,32 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum WKUserInterfaceDirectionPolicy {
-        WKUserInterfaceDirectionPolicyContent = 0,
-        WKUserInterfaceDirectionPolicySystem = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum WKUserInterfaceDirectionPolicy {
+    WKUserInterfaceDirectionPolicyContent = 0,
+    WKUserInterfaceDirectionPolicySystem = 1,
+}
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum WKAudiovisualMediaTypes {
-        WKAudiovisualMediaTypeNone = 0,
-        WKAudiovisualMediaTypeAudio = 1 << 0,
-        WKAudiovisualMediaTypeVideo = 1 << 1,
-        WKAudiovisualMediaTypeAll = NSUIntegerMax as _,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum WKAudiovisualMediaTypes {
+    WKAudiovisualMediaTypeNone = 0,
+    WKAudiovisualMediaTypeAudio = 1 << 0,
+    WKAudiovisualMediaTypeVideo = 1 << 1,
+    WKAudiovisualMediaTypeAll = NSUIntegerMax as _,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKWebViewConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKWebViewConfiguration")]
-    pub struct WKWebViewConfiguration;
-
-    #[cfg(feature = "WebKit_WKWebViewConfiguration")]
-    unsafe impl ClassType for WKWebViewConfiguration {
-        type Super = NSObject;
-    }
-);
+    pub type WKWebViewConfiguration;
+}
 
 #[cfg(feature = "WebKit_WKWebViewConfiguration")]
 unsafe impl NSCoding for WKWebViewConfiguration {}
@@ -43,130 +41,127 @@ unsafe impl NSObjectProtocol for WKWebViewConfiguration {}
 #[cfg(feature = "WebKit_WKWebViewConfiguration")]
 unsafe impl NSSecureCoding for WKWebViewConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKWebViewConfiguration")]
-    unsafe impl WKWebViewConfiguration {
-        #[cfg(feature = "WebKit_WKProcessPool")]
-        #[method_id(@__retain_semantics Other processPool)]
-        pub unsafe fn processPool(&self) -> Id<WKProcessPool>;
+    pub type WKWebViewConfiguration;
 
-        #[cfg(feature = "WebKit_WKProcessPool")]
-        #[method(setProcessPool:)]
-        pub unsafe fn setProcessPool(&self, process_pool: &WKProcessPool);
+    #[cfg(feature = "WebKit_WKProcessPool")]
+    #[objc2::method(sel = "processPool", managed = "Other")]
+    pub unsafe fn processPool(&self) -> Id<WKProcessPool>;
 
-        #[cfg(feature = "WebKit_WKPreferences")]
-        #[method_id(@__retain_semantics Other preferences)]
-        pub unsafe fn preferences(&self) -> Id<WKPreferences>;
+    #[cfg(feature = "WebKit_WKProcessPool")]
+    #[objc2::method(sel = "setProcessPool:")]
+    pub unsafe fn setProcessPool(&self, process_pool: &WKProcessPool);
 
-        #[cfg(feature = "WebKit_WKPreferences")]
-        #[method(setPreferences:)]
-        pub unsafe fn setPreferences(&self, preferences: &WKPreferences);
+    #[cfg(feature = "WebKit_WKPreferences")]
+    #[objc2::method(sel = "preferences", managed = "Other")]
+    pub unsafe fn preferences(&self) -> Id<WKPreferences>;
 
-        #[cfg(feature = "WebKit_WKUserContentController")]
-        #[method_id(@__retain_semantics Other userContentController)]
-        pub unsafe fn userContentController(&self) -> Id<WKUserContentController>;
+    #[cfg(feature = "WebKit_WKPreferences")]
+    #[objc2::method(sel = "setPreferences:")]
+    pub unsafe fn setPreferences(&self, preferences: &WKPreferences);
 
-        #[cfg(feature = "WebKit_WKUserContentController")]
-        #[method(setUserContentController:)]
-        pub unsafe fn setUserContentController(
-            &self,
-            user_content_controller: &WKUserContentController,
-        );
+    #[cfg(feature = "WebKit_WKUserContentController")]
+    #[objc2::method(sel = "userContentController", managed = "Other")]
+    pub unsafe fn userContentController(&self) -> Id<WKUserContentController>;
 
-        #[cfg(feature = "WebKit_WKWebsiteDataStore")]
-        #[method_id(@__retain_semantics Other websiteDataStore)]
-        pub unsafe fn websiteDataStore(&self) -> Id<WKWebsiteDataStore>;
+    #[cfg(feature = "WebKit_WKUserContentController")]
+    #[objc2::method(sel = "setUserContentController:")]
+    pub unsafe fn setUserContentController(
+        &self,
+        user_content_controller: &WKUserContentController,
+    );
 
-        #[cfg(feature = "WebKit_WKWebsiteDataStore")]
-        #[method(setWebsiteDataStore:)]
-        pub unsafe fn setWebsiteDataStore(&self, website_data_store: &WKWebsiteDataStore);
+    #[cfg(feature = "WebKit_WKWebsiteDataStore")]
+    #[objc2::method(sel = "websiteDataStore", managed = "Other")]
+    pub unsafe fn websiteDataStore(&self) -> Id<WKWebsiteDataStore>;
 
-        #[method(suppressesIncrementalRendering)]
-        pub unsafe fn suppressesIncrementalRendering(&self) -> bool;
+    #[cfg(feature = "WebKit_WKWebsiteDataStore")]
+    #[objc2::method(sel = "setWebsiteDataStore:")]
+    pub unsafe fn setWebsiteDataStore(&self, website_data_store: &WKWebsiteDataStore);
 
-        #[method(setSuppressesIncrementalRendering:)]
-        pub unsafe fn setSuppressesIncrementalRendering(
-            &self,
-            suppresses_incremental_rendering: bool,
-        );
+    #[objc2::method(sel = "suppressesIncrementalRendering")]
+    pub unsafe fn suppressesIncrementalRendering(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other applicationNameForUserAgent)]
-        pub unsafe fn applicationNameForUserAgent(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setSuppressesIncrementalRendering:")]
+    pub unsafe fn setSuppressesIncrementalRendering(&self, suppresses_incremental_rendering: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setApplicationNameForUserAgent:)]
-        pub unsafe fn setApplicationNameForUserAgent(
-            &self,
-            application_name_for_user_agent: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "applicationNameForUserAgent", managed = "Other")]
+    pub unsafe fn applicationNameForUserAgent(&self) -> Option<Id<NSString>>;
 
-        #[method(allowsAirPlayForMediaPlayback)]
-        pub unsafe fn allowsAirPlayForMediaPlayback(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setApplicationNameForUserAgent:")]
+    pub unsafe fn setApplicationNameForUserAgent(
+        &self,
+        application_name_for_user_agent: Option<&NSString>,
+    );
 
-        #[method(setAllowsAirPlayForMediaPlayback:)]
-        pub unsafe fn setAllowsAirPlayForMediaPlayback(
-            &self,
-            allows_air_play_for_media_playback: bool,
-        );
+    #[objc2::method(sel = "allowsAirPlayForMediaPlayback")]
+    pub unsafe fn allowsAirPlayForMediaPlayback(&self) -> bool;
 
-        #[method(upgradeKnownHostsToHTTPS)]
-        pub unsafe fn upgradeKnownHostsToHTTPS(&self) -> bool;
+    #[objc2::method(sel = "setAllowsAirPlayForMediaPlayback:")]
+    pub unsafe fn setAllowsAirPlayForMediaPlayback(&self, allows_air_play_for_media_playback: bool);
 
-        #[method(setUpgradeKnownHostsToHTTPS:)]
-        pub unsafe fn setUpgradeKnownHostsToHTTPS(&self, upgrade_known_hosts_to_https: bool);
+    #[objc2::method(sel = "upgradeKnownHostsToHTTPS")]
+    pub unsafe fn upgradeKnownHostsToHTTPS(&self) -> bool;
 
-        #[method(mediaTypesRequiringUserActionForPlayback)]
-        pub unsafe fn mediaTypesRequiringUserActionForPlayback(&self) -> WKAudiovisualMediaTypes;
+    #[objc2::method(sel = "setUpgradeKnownHostsToHTTPS:")]
+    pub unsafe fn setUpgradeKnownHostsToHTTPS(&self, upgrade_known_hosts_to_https: bool);
 
-        #[method(setMediaTypesRequiringUserActionForPlayback:)]
-        pub unsafe fn setMediaTypesRequiringUserActionForPlayback(
-            &self,
-            media_types_requiring_user_action_for_playback: WKAudiovisualMediaTypes,
-        );
+    #[objc2::method(sel = "mediaTypesRequiringUserActionForPlayback")]
+    pub unsafe fn mediaTypesRequiringUserActionForPlayback(&self) -> WKAudiovisualMediaTypes;
 
-        #[cfg(feature = "WebKit_WKWebpagePreferences")]
-        #[method_id(@__retain_semantics Other defaultWebpagePreferences)]
-        pub unsafe fn defaultWebpagePreferences(&self) -> Id<WKWebpagePreferences>;
+    #[objc2::method(sel = "setMediaTypesRequiringUserActionForPlayback:")]
+    pub unsafe fn setMediaTypesRequiringUserActionForPlayback(
+        &self,
+        media_types_requiring_user_action_for_playback: WKAudiovisualMediaTypes,
+    );
 
-        #[cfg(feature = "WebKit_WKWebpagePreferences")]
-        #[method(setDefaultWebpagePreferences:)]
-        pub unsafe fn setDefaultWebpagePreferences(
-            &self,
-            default_webpage_preferences: Option<&WKWebpagePreferences>,
-        );
+    #[cfg(feature = "WebKit_WKWebpagePreferences")]
+    #[objc2::method(sel = "defaultWebpagePreferences", managed = "Other")]
+    pub unsafe fn defaultWebpagePreferences(&self) -> Id<WKWebpagePreferences>;
 
-        #[method(limitsNavigationsToAppBoundDomains)]
-        pub unsafe fn limitsNavigationsToAppBoundDomains(&self) -> bool;
+    #[cfg(feature = "WebKit_WKWebpagePreferences")]
+    #[objc2::method(sel = "setDefaultWebpagePreferences:")]
+    pub unsafe fn setDefaultWebpagePreferences(
+        &self,
+        default_webpage_preferences: Option<&WKWebpagePreferences>,
+    );
 
-        #[method(setLimitsNavigationsToAppBoundDomains:)]
-        pub unsafe fn setLimitsNavigationsToAppBoundDomains(
-            &self,
-            limits_navigations_to_app_bound_domains: bool,
-        );
+    #[objc2::method(sel = "limitsNavigationsToAppBoundDomains")]
+    pub unsafe fn limitsNavigationsToAppBoundDomains(&self) -> bool;
 
-        #[method(userInterfaceDirectionPolicy)]
-        pub unsafe fn userInterfaceDirectionPolicy(&self) -> WKUserInterfaceDirectionPolicy;
+    #[objc2::method(sel = "setLimitsNavigationsToAppBoundDomains:")]
+    pub unsafe fn setLimitsNavigationsToAppBoundDomains(
+        &self,
+        limits_navigations_to_app_bound_domains: bool,
+    );
 
-        #[method(setUserInterfaceDirectionPolicy:)]
-        pub unsafe fn setUserInterfaceDirectionPolicy(
-            &self,
-            user_interface_direction_policy: WKUserInterfaceDirectionPolicy,
-        );
+    #[objc2::method(sel = "userInterfaceDirectionPolicy")]
+    pub unsafe fn userInterfaceDirectionPolicy(&self) -> WKUserInterfaceDirectionPolicy;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setURLSchemeHandler:forURLScheme:)]
-        pub unsafe fn setURLSchemeHandler_forURLScheme(
-            &self,
-            url_scheme_handler: Option<&ProtocolObject<dyn WKURLSchemeHandler>>,
-            url_scheme: &NSString,
-        );
+    #[objc2::method(sel = "setUserInterfaceDirectionPolicy:")]
+    pub unsafe fn setUserInterfaceDirectionPolicy(
+        &self,
+        user_interface_direction_policy: WKUserInterfaceDirectionPolicy,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other urlSchemeHandlerForURLScheme:)]
-        pub unsafe fn urlSchemeHandlerForURLScheme(
-            &self,
-            url_scheme: &NSString,
-        ) -> Option<Id<ProtocolObject<dyn WKURLSchemeHandler>>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setURLSchemeHandler:forURLScheme:")]
+    pub unsafe fn setURLSchemeHandler_forURLScheme(
+        &self,
+        url_scheme_handler: Option<&ProtocolObject<dyn WKURLSchemeHandler>>,
+        url_scheme: &NSString,
+    );
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "urlSchemeHandlerForURLScheme:", managed = "Other")]
+    pub unsafe fn urlSchemeHandlerForURLScheme(
+        &self,
+        url_scheme: &NSString,
+    ) -> Option<Id<ProtocolObject<dyn WKURLSchemeHandler>>>;
+}

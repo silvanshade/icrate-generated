@@ -5,28 +5,26 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSStackViewGravity {
-        NSStackViewGravityTop = 1,
-        NSStackViewGravityLeading = 1,
-        NSStackViewGravityCenter = 2,
-        NSStackViewGravityBottom = 3,
-        NSStackViewGravityTrailing = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSStackViewGravity {
+    NSStackViewGravityTop = 1,
+    NSStackViewGravityLeading = 1,
+    NSStackViewGravityCenter = 2,
+    NSStackViewGravityBottom = 3,
+    NSStackViewGravityTrailing = 3,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSStackViewDistribution {
-        NSStackViewDistributionGravityAreas = -1,
-        NSStackViewDistributionFill = 0,
-        NSStackViewDistributionFillEqually = 1,
-        NSStackViewDistributionFillProportionally = 2,
-        NSStackViewDistributionEqualSpacing = 3,
-        NSStackViewDistributionEqualCentering = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSStackViewDistribution {
+    NSStackViewDistributionGravityAreas = -1,
+    NSStackViewDistributionFill = 0,
+    NSStackViewDistributionFillEqually = 1,
+    NSStackViewDistributionFillProportionally = 2,
+    NSStackViewDistributionEqualSpacing = 3,
+    NSStackViewDistributionEqualCentering = 4,
+}
 
 typed_extensible_enum!(
     pub type NSStackViewVisibilityPriority = c_float;
@@ -40,17 +38,18 @@ extern_static!(
 
 extern_static!(NSStackViewVisibilityPriorityNotVisible: NSStackViewVisibilityPriority = 0);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSStackView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSStackView")]
-    pub struct NSStackView;
-
-    #[cfg(feature = "AppKit_NSStackView")]
-    unsafe impl ClassType for NSStackView {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type NSStackView;
+}
 
 #[cfg(feature = "AppKit_NSStackView")]
 unsafe impl NSAccessibility for NSStackView {}
@@ -76,212 +75,202 @@ unsafe impl NSObjectProtocol for NSStackView {}
 #[cfg(feature = "AppKit_NSStackView")]
 unsafe impl NSUserInterfaceItemIdentification for NSStackView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSStackView")]
-    unsafe impl NSStackView {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other stackViewWithViews:)]
-        pub unsafe fn stackViewWithViews(views: &NSArray<NSView>) -> Id<Self>;
+    pub type NSStackView;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSStackViewDelegate>>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "stackViewWithViews:", managed = "Other")]
+    pub unsafe fn stackViewWithViews(views: &NSArray<NSView>) -> Id<Self>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSStackViewDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSStackViewDelegate>>>;
 
-        #[method(orientation)]
-        pub unsafe fn orientation(&self) -> NSUserInterfaceLayoutOrientation;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn NSStackViewDelegate>>);
 
-        #[method(setOrientation:)]
-        pub unsafe fn setOrientation(&self, orientation: NSUserInterfaceLayoutOrientation);
+    #[objc2::method(sel = "orientation")]
+    pub unsafe fn orientation(&self) -> NSUserInterfaceLayoutOrientation;
 
-        #[method(alignment)]
-        pub unsafe fn alignment(&self) -> NSLayoutAttribute;
+    #[objc2::method(sel = "setOrientation:")]
+    pub unsafe fn setOrientation(&self, orientation: NSUserInterfaceLayoutOrientation);
 
-        #[method(setAlignment:)]
-        pub unsafe fn setAlignment(&self, alignment: NSLayoutAttribute);
+    #[objc2::method(sel = "alignment")]
+    pub unsafe fn alignment(&self) -> NSLayoutAttribute;
 
-        #[method(edgeInsets)]
-        pub unsafe fn edgeInsets(&self) -> NSEdgeInsets;
+    #[objc2::method(sel = "setAlignment:")]
+    pub unsafe fn setAlignment(&self, alignment: NSLayoutAttribute);
 
-        #[method(setEdgeInsets:)]
-        pub unsafe fn setEdgeInsets(&self, edge_insets: NSEdgeInsets);
+    #[objc2::method(sel = "edgeInsets")]
+    pub unsafe fn edgeInsets(&self) -> NSEdgeInsets;
 
-        #[method(distribution)]
-        pub unsafe fn distribution(&self) -> NSStackViewDistribution;
+    #[objc2::method(sel = "setEdgeInsets:")]
+    pub unsafe fn setEdgeInsets(&self, edge_insets: NSEdgeInsets);
 
-        #[method(setDistribution:)]
-        pub unsafe fn setDistribution(&self, distribution: NSStackViewDistribution);
+    #[objc2::method(sel = "distribution")]
+    pub unsafe fn distribution(&self) -> NSStackViewDistribution;
 
-        #[method(spacing)]
-        pub unsafe fn spacing(&self) -> CGFloat;
+    #[objc2::method(sel = "setDistribution:")]
+    pub unsafe fn setDistribution(&self, distribution: NSStackViewDistribution);
 
-        #[method(setSpacing:)]
-        pub unsafe fn setSpacing(&self, spacing: CGFloat);
+    #[objc2::method(sel = "spacing")]
+    pub unsafe fn spacing(&self) -> CGFloat;
 
-        #[method(setCustomSpacing:afterView:)]
-        pub unsafe fn setCustomSpacing_afterView(&self, spacing: CGFloat, view: &NSView);
+    #[objc2::method(sel = "setSpacing:")]
+    pub unsafe fn setSpacing(&self, spacing: CGFloat);
 
-        #[method(customSpacingAfterView:)]
-        pub unsafe fn customSpacingAfterView(&self, view: &NSView) -> CGFloat;
+    #[objc2::method(sel = "setCustomSpacing:afterView:")]
+    pub unsafe fn setCustomSpacing_afterView(&self, spacing: CGFloat, view: &NSView);
 
-        #[method(detachesHiddenViews)]
-        pub unsafe fn detachesHiddenViews(&self) -> bool;
+    #[objc2::method(sel = "customSpacingAfterView:")]
+    pub unsafe fn customSpacingAfterView(&self, view: &NSView) -> CGFloat;
 
-        #[method(setDetachesHiddenViews:)]
-        pub unsafe fn setDetachesHiddenViews(&self, detaches_hidden_views: bool);
+    #[objc2::method(sel = "detachesHiddenViews")]
+    pub unsafe fn detachesHiddenViews(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other arrangedSubviews)]
-        pub unsafe fn arrangedSubviews(&self) -> Id<NSArray<NSView>>;
+    #[objc2::method(sel = "setDetachesHiddenViews:")]
+    pub unsafe fn setDetachesHiddenViews(&self, detaches_hidden_views: bool);
 
-        #[method(addArrangedSubview:)]
-        pub unsafe fn addArrangedSubview(&self, view: &NSView);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "arrangedSubviews", managed = "Other")]
+    pub unsafe fn arrangedSubviews(&self) -> Id<NSArray<NSView>>;
 
-        #[method(insertArrangedSubview:atIndex:)]
-        pub unsafe fn insertArrangedSubview_atIndex(&self, view: &NSView, index: NSInteger);
+    #[objc2::method(sel = "addArrangedSubview:")]
+    pub unsafe fn addArrangedSubview(&self, view: &NSView);
 
-        #[method(removeArrangedSubview:)]
-        pub unsafe fn removeArrangedSubview(&self, view: &NSView);
+    #[objc2::method(sel = "insertArrangedSubview:atIndex:")]
+    pub unsafe fn insertArrangedSubview_atIndex(&self, view: &NSView, index: NSInteger);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other detachedViews)]
-        pub unsafe fn detachedViews(&self) -> Id<NSArray<NSView>>;
+    #[objc2::method(sel = "removeArrangedSubview:")]
+    pub unsafe fn removeArrangedSubview(&self, view: &NSView);
 
-        #[method(setVisibilityPriority:forView:)]
-        pub unsafe fn setVisibilityPriority_forView(
-            &self,
-            priority: NSStackViewVisibilityPriority,
-            view: &NSView,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "detachedViews", managed = "Other")]
+    pub unsafe fn detachedViews(&self) -> Id<NSArray<NSView>>;
 
-        #[method(visibilityPriorityForView:)]
-        pub unsafe fn visibilityPriorityForView(
-            &self,
-            view: &NSView,
-        ) -> NSStackViewVisibilityPriority;
+    #[objc2::method(sel = "setVisibilityPriority:forView:")]
+    pub unsafe fn setVisibilityPriority_forView(
+        &self,
+        priority: NSStackViewVisibilityPriority,
+        view: &NSView,
+    );
 
-        #[method(clippingResistancePriorityForOrientation:)]
-        pub unsafe fn clippingResistancePriorityForOrientation(
-            &self,
-            orientation: NSLayoutConstraintOrientation,
-        ) -> NSLayoutPriority;
+    #[objc2::method(sel = "visibilityPriorityForView:")]
+    pub unsafe fn visibilityPriorityForView(&self, view: &NSView) -> NSStackViewVisibilityPriority;
 
-        #[method(setClippingResistancePriority:forOrientation:)]
-        pub unsafe fn setClippingResistancePriority_forOrientation(
-            &self,
-            clipping_resistance_priority: NSLayoutPriority,
-            orientation: NSLayoutConstraintOrientation,
-        );
+    #[objc2::method(sel = "clippingResistancePriorityForOrientation:")]
+    pub unsafe fn clippingResistancePriorityForOrientation(
+        &self,
+        orientation: NSLayoutConstraintOrientation,
+    ) -> NSLayoutPriority;
 
-        #[method(huggingPriorityForOrientation:)]
-        pub unsafe fn huggingPriorityForOrientation(
-            &self,
-            orientation: NSLayoutConstraintOrientation,
-        ) -> NSLayoutPriority;
+    #[objc2::method(sel = "setClippingResistancePriority:forOrientation:")]
+    pub unsafe fn setClippingResistancePriority_forOrientation(
+        &self,
+        clipping_resistance_priority: NSLayoutPriority,
+        orientation: NSLayoutConstraintOrientation,
+    );
 
-        #[method(setHuggingPriority:forOrientation:)]
-        pub unsafe fn setHuggingPriority_forOrientation(
-            &self,
-            hugging_priority: NSLayoutPriority,
-            orientation: NSLayoutConstraintOrientation,
-        );
-    }
-);
+    #[objc2::method(sel = "huggingPriorityForOrientation:")]
+    pub unsafe fn huggingPriorityForOrientation(
+        &self,
+        orientation: NSLayoutConstraintOrientation,
+    ) -> NSLayoutPriority;
 
-extern_protocol!(
-    pub unsafe trait NSStackViewDelegate: NSObjectProtocol {
-        #[cfg(all(
-            feature = "AppKit_NSStackView",
-            feature = "AppKit_NSView",
-            feature = "Foundation_NSArray"
-        ))]
-        #[optional]
-        #[method(stackView:willDetachViews:)]
-        unsafe fn stackView_willDetachViews(
-            &self,
-            stack_view: &NSStackView,
-            views: &NSArray<NSView>,
-        );
+    #[objc2::method(sel = "setHuggingPriority:forOrientation:")]
+    pub unsafe fn setHuggingPriority_forOrientation(
+        &self,
+        hugging_priority: NSLayoutPriority,
+        orientation: NSLayoutConstraintOrientation,
+    );
+}
 
-        #[cfg(all(
-            feature = "AppKit_NSStackView",
-            feature = "AppKit_NSView",
-            feature = "Foundation_NSArray"
-        ))]
-        #[optional]
-        #[method(stackView:didReattachViews:)]
-        unsafe fn stackView_didReattachViews(
-            &self,
-            stack_view: &NSStackView,
-            views: &NSArray<NSView>,
-        );
-    }
+#[objc2::protocol]
+pub unsafe trait NSStackViewDelegate: NSObjectProtocol {
+    #[cfg(all(
+        feature = "AppKit_NSStackView",
+        feature = "AppKit_NSView",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(optional, sel = "stackView:willDetachViews:")]
+    unsafe fn stackView_willDetachViews(&self, stack_view: &NSStackView, views: &NSArray<NSView>);
 
-    unsafe impl ProtocolType for dyn NSStackViewDelegate {}
-);
+    #[cfg(all(
+        feature = "AppKit_NSStackView",
+        feature = "AppKit_NSView",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(optional, sel = "stackView:didReattachViews:")]
+    unsafe fn stackView_didReattachViews(&self, stack_view: &NSStackView, views: &NSArray<NSView>);
+}
 
-extern_methods!(
-    /// NSStackViewGravityAreas
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSStackView")]
-    unsafe impl NSStackView {
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(addView:inGravity:)]
-        pub unsafe fn addView_inGravity(&self, view: &NSView, gravity: NSStackViewGravity);
+    pub type NSStackView;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(insertView:atIndex:inGravity:)]
-        pub unsafe fn insertView_atIndex_inGravity(
-            &self,
-            view: &NSView,
-            index: NSUInteger,
-            gravity: NSStackViewGravity,
-        );
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "addView:inGravity:")]
+    pub unsafe fn addView_inGravity(&self, view: &NSView, gravity: NSStackViewGravity);
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method(removeView:)]
-        pub unsafe fn removeView(&self, view: &NSView);
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "insertView:atIndex:inGravity:")]
+    pub unsafe fn insertView_atIndex_inGravity(
+        &self,
+        view: &NSView,
+        index: NSUInteger,
+        gravity: NSStackViewGravity,
+    );
 
-        #[cfg(all(feature = "AppKit_NSView", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other viewsInGravity:)]
-        pub unsafe fn viewsInGravity(&self, gravity: NSStackViewGravity) -> Id<NSArray<NSView>>;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "removeView:")]
+    pub unsafe fn removeView(&self, view: &NSView);
 
-        #[cfg(all(feature = "AppKit_NSView", feature = "Foundation_NSArray"))]
-        #[method(setViews:inGravity:)]
-        pub unsafe fn setViews_inGravity(
-            &self,
-            views: &NSArray<NSView>,
-            gravity: NSStackViewGravity,
-        );
+    #[cfg(all(feature = "AppKit_NSView", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "viewsInGravity:", managed = "Other")]
+    pub unsafe fn viewsInGravity(&self, gravity: NSStackViewGravity) -> Id<NSArray<NSView>>;
 
-        #[cfg(all(feature = "AppKit_NSView", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other views)]
-        pub unsafe fn views(&self) -> Id<NSArray<NSView>>;
-    }
-);
+    #[cfg(all(feature = "AppKit_NSView", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setViews:inGravity:")]
+    pub unsafe fn setViews_inGravity(&self, views: &NSArray<NSView>, gravity: NSStackViewGravity);
 
-extern_methods!(
-    /// NSStackViewDeprecated
+    #[cfg(all(feature = "AppKit_NSView", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "views", managed = "Other")]
+    pub unsafe fn views(&self) -> Id<NSArray<NSView>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSStackView")]
-    unsafe impl NSStackView {
-        #[deprecated = "Set -distribution to NSStackViewDistributionEqualSpacing instead."]
-        #[method(hasEqualSpacing)]
-        pub unsafe fn hasEqualSpacing(&self) -> bool;
+    pub type NSStackView;
 
-        #[deprecated = "Set -distribution to NSStackViewDistributionEqualSpacing instead."]
-        #[method(setHasEqualSpacing:)]
-        pub unsafe fn setHasEqualSpacing(&self, has_equal_spacing: bool);
-    }
-);
+    #[deprecated = "Set -distribution to NSStackViewDistributionEqualSpacing instead."]
+    #[objc2::method(sel = "hasEqualSpacing")]
+    pub unsafe fn hasEqualSpacing(&self) -> bool;
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[deprecated = "Set -distribution to NSStackViewDistributionEqualSpacing instead."]
+    #[objc2::method(sel = "setHasEqualSpacing:")]
+    pub unsafe fn setHasEqualSpacing(&self, has_equal_spacing: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "AppKit_NSStackView")]
-    unsafe impl NSStackView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSStackView")]
+    pub type NSStackView;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

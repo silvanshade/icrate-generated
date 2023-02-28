@@ -5,28 +5,27 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum CKRecordZoneCapabilities {
-        CKRecordZoneCapabilityFetchChanges = 1 << 0,
-        CKRecordZoneCapabilityAtomic = 1 << 1,
-        CKRecordZoneCapabilitySharing = 1 << 2,
-        CKRecordZoneCapabilityZoneWideSharing = 1 << 3,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum CKRecordZoneCapabilities {
+    CKRecordZoneCapabilityFetchChanges = 1 << 0,
+    CKRecordZoneCapabilityAtomic = 1 << 1,
+    CKRecordZoneCapabilitySharing = 1 << 2,
+    CKRecordZoneCapabilityZoneWideSharing = 1 << 3,
+}
 
 extern_static!(CKRecordZoneDefaultName: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKRecordZone")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKRecordZone")]
-    pub struct CKRecordZone;
-
-    #[cfg(feature = "CloudKit_CKRecordZone")]
-    unsafe impl ClassType for CKRecordZone {
-        type Super = NSObject;
-    }
-);
+    pub type CKRecordZone;
+}
 
 #[cfg(feature = "CloudKit_CKRecordZone")]
 unsafe impl NSCoding for CKRecordZone {}
@@ -37,41 +36,42 @@ unsafe impl NSObjectProtocol for CKRecordZone {}
 #[cfg(feature = "CloudKit_CKRecordZone")]
 unsafe impl NSSecureCoding for CKRecordZone {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKRecordZone")]
-    unsafe impl CKRecordZone {
-        #[method_id(@__retain_semantics Other defaultRecordZone)]
-        pub unsafe fn defaultRecordZone() -> Id<CKRecordZone>;
+    pub type CKRecordZone;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "defaultRecordZone", managed = "Other")]
+    pub unsafe fn defaultRecordZone() -> Id<CKRecordZone>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithZoneName:)]
-        pub unsafe fn initWithZoneName(
-            this: Option<Allocated<Self>>,
-            zone_name: &NSString,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKRecordZoneID")]
-        #[method_id(@__retain_semantics Init initWithZoneID:)]
-        pub unsafe fn initWithZoneID(
-            this: Option<Allocated<Self>>,
-            zone_id: &CKRecordZoneID,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithZoneName:", managed = "Init")]
+    pub unsafe fn initWithZoneName(this: Option<Allocated<Self>>, zone_name: &NSString)
+        -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKRecordZoneID")]
-        #[method_id(@__retain_semantics Other zoneID)]
-        pub unsafe fn zoneID(&self) -> Id<CKRecordZoneID>;
+    #[cfg(feature = "CloudKit_CKRecordZoneID")]
+    #[objc2::method(sel = "initWithZoneID:", managed = "Init")]
+    pub unsafe fn initWithZoneID(
+        this: Option<Allocated<Self>>,
+        zone_id: &CKRecordZoneID,
+    ) -> Id<Self>;
 
-        #[method(capabilities)]
-        pub unsafe fn capabilities(&self) -> CKRecordZoneCapabilities;
+    #[cfg(feature = "CloudKit_CKRecordZoneID")]
+    #[objc2::method(sel = "zoneID", managed = "Other")]
+    pub unsafe fn zoneID(&self) -> Id<CKRecordZoneID>;
 
-        #[cfg(feature = "CloudKit_CKReference")]
-        #[method_id(@__retain_semantics Other share)]
-        pub unsafe fn share(&self) -> Option<Id<CKReference>>;
-    }
-);
+    #[objc2::method(sel = "capabilities")]
+    pub unsafe fn capabilities(&self) -> CKRecordZoneCapabilities;
+
+    #[cfg(feature = "CloudKit_CKReference")]
+    #[objc2::method(sel = "share", managed = "Other")]
+    pub unsafe fn share(&self) -> Option<Id<CKReference>>;
+}

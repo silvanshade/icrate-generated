@@ -5,45 +5,48 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameKit_GKLeaderboardEntry")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKLeaderboardEntry")]
-    pub struct GKLeaderboardEntry;
-
-    #[cfg(feature = "GameKit_GKLeaderboardEntry")]
-    unsafe impl ClassType for GKLeaderboardEntry {
-        type Super = NSObject;
-    }
-);
+    pub type GKLeaderboardEntry;
+}
 
 #[cfg(feature = "GameKit_GKLeaderboardEntry")]
 unsafe impl NSObjectProtocol for GKLeaderboardEntry {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKLeaderboardEntry")]
-    unsafe impl GKLeaderboardEntry {
-        #[cfg(feature = "GameKit_GKPlayer")]
-        #[method_id(@__retain_semantics Other player)]
-        pub unsafe fn player(&self) -> Id<GKPlayer>;
+    pub type GKLeaderboardEntry;
 
-        #[method(rank)]
-        pub unsafe fn rank(&self) -> NSInteger;
+    #[cfg(feature = "GameKit_GKPlayer")]
+    #[objc2::method(sel = "player", managed = "Other")]
+    pub unsafe fn player(&self) -> Id<GKPlayer>;
 
-        #[method(score)]
-        pub unsafe fn score(&self) -> NSInteger;
+    #[objc2::method(sel = "rank")]
+    pub unsafe fn rank(&self) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other formattedScore)]
-        pub unsafe fn formattedScore(&self) -> Id<NSString>;
+    #[objc2::method(sel = "score")]
+    pub unsafe fn score(&self) -> NSInteger;
 
-        #[method(context)]
-        pub unsafe fn context(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "formattedScore", managed = "Other")]
+    pub unsafe fn formattedScore(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other date)]
-        pub unsafe fn date(&self) -> Id<NSDate>;
+    #[objc2::method(sel = "context")]
+    pub unsafe fn context(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "date", managed = "Other")]
+    pub unsafe fn date(&self) -> Id<NSDate>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

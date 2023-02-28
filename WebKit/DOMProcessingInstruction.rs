@@ -5,18 +5,21 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMProcessingInstruction")]
+#[objc2::interface(
+    unsafe super = DOMCharacterData,
+    unsafe inherits = [
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMProcessingInstruction;
-
     #[cfg(feature = "WebKit_DOMProcessingInstruction")]
-    unsafe impl ClassType for DOMProcessingInstruction {
-        #[inherits(DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMCharacterData;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMProcessingInstruction;
+}
 
 #[cfg(feature = "WebKit_DOMProcessingInstruction")]
 unsafe impl DOMEventTarget for DOMProcessingInstruction {}
@@ -24,15 +27,19 @@ unsafe impl DOMEventTarget for DOMProcessingInstruction {}
 #[cfg(feature = "WebKit_DOMProcessingInstruction")]
 unsafe impl NSObjectProtocol for DOMProcessingInstruction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMProcessingInstruction")]
-    unsafe impl DOMProcessingInstruction {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other target)]
-        pub unsafe fn target(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMProcessingInstruction;
 
-        #[cfg(feature = "WebKit_DOMStyleSheet")]
-        #[method_id(@__retain_semantics Other sheet)]
-        pub unsafe fn sheet(&self) -> Option<Id<DOMStyleSheet>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "target", managed = "Other")]
+    pub unsafe fn target(&self) -> Id<NSString>;
+
+    #[cfg(feature = "WebKit_DOMStyleSheet")]
+    #[objc2::method(sel = "sheet", managed = "Other")]
+    pub unsafe fn sheet(&self) -> Option<Id<DOMStyleSheet>>;
+}

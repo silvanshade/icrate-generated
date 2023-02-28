@@ -4,24 +4,23 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSFetchIndexElementType {
-        NSFetchIndexElementTypeBinary = 0,
-        NSFetchIndexElementTypeRTree = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSFetchIndexElementType {
+    NSFetchIndexElementTypeBinary = 0,
+    NSFetchIndexElementTypeRTree = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSFetchIndexElementDescription")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSFetchIndexElementDescription")]
-    pub struct NSFetchIndexElementDescription;
-
-    #[cfg(feature = "CoreData_NSFetchIndexElementDescription")]
-    unsafe impl ClassType for NSFetchIndexElementDescription {
-        type Super = NSObject;
-    }
-);
+    pub type NSFetchIndexElementDescription;
+}
 
 #[cfg(feature = "CoreData_NSFetchIndexElementDescription")]
 unsafe impl NSCoding for NSFetchIndexElementDescription {}
@@ -29,39 +28,42 @@ unsafe impl NSCoding for NSFetchIndexElementDescription {}
 #[cfg(feature = "CoreData_NSFetchIndexElementDescription")]
 unsafe impl NSObjectProtocol for NSFetchIndexElementDescription {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSFetchIndexElementDescription")]
-    unsafe impl NSFetchIndexElementDescription {
-        #[cfg(feature = "CoreData_NSPropertyDescription")]
-        #[method_id(@__retain_semantics Init initWithProperty:collationType:)]
-        pub unsafe fn initWithProperty_collationType(
-            this: Option<Allocated<Self>>,
-            property: &NSPropertyDescription,
-            collation_type: NSFetchIndexElementType,
-        ) -> Id<Self>;
+    pub type NSFetchIndexElementDescription;
 
-        #[cfg(feature = "CoreData_NSPropertyDescription")]
-        #[method_id(@__retain_semantics Other property)]
-        pub unsafe fn property(&self) -> Option<Id<NSPropertyDescription>>;
+    #[cfg(feature = "CoreData_NSPropertyDescription")]
+    #[objc2::method(sel = "initWithProperty:collationType:", managed = "Init")]
+    pub unsafe fn initWithProperty_collationType(
+        this: Option<Allocated<Self>>,
+        property: &NSPropertyDescription,
+        collation_type: NSFetchIndexElementType,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other propertyName)]
-        pub unsafe fn propertyName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "CoreData_NSPropertyDescription")]
+    #[objc2::method(sel = "property", managed = "Other")]
+    pub unsafe fn property(&self) -> Option<Id<NSPropertyDescription>>;
 
-        #[method(collationType)]
-        pub unsafe fn collationType(&self) -> NSFetchIndexElementType;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "propertyName", managed = "Other")]
+    pub unsafe fn propertyName(&self) -> Option<Id<NSString>>;
 
-        #[method(setCollationType:)]
-        pub unsafe fn setCollationType(&self, collation_type: NSFetchIndexElementType);
+    #[objc2::method(sel = "collationType")]
+    pub unsafe fn collationType(&self) -> NSFetchIndexElementType;
 
-        #[method(isAscending)]
-        pub unsafe fn isAscending(&self) -> bool;
+    #[objc2::method(sel = "setCollationType:")]
+    pub unsafe fn setCollationType(&self, collation_type: NSFetchIndexElementType);
 
-        #[method(setAscending:)]
-        pub unsafe fn setAscending(&self, ascending: bool);
+    #[objc2::method(sel = "isAscending")]
+    pub unsafe fn isAscending(&self) -> bool;
 
-        #[cfg(feature = "CoreData_NSFetchIndexDescription")]
-        #[method_id(@__retain_semantics Other indexDescription)]
-        pub unsafe fn indexDescription(&self) -> Option<Id<NSFetchIndexDescription>>;
-    }
-);
+    #[objc2::method(sel = "setAscending:")]
+    pub unsafe fn setAscending(&self, ascending: bool);
+
+    #[cfg(feature = "CoreData_NSFetchIndexDescription")]
+    #[objc2::method(sel = "indexDescription", managed = "Other")]
+    pub unsafe fn indexDescription(&self) -> Option<Id<NSFetchIndexDescription>>;
+}

@@ -13,121 +13,125 @@ extern_static!(NSDraggingImageComponentIconKey: &'static NSDraggingImageComponen
 
 extern_static!(NSDraggingImageComponentLabelKey: &'static NSDraggingImageComponentKey);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSDraggingImageComponent")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSDraggingImageComponent")]
-    pub struct NSDraggingImageComponent;
-
-    #[cfg(feature = "AppKit_NSDraggingImageComponent")]
-    unsafe impl ClassType for NSDraggingImageComponent {
-        type Super = NSObject;
-    }
-);
+    pub type NSDraggingImageComponent;
+}
 
 #[cfg(feature = "AppKit_NSDraggingImageComponent")]
 unsafe impl NSObjectProtocol for NSDraggingImageComponent {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSDraggingImageComponent")]
-    unsafe impl NSDraggingImageComponent {
-        #[method_id(@__retain_semantics Other draggingImageComponentWithKey:)]
-        pub unsafe fn draggingImageComponentWithKey(
-            key: &NSDraggingImageComponentKey,
-        ) -> Id<NSDraggingImageComponent>;
+    pub type NSDraggingImageComponent;
 
-        #[method_id(@__retain_semantics Init initWithKey:)]
-        pub unsafe fn initWithKey(
-            this: Option<Allocated<Self>>,
-            key: &NSDraggingImageComponentKey,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "draggingImageComponentWithKey:", managed = "Other")]
+    pub unsafe fn draggingImageComponentWithKey(
+        key: &NSDraggingImageComponentKey,
+    ) -> Id<NSDraggingImageComponent>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "initWithKey:", managed = "Init")]
+    pub unsafe fn initWithKey(
+        this: Option<Allocated<Self>>,
+        key: &NSDraggingImageComponentKey,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other key)]
-        pub unsafe fn key(&self) -> Id<NSDraggingImageComponentKey>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(setKey:)]
-        pub unsafe fn setKey(&self, key: &NSDraggingImageComponentKey);
+    #[objc2::method(sel = "key", managed = "Other")]
+    pub unsafe fn key(&self) -> Id<NSDraggingImageComponentKey>;
 
-        #[method_id(@__retain_semantics Other contents)]
-        pub unsafe fn contents(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setKey:")]
+    pub unsafe fn setKey(&self, key: &NSDraggingImageComponentKey);
 
-        #[method(setContents:)]
-        pub unsafe fn setContents(&self, contents: Option<&Object>);
+    #[objc2::method(sel = "contents", managed = "Other")]
+    pub unsafe fn contents(&self) -> Option<Id<Object>>;
 
-        #[method(frame)]
-        pub unsafe fn frame(&self) -> NSRect;
+    #[objc2::method(sel = "setContents:")]
+    pub unsafe fn setContents(&self, contents: Option<&Object>);
 
-        #[method(setFrame:)]
-        pub unsafe fn setFrame(&self, frame: NSRect);
-    }
-);
+    #[objc2::method(sel = "frame")]
+    pub unsafe fn frame(&self) -> NSRect;
 
-extern_class!(
+    #[objc2::method(sel = "setFrame:")]
+    pub unsafe fn setFrame(&self, frame: NSRect);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSDraggingItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSDraggingItem")]
-    pub struct NSDraggingItem;
-
-    #[cfg(feature = "AppKit_NSDraggingItem")]
-    unsafe impl ClassType for NSDraggingItem {
-        type Super = NSObject;
-    }
-);
+    pub type NSDraggingItem;
+}
 
 #[cfg(feature = "AppKit_NSDraggingItem")]
 unsafe impl NSObjectProtocol for NSDraggingItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSDraggingItem")]
-    unsafe impl NSDraggingItem {
-        #[method_id(@__retain_semantics Init initWithPasteboardWriter:)]
-        pub unsafe fn initWithPasteboardWriter(
-            this: Option<Allocated<Self>>,
-            pasteboard_writer: &ProtocolObject<dyn NSPasteboardWriting>,
-        ) -> Id<Self>;
+    pub type NSDraggingItem;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "initWithPasteboardWriter:", managed = "Init")]
+    pub unsafe fn initWithPasteboardWriter(
+        this: Option<Allocated<Self>>,
+        pasteboard_writer: &ProtocolObject<dyn NSPasteboardWriting>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other item)]
-        pub unsafe fn item(&self) -> Id<Object>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(draggingFrame)]
-        pub unsafe fn draggingFrame(&self) -> NSRect;
+    #[objc2::method(sel = "item", managed = "Other")]
+    pub unsafe fn item(&self) -> Id<Object>;
 
-        #[method(setDraggingFrame:)]
-        pub unsafe fn setDraggingFrame(&self, dragging_frame: NSRect);
+    #[objc2::method(sel = "draggingFrame")]
+    pub unsafe fn draggingFrame(&self) -> NSRect;
 
-        #[cfg(all(
-            feature = "AppKit_NSDraggingImageComponent",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method(imageComponentsProvider)]
-        pub unsafe fn imageComponentsProvider(
-            &self,
-        ) -> *mut Block<(), NonNull<NSArray<NSDraggingImageComponent>>>;
+    #[objc2::method(sel = "setDraggingFrame:")]
+    pub unsafe fn setDraggingFrame(&self, dragging_frame: NSRect);
 
-        #[cfg(all(
-            feature = "AppKit_NSDraggingImageComponent",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method(setImageComponentsProvider:)]
-        pub unsafe fn setImageComponentsProvider(
-            &self,
-            image_components_provider: Option<
-                &Block<(), NonNull<NSArray<NSDraggingImageComponent>>>,
-            >,
-        );
+    #[cfg(all(
+        feature = "AppKit_NSDraggingImageComponent",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "imageComponentsProvider")]
+    pub unsafe fn imageComponentsProvider(
+        &self,
+    ) -> *mut Block<(), NonNull<NSArray<NSDraggingImageComponent>>>;
 
-        #[method(setDraggingFrame:contents:)]
-        pub unsafe fn setDraggingFrame_contents(&self, frame: NSRect, contents: Option<&Object>);
+    #[cfg(all(
+        feature = "AppKit_NSDraggingImageComponent",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "setImageComponentsProvider:")]
+    pub unsafe fn setImageComponentsProvider(
+        &self,
+        image_components_provider: Option<&Block<(), NonNull<NSArray<NSDraggingImageComponent>>>>,
+    );
 
-        #[cfg(all(
-            feature = "AppKit_NSDraggingImageComponent",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other imageComponents)]
-        pub unsafe fn imageComponents(&self) -> Option<Id<NSArray<NSDraggingImageComponent>>>;
-    }
-);
+    #[objc2::method(sel = "setDraggingFrame:contents:")]
+    pub unsafe fn setDraggingFrame_contents(&self, frame: NSRect, contents: Option<&Object>);
+
+    #[cfg(all(
+        feature = "AppKit_NSDraggingImageComponent",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "imageComponents", managed = "Other")]
+    pub unsafe fn imageComponents(&self) -> Option<Id<NSArray<NSDraggingImageComponent>>>;
+}

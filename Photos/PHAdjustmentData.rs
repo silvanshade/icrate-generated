@@ -6,42 +6,45 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHAdjustmentData")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHAdjustmentData")]
-    pub struct PHAdjustmentData;
-
-    #[cfg(feature = "PhotoKit_PHAdjustmentData")]
-    unsafe impl ClassType for PHAdjustmentData {
-        type Super = NSObject;
-    }
-);
+    pub type PHAdjustmentData;
+}
 
 #[cfg(feature = "PhotoKit_PHAdjustmentData")]
 unsafe impl NSObjectProtocol for PHAdjustmentData {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHAdjustmentData")]
-    unsafe impl PHAdjustmentData {
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithFormatIdentifier:formatVersion:data:)]
-        pub unsafe fn initWithFormatIdentifier_formatVersion_data(
-            this: Option<Allocated<Self>>,
-            format_identifier: &NSString,
-            format_version: &NSString,
-            data: &NSData,
-        ) -> Id<Self>;
+    pub type PHAdjustmentData;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other formatIdentifier)]
-        pub unsafe fn formatIdentifier(&self) -> Id<NSString>;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithFormatIdentifier:formatVersion:data:", managed = "Init")]
+    pub unsafe fn initWithFormatIdentifier_formatVersion_data(
+        this: Option<Allocated<Self>>,
+        format_identifier: &NSString,
+        format_version: &NSString,
+        data: &NSData,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other formatVersion)]
-        pub unsafe fn formatVersion(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "formatIdentifier", managed = "Other")]
+    pub unsafe fn formatIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other data)]
-        pub unsafe fn data(&self) -> Id<NSData>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "formatVersion", managed = "Other")]
+    pub unsafe fn formatVersion(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "data", managed = "Other")]
+    pub unsafe fn data(&self) -> Id<NSData>;
+}

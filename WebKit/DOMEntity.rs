@@ -5,18 +5,20 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMEntity")]
+#[objc2::interface(
+    unsafe super = DOMNode,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMEntity;
-
     #[cfg(feature = "WebKit_DOMEntity")]
-    unsafe impl ClassType for DOMEntity {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMNode;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMEntity;
+}
 
 #[cfg(feature = "WebKit_DOMEntity")]
 unsafe impl DOMEventTarget for DOMEntity {}
@@ -24,19 +26,23 @@ unsafe impl DOMEventTarget for DOMEntity {}
 #[cfg(feature = "WebKit_DOMEntity")]
 unsafe impl NSObjectProtocol for DOMEntity {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMEntity")]
-    unsafe impl DOMEntity {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other publicId)]
-        pub unsafe fn publicId(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMEntity;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other systemId)]
-        pub unsafe fn systemId(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "publicId", managed = "Other")]
+    pub unsafe fn publicId(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other notationName)]
-        pub unsafe fn notationName(&self) -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "systemId", managed = "Other")]
+    pub unsafe fn systemId(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "notationName", managed = "Other")]
+    pub unsafe fn notationName(&self) -> Id<NSString>;
+}

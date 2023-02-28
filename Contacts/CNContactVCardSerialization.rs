@@ -4,46 +4,49 @@ use crate::common::*;
 use crate::Contacts::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Contacts_CNContactVCardSerialization")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Contacts_CNContactVCardSerialization")]
-    pub struct CNContactVCardSerialization;
-
-    #[cfg(feature = "Contacts_CNContactVCardSerialization")]
-    unsafe impl ClassType for CNContactVCardSerialization {
-        type Super = NSObject;
-    }
-);
+    pub type CNContactVCardSerialization;
+}
 
 #[cfg(feature = "Contacts_CNContactVCardSerialization")]
 unsafe impl NSObjectProtocol for CNContactVCardSerialization {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Contacts_CNContactVCardSerialization")]
-    unsafe impl CNContactVCardSerialization {
-        #[method_id(@__retain_semantics Other descriptorForRequiredKeys)]
-        pub unsafe fn descriptorForRequiredKeys() -> Id<ProtocolObject<dyn CNKeyDescriptor>>;
+    pub type CNContactVCardSerialization;
 
-        #[cfg(all(
-            feature = "Contacts_CNContact",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError"
-        ))]
-        #[method_id(@__retain_semantics Other dataWithContacts:error:_)]
-        pub unsafe fn dataWithContacts_error(
-            contacts: &NSArray<CNContact>,
-        ) -> Result<Id<NSData>, Id<NSError>>;
+    #[objc2::method(sel = "descriptorForRequiredKeys", managed = "Other")]
+    pub unsafe fn descriptorForRequiredKeys() -> Id<ProtocolObject<dyn CNKeyDescriptor>>;
 
-        #[cfg(all(
-            feature = "Contacts_CNContact",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError"
-        ))]
-        #[method_id(@__retain_semantics Other contactsWithData:error:_)]
-        pub unsafe fn contactsWithData_error(
-            data: &NSData,
-        ) -> Result<Id<NSArray<CNContact>>, Id<NSError>>;
-    }
-);
+    #[cfg(all(
+        feature = "Contacts_CNContact",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "dataWithContacts:error:", managed = "Other", throws)]
+    pub unsafe fn dataWithContacts_error(
+        contacts: &NSArray<CNContact>,
+    ) -> Result<Id<NSData>, Id<NSError>>;
+
+    #[cfg(all(
+        feature = "Contacts_CNContact",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "contactsWithData:error:", managed = "Other", throws)]
+    pub unsafe fn contactsWithData_error(
+        data: &NSData,
+    ) -> Result<Id<NSArray<CNContact>>, Id<NSError>>;
+}

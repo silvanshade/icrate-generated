@@ -4,38 +4,37 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSAttributeType {
-        NSUndefinedAttributeType = 0,
-        NSInteger16AttributeType = 100,
-        NSInteger32AttributeType = 200,
-        NSInteger64AttributeType = 300,
-        NSDecimalAttributeType = 400,
-        NSDoubleAttributeType = 500,
-        NSFloatAttributeType = 600,
-        NSStringAttributeType = 700,
-        NSBooleanAttributeType = 800,
-        NSDateAttributeType = 900,
-        NSBinaryDataAttributeType = 1000,
-        NSUUIDAttributeType = 1100,
-        NSURIAttributeType = 1200,
-        NSTransformableAttributeType = 1800,
-        NSObjectIDAttributeType = 2000,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSAttributeType {
+    NSUndefinedAttributeType = 0,
+    NSInteger16AttributeType = 100,
+    NSInteger32AttributeType = 200,
+    NSInteger64AttributeType = 300,
+    NSDecimalAttributeType = 400,
+    NSDoubleAttributeType = 500,
+    NSFloatAttributeType = 600,
+    NSStringAttributeType = 700,
+    NSBooleanAttributeType = 800,
+    NSDateAttributeType = 900,
+    NSBinaryDataAttributeType = 1000,
+    NSUUIDAttributeType = 1100,
+    NSURIAttributeType = 1200,
+    NSTransformableAttributeType = 1800,
+    NSObjectIDAttributeType = 2000,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSPropertyDescription,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSAttributeDescription")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSAttributeDescription")]
-    pub struct NSAttributeDescription;
-
-    #[cfg(feature = "CoreData_NSAttributeDescription")]
-    unsafe impl ClassType for NSAttributeDescription {
-        #[inherits(NSObject)]
-        type Super = NSPropertyDescription;
-    }
-);
+    pub type NSAttributeDescription;
+}
 
 #[cfg(feature = "CoreData_NSAttributeDescription")]
 unsafe impl NSCoding for NSAttributeDescription {}
@@ -43,66 +42,66 @@ unsafe impl NSCoding for NSAttributeDescription {}
 #[cfg(feature = "CoreData_NSAttributeDescription")]
 unsafe impl NSObjectProtocol for NSAttributeDescription {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSAttributeDescription")]
-    unsafe impl NSAttributeDescription {
-        #[method(attributeType)]
-        pub unsafe fn attributeType(&self) -> NSAttributeType;
+    pub type NSAttributeDescription;
 
-        #[method(setAttributeType:)]
-        pub unsafe fn setAttributeType(&self, attribute_type: NSAttributeType);
+    #[objc2::method(sel = "attributeType")]
+    pub unsafe fn attributeType(&self) -> NSAttributeType;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other attributeValueClassName)]
-        pub unsafe fn attributeValueClassName(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setAttributeType:")]
+    pub unsafe fn setAttributeType(&self, attribute_type: NSAttributeType);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAttributeValueClassName:)]
-        pub unsafe fn setAttributeValueClassName(
-            &self,
-            attribute_value_class_name: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "attributeValueClassName", managed = "Other")]
+    pub unsafe fn attributeValueClassName(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other defaultValue)]
-        pub unsafe fn defaultValue(&self) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAttributeValueClassName:")]
+    pub unsafe fn setAttributeValueClassName(&self, attribute_value_class_name: Option<&NSString>);
 
-        #[method(setDefaultValue:)]
-        pub unsafe fn setDefaultValue(&self, default_value: Option<&Object>);
+    #[objc2::method(sel = "defaultValue", managed = "Other")]
+    pub unsafe fn defaultValue(&self) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other versionHash)]
-        pub unsafe fn versionHash(&self) -> Id<NSData>;
+    #[objc2::method(sel = "setDefaultValue:")]
+    pub unsafe fn setDefaultValue(&self, default_value: Option<&Object>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other valueTransformerName)]
-        pub unsafe fn valueTransformerName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "versionHash", managed = "Other")]
+    pub unsafe fn versionHash(&self) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setValueTransformerName:)]
-        pub unsafe fn setValueTransformerName(&self, value_transformer_name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "valueTransformerName", managed = "Other")]
+    pub unsafe fn valueTransformerName(&self) -> Option<Id<NSString>>;
 
-        #[method(allowsExternalBinaryDataStorage)]
-        pub unsafe fn allowsExternalBinaryDataStorage(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setValueTransformerName:")]
+    pub unsafe fn setValueTransformerName(&self, value_transformer_name: Option<&NSString>);
 
-        #[method(setAllowsExternalBinaryDataStorage:)]
-        pub unsafe fn setAllowsExternalBinaryDataStorage(
-            &self,
-            allows_external_binary_data_storage: bool,
-        );
+    #[objc2::method(sel = "allowsExternalBinaryDataStorage")]
+    pub unsafe fn allowsExternalBinaryDataStorage(&self) -> bool;
 
-        #[method(preservesValueInHistoryOnDeletion)]
-        pub unsafe fn preservesValueInHistoryOnDeletion(&self) -> bool;
+    #[objc2::method(sel = "setAllowsExternalBinaryDataStorage:")]
+    pub unsafe fn setAllowsExternalBinaryDataStorage(
+        &self,
+        allows_external_binary_data_storage: bool,
+    );
 
-        #[method(setPreservesValueInHistoryOnDeletion:)]
-        pub unsafe fn setPreservesValueInHistoryOnDeletion(
-            &self,
-            preserves_value_in_history_on_deletion: bool,
-        );
+    #[objc2::method(sel = "preservesValueInHistoryOnDeletion")]
+    pub unsafe fn preservesValueInHistoryOnDeletion(&self) -> bool;
 
-        #[method(allowsCloudEncryption)]
-        pub unsafe fn allowsCloudEncryption(&self) -> bool;
+    #[objc2::method(sel = "setPreservesValueInHistoryOnDeletion:")]
+    pub unsafe fn setPreservesValueInHistoryOnDeletion(
+        &self,
+        preserves_value_in_history_on_deletion: bool,
+    );
 
-        #[method(setAllowsCloudEncryption:)]
-        pub unsafe fn setAllowsCloudEncryption(&self, allows_cloud_encryption: bool);
-    }
-);
+    #[objc2::method(sel = "allowsCloudEncryption")]
+    pub unsafe fn allowsCloudEncryption(&self) -> bool;
+
+    #[objc2::method(sel = "setAllowsCloudEncryption:")]
+    pub unsafe fn setAllowsCloudEncryption(&self, allows_cloud_encryption: bool);
+}

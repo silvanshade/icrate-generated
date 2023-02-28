@@ -18,148 +18,137 @@ extern_static!(
         &'static ASAuthorizationProviderAuthorizationOperation
 );
 
-extern_protocol!(
-    pub unsafe trait ASAuthorizationProviderExtensionAuthorizationRequestHandler:
-        NSObjectProtocol
-    {
-        #[cfg(
-            feature = "AuthenticationServices_ASAuthorizationProviderExtensionAuthorizationRequest"
-        )]
-        #[method(beginAuthorizationWithRequest:)]
-        unsafe fn beginAuthorizationWithRequest(
-            &self,
-            request: &ASAuthorizationProviderExtensionAuthorizationRequest,
-        );
+#[objc2::protocol]
+pub unsafe trait ASAuthorizationProviderExtensionAuthorizationRequestHandler:
+    NSObjectProtocol
+{
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionAuthorizationRequest")]
+    #[objc2::method(sel = "beginAuthorizationWithRequest:")]
+    unsafe fn beginAuthorizationWithRequest(
+        &self,
+        request: &ASAuthorizationProviderExtensionAuthorizationRequest,
+    );
 
-        #[cfg(
-            feature = "AuthenticationServices_ASAuthorizationProviderExtensionAuthorizationRequest"
-        )]
-        #[optional]
-        #[method(cancelAuthorizationWithRequest:)]
-        unsafe fn cancelAuthorizationWithRequest(
-            &self,
-            request: &ASAuthorizationProviderExtensionAuthorizationRequest,
-        );
-    }
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionAuthorizationRequest")]
+    #[objc2::method(optional, sel = "cancelAuthorizationWithRequest:")]
+    unsafe fn cancelAuthorizationWithRequest(
+        &self,
+        request: &ASAuthorizationProviderExtensionAuthorizationRequest,
+    );
+}
 
-    unsafe impl ProtocolType for dyn ASAuthorizationProviderExtensionAuthorizationRequestHandler {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionAuthorizationRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionAuthorizationRequest")]
-    pub struct ASAuthorizationProviderExtensionAuthorizationRequest;
-
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionAuthorizationRequest")]
-    unsafe impl ClassType for ASAuthorizationProviderExtensionAuthorizationRequest {
-        type Super = NSObject;
-    }
-);
+    pub type ASAuthorizationProviderExtensionAuthorizationRequest;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionAuthorizationRequest")]
 unsafe impl NSObjectProtocol for ASAuthorizationProviderExtensionAuthorizationRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionAuthorizationRequest")]
-    unsafe impl ASAuthorizationProviderExtensionAuthorizationRequest {
-        #[method(doNotHandle)]
-        pub unsafe fn doNotHandle(&self);
+    pub type ASAuthorizationProviderExtensionAuthorizationRequest;
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
+    #[objc2::method(sel = "doNotHandle")]
+    pub unsafe fn doNotHandle(&self);
 
-        #[method(complete)]
-        pub unsafe fn complete(&self);
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(completeWithHTTPAuthorizationHeaders:)]
-        pub unsafe fn completeWithHTTPAuthorizationHeaders(
-            &self,
-            http_authorization_headers: &NSDictionary<NSString, NSString>,
-        );
+    #[objc2::method(sel = "complete")]
+    pub unsafe fn complete(&self);
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSHTTPURLResponse"
-        ))]
-        #[method(completeWithHTTPResponse:httpBody:)]
-        pub unsafe fn completeWithHTTPResponse_httpBody(
-            &self,
-            http_response: &NSHTTPURLResponse,
-            http_body: Option<&NSData>,
-        );
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "completeWithHTTPAuthorizationHeaders:")]
+    pub unsafe fn completeWithHTTPAuthorizationHeaders(
+        &self,
+        http_authorization_headers: &NSDictionary<NSString, NSString>,
+    );
 
-        #[cfg(
-            feature = "AuthenticationServices_ASAuthorizationProviderExtensionAuthorizationResult"
-        )]
-        #[method(completeWithAuthorizationResult:)]
-        pub unsafe fn completeWithAuthorizationResult(
-            &self,
-            authorization_result: &ASAuthorizationProviderExtensionAuthorizationResult,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSHTTPURLResponse"
+    ))]
+    #[objc2::method(sel = "completeWithHTTPResponse:httpBody:")]
+    pub unsafe fn completeWithHTTPResponse_httpBody(
+        &self,
+        http_response: &NSHTTPURLResponse,
+        http_body: Option<&NSData>,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(completeWithError:)]
-        pub unsafe fn completeWithError(&self, error: &NSError);
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionAuthorizationResult")]
+    #[objc2::method(sel = "completeWithAuthorizationResult:")]
+    pub unsafe fn completeWithAuthorizationResult(
+        &self,
+        authorization_result: &ASAuthorizationProviderExtensionAuthorizationResult,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(presentAuthorizationViewControllerWithCompletion:)]
-        pub unsafe fn presentAuthorizationViewControllerWithCompletion(
-            &self,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "completeWithError:")]
+    pub unsafe fn completeWithError(&self, error: &NSError);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other url)]
-        pub unsafe fn url(&self) -> Id<NSURL>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "presentAuthorizationViewControllerWithCompletion:")]
+    pub unsafe fn presentAuthorizationViewControllerWithCompletion(
+        &self,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[method_id(@__retain_semantics Other requestedOperation)]
-        pub unsafe fn requestedOperation(
-            &self,
-        ) -> Id<ASAuthorizationProviderAuthorizationOperation>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "url", managed = "Other")]
+    pub unsafe fn url(&self) -> Id<NSURL>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other httpHeaders)]
-        pub unsafe fn httpHeaders(&self) -> Id<NSDictionary<NSString, NSString>>;
+    #[objc2::method(sel = "requestedOperation", managed = "Other")]
+    pub unsafe fn requestedOperation(&self) -> Id<ASAuthorizationProviderAuthorizationOperation>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other httpBody)]
-        pub unsafe fn httpBody(&self) -> Id<NSData>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "httpHeaders", managed = "Other")]
+    pub unsafe fn httpHeaders(&self) -> Id<NSDictionary<NSString, NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other realm)]
-        pub unsafe fn realm(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "httpBody", managed = "Other")]
+    pub unsafe fn httpBody(&self) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other extensionData)]
-        pub unsafe fn extensionData(&self) -> Id<NSDictionary>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "realm", managed = "Other")]
+    pub unsafe fn realm(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other callerBundleIdentifier)]
-        pub unsafe fn callerBundleIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "extensionData", managed = "Other")]
+    pub unsafe fn extensionData(&self) -> Id<NSDictionary>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other authorizationOptions)]
-        pub unsafe fn authorizationOptions(&self) -> Id<NSDictionary>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "callerBundleIdentifier", managed = "Other")]
+    pub unsafe fn callerBundleIdentifier(&self) -> Id<NSString>;
 
-        #[method(isCallerManaged)]
-        pub unsafe fn isCallerManaged(&self) -> bool;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "authorizationOptions", managed = "Other")]
+    pub unsafe fn authorizationOptions(&self) -> Id<NSDictionary>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other callerTeamIdentifier)]
-        pub unsafe fn callerTeamIdentifier(&self) -> Id<NSString>;
+    #[objc2::method(sel = "isCallerManaged")]
+    pub unsafe fn isCallerManaged(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedCallerDisplayName)]
-        pub unsafe fn localizedCallerDisplayName(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "callerTeamIdentifier", managed = "Other")]
+    pub unsafe fn callerTeamIdentifier(&self) -> Id<NSString>;
 
-        #[method(isUserInterfaceEnabled)]
-        pub unsafe fn isUserInterfaceEnabled(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedCallerDisplayName", managed = "Other")]
+    pub unsafe fn localizedCallerDisplayName(&self) -> Id<NSString>;
 
-        #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionLoginManager")]
-        #[method_id(@__retain_semantics Other loginManager)]
-        pub unsafe fn loginManager(
-            &self,
-        ) -> Option<Id<ASAuthorizationProviderExtensionLoginManager>>;
-    }
-);
+    #[objc2::method(sel = "isUserInterfaceEnabled")]
+    pub unsafe fn isUserInterfaceEnabled(&self) -> bool;
+
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationProviderExtensionLoginManager")]
+    #[objc2::method(sel = "loginManager", managed = "Other")]
+    pub unsafe fn loginManager(&self) -> Option<Id<ASAuthorizationProviderExtensionLoginManager>>;
+}

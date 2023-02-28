@@ -7,16 +7,16 @@ use crate::EventKit::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "EventKit_EKRecurrenceEnd")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "EventKit_EKRecurrenceEnd")]
-    pub struct EKRecurrenceEnd;
-
-    #[cfg(feature = "EventKit_EKRecurrenceEnd")]
-    unsafe impl ClassType for EKRecurrenceEnd {
-        type Super = NSObject;
-    }
-);
+    pub type EKRecurrenceEnd;
+}
 
 #[cfg(feature = "EventKit_EKRecurrenceEnd")]
 unsafe impl NSCoding for EKRecurrenceEnd {}
@@ -27,21 +27,24 @@ unsafe impl NSObjectProtocol for EKRecurrenceEnd {}
 #[cfg(feature = "EventKit_EKRecurrenceEnd")]
 unsafe impl NSSecureCoding for EKRecurrenceEnd {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "EventKit_EKRecurrenceEnd")]
-    unsafe impl EKRecurrenceEnd {
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other recurrenceEndWithEndDate:)]
-        pub unsafe fn recurrenceEndWithEndDate(end_date: &NSDate) -> Id<Self>;
+    pub type EKRecurrenceEnd;
 
-        #[method_id(@__retain_semantics Other recurrenceEndWithOccurrenceCount:)]
-        pub unsafe fn recurrenceEndWithOccurrenceCount(occurrence_count: NSUInteger) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "recurrenceEndWithEndDate:", managed = "Other")]
+    pub unsafe fn recurrenceEndWithEndDate(end_date: &NSDate) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other endDate)]
-        pub unsafe fn endDate(&self) -> Option<Id<NSDate>>;
+    #[objc2::method(sel = "recurrenceEndWithOccurrenceCount:", managed = "Other")]
+    pub unsafe fn recurrenceEndWithOccurrenceCount(occurrence_count: NSUInteger) -> Id<Self>;
 
-        #[method(occurrenceCount)]
-        pub unsafe fn occurrenceCount(&self) -> NSUInteger;
-    }
-);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "endDate", managed = "Other")]
+    pub unsafe fn endDate(&self) -> Option<Id<NSDate>>;
+
+    #[objc2::method(sel = "occurrenceCount")]
+    pub unsafe fn occurrenceCount(&self) -> NSUInteger;
+}

@@ -7,94 +7,94 @@ use crate::Foundation::*;
 
 pub type NSTextInputSourceIdentifier = NSString;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextInputContext")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextInputContext")]
-    pub struct NSTextInputContext;
-
-    #[cfg(feature = "AppKit_NSTextInputContext")]
-    unsafe impl ClassType for NSTextInputContext {
-        type Super = NSObject;
-    }
-);
+    pub type NSTextInputContext;
+}
 
 #[cfg(feature = "AppKit_NSTextInputContext")]
 unsafe impl NSObjectProtocol for NSTextInputContext {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextInputContext")]
-    unsafe impl NSTextInputContext {
-        #[method_id(@__retain_semantics Other currentInputContext)]
-        pub unsafe fn currentInputContext() -> Option<Id<NSTextInputContext>>;
+    pub type NSTextInputContext;
 
-        #[method_id(@__retain_semantics Init initWithClient:)]
-        pub unsafe fn initWithClient(
-            this: Option<Allocated<Self>>,
-            client: &ProtocolObject<dyn NSTextInputClient>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "currentInputContext", managed = "Other")]
+    pub unsafe fn currentInputContext() -> Option<Id<NSTextInputContext>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "initWithClient:", managed = "Init")]
+    pub unsafe fn initWithClient(
+        this: Option<Allocated<Self>>,
+        client: &ProtocolObject<dyn NSTextInputClient>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other client)]
-        pub unsafe fn client(&self) -> Id<ProtocolObject<dyn NSTextInputClient>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(acceptsGlyphInfo)]
-        pub unsafe fn acceptsGlyphInfo(&self) -> bool;
+    #[objc2::method(sel = "client", managed = "Other")]
+    pub unsafe fn client(&self) -> Id<ProtocolObject<dyn NSTextInputClient>>;
 
-        #[method(setAcceptsGlyphInfo:)]
-        pub unsafe fn setAcceptsGlyphInfo(&self, accepts_glyph_info: bool);
+    #[objc2::method(sel = "acceptsGlyphInfo")]
+    pub unsafe fn acceptsGlyphInfo(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other allowedInputSourceLocales)]
-        pub unsafe fn allowedInputSourceLocales(&self) -> Option<Id<NSArray<NSString>>>;
+    #[objc2::method(sel = "setAcceptsGlyphInfo:")]
+    pub unsafe fn setAcceptsGlyphInfo(&self, accepts_glyph_info: bool);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method(setAllowedInputSourceLocales:)]
-        pub unsafe fn setAllowedInputSourceLocales(
-            &self,
-            allowed_input_source_locales: Option<&NSArray<NSString>>,
-        );
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "allowedInputSourceLocales", managed = "Other")]
+    pub unsafe fn allowedInputSourceLocales(&self) -> Option<Id<NSArray<NSString>>>;
 
-        #[method(activate)]
-        pub unsafe fn activate(&self);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setAllowedInputSourceLocales:")]
+    pub unsafe fn setAllowedInputSourceLocales(
+        &self,
+        allowed_input_source_locales: Option<&NSArray<NSString>>,
+    );
 
-        #[method(deactivate)]
-        pub unsafe fn deactivate(&self);
+    #[objc2::method(sel = "activate")]
+    pub unsafe fn activate(&self);
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(handleEvent:)]
-        pub unsafe fn handleEvent(&self, event: &NSEvent) -> bool;
+    #[objc2::method(sel = "deactivate")]
+    pub unsafe fn deactivate(&self);
 
-        #[method(discardMarkedText)]
-        pub unsafe fn discardMarkedText(&self);
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "handleEvent:")]
+    pub unsafe fn handleEvent(&self, event: &NSEvent) -> bool;
 
-        #[method(invalidateCharacterCoordinates)]
-        pub unsafe fn invalidateCharacterCoordinates(&self);
+    #[objc2::method(sel = "discardMarkedText")]
+    pub unsafe fn discardMarkedText(&self);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other keyboardInputSources)]
-        pub unsafe fn keyboardInputSources(
-            &self,
-        ) -> Option<Id<NSArray<NSTextInputSourceIdentifier>>>;
+    #[objc2::method(sel = "invalidateCharacterCoordinates")]
+    pub unsafe fn invalidateCharacterCoordinates(&self);
 
-        #[method_id(@__retain_semantics Other selectedKeyboardInputSource)]
-        pub unsafe fn selectedKeyboardInputSource(&self)
-            -> Option<Id<NSTextInputSourceIdentifier>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "keyboardInputSources", managed = "Other")]
+    pub unsafe fn keyboardInputSources(&self) -> Option<Id<NSArray<NSTextInputSourceIdentifier>>>;
 
-        #[method(setSelectedKeyboardInputSource:)]
-        pub unsafe fn setSelectedKeyboardInputSource(
-            &self,
-            selected_keyboard_input_source: Option<&NSTextInputSourceIdentifier>,
-        );
+    #[objc2::method(sel = "selectedKeyboardInputSource", managed = "Other")]
+    pub unsafe fn selectedKeyboardInputSource(&self) -> Option<Id<NSTextInputSourceIdentifier>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedNameForInputSource:)]
-        pub unsafe fn localizedNameForInputSource(
-            input_source_identifier: &NSTextInputSourceIdentifier,
-        ) -> Option<Id<NSString>>;
-    }
-);
+    #[objc2::method(sel = "setSelectedKeyboardInputSource:")]
+    pub unsafe fn setSelectedKeyboardInputSource(
+        &self,
+        selected_keyboard_input_source: Option<&NSTextInputSourceIdentifier>,
+    );
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedNameForInputSource:", managed = "Other")]
+    pub unsafe fn localizedNameForInputSource(
+        input_source_identifier: &NSTextInputSourceIdentifier,
+    ) -> Option<Id<NSString>>;
+}
 
 extern_static!(
     NSTextInputContextKeyboardSelectionDidChangeNotification: &'static NSNotificationName

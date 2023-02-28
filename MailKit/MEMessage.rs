@@ -5,34 +5,32 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MailKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MEMessageState {
-        MEMessageStateReceived = 0,
-        MEMessageStateDraft = 1,
-        MEMessageStateSending = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MEMessageState {
+    MEMessageStateReceived = 0,
+    MEMessageStateDraft = 1,
+    MEMessageStateSending = 2,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MEMessageEncryptionState {
-        MEMessageEncryptionStateUnknown = 0,
-        MEMessageEncryptionStateNotEncrypted = 1,
-        MEMessageEncryptionStateEncrypted = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MEMessageEncryptionState {
+    MEMessageEncryptionStateUnknown = 0,
+    MEMessageEncryptionStateNotEncrypted = 1,
+    MEMessageEncryptionStateEncrypted = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MailKit_MEMessage")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MailKit_MEMessage")]
-    pub struct MEMessage;
-
-    #[cfg(feature = "MailKit_MEMessage")]
-    unsafe impl ClassType for MEMessage {
-        type Super = NSObject;
-    }
-);
+    pub type MEMessage;
+}
 
 #[cfg(feature = "MailKit_MEMessage")]
 unsafe impl NSCoding for MEMessage {}
@@ -43,67 +41,70 @@ unsafe impl NSObjectProtocol for MEMessage {}
 #[cfg(feature = "MailKit_MEMessage")]
 unsafe impl NSSecureCoding for MEMessage {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MailKit_MEMessage")]
-    unsafe impl MEMessage {
-        #[method(state)]
-        pub unsafe fn state(&self) -> MEMessageState;
+    pub type MEMessage;
 
-        #[method(encryptionState)]
-        pub unsafe fn encryptionState(&self) -> MEMessageEncryptionState;
+    #[objc2::method(sel = "state")]
+    pub unsafe fn state(&self) -> MEMessageState;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subject)]
-        pub unsafe fn subject(&self) -> Id<NSString>;
+    #[objc2::method(sel = "encryptionState")]
+    pub unsafe fn encryptionState(&self) -> MEMessageEncryptionState;
 
-        #[cfg(feature = "MailKit_MEEmailAddress")]
-        #[method_id(@__retain_semantics Other fromAddress)]
-        pub unsafe fn fromAddress(&self) -> Id<MEEmailAddress>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subject", managed = "Other")]
+    pub unsafe fn subject(&self) -> Id<NSString>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEEmailAddress"))]
-        #[method_id(@__retain_semantics Other toAddresses)]
-        pub unsafe fn toAddresses(&self) -> Id<NSArray<MEEmailAddress>>;
+    #[cfg(feature = "MailKit_MEEmailAddress")]
+    #[objc2::method(sel = "fromAddress", managed = "Other")]
+    pub unsafe fn fromAddress(&self) -> Id<MEEmailAddress>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEEmailAddress"))]
-        #[method_id(@__retain_semantics Other ccAddresses)]
-        pub unsafe fn ccAddresses(&self) -> Id<NSArray<MEEmailAddress>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEEmailAddress"))]
+    #[objc2::method(sel = "toAddresses", managed = "Other")]
+    pub unsafe fn toAddresses(&self) -> Id<NSArray<MEEmailAddress>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEEmailAddress"))]
-        #[method_id(@__retain_semantics Other bccAddresses)]
-        pub unsafe fn bccAddresses(&self) -> Id<NSArray<MEEmailAddress>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEEmailAddress"))]
+    #[objc2::method(sel = "ccAddresses", managed = "Other")]
+    pub unsafe fn ccAddresses(&self) -> Id<NSArray<MEEmailAddress>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEEmailAddress"))]
-        #[method_id(@__retain_semantics Other replyToAddresses)]
-        pub unsafe fn replyToAddresses(&self) -> Id<NSArray<MEEmailAddress>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEEmailAddress"))]
+    #[objc2::method(sel = "bccAddresses", managed = "Other")]
+    pub unsafe fn bccAddresses(&self) -> Id<NSArray<MEEmailAddress>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEEmailAddress"))]
-        #[method_id(@__retain_semantics Other allRecipientAddresses)]
-        pub unsafe fn allRecipientAddresses(&self) -> Id<NSArray<MEEmailAddress>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEEmailAddress"))]
+    #[objc2::method(sel = "replyToAddresses", managed = "Other")]
+    pub unsafe fn replyToAddresses(&self) -> Id<NSArray<MEEmailAddress>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other dateSent)]
-        pub unsafe fn dateSent(&self) -> Option<Id<NSDate>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEEmailAddress"))]
+    #[objc2::method(sel = "allRecipientAddresses", managed = "Other")]
+    pub unsafe fn allRecipientAddresses(&self) -> Id<NSArray<MEEmailAddress>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other dateReceived)]
-        pub unsafe fn dateReceived(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "dateSent", managed = "Other")]
+    pub unsafe fn dateSent(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other headers)]
-        pub unsafe fn headers(&self) -> Option<Id<NSDictionary<NSString, NSArray<NSString>>>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "dateReceived", managed = "Other")]
+    pub unsafe fn dateReceived(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other rawData)]
-        pub unsafe fn rawData(&self) -> Option<Id<NSData>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "headers", managed = "Other")]
+    pub unsafe fn headers(&self) -> Option<Id<NSDictionary<NSString, NSArray<NSString>>>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "rawData", managed = "Other")]
+    pub unsafe fn rawData(&self) -> Option<Id<NSData>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

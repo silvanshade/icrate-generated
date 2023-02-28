@@ -4,30 +4,35 @@ use crate::common::*;
 use crate::Contacts::*;
 use crate::Foundation::*;
 
-extern_methods!(
-    /// Predicates
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Contacts_CNContainer")]
-    unsafe impl CNContainer {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSPredicate",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForContainersWithIdentifiers:)]
-        pub unsafe fn predicateForContainersWithIdentifiers(
-            identifiers: &NSArray<NSString>,
-        ) -> Id<NSPredicate>;
+    pub type CNContainer;
 
-        #[cfg(all(feature = "Foundation_NSPredicate", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other predicateForContainerOfContactWithIdentifier:)]
-        pub unsafe fn predicateForContainerOfContactWithIdentifier(
-            contact_identifier: &NSString,
-        ) -> Id<NSPredicate>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSPredicate",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "predicateForContainersWithIdentifiers:", managed = "Other")]
+    pub unsafe fn predicateForContainersWithIdentifiers(
+        identifiers: &NSArray<NSString>,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(feature = "Foundation_NSPredicate", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other predicateForContainerOfGroupWithIdentifier:)]
-        pub unsafe fn predicateForContainerOfGroupWithIdentifier(
-            group_identifier: &NSString,
-        ) -> Id<NSPredicate>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSPredicate", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "predicateForContainerOfContactWithIdentifier:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForContainerOfContactWithIdentifier(
+        contact_identifier: &NSString,
+    ) -> Id<NSPredicate>;
+
+    #[cfg(all(feature = "Foundation_NSPredicate", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "predicateForContainerOfGroupWithIdentifier:", managed = "Other")]
+    pub unsafe fn predicateForContainerOfGroupWithIdentifier(
+        group_identifier: &NSString,
+    ) -> Id<NSPredicate>;
+}

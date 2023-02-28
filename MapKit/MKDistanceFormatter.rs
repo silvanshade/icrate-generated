@@ -7,36 +7,34 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MKDistanceFormatterUnits {
-        MKDistanceFormatterUnitsDefault = 0,
-        MKDistanceFormatterUnitsMetric = 1,
-        MKDistanceFormatterUnitsImperial = 2,
-        MKDistanceFormatterUnitsImperialWithYards = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MKDistanceFormatterUnits {
+    MKDistanceFormatterUnitsDefault = 0,
+    MKDistanceFormatterUnitsMetric = 1,
+    MKDistanceFormatterUnitsImperial = 2,
+    MKDistanceFormatterUnitsImperialWithYards = 3,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MKDistanceFormatterUnitStyle {
-        MKDistanceFormatterUnitStyleDefault = 0,
-        MKDistanceFormatterUnitStyleAbbreviated = 1,
-        MKDistanceFormatterUnitStyleFull = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MKDistanceFormatterUnitStyle {
+    MKDistanceFormatterUnitStyleDefault = 0,
+    MKDistanceFormatterUnitStyleAbbreviated = 1,
+    MKDistanceFormatterUnitStyleFull = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSFormatter,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKDistanceFormatter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKDistanceFormatter")]
-    pub struct MKDistanceFormatter;
-
-    #[cfg(feature = "MapKit_MKDistanceFormatter")]
-    unsafe impl ClassType for MKDistanceFormatter {
-        #[inherits(NSObject)]
-        type Super = NSFormatter;
-    }
-);
+    pub type MKDistanceFormatter;
+}
 
 #[cfg(feature = "MapKit_MKDistanceFormatter")]
 unsafe impl NSCoding for MKDistanceFormatter {}
@@ -44,35 +42,38 @@ unsafe impl NSCoding for MKDistanceFormatter {}
 #[cfg(feature = "MapKit_MKDistanceFormatter")]
 unsafe impl NSObjectProtocol for MKDistanceFormatter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKDistanceFormatter")]
-    unsafe impl MKDistanceFormatter {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stringFromDistance:)]
-        pub unsafe fn stringFromDistance(&self, distance: CLLocationDistance) -> Id<NSString>;
+    pub type MKDistanceFormatter;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(distanceFromString:)]
-        pub unsafe fn distanceFromString(&self, distance: &NSString) -> CLLocationDistance;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stringFromDistance:", managed = "Other")]
+    pub unsafe fn stringFromDistance(&self, distance: CLLocationDistance) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSLocale")]
-        #[method_id(@__retain_semantics Other locale)]
-        pub unsafe fn locale(&self) -> Id<NSLocale>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "distanceFromString:")]
+    pub unsafe fn distanceFromString(&self, distance: &NSString) -> CLLocationDistance;
 
-        #[cfg(feature = "Foundation_NSLocale")]
-        #[method(setLocale:)]
-        pub unsafe fn setLocale(&self, locale: Option<&NSLocale>);
+    #[cfg(feature = "Foundation_NSLocale")]
+    #[objc2::method(sel = "locale", managed = "Other")]
+    pub unsafe fn locale(&self) -> Id<NSLocale>;
 
-        #[method(units)]
-        pub unsafe fn units(&self) -> MKDistanceFormatterUnits;
+    #[cfg(feature = "Foundation_NSLocale")]
+    #[objc2::method(sel = "setLocale:")]
+    pub unsafe fn setLocale(&self, locale: Option<&NSLocale>);
 
-        #[method(setUnits:)]
-        pub unsafe fn setUnits(&self, units: MKDistanceFormatterUnits);
+    #[objc2::method(sel = "units")]
+    pub unsafe fn units(&self) -> MKDistanceFormatterUnits;
 
-        #[method(unitStyle)]
-        pub unsafe fn unitStyle(&self) -> MKDistanceFormatterUnitStyle;
+    #[objc2::method(sel = "setUnits:")]
+    pub unsafe fn setUnits(&self, units: MKDistanceFormatterUnits);
 
-        #[method(setUnitStyle:)]
-        pub unsafe fn setUnitStyle(&self, unit_style: MKDistanceFormatterUnitStyle);
-    }
-);
+    #[objc2::method(sel = "unitStyle")]
+    pub unsafe fn unitStyle(&self) -> MKDistanceFormatterUnitStyle;
+
+    #[objc2::method(sel = "setUnitStyle:")]
+    pub unsafe fn setUnitStyle(&self, unit_style: MKDistanceFormatterUnitStyle);
+}

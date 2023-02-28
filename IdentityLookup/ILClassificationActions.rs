@@ -4,12 +4,11 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::IdentityLookup::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum ILClassificationAction {
-        ILClassificationActionNone = 0,
-        ILClassificationActionReportNotJunk = 1,
-        ILClassificationActionReportJunk = 2,
-        ILClassificationActionReportJunkAndBlockSender = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum ILClassificationAction {
+    ILClassificationActionNone = 0,
+    ILClassificationActionReportNotJunk = 1,
+    ILClassificationActionReportJunk = 2,
+    ILClassificationActionReportJunkAndBlockSender = 3,
+}

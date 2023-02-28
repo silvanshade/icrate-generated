@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTintConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTintConfiguration")]
-    pub struct NSTintConfiguration;
-
-    #[cfg(feature = "AppKit_NSTintConfiguration")]
-    unsafe impl ClassType for NSTintConfiguration {
-        type Super = NSObject;
-    }
-);
+    pub type NSTintConfiguration;
+}
 
 #[cfg(feature = "AppKit_NSTintConfiguration")]
 unsafe impl NSCoding for NSTintConfiguration {}
@@ -25,32 +25,35 @@ unsafe impl NSObjectProtocol for NSTintConfiguration {}
 #[cfg(feature = "AppKit_NSTintConfiguration")]
 unsafe impl NSSecureCoding for NSTintConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTintConfiguration")]
-    unsafe impl NSTintConfiguration {
-        #[method_id(@__retain_semantics Other defaultTintConfiguration)]
-        pub unsafe fn defaultTintConfiguration() -> Id<NSTintConfiguration>;
+    pub type NSTintConfiguration;
 
-        #[method_id(@__retain_semantics Other monochromeTintConfiguration)]
-        pub unsafe fn monochromeTintConfiguration() -> Id<NSTintConfiguration>;
+    #[objc2::method(sel = "defaultTintConfiguration", managed = "Other")]
+    pub unsafe fn defaultTintConfiguration() -> Id<NSTintConfiguration>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other tintConfigurationWithPreferredColor:)]
-        pub unsafe fn tintConfigurationWithPreferredColor(color: &NSColor) -> Id<Self>;
+    #[objc2::method(sel = "monochromeTintConfiguration", managed = "Other")]
+    pub unsafe fn monochromeTintConfiguration() -> Id<NSTintConfiguration>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other tintConfigurationWithFixedColor:)]
-        pub unsafe fn tintConfigurationWithFixedColor(color: &NSColor) -> Id<Self>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "tintConfigurationWithPreferredColor:", managed = "Other")]
+    pub unsafe fn tintConfigurationWithPreferredColor(color: &NSColor) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other baseTintColor)]
-        pub unsafe fn baseTintColor(&self) -> Option<Id<NSColor>>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "tintConfigurationWithFixedColor:", managed = "Other")]
+    pub unsafe fn tintConfigurationWithFixedColor(color: &NSColor) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other equivalentContentTintColor)]
-        pub unsafe fn equivalentContentTintColor(&self) -> Option<Id<NSColor>>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "baseTintColor", managed = "Other")]
+    pub unsafe fn baseTintColor(&self) -> Option<Id<NSColor>>;
 
-        #[method(adaptsToUserAccentColor)]
-        pub unsafe fn adaptsToUserAccentColor(&self) -> bool;
-    }
-);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "equivalentContentTintColor", managed = "Other")]
+    pub unsafe fn equivalentContentTintColor(&self) -> Option<Id<NSColor>>;
+
+    #[objc2::method(sel = "adaptsToUserAccentColor")]
+    pub unsafe fn adaptsToUserAccentColor(&self) -> bool;
+}

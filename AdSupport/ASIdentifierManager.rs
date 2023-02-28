@@ -4,35 +4,38 @@ use crate::common::*;
 use crate::AdSupport::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AdSupport_ASIdentifierManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AdSupport_ASIdentifierManager")]
-    pub struct ASIdentifierManager;
-
-    #[cfg(feature = "AdSupport_ASIdentifierManager")]
-    unsafe impl ClassType for ASIdentifierManager {
-        type Super = NSObject;
-    }
-);
+    pub type ASIdentifierManager;
+}
 
 #[cfg(feature = "AdSupport_ASIdentifierManager")]
 unsafe impl NSObjectProtocol for ASIdentifierManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AdSupport_ASIdentifierManager")]
-    unsafe impl ASIdentifierManager {
-        #[method_id(@__retain_semantics Other sharedManager)]
-        pub unsafe fn sharedManager() -> Id<ASIdentifierManager>;
+    pub type ASIdentifierManager;
 
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Other advertisingIdentifier)]
-        pub unsafe fn advertisingIdentifier(&self) -> Id<NSUUID>;
+    #[objc2::method(sel = "sharedManager", managed = "Other")]
+    pub unsafe fn sharedManager() -> Id<ASIdentifierManager>;
 
-        #[deprecated = "This has been replaced by functionality in AppTrackingTransparency's ATTrackingManager class."]
-        #[method(isAdvertisingTrackingEnabled)]
-        pub unsafe fn isAdvertisingTrackingEnabled(&self) -> bool;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "advertisingIdentifier", managed = "Other")]
+    pub unsafe fn advertisingIdentifier(&self) -> Id<NSUUID>;
 
-        #[method(clearAdvertisingIdentifier)]
-        pub unsafe fn clearAdvertisingIdentifier(&self);
-    }
-);
+    #[deprecated = "This has been replaced by functionality in AppTrackingTransparency's ATTrackingManager class."]
+    #[objc2::method(sel = "isAdvertisingTrackingEnabled")]
+    pub unsafe fn isAdvertisingTrackingEnabled(&self) -> bool;
+
+    #[objc2::method(sel = "clearAdvertisingIdentifier")]
+    pub unsafe fn clearAdvertisingIdentifier(&self);
+}

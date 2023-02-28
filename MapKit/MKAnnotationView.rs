@@ -9,16 +9,15 @@ use crate::MapKit::*;
 
 extern_static!(MKAnnotationCalloutInfoDidChangeNotification: &'static NSString);
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MKAnnotationViewDragState {
-        MKAnnotationViewDragStateNone = 0,
-        MKAnnotationViewDragStateStarting = 1,
-        MKAnnotationViewDragStateDragging = 2,
-        MKAnnotationViewDragStateCanceling = 3,
-        MKAnnotationViewDragStateEnding = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MKAnnotationViewDragState {
+    MKAnnotationViewDragStateNone = 0,
+    MKAnnotationViewDragStateStarting = 1,
+    MKAnnotationViewDragStateDragging = 2,
+    MKAnnotationViewDragStateCanceling = 3,
+    MKAnnotationViewDragStateEnding = 4,
+}
 
 typed_extensible_enum!(
     pub type MKFeatureDisplayPriority = c_float;
@@ -42,26 +41,26 @@ extern_static!(MKAnnotationViewZPriorityDefaultUnselected: MKAnnotationViewZPrio
 
 extern_static!(MKAnnotationViewZPriorityMin: MKAnnotationViewZPriority = 0);
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MKAnnotationViewCollisionMode {
-        MKAnnotationViewCollisionModeRectangle = 0,
-        MKAnnotationViewCollisionModeCircle = 1,
-        MKAnnotationViewCollisionModeNone = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MKAnnotationViewCollisionMode {
+    MKAnnotationViewCollisionModeRectangle = 0,
+    MKAnnotationViewCollisionModeCircle = 1,
+    MKAnnotationViewCollisionModeNone = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKAnnotationView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKAnnotationView")]
-    pub struct MKAnnotationView;
-
-    #[cfg(feature = "MapKit_MKAnnotationView")]
-    unsafe impl ClassType for MKAnnotationView {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type MKAnnotationView;
+}
 
 #[cfg(feature = "MapKit_MKAnnotationView")]
 unsafe impl NSAccessibility for MKAnnotationView {}
@@ -87,187 +86,193 @@ unsafe impl NSObjectProtocol for MKAnnotationView {}
 #[cfg(feature = "MapKit_MKAnnotationView")]
 unsafe impl NSUserInterfaceItemIdentification for MKAnnotationView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKAnnotationView")]
-    unsafe impl MKAnnotationView {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithAnnotation:reuseIdentifier:)]
-        pub unsafe fn initWithAnnotation_reuseIdentifier(
-            this: Option<Allocated<Self>>,
-            annotation: Option<&ProtocolObject<dyn MKAnnotation>>,
-            reuse_identifier: Option<&NSString>,
-        ) -> Id<Self>;
+    pub type MKAnnotationView;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            a_decoder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithAnnotation:reuseIdentifier:", managed = "Init")]
+    pub unsafe fn initWithAnnotation_reuseIdentifier(
+        this: Option<Allocated<Self>>,
+        annotation: Option<&ProtocolObject<dyn MKAnnotation>>,
+        reuse_identifier: Option<&NSString>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other reuseIdentifier)]
-        pub unsafe fn reuseIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(
+        this: Option<Allocated<Self>>,
+        a_decoder: &NSCoder,
+    ) -> Option<Id<Self>>;
 
-        #[method(prepareForReuse)]
-        pub unsafe fn prepareForReuse(&self);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "reuseIdentifier", managed = "Other")]
+    pub unsafe fn reuseIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[method(prepareForDisplay)]
-        pub unsafe fn prepareForDisplay(&self);
+    #[objc2::method(sel = "prepareForReuse")]
+    pub unsafe fn prepareForReuse(&self);
 
-        #[method_id(@__retain_semantics Other annotation)]
-        pub unsafe fn annotation(&self) -> Option<Id<ProtocolObject<dyn MKAnnotation>>>;
+    #[objc2::method(sel = "prepareForDisplay")]
+    pub unsafe fn prepareForDisplay(&self);
 
-        #[method(setAnnotation:)]
-        pub unsafe fn setAnnotation(&self, annotation: Option<&ProtocolObject<dyn MKAnnotation>>);
+    #[objc2::method(sel = "annotation", managed = "Other")]
+    pub unsafe fn annotation(&self) -> Option<Id<ProtocolObject<dyn MKAnnotation>>>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other image)]
-        pub unsafe fn image(&self) -> Option<Id<NSImage>>;
+    #[objc2::method(sel = "setAnnotation:")]
+    pub unsafe fn setAnnotation(&self, annotation: Option<&ProtocolObject<dyn MKAnnotation>>);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setImage:)]
-        pub unsafe fn setImage(&self, image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "image", managed = "Other")]
+    pub unsafe fn image(&self) -> Option<Id<NSImage>>;
 
-        #[method(centerOffset)]
-        pub unsafe fn centerOffset(&self) -> CGPoint;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setImage:")]
+    pub unsafe fn setImage(&self, image: Option<&NSImage>);
 
-        #[method(setCenterOffset:)]
-        pub unsafe fn setCenterOffset(&self, center_offset: CGPoint);
+    #[objc2::method(sel = "centerOffset")]
+    pub unsafe fn centerOffset(&self) -> CGPoint;
 
-        #[method(calloutOffset)]
-        pub unsafe fn calloutOffset(&self) -> CGPoint;
+    #[objc2::method(sel = "setCenterOffset:")]
+    pub unsafe fn setCenterOffset(&self, center_offset: CGPoint);
 
-        #[method(setCalloutOffset:)]
-        pub unsafe fn setCalloutOffset(&self, callout_offset: CGPoint);
+    #[objc2::method(sel = "calloutOffset")]
+    pub unsafe fn calloutOffset(&self) -> CGPoint;
 
-        #[method(leftCalloutOffset)]
-        pub unsafe fn leftCalloutOffset(&self) -> CGPoint;
+    #[objc2::method(sel = "setCalloutOffset:")]
+    pub unsafe fn setCalloutOffset(&self, callout_offset: CGPoint);
 
-        #[method(setLeftCalloutOffset:)]
-        pub unsafe fn setLeftCalloutOffset(&self, left_callout_offset: CGPoint);
+    #[objc2::method(sel = "leftCalloutOffset")]
+    pub unsafe fn leftCalloutOffset(&self) -> CGPoint;
 
-        #[method(rightCalloutOffset)]
-        pub unsafe fn rightCalloutOffset(&self) -> CGPoint;
+    #[objc2::method(sel = "setLeftCalloutOffset:")]
+    pub unsafe fn setLeftCalloutOffset(&self, left_callout_offset: CGPoint);
 
-        #[method(setRightCalloutOffset:)]
-        pub unsafe fn setRightCalloutOffset(&self, right_callout_offset: CGPoint);
+    #[objc2::method(sel = "rightCalloutOffset")]
+    pub unsafe fn rightCalloutOffset(&self) -> CGPoint;
 
-        #[method(isEnabled)]
-        pub unsafe fn isEnabled(&self) -> bool;
+    #[objc2::method(sel = "setRightCalloutOffset:")]
+    pub unsafe fn setRightCalloutOffset(&self, right_callout_offset: CGPoint);
 
-        #[method(setEnabled:)]
-        pub unsafe fn setEnabled(&self, enabled: bool);
+    #[objc2::method(sel = "isEnabled")]
+    pub unsafe fn isEnabled(&self) -> bool;
 
-        #[method(isHighlighted)]
-        pub unsafe fn isHighlighted(&self) -> bool;
+    #[objc2::method(sel = "setEnabled:")]
+    pub unsafe fn setEnabled(&self, enabled: bool);
 
-        #[method(setHighlighted:)]
-        pub unsafe fn setHighlighted(&self, highlighted: bool);
+    #[objc2::method(sel = "isHighlighted")]
+    pub unsafe fn isHighlighted(&self) -> bool;
 
-        #[method(isSelected)]
-        pub unsafe fn isSelected(&self) -> bool;
+    #[objc2::method(sel = "setHighlighted:")]
+    pub unsafe fn setHighlighted(&self, highlighted: bool);
 
-        #[method(setSelected:)]
-        pub unsafe fn setSelected(&self, selected: bool);
+    #[objc2::method(sel = "isSelected")]
+    pub unsafe fn isSelected(&self) -> bool;
 
-        #[method(setSelected:animated:)]
-        pub unsafe fn setSelected_animated(&self, selected: bool, animated: bool);
+    #[objc2::method(sel = "setSelected:")]
+    pub unsafe fn setSelected(&self, selected: bool);
 
-        #[method(canShowCallout)]
-        pub unsafe fn canShowCallout(&self) -> bool;
+    #[objc2::method(sel = "setSelected:animated:")]
+    pub unsafe fn setSelected_animated(&self, selected: bool, animated: bool);
 
-        #[method(setCanShowCallout:)]
-        pub unsafe fn setCanShowCallout(&self, can_show_callout: bool);
+    #[objc2::method(sel = "canShowCallout")]
+    pub unsafe fn canShowCallout(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other leftCalloutAccessoryView)]
-        pub unsafe fn leftCalloutAccessoryView(&self) -> Option<Id<NSView>>;
+    #[objc2::method(sel = "setCanShowCallout:")]
+    pub unsafe fn setCanShowCallout(&self, can_show_callout: bool);
 
-        #[method(setLeftCalloutAccessoryView:)]
-        pub unsafe fn setLeftCalloutAccessoryView(
-            &self,
-            left_callout_accessory_view: Option<&NSView>,
-        );
+    #[objc2::method(sel = "leftCalloutAccessoryView", managed = "Other")]
+    pub unsafe fn leftCalloutAccessoryView(&self) -> Option<Id<NSView>>;
 
-        #[method_id(@__retain_semantics Other rightCalloutAccessoryView)]
-        pub unsafe fn rightCalloutAccessoryView(&self) -> Option<Id<NSView>>;
+    #[objc2::method(sel = "setLeftCalloutAccessoryView:")]
+    pub unsafe fn setLeftCalloutAccessoryView(&self, left_callout_accessory_view: Option<&NSView>);
 
-        #[method(setRightCalloutAccessoryView:)]
-        pub unsafe fn setRightCalloutAccessoryView(
-            &self,
-            right_callout_accessory_view: Option<&NSView>,
-        );
+    #[objc2::method(sel = "rightCalloutAccessoryView", managed = "Other")]
+    pub unsafe fn rightCalloutAccessoryView(&self) -> Option<Id<NSView>>;
 
-        #[method_id(@__retain_semantics Other detailCalloutAccessoryView)]
-        pub unsafe fn detailCalloutAccessoryView(&self) -> Option<Id<NSView>>;
+    #[objc2::method(sel = "setRightCalloutAccessoryView:")]
+    pub unsafe fn setRightCalloutAccessoryView(
+        &self,
+        right_callout_accessory_view: Option<&NSView>,
+    );
 
-        #[method(setDetailCalloutAccessoryView:)]
-        pub unsafe fn setDetailCalloutAccessoryView(
-            &self,
-            detail_callout_accessory_view: Option<&NSView>,
-        );
+    #[objc2::method(sel = "detailCalloutAccessoryView", managed = "Other")]
+    pub unsafe fn detailCalloutAccessoryView(&self) -> Option<Id<NSView>>;
 
-        #[method(isDraggable)]
-        pub unsafe fn isDraggable(&self) -> bool;
+    #[objc2::method(sel = "setDetailCalloutAccessoryView:")]
+    pub unsafe fn setDetailCalloutAccessoryView(
+        &self,
+        detail_callout_accessory_view: Option<&NSView>,
+    );
 
-        #[method(setDraggable:)]
-        pub unsafe fn setDraggable(&self, draggable: bool);
+    #[objc2::method(sel = "isDraggable")]
+    pub unsafe fn isDraggable(&self) -> bool;
 
-        #[method(dragState)]
-        pub unsafe fn dragState(&self) -> MKAnnotationViewDragState;
+    #[objc2::method(sel = "setDraggable:")]
+    pub unsafe fn setDraggable(&self, draggable: bool);
 
-        #[method(setDragState:)]
-        pub unsafe fn setDragState(&self, drag_state: MKAnnotationViewDragState);
+    #[objc2::method(sel = "dragState")]
+    pub unsafe fn dragState(&self) -> MKAnnotationViewDragState;
 
-        #[method(setDragState:animated:)]
-        pub unsafe fn setDragState_animated(
-            &self,
-            new_drag_state: MKAnnotationViewDragState,
-            animated: bool,
-        );
+    #[objc2::method(sel = "setDragState:")]
+    pub unsafe fn setDragState(&self, drag_state: MKAnnotationViewDragState);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other clusteringIdentifier)]
-        pub unsafe fn clusteringIdentifier(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setDragState:animated:")]
+    pub unsafe fn setDragState_animated(
+        &self,
+        new_drag_state: MKAnnotationViewDragState,
+        animated: bool,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setClusteringIdentifier:)]
-        pub unsafe fn setClusteringIdentifier(&self, clustering_identifier: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "clusteringIdentifier", managed = "Other")]
+    pub unsafe fn clusteringIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other clusterAnnotationView)]
-        pub unsafe fn clusterAnnotationView(&self) -> Option<Id<MKAnnotationView>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setClusteringIdentifier:")]
+    pub unsafe fn setClusteringIdentifier(&self, clustering_identifier: Option<&NSString>);
 
-        #[method(displayPriority)]
-        pub unsafe fn displayPriority(&self) -> MKFeatureDisplayPriority;
+    #[objc2::method(sel = "clusterAnnotationView", managed = "Other")]
+    pub unsafe fn clusterAnnotationView(&self) -> Option<Id<MKAnnotationView>>;
 
-        #[method(setDisplayPriority:)]
-        pub unsafe fn setDisplayPriority(&self, display_priority: MKFeatureDisplayPriority);
+    #[objc2::method(sel = "displayPriority")]
+    pub unsafe fn displayPriority(&self) -> MKFeatureDisplayPriority;
 
-        #[method(zPriority)]
-        pub unsafe fn zPriority(&self) -> MKAnnotationViewZPriority;
+    #[objc2::method(sel = "setDisplayPriority:")]
+    pub unsafe fn setDisplayPriority(&self, display_priority: MKFeatureDisplayPriority);
 
-        #[method(setZPriority:)]
-        pub unsafe fn setZPriority(&self, z_priority: MKAnnotationViewZPriority);
+    #[objc2::method(sel = "zPriority")]
+    pub unsafe fn zPriority(&self) -> MKAnnotationViewZPriority;
 
-        #[method(selectedZPriority)]
-        pub unsafe fn selectedZPriority(&self) -> MKAnnotationViewZPriority;
+    #[objc2::method(sel = "setZPriority:")]
+    pub unsafe fn setZPriority(&self, z_priority: MKAnnotationViewZPriority);
 
-        #[method(setSelectedZPriority:)]
-        pub unsafe fn setSelectedZPriority(&self, selected_z_priority: MKAnnotationViewZPriority);
+    #[objc2::method(sel = "selectedZPriority")]
+    pub unsafe fn selectedZPriority(&self) -> MKAnnotationViewZPriority;
 
-        #[method(collisionMode)]
-        pub unsafe fn collisionMode(&self) -> MKAnnotationViewCollisionMode;
+    #[objc2::method(sel = "setSelectedZPriority:")]
+    pub unsafe fn setSelectedZPriority(&self, selected_z_priority: MKAnnotationViewZPriority);
 
-        #[method(setCollisionMode:)]
-        pub unsafe fn setCollisionMode(&self, collision_mode: MKAnnotationViewCollisionMode);
-    }
-);
+    #[objc2::method(sel = "collisionMode")]
+    pub unsafe fn collisionMode(&self) -> MKAnnotationViewCollisionMode;
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[objc2::method(sel = "setCollisionMode:")]
+    pub unsafe fn setCollisionMode(&self, collision_mode: MKAnnotationViewCollisionMode);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "MapKit_MKAnnotationView")]
-    unsafe impl MKAnnotationView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKAnnotationView")]
+    pub type MKAnnotationView;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

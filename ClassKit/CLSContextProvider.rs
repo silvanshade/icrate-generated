@@ -4,16 +4,13 @@ use crate::common::*;
 use crate::ClassKit::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait CLSContextProvider {
-        #[cfg(all(feature = "ClassKit_CLSContext", feature = "Foundation_NSError"))]
-        #[method(updateDescendantsOfContext:completion:)]
-        unsafe fn updateDescendantsOfContext_completion(
-            &self,
-            context: &CLSContext,
-            completion: &Block<(*mut NSError,), ()>,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn CLSContextProvider {}
-);
+#[objc2::protocol]
+pub unsafe trait CLSContextProvider {
+    #[cfg(all(feature = "ClassKit_CLSContext", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "updateDescendantsOfContext:completion:")]
+    unsafe fn updateDescendantsOfContext_completion(
+        &self,
+        context: &CLSContext,
+        completion: &Block<(*mut NSError,), ()>,
+    );
+}

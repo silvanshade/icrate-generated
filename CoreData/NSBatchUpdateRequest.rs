@@ -4,76 +4,79 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSPersistentStoreRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSBatchUpdateRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSBatchUpdateRequest")]
-    pub struct NSBatchUpdateRequest;
-
-    #[cfg(feature = "CoreData_NSBatchUpdateRequest")]
-    unsafe impl ClassType for NSBatchUpdateRequest {
-        #[inherits(NSObject)]
-        type Super = NSPersistentStoreRequest;
-    }
-);
+    pub type NSBatchUpdateRequest;
+}
 
 #[cfg(feature = "CoreData_NSBatchUpdateRequest")]
 unsafe impl NSObjectProtocol for NSBatchUpdateRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSBatchUpdateRequest")]
-    unsafe impl NSBatchUpdateRequest {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other batchUpdateRequestWithEntityName:)]
-        pub unsafe fn batchUpdateRequestWithEntityName(entity_name: &NSString) -> Id<Self>;
+    pub type NSBatchUpdateRequest;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithEntityName:)]
-        pub unsafe fn initWithEntityName(
-            this: Option<Allocated<Self>>,
-            entity_name: &NSString,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "batchUpdateRequestWithEntityName:", managed = "Other")]
+    pub unsafe fn batchUpdateRequestWithEntityName(entity_name: &NSString) -> Id<Self>;
 
-        #[cfg(feature = "CoreData_NSEntityDescription")]
-        #[method_id(@__retain_semantics Init initWithEntity:)]
-        pub unsafe fn initWithEntity(
-            this: Option<Allocated<Self>>,
-            entity: &NSEntityDescription,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithEntityName:", managed = "Init")]
+    pub unsafe fn initWithEntityName(
+        this: Option<Allocated<Self>>,
+        entity_name: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other entityName)]
-        pub unsafe fn entityName(&self) -> Id<NSString>;
+    #[cfg(feature = "CoreData_NSEntityDescription")]
+    #[objc2::method(sel = "initWithEntity:", managed = "Init")]
+    pub unsafe fn initWithEntity(
+        this: Option<Allocated<Self>>,
+        entity: &NSEntityDescription,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "CoreData_NSEntityDescription")]
-        #[method_id(@__retain_semantics Other entity)]
-        pub unsafe fn entity(&self) -> Id<NSEntityDescription>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "entityName", managed = "Other")]
+    pub unsafe fn entityName(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicate)]
-        pub unsafe fn predicate(&self) -> Option<Id<NSPredicate>>;
+    #[cfg(feature = "CoreData_NSEntityDescription")]
+    #[objc2::method(sel = "entity", managed = "Other")]
+    pub unsafe fn entity(&self) -> Id<NSEntityDescription>;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method(setPredicate:)]
-        pub unsafe fn setPredicate(&self, predicate: Option<&NSPredicate>);
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "predicate", managed = "Other")]
+    pub unsafe fn predicate(&self) -> Option<Id<NSPredicate>>;
 
-        #[method(includesSubentities)]
-        pub unsafe fn includesSubentities(&self) -> bool;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "setPredicate:")]
+    pub unsafe fn setPredicate(&self, predicate: Option<&NSPredicate>);
 
-        #[method(setIncludesSubentities:)]
-        pub unsafe fn setIncludesSubentities(&self, includes_subentities: bool);
+    #[objc2::method(sel = "includesSubentities")]
+    pub unsafe fn includesSubentities(&self) -> bool;
 
-        #[method(resultType)]
-        pub unsafe fn resultType(&self) -> NSBatchUpdateRequestResultType;
+    #[objc2::method(sel = "setIncludesSubentities:")]
+    pub unsafe fn setIncludesSubentities(&self, includes_subentities: bool);
 
-        #[method(setResultType:)]
-        pub unsafe fn setResultType(&self, result_type: NSBatchUpdateRequestResultType);
+    #[objc2::method(sel = "resultType")]
+    pub unsafe fn resultType(&self) -> NSBatchUpdateRequestResultType;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other propertiesToUpdate)]
-        pub unsafe fn propertiesToUpdate(&self) -> Option<Id<NSDictionary>>;
+    #[objc2::method(sel = "setResultType:")]
+    pub unsafe fn setResultType(&self, result_type: NSBatchUpdateRequestResultType);
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(setPropertiesToUpdate:)]
-        pub unsafe fn setPropertiesToUpdate(&self, properties_to_update: Option<&NSDictionary>);
-    }
-);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "propertiesToUpdate", managed = "Other")]
+    pub unsafe fn propertiesToUpdate(&self) -> Option<Id<NSDictionary>>;
+
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "setPropertiesToUpdate:")]
+    pub unsafe fn setPropertiesToUpdate(&self, properties_to_update: Option<&NSDictionary>);
+}

@@ -5,26 +5,27 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSLevelIndicatorPlaceholderVisibility {
-        NSLevelIndicatorPlaceholderVisibilityAutomatic = 0,
-        NSLevelIndicatorPlaceholderVisibilityAlways = 1,
-        NSLevelIndicatorPlaceholderVisibilityWhileEditing = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSLevelIndicatorPlaceholderVisibility {
+    NSLevelIndicatorPlaceholderVisibilityAutomatic = 0,
+    NSLevelIndicatorPlaceholderVisibilityAlways = 1,
+    NSLevelIndicatorPlaceholderVisibilityWhileEditing = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSControl,
+    unsafe inherits = [
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSLevelIndicator")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSLevelIndicator")]
-    pub struct NSLevelIndicator;
-
-    #[cfg(feature = "AppKit_NSLevelIndicator")]
-    unsafe impl ClassType for NSLevelIndicator {
-        #[inherits(NSView, NSResponder, NSObject)]
-        type Super = NSControl;
-    }
-);
+    pub type NSLevelIndicator;
+}
 
 #[cfg(feature = "AppKit_NSLevelIndicator")]
 unsafe impl NSAccessibility for NSLevelIndicator {}
@@ -50,131 +51,140 @@ unsafe impl NSObjectProtocol for NSLevelIndicator {}
 #[cfg(feature = "AppKit_NSLevelIndicator")]
 unsafe impl NSUserInterfaceItemIdentification for NSLevelIndicator {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSLevelIndicator")]
-    unsafe impl NSLevelIndicator {
-        #[method(levelIndicatorStyle)]
-        pub unsafe fn levelIndicatorStyle(&self) -> NSLevelIndicatorStyle;
+    pub type NSLevelIndicator;
 
-        #[method(setLevelIndicatorStyle:)]
-        pub unsafe fn setLevelIndicatorStyle(&self, level_indicator_style: NSLevelIndicatorStyle);
+    #[objc2::method(sel = "levelIndicatorStyle")]
+    pub unsafe fn levelIndicatorStyle(&self) -> NSLevelIndicatorStyle;
 
-        #[method(isEditable)]
-        pub unsafe fn isEditable(&self) -> bool;
+    #[objc2::method(sel = "setLevelIndicatorStyle:")]
+    pub unsafe fn setLevelIndicatorStyle(&self, level_indicator_style: NSLevelIndicatorStyle);
 
-        #[method(setEditable:)]
-        pub unsafe fn setEditable(&self, editable: bool);
+    #[objc2::method(sel = "isEditable")]
+    pub unsafe fn isEditable(&self) -> bool;
 
-        #[method(minValue)]
-        pub unsafe fn minValue(&self) -> c_double;
+    #[objc2::method(sel = "setEditable:")]
+    pub unsafe fn setEditable(&self, editable: bool);
 
-        #[method(setMinValue:)]
-        pub unsafe fn setMinValue(&self, min_value: c_double);
+    #[objc2::method(sel = "minValue")]
+    pub unsafe fn minValue(&self) -> c_double;
 
-        #[method(maxValue)]
-        pub unsafe fn maxValue(&self) -> c_double;
+    #[objc2::method(sel = "setMinValue:")]
+    pub unsafe fn setMinValue(&self, min_value: c_double);
 
-        #[method(setMaxValue:)]
-        pub unsafe fn setMaxValue(&self, max_value: c_double);
+    #[objc2::method(sel = "maxValue")]
+    pub unsafe fn maxValue(&self) -> c_double;
 
-        #[method(warningValue)]
-        pub unsafe fn warningValue(&self) -> c_double;
+    #[objc2::method(sel = "setMaxValue:")]
+    pub unsafe fn setMaxValue(&self, max_value: c_double);
 
-        #[method(setWarningValue:)]
-        pub unsafe fn setWarningValue(&self, warning_value: c_double);
+    #[objc2::method(sel = "warningValue")]
+    pub unsafe fn warningValue(&self) -> c_double;
 
-        #[method(criticalValue)]
-        pub unsafe fn criticalValue(&self) -> c_double;
+    #[objc2::method(sel = "setWarningValue:")]
+    pub unsafe fn setWarningValue(&self, warning_value: c_double);
 
-        #[method(setCriticalValue:)]
-        pub unsafe fn setCriticalValue(&self, critical_value: c_double);
+    #[objc2::method(sel = "criticalValue")]
+    pub unsafe fn criticalValue(&self) -> c_double;
 
-        #[method(tickMarkPosition)]
-        pub unsafe fn tickMarkPosition(&self) -> NSTickMarkPosition;
+    #[objc2::method(sel = "setCriticalValue:")]
+    pub unsafe fn setCriticalValue(&self, critical_value: c_double);
 
-        #[method(setTickMarkPosition:)]
-        pub unsafe fn setTickMarkPosition(&self, tick_mark_position: NSTickMarkPosition);
+    #[objc2::method(sel = "tickMarkPosition")]
+    pub unsafe fn tickMarkPosition(&self) -> NSTickMarkPosition;
 
-        #[method(numberOfTickMarks)]
-        pub unsafe fn numberOfTickMarks(&self) -> NSInteger;
+    #[objc2::method(sel = "setTickMarkPosition:")]
+    pub unsafe fn setTickMarkPosition(&self, tick_mark_position: NSTickMarkPosition);
 
-        #[method(setNumberOfTickMarks:)]
-        pub unsafe fn setNumberOfTickMarks(&self, number_of_tick_marks: NSInteger);
+    #[objc2::method(sel = "numberOfTickMarks")]
+    pub unsafe fn numberOfTickMarks(&self) -> NSInteger;
 
-        #[method(numberOfMajorTickMarks)]
-        pub unsafe fn numberOfMajorTickMarks(&self) -> NSInteger;
+    #[objc2::method(sel = "setNumberOfTickMarks:")]
+    pub unsafe fn setNumberOfTickMarks(&self, number_of_tick_marks: NSInteger);
 
-        #[method(setNumberOfMajorTickMarks:)]
-        pub unsafe fn setNumberOfMajorTickMarks(&self, number_of_major_tick_marks: NSInteger);
+    #[objc2::method(sel = "numberOfMajorTickMarks")]
+    pub unsafe fn numberOfMajorTickMarks(&self) -> NSInteger;
 
-        #[method(tickMarkValueAtIndex:)]
-        pub unsafe fn tickMarkValueAtIndex(&self, index: NSInteger) -> c_double;
+    #[objc2::method(sel = "setNumberOfMajorTickMarks:")]
+    pub unsafe fn setNumberOfMajorTickMarks(&self, number_of_major_tick_marks: NSInteger);
 
-        #[method(rectOfTickMarkAtIndex:)]
-        pub unsafe fn rectOfTickMarkAtIndex(&self, index: NSInteger) -> NSRect;
+    #[objc2::method(sel = "tickMarkValueAtIndex:")]
+    pub unsafe fn tickMarkValueAtIndex(&self, index: NSInteger) -> c_double;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other fillColor)]
-        pub unsafe fn fillColor(&self) -> Id<NSColor>;
+    #[objc2::method(sel = "rectOfTickMarkAtIndex:")]
+    pub unsafe fn rectOfTickMarkAtIndex(&self, index: NSInteger) -> NSRect;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setFillColor:)]
-        pub unsafe fn setFillColor(&self, fill_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "fillColor", managed = "Other")]
+    pub unsafe fn fillColor(&self) -> Id<NSColor>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other warningFillColor)]
-        pub unsafe fn warningFillColor(&self) -> Id<NSColor>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setFillColor:")]
+    pub unsafe fn setFillColor(&self, fill_color: Option<&NSColor>);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setWarningFillColor:)]
-        pub unsafe fn setWarningFillColor(&self, warning_fill_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "warningFillColor", managed = "Other")]
+    pub unsafe fn warningFillColor(&self) -> Id<NSColor>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other criticalFillColor)]
-        pub unsafe fn criticalFillColor(&self) -> Id<NSColor>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setWarningFillColor:")]
+    pub unsafe fn setWarningFillColor(&self, warning_fill_color: Option<&NSColor>);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setCriticalFillColor:)]
-        pub unsafe fn setCriticalFillColor(&self, critical_fill_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "criticalFillColor", managed = "Other")]
+    pub unsafe fn criticalFillColor(&self) -> Id<NSColor>;
 
-        #[method(drawsTieredCapacityLevels)]
-        pub unsafe fn drawsTieredCapacityLevels(&self) -> bool;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setCriticalFillColor:")]
+    pub unsafe fn setCriticalFillColor(&self, critical_fill_color: Option<&NSColor>);
 
-        #[method(setDrawsTieredCapacityLevels:)]
-        pub unsafe fn setDrawsTieredCapacityLevels(&self, draws_tiered_capacity_levels: bool);
+    #[objc2::method(sel = "drawsTieredCapacityLevels")]
+    pub unsafe fn drawsTieredCapacityLevels(&self) -> bool;
 
-        #[method(placeholderVisibility)]
-        pub unsafe fn placeholderVisibility(&self) -> NSLevelIndicatorPlaceholderVisibility;
+    #[objc2::method(sel = "setDrawsTieredCapacityLevels:")]
+    pub unsafe fn setDrawsTieredCapacityLevels(&self, draws_tiered_capacity_levels: bool);
 
-        #[method(setPlaceholderVisibility:)]
-        pub unsafe fn setPlaceholderVisibility(
-            &self,
-            placeholder_visibility: NSLevelIndicatorPlaceholderVisibility,
-        );
+    #[objc2::method(sel = "placeholderVisibility")]
+    pub unsafe fn placeholderVisibility(&self) -> NSLevelIndicatorPlaceholderVisibility;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other ratingImage)]
-        pub unsafe fn ratingImage(&self) -> Option<Id<NSImage>>;
+    #[objc2::method(sel = "setPlaceholderVisibility:")]
+    pub unsafe fn setPlaceholderVisibility(
+        &self,
+        placeholder_visibility: NSLevelIndicatorPlaceholderVisibility,
+    );
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setRatingImage:)]
-        pub unsafe fn setRatingImage(&self, rating_image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "ratingImage", managed = "Other")]
+    pub unsafe fn ratingImage(&self) -> Option<Id<NSImage>>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other ratingPlaceholderImage)]
-        pub unsafe fn ratingPlaceholderImage(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setRatingImage:")]
+    pub unsafe fn setRatingImage(&self, rating_image: Option<&NSImage>);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setRatingPlaceholderImage:)]
-        pub unsafe fn setRatingPlaceholderImage(&self, rating_placeholder_image: Option<&NSImage>);
-    }
-);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "ratingPlaceholderImage", managed = "Other")]
+    pub unsafe fn ratingPlaceholderImage(&self) -> Option<Id<NSImage>>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSControl`
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setRatingPlaceholderImage:")]
+    pub unsafe fn setRatingPlaceholderImage(&self, rating_placeholder_image: Option<&NSImage>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSControl`
     #[cfg(feature = "AppKit_NSLevelIndicator")]
-    unsafe impl NSLevelIndicator {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSLevelIndicator")]
+    pub type NSLevelIndicator;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

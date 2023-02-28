@@ -3,53 +3,50 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSURLRequestCachePolicy {
-        NSURLRequestUseProtocolCachePolicy = 0,
-        NSURLRequestReloadIgnoringLocalCacheData = 1,
-        NSURLRequestReloadIgnoringLocalAndRemoteCacheData = 4,
-        NSURLRequestReloadIgnoringCacheData = NSURLRequestReloadIgnoringLocalCacheData,
-        NSURLRequestReturnCacheDataElseLoad = 2,
-        NSURLRequestReturnCacheDataDontLoad = 3,
-        NSURLRequestReloadRevalidatingCacheData = 5,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSURLRequestCachePolicy {
+    NSURLRequestUseProtocolCachePolicy = 0,
+    NSURLRequestReloadIgnoringLocalCacheData = 1,
+    NSURLRequestReloadIgnoringLocalAndRemoteCacheData = 4,
+    NSURLRequestReloadIgnoringCacheData = NSURLRequestReloadIgnoringLocalCacheData,
+    NSURLRequestReturnCacheDataElseLoad = 2,
+    NSURLRequestReturnCacheDataDontLoad = 3,
+    NSURLRequestReloadRevalidatingCacheData = 5,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSURLRequestNetworkServiceType {
-        NSURLNetworkServiceTypeDefault = 0,
-        #[deprecated = "Use PushKit for VoIP control purposes"]
-        NSURLNetworkServiceTypeVoIP = 1,
-        NSURLNetworkServiceTypeVideo = 2,
-        NSURLNetworkServiceTypeBackground = 3,
-        NSURLNetworkServiceTypeVoice = 4,
-        NSURLNetworkServiceTypeResponsiveData = 6,
-        NSURLNetworkServiceTypeAVStreaming = 8,
-        NSURLNetworkServiceTypeResponsiveAV = 9,
-        NSURLNetworkServiceTypeCallSignaling = 11,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSURLRequestNetworkServiceType {
+    NSURLNetworkServiceTypeDefault = 0,
+    #[deprecated = "Use PushKit for VoIP control purposes"]
+    NSURLNetworkServiceTypeVoIP = 1,
+    NSURLNetworkServiceTypeVideo = 2,
+    NSURLNetworkServiceTypeBackground = 3,
+    NSURLNetworkServiceTypeVoice = 4,
+    NSURLNetworkServiceTypeResponsiveData = 6,
+    NSURLNetworkServiceTypeAVStreaming = 8,
+    NSURLNetworkServiceTypeResponsiveAV = 9,
+    NSURLNetworkServiceTypeCallSignaling = 11,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSURLRequestAttribution {
-        NSURLRequestAttributionDeveloper = 0,
-        NSURLRequestAttributionUser = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSURLRequestAttribution {
+    NSURLRequestAttributionDeveloper = 0,
+    NSURLRequestAttributionUser = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSURLRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSURLRequest")]
-    pub struct NSURLRequest;
-
-    #[cfg(feature = "Foundation_NSURLRequest")]
-    unsafe impl ClassType for NSURLRequest {
-        type Super = NSObject;
-    }
-);
+    pub type NSURLRequest;
+}
 
 #[cfg(feature = "Foundation_NSURLRequest")]
 unsafe impl NSCoding for NSURLRequest {}
@@ -60,85 +57,88 @@ unsafe impl NSObjectProtocol for NSURLRequest {}
 #[cfg(feature = "Foundation_NSURLRequest")]
 unsafe impl NSSecureCoding for NSURLRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLRequest")]
-    unsafe impl NSURLRequest {
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other requestWithURL:)]
-        pub unsafe fn requestWithURL(url: &NSURL) -> Id<Self>;
+    pub type NSURLRequest;
 
-        #[method(supportsSecureCoding)]
-        pub unsafe fn supportsSecureCoding() -> bool;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "requestWithURL:", managed = "Other")]
+    pub unsafe fn requestWithURL(url: &NSURL) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other requestWithURL:cachePolicy:timeoutInterval:)]
-        pub unsafe fn requestWithURL_cachePolicy_timeoutInterval(
-            url: &NSURL,
-            cache_policy: NSURLRequestCachePolicy,
-            timeout_interval: NSTimeInterval,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "supportsSecureCoding")]
+    pub unsafe fn supportsSecureCoding() -> bool;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithURL:)]
-        pub unsafe fn initWithURL(this: Option<Allocated<Self>>, url: &NSURL) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "requestWithURL:cachePolicy:timeoutInterval:", managed = "Other")]
+    pub unsafe fn requestWithURL_cachePolicy_timeoutInterval(
+        url: &NSURL,
+        cache_policy: NSURLRequestCachePolicy,
+        timeout_interval: NSTimeInterval,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithURL:cachePolicy:timeoutInterval:)]
-        pub unsafe fn initWithURL_cachePolicy_timeoutInterval(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            cache_policy: NSURLRequestCachePolicy,
-            timeout_interval: NSTimeInterval,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initWithURL:", managed = "Init")]
+    pub unsafe fn initWithURL(this: Option<Allocated<Self>>, url: &NSURL) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initWithURL:cachePolicy:timeoutInterval:", managed = "Init")]
+    pub unsafe fn initWithURL_cachePolicy_timeoutInterval(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        cache_policy: NSURLRequestCachePolicy,
+        timeout_interval: NSTimeInterval,
+    ) -> Id<Self>;
 
-        #[method(cachePolicy)]
-        pub unsafe fn cachePolicy(&self) -> NSURLRequestCachePolicy;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
 
-        #[method(timeoutInterval)]
-        pub unsafe fn timeoutInterval(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "cachePolicy")]
+    pub unsafe fn cachePolicy(&self) -> NSURLRequestCachePolicy;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other mainDocumentURL)]
-        pub unsafe fn mainDocumentURL(&self) -> Option<Id<NSURL>>;
+    #[objc2::method(sel = "timeoutInterval")]
+    pub unsafe fn timeoutInterval(&self) -> NSTimeInterval;
 
-        #[method(networkServiceType)]
-        pub unsafe fn networkServiceType(&self) -> NSURLRequestNetworkServiceType;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "mainDocumentURL", managed = "Other")]
+    pub unsafe fn mainDocumentURL(&self) -> Option<Id<NSURL>>;
 
-        #[method(allowsCellularAccess)]
-        pub unsafe fn allowsCellularAccess(&self) -> bool;
+    #[objc2::method(sel = "networkServiceType")]
+    pub unsafe fn networkServiceType(&self) -> NSURLRequestNetworkServiceType;
 
-        #[method(allowsExpensiveNetworkAccess)]
-        pub unsafe fn allowsExpensiveNetworkAccess(&self) -> bool;
+    #[objc2::method(sel = "allowsCellularAccess")]
+    pub unsafe fn allowsCellularAccess(&self) -> bool;
 
-        #[method(allowsConstrainedNetworkAccess)]
-        pub unsafe fn allowsConstrainedNetworkAccess(&self) -> bool;
+    #[objc2::method(sel = "allowsExpensiveNetworkAccess")]
+    pub unsafe fn allowsExpensiveNetworkAccess(&self) -> bool;
 
-        #[method(assumesHTTP3Capable)]
-        pub unsafe fn assumesHTTP3Capable(&self) -> bool;
+    #[objc2::method(sel = "allowsConstrainedNetworkAccess")]
+    pub unsafe fn allowsConstrainedNetworkAccess(&self) -> bool;
 
-        #[method(attribution)]
-        pub unsafe fn attribution(&self) -> NSURLRequestAttribution;
+    #[objc2::method(sel = "assumesHTTP3Capable")]
+    pub unsafe fn assumesHTTP3Capable(&self) -> bool;
 
-        #[method(requiresDNSSECValidation)]
-        pub unsafe fn requiresDNSSECValidation(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "attribution")]
+    pub unsafe fn attribution(&self) -> NSURLRequestAttribution;
 
-extern_class!(
+    #[objc2::method(sel = "requiresDNSSECValidation")]
+    pub unsafe fn requiresDNSSECValidation(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe super = NSURLRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMutableURLRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSMutableURLRequest")]
-    pub struct NSMutableURLRequest;
-
-    #[cfg(feature = "Foundation_NSMutableURLRequest")]
-    unsafe impl ClassType for NSMutableURLRequest {
-        #[inherits(NSObject)]
-        type Super = NSURLRequest;
-    }
-);
+    pub type NSMutableURLRequest;
+}
 
 #[cfg(feature = "Foundation_NSMutableURLRequest")]
 unsafe impl NSCoding for NSMutableURLRequest {}
@@ -149,211 +149,217 @@ unsafe impl NSObjectProtocol for NSMutableURLRequest {}
 #[cfg(feature = "Foundation_NSMutableURLRequest")]
 unsafe impl NSSecureCoding for NSMutableURLRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableURLRequest")]
-    unsafe impl NSMutableURLRequest {
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
+    pub type NSMutableURLRequest;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setURL:)]
-        pub unsafe fn setURL(&self, url: Option<&NSURL>);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
 
-        #[method(cachePolicy)]
-        pub unsafe fn cachePolicy(&self) -> NSURLRequestCachePolicy;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setURL:")]
+    pub unsafe fn setURL(&self, url: Option<&NSURL>);
 
-        #[method(setCachePolicy:)]
-        pub unsafe fn setCachePolicy(&self, cache_policy: NSURLRequestCachePolicy);
+    #[objc2::method(sel = "cachePolicy")]
+    pub unsafe fn cachePolicy(&self) -> NSURLRequestCachePolicy;
 
-        #[method(timeoutInterval)]
-        pub unsafe fn timeoutInterval(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "setCachePolicy:")]
+    pub unsafe fn setCachePolicy(&self, cache_policy: NSURLRequestCachePolicy);
 
-        #[method(setTimeoutInterval:)]
-        pub unsafe fn setTimeoutInterval(&self, timeout_interval: NSTimeInterval);
+    #[objc2::method(sel = "timeoutInterval")]
+    pub unsafe fn timeoutInterval(&self) -> NSTimeInterval;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other mainDocumentURL)]
-        pub unsafe fn mainDocumentURL(&self) -> Option<Id<NSURL>>;
+    #[objc2::method(sel = "setTimeoutInterval:")]
+    pub unsafe fn setTimeoutInterval(&self, timeout_interval: NSTimeInterval);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setMainDocumentURL:)]
-        pub unsafe fn setMainDocumentURL(&self, main_document_url: Option<&NSURL>);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "mainDocumentURL", managed = "Other")]
+    pub unsafe fn mainDocumentURL(&self) -> Option<Id<NSURL>>;
 
-        #[method(networkServiceType)]
-        pub unsafe fn networkServiceType(&self) -> NSURLRequestNetworkServiceType;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setMainDocumentURL:")]
+    pub unsafe fn setMainDocumentURL(&self, main_document_url: Option<&NSURL>);
 
-        #[method(setNetworkServiceType:)]
-        pub unsafe fn setNetworkServiceType(
-            &self,
-            network_service_type: NSURLRequestNetworkServiceType,
-        );
+    #[objc2::method(sel = "networkServiceType")]
+    pub unsafe fn networkServiceType(&self) -> NSURLRequestNetworkServiceType;
 
-        #[method(allowsCellularAccess)]
-        pub unsafe fn allowsCellularAccess(&self) -> bool;
+    #[objc2::method(sel = "setNetworkServiceType:")]
+    pub unsafe fn setNetworkServiceType(
+        &self,
+        network_service_type: NSURLRequestNetworkServiceType,
+    );
 
-        #[method(setAllowsCellularAccess:)]
-        pub unsafe fn setAllowsCellularAccess(&self, allows_cellular_access: bool);
+    #[objc2::method(sel = "allowsCellularAccess")]
+    pub unsafe fn allowsCellularAccess(&self) -> bool;
 
-        #[method(allowsExpensiveNetworkAccess)]
-        pub unsafe fn allowsExpensiveNetworkAccess(&self) -> bool;
+    #[objc2::method(sel = "setAllowsCellularAccess:")]
+    pub unsafe fn setAllowsCellularAccess(&self, allows_cellular_access: bool);
 
-        #[method(setAllowsExpensiveNetworkAccess:)]
-        pub unsafe fn setAllowsExpensiveNetworkAccess(&self, allows_expensive_network_access: bool);
+    #[objc2::method(sel = "allowsExpensiveNetworkAccess")]
+    pub unsafe fn allowsExpensiveNetworkAccess(&self) -> bool;
 
-        #[method(allowsConstrainedNetworkAccess)]
-        pub unsafe fn allowsConstrainedNetworkAccess(&self) -> bool;
+    #[objc2::method(sel = "setAllowsExpensiveNetworkAccess:")]
+    pub unsafe fn setAllowsExpensiveNetworkAccess(&self, allows_expensive_network_access: bool);
 
-        #[method(setAllowsConstrainedNetworkAccess:)]
-        pub unsafe fn setAllowsConstrainedNetworkAccess(
-            &self,
-            allows_constrained_network_access: bool,
-        );
+    #[objc2::method(sel = "allowsConstrainedNetworkAccess")]
+    pub unsafe fn allowsConstrainedNetworkAccess(&self) -> bool;
 
-        #[method(assumesHTTP3Capable)]
-        pub unsafe fn assumesHTTP3Capable(&self) -> bool;
+    #[objc2::method(sel = "setAllowsConstrainedNetworkAccess:")]
+    pub unsafe fn setAllowsConstrainedNetworkAccess(&self, allows_constrained_network_access: bool);
 
-        #[method(setAssumesHTTP3Capable:)]
-        pub unsafe fn setAssumesHTTP3Capable(&self, assumes_http3_capable: bool);
+    #[objc2::method(sel = "assumesHTTP3Capable")]
+    pub unsafe fn assumesHTTP3Capable(&self) -> bool;
 
-        #[method(attribution)]
-        pub unsafe fn attribution(&self) -> NSURLRequestAttribution;
+    #[objc2::method(sel = "setAssumesHTTP3Capable:")]
+    pub unsafe fn setAssumesHTTP3Capable(&self, assumes_http3_capable: bool);
 
-        #[method(setAttribution:)]
-        pub unsafe fn setAttribution(&self, attribution: NSURLRequestAttribution);
+    #[objc2::method(sel = "attribution")]
+    pub unsafe fn attribution(&self) -> NSURLRequestAttribution;
 
-        #[method(requiresDNSSECValidation)]
-        pub unsafe fn requiresDNSSECValidation(&self) -> bool;
+    #[objc2::method(sel = "setAttribution:")]
+    pub unsafe fn setAttribution(&self, attribution: NSURLRequestAttribution);
 
-        #[method(setRequiresDNSSECValidation:)]
-        pub unsafe fn setRequiresDNSSECValidation(&self, requires_dnssec_validation: bool);
-    }
-);
+    #[objc2::method(sel = "requiresDNSSECValidation")]
+    pub unsafe fn requiresDNSSECValidation(&self) -> bool;
 
-extern_methods!(
-    /// NSHTTPURLRequest
+    #[objc2::method(sel = "setRequiresDNSSECValidation:")]
+    pub unsafe fn setRequiresDNSSECValidation(&self, requires_dnssec_validation: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLRequest")]
-    unsafe impl NSURLRequest {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other HTTPMethod)]
-        pub unsafe fn HTTPMethod(&self) -> Option<Id<NSString>>;
+    pub type NSURLRequest;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other allHTTPHeaderFields)]
-        pub unsafe fn allHTTPHeaderFields(&self) -> Option<Id<NSDictionary<NSString, NSString>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "HTTPMethod", managed = "Other")]
+    pub unsafe fn HTTPMethod(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other valueForHTTPHeaderField:)]
-        pub unsafe fn valueForHTTPHeaderField(&self, field: &NSString) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "allHTTPHeaderFields", managed = "Other")]
+    pub unsafe fn allHTTPHeaderFields(&self) -> Option<Id<NSDictionary<NSString, NSString>>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other HTTPBody)]
-        pub unsafe fn HTTPBody(&self) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "valueForHTTPHeaderField:", managed = "Other")]
+    pub unsafe fn valueForHTTPHeaderField(&self, field: &NSString) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSInputStream")]
-        #[method_id(@__retain_semantics Other HTTPBodyStream)]
-        pub unsafe fn HTTPBodyStream(&self) -> Option<Id<NSInputStream>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "HTTPBody", managed = "Other")]
+    pub unsafe fn HTTPBody(&self) -> Option<Id<NSData>>;
 
-        #[method(HTTPShouldHandleCookies)]
-        pub unsafe fn HTTPShouldHandleCookies(&self) -> bool;
+    #[cfg(feature = "Foundation_NSInputStream")]
+    #[objc2::method(sel = "HTTPBodyStream", managed = "Other")]
+    pub unsafe fn HTTPBodyStream(&self) -> Option<Id<NSInputStream>>;
 
-        #[method(HTTPShouldUsePipelining)]
-        pub unsafe fn HTTPShouldUsePipelining(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "HTTPShouldHandleCookies")]
+    pub unsafe fn HTTPShouldHandleCookies(&self) -> bool;
 
-extern_methods!(
-    /// NSMutableHTTPURLRequest
+    #[objc2::method(sel = "HTTPShouldUsePipelining")]
+    pub unsafe fn HTTPShouldUsePipelining(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableURLRequest")]
-    unsafe impl NSMutableURLRequest {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other HTTPMethod)]
-        pub unsafe fn HTTPMethod(&self) -> Id<NSString>;
+    pub type NSMutableURLRequest;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setHTTPMethod:)]
-        pub unsafe fn setHTTPMethod(&self, http_method: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "HTTPMethod", managed = "Other")]
+    pub unsafe fn HTTPMethod(&self) -> Id<NSString>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other allHTTPHeaderFields)]
-        pub unsafe fn allHTTPHeaderFields(&self) -> Option<Id<NSDictionary<NSString, NSString>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setHTTPMethod:")]
+    pub unsafe fn setHTTPMethod(&self, http_method: &NSString);
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(setAllHTTPHeaderFields:)]
-        pub unsafe fn setAllHTTPHeaderFields(
-            &self,
-            all_http_header_fields: Option<&NSDictionary<NSString, NSString>>,
-        );
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "allHTTPHeaderFields", managed = "Other")]
+    pub unsafe fn allHTTPHeaderFields(&self) -> Option<Id<NSDictionary<NSString, NSString>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setValue:forHTTPHeaderField:)]
-        pub unsafe fn setValue_forHTTPHeaderField(
-            &self,
-            value: Option<&NSString>,
-            field: &NSString,
-        );
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setAllHTTPHeaderFields:")]
+    pub unsafe fn setAllHTTPHeaderFields(
+        &self,
+        all_http_header_fields: Option<&NSDictionary<NSString, NSString>>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(addValue:forHTTPHeaderField:)]
-        pub unsafe fn addValue_forHTTPHeaderField(&self, value: &NSString, field: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setValue:forHTTPHeaderField:")]
+    pub unsafe fn setValue_forHTTPHeaderField(&self, value: Option<&NSString>, field: &NSString);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other HTTPBody)]
-        pub unsafe fn HTTPBody(&self) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "addValue:forHTTPHeaderField:")]
+    pub unsafe fn addValue_forHTTPHeaderField(&self, value: &NSString, field: &NSString);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(setHTTPBody:)]
-        pub unsafe fn setHTTPBody(&self, http_body: Option<&NSData>);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "HTTPBody", managed = "Other")]
+    pub unsafe fn HTTPBody(&self) -> Option<Id<NSData>>;
 
-        #[cfg(feature = "Foundation_NSInputStream")]
-        #[method_id(@__retain_semantics Other HTTPBodyStream)]
-        pub unsafe fn HTTPBodyStream(&self) -> Option<Id<NSInputStream>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "setHTTPBody:")]
+    pub unsafe fn setHTTPBody(&self, http_body: Option<&NSData>);
 
-        #[cfg(feature = "Foundation_NSInputStream")]
-        #[method(setHTTPBodyStream:)]
-        pub unsafe fn setHTTPBodyStream(&self, http_body_stream: Option<&NSInputStream>);
+    #[cfg(feature = "Foundation_NSInputStream")]
+    #[objc2::method(sel = "HTTPBodyStream", managed = "Other")]
+    pub unsafe fn HTTPBodyStream(&self) -> Option<Id<NSInputStream>>;
 
-        #[method(HTTPShouldHandleCookies)]
-        pub unsafe fn HTTPShouldHandleCookies(&self) -> bool;
+    #[cfg(feature = "Foundation_NSInputStream")]
+    #[objc2::method(sel = "setHTTPBodyStream:")]
+    pub unsafe fn setHTTPBodyStream(&self, http_body_stream: Option<&NSInputStream>);
 
-        #[method(setHTTPShouldHandleCookies:)]
-        pub unsafe fn setHTTPShouldHandleCookies(&self, http_should_handle_cookies: bool);
+    #[objc2::method(sel = "HTTPShouldHandleCookies")]
+    pub unsafe fn HTTPShouldHandleCookies(&self) -> bool;
 
-        #[method(HTTPShouldUsePipelining)]
-        pub unsafe fn HTTPShouldUsePipelining(&self) -> bool;
+    #[objc2::method(sel = "setHTTPShouldHandleCookies:")]
+    pub unsafe fn setHTTPShouldHandleCookies(&self, http_should_handle_cookies: bool);
 
-        #[method(setHTTPShouldUsePipelining:)]
-        pub unsafe fn setHTTPShouldUsePipelining(&self, http_should_use_pipelining: bool);
-    }
-);
+    #[objc2::method(sel = "HTTPShouldUsePipelining")]
+    pub unsafe fn HTTPShouldUsePipelining(&self) -> bool;
 
-extern_methods!(
-    /// Methods declared on superclass `NSURLRequest`
+    #[objc2::method(sel = "setHTTPShouldUsePipelining:")]
+    pub unsafe fn setHTTPShouldUsePipelining(&self, http_should_use_pipelining: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSURLRequest`
     #[cfg(feature = "Foundation_NSMutableURLRequest")]
-    unsafe impl NSMutableURLRequest {
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other requestWithURL:)]
-        pub unsafe fn requestWithURL(url: &NSURL) -> Id<Self, Owned>;
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other requestWithURL:cachePolicy:timeoutInterval:)]
-        pub unsafe fn requestWithURL_cachePolicy_timeoutInterval(
-            url: &NSURL,
-            cache_policy: NSURLRequestCachePolicy,
-            timeout_interval: NSTimeInterval,
-        ) -> Id<Self, Owned>;
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithURL:)]
-        pub unsafe fn initWithURL(this: Option<Allocated<Self>>, url: &NSURL) -> Id<Self, Owned>;
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithURL:cachePolicy:timeoutInterval:)]
-        pub unsafe fn initWithURL_cachePolicy_timeoutInterval(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            cache_policy: NSURLRequestCachePolicy,
-            timeout_interval: NSTimeInterval,
-        ) -> Id<Self, Owned>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMutableURLRequest")]
+    pub type NSMutableURLRequest;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "requestWithURL:", managed = "Other")]
+    pub unsafe fn requestWithURL(url: &NSURL) -> Id<Self, Owned>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "requestWithURL:cachePolicy:timeoutInterval:", managed = "Other")]
+    pub unsafe fn requestWithURL_cachePolicy_timeoutInterval(
+        url: &NSURL,
+        cache_policy: NSURLRequestCachePolicy,
+        timeout_interval: NSTimeInterval,
+    ) -> Id<Self, Owned>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initWithURL:", managed = "Init")]
+    pub unsafe fn initWithURL(this: Option<Allocated<Self>>, url: &NSURL) -> Id<Self, Owned>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initWithURL:cachePolicy:timeoutInterval:", managed = "Init")]
+    pub unsafe fn initWithURL_cachePolicy_timeoutInterval(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        cache_policy: NSURLRequestCachePolicy,
+        timeout_interval: NSTimeInterval,
+    ) -> Id<Self, Owned>;
+}

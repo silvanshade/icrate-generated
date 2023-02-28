@@ -12,33 +12,36 @@ extern_static!(ASAuthorizationScopeFullName: &'static ASAuthorizationScope);
 
 extern_static!(ASAuthorizationScopeEmail: &'static ASAuthorizationScope);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAuthorization")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAuthorization")]
-    pub struct ASAuthorization;
-
-    #[cfg(feature = "AuthenticationServices_ASAuthorization")]
-    unsafe impl ClassType for ASAuthorization {
-        type Super = NSObject;
-    }
-);
+    pub type ASAuthorization;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorization")]
 unsafe impl NSObjectProtocol for ASAuthorization {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAuthorization")]
-    unsafe impl ASAuthorization {
-        #[method_id(@__retain_semantics Other provider)]
-        pub unsafe fn provider(&self) -> Id<ProtocolObject<dyn ASAuthorizationProvider>>;
+    pub type ASAuthorization;
 
-        #[method_id(@__retain_semantics Other credential)]
-        pub unsafe fn credential(&self) -> Id<ProtocolObject<dyn ASAuthorizationCredential>>;
+    #[objc2::method(sel = "provider", managed = "Other")]
+    pub unsafe fn provider(&self) -> Id<ProtocolObject<dyn ASAuthorizationProvider>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "credential", managed = "Other")]
+    pub unsafe fn credential(&self) -> Id<ProtocolObject<dyn ASAuthorizationCredential>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

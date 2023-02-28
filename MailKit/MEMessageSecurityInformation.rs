@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MailKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MailKit_MEMessageSecurityInformation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MailKit_MEMessageSecurityInformation")]
-    pub struct MEMessageSecurityInformation;
-
-    #[cfg(feature = "MailKit_MEMessageSecurityInformation")]
-    unsafe impl ClassType for MEMessageSecurityInformation {
-        type Super = NSObject;
-    }
-);
+    pub type MEMessageSecurityInformation;
+}
 
 #[cfg(feature = "MailKit_MEMessageSecurityInformation")]
 unsafe impl NSCoding for MEMessageSecurityInformation {}
@@ -25,66 +25,75 @@ unsafe impl NSObjectProtocol for MEMessageSecurityInformation {}
 #[cfg(feature = "MailKit_MEMessageSecurityInformation")]
 unsafe impl NSSecureCoding for MEMessageSecurityInformation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MailKit_MEMessageSecurityInformation")]
-    unsafe impl MEMessageSecurityInformation {
-        #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEMessageSigner"))]
-        #[method_id(@__retain_semantics Other signers)]
-        pub unsafe fn signers(&self) -> Id<NSArray<MEMessageSigner>>;
+    pub type MEMessageSecurityInformation;
 
-        #[method(isEncrypted)]
-        pub unsafe fn isEncrypted(&self) -> bool;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "MailKit_MEMessageSigner"))]
+    #[objc2::method(sel = "signers", managed = "Other")]
+    pub unsafe fn signers(&self) -> Id<NSArray<MEMessageSigner>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other signingError)]
-        pub unsafe fn signingError(&self) -> Option<Id<NSError>>;
+    #[objc2::method(sel = "isEncrypted")]
+    pub unsafe fn isEncrypted(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other encryptionError)]
-        pub unsafe fn encryptionError(&self) -> Option<Id<NSError>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "signingError", managed = "Other")]
+    pub unsafe fn signingError(&self) -> Option<Id<NSError>>;
 
-        #[method(shouldBlockRemoteContent)]
-        pub unsafe fn shouldBlockRemoteContent(&self) -> bool;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "encryptionError", managed = "Other")]
+    pub unsafe fn encryptionError(&self) -> Option<Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedRemoteContentBlockingReason)]
-        pub unsafe fn localizedRemoteContentBlockingReason(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "shouldBlockRemoteContent")]
+    pub unsafe fn shouldBlockRemoteContent(&self) -> bool;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedRemoteContentBlockingReason", managed = "Other")]
+    pub unsafe fn localizedRemoteContentBlockingReason(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "MailKit_MEMessageSigner"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSigners:isEncrypted:signingError:encryptionError:)]
-        pub unsafe fn initWithSigners_isEncrypted_signingError_encryptionError(
-            this: Option<Allocated<Self>>,
-            signers: &NSArray<MEMessageSigner>,
-            is_encrypted: bool,
-            signing_error: Option<&NSError>,
-            encryption_error: Option<&NSError>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "MailKit_MEMessageSigner"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSigners:isEncrypted:signingError:encryptionError:shouldBlockRemoteContent:localizedRemoteContentBlockingReason:)]
-        pub unsafe fn initWithSigners_isEncrypted_signingError_encryptionError_shouldBlockRemoteContent_localizedRemoteContentBlockingReason(
-            this: Option<Allocated<Self>>,
-            signers: &NSArray<MEMessageSigner>,
-            is_encrypted: bool,
-            signing_error: Option<&NSError>,
-            encryption_error: Option<&NSError>,
-            should_block_remote_content: bool,
-            localized_remote_content_blocking_reason: Option<&NSString>,
-        ) -> Id<Self>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "MailKit_MEMessageSigner"
+    ))]
+    #[objc2::method(
+        sel = "initWithSigners:isEncrypted:signingError:encryptionError:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithSigners_isEncrypted_signingError_encryptionError(
+        this: Option<Allocated<Self>>,
+        signers: &NSArray<MEMessageSigner>,
+        is_encrypted: bool,
+        signing_error: Option<&NSError>,
+        encryption_error: Option<&NSError>,
+    ) -> Id<Self>;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "MailKit_MEMessageSigner"
+    ))]
+    #[objc2::method(
+        sel = "initWithSigners:isEncrypted:signingError:encryptionError:shouldBlockRemoteContent:localizedRemoteContentBlockingReason:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithSigners_isEncrypted_signingError_encryptionError_shouldBlockRemoteContent_localizedRemoteContentBlockingReason(
+        this: Option<Allocated<Self>>,
+        signers: &NSArray<MEMessageSigner>,
+        is_encrypted: bool,
+        signing_error: Option<&NSError>,
+        encryption_error: Option<&NSError>,
+        should_block_remote_content: bool,
+        localized_remote_content_blocking_reason: Option<&NSString>,
+    ) -> Id<Self>;
+}

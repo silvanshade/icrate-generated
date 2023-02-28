@@ -6,17 +6,17 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKObject,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKSample")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKSample")]
-    pub struct HKSample;
-
-    #[cfg(feature = "HealthKit_HKSample")]
-    unsafe impl ClassType for HKSample {
-        #[inherits(NSObject)]
-        type Super = HKObject;
-    }
-);
+    pub type HKSample;
+}
 
 #[cfg(feature = "HealthKit_HKSample")]
 unsafe impl NSCoding for HKSample {}
@@ -27,25 +27,28 @@ unsafe impl NSObjectProtocol for HKSample {}
 #[cfg(feature = "HealthKit_HKSample")]
 unsafe impl NSSecureCoding for HKSample {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKSample")]
-    unsafe impl HKSample {
-        #[cfg(feature = "HealthKit_HKSampleType")]
-        #[method_id(@__retain_semantics Other sampleType)]
-        pub unsafe fn sampleType(&self) -> Id<HKSampleType>;
+    pub type HKSample;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other startDate)]
-        pub unsafe fn startDate(&self) -> Id<NSDate>;
+    #[cfg(feature = "HealthKit_HKSampleType")]
+    #[objc2::method(sel = "sampleType", managed = "Other")]
+    pub unsafe fn sampleType(&self) -> Id<HKSampleType>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other endDate)]
-        pub unsafe fn endDate(&self) -> Id<NSDate>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "startDate", managed = "Other")]
+    pub unsafe fn startDate(&self) -> Id<NSDate>;
 
-        #[method(hasUndeterminedDuration)]
-        pub unsafe fn hasUndeterminedDuration(&self) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "endDate", managed = "Other")]
+    pub unsafe fn endDate(&self) -> Id<NSDate>;
+
+    #[objc2::method(sel = "hasUndeterminedDuration")]
+    pub unsafe fn hasUndeterminedDuration(&self) -> bool;
+}
 
 extern_static!(HKSampleSortIdentifierStartDate: &'static NSString);
 

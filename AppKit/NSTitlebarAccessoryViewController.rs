@@ -5,17 +5,18 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSViewController,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTitlebarAccessoryViewController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTitlebarAccessoryViewController")]
-    pub struct NSTitlebarAccessoryViewController;
-
-    #[cfg(feature = "AppKit_NSTitlebarAccessoryViewController")]
-    unsafe impl ClassType for NSTitlebarAccessoryViewController {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSViewController;
-    }
-);
+    pub type NSTitlebarAccessoryViewController;
+}
 
 #[cfg(feature = "AppKit_NSTitlebarAccessoryViewController")]
 unsafe impl NSAnimatablePropertyContainer for NSTitlebarAccessoryViewController {}
@@ -38,54 +39,63 @@ unsafe impl NSSeguePerforming for NSTitlebarAccessoryViewController {}
 #[cfg(feature = "AppKit_NSTitlebarAccessoryViewController")]
 unsafe impl NSUserInterfaceItemIdentification for NSTitlebarAccessoryViewController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTitlebarAccessoryViewController")]
-    unsafe impl NSTitlebarAccessoryViewController {
-        #[method(layoutAttribute)]
-        pub unsafe fn layoutAttribute(&self) -> NSLayoutAttribute;
+    pub type NSTitlebarAccessoryViewController;
 
-        #[method(setLayoutAttribute:)]
-        pub unsafe fn setLayoutAttribute(&self, layout_attribute: NSLayoutAttribute);
+    #[objc2::method(sel = "layoutAttribute")]
+    pub unsafe fn layoutAttribute(&self) -> NSLayoutAttribute;
 
-        #[method(fullScreenMinHeight)]
-        pub unsafe fn fullScreenMinHeight(&self) -> CGFloat;
+    #[objc2::method(sel = "setLayoutAttribute:")]
+    pub unsafe fn setLayoutAttribute(&self, layout_attribute: NSLayoutAttribute);
 
-        #[method(setFullScreenMinHeight:)]
-        pub unsafe fn setFullScreenMinHeight(&self, full_screen_min_height: CGFloat);
+    #[objc2::method(sel = "fullScreenMinHeight")]
+    pub unsafe fn fullScreenMinHeight(&self) -> CGFloat;
 
-        #[method(isHidden)]
-        pub unsafe fn isHidden(&self) -> bool;
+    #[objc2::method(sel = "setFullScreenMinHeight:")]
+    pub unsafe fn setFullScreenMinHeight(&self, full_screen_min_height: CGFloat);
 
-        #[method(setHidden:)]
-        pub unsafe fn setHidden(&self, hidden: bool);
+    #[objc2::method(sel = "isHidden")]
+    pub unsafe fn isHidden(&self) -> bool;
 
-        #[method(automaticallyAdjustsSize)]
-        pub unsafe fn automaticallyAdjustsSize(&self) -> bool;
+    #[objc2::method(sel = "setHidden:")]
+    pub unsafe fn setHidden(&self, hidden: bool);
 
-        #[method(setAutomaticallyAdjustsSize:)]
-        pub unsafe fn setAutomaticallyAdjustsSize(&self, automatically_adjusts_size: bool);
+    #[objc2::method(sel = "automaticallyAdjustsSize")]
+    pub unsafe fn automaticallyAdjustsSize(&self) -> bool;
 
-        #[method(viewWillAppear)]
-        pub unsafe fn viewWillAppear(&self);
+    #[objc2::method(sel = "setAutomaticallyAdjustsSize:")]
+    pub unsafe fn setAutomaticallyAdjustsSize(&self, automatically_adjusts_size: bool);
 
-        #[method(viewDidAppear)]
-        pub unsafe fn viewDidAppear(&self);
+    #[objc2::method(sel = "viewWillAppear")]
+    pub unsafe fn viewWillAppear(&self);
 
-        #[method(viewDidDisappear)]
-        pub unsafe fn viewDidDisappear(&self);
-    }
-);
+    #[objc2::method(sel = "viewDidAppear")]
+    pub unsafe fn viewDidAppear(&self);
 
-extern_methods!(
-    /// Methods declared on superclass `NSViewController`
+    #[objc2::method(sel = "viewDidDisappear")]
+    pub unsafe fn viewDidDisappear(&self);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSViewController`
     #[cfg(feature = "AppKit_NSTitlebarAccessoryViewController")]
-    unsafe impl NSTitlebarAccessoryViewController {
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Init initWithNibName:bundle:)]
-        pub unsafe fn initWithNibName_bundle(
-            this: Option<Allocated<Self>>,
-            nib_name_or_nil: Option<&NSNibName>,
-            nib_bundle_or_nil: Option<&NSBundle>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTitlebarAccessoryViewController")]
+    pub type NSTitlebarAccessoryViewController;
+
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "initWithNibName:bundle:", managed = "Init")]
+    pub unsafe fn initWithNibName_bundle(
+        this: Option<Allocated<Self>>,
+        nib_name_or_nil: Option<&NSNibName>,
+        nib_bundle_or_nil: Option<&NSBundle>,
+    ) -> Id<Self>;
+}

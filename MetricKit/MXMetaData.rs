@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXMetaData")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXMetaData")]
-    pub struct MXMetaData;
-
-    #[cfg(feature = "MetricKit_MXMetaData")]
-    unsafe impl ClassType for MXMetaData {
-        type Super = NSObject;
-    }
-);
+    pub type MXMetaData;
+}
 
 #[cfg(feature = "MetricKit_MXMetaData")]
 unsafe impl NSCoding for MXMetaData {}
@@ -24,40 +24,43 @@ unsafe impl NSObjectProtocol for MXMetaData {}
 #[cfg(feature = "MetricKit_MXMetaData")]
 unsafe impl NSSecureCoding for MXMetaData {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXMetaData")]
-    unsafe impl MXMetaData {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other regionFormat)]
-        pub unsafe fn regionFormat(&self) -> Id<NSString>;
+    pub type MXMetaData;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other osVersion)]
-        pub unsafe fn osVersion(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "regionFormat", managed = "Other")]
+    pub unsafe fn regionFormat(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other deviceType)]
-        pub unsafe fn deviceType(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "osVersion", managed = "Other")]
+    pub unsafe fn osVersion(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other applicationBuildVersion)]
-        pub unsafe fn applicationBuildVersion(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "deviceType", managed = "Other")]
+    pub unsafe fn deviceType(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other platformArchitecture)]
-        pub unsafe fn platformArchitecture(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "applicationBuildVersion", managed = "Other")]
+    pub unsafe fn applicationBuildVersion(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other JSONRepresentation)]
-        pub unsafe fn JSONRepresentation(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "platformArchitecture", managed = "Other")]
+    pub unsafe fn platformArchitecture(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other DictionaryRepresentation)]
-        pub unsafe fn DictionaryRepresentation(&self) -> Id<NSDictionary>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "JSONRepresentation", managed = "Other")]
+    pub unsafe fn JSONRepresentation(&self) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method_id(@__retain_semantics Other dictionaryRepresentation)]
-        pub unsafe fn dictionaryRepresentation(&self) -> Id<NSDictionary>;
-    }
-);
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[deprecated]
+    #[objc2::method(sel = "DictionaryRepresentation", managed = "Other")]
+    pub unsafe fn DictionaryRepresentation(&self) -> Id<NSDictionary>;
+
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(sel = "dictionaryRepresentation", managed = "Other")]
+    pub unsafe fn dictionaryRepresentation(&self) -> Id<NSDictionary>;
+}

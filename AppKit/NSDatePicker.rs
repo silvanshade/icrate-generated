@@ -5,17 +5,19 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSControl,
+    unsafe inherits = [
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSDatePicker")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSDatePicker")]
-    pub struct NSDatePicker;
-
-    #[cfg(feature = "AppKit_NSDatePicker")]
-    unsafe impl ClassType for NSDatePicker {
-        #[inherits(NSView, NSResponder, NSObject)]
-        type Super = NSControl;
-    }
-);
+    pub type NSDatePicker;
+}
 
 #[cfg(feature = "AppKit_NSDatePicker")]
 unsafe impl NSAccessibility for NSDatePicker {}
@@ -41,137 +43,146 @@ unsafe impl NSObjectProtocol for NSDatePicker {}
 #[cfg(feature = "AppKit_NSDatePicker")]
 unsafe impl NSUserInterfaceItemIdentification for NSDatePicker {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSDatePicker")]
-    unsafe impl NSDatePicker {
-        #[method(datePickerStyle)]
-        pub unsafe fn datePickerStyle(&self) -> NSDatePickerStyle;
+    pub type NSDatePicker;
 
-        #[method(setDatePickerStyle:)]
-        pub unsafe fn setDatePickerStyle(&self, date_picker_style: NSDatePickerStyle);
+    #[objc2::method(sel = "datePickerStyle")]
+    pub unsafe fn datePickerStyle(&self) -> NSDatePickerStyle;
 
-        #[method(isBezeled)]
-        pub unsafe fn isBezeled(&self) -> bool;
+    #[objc2::method(sel = "setDatePickerStyle:")]
+    pub unsafe fn setDatePickerStyle(&self, date_picker_style: NSDatePickerStyle);
 
-        #[method(setBezeled:)]
-        pub unsafe fn setBezeled(&self, bezeled: bool);
+    #[objc2::method(sel = "isBezeled")]
+    pub unsafe fn isBezeled(&self) -> bool;
 
-        #[method(isBordered)]
-        pub unsafe fn isBordered(&self) -> bool;
+    #[objc2::method(sel = "setBezeled:")]
+    pub unsafe fn setBezeled(&self, bezeled: bool);
 
-        #[method(setBordered:)]
-        pub unsafe fn setBordered(&self, bordered: bool);
+    #[objc2::method(sel = "isBordered")]
+    pub unsafe fn isBordered(&self) -> bool;
 
-        #[method(drawsBackground)]
-        pub unsafe fn drawsBackground(&self) -> bool;
+    #[objc2::method(sel = "setBordered:")]
+    pub unsafe fn setBordered(&self, bordered: bool);
 
-        #[method(setDrawsBackground:)]
-        pub unsafe fn setDrawsBackground(&self, draws_background: bool);
+    #[objc2::method(sel = "drawsBackground")]
+    pub unsafe fn drawsBackground(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other backgroundColor)]
-        pub unsafe fn backgroundColor(&self) -> Id<NSColor>;
+    #[objc2::method(sel = "setDrawsBackground:")]
+    pub unsafe fn setDrawsBackground(&self, draws_background: bool);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setBackgroundColor:)]
-        pub unsafe fn setBackgroundColor(&self, background_color: &NSColor);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "backgroundColor", managed = "Other")]
+    pub unsafe fn backgroundColor(&self) -> Id<NSColor>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other textColor)]
-        pub unsafe fn textColor(&self) -> Id<NSColor>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setBackgroundColor:")]
+    pub unsafe fn setBackgroundColor(&self, background_color: &NSColor);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setTextColor:)]
-        pub unsafe fn setTextColor(&self, text_color: &NSColor);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "textColor", managed = "Other")]
+    pub unsafe fn textColor(&self) -> Id<NSColor>;
 
-        #[method(datePickerMode)]
-        pub unsafe fn datePickerMode(&self) -> NSDatePickerMode;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setTextColor:")]
+    pub unsafe fn setTextColor(&self, text_color: &NSColor);
 
-        #[method(setDatePickerMode:)]
-        pub unsafe fn setDatePickerMode(&self, date_picker_mode: NSDatePickerMode);
+    #[objc2::method(sel = "datePickerMode")]
+    pub unsafe fn datePickerMode(&self) -> NSDatePickerMode;
 
-        #[method(datePickerElements)]
-        pub unsafe fn datePickerElements(&self) -> NSDatePickerElementFlags;
+    #[objc2::method(sel = "setDatePickerMode:")]
+    pub unsafe fn setDatePickerMode(&self, date_picker_mode: NSDatePickerMode);
 
-        #[method(setDatePickerElements:)]
-        pub unsafe fn setDatePickerElements(&self, date_picker_elements: NSDatePickerElementFlags);
+    #[objc2::method(sel = "datePickerElements")]
+    pub unsafe fn datePickerElements(&self) -> NSDatePickerElementFlags;
 
-        #[cfg(feature = "Foundation_NSCalendar")]
-        #[method_id(@__retain_semantics Other calendar)]
-        pub unsafe fn calendar(&self) -> Option<Id<NSCalendar>>;
+    #[objc2::method(sel = "setDatePickerElements:")]
+    pub unsafe fn setDatePickerElements(&self, date_picker_elements: NSDatePickerElementFlags);
 
-        #[cfg(feature = "Foundation_NSCalendar")]
-        #[method(setCalendar:)]
-        pub unsafe fn setCalendar(&self, calendar: Option<&NSCalendar>);
+    #[cfg(feature = "Foundation_NSCalendar")]
+    #[objc2::method(sel = "calendar", managed = "Other")]
+    pub unsafe fn calendar(&self) -> Option<Id<NSCalendar>>;
 
-        #[cfg(feature = "Foundation_NSLocale")]
-        #[method_id(@__retain_semantics Other locale)]
-        pub unsafe fn locale(&self) -> Option<Id<NSLocale>>;
+    #[cfg(feature = "Foundation_NSCalendar")]
+    #[objc2::method(sel = "setCalendar:")]
+    pub unsafe fn setCalendar(&self, calendar: Option<&NSCalendar>);
 
-        #[cfg(feature = "Foundation_NSLocale")]
-        #[method(setLocale:)]
-        pub unsafe fn setLocale(&self, locale: Option<&NSLocale>);
+    #[cfg(feature = "Foundation_NSLocale")]
+    #[objc2::method(sel = "locale", managed = "Other")]
+    pub unsafe fn locale(&self) -> Option<Id<NSLocale>>;
 
-        #[cfg(feature = "Foundation_NSTimeZone")]
-        #[method_id(@__retain_semantics Other timeZone)]
-        pub unsafe fn timeZone(&self) -> Option<Id<NSTimeZone>>;
+    #[cfg(feature = "Foundation_NSLocale")]
+    #[objc2::method(sel = "setLocale:")]
+    pub unsafe fn setLocale(&self, locale: Option<&NSLocale>);
 
-        #[cfg(feature = "Foundation_NSTimeZone")]
-        #[method(setTimeZone:)]
-        pub unsafe fn setTimeZone(&self, time_zone: Option<&NSTimeZone>);
+    #[cfg(feature = "Foundation_NSTimeZone")]
+    #[objc2::method(sel = "timeZone", managed = "Other")]
+    pub unsafe fn timeZone(&self) -> Option<Id<NSTimeZone>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other dateValue)]
-        pub unsafe fn dateValue(&self) -> Id<NSDate>;
+    #[cfg(feature = "Foundation_NSTimeZone")]
+    #[objc2::method(sel = "setTimeZone:")]
+    pub unsafe fn setTimeZone(&self, time_zone: Option<&NSTimeZone>);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(setDateValue:)]
-        pub unsafe fn setDateValue(&self, date_value: &NSDate);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "dateValue", managed = "Other")]
+    pub unsafe fn dateValue(&self) -> Id<NSDate>;
 
-        #[method(timeInterval)]
-        pub unsafe fn timeInterval(&self) -> NSTimeInterval;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "setDateValue:")]
+    pub unsafe fn setDateValue(&self, date_value: &NSDate);
 
-        #[method(setTimeInterval:)]
-        pub unsafe fn setTimeInterval(&self, time_interval: NSTimeInterval);
+    #[objc2::method(sel = "timeInterval")]
+    pub unsafe fn timeInterval(&self) -> NSTimeInterval;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other minDate)]
-        pub unsafe fn minDate(&self) -> Option<Id<NSDate>>;
+    #[objc2::method(sel = "setTimeInterval:")]
+    pub unsafe fn setTimeInterval(&self, time_interval: NSTimeInterval);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(setMinDate:)]
-        pub unsafe fn setMinDate(&self, min_date: Option<&NSDate>);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "minDate", managed = "Other")]
+    pub unsafe fn minDate(&self) -> Option<Id<NSDate>>;
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other maxDate)]
-        pub unsafe fn maxDate(&self) -> Option<Id<NSDate>>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "setMinDate:")]
+    pub unsafe fn setMinDate(&self, min_date: Option<&NSDate>);
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(setMaxDate:)]
-        pub unsafe fn setMaxDate(&self, max_date: Option<&NSDate>);
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "maxDate", managed = "Other")]
+    pub unsafe fn maxDate(&self) -> Option<Id<NSDate>>;
 
-        #[method(presentsCalendarOverlay)]
-        pub unsafe fn presentsCalendarOverlay(&self) -> bool;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "setMaxDate:")]
+    pub unsafe fn setMaxDate(&self, max_date: Option<&NSDate>);
 
-        #[method(setPresentsCalendarOverlay:)]
-        pub unsafe fn setPresentsCalendarOverlay(&self, presents_calendar_overlay: bool);
+    #[objc2::method(sel = "presentsCalendarOverlay")]
+    pub unsafe fn presentsCalendarOverlay(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSDatePickerCellDelegate>>>;
+    #[objc2::method(sel = "setPresentsCalendarOverlay:")]
+    pub unsafe fn setPresentsCalendarOverlay(&self, presents_calendar_overlay: bool);
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSDatePickerCellDelegate>>,
-        );
-    }
-);
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSDatePickerCellDelegate>>>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSControl`
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn NSDatePickerCellDelegate>>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSControl`
     #[cfg(feature = "AppKit_NSDatePicker")]
-    unsafe impl NSDatePicker {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSDatePicker")]
+    pub type NSDatePicker;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

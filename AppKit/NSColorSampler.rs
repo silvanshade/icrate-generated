@@ -5,28 +5,31 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSColorSampler")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSColorSampler")]
-    pub struct NSColorSampler;
-
-    #[cfg(feature = "AppKit_NSColorSampler")]
-    unsafe impl ClassType for NSColorSampler {
-        type Super = NSObject;
-    }
-);
+    pub type NSColorSampler;
+}
 
 #[cfg(feature = "AppKit_NSColorSampler")]
 unsafe impl NSObjectProtocol for NSColorSampler {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSColorSampler")]
-    unsafe impl NSColorSampler {
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(showSamplerWithSelectionHandler:)]
-        pub unsafe fn showSamplerWithSelectionHandler(
-            &self,
-            selection_handler: &Block<(*mut NSColor,), ()>,
-        );
-    }
-);
+    pub type NSColorSampler;
+
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "showSamplerWithSelectionHandler:")]
+    pub unsafe fn showSamplerWithSelectionHandler(
+        &self,
+        selection_handler: &Block<(*mut NSColor,), ()>,
+    );
+}

@@ -5,25 +5,28 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WKContentRuleList")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WKContentRuleList")]
-    pub struct WKContentRuleList;
-
-    #[cfg(feature = "WebKit_WKContentRuleList")]
-    unsafe impl ClassType for WKContentRuleList {
-        type Super = NSObject;
-    }
-);
+    pub type WKContentRuleList;
+}
 
 #[cfg(feature = "WebKit_WKContentRuleList")]
 unsafe impl NSObjectProtocol for WKContentRuleList {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WKContentRuleList")]
-    unsafe impl WKContentRuleList {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
-    }
-);
+    pub type WKContentRuleList;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
+}

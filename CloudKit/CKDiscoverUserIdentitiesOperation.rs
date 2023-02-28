@@ -5,86 +5,88 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CKOperation,
+    unsafe inherits = [
+        NSOperation,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKDiscoverUserIdentitiesOperation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKDiscoverUserIdentitiesOperation")]
-    pub struct CKDiscoverUserIdentitiesOperation;
-
-    #[cfg(feature = "CloudKit_CKDiscoverUserIdentitiesOperation")]
-    unsafe impl ClassType for CKDiscoverUserIdentitiesOperation {
-        #[inherits(NSOperation, NSObject)]
-        type Super = CKOperation;
-    }
-);
+    pub type CKDiscoverUserIdentitiesOperation;
+}
 
 #[cfg(feature = "CloudKit_CKDiscoverUserIdentitiesOperation")]
 unsafe impl NSObjectProtocol for CKDiscoverUserIdentitiesOperation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKDiscoverUserIdentitiesOperation")]
-    unsafe impl CKDiscoverUserIdentitiesOperation {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKDiscoverUserIdentitiesOperation;
 
-        #[cfg(all(
-            feature = "CloudKit_CKUserIdentityLookupInfo",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Init initWithUserIdentityLookupInfos:)]
-        pub unsafe fn initWithUserIdentityLookupInfos(
-            this: Option<Allocated<Self>>,
-            user_identity_lookup_infos: &NSArray<CKUserIdentityLookupInfo>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "CloudKit_CKUserIdentityLookupInfo",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other userIdentityLookupInfos)]
-        pub unsafe fn userIdentityLookupInfos(&self) -> Id<NSArray<CKUserIdentityLookupInfo>>;
+    #[cfg(all(
+        feature = "CloudKit_CKUserIdentityLookupInfo",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "initWithUserIdentityLookupInfos:", managed = "Init")]
+    pub unsafe fn initWithUserIdentityLookupInfos(
+        this: Option<Allocated<Self>>,
+        user_identity_lookup_infos: &NSArray<CKUserIdentityLookupInfo>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "CloudKit_CKUserIdentityLookupInfo",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method(setUserIdentityLookupInfos:)]
-        pub unsafe fn setUserIdentityLookupInfos(
-            &self,
-            user_identity_lookup_infos: &NSArray<CKUserIdentityLookupInfo>,
-        );
+    #[cfg(all(
+        feature = "CloudKit_CKUserIdentityLookupInfo",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "userIdentityLookupInfos", managed = "Other")]
+    pub unsafe fn userIdentityLookupInfos(&self) -> Id<NSArray<CKUserIdentityLookupInfo>>;
 
-        #[cfg(all(
-            feature = "CloudKit_CKUserIdentity",
-            feature = "CloudKit_CKUserIdentityLookupInfo"
-        ))]
-        #[method(userIdentityDiscoveredBlock)]
-        pub unsafe fn userIdentityDiscoveredBlock(
-            &self,
-        ) -> *mut Block<(NonNull<CKUserIdentity>, NonNull<CKUserIdentityLookupInfo>), ()>;
+    #[cfg(all(
+        feature = "CloudKit_CKUserIdentityLookupInfo",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "setUserIdentityLookupInfos:")]
+    pub unsafe fn setUserIdentityLookupInfos(
+        &self,
+        user_identity_lookup_infos: &NSArray<CKUserIdentityLookupInfo>,
+    );
 
-        #[cfg(all(
-            feature = "CloudKit_CKUserIdentity",
-            feature = "CloudKit_CKUserIdentityLookupInfo"
-        ))]
-        #[method(setUserIdentityDiscoveredBlock:)]
-        pub unsafe fn setUserIdentityDiscoveredBlock(
-            &self,
-            user_identity_discovered_block: Option<
-                &Block<(NonNull<CKUserIdentity>, NonNull<CKUserIdentityLookupInfo>), ()>,
-            >,
-        );
+    #[cfg(all(
+        feature = "CloudKit_CKUserIdentity",
+        feature = "CloudKit_CKUserIdentityLookupInfo"
+    ))]
+    #[objc2::method(sel = "userIdentityDiscoveredBlock")]
+    pub unsafe fn userIdentityDiscoveredBlock(
+        &self,
+    ) -> *mut Block<(NonNull<CKUserIdentity>, NonNull<CKUserIdentityLookupInfo>), ()>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(discoverUserIdentitiesCompletionBlock)]
-        pub unsafe fn discoverUserIdentitiesCompletionBlock(
-            &self,
-        ) -> *mut Block<(*mut NSError,), ()>;
+    #[cfg(all(
+        feature = "CloudKit_CKUserIdentity",
+        feature = "CloudKit_CKUserIdentityLookupInfo"
+    ))]
+    #[objc2::method(sel = "setUserIdentityDiscoveredBlock:")]
+    pub unsafe fn setUserIdentityDiscoveredBlock(
+        &self,
+        user_identity_discovered_block: Option<
+            &Block<(NonNull<CKUserIdentity>, NonNull<CKUserIdentityLookupInfo>), ()>,
+        >,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(setDiscoverUserIdentitiesCompletionBlock:)]
-        pub unsafe fn setDiscoverUserIdentitiesCompletionBlock(
-            &self,
-            discover_user_identities_completion_block: Option<&Block<(*mut NSError,), ()>>,
-        );
-    }
-);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "discoverUserIdentitiesCompletionBlock")]
+    pub unsafe fn discoverUserIdentitiesCompletionBlock(&self) -> *mut Block<(*mut NSError,), ()>;
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "setDiscoverUserIdentitiesCompletionBlock:")]
+    pub unsafe fn setDiscoverUserIdentitiesCompletionBlock(
+        &self,
+        discover_user_identities_completion_block: Option<&Block<(*mut NSError,), ()>>,
+    );
+}

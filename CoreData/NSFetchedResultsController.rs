@@ -4,24 +4,19 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-__inner_extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSFetchedResultsController")]
-    pub struct NSFetchedResultsController<
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type NSFetchedResultsController<
         ResultType: Message = Object,
         ResultTypeOwnership: Ownership = Shared,
-    > {
-        _inner0: PhantomData<*mut (ResultType, ResultTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "CoreData_NSFetchedResultsController")]
-    unsafe impl<ResultType: Message, ResultTypeOwnership: Ownership> ClassType
-        for NSFetchedResultsController<ResultType, ResultTypeOwnership>
-    {
-        type Super = NSObject;
-    }
-);
+    >;
+}
 
 #[cfg(feature = "CoreData_NSFetchedResultsController")]
 unsafe impl<ResultType: Message, ResultTypeOwnership: Ownership> NSObjectProtocol
@@ -29,196 +24,197 @@ unsafe impl<ResultType: Message, ResultTypeOwnership: Ownership> NSObjectProtoco
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSFetchedResultsController")]
-    unsafe impl<ResultType: Message, ResultTypeOwnership: Ownership>
-        NSFetchedResultsController<ResultType, ResultTypeOwnership>
-    {
-        #[cfg(all(
-            feature = "CoreData_NSFetchRequest",
-            feature = "CoreData_NSManagedObjectContext",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Init initWithFetchRequest:managedObjectContext:sectionNameKeyPath:cacheName:)]
-        pub unsafe fn initWithFetchRequest_managedObjectContext_sectionNameKeyPath_cacheName(
-            this: Option<Allocated<Self>>,
-            fetch_request: &NSFetchRequest<ResultType>,
-            context: &NSManagedObjectContext,
-            section_name_key_path: Option<&NSString>,
-            name: Option<&NSString>,
-        ) -> Id<Self>;
+    pub type NSFetchedResultsController<
+        ResultType: Message = Object,
+        ResultTypeOwnership: Ownership = Shared,
+    >;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(performFetch:_)]
-        pub unsafe fn performFetch(&self) -> Result<(), Id<NSError>>;
+    #[cfg(all(
+        feature = "CoreData_NSFetchRequest",
+        feature = "CoreData_NSManagedObjectContext",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "initWithFetchRequest:managedObjectContext:sectionNameKeyPath:cacheName:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithFetchRequest_managedObjectContext_sectionNameKeyPath_cacheName(
+        this: Option<Allocated<Self>>,
+        fetch_request: &NSFetchRequest<ResultType>,
+        context: &NSManagedObjectContext,
+        section_name_key_path: Option<&NSString>,
+        name: Option<&NSString>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "CoreData_NSFetchRequest")]
-        #[method_id(@__retain_semantics Other fetchRequest)]
-        pub unsafe fn fetchRequest(&self) -> Id<NSFetchRequest<ResultType>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "performFetch:", throws)]
+    pub unsafe fn performFetch(&self) -> Result<(), Id<NSError>>;
 
-        #[cfg(feature = "CoreData_NSManagedObjectContext")]
-        #[method_id(@__retain_semantics Other managedObjectContext)]
-        pub unsafe fn managedObjectContext(&self) -> Id<NSManagedObjectContext>;
+    #[cfg(feature = "CoreData_NSFetchRequest")]
+    #[objc2::method(sel = "fetchRequest", managed = "Other")]
+    pub unsafe fn fetchRequest(&self) -> Id<NSFetchRequest<ResultType>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other sectionNameKeyPath)]
-        pub unsafe fn sectionNameKeyPath(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "CoreData_NSManagedObjectContext")]
+    #[objc2::method(sel = "managedObjectContext", managed = "Other")]
+    pub unsafe fn managedObjectContext(&self) -> Id<NSManagedObjectContext>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other cacheName)]
-        pub unsafe fn cacheName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "sectionNameKeyPath", managed = "Other")]
+    pub unsafe fn sectionNameKeyPath(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn NSFetchedResultsControllerDelegate>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "cacheName", managed = "Other")]
+    pub unsafe fn cacheName(&self) -> Option<Id<NSString>>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSFetchedResultsControllerDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn NSFetchedResultsControllerDelegate>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(deleteCacheWithName:)]
-        pub unsafe fn deleteCacheWithName(name: Option<&NSString>);
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn NSFetchedResultsControllerDelegate>>,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other fetchedObjects)]
-        pub unsafe fn fetchedObjects(&self) -> Option<Id<NSArray<ResultType>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "deleteCacheWithName:")]
+    pub unsafe fn deleteCacheWithName(name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSIndexPath")]
-        #[method_id(@__retain_semantics Other objectAtIndexPath:)]
-        pub unsafe fn objectAtIndexPath(
-            &self,
-            index_path: &NSIndexPath,
-        ) -> Id<ResultType, ResultTypeOwnership>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "fetchedObjects", managed = "Other")]
+    pub unsafe fn fetchedObjects(&self) -> Option<Id<NSArray<ResultType>>>;
 
-        #[cfg(feature = "Foundation_NSIndexPath")]
-        #[method_id(@__retain_semantics Other indexPathForObject:)]
-        pub unsafe fn indexPathForObject(&self, object: &ResultType) -> Option<Id<NSIndexPath>>;
+    #[cfg(feature = "Foundation_NSIndexPath")]
+    #[objc2::method(sel = "objectAtIndexPath:", managed = "Other")]
+    pub unsafe fn objectAtIndexPath(
+        &self,
+        index_path: &NSIndexPath,
+    ) -> Id<ResultType, ResultTypeOwnership>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other sectionIndexTitleForSectionName:)]
-        pub unsafe fn sectionIndexTitleForSectionName(
-            &self,
-            section_name: &NSString,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSIndexPath")]
+    #[objc2::method(sel = "indexPathForObject:", managed = "Other")]
+    pub unsafe fn indexPathForObject(&self, object: &ResultType) -> Option<Id<NSIndexPath>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other sectionIndexTitles)]
-        pub unsafe fn sectionIndexTitles(&self) -> Id<NSArray<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "sectionIndexTitleForSectionName:", managed = "Other")]
+    pub unsafe fn sectionIndexTitleForSectionName(
+        &self,
+        section_name: &NSString,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other sections)]
-        pub unsafe fn sections(
-            &self,
-        ) -> Option<Id<NSArray<ProtocolObject<dyn NSFetchedResultsSectionInfo>>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "sectionIndexTitles", managed = "Other")]
+    pub unsafe fn sectionIndexTitles(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(sectionForSectionIndexTitle:atIndex:)]
-        pub unsafe fn sectionForSectionIndexTitle_atIndex(
-            &self,
-            title: &NSString,
-            section_index: NSInteger,
-        ) -> NSInteger;
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "sections", managed = "Other")]
+    pub unsafe fn sections(
+        &self,
+    ) -> Option<Id<NSArray<ProtocolObject<dyn NSFetchedResultsSectionInfo>>>>;
 
-extern_protocol!(
-    pub unsafe trait NSFetchedResultsSectionInfo {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "sectionForSectionIndexTitle:atIndex:")]
+    pub unsafe fn sectionForSectionIndexTitle_atIndex(
+        &self,
+        title: &NSString,
+        section_index: NSInteger,
+    ) -> NSInteger;
+}
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other indexTitle)]
-        unsafe fn indexTitle(&self) -> Option<Id<NSString>>;
+#[objc2::protocol]
+pub unsafe trait NSFetchedResultsSectionInfo {
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    unsafe fn name(&self) -> Id<NSString>;
 
-        #[method(numberOfObjects)]
-        unsafe fn numberOfObjects(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "indexTitle", managed = "Other")]
+    unsafe fn indexTitle(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other objects)]
-        unsafe fn objects(&self) -> Option<Id<NSArray>>;
-    }
+    #[objc2::method(sel = "numberOfObjects")]
+    unsafe fn numberOfObjects(&self) -> NSUInteger;
 
-    unsafe impl ProtocolType for dyn NSFetchedResultsSectionInfo {}
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "objects", managed = "Other")]
+    unsafe fn objects(&self) -> Option<Id<NSArray>>;
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSFetchedResultsChangeType {
-        NSFetchedResultsChangeInsert = 1,
-        NSFetchedResultsChangeDelete = 2,
-        NSFetchedResultsChangeMove = 3,
-        NSFetchedResultsChangeUpdate = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSFetchedResultsChangeType {
+    NSFetchedResultsChangeInsert = 1,
+    NSFetchedResultsChangeDelete = 2,
+    NSFetchedResultsChangeMove = 3,
+    NSFetchedResultsChangeUpdate = 4,
+}
 
-extern_protocol!(
-    pub unsafe trait NSFetchedResultsControllerDelegate: NSObjectProtocol {
-        #[cfg(all(
-            feature = "CoreData_NSFetchedResultsController",
-            feature = "CoreData_NSManagedObjectID",
-            feature = "Foundation_NSOrderedCollectionDifference"
-        ))]
-        #[optional]
-        #[method(controller:didChangeContentWithDifference:)]
-        unsafe fn controller_didChangeContentWithDifference(
-            &self,
-            controller: &NSFetchedResultsController,
-            diff: &NSOrderedCollectionDifference<NSManagedObjectID>,
-        );
+#[objc2::protocol]
+pub unsafe trait NSFetchedResultsControllerDelegate: NSObjectProtocol {
+    #[cfg(all(
+        feature = "CoreData_NSFetchedResultsController",
+        feature = "CoreData_NSManagedObjectID",
+        feature = "Foundation_NSOrderedCollectionDifference"
+    ))]
+    #[objc2::method(optional, sel = "controller:didChangeContentWithDifference:")]
+    unsafe fn controller_didChangeContentWithDifference(
+        &self,
+        controller: &NSFetchedResultsController,
+        diff: &NSOrderedCollectionDifference<NSManagedObjectID>,
+    );
 
-        #[cfg(all(
-            feature = "CoreData_NSFetchedResultsController",
-            feature = "Foundation_NSIndexPath"
-        ))]
-        #[optional]
-        #[method(controller:didChangeObject:atIndexPath:forChangeType:newIndexPath:)]
-        unsafe fn controller_didChangeObject_atIndexPath_forChangeType_newIndexPath(
-            &self,
-            controller: &NSFetchedResultsController,
-            an_object: &Object,
-            index_path: Option<&NSIndexPath>,
-            r#type: NSFetchedResultsChangeType,
-            new_index_path: Option<&NSIndexPath>,
-        );
+    #[cfg(all(
+        feature = "CoreData_NSFetchedResultsController",
+        feature = "Foundation_NSIndexPath"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "controller:didChangeObject:atIndexPath:forChangeType:newIndexPath:"
+    )]
+    unsafe fn controller_didChangeObject_atIndexPath_forChangeType_newIndexPath(
+        &self,
+        controller: &NSFetchedResultsController,
+        an_object: &Object,
+        index_path: Option<&NSIndexPath>,
+        r#type: NSFetchedResultsChangeType,
+        new_index_path: Option<&NSIndexPath>,
+    );
 
-        #[cfg(feature = "CoreData_NSFetchedResultsController")]
-        #[optional]
-        #[method(controller:didChangeSection:atIndex:forChangeType:)]
-        unsafe fn controller_didChangeSection_atIndex_forChangeType(
-            &self,
-            controller: &NSFetchedResultsController,
-            section_info: &ProtocolObject<dyn NSFetchedResultsSectionInfo>,
-            section_index: NSUInteger,
-            r#type: NSFetchedResultsChangeType,
-        );
+    #[cfg(feature = "CoreData_NSFetchedResultsController")]
+    #[objc2::method(optional, sel = "controller:didChangeSection:atIndex:forChangeType:")]
+    unsafe fn controller_didChangeSection_atIndex_forChangeType(
+        &self,
+        controller: &NSFetchedResultsController,
+        section_info: &ProtocolObject<dyn NSFetchedResultsSectionInfo>,
+        section_index: NSUInteger,
+        r#type: NSFetchedResultsChangeType,
+    );
 
-        #[cfg(feature = "CoreData_NSFetchedResultsController")]
-        #[optional]
-        #[method(controllerWillChangeContent:)]
-        unsafe fn controllerWillChangeContent(&self, controller: &NSFetchedResultsController);
+    #[cfg(feature = "CoreData_NSFetchedResultsController")]
+    #[objc2::method(optional, sel = "controllerWillChangeContent:")]
+    unsafe fn controllerWillChangeContent(&self, controller: &NSFetchedResultsController);
 
-        #[cfg(feature = "CoreData_NSFetchedResultsController")]
-        #[optional]
-        #[method(controllerDidChangeContent:)]
-        unsafe fn controllerDidChangeContent(&self, controller: &NSFetchedResultsController);
+    #[cfg(feature = "CoreData_NSFetchedResultsController")]
+    #[objc2::method(optional, sel = "controllerDidChangeContent:")]
+    unsafe fn controllerDidChangeContent(&self, controller: &NSFetchedResultsController);
 
-        #[cfg(all(
-            feature = "CoreData_NSFetchedResultsController",
-            feature = "Foundation_NSString"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other controller:sectionIndexTitleForSectionName:)]
-        unsafe fn controller_sectionIndexTitleForSectionName(
-            &self,
-            controller: &NSFetchedResultsController,
-            section_name: &NSString,
-        ) -> Option<Id<NSString>>;
-    }
-
-    unsafe impl ProtocolType for dyn NSFetchedResultsControllerDelegate {}
-);
+    #[cfg(all(
+        feature = "CoreData_NSFetchedResultsController",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "controller:sectionIndexTitleForSectionName:",
+        managed = "Other"
+    )]
+    unsafe fn controller_sectionIndexTitleForSectionName(
+        &self,
+        controller: &NSFetchedResultsController,
+        section_name: &NSString,
+    ) -> Option<Id<NSString>>;
+}

@@ -5,17 +5,18 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::LinkPresentation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "LinkPresentation_LPLinkView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "LinkPresentation_LPLinkView")]
-    pub struct LPLinkView;
-
-    #[cfg(feature = "LinkPresentation_LPLinkView")]
-    unsafe impl ClassType for LPLinkView {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    pub type LPLinkView;
+}
 
 #[cfg(feature = "LinkPresentation_LPLinkView")]
 unsafe impl NSAccessibility for LPLinkView {}
@@ -41,43 +42,52 @@ unsafe impl NSObjectProtocol for LPLinkView {}
 #[cfg(feature = "LinkPresentation_LPLinkView")]
 unsafe impl NSUserInterfaceItemIdentification for LPLinkView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "LinkPresentation_LPLinkView")]
-    unsafe impl LPLinkView {
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
+    pub type LPLinkView;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method(encodeWithCoder:)]
-        pub unsafe fn encodeWithCoder(&self, coder: &NSCoder);
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithURL:)]
-        pub unsafe fn initWithURL(this: Option<Allocated<Self>>, url: &NSURL) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "encodeWithCoder:")]
+    pub unsafe fn encodeWithCoder(&self, coder: &NSCoder);
 
-        #[cfg(feature = "LinkPresentation_LPLinkMetadata")]
-        #[method_id(@__retain_semantics Init initWithMetadata:)]
-        pub unsafe fn initWithMetadata(
-            this: Option<Allocated<Self>>,
-            metadata: &LPLinkMetadata,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initWithURL:", managed = "Init")]
+    pub unsafe fn initWithURL(this: Option<Allocated<Self>>, url: &NSURL) -> Id<Self>;
 
-        #[cfg(feature = "LinkPresentation_LPLinkMetadata")]
-        #[method_id(@__retain_semantics Other metadata)]
-        pub unsafe fn metadata(&self) -> Id<LPLinkMetadata>;
+    #[cfg(feature = "LinkPresentation_LPLinkMetadata")]
+    #[objc2::method(sel = "initWithMetadata:", managed = "Init")]
+    pub unsafe fn initWithMetadata(
+        this: Option<Allocated<Self>>,
+        metadata: &LPLinkMetadata,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "LinkPresentation_LPLinkMetadata")]
-        #[method(setMetadata:)]
-        pub unsafe fn setMetadata(&self, metadata: &LPLinkMetadata);
-    }
-);
+    #[cfg(feature = "LinkPresentation_LPLinkMetadata")]
+    #[objc2::method(sel = "metadata", managed = "Other")]
+    pub unsafe fn metadata(&self) -> Id<LPLinkMetadata>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[cfg(feature = "LinkPresentation_LPLinkMetadata")]
+    #[objc2::method(sel = "setMetadata:")]
+    pub unsafe fn setMetadata(&self, metadata: &LPLinkMetadata);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "LinkPresentation_LPLinkView")]
-    unsafe impl LPLinkView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "LinkPresentation_LPLinkView")]
+    pub type LPLinkView;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

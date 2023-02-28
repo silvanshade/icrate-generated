@@ -4,17 +4,18 @@ use crate::common::*;
 use crate::CallKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CXCallAction,
+    unsafe inherits = [
+        CXAction,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CallKit_CXSetHeldCallAction")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CallKit_CXSetHeldCallAction")]
-    pub struct CXSetHeldCallAction;
-
-    #[cfg(feature = "CallKit_CXSetHeldCallAction")]
-    unsafe impl ClassType for CXSetHeldCallAction {
-        #[inherits(CXAction, NSObject)]
-        type Super = CXCallAction;
-    }
-);
+    pub type CXSetHeldCallAction;
+}
 
 #[cfg(feature = "CallKit_CXSetHeldCallAction")]
 unsafe impl NSCoding for CXSetHeldCallAction {}
@@ -25,35 +26,35 @@ unsafe impl NSObjectProtocol for CXSetHeldCallAction {}
 #[cfg(feature = "CallKit_CXSetHeldCallAction")]
 unsafe impl NSSecureCoding for CXSetHeldCallAction {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CallKit_CXSetHeldCallAction")]
-    unsafe impl CXSetHeldCallAction {
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Init initWithCallUUID:onHold:)]
-        pub unsafe fn initWithCallUUID_onHold(
-            this: Option<Allocated<Self>>,
-            call_uuid: &NSUUID,
-            on_hold: bool,
-        ) -> Id<Self>;
+    pub type CXSetHeldCallAction;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            a_decoder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "initWithCallUUID:onHold:", managed = "Init")]
+    pub unsafe fn initWithCallUUID_onHold(
+        this: Option<Allocated<Self>>,
+        call_uuid: &NSUUID,
+        on_hold: bool,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Init initWithCallUUID:)]
-        pub unsafe fn initWithCallUUID(
-            this: Option<Allocated<Self>>,
-            call_uuid: &NSUUID,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(
+        this: Option<Allocated<Self>>,
+        a_decoder: &NSCoder,
+    ) -> Option<Id<Self>>;
 
-        #[method(isOnHold)]
-        pub unsafe fn isOnHold(&self) -> bool;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "initWithCallUUID:", managed = "Init")]
+    pub unsafe fn initWithCallUUID(this: Option<Allocated<Self>>, call_uuid: &NSUUID) -> Id<Self>;
 
-        #[method(setOnHold:)]
-        pub unsafe fn setOnHold(&self, on_hold: bool);
-    }
-);
+    #[objc2::method(sel = "isOnHold")]
+    pub unsafe fn isOnHold(&self) -> bool;
+
+    #[objc2::method(sel = "setOnHold:")]
+    pub unsafe fn setOnHold(&self, on_hold: bool);
+}

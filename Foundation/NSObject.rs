@@ -3,47 +3,37 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSCoding {
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method(encodeWithCoder:)]
-        unsafe fn encodeWithCoder(&self, coder: &NSCoder);
+#[objc2::protocol]
+pub unsafe trait NSCoding {
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "encodeWithCoder:")]
+    unsafe fn encodeWithCoder(&self, coder: &NSCoder);
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
-            -> Option<Id<Self>>;
-    }
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder) -> Option<Id<Self>>;
+}
 
-    unsafe impl ProtocolType for dyn NSCoding {}
-);
+#[objc2::protocol]
+pub unsafe trait NSSecureCoding: NSCoding {
+    #[objc2::method(sel = "supportsSecureCoding")]
+    unsafe fn supportsSecureCoding() -> bool;
+}
 
-extern_protocol!(
-    pub unsafe trait NSSecureCoding: NSCoding {
-        #[method(supportsSecureCoding)]
-        unsafe fn supportsSecureCoding() -> bool;
-    }
+#[objc2::protocol]
+pub unsafe trait NSDiscardableContent {
+    #[objc2::method(sel = "beginContentAccess")]
+    unsafe fn beginContentAccess(&self) -> bool;
 
-    unsafe impl ProtocolType for dyn NSSecureCoding {}
-);
+    #[objc2::method(sel = "endContentAccess")]
+    unsafe fn endContentAccess(&self);
 
-extern_protocol!(
-    pub unsafe trait NSDiscardableContent {
-        #[method(beginContentAccess)]
-        unsafe fn beginContentAccess(&self) -> bool;
+    #[objc2::method(sel = "discardContentIfPossible")]
+    unsafe fn discardContentIfPossible(&self);
 
-        #[method(endContentAccess)]
-        unsafe fn endContentAccess(&self);
-
-        #[method(discardContentIfPossible)]
-        unsafe fn discardContentIfPossible(&self);
-
-        #[method(isContentDiscarded)]
-        unsafe fn isContentDiscarded(&self) -> bool;
-    }
-
-    unsafe impl ProtocolType for dyn NSDiscardableContent {}
-);
+    #[objc2::method(sel = "isContentDiscarded")]
+    unsafe fn isContentDiscarded(&self) -> bool;
+}
 
 extern_fn!(
     pub unsafe fn NSAllocateObject(

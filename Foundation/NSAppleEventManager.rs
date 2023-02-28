@@ -11,58 +11,61 @@ extern_static!(NSAppleEventTimeOutNone: c_double);
 
 extern_static!(NSAppleEventManagerWillProcessFirstEventNotification: &'static NSNotificationName);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSAppleEventManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSAppleEventManager")]
-    pub struct NSAppleEventManager;
-
-    #[cfg(feature = "Foundation_NSAppleEventManager")]
-    unsafe impl ClassType for NSAppleEventManager {
-        type Super = NSObject;
-    }
-);
+    pub type NSAppleEventManager;
+}
 
 #[cfg(feature = "Foundation_NSAppleEventManager")]
 unsafe impl NSObjectProtocol for NSAppleEventManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAppleEventManager")]
-    unsafe impl NSAppleEventManager {
-        #[method_id(@__retain_semantics Other sharedAppleEventManager)]
-        pub unsafe fn sharedAppleEventManager() -> Id<NSAppleEventManager>;
+    pub type NSAppleEventManager;
 
-        #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
-        #[method_id(@__retain_semantics Other currentAppleEvent)]
-        pub unsafe fn currentAppleEvent(&self) -> Option<Id<NSAppleEventDescriptor>>;
+    #[objc2::method(sel = "sharedAppleEventManager", managed = "Other")]
+    pub unsafe fn sharedAppleEventManager() -> Id<NSAppleEventManager>;
 
-        #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
-        #[method_id(@__retain_semantics Other currentReplyAppleEvent)]
-        pub unsafe fn currentReplyAppleEvent(&self) -> Option<Id<NSAppleEventDescriptor>>;
+    #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
+    #[objc2::method(sel = "currentAppleEvent", managed = "Other")]
+    pub unsafe fn currentAppleEvent(&self) -> Option<Id<NSAppleEventDescriptor>>;
 
-        #[method(suspendCurrentAppleEvent)]
-        pub unsafe fn suspendCurrentAppleEvent(&self) -> NSAppleEventManagerSuspensionID;
+    #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
+    #[objc2::method(sel = "currentReplyAppleEvent", managed = "Other")]
+    pub unsafe fn currentReplyAppleEvent(&self) -> Option<Id<NSAppleEventDescriptor>>;
 
-        #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
-        #[method_id(@__retain_semantics Other appleEventForSuspensionID:)]
-        pub unsafe fn appleEventForSuspensionID(
-            &self,
-            suspension_id: NSAppleEventManagerSuspensionID,
-        ) -> Id<NSAppleEventDescriptor>;
+    #[objc2::method(sel = "suspendCurrentAppleEvent")]
+    pub unsafe fn suspendCurrentAppleEvent(&self) -> NSAppleEventManagerSuspensionID;
 
-        #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
-        #[method_id(@__retain_semantics Other replyAppleEventForSuspensionID:)]
-        pub unsafe fn replyAppleEventForSuspensionID(
-            &self,
-            suspension_id: NSAppleEventManagerSuspensionID,
-        ) -> Id<NSAppleEventDescriptor>;
+    #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
+    #[objc2::method(sel = "appleEventForSuspensionID:", managed = "Other")]
+    pub unsafe fn appleEventForSuspensionID(
+        &self,
+        suspension_id: NSAppleEventManagerSuspensionID,
+    ) -> Id<NSAppleEventDescriptor>;
 
-        #[method(setCurrentAppleEventAndReplyEventWithSuspensionID:)]
-        pub unsafe fn setCurrentAppleEventAndReplyEventWithSuspensionID(
-            &self,
-            suspension_id: NSAppleEventManagerSuspensionID,
-        );
+    #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
+    #[objc2::method(sel = "replyAppleEventForSuspensionID:", managed = "Other")]
+    pub unsafe fn replyAppleEventForSuspensionID(
+        &self,
+        suspension_id: NSAppleEventManagerSuspensionID,
+    ) -> Id<NSAppleEventDescriptor>;
 
-        #[method(resumeWithSuspensionID:)]
-        pub unsafe fn resumeWithSuspensionID(&self, suspension_id: NSAppleEventManagerSuspensionID);
-    }
-);
+    #[objc2::method(sel = "setCurrentAppleEventAndReplyEventWithSuspensionID:")]
+    pub unsafe fn setCurrentAppleEventAndReplyEventWithSuspensionID(
+        &self,
+        suspension_id: NSAppleEventManagerSuspensionID,
+    );
+
+    #[objc2::method(sel = "resumeWithSuspensionID:")]
+    pub unsafe fn resumeWithSuspensionID(&self, suspension_id: NSAppleEventManagerSuspensionID);
+}

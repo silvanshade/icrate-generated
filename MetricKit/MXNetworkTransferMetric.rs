@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::MetricKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MXMetric,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MetricKit_MXNetworkTransferMetric")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MetricKit_MXNetworkTransferMetric")]
-    pub struct MXNetworkTransferMetric;
-
-    #[cfg(feature = "MetricKit_MXNetworkTransferMetric")]
-    unsafe impl ClassType for MXNetworkTransferMetric {
-        #[inherits(NSObject)]
-        type Super = MXMetric;
-    }
-);
+    pub type MXNetworkTransferMetric;
+}
 
 #[cfg(feature = "MetricKit_MXNetworkTransferMetric")]
 unsafe impl NSCoding for MXNetworkTransferMetric {}
@@ -25,39 +25,38 @@ unsafe impl NSObjectProtocol for MXNetworkTransferMetric {}
 #[cfg(feature = "MetricKit_MXNetworkTransferMetric")]
 unsafe impl NSSecureCoding for MXNetworkTransferMetric {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MetricKit_MXNetworkTransferMetric")]
-    unsafe impl MXNetworkTransferMetric {
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitInformationStorage"
-        ))]
-        #[method_id(@__retain_semantics Other cumulativeWifiUpload)]
-        pub unsafe fn cumulativeWifiUpload(&self) -> Id<NSMeasurement<NSUnitInformationStorage>>;
+    pub type MXNetworkTransferMetric;
 
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitInformationStorage"
-        ))]
-        #[method_id(@__retain_semantics Other cumulativeWifiDownload)]
-        pub unsafe fn cumulativeWifiDownload(&self) -> Id<NSMeasurement<NSUnitInformationStorage>>;
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitInformationStorage"
+    ))]
+    #[objc2::method(sel = "cumulativeWifiUpload", managed = "Other")]
+    pub unsafe fn cumulativeWifiUpload(&self) -> Id<NSMeasurement<NSUnitInformationStorage>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitInformationStorage"
-        ))]
-        #[method_id(@__retain_semantics Other cumulativeCellularUpload)]
-        pub unsafe fn cumulativeCellularUpload(
-            &self,
-        ) -> Id<NSMeasurement<NSUnitInformationStorage>>;
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitInformationStorage"
+    ))]
+    #[objc2::method(sel = "cumulativeWifiDownload", managed = "Other")]
+    pub unsafe fn cumulativeWifiDownload(&self) -> Id<NSMeasurement<NSUnitInformationStorage>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMeasurement",
-            feature = "Foundation_NSUnitInformationStorage"
-        ))]
-        #[method_id(@__retain_semantics Other cumulativeCellularDownload)]
-        pub unsafe fn cumulativeCellularDownload(
-            &self,
-        ) -> Id<NSMeasurement<NSUnitInformationStorage>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitInformationStorage"
+    ))]
+    #[objc2::method(sel = "cumulativeCellularUpload", managed = "Other")]
+    pub unsafe fn cumulativeCellularUpload(&self) -> Id<NSMeasurement<NSUnitInformationStorage>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSMeasurement",
+        feature = "Foundation_NSUnitInformationStorage"
+    ))]
+    #[objc2::method(sel = "cumulativeCellularDownload", managed = "Other")]
+    pub unsafe fn cumulativeCellularDownload(&self) -> Id<NSMeasurement<NSUnitInformationStorage>>;
+}

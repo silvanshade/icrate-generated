@@ -13,16 +13,16 @@ extern_static!(GCMouseDidBecomeCurrentNotification: &'static NSString);
 
 extern_static!(GCMouseDidStopBeingCurrentNotification: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCMouse")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCMouse")]
-    pub struct GCMouse;
-
-    #[cfg(feature = "GameController_GCMouse")]
-    unsafe impl ClassType for GCMouse {
-        type Super = NSObject;
-    }
-);
+    pub type GCMouse;
+}
 
 #[cfg(feature = "GameController_GCMouse")]
 unsafe impl GCDevice for GCMouse {}
@@ -30,18 +30,21 @@ unsafe impl GCDevice for GCMouse {}
 #[cfg(feature = "GameController_GCMouse")]
 unsafe impl NSObjectProtocol for GCMouse {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCMouse")]
-    unsafe impl GCMouse {
-        #[cfg(feature = "GameController_GCMouseInput")]
-        #[method_id(@__retain_semantics Other mouseInput)]
-        pub unsafe fn mouseInput(&self) -> Option<Id<GCMouseInput>>;
+    pub type GCMouse;
 
-        #[method_id(@__retain_semantics Other current)]
-        pub unsafe fn current() -> Option<Id<GCMouse>>;
+    #[cfg(feature = "GameController_GCMouseInput")]
+    #[objc2::method(sel = "mouseInput", managed = "Other")]
+    pub unsafe fn mouseInput(&self) -> Option<Id<GCMouseInput>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other mice)]
-        pub unsafe fn mice() -> Id<NSArray<GCMouse>>;
-    }
-);
+    #[objc2::method(sel = "current", managed = "Other")]
+    pub unsafe fn current() -> Option<Id<GCMouse>>;
+
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "mice", managed = "Other")]
+    pub unsafe fn mice() -> Id<NSArray<GCMouse>>;
+}

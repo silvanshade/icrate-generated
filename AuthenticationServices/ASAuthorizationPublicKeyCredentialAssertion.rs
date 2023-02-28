@@ -4,22 +4,17 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait ASAuthorizationPublicKeyCredentialAssertion:
-        ASPublicKeyCredential
-    {
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other rawAuthenticatorData)]
-        unsafe fn rawAuthenticatorData(&self) -> Id<NSData>;
+#[objc2::protocol]
+pub unsafe trait ASAuthorizationPublicKeyCredentialAssertion: ASPublicKeyCredential {
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "rawAuthenticatorData", managed = "Other")]
+    unsafe fn rawAuthenticatorData(&self) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other userID)]
-        unsafe fn userID(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "userID", managed = "Other")]
+    unsafe fn userID(&self) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other signature)]
-        unsafe fn signature(&self) -> Id<NSData>;
-    }
-
-    unsafe impl ProtocolType for dyn ASAuthorizationPublicKeyCredentialAssertion {}
-);
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "signature", managed = "Other")]
+    unsafe fn signature(&self) -> Id<NSData>;
+}

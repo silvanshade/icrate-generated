@@ -3,137 +3,142 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSScanner")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSScanner")]
-    pub struct NSScanner;
-
-    #[cfg(feature = "Foundation_NSScanner")]
-    unsafe impl ClassType for NSScanner {
-        type Super = NSObject;
-    }
-);
+    pub type NSScanner;
+}
 
 #[cfg(feature = "Foundation_NSScanner")]
 unsafe impl NSObjectProtocol for NSScanner {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSScanner")]
-    unsafe impl NSScanner {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other string)]
-        pub unsafe fn string(&self) -> Id<NSString>;
+    pub type NSScanner;
 
-        #[method(scanLocation)]
-        pub unsafe fn scanLocation(&self) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "string", managed = "Other")]
+    pub unsafe fn string(&self) -> Id<NSString>;
 
-        #[method(setScanLocation:)]
-        pub unsafe fn setScanLocation(&self, scan_location: NSUInteger);
+    #[objc2::method(sel = "scanLocation")]
+    pub unsafe fn scanLocation(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSCharacterSet")]
-        #[method_id(@__retain_semantics Other charactersToBeSkipped)]
-        pub unsafe fn charactersToBeSkipped(&self) -> Option<Id<NSCharacterSet>>;
+    #[objc2::method(sel = "setScanLocation:")]
+    pub unsafe fn setScanLocation(&self, scan_location: NSUInteger);
 
-        #[cfg(feature = "Foundation_NSCharacterSet")]
-        #[method(setCharactersToBeSkipped:)]
-        pub unsafe fn setCharactersToBeSkipped(
-            &self,
-            characters_to_be_skipped: Option<&NSCharacterSet>,
-        );
+    #[cfg(feature = "Foundation_NSCharacterSet")]
+    #[objc2::method(sel = "charactersToBeSkipped", managed = "Other")]
+    pub unsafe fn charactersToBeSkipped(&self) -> Option<Id<NSCharacterSet>>;
 
-        #[method(caseSensitive)]
-        pub unsafe fn caseSensitive(&self) -> bool;
+    #[cfg(feature = "Foundation_NSCharacterSet")]
+    #[objc2::method(sel = "setCharactersToBeSkipped:")]
+    pub unsafe fn setCharactersToBeSkipped(
+        &self,
+        characters_to_be_skipped: Option<&NSCharacterSet>,
+    );
 
-        #[method(setCaseSensitive:)]
-        pub unsafe fn setCaseSensitive(&self, case_sensitive: bool);
+    #[objc2::method(sel = "caseSensitive")]
+    pub unsafe fn caseSensitive(&self) -> bool;
 
-        #[method_id(@__retain_semantics Other locale)]
-        pub unsafe fn locale(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "setCaseSensitive:")]
+    pub unsafe fn setCaseSensitive(&self, case_sensitive: bool);
 
-        #[method(setLocale:)]
-        pub unsafe fn setLocale(&self, locale: Option<&Object>);
+    #[objc2::method(sel = "locale", managed = "Other")]
+    pub unsafe fn locale(&self) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithString:)]
-        pub unsafe fn initWithString(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "setLocale:")]
+    pub unsafe fn setLocale(&self, locale: Option<&Object>);
 
-extern_methods!(
-    /// NSExtendedScanner
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithString:", managed = "Init")]
+    pub unsafe fn initWithString(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSScanner")]
-    unsafe impl NSScanner {
-        #[method(scanInt:)]
-        pub unsafe fn scanInt(&self, result: *mut c_int) -> bool;
+    pub type NSScanner;
 
-        #[method(scanInteger:)]
-        pub unsafe fn scanInteger(&self, result: *mut NSInteger) -> bool;
+    #[objc2::method(sel = "scanInt:")]
+    pub unsafe fn scanInt(&self, result: *mut c_int) -> bool;
 
-        #[method(scanLongLong:)]
-        pub unsafe fn scanLongLong(&self, result: *mut c_longlong) -> bool;
+    #[objc2::method(sel = "scanInteger:")]
+    pub unsafe fn scanInteger(&self, result: *mut NSInteger) -> bool;
 
-        #[method(scanUnsignedLongLong:)]
-        pub unsafe fn scanUnsignedLongLong(&self, result: *mut c_ulonglong) -> bool;
+    #[objc2::method(sel = "scanLongLong:")]
+    pub unsafe fn scanLongLong(&self, result: *mut c_longlong) -> bool;
 
-        #[method(scanFloat:)]
-        pub unsafe fn scanFloat(&self, result: *mut c_float) -> bool;
+    #[objc2::method(sel = "scanUnsignedLongLong:")]
+    pub unsafe fn scanUnsignedLongLong(&self, result: *mut c_ulonglong) -> bool;
 
-        #[method(scanDouble:)]
-        pub unsafe fn scanDouble(&self, result: *mut c_double) -> bool;
+    #[objc2::method(sel = "scanFloat:")]
+    pub unsafe fn scanFloat(&self, result: *mut c_float) -> bool;
 
-        #[method(scanHexInt:)]
-        pub unsafe fn scanHexInt(&self, result: *mut c_uint) -> bool;
+    #[objc2::method(sel = "scanDouble:")]
+    pub unsafe fn scanDouble(&self, result: *mut c_double) -> bool;
 
-        #[method(scanHexLongLong:)]
-        pub unsafe fn scanHexLongLong(&self, result: *mut c_ulonglong) -> bool;
+    #[objc2::method(sel = "scanHexInt:")]
+    pub unsafe fn scanHexInt(&self, result: *mut c_uint) -> bool;
 
-        #[method(scanHexFloat:)]
-        pub unsafe fn scanHexFloat(&self, result: *mut c_float) -> bool;
+    #[objc2::method(sel = "scanHexLongLong:")]
+    pub unsafe fn scanHexLongLong(&self, result: *mut c_ulonglong) -> bool;
 
-        #[method(scanHexDouble:)]
-        pub unsafe fn scanHexDouble(&self, result: *mut c_double) -> bool;
+    #[objc2::method(sel = "scanHexFloat:")]
+    pub unsafe fn scanHexFloat(&self, result: *mut c_float) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(scanString:intoString:)]
-        pub unsafe fn scanString_intoString(
-            &self,
-            string: &NSString,
-            result: Option<&mut Option<Id<NSString>>>,
-        ) -> bool;
+    #[objc2::method(sel = "scanHexDouble:")]
+    pub unsafe fn scanHexDouble(&self, result: *mut c_double) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSCharacterSet", feature = "Foundation_NSString"))]
-        #[method(scanCharactersFromSet:intoString:)]
-        pub unsafe fn scanCharactersFromSet_intoString(
-            &self,
-            set: &NSCharacterSet,
-            result: Option<&mut Option<Id<NSString>>>,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "scanString:intoString:")]
+    pub unsafe fn scanString_intoString(
+        &self,
+        string: &NSString,
+        result: Option<&mut Option<Id<NSString>>>,
+    ) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(scanUpToString:intoString:)]
-        pub unsafe fn scanUpToString_intoString(
-            &self,
-            string: &NSString,
-            result: Option<&mut Option<Id<NSString>>>,
-        ) -> bool;
+    #[cfg(all(feature = "Foundation_NSCharacterSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "scanCharactersFromSet:intoString:")]
+    pub unsafe fn scanCharactersFromSet_intoString(
+        &self,
+        set: &NSCharacterSet,
+        result: Option<&mut Option<Id<NSString>>>,
+    ) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSCharacterSet", feature = "Foundation_NSString"))]
-        #[method(scanUpToCharactersFromSet:intoString:)]
-        pub unsafe fn scanUpToCharactersFromSet_intoString(
-            &self,
-            set: &NSCharacterSet,
-            result: Option<&mut Option<Id<NSString>>>,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "scanUpToString:intoString:")]
+    pub unsafe fn scanUpToString_intoString(
+        &self,
+        string: &NSString,
+        result: Option<&mut Option<Id<NSString>>>,
+    ) -> bool;
 
-        #[method(isAtEnd)]
-        pub unsafe fn isAtEnd(&self) -> bool;
+    #[cfg(all(feature = "Foundation_NSCharacterSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "scanUpToCharactersFromSet:intoString:")]
+    pub unsafe fn scanUpToCharactersFromSet_intoString(
+        &self,
+        set: &NSCharacterSet,
+        result: Option<&mut Option<Id<NSString>>>,
+    ) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other scannerWithString:)]
-        pub unsafe fn scannerWithString(string: &NSString) -> Id<Self>;
+    #[objc2::method(sel = "isAtEnd")]
+    pub unsafe fn isAtEnd(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other localizedScannerWithString:)]
-        pub unsafe fn localizedScannerWithString(string: &NSString) -> Id<Object>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "scannerWithString:", managed = "Other")]
+    pub unsafe fn scannerWithString(string: &NSString) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "localizedScannerWithString:", managed = "Other")]
+    pub unsafe fn localizedScannerWithString(string: &NSString) -> Id<Object>;
+}

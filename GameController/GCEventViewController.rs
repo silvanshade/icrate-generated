@@ -5,17 +5,18 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSViewController,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCEventViewController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCEventViewController")]
-    pub struct GCEventViewController;
-
-    #[cfg(feature = "GameController_GCEventViewController")]
-    unsafe impl ClassType for GCEventViewController {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSViewController;
-    }
-);
+    pub type GCEventViewController;
+}
 
 #[cfg(feature = "GameController_GCEventViewController")]
 unsafe impl NSCoding for GCEventViewController {}
@@ -32,30 +33,39 @@ unsafe impl NSSeguePerforming for GCEventViewController {}
 #[cfg(feature = "GameController_GCEventViewController")]
 unsafe impl NSUserInterfaceItemIdentification for GCEventViewController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCEventViewController")]
-    unsafe impl GCEventViewController {
-        #[method(controllerUserInteractionEnabled)]
-        pub unsafe fn controllerUserInteractionEnabled(&self) -> bool;
+    pub type GCEventViewController;
 
-        #[method(setControllerUserInteractionEnabled:)]
-        pub unsafe fn setControllerUserInteractionEnabled(
-            &self,
-            controller_user_interaction_enabled: bool,
-        );
-    }
-);
+    #[objc2::method(sel = "controllerUserInteractionEnabled")]
+    pub unsafe fn controllerUserInteractionEnabled(&self) -> bool;
 
-extern_methods!(
-    /// Methods declared on superclass `NSViewController`
+    #[objc2::method(sel = "setControllerUserInteractionEnabled:")]
+    pub unsafe fn setControllerUserInteractionEnabled(
+        &self,
+        controller_user_interaction_enabled: bool,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSViewController`
     #[cfg(feature = "GameController_GCEventViewController")]
-    unsafe impl GCEventViewController {
-        #[cfg(feature = "Foundation_NSBundle")]
-        #[method_id(@__retain_semantics Init initWithNibName:bundle:)]
-        pub unsafe fn initWithNibName_bundle(
-            this: Option<Allocated<Self>>,
-            nib_name_or_nil: Option<&NSNibName>,
-            nib_bundle_or_nil: Option<&NSBundle>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCEventViewController")]
+    pub type GCEventViewController;
+
+    #[cfg(feature = "Foundation_NSBundle")]
+    #[objc2::method(sel = "initWithNibName:bundle:", managed = "Init")]
+    pub unsafe fn initWithNibName_bundle(
+        this: Option<Allocated<Self>>,
+        nib_name_or_nil: Option<&NSNibName>,
+        nib_bundle_or_nil: Option<&NSBundle>,
+    ) -> Id<Self>;
+}

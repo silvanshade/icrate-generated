@@ -3,26 +3,25 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSCompoundPredicateType {
-        NSNotPredicateType = 0,
-        NSAndPredicateType = 1,
-        NSOrPredicateType = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSCompoundPredicateType {
+    NSNotPredicateType = 0,
+    NSAndPredicateType = 1,
+    NSOrPredicateType = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSPredicate,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSCompoundPredicate")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSCompoundPredicate")]
-    pub struct NSCompoundPredicate;
-
-    #[cfg(feature = "Foundation_NSCompoundPredicate")]
-    unsafe impl ClassType for NSCompoundPredicate {
-        #[inherits(NSObject)]
-        type Super = NSPredicate;
-    }
-);
+    pub type NSCompoundPredicate;
+}
 
 #[cfg(feature = "Foundation_NSCompoundPredicate")]
 unsafe impl NSCoding for NSCompoundPredicate {}
@@ -33,46 +32,45 @@ unsafe impl NSObjectProtocol for NSCompoundPredicate {}
 #[cfg(feature = "Foundation_NSCompoundPredicate")]
 unsafe impl NSSecureCoding for NSCompoundPredicate {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCompoundPredicate")]
-    unsafe impl NSCompoundPredicate {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Init initWithType:subpredicates:)]
-        pub unsafe fn initWithType_subpredicates(
-            this: Option<Allocated<Self>>,
-            r#type: NSCompoundPredicateType,
-            subpredicates: &NSArray<NSPredicate>,
-        ) -> Id<Self>;
+    pub type NSCompoundPredicate;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "initWithType:subpredicates:", managed = "Init")]
+    pub unsafe fn initWithType_subpredicates(
+        this: Option<Allocated<Self>>,
+        r#type: NSCompoundPredicateType,
+        subpredicates: &NSArray<NSPredicate>,
+    ) -> Id<Self>;
 
-        #[method(compoundPredicateType)]
-        pub unsafe fn compoundPredicateType(&self) -> NSCompoundPredicateType;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other subpredicates)]
-        pub unsafe fn subpredicates(&self) -> Id<NSArray>;
+    #[objc2::method(sel = "compoundPredicateType")]
+    pub unsafe fn compoundPredicateType(&self) -> NSCompoundPredicateType;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other andPredicateWithSubpredicates:)]
-        pub unsafe fn andPredicateWithSubpredicates(
-            subpredicates: &NSArray<NSPredicate>,
-        ) -> Id<NSCompoundPredicate>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "subpredicates", managed = "Other")]
+    pub unsafe fn subpredicates(&self) -> Id<NSArray>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other orPredicateWithSubpredicates:)]
-        pub unsafe fn orPredicateWithSubpredicates(
-            subpredicates: &NSArray<NSPredicate>,
-        ) -> Id<NSCompoundPredicate>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "andPredicateWithSubpredicates:", managed = "Other")]
+    pub unsafe fn andPredicateWithSubpredicates(
+        subpredicates: &NSArray<NSPredicate>,
+    ) -> Id<NSCompoundPredicate>;
 
-        #[method_id(@__retain_semantics Other notPredicateWithSubpredicate:)]
-        pub unsafe fn notPredicateWithSubpredicate(
-            predicate: &NSPredicate,
-        ) -> Id<NSCompoundPredicate>;
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "orPredicateWithSubpredicates:", managed = "Other")]
+    pub unsafe fn orPredicateWithSubpredicates(
+        subpredicates: &NSArray<NSPredicate>,
+    ) -> Id<NSCompoundPredicate>;
+
+    #[objc2::method(sel = "notPredicateWithSubpredicate:", managed = "Other")]
+    pub unsafe fn notPredicateWithSubpredicate(predicate: &NSPredicate) -> Id<NSCompoundPredicate>;
+}

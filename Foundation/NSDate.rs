@@ -7,16 +7,16 @@ extern_static!(NSSystemClockDidChangeNotification: &'static NSNotificationName);
 
 pub type NSTimeInterval = c_double;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSDate")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSDate")]
-    pub struct NSDate;
-
-    #[cfg(feature = "Foundation_NSDate")]
-    unsafe impl ClassType for NSDate {
-        type Super = NSObject;
-    }
-);
+    pub type NSDate;
+}
 
 #[cfg(feature = "Foundation_NSDate")]
 unsafe impl NSCoding for NSDate {}
@@ -27,123 +27,128 @@ unsafe impl NSObjectProtocol for NSDate {}
 #[cfg(feature = "Foundation_NSDate")]
 unsafe impl NSSecureCoding for NSDate {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSDate")]
-    unsafe impl NSDate {
-        #[method(timeIntervalSinceReferenceDate)]
-        pub unsafe fn timeIntervalSinceReferenceDate(&self) -> NSTimeInterval;
+    pub type NSDate;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "timeIntervalSinceReferenceDate")]
+    pub unsafe fn timeIntervalSinceReferenceDate(&self) -> NSTimeInterval;
 
-        #[method_id(@__retain_semantics Init initWithTimeIntervalSinceReferenceDate:)]
-        pub unsafe fn initWithTimeIntervalSinceReferenceDate(
-            this: Option<Allocated<Self>>,
-            ti: NSTimeInterval,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
-    }
-);
+    #[objc2::method(sel = "initWithTimeIntervalSinceReferenceDate:", managed = "Init")]
+    pub unsafe fn initWithTimeIntervalSinceReferenceDate(
+        this: Option<Allocated<Self>>,
+        ti: NSTimeInterval,
+    ) -> Id<Self>;
 
-extern_methods!(
-    /// NSExtendedDate
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSDate")]
-    unsafe impl NSDate {
-        #[method(timeIntervalSinceDate:)]
-        pub unsafe fn timeIntervalSinceDate(&self, another_date: &NSDate) -> NSTimeInterval;
+    pub type NSDate;
 
-        #[method(timeIntervalSinceNow)]
-        pub unsafe fn timeIntervalSinceNow(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "timeIntervalSinceDate:")]
+    pub unsafe fn timeIntervalSinceDate(&self, another_date: &NSDate) -> NSTimeInterval;
 
-        #[method(timeIntervalSince1970)]
-        pub unsafe fn timeIntervalSince1970(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "timeIntervalSinceNow")]
+    pub unsafe fn timeIntervalSinceNow(&self) -> NSTimeInterval;
 
-        #[deprecated = "Use dateByAddingTimeInterval instead"]
-        #[method_id(@__retain_semantics Other addTimeInterval:)]
-        pub unsafe fn addTimeInterval(&self, seconds: NSTimeInterval) -> Id<Object>;
+    #[objc2::method(sel = "timeIntervalSince1970")]
+    pub unsafe fn timeIntervalSince1970(&self) -> NSTimeInterval;
 
-        #[method_id(@__retain_semantics Other dateByAddingTimeInterval:)]
-        pub unsafe fn dateByAddingTimeInterval(&self, ti: NSTimeInterval) -> Id<Self>;
+    #[deprecated = "Use dateByAddingTimeInterval instead"]
+    #[objc2::method(sel = "addTimeInterval:", managed = "Other")]
+    pub unsafe fn addTimeInterval(&self, seconds: NSTimeInterval) -> Id<Object>;
 
-        #[method_id(@__retain_semantics Other earlierDate:)]
-        pub unsafe fn earlierDate(&self, another_date: &NSDate) -> Id<NSDate>;
+    #[objc2::method(sel = "dateByAddingTimeInterval:", managed = "Other")]
+    pub unsafe fn dateByAddingTimeInterval(&self, ti: NSTimeInterval) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other laterDate:)]
-        pub unsafe fn laterDate(&self, another_date: &NSDate) -> Id<NSDate>;
+    #[objc2::method(sel = "earlierDate:", managed = "Other")]
+    pub unsafe fn earlierDate(&self, another_date: &NSDate) -> Id<NSDate>;
 
-        #[method(compare:)]
-        pub unsafe fn compare(&self, other: &NSDate) -> NSComparisonResult;
+    #[objc2::method(sel = "laterDate:", managed = "Other")]
+    pub unsafe fn laterDate(&self, another_date: &NSDate) -> Id<NSDate>;
 
-        #[method(isEqualToDate:)]
-        pub unsafe fn isEqualToDate(&self, other_date: &NSDate) -> bool;
+    #[objc2::method(sel = "compare:")]
+    pub unsafe fn compare(&self, other: &NSDate) -> NSComparisonResult;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other description)]
-        pub unsafe fn description(&self) -> Id<NSString>;
+    #[objc2::method(sel = "isEqualToDate:")]
+    pub unsafe fn isEqualToDate(&self, other_date: &NSDate) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other descriptionWithLocale:)]
-        pub unsafe fn descriptionWithLocale(&self, locale: Option<&Object>) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "description", managed = "Other")]
+    pub unsafe fn description(&self) -> Id<NSString>;
 
-        #[method(timeIntervalSinceReferenceDate)]
-        pub unsafe fn timeIntervalSinceReferenceDate_class() -> NSTimeInterval;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "descriptionWithLocale:", managed = "Other")]
+    pub unsafe fn descriptionWithLocale(&self, locale: Option<&Object>) -> Id<NSString>;
 
-extern_methods!(
-    /// NSDateCreation
+    #[objc2::method(sel = "timeIntervalSinceReferenceDate")]
+    pub unsafe fn timeIntervalSinceReferenceDate_class() -> NSTimeInterval;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSDate")]
-    unsafe impl NSDate {
-        #[method_id(@__retain_semantics Other date)]
-        pub unsafe fn date() -> Id<Self>;
+    pub type NSDate;
 
-        #[method_id(@__retain_semantics Other dateWithTimeIntervalSinceNow:)]
-        pub unsafe fn dateWithTimeIntervalSinceNow(secs: NSTimeInterval) -> Id<Self>;
+    #[objc2::method(sel = "date", managed = "Other")]
+    pub unsafe fn date() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other dateWithTimeIntervalSinceReferenceDate:)]
-        pub unsafe fn dateWithTimeIntervalSinceReferenceDate(ti: NSTimeInterval) -> Id<Self>;
+    #[objc2::method(sel = "dateWithTimeIntervalSinceNow:", managed = "Other")]
+    pub unsafe fn dateWithTimeIntervalSinceNow(secs: NSTimeInterval) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other dateWithTimeIntervalSince1970:)]
-        pub unsafe fn dateWithTimeIntervalSince1970(secs: NSTimeInterval) -> Id<Self>;
+    #[objc2::method(sel = "dateWithTimeIntervalSinceReferenceDate:", managed = "Other")]
+    pub unsafe fn dateWithTimeIntervalSinceReferenceDate(ti: NSTimeInterval) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other dateWithTimeInterval:sinceDate:)]
-        pub unsafe fn dateWithTimeInterval_sinceDate(
-            secs_to_be_added: NSTimeInterval,
-            date: &NSDate,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "dateWithTimeIntervalSince1970:", managed = "Other")]
+    pub unsafe fn dateWithTimeIntervalSince1970(secs: NSTimeInterval) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other distantFuture)]
-        pub unsafe fn distantFuture() -> Id<NSDate>;
+    #[objc2::method(sel = "dateWithTimeInterval:sinceDate:", managed = "Other")]
+    pub unsafe fn dateWithTimeInterval_sinceDate(
+        secs_to_be_added: NSTimeInterval,
+        date: &NSDate,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other distantPast)]
-        pub unsafe fn distantPast() -> Id<NSDate>;
+    #[objc2::method(sel = "distantFuture", managed = "Other")]
+    pub unsafe fn distantFuture() -> Id<NSDate>;
 
-        #[method_id(@__retain_semantics Other now)]
-        pub unsafe fn now() -> Id<NSDate>;
+    #[objc2::method(sel = "distantPast", managed = "Other")]
+    pub unsafe fn distantPast() -> Id<NSDate>;
 
-        #[method_id(@__retain_semantics Init initWithTimeIntervalSinceNow:)]
-        pub unsafe fn initWithTimeIntervalSinceNow(
-            this: Option<Allocated<Self>>,
-            secs: NSTimeInterval,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "now", managed = "Other")]
+    pub unsafe fn now() -> Id<NSDate>;
 
-        #[method_id(@__retain_semantics Init initWithTimeIntervalSince1970:)]
-        pub unsafe fn initWithTimeIntervalSince1970(
-            this: Option<Allocated<Self>>,
-            secs: NSTimeInterval,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithTimeIntervalSinceNow:", managed = "Init")]
+    pub unsafe fn initWithTimeIntervalSinceNow(
+        this: Option<Allocated<Self>>,
+        secs: NSTimeInterval,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithTimeInterval:sinceDate:)]
-        pub unsafe fn initWithTimeInterval_sinceDate(
-            this: Option<Allocated<Self>>,
-            secs_to_be_added: NSTimeInterval,
-            date: &NSDate,
-        ) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "initWithTimeIntervalSince1970:", managed = "Init")]
+    pub unsafe fn initWithTimeIntervalSince1970(
+        this: Option<Allocated<Self>>,
+        secs: NSTimeInterval,
+    ) -> Id<Self>;
+
+    #[objc2::method(sel = "initWithTimeInterval:sinceDate:", managed = "Init")]
+    pub unsafe fn initWithTimeInterval_sinceDate(
+        this: Option<Allocated<Self>>,
+        secs_to_be_added: NSTimeInterval,
+        date: &NSDate,
+    ) -> Id<Self>;
+}

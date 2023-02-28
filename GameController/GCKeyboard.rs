@@ -9,16 +9,16 @@ extern_static!(GCKeyboardDidConnectNotification: &'static NSString);
 
 extern_static!(GCKeyboardDidDisconnectNotification: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCKeyboard")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCKeyboard")]
-    pub struct GCKeyboard;
-
-    #[cfg(feature = "GameController_GCKeyboard")]
-    unsafe impl ClassType for GCKeyboard {
-        type Super = NSObject;
-    }
-);
+    pub type GCKeyboard;
+}
 
 #[cfg(feature = "GameController_GCKeyboard")]
 unsafe impl GCDevice for GCKeyboard {}
@@ -26,14 +26,17 @@ unsafe impl GCDevice for GCKeyboard {}
 #[cfg(feature = "GameController_GCKeyboard")]
 unsafe impl NSObjectProtocol for GCKeyboard {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCKeyboard")]
-    unsafe impl GCKeyboard {
-        #[cfg(feature = "GameController_GCKeyboardInput")]
-        #[method_id(@__retain_semantics Other keyboardInput)]
-        pub unsafe fn keyboardInput(&self) -> Option<Id<GCKeyboardInput>>;
+    pub type GCKeyboard;
 
-        #[method_id(@__retain_semantics Other coalescedKeyboard)]
-        pub unsafe fn coalescedKeyboard() -> Option<Id<GCKeyboard>>;
-    }
-);
+    #[cfg(feature = "GameController_GCKeyboardInput")]
+    #[objc2::method(sel = "keyboardInput", managed = "Other")]
+    pub unsafe fn keyboardInput(&self) -> Option<Id<GCKeyboardInput>>;
+
+    #[objc2::method(sel = "coalescedKeyboard", managed = "Other")]
+    pub unsafe fn coalescedKeyboard() -> Option<Id<GCKeyboard>>;
+}

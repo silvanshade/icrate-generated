@@ -4,11 +4,13 @@ use crate::common::*;
 use crate::Contacts::*;
 use crate::Foundation::*;
 
-extern_methods!(
-    /// NSItemProvider
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Contacts_CNContact")]
-    unsafe impl CNContact {}
-);
+    pub type CNContact;
+}
 
 #[cfg(feature = "Contacts_CNContact")]
 unsafe impl NSItemProviderReading for CNContact {}

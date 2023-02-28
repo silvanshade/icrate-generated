@@ -6,17 +6,18 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSample,
+    unsafe inherits = [
+        HKObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKCorrelation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKCorrelation")]
-    pub struct HKCorrelation;
-
-    #[cfg(feature = "HealthKit_HKCorrelation")]
-    unsafe impl ClassType for HKCorrelation {
-        #[inherits(HKObject, NSObject)]
-        type Super = HKSample;
-    }
-);
+    pub type HKCorrelation;
+}
 
 #[cfg(feature = "HealthKit_HKCorrelation")]
 unsafe impl NSCoding for HKCorrelation {}
@@ -27,66 +28,78 @@ unsafe impl NSObjectProtocol for HKCorrelation {}
 #[cfg(feature = "HealthKit_HKCorrelation")]
 unsafe impl NSSecureCoding for HKCorrelation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKCorrelation")]
-    unsafe impl HKCorrelation {
-        #[cfg(feature = "HealthKit_HKCorrelationType")]
-        #[method_id(@__retain_semantics Other correlationType)]
-        pub unsafe fn correlationType(&self) -> Id<HKCorrelationType>;
+    pub type HKCorrelation;
 
-        #[cfg(feature = "Foundation_NSSet")]
-        #[method_id(@__retain_semantics Other objects)]
-        pub unsafe fn objects(&self) -> Id<NSSet<HKSample>>;
+    #[cfg(feature = "HealthKit_HKCorrelationType")]
+    #[objc2::method(sel = "correlationType", managed = "Other")]
+    pub unsafe fn correlationType(&self) -> Id<HKCorrelationType>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSSet",
-            feature = "HealthKit_HKCorrelationType"
-        ))]
-        #[method_id(@__retain_semantics Other correlationWithType:startDate:endDate:objects:)]
-        pub unsafe fn correlationWithType_startDate_endDate_objects(
-            correlation_type: &HKCorrelationType,
-            start_date: &NSDate,
-            end_date: &NSDate,
-            objects: &NSSet<HKSample>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSSet")]
+    #[objc2::method(sel = "objects", managed = "Other")]
+    pub unsafe fn objects(&self) -> Id<NSSet<HKSample>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSSet",
-            feature = "Foundation_NSString",
-            feature = "HealthKit_HKCorrelationType"
-        ))]
-        #[method_id(@__retain_semantics Other correlationWithType:startDate:endDate:objects:metadata:)]
-        pub unsafe fn correlationWithType_startDate_endDate_objects_metadata(
-            correlation_type: &HKCorrelationType,
-            start_date: &NSDate,
-            end_date: &NSDate,
-            objects: &NSSet<HKSample>,
-            metadata: Option<&NSDictionary<NSString, Object>>,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSSet",
+        feature = "HealthKit_HKCorrelationType"
+    ))]
+    #[objc2::method(
+        sel = "correlationWithType:startDate:endDate:objects:",
+        managed = "Other"
+    )]
+    pub unsafe fn correlationWithType_startDate_endDate_objects(
+        correlation_type: &HKCorrelationType,
+        start_date: &NSDate,
+        end_date: &NSDate,
+        objects: &NSSet<HKSample>,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSSet",
-            feature = "Foundation_NSString",
-            feature = "HealthKit_HKCorrelationType",
-            feature = "HealthKit_HKDevice"
-        ))]
-        #[method_id(@__retain_semantics Other correlationWithType:startDate:endDate:objects:device:metadata:)]
-        pub unsafe fn correlationWithType_startDate_endDate_objects_device_metadata(
-            correlation_type: &HKCorrelationType,
-            start_date: &NSDate,
-            end_date: &NSDate,
-            objects: &NSSet<HKSample>,
-            device: Option<&HKDevice>,
-            metadata: Option<&NSDictionary<NSString, Object>>,
-        ) -> Id<Self>;
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSSet",
+        feature = "Foundation_NSString",
+        feature = "HealthKit_HKCorrelationType"
+    ))]
+    #[objc2::method(
+        sel = "correlationWithType:startDate:endDate:objects:metadata:",
+        managed = "Other"
+    )]
+    pub unsafe fn correlationWithType_startDate_endDate_objects_metadata(
+        correlation_type: &HKCorrelationType,
+        start_date: &NSDate,
+        end_date: &NSDate,
+        objects: &NSSet<HKSample>,
+        metadata: Option<&NSDictionary<NSString, Object>>,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "HealthKit_HKObjectType"))]
-        #[method_id(@__retain_semantics Other objectsForType:)]
-        pub unsafe fn objectsForType(&self, object_type: &HKObjectType) -> Id<NSSet<HKSample>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSSet",
+        feature = "Foundation_NSString",
+        feature = "HealthKit_HKCorrelationType",
+        feature = "HealthKit_HKDevice"
+    ))]
+    #[objc2::method(
+        sel = "correlationWithType:startDate:endDate:objects:device:metadata:",
+        managed = "Other"
+    )]
+    pub unsafe fn correlationWithType_startDate_endDate_objects_device_metadata(
+        correlation_type: &HKCorrelationType,
+        start_date: &NSDate,
+        end_date: &NSDate,
+        objects: &NSSet<HKSample>,
+        device: Option<&HKDevice>,
+        metadata: Option<&NSDictionary<NSString, Object>>,
+    ) -> Id<Self>;
+
+    #[cfg(all(feature = "Foundation_NSSet", feature = "HealthKit_HKObjectType"))]
+    #[objc2::method(sel = "objectsForType:", managed = "Other")]
+    pub unsafe fn objectsForType(&self, object_type: &HKObjectType) -> Id<NSSet<HKSample>>;
+}

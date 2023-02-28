@@ -5,61 +5,57 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CKShareParticipantAcceptanceStatus {
-        CKShareParticipantAcceptanceStatusUnknown = 0,
-        CKShareParticipantAcceptanceStatusPending = 1,
-        CKShareParticipantAcceptanceStatusAccepted = 2,
-        CKShareParticipantAcceptanceStatusRemoved = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CKShareParticipantAcceptanceStatus {
+    CKShareParticipantAcceptanceStatusUnknown = 0,
+    CKShareParticipantAcceptanceStatusPending = 1,
+    CKShareParticipantAcceptanceStatusAccepted = 2,
+    CKShareParticipantAcceptanceStatusRemoved = 3,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CKShareParticipantPermission {
-        CKShareParticipantPermissionUnknown = 0,
-        CKShareParticipantPermissionNone = 1,
-        CKShareParticipantPermissionReadOnly = 2,
-        CKShareParticipantPermissionReadWrite = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CKShareParticipantPermission {
+    CKShareParticipantPermissionUnknown = 0,
+    CKShareParticipantPermissionNone = 1,
+    CKShareParticipantPermissionReadOnly = 2,
+    CKShareParticipantPermissionReadWrite = 3,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CKShareParticipantRole {
-        CKShareParticipantRoleUnknown = 0,
-        CKShareParticipantRoleOwner = 1,
-        CKShareParticipantRolePrivateUser = 3,
-        CKShareParticipantRolePublicUser = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CKShareParticipantRole {
+    CKShareParticipantRoleUnknown = 0,
+    CKShareParticipantRoleOwner = 1,
+    CKShareParticipantRolePrivateUser = 3,
+    CKShareParticipantRolePublicUser = 4,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
+#[ns_enum]
+#[underlying(NSInteger)]
+#[deprecated]
+pub enum CKShareParticipantType {
     #[deprecated]
-    pub enum CKShareParticipantType {
-        #[deprecated]
-        CKShareParticipantTypeUnknown = 0,
-        #[deprecated]
-        CKShareParticipantTypeOwner = 1,
-        #[deprecated]
-        CKShareParticipantTypePrivateUser = 3,
-        #[deprecated]
-        CKShareParticipantTypePublicUser = 4,
-    }
-);
+    CKShareParticipantTypeUnknown = 0,
+    #[deprecated]
+    CKShareParticipantTypeOwner = 1,
+    #[deprecated]
+    CKShareParticipantTypePrivateUser = 3,
+    #[deprecated]
+    CKShareParticipantTypePublicUser = 4,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKShareParticipant")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKShareParticipant")]
-    pub struct CKShareParticipant;
-
-    #[cfg(feature = "CloudKit_CKShareParticipant")]
-    unsafe impl ClassType for CKShareParticipant {
-        type Super = NSObject;
-    }
-);
+    pub type CKShareParticipant;
+}
 
 #[cfg(feature = "CloudKit_CKShareParticipant")]
 unsafe impl NSCoding for CKShareParticipant {}
@@ -70,40 +66,43 @@ unsafe impl NSObjectProtocol for CKShareParticipant {}
 #[cfg(feature = "CloudKit_CKShareParticipant")]
 unsafe impl NSSecureCoding for CKShareParticipant {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKShareParticipant")]
-    unsafe impl CKShareParticipant {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKShareParticipant;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKUserIdentity")]
-        #[method_id(@__retain_semantics Other userIdentity)]
-        pub unsafe fn userIdentity(&self) -> Id<CKUserIdentity>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[method(role)]
-        pub unsafe fn role(&self) -> CKShareParticipantRole;
+    #[cfg(feature = "CloudKit_CKUserIdentity")]
+    #[objc2::method(sel = "userIdentity", managed = "Other")]
+    pub unsafe fn userIdentity(&self) -> Id<CKUserIdentity>;
 
-        #[method(setRole:)]
-        pub unsafe fn setRole(&self, role: CKShareParticipantRole);
+    #[objc2::method(sel = "role")]
+    pub unsafe fn role(&self) -> CKShareParticipantRole;
 
-        #[deprecated]
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> CKShareParticipantType;
+    #[objc2::method(sel = "setRole:")]
+    pub unsafe fn setRole(&self, role: CKShareParticipantRole);
 
-        #[deprecated]
-        #[method(setType:)]
-        pub unsafe fn setType(&self, r#type: CKShareParticipantType);
+    #[deprecated]
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> CKShareParticipantType;
 
-        #[method(acceptanceStatus)]
-        pub unsafe fn acceptanceStatus(&self) -> CKShareParticipantAcceptanceStatus;
+    #[deprecated]
+    #[objc2::method(sel = "setType:")]
+    pub unsafe fn setType(&self, r#type: CKShareParticipantType);
 
-        #[method(permission)]
-        pub unsafe fn permission(&self) -> CKShareParticipantPermission;
+    #[objc2::method(sel = "acceptanceStatus")]
+    pub unsafe fn acceptanceStatus(&self) -> CKShareParticipantAcceptanceStatus;
 
-        #[method(setPermission:)]
-        pub unsafe fn setPermission(&self, permission: CKShareParticipantPermission);
-    }
-);
+    #[objc2::method(sel = "permission")]
+    pub unsafe fn permission(&self) -> CKShareParticipantPermission;
+
+    #[objc2::method(sel = "setPermission:")]
+    pub unsafe fn setPermission(&self, permission: CKShareParticipantPermission);
+}

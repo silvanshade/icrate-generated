@@ -6,457 +6,572 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKQuery")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKQuery")]
-    pub struct HKQuery;
-
-    #[cfg(feature = "HealthKit_HKQuery")]
-    unsafe impl ClassType for HKQuery {
-        type Super = NSObject;
-    }
-);
+    pub type HKQuery;
+}
 
 #[cfg(feature = "HealthKit_HKQuery")]
 unsafe impl NSObjectProtocol for HKQuery {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQuery")]
-    unsafe impl HKQuery {
-        #[cfg(feature = "HealthKit_HKObjectType")]
-        #[method_id(@__retain_semantics Other objectType)]
-        pub unsafe fn objectType(&self) -> Option<Id<HKObjectType>>;
+    pub type HKQuery;
 
-        #[cfg(feature = "HealthKit_HKSampleType")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other sampleType)]
-        pub unsafe fn sampleType(&self) -> Option<Id<HKSampleType>>;
+    #[cfg(feature = "HealthKit_HKObjectType")]
+    #[objc2::method(sel = "objectType", managed = "Other")]
+    pub unsafe fn objectType(&self) -> Option<Id<HKObjectType>>;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicate)]
-        pub unsafe fn predicate(&self) -> Option<Id<NSPredicate>>;
+    #[cfg(feature = "HealthKit_HKSampleType")]
+    #[deprecated]
+    #[objc2::method(sel = "sampleType", managed = "Other")]
+    pub unsafe fn sampleType(&self) -> Option<Id<HKSampleType>>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "predicate", managed = "Other")]
+    pub unsafe fn predicate(&self) -> Option<Id<NSPredicate>>;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum HKQueryOptions {
-        HKQueryOptionNone = 0,
-        HKQueryOptionStrictStartDate = 1 << 0,
-        HKQueryOptionStrictEndDate = 1 << 1,
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}
 
-extern_methods!(
-    /// HKObjectPredicates
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum HKQueryOptions {
+    HKQueryOptionNone = 0,
+    HKQueryOptionStrictStartDate = 1 << 0,
+    HKQueryOptionStrictEndDate = 1 << 1,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQuery")]
-    unsafe impl HKQuery {
-        #[cfg(all(feature = "Foundation_NSPredicate", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other predicateForObjectsWithMetadataKey:)]
-        pub unsafe fn predicateForObjectsWithMetadataKey(key: &NSString) -> Id<NSPredicate>;
+    pub type HKQuery;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSPredicate",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForObjectsWithMetadataKey:allowedValues:)]
-        pub unsafe fn predicateForObjectsWithMetadataKey_allowedValues(
-            key: &NSString,
-            allowed_values: &NSArray,
-        ) -> Id<NSPredicate>;
+    #[cfg(all(feature = "Foundation_NSPredicate", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "predicateForObjectsWithMetadataKey:", managed = "Other")]
+    pub unsafe fn predicateForObjectsWithMetadataKey(key: &NSString) -> Id<NSPredicate>;
 
-        #[cfg(all(feature = "Foundation_NSPredicate", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other predicateForObjectsWithMetadataKey:operatorType:value:)]
-        pub unsafe fn predicateForObjectsWithMetadataKey_operatorType_value(
-            key: &NSString,
-            operator_type: NSPredicateOperatorType,
-            value: &Object,
-        ) -> Id<NSPredicate>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSPredicate",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "predicateForObjectsWithMetadataKey:allowedValues:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForObjectsWithMetadataKey_allowedValues(
+        key: &NSString,
+        allowed_values: &NSArray,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(feature = "Foundation_NSPredicate", feature = "HealthKit_HKSource"))]
-        #[method_id(@__retain_semantics Other predicateForObjectsFromSource:)]
-        pub unsafe fn predicateForObjectsFromSource(source: &HKSource) -> Id<NSPredicate>;
+    #[cfg(all(feature = "Foundation_NSPredicate", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "predicateForObjectsWithMetadataKey:operatorType:value:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForObjectsWithMetadataKey_operatorType_value(
+        key: &NSString,
+        operator_type: NSPredicateOperatorType,
+        value: &Object,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSPredicate",
-            feature = "Foundation_NSSet",
-            feature = "HealthKit_HKSource"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForObjectsFromSources:)]
-        pub unsafe fn predicateForObjectsFromSources(sources: &NSSet<HKSource>) -> Id<NSPredicate>;
+    #[cfg(all(feature = "Foundation_NSPredicate", feature = "HealthKit_HKSource"))]
+    #[objc2::method(sel = "predicateForObjectsFromSource:", managed = "Other")]
+    pub unsafe fn predicateForObjectsFromSource(source: &HKSource) -> Id<NSPredicate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSPredicate",
-            feature = "Foundation_NSSet",
-            feature = "HealthKit_HKSourceRevision"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForObjectsFromSourceRevisions:)]
-        pub unsafe fn predicateForObjectsFromSourceRevisions(
-            source_revisions: &NSSet<HKSourceRevision>,
-        ) -> Id<NSPredicate>;
+    #[cfg(all(
+        feature = "Foundation_NSPredicate",
+        feature = "Foundation_NSSet",
+        feature = "HealthKit_HKSource"
+    ))]
+    #[objc2::method(sel = "predicateForObjectsFromSources:", managed = "Other")]
+    pub unsafe fn predicateForObjectsFromSources(sources: &NSSet<HKSource>) -> Id<NSPredicate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSPredicate",
-            feature = "Foundation_NSSet",
-            feature = "HealthKit_HKDevice"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForObjectsFromDevices:)]
-        pub unsafe fn predicateForObjectsFromDevices(devices: &NSSet<HKDevice>) -> Id<NSPredicate>;
+    #[cfg(all(
+        feature = "Foundation_NSPredicate",
+        feature = "Foundation_NSSet",
+        feature = "HealthKit_HKSourceRevision"
+    ))]
+    #[objc2::method(sel = "predicateForObjectsFromSourceRevisions:", managed = "Other")]
+    pub unsafe fn predicateForObjectsFromSourceRevisions(
+        source_revisions: &NSSet<HKSourceRevision>,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSPredicate",
-            feature = "Foundation_NSSet",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForObjectsWithDeviceProperty:allowedValues:)]
-        pub unsafe fn predicateForObjectsWithDeviceProperty_allowedValues(
-            key: &NSString,
-            allowed_values: &NSSet<NSString>,
-        ) -> Id<NSPredicate>;
+    #[cfg(all(
+        feature = "Foundation_NSPredicate",
+        feature = "Foundation_NSSet",
+        feature = "HealthKit_HKDevice"
+    ))]
+    #[objc2::method(sel = "predicateForObjectsFromDevices:", managed = "Other")]
+    pub unsafe fn predicateForObjectsFromDevices(devices: &NSSet<HKDevice>) -> Id<NSPredicate>;
 
-        #[cfg(all(feature = "Foundation_NSPredicate", feature = "Foundation_NSUUID"))]
-        #[method_id(@__retain_semantics Other predicateForObjectWithUUID:)]
-        pub unsafe fn predicateForObjectWithUUID(uuid: &NSUUID) -> Id<NSPredicate>;
+    #[cfg(all(
+        feature = "Foundation_NSPredicate",
+        feature = "Foundation_NSSet",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "predicateForObjectsWithDeviceProperty:allowedValues:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForObjectsWithDeviceProperty_allowedValues(
+        key: &NSString,
+        allowed_values: &NSSet<NSString>,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSPredicate",
-            feature = "Foundation_NSSet",
-            feature = "Foundation_NSUUID"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForObjectsWithUUIDs:)]
-        pub unsafe fn predicateForObjectsWithUUIDs(uui_ds: &NSSet<NSUUID>) -> Id<NSPredicate>;
+    #[cfg(all(feature = "Foundation_NSPredicate", feature = "Foundation_NSUUID"))]
+    #[objc2::method(sel = "predicateForObjectWithUUID:", managed = "Other")]
+    pub unsafe fn predicateForObjectWithUUID(uuid: &NSUUID) -> Id<NSPredicate>;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicateForObjectsWithNoCorrelation)]
-        pub unsafe fn predicateForObjectsWithNoCorrelation() -> Id<NSPredicate>;
+    #[cfg(all(
+        feature = "Foundation_NSPredicate",
+        feature = "Foundation_NSSet",
+        feature = "Foundation_NSUUID"
+    ))]
+    #[objc2::method(sel = "predicateForObjectsWithUUIDs:", managed = "Other")]
+    pub unsafe fn predicateForObjectsWithUUIDs(uui_ds: &NSSet<NSUUID>) -> Id<NSPredicate>;
 
-        #[cfg(all(feature = "Foundation_NSPredicate", feature = "HealthKit_HKWorkout"))]
-        #[method_id(@__retain_semantics Other predicateForObjectsFromWorkout:)]
-        pub unsafe fn predicateForObjectsFromWorkout(workout: &HKWorkout) -> Id<NSPredicate>;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "predicateForObjectsWithNoCorrelation", managed = "Other")]
+    pub unsafe fn predicateForObjectsWithNoCorrelation() -> Id<NSPredicate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKElectrocardiogram"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForObjectsAssociatedWithElectrocardiogram:)]
-        pub unsafe fn predicateForObjectsAssociatedWithElectrocardiogram(
-            electrocardiogram: &HKElectrocardiogram,
-        ) -> Id<NSPredicate>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSPredicate", feature = "HealthKit_HKWorkout"))]
+    #[objc2::method(sel = "predicateForObjectsFromWorkout:", managed = "Other")]
+    pub unsafe fn predicateForObjectsFromWorkout(workout: &HKWorkout) -> Id<NSPredicate>;
 
-extern_methods!(
-    /// HKSamplePredicates
+    #[cfg(all(
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKElectrocardiogram"
+    ))]
+    #[objc2::method(
+        sel = "predicateForObjectsAssociatedWithElectrocardiogram:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForObjectsAssociatedWithElectrocardiogram(
+        electrocardiogram: &HKElectrocardiogram,
+    ) -> Id<NSPredicate>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQuery")]
-    unsafe impl HKQuery {
-        #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSPredicate"))]
-        #[method_id(@__retain_semantics Other predicateForSamplesWithStartDate:endDate:options:)]
-        pub unsafe fn predicateForSamplesWithStartDate_endDate_options(
-            start_date: Option<&NSDate>,
-            end_date: Option<&NSDate>,
-            options: HKQueryOptions,
-        ) -> Id<NSPredicate>;
-    }
-);
+    pub type HKQuery;
 
-extern_methods!(
-    /// HKQuantitySamplePredicates
+    #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSPredicate"))]
+    #[objc2::method(
+        sel = "predicateForSamplesWithStartDate:endDate:options:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForSamplesWithStartDate_endDate_options(
+        start_date: Option<&NSDate>,
+        end_date: Option<&NSDate>,
+        options: HKQueryOptions,
+    ) -> Id<NSPredicate>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQuery")]
-    unsafe impl HKQuery {
-        #[cfg(all(feature = "Foundation_NSPredicate", feature = "HealthKit_HKQuantity"))]
-        #[method_id(@__retain_semantics Other predicateForQuantitySamplesWithOperatorType:quantity:)]
-        pub unsafe fn predicateForQuantitySamplesWithOperatorType_quantity(
-            operator_type: NSPredicateOperatorType,
-            quantity: &HKQuantity,
-        ) -> Id<NSPredicate>;
-    }
-);
+    pub type HKQuery;
 
-extern_methods!(
-    /// HKCategorySamplePredicates
+    #[cfg(all(feature = "Foundation_NSPredicate", feature = "HealthKit_HKQuantity"))]
+    #[objc2::method(
+        sel = "predicateForQuantitySamplesWithOperatorType:quantity:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForQuantitySamplesWithOperatorType_quantity(
+        operator_type: NSPredicateOperatorType,
+        quantity: &HKQuantity,
+    ) -> Id<NSPredicate>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQuery")]
-    unsafe impl HKQuery {
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicateForCategorySamplesWithOperatorType:value:)]
-        pub unsafe fn predicateForCategorySamplesWithOperatorType_value(
-            operator_type: NSPredicateOperatorType,
-            value: NSInteger,
-        ) -> Id<NSPredicate>;
+    pub type HKQuery;
 
-        #[cfg(all(
-            feature = "Foundation_NSNumber",
-            feature = "Foundation_NSPredicate",
-            feature = "Foundation_NSSet"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForCategorySamplesEqualToValues:)]
-        pub unsafe fn predicateForCategorySamplesEqualToValues(
-            values: &NSSet<NSNumber>,
-        ) -> Id<NSPredicate>;
-    }
-);
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(
+        sel = "predicateForCategorySamplesWithOperatorType:value:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForCategorySamplesWithOperatorType_value(
+        operator_type: NSPredicateOperatorType,
+        value: NSInteger,
+    ) -> Id<NSPredicate>;
 
-extern_methods!(
-    /// HKWorkoutPredicates
+    #[cfg(all(
+        feature = "Foundation_NSNumber",
+        feature = "Foundation_NSPredicate",
+        feature = "Foundation_NSSet"
+    ))]
+    #[objc2::method(sel = "predicateForCategorySamplesEqualToValues:", managed = "Other")]
+    pub unsafe fn predicateForCategorySamplesEqualToValues(
+        values: &NSSet<NSNumber>,
+    ) -> Id<NSPredicate>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQuery")]
-    unsafe impl HKQuery {
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicateForWorkoutsWithWorkoutActivityType:)]
-        pub unsafe fn predicateForWorkoutsWithWorkoutActivityType(
-            workout_activity_type: HKWorkoutActivityType,
-        ) -> Id<NSPredicate>;
+    pub type HKQuery;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicateForWorkoutsWithOperatorType:duration:)]
-        pub unsafe fn predicateForWorkoutsWithOperatorType_duration(
-            operator_type: NSPredicateOperatorType,
-            duration: NSTimeInterval,
-        ) -> Id<NSPredicate>;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(
+        sel = "predicateForWorkoutsWithWorkoutActivityType:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForWorkoutsWithWorkoutActivityType(
+        workout_activity_type: HKWorkoutActivityType,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(feature = "Foundation_NSPredicate", feature = "HealthKit_HKQuantity"))]
-        #[deprecated = "Use predicateForWorkoutActivitiesWithOperatorType:quantityType:sumQuantity: passing the HKQuantityType for HKQuantityTypeIdentifierActiveEnergyBurned"]
-        #[method_id(@__retain_semantics Other predicateForWorkoutsWithOperatorType:totalEnergyBurned:)]
-        pub unsafe fn predicateForWorkoutsWithOperatorType_totalEnergyBurned(
-            operator_type: NSPredicateOperatorType,
-            total_energy_burned: &HKQuantity,
-        ) -> Id<NSPredicate>;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(
+        sel = "predicateForWorkoutsWithOperatorType:duration:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForWorkoutsWithOperatorType_duration(
+        operator_type: NSPredicateOperatorType,
+        duration: NSTimeInterval,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(feature = "Foundation_NSPredicate", feature = "HealthKit_HKQuantity"))]
-        #[deprecated = "Use predicateForWorkoutActivitiesWithOperatorType:quantityType:sumQuantity: passing the HKQuantityType for the desired distance type"]
-        #[method_id(@__retain_semantics Other predicateForWorkoutsWithOperatorType:totalDistance:)]
-        pub unsafe fn predicateForWorkoutsWithOperatorType_totalDistance(
-            operator_type: NSPredicateOperatorType,
-            total_distance: &HKQuantity,
-        ) -> Id<NSPredicate>;
+    #[cfg(all(feature = "Foundation_NSPredicate", feature = "HealthKit_HKQuantity"))]
+    #[deprecated = "Use predicateForWorkoutActivitiesWithOperatorType:quantityType:sumQuantity: passing the HKQuantityType for HKQuantityTypeIdentifierActiveEnergyBurned"]
+    #[objc2::method(
+        sel = "predicateForWorkoutsWithOperatorType:totalEnergyBurned:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForWorkoutsWithOperatorType_totalEnergyBurned(
+        operator_type: NSPredicateOperatorType,
+        total_energy_burned: &HKQuantity,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(feature = "Foundation_NSPredicate", feature = "HealthKit_HKQuantity"))]
-        #[deprecated = "Use predicateForWorkoutActivitiesWithOperatorType:quantityType:sumQuantity:"]
-        #[method_id(@__retain_semantics Other predicateForWorkoutsWithOperatorType:totalSwimmingStrokeCount:)]
-        pub unsafe fn predicateForWorkoutsWithOperatorType_totalSwimmingStrokeCount(
-            operator_type: NSPredicateOperatorType,
-            total_swimming_stroke_count: &HKQuantity,
-        ) -> Id<NSPredicate>;
+    #[cfg(all(feature = "Foundation_NSPredicate", feature = "HealthKit_HKQuantity"))]
+    #[deprecated = "Use predicateForWorkoutActivitiesWithOperatorType:quantityType:sumQuantity: passing the HKQuantityType for the desired distance type"]
+    #[objc2::method(
+        sel = "predicateForWorkoutsWithOperatorType:totalDistance:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForWorkoutsWithOperatorType_totalDistance(
+        operator_type: NSPredicateOperatorType,
+        total_distance: &HKQuantity,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(feature = "Foundation_NSPredicate", feature = "HealthKit_HKQuantity"))]
-        #[deprecated = "Use predicateForWorkoutActivitiesWithOperatorType:quantityType:sumQuantity: passing the HKQuantityType for HKQuantityTypeIdentifierSwimmingStrokeCount"]
-        #[method_id(@__retain_semantics Other predicateForWorkoutsWithOperatorType:totalFlightsClimbed:)]
-        pub unsafe fn predicateForWorkoutsWithOperatorType_totalFlightsClimbed(
-            operator_type: NSPredicateOperatorType,
-            total_flights_climbed: &HKQuantity,
-        ) -> Id<NSPredicate>;
+    #[cfg(all(feature = "Foundation_NSPredicate", feature = "HealthKit_HKQuantity"))]
+    #[deprecated = "Use predicateForWorkoutActivitiesWithOperatorType:quantityType:sumQuantity:"]
+    #[objc2::method(
+        sel = "predicateForWorkoutsWithOperatorType:totalSwimmingStrokeCount:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForWorkoutsWithOperatorType_totalSwimmingStrokeCount(
+        operator_type: NSPredicateOperatorType,
+        total_swimming_stroke_count: &HKQuantity,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKQuantity",
-            feature = "HealthKit_HKQuantityType"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForWorkoutsWithOperatorType:quantityType:sumQuantity:)]
-        pub unsafe fn predicateForWorkoutsWithOperatorType_quantityType_sumQuantity(
-            operator_type: NSPredicateOperatorType,
-            quantity_type: &HKQuantityType,
-            sum_quantity: &HKQuantity,
-        ) -> Id<NSPredicate>;
+    #[cfg(all(feature = "Foundation_NSPredicate", feature = "HealthKit_HKQuantity"))]
+    #[deprecated = "Use predicateForWorkoutActivitiesWithOperatorType:quantityType:sumQuantity: passing the HKQuantityType for HKQuantityTypeIdentifierSwimmingStrokeCount"]
+    #[objc2::method(
+        sel = "predicateForWorkoutsWithOperatorType:totalFlightsClimbed:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForWorkoutsWithOperatorType_totalFlightsClimbed(
+        operator_type: NSPredicateOperatorType,
+        total_flights_climbed: &HKQuantity,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKQuantity",
-            feature = "HealthKit_HKQuantityType"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForWorkoutsWithOperatorType:quantityType:minimumQuantity:)]
-        pub unsafe fn predicateForWorkoutsWithOperatorType_quantityType_minimumQuantity(
-            operator_type: NSPredicateOperatorType,
-            quantity_type: &HKQuantityType,
-            minimum_quantity: &HKQuantity,
-        ) -> Id<NSPredicate>;
+    #[cfg(all(
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKQuantity",
+        feature = "HealthKit_HKQuantityType"
+    ))]
+    #[objc2::method(
+        sel = "predicateForWorkoutsWithOperatorType:quantityType:sumQuantity:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForWorkoutsWithOperatorType_quantityType_sumQuantity(
+        operator_type: NSPredicateOperatorType,
+        quantity_type: &HKQuantityType,
+        sum_quantity: &HKQuantity,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKQuantity",
-            feature = "HealthKit_HKQuantityType"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForWorkoutsWithOperatorType:quantityType:maximumQuantity:)]
-        pub unsafe fn predicateForWorkoutsWithOperatorType_quantityType_maximumQuantity(
-            operator_type: NSPredicateOperatorType,
-            quantity_type: &HKQuantityType,
-            maximum_quantity: &HKQuantity,
-        ) -> Id<NSPredicate>;
+    #[cfg(all(
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKQuantity",
+        feature = "HealthKit_HKQuantityType"
+    ))]
+    #[objc2::method(
+        sel = "predicateForWorkoutsWithOperatorType:quantityType:minimumQuantity:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForWorkoutsWithOperatorType_quantityType_minimumQuantity(
+        operator_type: NSPredicateOperatorType,
+        quantity_type: &HKQuantityType,
+        minimum_quantity: &HKQuantity,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKQuantity",
-            feature = "HealthKit_HKQuantityType"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForWorkoutsWithOperatorType:quantityType:averageQuantity:)]
-        pub unsafe fn predicateForWorkoutsWithOperatorType_quantityType_averageQuantity(
-            operator_type: NSPredicateOperatorType,
-            quantity_type: &HKQuantityType,
-            average_quantity: &HKQuantity,
-        ) -> Id<NSPredicate>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKQuantity",
+        feature = "HealthKit_HKQuantityType"
+    ))]
+    #[objc2::method(
+        sel = "predicateForWorkoutsWithOperatorType:quantityType:maximumQuantity:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForWorkoutsWithOperatorType_quantityType_maximumQuantity(
+        operator_type: NSPredicateOperatorType,
+        quantity_type: &HKQuantityType,
+        maximum_quantity: &HKQuantity,
+    ) -> Id<NSPredicate>;
 
-extern_methods!(
-    /// HKWorkoutActivityPredicates
+    #[cfg(all(
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKQuantity",
+        feature = "HealthKit_HKQuantityType"
+    ))]
+    #[objc2::method(
+        sel = "predicateForWorkoutsWithOperatorType:quantityType:averageQuantity:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForWorkoutsWithOperatorType_quantityType_averageQuantity(
+        operator_type: NSPredicateOperatorType,
+        quantity_type: &HKQuantityType,
+        average_quantity: &HKQuantity,
+    ) -> Id<NSPredicate>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQuery")]
-    unsafe impl HKQuery {
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicateForWorkoutActivitiesWithWorkoutActivityType:)]
-        pub unsafe fn predicateForWorkoutActivitiesWithWorkoutActivityType(
-            workout_activity_type: HKWorkoutActivityType,
-        ) -> Id<NSPredicate>;
+    pub type HKQuery;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicateForWorkoutActivitiesWithOperatorType:duration:)]
-        pub unsafe fn predicateForWorkoutActivitiesWithOperatorType_duration(
-            operator_type: NSPredicateOperatorType,
-            duration: NSTimeInterval,
-        ) -> Id<NSPredicate>;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(
+        sel = "predicateForWorkoutActivitiesWithWorkoutActivityType:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForWorkoutActivitiesWithWorkoutActivityType(
+        workout_activity_type: HKWorkoutActivityType,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSPredicate"))]
-        #[method_id(@__retain_semantics Other predicateForWorkoutActivitiesWithStartDate:endDate:options:)]
-        pub unsafe fn predicateForWorkoutActivitiesWithStartDate_endDate_options(
-            start_date: Option<&NSDate>,
-            end_date: Option<&NSDate>,
-            options: HKQueryOptions,
-        ) -> Id<NSPredicate>;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(
+        sel = "predicateForWorkoutActivitiesWithOperatorType:duration:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForWorkoutActivitiesWithOperatorType_duration(
+        operator_type: NSPredicateOperatorType,
+        duration: NSTimeInterval,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKQuantity",
-            feature = "HealthKit_HKQuantityType"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForWorkoutActivitiesWithOperatorType:quantityType:sumQuantity:)]
-        pub unsafe fn predicateForWorkoutActivitiesWithOperatorType_quantityType_sumQuantity(
-            operator_type: NSPredicateOperatorType,
-            quantity_type: &HKQuantityType,
-            sum_quantity: &HKQuantity,
-        ) -> Id<NSPredicate>;
+    #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSPredicate"))]
+    #[objc2::method(
+        sel = "predicateForWorkoutActivitiesWithStartDate:endDate:options:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForWorkoutActivitiesWithStartDate_endDate_options(
+        start_date: Option<&NSDate>,
+        end_date: Option<&NSDate>,
+        options: HKQueryOptions,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKQuantity",
-            feature = "HealthKit_HKQuantityType"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForWorkoutActivitiesWithOperatorType:quantityType:minimumQuantity:)]
-        pub unsafe fn predicateForWorkoutActivitiesWithOperatorType_quantityType_minimumQuantity(
-            operator_type: NSPredicateOperatorType,
-            quantity_type: &HKQuantityType,
-            minimum_quantity: &HKQuantity,
-        ) -> Id<NSPredicate>;
+    #[cfg(all(
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKQuantity",
+        feature = "HealthKit_HKQuantityType"
+    ))]
+    #[objc2::method(
+        sel = "predicateForWorkoutActivitiesWithOperatorType:quantityType:sumQuantity:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForWorkoutActivitiesWithOperatorType_quantityType_sumQuantity(
+        operator_type: NSPredicateOperatorType,
+        quantity_type: &HKQuantityType,
+        sum_quantity: &HKQuantity,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKQuantity",
-            feature = "HealthKit_HKQuantityType"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForWorkoutActivitiesWithOperatorType:quantityType:maximumQuantity:)]
-        pub unsafe fn predicateForWorkoutActivitiesWithOperatorType_quantityType_maximumQuantity(
-            operator_type: NSPredicateOperatorType,
-            quantity_type: &HKQuantityType,
-            maximum_quantity: &HKQuantity,
-        ) -> Id<NSPredicate>;
+    #[cfg(all(
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKQuantity",
+        feature = "HealthKit_HKQuantityType"
+    ))]
+    #[objc2::method(
+        sel = "predicateForWorkoutActivitiesWithOperatorType:quantityType:minimumQuantity:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForWorkoutActivitiesWithOperatorType_quantityType_minimumQuantity(
+        operator_type: NSPredicateOperatorType,
+        quantity_type: &HKQuantityType,
+        minimum_quantity: &HKQuantity,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKQuantity",
-            feature = "HealthKit_HKQuantityType"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForWorkoutActivitiesWithOperatorType:quantityType:averageQuantity:)]
-        pub unsafe fn predicateForWorkoutActivitiesWithOperatorType_quantityType_averageQuantity(
-            operator_type: NSPredicateOperatorType,
-            quantity_type: &HKQuantityType,
-            average_quantity: &HKQuantity,
-        ) -> Id<NSPredicate>;
+    #[cfg(all(
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKQuantity",
+        feature = "HealthKit_HKQuantityType"
+    ))]
+    #[objc2::method(
+        sel = "predicateForWorkoutActivitiesWithOperatorType:quantityType:maximumQuantity:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForWorkoutActivitiesWithOperatorType_quantityType_maximumQuantity(
+        operator_type: NSPredicateOperatorType,
+        quantity_type: &HKQuantityType,
+        maximum_quantity: &HKQuantity,
+    ) -> Id<NSPredicate>;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicateForWorkoutsWithActivityPredicate:)]
-        pub unsafe fn predicateForWorkoutsWithActivityPredicate(
-            activity_predicate: &NSPredicate,
-        ) -> Id<NSPredicate>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKQuantity",
+        feature = "HealthKit_HKQuantityType"
+    ))]
+    #[objc2::method(
+        sel = "predicateForWorkoutActivitiesWithOperatorType:quantityType:averageQuantity:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForWorkoutActivitiesWithOperatorType_quantityType_averageQuantity(
+        operator_type: NSPredicateOperatorType,
+        quantity_type: &HKQuantityType,
+        average_quantity: &HKQuantity,
+    ) -> Id<NSPredicate>;
 
-extern_methods!(
-    /// HKActivitySummaryPredicates
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "predicateForWorkoutsWithActivityPredicate:", managed = "Other")]
+    pub unsafe fn predicateForWorkoutsWithActivityPredicate(
+        activity_predicate: &NSPredicate,
+    ) -> Id<NSPredicate>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQuery")]
-    unsafe impl HKQuery {
-        #[cfg(all(
-            feature = "Foundation_NSDateComponents",
-            feature = "Foundation_NSPredicate"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForActivitySummaryWithDateComponents:)]
-        pub unsafe fn predicateForActivitySummaryWithDateComponents(
-            date_components: &NSDateComponents,
-        ) -> Id<NSPredicate>;
+    pub type HKQuery;
 
-        #[cfg(all(
-            feature = "Foundation_NSDateComponents",
-            feature = "Foundation_NSPredicate"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForActivitySummariesBetweenStartDateComponents:endDateComponents:)]
-        pub unsafe fn predicateForActivitySummariesBetweenStartDateComponents_endDateComponents(
-            start_date_components: &NSDateComponents,
-            end_date_components: &NSDateComponents,
-        ) -> Id<NSPredicate>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSDateComponents",
+        feature = "Foundation_NSPredicate"
+    ))]
+    #[objc2::method(
+        sel = "predicateForActivitySummaryWithDateComponents:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForActivitySummaryWithDateComponents(
+        date_components: &NSDateComponents,
+    ) -> Id<NSPredicate>;
 
-extern_methods!(
-    /// HKClinicalRecordPredicates
+    #[cfg(all(
+        feature = "Foundation_NSDateComponents",
+        feature = "Foundation_NSPredicate"
+    ))]
+    #[objc2::method(
+        sel = "predicateForActivitySummariesBetweenStartDateComponents:endDateComponents:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForActivitySummariesBetweenStartDateComponents_endDateComponents(
+        start_date_components: &NSDateComponents,
+        end_date_components: &NSDateComponents,
+    ) -> Id<NSPredicate>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQuery")]
-    unsafe impl HKQuery {
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicateForClinicalRecordsWithFHIRResourceType:)]
-        pub unsafe fn predicateForClinicalRecordsWithFHIRResourceType(
-            resource_type: &HKFHIRResourceType,
-        ) -> Id<NSPredicate>;
+    pub type HKQuery;
 
-        #[cfg(all(
-            feature = "Foundation_NSPredicate",
-            feature = "Foundation_NSString",
-            feature = "HealthKit_HKSource"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForClinicalRecordsFromSource:FHIRResourceType:identifier:)]
-        pub unsafe fn predicateForClinicalRecordsFromSource_FHIRResourceType_identifier(
-            source: &HKSource,
-            resource_type: &HKFHIRResourceType,
-            identifier: &NSString,
-        ) -> Id<NSPredicate>;
-    }
-);
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(
+        sel = "predicateForClinicalRecordsWithFHIRResourceType:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForClinicalRecordsWithFHIRResourceType(
+        resource_type: &HKFHIRResourceType,
+    ) -> Id<NSPredicate>;
 
-extern_methods!(
-    /// HKElectrocardiogramPredicates
+    #[cfg(all(
+        feature = "Foundation_NSPredicate",
+        feature = "Foundation_NSString",
+        feature = "HealthKit_HKSource"
+    ))]
+    #[objc2::method(
+        sel = "predicateForClinicalRecordsFromSource:FHIRResourceType:identifier:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForClinicalRecordsFromSource_FHIRResourceType_identifier(
+        source: &HKSource,
+        resource_type: &HKFHIRResourceType,
+        identifier: &NSString,
+    ) -> Id<NSPredicate>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQuery")]
-    unsafe impl HKQuery {
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicateForElectrocardiogramsWithClassification:)]
-        pub unsafe fn predicateForElectrocardiogramsWithClassification(
-            classification: HKElectrocardiogramClassification,
-        ) -> Id<NSPredicate>;
+    pub type HKQuery;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicateForElectrocardiogramsWithSymptomsStatus:)]
-        pub unsafe fn predicateForElectrocardiogramsWithSymptomsStatus(
-            symptoms_status: HKElectrocardiogramSymptomsStatus,
-        ) -> Id<NSPredicate>;
-    }
-);
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(
+        sel = "predicateForElectrocardiogramsWithClassification:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForElectrocardiogramsWithClassification(
+        classification: HKElectrocardiogramClassification,
+    ) -> Id<NSPredicate>;
 
-extern_methods!(
-    /// HKVerifiableClinicalRecordPredicates
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(
+        sel = "predicateForElectrocardiogramsWithSymptomsStatus:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForElectrocardiogramsWithSymptomsStatus(
+        symptoms_status: HKElectrocardiogramSymptomsStatus,
+    ) -> Id<NSPredicate>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKQuery")]
-    unsafe impl HKQuery {
-        #[cfg(all(
-            feature = "Foundation_NSDateInterval",
-            feature = "Foundation_NSPredicate"
-        ))]
-        #[method_id(@__retain_semantics Other predicateForVerifiableClinicalRecordsWithRelevantDateWithinDateInterval:)]
-        pub unsafe fn predicateForVerifiableClinicalRecordsWithRelevantDateWithinDateInterval(
-            date_interval: &NSDateInterval,
-        ) -> Id<NSPredicate>;
-    }
-);
+    pub type HKQuery;
+
+    #[cfg(all(
+        feature = "Foundation_NSDateInterval",
+        feature = "Foundation_NSPredicate"
+    ))]
+    #[objc2::method(
+        sel = "predicateForVerifiableClinicalRecordsWithRelevantDateWithinDateInterval:",
+        managed = "Other"
+    )]
+    pub unsafe fn predicateForVerifiableClinicalRecordsWithRelevantDateWithinDateInterval(
+        date_interval: &NSDateInterval,
+    ) -> Id<NSPredicate>;
+}

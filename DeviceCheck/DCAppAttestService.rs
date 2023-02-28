@@ -4,60 +4,63 @@ use crate::common::*;
 use crate::DeviceCheck::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "DeviceCheck_DCAppAttestService")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "DeviceCheck_DCAppAttestService")]
-    pub struct DCAppAttestService;
-
-    #[cfg(feature = "DeviceCheck_DCAppAttestService")]
-    unsafe impl ClassType for DCAppAttestService {
-        type Super = NSObject;
-    }
-);
+    pub type DCAppAttestService;
+}
 
 #[cfg(feature = "DeviceCheck_DCAppAttestService")]
 unsafe impl NSObjectProtocol for DCAppAttestService {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "DeviceCheck_DCAppAttestService")]
-    unsafe impl DCAppAttestService {
-        #[method_id(@__retain_semantics Other sharedService)]
-        pub unsafe fn sharedService() -> Id<DCAppAttestService>;
+    pub type DCAppAttestService;
 
-        #[method(isSupported)]
-        pub unsafe fn isSupported(&self) -> bool;
+    #[objc2::method(sel = "sharedService", managed = "Other")]
+    pub unsafe fn sharedService() -> Id<DCAppAttestService>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(generateKeyWithCompletionHandler:)]
-        pub unsafe fn generateKeyWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(*mut NSString, *mut NSError), ()>,
-        );
+    #[objc2::method(sel = "isSupported")]
+    pub unsafe fn isSupported(&self) -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(attestKey:clientDataHash:completionHandler:)]
-        pub unsafe fn attestKey_clientDataHash_completionHandler(
-            &self,
-            key_id: &NSString,
-            client_data_hash: &NSData,
-            completion_handler: &Block<(*mut NSData, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "generateKeyWithCompletionHandler:")]
+    pub unsafe fn generateKeyWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(*mut NSString, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(generateAssertion:clientDataHash:completionHandler:)]
-        pub unsafe fn generateAssertion_clientDataHash_completionHandler(
-            &self,
-            key_id: &NSString,
-            client_data_hash: &NSData,
-            completion_handler: &Block<(*mut NSData, *mut NSError), ()>,
-        );
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "attestKey:clientDataHash:completionHandler:")]
+    pub unsafe fn attestKey_clientDataHash_completionHandler(
+        &self,
+        key_id: &NSString,
+        client_data_hash: &NSData,
+        completion_handler: &Block<(*mut NSData, *mut NSError), ()>,
+    );
+
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "generateAssertion:clientDataHash:completionHandler:")]
+    pub unsafe fn generateAssertion_clientDataHash_completionHandler(
+        &self,
+        key_id: &NSString,
+        client_data_hash: &NSData,
+        completion_handler: &Block<(*mut NSData, *mut NSError), ()>,
+    );
+}

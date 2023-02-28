@@ -4,17 +4,18 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSAttributeDescription,
+    unsafe inherits = [
+        NSPropertyDescription,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSDerivedAttributeDescription")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSDerivedAttributeDescription")]
-    pub struct NSDerivedAttributeDescription;
-
-    #[cfg(feature = "CoreData_NSDerivedAttributeDescription")]
-    unsafe impl ClassType for NSDerivedAttributeDescription {
-        #[inherits(NSPropertyDescription, NSObject)]
-        type Super = NSAttributeDescription;
-    }
-);
+    pub type NSDerivedAttributeDescription;
+}
 
 #[cfg(feature = "CoreData_NSDerivedAttributeDescription")]
 unsafe impl NSCoding for NSDerivedAttributeDescription {}
@@ -22,15 +23,18 @@ unsafe impl NSCoding for NSDerivedAttributeDescription {}
 #[cfg(feature = "CoreData_NSDerivedAttributeDescription")]
 unsafe impl NSObjectProtocol for NSDerivedAttributeDescription {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSDerivedAttributeDescription")]
-    unsafe impl NSDerivedAttributeDescription {
-        #[cfg(feature = "Foundation_NSExpression")]
-        #[method_id(@__retain_semantics Other derivationExpression)]
-        pub unsafe fn derivationExpression(&self) -> Option<Id<NSExpression>>;
+    pub type NSDerivedAttributeDescription;
 
-        #[cfg(feature = "Foundation_NSExpression")]
-        #[method(setDerivationExpression:)]
-        pub unsafe fn setDerivationExpression(&self, derivation_expression: Option<&NSExpression>);
-    }
-);
+    #[cfg(feature = "Foundation_NSExpression")]
+    #[objc2::method(sel = "derivationExpression", managed = "Other")]
+    pub unsafe fn derivationExpression(&self) -> Option<Id<NSExpression>>;
+
+    #[cfg(feature = "Foundation_NSExpression")]
+    #[objc2::method(sel = "setDerivationExpression:")]
+    pub unsafe fn setDerivationExpression(&self, derivation_expression: Option<&NSExpression>);
+}

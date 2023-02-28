@@ -5,46 +5,51 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMMediaList")]
+#[objc2::interface(
+    unsafe super = DOMObject,
+    unsafe inherits = [
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMMediaList;
-
     #[cfg(feature = "WebKit_DOMMediaList")]
-    unsafe impl ClassType for DOMMediaList {
-        #[inherits(WebScriptObject, NSObject)]
-        type Super = DOMObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMMediaList;
+}
 
 #[cfg(feature = "WebKit_DOMMediaList")]
 unsafe impl NSObjectProtocol for DOMMediaList {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMMediaList")]
-    unsafe impl DOMMediaList {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other mediaText)]
-        pub unsafe fn mediaText(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMMediaList;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMediaText:)]
-        pub unsafe fn setMediaText(&self, media_text: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "mediaText", managed = "Other")]
+    pub unsafe fn mediaText(&self) -> Id<NSString>;
 
-        #[method(length)]
-        pub unsafe fn length(&self) -> c_uint;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMediaText:")]
+    pub unsafe fn setMediaText(&self, media_text: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other item:)]
-        pub unsafe fn item(&self, index: c_uint) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "length")]
+    pub unsafe fn length(&self) -> c_uint;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(deleteMedium:)]
-        pub unsafe fn deleteMedium(&self, old_medium: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "item:", managed = "Other")]
+    pub unsafe fn item(&self, index: c_uint) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(appendMedium:)]
-        pub unsafe fn appendMedium(&self, new_medium: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "deleteMedium:")]
+    pub unsafe fn deleteMedium(&self, old_medium: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "appendMedium:")]
+    pub unsafe fn appendMedium(&self, new_medium: Option<&NSString>);
+}

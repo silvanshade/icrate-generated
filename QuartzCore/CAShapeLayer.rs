@@ -16,17 +16,17 @@ typed_enum!(
     pub type CAShapeLayerLineCap = NSString;
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CALayer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAShapeLayer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CAShapeLayer")]
-    pub struct CAShapeLayer;
-
-    #[cfg(feature = "CoreAnimation_CAShapeLayer")]
-    unsafe impl ClassType for CAShapeLayer {
-        #[inherits(NSObject)]
-        type Super = CALayer;
-    }
-);
+    pub type CAShapeLayer;
+}
 
 #[cfg(feature = "CoreAnimation_CAShapeLayer")]
 unsafe impl CAMediaTiming for CAShapeLayer {}
@@ -40,66 +40,69 @@ unsafe impl NSObjectProtocol for CAShapeLayer {}
 #[cfg(feature = "CoreAnimation_CAShapeLayer")]
 unsafe impl NSSecureCoding for CAShapeLayer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CAShapeLayer")]
-    unsafe impl CAShapeLayer {
-        #[method_id(@__retain_semantics Other fillRule)]
-        pub unsafe fn fillRule(&self) -> Id<CAShapeLayerFillRule>;
+    pub type CAShapeLayer;
 
-        #[method(setFillRule:)]
-        pub unsafe fn setFillRule(&self, fill_rule: &CAShapeLayerFillRule);
+    #[objc2::method(sel = "fillRule", managed = "Other")]
+    pub unsafe fn fillRule(&self) -> Id<CAShapeLayerFillRule>;
 
-        #[method(strokeStart)]
-        pub unsafe fn strokeStart(&self) -> CGFloat;
+    #[objc2::method(sel = "setFillRule:")]
+    pub unsafe fn setFillRule(&self, fill_rule: &CAShapeLayerFillRule);
 
-        #[method(setStrokeStart:)]
-        pub unsafe fn setStrokeStart(&self, stroke_start: CGFloat);
+    #[objc2::method(sel = "strokeStart")]
+    pub unsafe fn strokeStart(&self) -> CGFloat;
 
-        #[method(strokeEnd)]
-        pub unsafe fn strokeEnd(&self) -> CGFloat;
+    #[objc2::method(sel = "setStrokeStart:")]
+    pub unsafe fn setStrokeStart(&self, stroke_start: CGFloat);
 
-        #[method(setStrokeEnd:)]
-        pub unsafe fn setStrokeEnd(&self, stroke_end: CGFloat);
+    #[objc2::method(sel = "strokeEnd")]
+    pub unsafe fn strokeEnd(&self) -> CGFloat;
 
-        #[method(lineWidth)]
-        pub unsafe fn lineWidth(&self) -> CGFloat;
+    #[objc2::method(sel = "setStrokeEnd:")]
+    pub unsafe fn setStrokeEnd(&self, stroke_end: CGFloat);
 
-        #[method(setLineWidth:)]
-        pub unsafe fn setLineWidth(&self, line_width: CGFloat);
+    #[objc2::method(sel = "lineWidth")]
+    pub unsafe fn lineWidth(&self) -> CGFloat;
 
-        #[method(miterLimit)]
-        pub unsafe fn miterLimit(&self) -> CGFloat;
+    #[objc2::method(sel = "setLineWidth:")]
+    pub unsafe fn setLineWidth(&self, line_width: CGFloat);
 
-        #[method(setMiterLimit:)]
-        pub unsafe fn setMiterLimit(&self, miter_limit: CGFloat);
+    #[objc2::method(sel = "miterLimit")]
+    pub unsafe fn miterLimit(&self) -> CGFloat;
 
-        #[method_id(@__retain_semantics Other lineCap)]
-        pub unsafe fn lineCap(&self) -> Id<CAShapeLayerLineCap>;
+    #[objc2::method(sel = "setMiterLimit:")]
+    pub unsafe fn setMiterLimit(&self, miter_limit: CGFloat);
 
-        #[method(setLineCap:)]
-        pub unsafe fn setLineCap(&self, line_cap: &CAShapeLayerLineCap);
+    #[objc2::method(sel = "lineCap", managed = "Other")]
+    pub unsafe fn lineCap(&self) -> Id<CAShapeLayerLineCap>;
 
-        #[method_id(@__retain_semantics Other lineJoin)]
-        pub unsafe fn lineJoin(&self) -> Id<CAShapeLayerLineJoin>;
+    #[objc2::method(sel = "setLineCap:")]
+    pub unsafe fn setLineCap(&self, line_cap: &CAShapeLayerLineCap);
 
-        #[method(setLineJoin:)]
-        pub unsafe fn setLineJoin(&self, line_join: &CAShapeLayerLineJoin);
+    #[objc2::method(sel = "lineJoin", managed = "Other")]
+    pub unsafe fn lineJoin(&self) -> Id<CAShapeLayerLineJoin>;
 
-        #[method(lineDashPhase)]
-        pub unsafe fn lineDashPhase(&self) -> CGFloat;
+    #[objc2::method(sel = "setLineJoin:")]
+    pub unsafe fn setLineJoin(&self, line_join: &CAShapeLayerLineJoin);
 
-        #[method(setLineDashPhase:)]
-        pub unsafe fn setLineDashPhase(&self, line_dash_phase: CGFloat);
+    #[objc2::method(sel = "lineDashPhase")]
+    pub unsafe fn lineDashPhase(&self) -> CGFloat;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other lineDashPattern)]
-        pub unsafe fn lineDashPattern(&self) -> Option<Id<NSArray<NSNumber>>>;
+    #[objc2::method(sel = "setLineDashPhase:")]
+    pub unsafe fn setLineDashPhase(&self, line_dash_phase: CGFloat);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method(setLineDashPattern:)]
-        pub unsafe fn setLineDashPattern(&self, line_dash_pattern: Option<&NSArray<NSNumber>>);
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "lineDashPattern", managed = "Other")]
+    pub unsafe fn lineDashPattern(&self) -> Option<Id<NSArray<NSNumber>>>;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "setLineDashPattern:")]
+    pub unsafe fn setLineDashPattern(&self, line_dash_pattern: Option<&NSArray<NSNumber>>);
+}
 
 extern_static!(kCAFillRuleNonZero: &'static CAShapeLayerFillRule);
 
@@ -117,14 +120,20 @@ extern_static!(kCALineCapRound: &'static CAShapeLayerLineCap);
 
 extern_static!(kCALineCapSquare: &'static CAShapeLayerLineCap);
 
-extern_methods!(
-    /// Methods declared on superclass `CALayer`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CALayer`
     #[cfg(feature = "CoreAnimation_CAShapeLayer")]
-    unsafe impl CAShapeLayer {
-        #[method_id(@__retain_semantics Other layer)]
-        pub unsafe fn layer() -> Id<Self>;
-
-        #[method_id(@__retain_semantics Init initWithLayer:)]
-        pub unsafe fn initWithLayer(this: Option<Allocated<Self>>, layer: &Object) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAShapeLayer")]
+    pub type CAShapeLayer;
+
+    #[objc2::method(sel = "layer", managed = "Other")]
+    pub unsafe fn layer() -> Id<Self>;
+
+    #[objc2::method(sel = "initWithLayer:", managed = "Init")]
+    pub unsafe fn initWithLayer(this: Option<Allocated<Self>>, layer: &Object) -> Id<Self>;
+}

@@ -5,32 +5,35 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameController_GCDeviceLight")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameController_GCDeviceLight")]
-    pub struct GCDeviceLight;
-
-    #[cfg(feature = "GameController_GCDeviceLight")]
-    unsafe impl ClassType for GCDeviceLight {
-        type Super = NSObject;
-    }
-);
+    pub type GCDeviceLight;
+}
 
 #[cfg(feature = "GameController_GCDeviceLight")]
 unsafe impl NSObjectProtocol for GCDeviceLight {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameController_GCDeviceLight")]
-    unsafe impl GCDeviceLight {
-        #[cfg(feature = "GameController_GCColor")]
-        #[method_id(@__retain_semantics Other color)]
-        pub unsafe fn color(&self) -> Id<GCColor>;
+    pub type GCDeviceLight;
 
-        #[cfg(feature = "GameController_GCColor")]
-        #[method(setColor:)]
-        pub unsafe fn setColor(&self, color: &GCColor);
+    #[cfg(feature = "GameController_GCColor")]
+    #[objc2::method(sel = "color", managed = "Other")]
+    pub unsafe fn color(&self) -> Id<GCColor>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "GameController_GCColor")]
+    #[objc2::method(sel = "setColor:")]
+    pub unsafe fn setColor(&self, color: &GCColor);
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

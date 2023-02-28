@@ -5,20 +5,14 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSChangeSpelling {
-        #[method(changeSpelling:)]
-        unsafe fn changeSpelling(&self, sender: Option<&Object>);
-    }
+#[objc2::protocol]
+pub unsafe trait NSChangeSpelling {
+    #[objc2::method(sel = "changeSpelling:")]
+    unsafe fn changeSpelling(&self, sender: Option<&Object>);
+}
 
-    unsafe impl ProtocolType for dyn NSChangeSpelling {}
-);
-
-extern_protocol!(
-    pub unsafe trait NSIgnoreMisspelledWords {
-        #[method(ignoreSpelling:)]
-        unsafe fn ignoreSpelling(&self, sender: Option<&Object>);
-    }
-
-    unsafe impl ProtocolType for dyn NSIgnoreMisspelledWords {}
-);
+#[objc2::protocol]
+pub unsafe trait NSIgnoreMisspelledWords {
+    #[objc2::method(sel = "ignoreSpelling:")]
+    unsafe fn ignoreSpelling(&self, sender: Option<&Object>);
+}

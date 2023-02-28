@@ -5,18 +5,19 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WebFrameView")]
+#[objc2::interface(
+    unsafe super = NSView,
+    unsafe inherits = [
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct WebFrameView;
-
     #[cfg(feature = "WebKit_WebFrameView")]
-    unsafe impl ClassType for WebFrameView {
-        #[inherits(NSResponder, NSObject)]
-        type Super = NSView;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type WebFrameView;
+}
 
 #[cfg(feature = "WebKit_WebFrameView")]
 unsafe impl NSAccessibility for WebFrameView {}
@@ -42,45 +43,55 @@ unsafe impl NSObjectProtocol for WebFrameView {}
 #[cfg(feature = "WebKit_WebFrameView")]
 unsafe impl NSUserInterfaceItemIdentification for WebFrameView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WebFrameView")]
-    unsafe impl WebFrameView {
-        #[cfg(feature = "WebKit_WebFrame")]
-        #[method_id(@__retain_semantics Other webFrame)]
-        pub unsafe fn webFrame(&self) -> Option<Id<WebFrame>>;
+    #[deprecated]
+    pub type WebFrameView;
 
-        #[method_id(@__retain_semantics Other documentView)]
-        pub unsafe fn documentView(&self) -> Option<Id<NSView>>;
+    #[cfg(feature = "WebKit_WebFrame")]
+    #[objc2::method(sel = "webFrame", managed = "Other")]
+    pub unsafe fn webFrame(&self) -> Option<Id<WebFrame>>;
 
-        #[method(allowsScrolling)]
-        pub unsafe fn allowsScrolling(&self) -> bool;
+    #[objc2::method(sel = "documentView", managed = "Other")]
+    pub unsafe fn documentView(&self) -> Option<Id<NSView>>;
 
-        #[method(setAllowsScrolling:)]
-        pub unsafe fn setAllowsScrolling(&self, allows_scrolling: bool);
+    #[objc2::method(sel = "allowsScrolling")]
+    pub unsafe fn allowsScrolling(&self) -> bool;
 
-        #[method(canPrintHeadersAndFooters)]
-        pub unsafe fn canPrintHeadersAndFooters(&self) -> bool;
+    #[objc2::method(sel = "setAllowsScrolling:")]
+    pub unsafe fn setAllowsScrolling(&self, allows_scrolling: bool);
 
-        #[cfg(all(feature = "AppKit_NSPrintInfo", feature = "AppKit_NSPrintOperation"))]
-        #[method_id(@__retain_semantics Other printOperationWithPrintInfo:)]
-        pub unsafe fn printOperationWithPrintInfo(
-            &self,
-            print_info: Option<&NSPrintInfo>,
-        ) -> Option<Id<NSPrintOperation>>;
+    #[objc2::method(sel = "canPrintHeadersAndFooters")]
+    pub unsafe fn canPrintHeadersAndFooters(&self) -> bool;
 
-        #[method(documentViewShouldHandlePrint)]
-        pub unsafe fn documentViewShouldHandlePrint(&self) -> bool;
+    #[cfg(all(feature = "AppKit_NSPrintInfo", feature = "AppKit_NSPrintOperation"))]
+    #[objc2::method(sel = "printOperationWithPrintInfo:", managed = "Other")]
+    pub unsafe fn printOperationWithPrintInfo(
+        &self,
+        print_info: Option<&NSPrintInfo>,
+    ) -> Option<Id<NSPrintOperation>>;
 
-        #[method(printDocumentView)]
-        pub unsafe fn printDocumentView(&self);
-    }
-);
+    #[objc2::method(sel = "documentViewShouldHandlePrint")]
+    pub unsafe fn documentViewShouldHandlePrint(&self) -> bool;
 
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+    #[objc2::method(sel = "printDocumentView")]
+    pub unsafe fn printDocumentView(&self);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
     #[cfg(feature = "WebKit_WebFrameView")]
-    unsafe impl WebFrameView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "WebKit_WebFrameView")]
+    pub type WebFrameView;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

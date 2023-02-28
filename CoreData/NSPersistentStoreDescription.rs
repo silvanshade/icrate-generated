@@ -4,124 +4,129 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPersistentStoreDescription")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSPersistentStoreDescription")]
-    pub struct NSPersistentStoreDescription;
-
-    #[cfg(feature = "CoreData_NSPersistentStoreDescription")]
-    unsafe impl ClassType for NSPersistentStoreDescription {
-        type Super = NSObject;
-    }
-);
+    pub type NSPersistentStoreDescription;
+}
 
 #[cfg(feature = "CoreData_NSPersistentStoreDescription")]
 unsafe impl NSObjectProtocol for NSPersistentStoreDescription {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPersistentStoreDescription")]
-    unsafe impl NSPersistentStoreDescription {
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other persistentStoreDescriptionWithURL:)]
-        pub unsafe fn persistentStoreDescriptionWithURL(url: &NSURL) -> Id<Self>;
+    pub type NSPersistentStoreDescription;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other type)]
-        pub unsafe fn r#type(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "persistentStoreDescriptionWithURL:", managed = "Other")]
+    pub unsafe fn persistentStoreDescriptionWithURL(url: &NSURL) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setType:)]
-        pub unsafe fn setType(&self, r#type: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "type", managed = "Other")]
+    pub unsafe fn r#type(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other configuration)]
-        pub unsafe fn configuration(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setType:")]
+    pub unsafe fn setType(&self, r#type: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setConfiguration:)]
-        pub unsafe fn setConfiguration(&self, configuration: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "configuration", managed = "Other")]
+    pub unsafe fn configuration(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URL)]
-        pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setConfiguration:")]
+    pub unsafe fn setConfiguration(&self, configuration: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setURL:)]
-        pub unsafe fn setURL(&self, url: Option<&NSURL>);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URL", managed = "Other")]
+    pub unsafe fn URL(&self) -> Option<Id<NSURL>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other options)]
-        pub unsafe fn options(&self) -> Id<NSDictionary<NSString, NSObject>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setURL:")]
+    pub unsafe fn setURL(&self, url: Option<&NSURL>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setOption:forKey:)]
-        pub unsafe fn setOption_forKey(&self, option: Option<&NSObject>, key: &NSString);
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "options", managed = "Other")]
+    pub unsafe fn options(&self) -> Id<NSDictionary<NSString, NSObject>>;
 
-        #[method(isReadOnly)]
-        pub unsafe fn isReadOnly(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setOption:forKey:")]
+    pub unsafe fn setOption_forKey(&self, option: Option<&NSObject>, key: &NSString);
 
-        #[method(setReadOnly:)]
-        pub unsafe fn setReadOnly(&self, read_only: bool);
+    #[objc2::method(sel = "isReadOnly")]
+    pub unsafe fn isReadOnly(&self) -> bool;
 
-        #[method(timeout)]
-        pub unsafe fn timeout(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "setReadOnly:")]
+    pub unsafe fn setReadOnly(&self, read_only: bool);
 
-        #[method(setTimeout:)]
-        pub unsafe fn setTimeout(&self, timeout: NSTimeInterval);
+    #[objc2::method(sel = "timeout")]
+    pub unsafe fn timeout(&self) -> NSTimeInterval;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other sqlitePragmas)]
-        pub unsafe fn sqlitePragmas(&self) -> Id<NSDictionary<NSString, NSObject>>;
+    #[objc2::method(sel = "setTimeout:")]
+    pub unsafe fn setTimeout(&self, timeout: NSTimeInterval);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setValue:forPragmaNamed:)]
-        pub unsafe fn setValue_forPragmaNamed(&self, value: Option<&NSObject>, name: &NSString);
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "sqlitePragmas", managed = "Other")]
+    pub unsafe fn sqlitePragmas(&self) -> Id<NSDictionary<NSString, NSObject>>;
 
-        #[method(shouldAddStoreAsynchronously)]
-        pub unsafe fn shouldAddStoreAsynchronously(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setValue:forPragmaNamed:")]
+    pub unsafe fn setValue_forPragmaNamed(&self, value: Option<&NSObject>, name: &NSString);
 
-        #[method(setShouldAddStoreAsynchronously:)]
-        pub unsafe fn setShouldAddStoreAsynchronously(&self, should_add_store_asynchronously: bool);
+    #[objc2::method(sel = "shouldAddStoreAsynchronously")]
+    pub unsafe fn shouldAddStoreAsynchronously(&self) -> bool;
 
-        #[method(shouldMigrateStoreAutomatically)]
-        pub unsafe fn shouldMigrateStoreAutomatically(&self) -> bool;
+    #[objc2::method(sel = "setShouldAddStoreAsynchronously:")]
+    pub unsafe fn setShouldAddStoreAsynchronously(&self, should_add_store_asynchronously: bool);
 
-        #[method(setShouldMigrateStoreAutomatically:)]
-        pub unsafe fn setShouldMigrateStoreAutomatically(
-            &self,
-            should_migrate_store_automatically: bool,
-        );
+    #[objc2::method(sel = "shouldMigrateStoreAutomatically")]
+    pub unsafe fn shouldMigrateStoreAutomatically(&self) -> bool;
 
-        #[method(shouldInferMappingModelAutomatically)]
-        pub unsafe fn shouldInferMappingModelAutomatically(&self) -> bool;
+    #[objc2::method(sel = "setShouldMigrateStoreAutomatically:")]
+    pub unsafe fn setShouldMigrateStoreAutomatically(
+        &self,
+        should_migrate_store_automatically: bool,
+    );
 
-        #[method(setShouldInferMappingModelAutomatically:)]
-        pub unsafe fn setShouldInferMappingModelAutomatically(
-            &self,
-            should_infer_mapping_model_automatically: bool,
-        );
+    #[objc2::method(sel = "shouldInferMappingModelAutomatically")]
+    pub unsafe fn shouldInferMappingModelAutomatically(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithURL:)]
-        pub unsafe fn initWithURL(this: Option<Allocated<Self>>, url: &NSURL) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "setShouldInferMappingModelAutomatically:")]
+    pub unsafe fn setShouldInferMappingModelAutomatically(
+        &self,
+        should_infer_mapping_model_automatically: bool,
+    );
 
-extern_methods!(
-    /// NSPersistentCloudKitContainerAdditions
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initWithURL:", managed = "Init")]
+    pub unsafe fn initWithURL(this: Option<Allocated<Self>>, url: &NSURL) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPersistentStoreDescription")]
-    unsafe impl NSPersistentStoreDescription {
-        #[cfg(feature = "CoreData_NSPersistentCloudKitContainerOptions")]
-        #[method_id(@__retain_semantics Other cloudKitContainerOptions)]
-        pub unsafe fn cloudKitContainerOptions(
-            &self,
-        ) -> Option<Id<NSPersistentCloudKitContainerOptions>>;
+    pub type NSPersistentStoreDescription;
 
-        #[cfg(feature = "CoreData_NSPersistentCloudKitContainerOptions")]
-        #[method(setCloudKitContainerOptions:)]
-        pub unsafe fn setCloudKitContainerOptions(
-            &self,
-            cloud_kit_container_options: Option<&NSPersistentCloudKitContainerOptions>,
-        );
-    }
-);
+    #[cfg(feature = "CoreData_NSPersistentCloudKitContainerOptions")]
+    #[objc2::method(sel = "cloudKitContainerOptions", managed = "Other")]
+    pub unsafe fn cloudKitContainerOptions(
+        &self,
+    ) -> Option<Id<NSPersistentCloudKitContainerOptions>>;
+
+    #[cfg(feature = "CoreData_NSPersistentCloudKitContainerOptions")]
+    #[objc2::method(sel = "setCloudKitContainerOptions:")]
+    pub unsafe fn setCloudKitContainerOptions(
+        &self,
+        cloud_kit_container_options: Option<&NSPersistentCloudKitContainerOptions>,
+    );
+}

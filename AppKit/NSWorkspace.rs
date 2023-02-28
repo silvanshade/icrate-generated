@@ -5,366 +5,369 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSWorkspaceIconCreationOptions {
-        NSExcludeQuickDrawElementsIconCreationOption = 1 << 1,
-        NSExclude10_4ElementsIconCreationOption = 1 << 2,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSWorkspaceIconCreationOptions {
+    NSExcludeQuickDrawElementsIconCreationOption = 1 << 1,
+    NSExclude10_4ElementsIconCreationOption = 1 << 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSWorkspace")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSWorkspace")]
-    pub struct NSWorkspace;
-
-    #[cfg(feature = "AppKit_NSWorkspace")]
-    unsafe impl ClassType for NSWorkspace {
-        type Super = NSObject;
-    }
-);
+    pub type NSWorkspace;
+}
 
 #[cfg(feature = "AppKit_NSWorkspace")]
 unsafe impl NSObjectProtocol for NSWorkspace {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWorkspace")]
-    unsafe impl NSWorkspace {
-        #[method_id(@__retain_semantics Other sharedWorkspace)]
-        pub unsafe fn sharedWorkspace() -> Id<NSWorkspace>;
+    pub type NSWorkspace;
 
-        #[cfg(feature = "Foundation_NSNotificationCenter")]
-        #[method_id(@__retain_semantics Other notificationCenter)]
-        pub unsafe fn notificationCenter(&self) -> Id<NSNotificationCenter>;
+    #[objc2::method(sel = "sharedWorkspace", managed = "Other")]
+    pub unsafe fn sharedWorkspace() -> Id<NSWorkspace>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(openURL:)]
-        pub unsafe fn openURL(&self, url: &NSURL) -> bool;
+    #[cfg(feature = "Foundation_NSNotificationCenter")]
+    #[objc2::method(sel = "notificationCenter", managed = "Other")]
+    pub unsafe fn notificationCenter(&self) -> Id<NSNotificationCenter>;
 
-        #[cfg(all(
-            feature = "AppKit_NSRunningApplication",
-            feature = "AppKit_NSWorkspaceOpenConfiguration",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(openURL:configuration:completionHandler:)]
-        pub unsafe fn openURL_configuration_completionHandler(
-            &self,
-            url: &NSURL,
-            configuration: &NSWorkspaceOpenConfiguration,
-            completion_handler: Option<&Block<(*mut NSRunningApplication, *mut NSError), ()>>,
-        );
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "openURL:")]
+    pub unsafe fn openURL(&self, url: &NSURL) -> bool;
 
-        #[cfg(all(
-            feature = "AppKit_NSRunningApplication",
-            feature = "AppKit_NSWorkspaceOpenConfiguration",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(openURLs:withApplicationAtURL:configuration:completionHandler:)]
-        pub unsafe fn openURLs_withApplicationAtURL_configuration_completionHandler(
-            &self,
-            urls: &NSArray<NSURL>,
-            application_url: &NSURL,
-            configuration: &NSWorkspaceOpenConfiguration,
-            completion_handler: Option<&Block<(*mut NSRunningApplication, *mut NSError), ()>>,
-        );
+    #[cfg(all(
+        feature = "AppKit_NSRunningApplication",
+        feature = "AppKit_NSWorkspaceOpenConfiguration",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "openURL:configuration:completionHandler:")]
+    pub unsafe fn openURL_configuration_completionHandler(
+        &self,
+        url: &NSURL,
+        configuration: &NSWorkspaceOpenConfiguration,
+        completion_handler: Option<&Block<(*mut NSRunningApplication, *mut NSError), ()>>,
+    );
 
-        #[cfg(all(
-            feature = "AppKit_NSRunningApplication",
-            feature = "AppKit_NSWorkspaceOpenConfiguration",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(openApplicationAtURL:configuration:completionHandler:)]
-        pub unsafe fn openApplicationAtURL_configuration_completionHandler(
-            &self,
-            application_url: &NSURL,
-            configuration: &NSWorkspaceOpenConfiguration,
-            completion_handler: Option<&Block<(*mut NSRunningApplication, *mut NSError), ()>>,
-        );
+    #[cfg(all(
+        feature = "AppKit_NSRunningApplication",
+        feature = "AppKit_NSWorkspaceOpenConfiguration",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "openURLs:withApplicationAtURL:configuration:completionHandler:")]
+    pub unsafe fn openURLs_withApplicationAtURL_configuration_completionHandler(
+        &self,
+        urls: &NSArray<NSURL>,
+        application_url: &NSURL,
+        configuration: &NSWorkspaceOpenConfiguration,
+        completion_handler: Option<&Block<(*mut NSRunningApplication, *mut NSError), ()>>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(selectFile:inFileViewerRootedAtPath:)]
-        pub unsafe fn selectFile_inFileViewerRootedAtPath(
-            &self,
-            full_path: Option<&NSString>,
-            root_full_path: &NSString,
-        ) -> bool;
+    #[cfg(all(
+        feature = "AppKit_NSRunningApplication",
+        feature = "AppKit_NSWorkspaceOpenConfiguration",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "openApplicationAtURL:configuration:completionHandler:")]
+    pub unsafe fn openApplicationAtURL_configuration_completionHandler(
+        &self,
+        application_url: &NSURL,
+        configuration: &NSWorkspaceOpenConfiguration,
+        completion_handler: Option<&Block<(*mut NSRunningApplication, *mut NSError), ()>>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
-        #[method(activateFileViewerSelectingURLs:)]
-        pub unsafe fn activateFileViewerSelectingURLs(&self, file_ur_ls: &NSArray<NSURL>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "selectFile:inFileViewerRootedAtPath:")]
+    pub unsafe fn selectFile_inFileViewerRootedAtPath(
+        &self,
+        full_path: Option<&NSString>,
+        root_full_path: &NSString,
+    ) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(showSearchResultsForQueryString:)]
-        pub unsafe fn showSearchResultsForQueryString(&self, query_string: &NSString) -> bool;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "activateFileViewerSelectingURLs:")]
+    pub unsafe fn activateFileViewerSelectingURLs(&self, file_ur_ls: &NSArray<NSURL>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(noteFileSystemChanged:)]
-        pub unsafe fn noteFileSystemChanged_(&self, path: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "showSearchResultsForQueryString:")]
+    pub unsafe fn showSearchResultsForQueryString(&self, query_string: &NSString) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(isFilePackageAtPath:)]
-        pub unsafe fn isFilePackageAtPath(&self, full_path: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "noteFileSystemChanged:")]
+    pub unsafe fn noteFileSystemChanged_(&self, path: &NSString);
 
-        #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other iconForFile:)]
-        pub unsafe fn iconForFile(&self, full_path: &NSString) -> Id<NSImage>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "isFilePackageAtPath:")]
+    pub unsafe fn isFilePackageAtPath(&self, full_path: &NSString) -> bool;
 
-        #[cfg(all(
-            feature = "AppKit_NSImage",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other iconForFiles:)]
-        pub unsafe fn iconForFiles(&self, full_paths: &NSArray<NSString>) -> Option<Id<NSImage>>;
+    #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "iconForFile:", managed = "Other")]
+    pub unsafe fn iconForFile(&self, full_path: &NSString) -> Id<NSImage>;
 
-        #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSString"))]
-        #[method(setIcon:forFile:options:)]
-        pub unsafe fn setIcon_forFile_options(
-            &self,
-            image: Option<&NSImage>,
-            full_path: &NSString,
-            options: NSWorkspaceIconCreationOptions,
-        ) -> bool;
+    #[cfg(all(
+        feature = "AppKit_NSImage",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "iconForFiles:", managed = "Other")]
+    pub unsafe fn iconForFiles(&self, full_paths: &NSArray<NSString>) -> Option<Id<NSImage>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other fileLabels)]
-        pub unsafe fn fileLabels(&self) -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setIcon:forFile:options:")]
+    pub unsafe fn setIcon_forFile_options(
+        &self,
+        image: Option<&NSImage>,
+        full_path: &NSString,
+        options: NSWorkspaceIconCreationOptions,
+    ) -> bool;
 
-        #[cfg(all(feature = "AppKit_NSColor", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other fileLabelColors)]
-        pub unsafe fn fileLabelColors(&self) -> Id<NSArray<NSColor>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "fileLabels", managed = "Other")]
+    pub unsafe fn fileLabels(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(recycleURLs:completionHandler:)]
-        pub unsafe fn recycleURLs_completionHandler(
-            &self,
-            ur_ls: &NSArray<NSURL>,
-            handler: Option<&Block<(NonNull<NSDictionary<NSURL, NSURL>>, *mut NSError), ()>>,
-        );
+    #[cfg(all(feature = "AppKit_NSColor", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "fileLabelColors", managed = "Other")]
+    pub unsafe fn fileLabelColors(&self) -> Id<NSArray<NSColor>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(duplicateURLs:completionHandler:)]
-        pub unsafe fn duplicateURLs_completionHandler(
-            &self,
-            ur_ls: &NSArray<NSURL>,
-            handler: Option<&Block<(NonNull<NSDictionary<NSURL, NSURL>>, *mut NSError), ()>>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "recycleURLs:completionHandler:")]
+    pub unsafe fn recycleURLs_completionHandler(
+        &self,
+        ur_ls: &NSArray<NSURL>,
+        handler: Option<&Block<(NonNull<NSDictionary<NSURL, NSURL>>, *mut NSError), ()>>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(getFileSystemInfoForPath:isRemovable:isWritable:isUnmountable:description:type:)]
-        pub unsafe fn getFileSystemInfoForPath_isRemovable_isWritable_isUnmountable_description_type(
-            &self,
-            full_path: &NSString,
-            removable_flag: *mut Bool,
-            writable_flag: *mut Bool,
-            unmountable_flag: *mut Bool,
-            description: Option<&mut Option<Id<NSString>>>,
-            file_system_type: Option<&mut Option<Id<NSString>>>,
-        ) -> bool;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "duplicateURLs:completionHandler:")]
+    pub unsafe fn duplicateURLs_completionHandler(
+        &self,
+        ur_ls: &NSArray<NSURL>,
+        handler: Option<&Block<(NonNull<NSDictionary<NSURL, NSURL>>, *mut NSError), ()>>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(unmountAndEjectDeviceAtPath:)]
-        pub unsafe fn unmountAndEjectDeviceAtPath(&self, path: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "getFileSystemInfoForPath:isRemovable:isWritable:isUnmountable:description:type:"
+    )]
+    pub unsafe fn getFileSystemInfoForPath_isRemovable_isWritable_isUnmountable_description_type(
+        &self,
+        full_path: &NSString,
+        removable_flag: *mut Bool,
+        writable_flag: *mut Bool,
+        unmountable_flag: *mut Bool,
+        description: Option<&mut Option<Id<NSString>>>,
+        file_system_type: Option<&mut Option<Id<NSString>>>,
+    ) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method(unmountAndEjectDeviceAtURL:error:_)]
-        pub unsafe fn unmountAndEjectDeviceAtURL_error(
-            &self,
-            url: &NSURL,
-        ) -> Result<(), Id<NSError>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "unmountAndEjectDeviceAtPath:")]
+    pub unsafe fn unmountAndEjectDeviceAtPath(&self, path: &NSString) -> bool;
 
-        #[method(extendPowerOffBy:)]
-        pub unsafe fn extendPowerOffBy(&self, requested: NSInteger) -> NSInteger;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "unmountAndEjectDeviceAtURL:error:", throws)]
+    pub unsafe fn unmountAndEjectDeviceAtURL_error(&self, url: &NSURL) -> Result<(), Id<NSError>>;
 
-        #[method(hideOtherApplications)]
-        pub unsafe fn hideOtherApplications(&self);
+    #[objc2::method(sel = "extendPowerOffBy:")]
+    pub unsafe fn extendPowerOffBy(&self, requested: NSInteger) -> NSInteger;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other URLForApplicationWithBundleIdentifier:)]
-        pub unsafe fn URLForApplicationWithBundleIdentifier(
-            &self,
-            bundle_identifier: &NSString,
-        ) -> Option<Id<NSURL>>;
+    #[objc2::method(sel = "hideOtherApplications")]
+    pub unsafe fn hideOtherApplications(&self);
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other URLsForApplicationsWithBundleIdentifier:)]
-        pub unsafe fn URLsForApplicationsWithBundleIdentifier(
-            &self,
-            bundle_identifier: &NSString,
-        ) -> Id<NSArray<NSURL>>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "URLForApplicationWithBundleIdentifier:", managed = "Other")]
+    pub unsafe fn URLForApplicationWithBundleIdentifier(
+        &self,
+        bundle_identifier: &NSString,
+    ) -> Option<Id<NSURL>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other URLForApplicationToOpenURL:)]
-        pub unsafe fn URLForApplicationToOpenURL(&self, url: &NSURL) -> Option<Id<NSURL>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "URLsForApplicationsWithBundleIdentifier:", managed = "Other")]
+    pub unsafe fn URLsForApplicationsWithBundleIdentifier(
+        &self,
+        bundle_identifier: &NSString,
+    ) -> Id<NSArray<NSURL>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other URLsForApplicationsToOpenURL:)]
-        pub unsafe fn URLsForApplicationsToOpenURL(&self, url: &NSURL) -> Id<NSArray<NSURL>>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "URLForApplicationToOpenURL:", managed = "Other")]
+    pub unsafe fn URLForApplicationToOpenURL(&self, url: &NSURL) -> Option<Id<NSURL>>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method(setDefaultApplicationAtURL:toOpenContentTypeOfFileAtURL:completionHandler:)]
-        pub unsafe fn setDefaultApplicationAtURL_toOpenContentTypeOfFileAtURL_completionHandler(
-            &self,
-            application_url: &NSURL,
-            url: &NSURL,
-            completion_handler: Option<&Block<(*mut NSError,), ()>>,
-        );
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "URLsForApplicationsToOpenURL:", managed = "Other")]
+    pub unsafe fn URLsForApplicationsToOpenURL(&self, url: &NSURL) -> Id<NSArray<NSURL>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(setDefaultApplicationAtURL:toOpenURLsWithScheme:completionHandler:)]
-        pub unsafe fn setDefaultApplicationAtURL_toOpenURLsWithScheme_completionHandler(
-            &self,
-            application_url: &NSURL,
-            url_scheme: &NSString,
-            completion_handler: Option<&Block<(*mut NSError,), ()>>,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(
+        sel = "setDefaultApplicationAtURL:toOpenContentTypeOfFileAtURL:completionHandler:"
+    )]
+    pub unsafe fn setDefaultApplicationAtURL_toOpenContentTypeOfFileAtURL_completionHandler(
+        &self,
+        application_url: &NSURL,
+        url: &NSURL,
+        completion_handler: Option<&Block<(*mut NSError,), ()>>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method(setDefaultApplicationAtURL:toOpenFileAtURL:completionHandler:)]
-        pub unsafe fn setDefaultApplicationAtURL_toOpenFileAtURL_completionHandler(
-            &self,
-            application_url: &NSURL,
-            url: &NSURL,
-            completion_handler: Option<&Block<(*mut NSError,), ()>>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "setDefaultApplicationAtURL:toOpenURLsWithScheme:completionHandler:")]
+    pub unsafe fn setDefaultApplicationAtURL_toOpenURLsWithScheme_completionHandler(
+        &self,
+        application_url: &NSURL,
+        url_scheme: &NSString,
+        completion_handler: Option<&Block<(*mut NSError,), ()>>,
+    );
 
-        #[cfg(feature = "AppKit_NSRunningApplication")]
-        #[method_id(@__retain_semantics Other frontmostApplication)]
-        pub unsafe fn frontmostApplication(&self) -> Option<Id<NSRunningApplication>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "setDefaultApplicationAtURL:toOpenFileAtURL:completionHandler:")]
+    pub unsafe fn setDefaultApplicationAtURL_toOpenFileAtURL_completionHandler(
+        &self,
+        application_url: &NSURL,
+        url: &NSURL,
+        completion_handler: Option<&Block<(*mut NSError,), ()>>,
+    );
 
-        #[cfg(feature = "AppKit_NSRunningApplication")]
-        #[method_id(@__retain_semantics Other menuBarOwningApplication)]
-        pub unsafe fn menuBarOwningApplication(&self) -> Option<Id<NSRunningApplication>>;
-    }
-);
+    #[cfg(feature = "AppKit_NSRunningApplication")]
+    #[objc2::method(sel = "frontmostApplication", managed = "Other")]
+    pub unsafe fn frontmostApplication(&self) -> Option<Id<NSRunningApplication>>;
 
-extern_class!(
+    #[cfg(feature = "AppKit_NSRunningApplication")]
+    #[objc2::method(sel = "menuBarOwningApplication", managed = "Other")]
+    pub unsafe fn menuBarOwningApplication(&self) -> Option<Id<NSRunningApplication>>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSWorkspaceOpenConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSWorkspaceOpenConfiguration")]
-    pub struct NSWorkspaceOpenConfiguration;
-
-    #[cfg(feature = "AppKit_NSWorkspaceOpenConfiguration")]
-    unsafe impl ClassType for NSWorkspaceOpenConfiguration {
-        type Super = NSObject;
-    }
-);
+    pub type NSWorkspaceOpenConfiguration;
+}
 
 #[cfg(feature = "AppKit_NSWorkspaceOpenConfiguration")]
 unsafe impl NSObjectProtocol for NSWorkspaceOpenConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWorkspaceOpenConfiguration")]
-    unsafe impl NSWorkspaceOpenConfiguration {
-        #[method_id(@__retain_semantics Other configuration)]
-        pub unsafe fn configuration() -> Id<Self>;
+    pub type NSWorkspaceOpenConfiguration;
 
-        #[method(promptsUserIfNeeded)]
-        pub unsafe fn promptsUserIfNeeded(&self) -> bool;
+    #[objc2::method(sel = "configuration", managed = "Other")]
+    pub unsafe fn configuration() -> Id<Self>;
 
-        #[method(setPromptsUserIfNeeded:)]
-        pub unsafe fn setPromptsUserIfNeeded(&self, prompts_user_if_needed: bool);
+    #[objc2::method(sel = "promptsUserIfNeeded")]
+    pub unsafe fn promptsUserIfNeeded(&self) -> bool;
 
-        #[method(addsToRecentItems)]
-        pub unsafe fn addsToRecentItems(&self) -> bool;
+    #[objc2::method(sel = "setPromptsUserIfNeeded:")]
+    pub unsafe fn setPromptsUserIfNeeded(&self, prompts_user_if_needed: bool);
 
-        #[method(setAddsToRecentItems:)]
-        pub unsafe fn setAddsToRecentItems(&self, adds_to_recent_items: bool);
+    #[objc2::method(sel = "addsToRecentItems")]
+    pub unsafe fn addsToRecentItems(&self) -> bool;
 
-        #[method(activates)]
-        pub unsafe fn activates(&self) -> bool;
+    #[objc2::method(sel = "setAddsToRecentItems:")]
+    pub unsafe fn setAddsToRecentItems(&self, adds_to_recent_items: bool);
 
-        #[method(setActivates:)]
-        pub unsafe fn setActivates(&self, activates: bool);
+    #[objc2::method(sel = "activates")]
+    pub unsafe fn activates(&self) -> bool;
 
-        #[method(hides)]
-        pub unsafe fn hides(&self) -> bool;
+    #[objc2::method(sel = "setActivates:")]
+    pub unsafe fn setActivates(&self, activates: bool);
 
-        #[method(setHides:)]
-        pub unsafe fn setHides(&self, hides: bool);
+    #[objc2::method(sel = "hides")]
+    pub unsafe fn hides(&self) -> bool;
 
-        #[method(hidesOthers)]
-        pub unsafe fn hidesOthers(&self) -> bool;
+    #[objc2::method(sel = "setHides:")]
+    pub unsafe fn setHides(&self, hides: bool);
 
-        #[method(setHidesOthers:)]
-        pub unsafe fn setHidesOthers(&self, hides_others: bool);
+    #[objc2::method(sel = "hidesOthers")]
+    pub unsafe fn hidesOthers(&self) -> bool;
 
-        #[method(isForPrinting)]
-        pub unsafe fn isForPrinting(&self) -> bool;
+    #[objc2::method(sel = "setHidesOthers:")]
+    pub unsafe fn setHidesOthers(&self, hides_others: bool);
 
-        #[method(setForPrinting:)]
-        pub unsafe fn setForPrinting(&self, for_printing: bool);
+    #[objc2::method(sel = "isForPrinting")]
+    pub unsafe fn isForPrinting(&self) -> bool;
 
-        #[method(createsNewApplicationInstance)]
-        pub unsafe fn createsNewApplicationInstance(&self) -> bool;
+    #[objc2::method(sel = "setForPrinting:")]
+    pub unsafe fn setForPrinting(&self, for_printing: bool);
 
-        #[method(setCreatesNewApplicationInstance:)]
-        pub unsafe fn setCreatesNewApplicationInstance(
-            &self,
-            creates_new_application_instance: bool,
-        );
+    #[objc2::method(sel = "createsNewApplicationInstance")]
+    pub unsafe fn createsNewApplicationInstance(&self) -> bool;
 
-        #[method(allowsRunningApplicationSubstitution)]
-        pub unsafe fn allowsRunningApplicationSubstitution(&self) -> bool;
+    #[objc2::method(sel = "setCreatesNewApplicationInstance:")]
+    pub unsafe fn setCreatesNewApplicationInstance(&self, creates_new_application_instance: bool);
 
-        #[method(setAllowsRunningApplicationSubstitution:)]
-        pub unsafe fn setAllowsRunningApplicationSubstitution(
-            &self,
-            allows_running_application_substitution: bool,
-        );
+    #[objc2::method(sel = "allowsRunningApplicationSubstitution")]
+    pub unsafe fn allowsRunningApplicationSubstitution(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other arguments)]
-        pub unsafe fn arguments(&self) -> Id<NSArray<NSString>>;
+    #[objc2::method(sel = "setAllowsRunningApplicationSubstitution:")]
+    pub unsafe fn setAllowsRunningApplicationSubstitution(
+        &self,
+        allows_running_application_substitution: bool,
+    );
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method(setArguments:)]
-        pub unsafe fn setArguments(&self, arguments: &NSArray<NSString>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "arguments", managed = "Other")]
+    pub unsafe fn arguments(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other environment)]
-        pub unsafe fn environment(&self) -> Id<NSDictionary<NSString, NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setArguments:")]
+    pub unsafe fn setArguments(&self, arguments: &NSArray<NSString>);
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(setEnvironment:)]
-        pub unsafe fn setEnvironment(&self, environment: &NSDictionary<NSString, NSString>);
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "environment", managed = "Other")]
+    pub unsafe fn environment(&self) -> Id<NSDictionary<NSString, NSString>>;
 
-        #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
-        #[method_id(@__retain_semantics Other appleEvent)]
-        pub unsafe fn appleEvent(&self) -> Option<Id<NSAppleEventDescriptor>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setEnvironment:")]
+    pub unsafe fn setEnvironment(&self, environment: &NSDictionary<NSString, NSString>);
 
-        #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
-        #[method(setAppleEvent:)]
-        pub unsafe fn setAppleEvent(&self, apple_event: Option<&NSAppleEventDescriptor>);
+    #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
+    #[objc2::method(sel = "appleEvent", managed = "Other")]
+    pub unsafe fn appleEvent(&self) -> Option<Id<NSAppleEventDescriptor>>;
 
-        #[method(requiresUniversalLinks)]
-        pub unsafe fn requiresUniversalLinks(&self) -> bool;
+    #[cfg(feature = "Foundation_NSAppleEventDescriptor")]
+    #[objc2::method(sel = "setAppleEvent:")]
+    pub unsafe fn setAppleEvent(&self, apple_event: Option<&NSAppleEventDescriptor>);
 
-        #[method(setRequiresUniversalLinks:)]
-        pub unsafe fn setRequiresUniversalLinks(&self, requires_universal_links: bool);
-    }
-);
+    #[objc2::method(sel = "requiresUniversalLinks")]
+    pub unsafe fn requiresUniversalLinks(&self) -> bool;
+
+    #[objc2::method(sel = "setRequiresUniversalLinks:")]
+    pub unsafe fn setRequiresUniversalLinks(&self, requires_universal_links: bool);
+}
 
 typed_enum!(
     pub type NSWorkspaceDesktopImageOptionKey = NSString;
@@ -376,93 +379,101 @@ extern_static!(NSWorkspaceDesktopImageAllowClippingKey: &'static NSWorkspaceDesk
 
 extern_static!(NSWorkspaceDesktopImageFillColorKey: &'static NSWorkspaceDesktopImageOptionKey);
 
-extern_methods!(
-    /// NSDesktopImages
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWorkspace")]
-    unsafe impl NSWorkspace {
-        #[cfg(all(
-            feature = "AppKit_NSScreen",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(setDesktopImageURL:forScreen:options:error:_)]
-        pub unsafe fn setDesktopImageURL_forScreen_options_error(
-            &self,
-            url: &NSURL,
-            screen: &NSScreen,
-            options: &NSDictionary<NSWorkspaceDesktopImageOptionKey, Object>,
-        ) -> Result<(), Id<NSError>>;
+    pub type NSWorkspace;
 
-        #[cfg(all(feature = "AppKit_NSScreen", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other desktopImageURLForScreen:)]
-        pub unsafe fn desktopImageURLForScreen(&self, screen: &NSScreen) -> Option<Id<NSURL>>;
+    #[cfg(all(
+        feature = "AppKit_NSScreen",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "setDesktopImageURL:forScreen:options:error:", throws)]
+    pub unsafe fn setDesktopImageURL_forScreen_options_error(
+        &self,
+        url: &NSURL,
+        screen: &NSScreen,
+        options: &NSDictionary<NSWorkspaceDesktopImageOptionKey, Object>,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(feature = "AppKit_NSScreen", feature = "Foundation_NSDictionary"))]
-        #[method_id(@__retain_semantics Other desktopImageOptionsForScreen:)]
-        pub unsafe fn desktopImageOptionsForScreen(
-            &self,
-            screen: &NSScreen,
-        ) -> Option<Id<NSDictionary<NSWorkspaceDesktopImageOptionKey, Object>>>;
-    }
-);
+    #[cfg(all(feature = "AppKit_NSScreen", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "desktopImageURLForScreen:", managed = "Other")]
+    pub unsafe fn desktopImageURLForScreen(&self, screen: &NSScreen) -> Option<Id<NSURL>>;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSWorkspaceAuthorizationType {
-        NSWorkspaceAuthorizationTypeCreateSymbolicLink = 0,
-        NSWorkspaceAuthorizationTypeSetAttributes = 1,
-        NSWorkspaceAuthorizationTypeReplaceFile = 2,
-    }
-);
+    #[cfg(all(feature = "AppKit_NSScreen", feature = "Foundation_NSDictionary"))]
+    #[objc2::method(sel = "desktopImageOptionsForScreen:", managed = "Other")]
+    pub unsafe fn desktopImageOptionsForScreen(
+        &self,
+        screen: &NSScreen,
+    ) -> Option<Id<NSDictionary<NSWorkspaceDesktopImageOptionKey, Object>>>;
+}
 
-extern_class!(
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSWorkspaceAuthorizationType {
+    NSWorkspaceAuthorizationTypeCreateSymbolicLink = 0,
+    NSWorkspaceAuthorizationTypeSetAttributes = 1,
+    NSWorkspaceAuthorizationTypeReplaceFile = 2,
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSWorkspaceAuthorization")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSWorkspaceAuthorization")]
-    pub struct NSWorkspaceAuthorization;
-
-    #[cfg(feature = "AppKit_NSWorkspaceAuthorization")]
-    unsafe impl ClassType for NSWorkspaceAuthorization {
-        type Super = NSObject;
-    }
-);
+    pub type NSWorkspaceAuthorization;
+}
 
 #[cfg(feature = "AppKit_NSWorkspaceAuthorization")]
 unsafe impl NSObjectProtocol for NSWorkspaceAuthorization {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWorkspaceAuthorization")]
-    unsafe impl NSWorkspaceAuthorization {}
-);
+    pub type NSWorkspaceAuthorization;
+}
 
-extern_methods!(
-    /// NSWorkspaceAuthorization
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWorkspace")]
-    unsafe impl NSWorkspace {
-        #[cfg(all(
-            feature = "AppKit_NSWorkspaceAuthorization",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(requestAuthorizationOfType:completionHandler:)]
-        pub unsafe fn requestAuthorizationOfType_completionHandler(
-            &self,
-            r#type: NSWorkspaceAuthorizationType,
-            completion_handler: &Block<(*mut NSWorkspaceAuthorization, *mut NSError), ()>,
-        );
-    }
-);
+    pub type NSWorkspace;
 
-extern_methods!(
-    /// NSWorkspaceAuthorization
+    #[cfg(all(
+        feature = "AppKit_NSWorkspaceAuthorization",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "requestAuthorizationOfType:completionHandler:")]
+    pub unsafe fn requestAuthorizationOfType_completionHandler(
+        &self,
+        r#type: NSWorkspaceAuthorizationType,
+        completion_handler: &Block<(*mut NSWorkspaceAuthorization, *mut NSError), ()>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSFileManager")]
-    unsafe impl NSFileManager {
-        #[cfg(feature = "AppKit_NSWorkspaceAuthorization")]
-        #[method_id(@__retain_semantics Other fileManagerWithAuthorization:)]
-        pub unsafe fn fileManagerWithAuthorization(
-            authorization: &NSWorkspaceAuthorization,
-        ) -> Id<Self>;
-    }
-);
+    pub type NSFileManager;
+
+    #[cfg(feature = "AppKit_NSWorkspaceAuthorization")]
+    #[objc2::method(sel = "fileManagerWithAuthorization:", managed = "Other")]
+    pub unsafe fn fileManagerWithAuthorization(
+        authorization: &NSWorkspaceAuthorization,
+    ) -> Id<Self>;
+}
 
 extern_static!(NSWorkspaceApplicationKey: &'static NSString);
 
@@ -518,35 +529,34 @@ typed_enum!(
     pub type NSWorkspaceFileOperationName = NSString;
 );
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSWorkspaceLaunchOptions {
-        #[deprecated = "Use -[NSWorkspaceOpenConfiguration setForPrinting:YES] instead."]
-        NSWorkspaceLaunchAndPrint = 0x00000002,
-        #[deprecated = "Use -[NSWorkspaceOpenConfiguration setPromptsUserIfNeeded:YES] instead."]
-        NSWorkspaceLaunchWithErrorPresentation = 0x00000040,
-        #[deprecated = "This option does nothing."]
-        NSWorkspaceLaunchInhibitingBackgroundOnly = 0x00000080,
-        #[deprecated = "Use -[NSWorkspaceOpenConfiguration setAddsToRecentItems:YES] instead."]
-        NSWorkspaceLaunchWithoutAddingToRecents = 0x00000100,
-        #[deprecated = "Use -[NSWorkspaceOpenConfiguration setActivates:NO] instead."]
-        NSWorkspaceLaunchWithoutActivation = 0x00000200,
-        #[deprecated = "When using NSWorkspaceOpenConfiguration, all launches are asynchronous."]
-        NSWorkspaceLaunchAsync = 0x00010000,
-        #[deprecated = "Use -[NSWorkspaceOpenConfiguration setCreatesNewApplicationInstance:YES] instead."]
-        NSWorkspaceLaunchNewInstance = 0x00080000,
-        #[deprecated = "Use -[NSWorkspaceOpenConfiguration setHides:YES] instead."]
-        NSWorkspaceLaunchAndHide = 0x00100000,
-        #[deprecated = "Use -[NSWorkspaceOpenConfiguration setHidesOthers:YES] instead."]
-        NSWorkspaceLaunchAndHideOthers = 0x00200000,
-        #[deprecated = "Use NSWorkspaceOpenConfiguration instead."]
-        NSWorkspaceLaunchDefault = NSWorkspaceLaunchAsync,
-        #[deprecated = "The Classic environment is no longer supported."]
-        NSWorkspaceLaunchAllowingClassicStartup = 0x00020000,
-        #[deprecated = "The Classic environment is no longer supported."]
-        NSWorkspaceLaunchPreferringClassic = 0x00040000,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSWorkspaceLaunchOptions {
+    #[deprecated = "Use -[NSWorkspaceOpenConfiguration setForPrinting:YES] instead."]
+    NSWorkspaceLaunchAndPrint = 0x00000002,
+    #[deprecated = "Use -[NSWorkspaceOpenConfiguration setPromptsUserIfNeeded:YES] instead."]
+    NSWorkspaceLaunchWithErrorPresentation = 0x00000040,
+    #[deprecated = "This option does nothing."]
+    NSWorkspaceLaunchInhibitingBackgroundOnly = 0x00000080,
+    #[deprecated = "Use -[NSWorkspaceOpenConfiguration setAddsToRecentItems:YES] instead."]
+    NSWorkspaceLaunchWithoutAddingToRecents = 0x00000100,
+    #[deprecated = "Use -[NSWorkspaceOpenConfiguration setActivates:NO] instead."]
+    NSWorkspaceLaunchWithoutActivation = 0x00000200,
+    #[deprecated = "When using NSWorkspaceOpenConfiguration, all launches are asynchronous."]
+    NSWorkspaceLaunchAsync = 0x00010000,
+    #[deprecated = "Use -[NSWorkspaceOpenConfiguration setCreatesNewApplicationInstance:YES] instead."]
+    NSWorkspaceLaunchNewInstance = 0x00080000,
+    #[deprecated = "Use -[NSWorkspaceOpenConfiguration setHides:YES] instead."]
+    NSWorkspaceLaunchAndHide = 0x00100000,
+    #[deprecated = "Use -[NSWorkspaceOpenConfiguration setHidesOthers:YES] instead."]
+    NSWorkspaceLaunchAndHideOthers = 0x00200000,
+    #[deprecated = "Use NSWorkspaceOpenConfiguration instead."]
+    NSWorkspaceLaunchDefault = NSWorkspaceLaunchAsync,
+    #[deprecated = "The Classic environment is no longer supported."]
+    NSWorkspaceLaunchAllowingClassicStartup = 0x00020000,
+    #[deprecated = "The Classic environment is no longer supported."]
+    NSWorkspaceLaunchPreferringClassic = 0x00040000,
+}
 
 typed_enum!(
     pub type NSWorkspaceLaunchConfigurationKey = NSString;
@@ -566,291 +576,306 @@ extern_static!(
     NSWorkspaceLaunchConfigurationArchitecture: &'static NSWorkspaceLaunchConfigurationKey
 );
 
-extern_methods!(
-    /// NSDeprecated
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSWorkspace")]
-    unsafe impl NSWorkspace {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -[NSWorkspace openURL:] instead."]
-        #[method(openFile:)]
-        pub unsafe fn openFile(&self, full_path: &NSString) -> bool;
+    pub type NSWorkspace;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -[NSWorkspace openURLs:withApplicationAtURL:configuration:completionHandler:] instead."]
-        #[method(openFile:withApplication:)]
-        pub unsafe fn openFile_withApplication(
-            &self,
-            full_path: &NSString,
-            app_name: Option<&NSString>,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -[NSWorkspace openURL:] instead."]
+    #[objc2::method(sel = "openFile:")]
+    pub unsafe fn openFile(&self, full_path: &NSString) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -[NSWorkspace openURLs:withApplicationAtURL:configuration:completionHandler:] instead."]
-        #[method(openFile:withApplication:andDeactivate:)]
-        pub unsafe fn openFile_withApplication_andDeactivate(
-            &self,
-            full_path: &NSString,
-            app_name: Option<&NSString>,
-            flag: bool,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -[NSWorkspace openURLs:withApplicationAtURL:configuration:completionHandler:] instead."]
+    #[objc2::method(sel = "openFile:withApplication:")]
+    pub unsafe fn openFile_withApplication(
+        &self,
+        full_path: &NSString,
+        app_name: Option<&NSString>,
+    ) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -[NSWorkspace openApplicationAtURL:configuration:completionHandler:] instead."]
-        #[method(launchApplication:)]
-        pub unsafe fn launchApplication(&self, app_name: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -[NSWorkspace openURLs:withApplicationAtURL:configuration:completionHandler:] instead."]
+    #[objc2::method(sel = "openFile:withApplication:andDeactivate:")]
+    pub unsafe fn openFile_withApplication_andDeactivate(
+        &self,
+        full_path: &NSString,
+        app_name: Option<&NSString>,
+        flag: bool,
+    ) -> bool;
 
-        #[cfg(all(
-            feature = "AppKit_NSRunningApplication",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[deprecated = "Use -[NSWorkspace openApplicationAtURL:configuration:completionHandler:] instead."]
-        #[method_id(@__retain_semantics Other launchApplicationAtURL:options:configuration:error:_)]
-        pub unsafe fn launchApplicationAtURL_options_configuration_error(
-            &self,
-            url: &NSURL,
-            options: NSWorkspaceLaunchOptions,
-            configuration: &NSDictionary<NSWorkspaceLaunchConfigurationKey, Object>,
-        ) -> Result<Id<NSRunningApplication>, Id<NSError>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -[NSWorkspace openApplicationAtURL:configuration:completionHandler:] instead."]
+    #[objc2::method(sel = "launchApplication:")]
+    pub unsafe fn launchApplication(&self, app_name: &NSString) -> bool;
 
-        #[cfg(all(
-            feature = "AppKit_NSRunningApplication",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[deprecated = "Use -[NSWorkspace openURL:configuration:completionHandler:] instead."]
-        #[method_id(@__retain_semantics Other openURL:options:configuration:error:_)]
-        pub unsafe fn openURL_options_configuration_error(
-            &self,
-            url: &NSURL,
-            options: NSWorkspaceLaunchOptions,
-            configuration: &NSDictionary<NSWorkspaceLaunchConfigurationKey, Object>,
-        ) -> Result<Id<NSRunningApplication>, Id<NSError>>;
+    #[cfg(all(
+        feature = "AppKit_NSRunningApplication",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[deprecated = "Use -[NSWorkspace openApplicationAtURL:configuration:completionHandler:] instead."]
+    #[objc2::method(
+        sel = "launchApplicationAtURL:options:configuration:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn launchApplicationAtURL_options_configuration_error(
+        &self,
+        url: &NSURL,
+        options: NSWorkspaceLaunchOptions,
+        configuration: &NSDictionary<NSWorkspaceLaunchConfigurationKey, Object>,
+    ) -> Result<Id<NSRunningApplication>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "AppKit_NSRunningApplication",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSURL"
-        ))]
-        #[deprecated = "Use -[NSWorkspace openURLs:withApplicationAtURL:configuration:completionHandler:] instead."]
-        #[method_id(@__retain_semantics Other openURLs:withApplicationAtURL:options:configuration:error:_)]
-        pub unsafe fn openURLs_withApplicationAtURL_options_configuration_error(
-            &self,
-            urls: &NSArray<NSURL>,
-            application_url: &NSURL,
-            options: NSWorkspaceLaunchOptions,
-            configuration: &NSDictionary<NSWorkspaceLaunchConfigurationKey, Object>,
-        ) -> Result<Id<NSRunningApplication>, Id<NSError>>;
+    #[cfg(all(
+        feature = "AppKit_NSRunningApplication",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[deprecated = "Use -[NSWorkspace openURL:configuration:completionHandler:] instead."]
+    #[objc2::method(
+        sel = "openURL:options:configuration:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn openURL_options_configuration_error(
+        &self,
+        url: &NSURL,
+        options: NSWorkspaceLaunchOptions,
+        configuration: &NSDictionary<NSWorkspaceLaunchConfigurationKey, Object>,
+    ) -> Result<Id<NSRunningApplication>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -[NSWorkspace openApplicationAtURL:configuration:completionHandler:] instead."]
-        #[method(launchApplication:showIcon:autolaunch:)]
-        pub unsafe fn launchApplication_showIcon_autolaunch(
-            &self,
-            app_name: &NSString,
-            show_icon: bool,
-            autolaunch: bool,
-        ) -> bool;
+    #[cfg(all(
+        feature = "AppKit_NSRunningApplication",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSURL"
+    ))]
+    #[deprecated = "Use -[NSWorkspace openURLs:withApplicationAtURL:configuration:completionHandler:] instead."]
+    #[objc2::method(
+        sel = "openURLs:withApplicationAtURL:options:configuration:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn openURLs_withApplicationAtURL_options_configuration_error(
+        &self,
+        urls: &NSArray<NSURL>,
+        application_url: &NSURL,
+        options: NSWorkspaceLaunchOptions,
+        configuration: &NSDictionary<NSWorkspaceLaunchConfigurationKey, Object>,
+    ) -> Result<Id<NSRunningApplication>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -[NSWorkspace URLForApplicationWithBundleIdentifier:] instead."]
-        #[method_id(@__retain_semantics Other fullPathForApplication:)]
-        pub unsafe fn fullPathForApplication(&self, app_name: &NSString) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -[NSWorkspace openApplicationAtURL:configuration:completionHandler:] instead."]
+    #[objc2::method(sel = "launchApplication:showIcon:autolaunch:")]
+    pub unsafe fn launchApplication_showIcon_autolaunch(
+        &self,
+        app_name: &NSString,
+        show_icon: bool,
+        autolaunch: bool,
+    ) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -[NSWorkspace URLForApplicationWithBundleIdentifier:] instead."]
-        #[method_id(@__retain_semantics Other absolutePathForAppBundleWithIdentifier:)]
-        pub unsafe fn absolutePathForAppBundleWithIdentifier(
-            &self,
-            bundle_identifier: &NSString,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -[NSWorkspace URLForApplicationWithBundleIdentifier:] instead."]
+    #[objc2::method(sel = "fullPathForApplication:", managed = "Other")]
+    pub unsafe fn fullPathForApplication(&self, app_name: &NSString) -> Option<Id<NSString>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSAppleEventDescriptor",
-            feature = "Foundation_NSNumber",
-            feature = "Foundation_NSString"
-        ))]
-        #[deprecated = "Use -[NSWorkspace openApplicationAtURL:configuration:completionHandler:] instead."]
-        #[method(launchAppWithBundleIdentifier:options:additionalEventParamDescriptor:launchIdentifier:)]
-        pub unsafe fn launchAppWithBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifier(
-            &self,
-            bundle_identifier: &NSString,
-            options: NSWorkspaceLaunchOptions,
-            descriptor: Option<&NSAppleEventDescriptor>,
-            identifier: Option<&mut Option<Id<NSNumber>>>,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -[NSWorkspace URLForApplicationWithBundleIdentifier:] instead."]
+    #[objc2::method(sel = "absolutePathForAppBundleWithIdentifier:", managed = "Other")]
+    pub unsafe fn absolutePathForAppBundleWithIdentifier(
+        &self,
+        bundle_identifier: &NSString,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSAppleEventDescriptor",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSNumber",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[deprecated = "Use -[NSWorkspace openURLs:withApplicationAtURL:configuration:completionHandler:] instead."]
-        #[method(openURLs:withAppBundleIdentifier:options:additionalEventParamDescriptor:launchIdentifiers:)]
-        pub unsafe fn openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers(
-            &self,
-            urls: &NSArray<NSURL>,
-            bundle_identifier: Option<&NSString>,
-            options: NSWorkspaceLaunchOptions,
-            descriptor: Option<&NSAppleEventDescriptor>,
-            identifiers: Option<&mut Option<Id<NSArray<NSNumber>>>>,
-        ) -> bool;
+    #[cfg(all(
+        feature = "Foundation_NSAppleEventDescriptor",
+        feature = "Foundation_NSNumber",
+        feature = "Foundation_NSString"
+    ))]
+    #[deprecated = "Use -[NSWorkspace openApplicationAtURL:configuration:completionHandler:] instead."]
+    #[objc2::method(
+        sel = "launchAppWithBundleIdentifier:options:additionalEventParamDescriptor:launchIdentifier:"
+    )]
+    pub unsafe fn launchAppWithBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifier(
+        &self,
+        bundle_identifier: &NSString,
+        options: NSWorkspaceLaunchOptions,
+        descriptor: Option<&NSAppleEventDescriptor>,
+        identifier: Option<&mut Option<Id<NSNumber>>>,
+    ) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(openTempFile:)]
-        pub unsafe fn openTempFile(&self, full_path: &NSString) -> bool;
+    #[cfg(all(
+        feature = "Foundation_NSAppleEventDescriptor",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSNumber",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[deprecated = "Use -[NSWorkspace openURLs:withApplicationAtURL:configuration:completionHandler:] instead."]
+    #[objc2::method(
+        sel = "openURLs:withAppBundleIdentifier:options:additionalEventParamDescriptor:launchIdentifiers:"
+    )]
+    pub unsafe fn openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers(
+        &self,
+        urls: &NSArray<NSURL>,
+        bundle_identifier: Option<&NSString>,
+        options: NSWorkspaceLaunchOptions,
+        descriptor: Option<&NSAppleEventDescriptor>,
+        identifiers: Option<&mut Option<Id<NSArray<NSNumber>>>>,
+    ) -> bool;
 
-        #[deprecated]
-        #[method(findApplications)]
-        pub unsafe fn findApplications(&self);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "openTempFile:")]
+    pub unsafe fn openTempFile(&self, full_path: &NSString) -> bool;
 
-        #[deprecated]
-        #[method(noteUserDefaultsChanged)]
-        pub unsafe fn noteUserDefaultsChanged(&self);
+    #[deprecated]
+    #[objc2::method(sel = "findApplications")]
+    pub unsafe fn findApplications(&self);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[deprecated]
-        #[method(slideImage:from:to:)]
-        pub unsafe fn slideImage_from_to(
-            &self,
-            image: &NSImage,
-            from_point: NSPoint,
-            to_point: NSPoint,
-        );
+    #[deprecated]
+    #[objc2::method(sel = "noteUserDefaultsChanged")]
+    pub unsafe fn noteUserDefaultsChanged(&self);
 
-        #[deprecated]
-        #[method(checkForRemovableMedia)]
-        pub unsafe fn checkForRemovableMedia(&self);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[deprecated]
+    #[objc2::method(sel = "slideImage:from:to:")]
+    pub unsafe fn slideImage_from_to(
+        &self,
+        image: &NSImage,
+        from_point: NSPoint,
+        to_point: NSPoint,
+    );
 
-        #[deprecated]
-        #[method(noteFileSystemChanged)]
-        pub unsafe fn noteFileSystemChanged(&self);
+    #[deprecated]
+    #[objc2::method(sel = "checkForRemovableMedia")]
+    pub unsafe fn checkForRemovableMedia(&self);
 
-        #[deprecated]
-        #[method(fileSystemChanged)]
-        pub unsafe fn fileSystemChanged(&self) -> bool;
+    #[deprecated]
+    #[objc2::method(sel = "noteFileSystemChanged")]
+    pub unsafe fn noteFileSystemChanged(&self);
 
-        #[deprecated]
-        #[method(userDefaultsChanged)]
-        pub unsafe fn userDefaultsChanged(&self) -> bool;
+    #[deprecated]
+    #[objc2::method(sel = "fileSystemChanged")]
+    pub unsafe fn fileSystemChanged(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other mountNewRemovableMedia)]
-        pub unsafe fn mountNewRemovableMedia(&self) -> Option<Id<NSArray>>;
+    #[deprecated]
+    #[objc2::method(sel = "userDefaultsChanged")]
+    pub unsafe fn userDefaultsChanged(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[deprecated = "Use -[NSWorkspace frontmostApplication] instead."]
-        #[method_id(@__retain_semantics Other activeApplication)]
-        pub unsafe fn activeApplication(&self) -> Option<Id<NSDictionary>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[deprecated]
+    #[objc2::method(sel = "mountNewRemovableMedia", managed = "Other")]
+    pub unsafe fn mountNewRemovableMedia(&self) -> Option<Id<NSArray>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[deprecated = "Use -[NSFileManager mountedVolumeURLsIncludingResourceValuesForKeys:options:] instead."]
-        #[method_id(@__retain_semantics Other mountedLocalVolumePaths)]
-        pub unsafe fn mountedLocalVolumePaths(&self) -> Option<Id<NSArray>>;
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[deprecated = "Use -[NSWorkspace frontmostApplication] instead."]
+    #[objc2::method(sel = "activeApplication", managed = "Other")]
+    pub unsafe fn activeApplication(&self) -> Option<Id<NSDictionary>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[deprecated = "Use -[NSFileManager mountedVolumeURLsIncludingResourceValuesForKeys:options:] instead."]
-        #[method_id(@__retain_semantics Other mountedRemovableMedia)]
-        pub unsafe fn mountedRemovableMedia(&self) -> Option<Id<NSArray>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[deprecated = "Use -[NSFileManager mountedVolumeURLsIncludingResourceValuesForKeys:options:] instead."]
+    #[objc2::method(sel = "mountedLocalVolumePaths", managed = "Other")]
+    pub unsafe fn mountedLocalVolumePaths(&self) -> Option<Id<NSArray>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[deprecated = "Use -[NSWorkspace runningApplications] instead."]
-        #[method_id(@__retain_semantics Other launchedApplications)]
-        pub unsafe fn launchedApplications(&self) -> Option<Id<NSArray>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[deprecated = "Use -[NSFileManager mountedVolumeURLsIncludingResourceValuesForKeys:options:] instead."]
+    #[objc2::method(sel = "mountedRemovableMedia", managed = "Other")]
+    pub unsafe fn mountedRemovableMedia(&self) -> Option<Id<NSArray>>;
 
-        #[cfg(all(
-            feature = "AppKit_NSImage",
-            feature = "AppKit_NSView",
-            feature = "Foundation_NSString"
-        ))]
-        #[deprecated = "Use -[NSWorkspace openURL:] instead."]
-        #[method(openFile:fromImage:at:inView:)]
-        pub unsafe fn openFile_fromImage_at_inView(
-            &self,
-            full_path: &NSString,
-            image: Option<&NSImage>,
-            point: NSPoint,
-            view: Option<&NSView>,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[deprecated = "Use -[NSWorkspace runningApplications] instead."]
+    #[objc2::method(sel = "launchedApplications", managed = "Other")]
+    pub unsafe fn launchedApplications(&self) -> Option<Id<NSArray>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[deprecated]
-        #[method(performFileOperation:source:destination:files:tag:)]
-        pub unsafe fn performFileOperation_source_destination_files_tag(
-            &self,
-            operation: &NSWorkspaceFileOperationName,
-            source: &NSString,
-            destination: &NSString,
-            files: &NSArray,
-            tag: *mut NSInteger,
-        ) -> bool;
+    #[cfg(all(
+        feature = "AppKit_NSImage",
+        feature = "AppKit_NSView",
+        feature = "Foundation_NSString"
+    ))]
+    #[deprecated = "Use -[NSWorkspace openURL:] instead."]
+    #[objc2::method(sel = "openFile:fromImage:at:inView:")]
+    pub unsafe fn openFile_fromImage_at_inView(
+        &self,
+        full_path: &NSString,
+        image: Option<&NSImage>,
+        point: NSPoint,
+        view: Option<&NSView>,
+    ) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -[NSWorkspace URLForApplicationToOpenURL:] to get the URL of an application that will open a given item, or -[NSURL getResourceValue:forKey:error:] with NSURLContentTypeKey to get the type of the given item."]
-        #[method(getInfoForFile:application:type:)]
-        pub unsafe fn getInfoForFile_application_type(
-            &self,
-            full_path: &NSString,
-            app_name: Option<&mut Option<Id<NSString>>>,
-            r#type: Option<&mut Option<Id<NSString>>>,
-        ) -> bool;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[deprecated]
+    #[objc2::method(sel = "performFileOperation:source:destination:files:tag:")]
+    pub unsafe fn performFileOperation_source_destination_files_tag(
+        &self,
+        operation: &NSWorkspaceFileOperationName,
+        source: &NSString,
+        destination: &NSString,
+        files: &NSArray,
+        tag: *mut NSInteger,
+    ) -> bool;
 
-        #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSString"))]
-        #[deprecated = "Use -[NSWorkspace iconForContentType:] instead."]
-        #[method_id(@__retain_semantics Other iconForFileType:)]
-        pub unsafe fn iconForFileType(&self, file_type: &NSString) -> Id<NSImage>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -[NSWorkspace URLForApplicationToOpenURL:] to get the URL of an application that will open a given item, or -[NSURL getResourceValue:forKey:error:] with NSURLContentTypeKey to get the type of the given item."]
+    #[objc2::method(sel = "getInfoForFile:application:type:")]
+    pub unsafe fn getInfoForFile_application_type(
+        &self,
+        full_path: &NSString,
+        app_name: Option<&mut Option<Id<NSString>>>,
+        r#type: Option<&mut Option<Id<NSString>>>,
+    ) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[deprecated = "Use -[NSURL getResourceValue:forKey:error:] with NSURLContentTypeKey instead."]
-        #[method_id(@__retain_semantics Other typeOfFile:error:_)]
-        pub unsafe fn typeOfFile_error(
-            &self,
-            absolute_file_path: &NSString,
-        ) -> Result<Id<NSString>, Id<NSError>>;
+    #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSString"))]
+    #[deprecated = "Use -[NSWorkspace iconForContentType:] instead."]
+    #[objc2::method(sel = "iconForFileType:", managed = "Other")]
+    pub unsafe fn iconForFileType(&self, file_type: &NSString) -> Id<NSImage>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use UTType.localizedDescription instead."]
-        #[method_id(@__retain_semantics Other localizedDescriptionForType:)]
-        pub unsafe fn localizedDescriptionForType(
-            &self,
-            type_name: &NSString,
-        ) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[deprecated = "Use -[NSURL getResourceValue:forKey:error:] with NSURLContentTypeKey instead."]
+    #[objc2::method(sel = "typeOfFile:error:", managed = "Other", throws)]
+    pub unsafe fn typeOfFile_error(
+        &self,
+        absolute_file_path: &NSString,
+    ) -> Result<Id<NSString>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use UTType.preferredFilenameExtension instead."]
-        #[method_id(@__retain_semantics Other preferredFilenameExtensionForType:)]
-        pub unsafe fn preferredFilenameExtensionForType(
-            &self,
-            type_name: &NSString,
-        ) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use UTType.localizedDescription instead."]
+    #[objc2::method(sel = "localizedDescriptionForType:", managed = "Other")]
+    pub unsafe fn localizedDescriptionForType(&self, type_name: &NSString) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use +[UTType typesWithTag:tagClass:conformingToType:] to get a list of candidate types, then check if the input type conforms to any of them."]
-        #[method(filenameExtension:isValidForType:)]
-        pub unsafe fn filenameExtension_isValidForType(
-            &self,
-            filename_extension: &NSString,
-            type_name: &NSString,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use UTType.preferredFilenameExtension instead."]
+    #[objc2::method(sel = "preferredFilenameExtensionForType:", managed = "Other")]
+    pub unsafe fn preferredFilenameExtensionForType(
+        &self,
+        type_name: &NSString,
+    ) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Use -[UTType conformsToType:] instead."]
-        #[method(type:conformsToType:)]
-        pub unsafe fn type_conformsToType(
-            &self,
-            first_type_name: &NSString,
-            second_type_name: &NSString,
-        ) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use +[UTType typesWithTag:tagClass:conformingToType:] to get a list of candidate types, then check if the input type conforms to any of them."]
+    #[objc2::method(sel = "filenameExtension:isValidForType:")]
+    pub unsafe fn filenameExtension_isValidForType(
+        &self,
+        filename_extension: &NSString,
+        type_name: &NSString,
+    ) -> bool;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Use -[UTType conformsToType:] instead."]
+    #[objc2::method(sel = "type:conformsToType:")]
+    pub unsafe fn type_conformsToType(
+        &self,
+        first_type_name: &NSString,
+        second_type_name: &NSString,
+    ) -> bool;
+}
 
 extern_static!(NSWorkspaceMoveOperation: &'static NSWorkspaceFileOperationName);
 

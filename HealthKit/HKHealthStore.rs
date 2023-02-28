@@ -6,348 +6,353 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKHealthStore")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKHealthStore")]
-    pub struct HKHealthStore;
-
-    #[cfg(feature = "HealthKit_HKHealthStore")]
-    unsafe impl ClassType for HKHealthStore {
-        type Super = NSObject;
-    }
-);
+    pub type HKHealthStore;
+}
 
 #[cfg(feature = "HealthKit_HKHealthStore")]
 unsafe impl NSObjectProtocol for HKHealthStore {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKHealthStore")]
-    unsafe impl HKHealthStore {
-        #[method(isHealthDataAvailable)]
-        pub unsafe fn isHealthDataAvailable() -> bool;
+    pub type HKHealthStore;
 
-        #[method(supportsHealthRecords)]
-        pub unsafe fn supportsHealthRecords(&self) -> bool;
+    #[objc2::method(sel = "isHealthDataAvailable")]
+    pub unsafe fn isHealthDataAvailable() -> bool;
 
-        #[cfg(feature = "HealthKit_HKObjectType")]
-        #[method(authorizationStatusForType:)]
-        pub unsafe fn authorizationStatusForType(
-            &self,
-            r#type: &HKObjectType,
-        ) -> HKAuthorizationStatus;
+    #[objc2::method(sel = "supportsHealthRecords")]
+    pub unsafe fn supportsHealthRecords(&self) -> bool;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSSet",
-            feature = "HealthKit_HKObjectType",
-            feature = "HealthKit_HKSampleType"
-        ))]
-        #[method(requestAuthorizationToShareTypes:readTypes:completion:)]
-        pub unsafe fn requestAuthorizationToShareTypes_readTypes_completion(
-            &self,
-            types_to_share: Option<&NSSet<HKSampleType>>,
-            types_to_read: Option<&NSSet<HKObjectType>>,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(feature = "HealthKit_HKObjectType")]
+    #[objc2::method(sel = "authorizationStatusForType:")]
+    pub unsafe fn authorizationStatusForType(&self, r#type: &HKObjectType)
+        -> HKAuthorizationStatus;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKObjectType"
-        ))]
-        #[method(requestPerObjectReadAuthorizationForType:predicate:completion:)]
-        pub unsafe fn requestPerObjectReadAuthorizationForType_predicate_completion(
-            &self,
-            object_type: &HKObjectType,
-            predicate: Option<&NSPredicate>,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSSet",
+        feature = "HealthKit_HKObjectType",
+        feature = "HealthKit_HKSampleType"
+    ))]
+    #[objc2::method(sel = "requestAuthorizationToShareTypes:readTypes:completion:")]
+    pub unsafe fn requestAuthorizationToShareTypes_readTypes_completion(
+        &self,
+        types_to_share: Option<&NSSet<HKSampleType>>,
+        types_to_read: Option<&NSSet<HKObjectType>>,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSSet",
-            feature = "HealthKit_HKObjectType",
-            feature = "HealthKit_HKSampleType"
-        ))]
-        #[method(getRequestStatusForAuthorizationToShareTypes:readTypes:completion:)]
-        pub unsafe fn getRequestStatusForAuthorizationToShareTypes_readTypes_completion(
-            &self,
-            types_to_share: &NSSet<HKSampleType>,
-            types_to_read: &NSSet<HKObjectType>,
-            completion: &Block<(HKAuthorizationRequestStatus, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKObjectType"
+    ))]
+    #[objc2::method(sel = "requestPerObjectReadAuthorizationForType:predicate:completion:")]
+    pub unsafe fn requestPerObjectReadAuthorizationForType_predicate_completion(
+        &self,
+        object_type: &HKObjectType,
+        predicate: Option<&NSPredicate>,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(handleAuthorizationForExtensionWithCompletion:)]
-        pub unsafe fn handleAuthorizationForExtensionWithCompletion(
-            &self,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSSet",
+        feature = "HealthKit_HKObjectType",
+        feature = "HealthKit_HKSampleType"
+    ))]
+    #[objc2::method(sel = "getRequestStatusForAuthorizationToShareTypes:readTypes:completion:")]
+    pub unsafe fn getRequestStatusForAuthorizationToShareTypes_readTypes_completion(
+        &self,
+        types_to_share: &NSSet<HKSampleType>,
+        types_to_read: &NSSet<HKObjectType>,
+        completion: &Block<(HKAuthorizationRequestStatus, *mut NSError), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other earliestPermittedSampleDate)]
-        pub unsafe fn earliestPermittedSampleDate(&self) -> Id<NSDate>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "handleAuthorizationForExtensionWithCompletion:")]
+    pub unsafe fn handleAuthorizationForExtensionWithCompletion(
+        &self,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "HealthKit_HKObject"))]
-        #[method(saveObject:withCompletion:)]
-        pub unsafe fn saveObject_withCompletion(
-            &self,
-            object: &HKObject,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "earliestPermittedSampleDate", managed = "Other")]
+    pub unsafe fn earliestPermittedSampleDate(&self) -> Id<NSDate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKObject"
-        ))]
-        #[method(saveObjects:withCompletion:)]
-        pub unsafe fn saveObjects_withCompletion(
-            &self,
-            objects: &NSArray<HKObject>,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "HealthKit_HKObject"))]
+    #[objc2::method(sel = "saveObject:withCompletion:")]
+    pub unsafe fn saveObject_withCompletion(
+        &self,
+        object: &HKObject,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "HealthKit_HKObject"))]
-        #[method(deleteObject:withCompletion:)]
-        pub unsafe fn deleteObject_withCompletion(
-            &self,
-            object: &HKObject,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKObject"
+    ))]
+    #[objc2::method(sel = "saveObjects:withCompletion:")]
+    pub unsafe fn saveObjects_withCompletion(
+        &self,
+        objects: &NSArray<HKObject>,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKObject"
-        ))]
-        #[method(deleteObjects:withCompletion:)]
-        pub unsafe fn deleteObjects_withCompletion(
-            &self,
-            objects: &NSArray<HKObject>,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "HealthKit_HKObject"))]
+    #[objc2::method(sel = "deleteObject:withCompletion:")]
+    pub unsafe fn deleteObject_withCompletion(
+        &self,
+        object: &HKObject,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSPredicate",
-            feature = "HealthKit_HKObjectType"
-        ))]
-        #[method(deleteObjectsOfType:predicate:withCompletion:)]
-        pub unsafe fn deleteObjectsOfType_predicate_withCompletion(
-            &self,
-            object_type: &HKObjectType,
-            predicate: &NSPredicate,
-            completion: &Block<(Bool, NSUInteger, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKObject"
+    ))]
+    #[objc2::method(sel = "deleteObjects:withCompletion:")]
+    pub unsafe fn deleteObjects_withCompletion(
+        &self,
+        objects: &NSArray<HKObject>,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(feature = "HealthKit_HKQuery")]
-        #[method(executeQuery:)]
-        pub unsafe fn executeQuery(&self, query: &HKQuery);
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSPredicate",
+        feature = "HealthKit_HKObjectType"
+    ))]
+    #[objc2::method(sel = "deleteObjectsOfType:predicate:withCompletion:")]
+    pub unsafe fn deleteObjectsOfType_predicate_withCompletion(
+        &self,
+        object_type: &HKObjectType,
+        predicate: &NSPredicate,
+        completion: &Block<(Bool, NSUInteger, *mut NSError), ()>,
+    );
 
-        #[cfg(feature = "HealthKit_HKQuery")]
-        #[method(stopQuery:)]
-        pub unsafe fn stopQuery(&self, query: &HKQuery);
+    #[cfg(feature = "HealthKit_HKQuery")]
+    #[objc2::method(sel = "executeQuery:")]
+    pub unsafe fn executeQuery(&self, query: &HKQuery);
 
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKQuantity"
-        ))]
-        #[deprecated = "No longer supported"]
-        #[method(splitTotalEnergy:startDate:endDate:resultsHandler:)]
-        pub unsafe fn splitTotalEnergy_startDate_endDate_resultsHandler(
-            &self,
-            total_energy: &HKQuantity,
-            start_date: &NSDate,
-            end_date: &NSDate,
-            results_handler: &Block<(*mut HKQuantity, *mut HKQuantity, *mut NSError), ()>,
-        );
+    #[cfg(feature = "HealthKit_HKQuery")]
+    #[objc2::method(sel = "stopQuery:")]
+    pub unsafe fn stopQuery(&self, query: &HKQuery);
 
-        #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSError"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other dateOfBirthWithError:_)]
-        pub unsafe fn dateOfBirthWithError(&self) -> Result<Id<NSDate>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKQuantity"
+    ))]
+    #[deprecated = "No longer supported"]
+    #[objc2::method(sel = "splitTotalEnergy:startDate:endDate:resultsHandler:")]
+    pub unsafe fn splitTotalEnergy_startDate_endDate_resultsHandler(
+        &self,
+        total_energy: &HKQuantity,
+        start_date: &NSDate,
+        end_date: &NSDate,
+        results_handler: &Block<(*mut HKQuantity, *mut HKQuantity, *mut NSError), ()>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSDateComponents",
-            feature = "Foundation_NSError"
-        ))]
-        #[method_id(@__retain_semantics Other dateOfBirthComponentsWithError:_)]
-        pub unsafe fn dateOfBirthComponentsWithError(
-            &self,
-        ) -> Result<Id<NSDateComponents>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSDate", feature = "Foundation_NSError"))]
+    #[deprecated]
+    #[objc2::method(sel = "dateOfBirthWithError:", managed = "Other", throws)]
+    pub unsafe fn dateOfBirthWithError(&self) -> Result<Id<NSDate>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKBiologicalSexObject"
-        ))]
-        #[method_id(@__retain_semantics Other biologicalSexWithError:_)]
-        pub unsafe fn biologicalSexWithError(
-            &self,
-        ) -> Result<Id<HKBiologicalSexObject>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSDateComponents",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "dateOfBirthComponentsWithError:", managed = "Other", throws)]
+    pub unsafe fn dateOfBirthComponentsWithError(
+        &self,
+    ) -> Result<Id<NSDateComponents>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKBloodTypeObject"
-        ))]
-        #[method_id(@__retain_semantics Other bloodTypeWithError:_)]
-        pub unsafe fn bloodTypeWithError(&self) -> Result<Id<HKBloodTypeObject>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKBiologicalSexObject"
+    ))]
+    #[objc2::method(sel = "biologicalSexWithError:", managed = "Other", throws)]
+    pub unsafe fn biologicalSexWithError(&self) -> Result<Id<HKBiologicalSexObject>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKFitzpatrickSkinTypeObject"
-        ))]
-        #[method_id(@__retain_semantics Other fitzpatrickSkinTypeWithError:_)]
-        pub unsafe fn fitzpatrickSkinTypeWithError(
-            &self,
-        ) -> Result<Id<HKFitzpatrickSkinTypeObject>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKBloodTypeObject"
+    ))]
+    #[objc2::method(sel = "bloodTypeWithError:", managed = "Other", throws)]
+    pub unsafe fn bloodTypeWithError(&self) -> Result<Id<HKBloodTypeObject>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKWheelchairUseObject"
-        ))]
-        #[method_id(@__retain_semantics Other wheelchairUseWithError:_)]
-        pub unsafe fn wheelchairUseWithError(
-            &self,
-        ) -> Result<Id<HKWheelchairUseObject>, Id<NSError>>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKFitzpatrickSkinTypeObject"
+    ))]
+    #[objc2::method(sel = "fitzpatrickSkinTypeWithError:", managed = "Other", throws)]
+    pub unsafe fn fitzpatrickSkinTypeWithError(
+        &self,
+    ) -> Result<Id<HKFitzpatrickSkinTypeObject>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKActivityMoveModeObject"
-        ))]
-        #[method_id(@__retain_semantics Other activityMoveModeWithError:_)]
-        pub unsafe fn activityMoveModeWithError(
-            &self,
-        ) -> Result<Id<HKActivityMoveModeObject>, Id<NSError>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKWheelchairUseObject"
+    ))]
+    #[objc2::method(sel = "wheelchairUseWithError:", managed = "Other", throws)]
+    pub unsafe fn wheelchairUseWithError(&self) -> Result<Id<HKWheelchairUseObject>, Id<NSError>>;
 
-extern_methods!(
-    /// HKWorkout
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKActivityMoveModeObject"
+    ))]
+    #[objc2::method(sel = "activityMoveModeWithError:", managed = "Other", throws)]
+    pub unsafe fn activityMoveModeWithError(
+        &self,
+    ) -> Result<Id<HKActivityMoveModeObject>, Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKHealthStore")]
-    unsafe impl HKHealthStore {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKSample",
-            feature = "HealthKit_HKWorkout"
-        ))]
-        #[method(addSamples:toWorkout:completion:)]
-        pub unsafe fn addSamples_toWorkout_completion(
-            &self,
-            samples: &NSArray<HKSample>,
-            workout: &HKWorkout,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    pub type HKHealthStore;
 
-        #[cfg(feature = "HealthKit_HKWorkoutSession")]
-        #[deprecated = "Use HKWorkoutSession's start method"]
-        #[method(startWorkoutSession:)]
-        pub unsafe fn startWorkoutSession(&self, workout_session: &HKWorkoutSession);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKSample",
+        feature = "HealthKit_HKWorkout"
+    ))]
+    #[objc2::method(sel = "addSamples:toWorkout:completion:")]
+    pub unsafe fn addSamples_toWorkout_completion(
+        &self,
+        samples: &NSArray<HKSample>,
+        workout: &HKWorkout,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(feature = "HealthKit_HKWorkoutSession")]
-        #[deprecated = "Use HKWorkoutSession's end method"]
-        #[method(endWorkoutSession:)]
-        pub unsafe fn endWorkoutSession(&self, workout_session: &HKWorkoutSession);
+    #[cfg(feature = "HealthKit_HKWorkoutSession")]
+    #[deprecated = "Use HKWorkoutSession's start method"]
+    #[objc2::method(sel = "startWorkoutSession:")]
+    pub unsafe fn startWorkoutSession(&self, workout_session: &HKWorkoutSession);
 
-        #[cfg(feature = "HealthKit_HKWorkoutSession")]
-        #[deprecated = "Use HKWorkoutSession's pause method"]
-        #[method(pauseWorkoutSession:)]
-        pub unsafe fn pauseWorkoutSession(&self, workout_session: &HKWorkoutSession);
+    #[cfg(feature = "HealthKit_HKWorkoutSession")]
+    #[deprecated = "Use HKWorkoutSession's end method"]
+    #[objc2::method(sel = "endWorkoutSession:")]
+    pub unsafe fn endWorkoutSession(&self, workout_session: &HKWorkoutSession);
 
-        #[cfg(feature = "HealthKit_HKWorkoutSession")]
-        #[deprecated = "Use HKWorkoutSession's resume method"]
-        #[method(resumeWorkoutSession:)]
-        pub unsafe fn resumeWorkoutSession(&self, workout_session: &HKWorkoutSession);
+    #[cfg(feature = "HealthKit_HKWorkoutSession")]
+    #[deprecated = "Use HKWorkoutSession's pause method"]
+    #[objc2::method(sel = "pauseWorkoutSession:")]
+    pub unsafe fn pauseWorkoutSession(&self, workout_session: &HKWorkoutSession);
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKWorkoutConfiguration"
-        ))]
-        #[method(startWatchAppWithWorkoutConfiguration:completion:)]
-        pub unsafe fn startWatchAppWithWorkoutConfiguration_completion(
-            &self,
-            workout_configuration: &HKWorkoutConfiguration,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(feature = "HealthKit_HKWorkoutSession")]
+    #[deprecated = "Use HKWorkoutSession's resume method"]
+    #[objc2::method(sel = "resumeWorkoutSession:")]
+    pub unsafe fn resumeWorkoutSession(&self, workout_session: &HKWorkoutSession);
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "HealthKit_HKWorkoutSession"))]
-        #[method(recoverActiveWorkoutSessionWithCompletion:)]
-        pub unsafe fn recoverActiveWorkoutSessionWithCompletion(
-            &self,
-            completion: &Block<(*mut HKWorkoutSession, *mut NSError), ()>,
-        );
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKWorkoutConfiguration"
+    ))]
+    #[objc2::method(sel = "startWatchAppWithWorkoutConfiguration:completion:")]
+    pub unsafe fn startWatchAppWithWorkoutConfiguration_completion(
+        &self,
+        workout_configuration: &HKWorkoutConfiguration,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-extern_methods!(
-    /// HKBackgroundDelivery
+    #[cfg(all(feature = "Foundation_NSError", feature = "HealthKit_HKWorkoutSession"))]
+    #[objc2::method(sel = "recoverActiveWorkoutSessionWithCompletion:")]
+    pub unsafe fn recoverActiveWorkoutSessionWithCompletion(
+        &self,
+        completion: &Block<(*mut HKWorkoutSession, *mut NSError), ()>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKHealthStore")]
-    unsafe impl HKHealthStore {
-        #[cfg(all(feature = "Foundation_NSError", feature = "HealthKit_HKObjectType"))]
-        #[method(enableBackgroundDeliveryForType:frequency:withCompletion:)]
-        pub unsafe fn enableBackgroundDeliveryForType_frequency_withCompletion(
-            &self,
-            r#type: &HKObjectType,
-            frequency: HKUpdateFrequency,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    pub type HKHealthStore;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "HealthKit_HKObjectType"))]
-        #[method(disableBackgroundDeliveryForType:withCompletion:)]
-        pub unsafe fn disableBackgroundDeliveryForType_withCompletion(
-            &self,
-            r#type: &HKObjectType,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "HealthKit_HKObjectType"))]
+    #[objc2::method(sel = "enableBackgroundDeliveryForType:frequency:withCompletion:")]
+    pub unsafe fn enableBackgroundDeliveryForType_frequency_withCompletion(
+        &self,
+        r#type: &HKObjectType,
+        frequency: HKUpdateFrequency,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(disableAllBackgroundDeliveryWithCompletion:)]
-        pub unsafe fn disableAllBackgroundDeliveryWithCompletion(
-            &self,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
-    }
-);
+    #[cfg(all(feature = "Foundation_NSError", feature = "HealthKit_HKObjectType"))]
+    #[objc2::method(sel = "disableBackgroundDeliveryForType:withCompletion:")]
+    pub unsafe fn disableBackgroundDeliveryForType_withCompletion(
+        &self,
+        r#type: &HKObjectType,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "disableAllBackgroundDeliveryWithCompletion:")]
+    pub unsafe fn disableAllBackgroundDeliveryWithCompletion(
+        &self,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
+}
 
 extern_static!(HKUserPreferencesDidChangeNotification: &'static NSString);
 
-extern_methods!(
-    /// HKUserPreferences
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKHealthStore")]
-    unsafe impl HKHealthStore {
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSSet",
-            feature = "HealthKit_HKQuantityType",
-            feature = "HealthKit_HKUnit"
-        ))]
-        #[method(preferredUnitsForQuantityTypes:completion:)]
-        pub unsafe fn preferredUnitsForQuantityTypes_completion(
-            &self,
-            quantity_types: &NSSet<HKQuantityType>,
-            completion: &Block<(NonNull<NSDictionary<HKQuantityType, HKUnit>>, *mut NSError), ()>,
-        );
-    }
-);
+    pub type HKHealthStore;
 
-extern_methods!(
-    /// HKRecalibrateEstimates
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSSet",
+        feature = "HealthKit_HKQuantityType",
+        feature = "HealthKit_HKUnit"
+    ))]
+    #[objc2::method(sel = "preferredUnitsForQuantityTypes:completion:")]
+    pub unsafe fn preferredUnitsForQuantityTypes_completion(
+        &self,
+        quantity_types: &NSSet<HKQuantityType>,
+        completion: &Block<(NonNull<NSDictionary<HKQuantityType, HKUnit>>, *mut NSError), ()>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKHealthStore")]
-    unsafe impl HKHealthStore {
-        #[cfg(all(
-            feature = "Foundation_NSDate",
-            feature = "Foundation_NSError",
-            feature = "HealthKit_HKSampleType"
-        ))]
-        #[method(recalibrateEstimatesForSampleType:atDate:completion:)]
-        pub unsafe fn recalibrateEstimatesForSampleType_atDate_completion(
-            &self,
-            sample_type: &HKSampleType,
-            date: &NSDate,
-            completion: &Block<(Bool, *mut NSError), ()>,
-        );
-    }
-);
+    pub type HKHealthStore;
+
+    #[cfg(all(
+        feature = "Foundation_NSDate",
+        feature = "Foundation_NSError",
+        feature = "HealthKit_HKSampleType"
+    ))]
+    #[objc2::method(sel = "recalibrateEstimatesForSampleType:atDate:completion:")]
+    pub unsafe fn recalibrateEstimatesForSampleType_atDate_completion(
+        &self,
+        sample_type: &HKSampleType,
+        date: &NSDate,
+        completion: &Block<(Bool, *mut NSError), ()>,
+    );
+}

@@ -5,40 +5,43 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MailKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MailKit_MEExtensionManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MailKit_MEExtensionManager")]
-    pub struct MEExtensionManager;
-
-    #[cfg(feature = "MailKit_MEExtensionManager")]
-    unsafe impl ClassType for MEExtensionManager {
-        type Super = NSObject;
-    }
-);
+    pub type MEExtensionManager;
+}
 
 #[cfg(feature = "MailKit_MEExtensionManager")]
 unsafe impl NSObjectProtocol for MEExtensionManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MailKit_MEExtensionManager")]
-    unsafe impl MEExtensionManager {
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    pub type MEExtensionManager;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method(reloadContentBlockerWithIdentifier:completionHandler:)]
-        pub unsafe fn reloadContentBlockerWithIdentifier_completionHandler(
-            identifier: &NSString,
-            completion_handler: Option<&Block<(*mut NSError,), ()>>,
-        );
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(reloadVisibleMessagesWithCompletionHandler:)]
-        pub unsafe fn reloadVisibleMessagesWithCompletionHandler(
-            completion_handler: Option<&Block<(*mut NSError,), ()>>,
-        );
-    }
-);
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "reloadContentBlockerWithIdentifier:completionHandler:")]
+    pub unsafe fn reloadContentBlockerWithIdentifier_completionHandler(
+        identifier: &NSString,
+        completion_handler: Option<&Block<(*mut NSError,), ()>>,
+    );
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "reloadVisibleMessagesWithCompletionHandler:")]
+    pub unsafe fn reloadVisibleMessagesWithCompletionHandler(
+        completion_handler: Option<&Block<(*mut NSError,), ()>>,
+    );
+}

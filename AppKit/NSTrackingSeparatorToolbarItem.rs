@@ -5,56 +5,68 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSToolbarItem,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTrackingSeparatorToolbarItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTrackingSeparatorToolbarItem")]
-    pub struct NSTrackingSeparatorToolbarItem;
-
-    #[cfg(feature = "AppKit_NSTrackingSeparatorToolbarItem")]
-    unsafe impl ClassType for NSTrackingSeparatorToolbarItem {
-        #[inherits(NSObject)]
-        type Super = NSToolbarItem;
-    }
-);
+    pub type NSTrackingSeparatorToolbarItem;
+}
 
 #[cfg(feature = "AppKit_NSTrackingSeparatorToolbarItem")]
 unsafe impl NSObjectProtocol for NSTrackingSeparatorToolbarItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTrackingSeparatorToolbarItem")]
-    unsafe impl NSTrackingSeparatorToolbarItem {
-        #[cfg(feature = "AppKit_NSSplitView")]
-        #[method_id(@__retain_semantics Other trackingSeparatorToolbarItemWithIdentifier:splitView:dividerIndex:)]
-        pub unsafe fn trackingSeparatorToolbarItemWithIdentifier_splitView_dividerIndex(
-            identifier: &NSToolbarItemIdentifier,
-            split_view: &NSSplitView,
-            divider_index: NSInteger,
-        ) -> Id<Self>;
+    pub type NSTrackingSeparatorToolbarItem;
 
-        #[cfg(feature = "AppKit_NSSplitView")]
-        #[method_id(@__retain_semantics Other splitView)]
-        pub unsafe fn splitView(&self) -> Id<NSSplitView>;
+    #[cfg(feature = "AppKit_NSSplitView")]
+    #[objc2::method(
+        sel = "trackingSeparatorToolbarItemWithIdentifier:splitView:dividerIndex:",
+        managed = "Other"
+    )]
+    pub unsafe fn trackingSeparatorToolbarItemWithIdentifier_splitView_dividerIndex(
+        identifier: &NSToolbarItemIdentifier,
+        split_view: &NSSplitView,
+        divider_index: NSInteger,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSSplitView")]
-        #[method(setSplitView:)]
-        pub unsafe fn setSplitView(&self, split_view: &NSSplitView);
+    #[cfg(feature = "AppKit_NSSplitView")]
+    #[objc2::method(sel = "splitView", managed = "Other")]
+    pub unsafe fn splitView(&self) -> Id<NSSplitView>;
 
-        #[method(dividerIndex)]
-        pub unsafe fn dividerIndex(&self) -> NSInteger;
+    #[cfg(feature = "AppKit_NSSplitView")]
+    #[objc2::method(sel = "setSplitView:")]
+    pub unsafe fn setSplitView(&self, split_view: &NSSplitView);
 
-        #[method(setDividerIndex:)]
-        pub unsafe fn setDividerIndex(&self, divider_index: NSInteger);
-    }
-);
+    #[objc2::method(sel = "dividerIndex")]
+    pub unsafe fn dividerIndex(&self) -> NSInteger;
 
-extern_methods!(
-    /// Methods declared on superclass `NSToolbarItem`
+    #[objc2::method(sel = "setDividerIndex:")]
+    pub unsafe fn setDividerIndex(&self, divider_index: NSInteger);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSToolbarItem`
     #[cfg(feature = "AppKit_NSTrackingSeparatorToolbarItem")]
-    unsafe impl NSTrackingSeparatorToolbarItem {
-        #[method_id(@__retain_semantics Init initWithItemIdentifier:)]
-        pub unsafe fn initWithItemIdentifier(
-            this: Option<Allocated<Self>>,
-            item_identifier: &NSToolbarItemIdentifier,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTrackingSeparatorToolbarItem")]
+    pub type NSTrackingSeparatorToolbarItem;
+
+    #[objc2::method(sel = "initWithItemIdentifier:", managed = "Init")]
+    pub unsafe fn initWithItemIdentifier(
+        this: Option<Allocated<Self>>,
+        item_identifier: &NSToolbarItemIdentifier,
+    ) -> Id<Self>;
+}

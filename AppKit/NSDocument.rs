@@ -5,43 +5,41 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSDocumentChangeType {
-        NSChangeDone = 0,
-        NSChangeUndone = 1,
-        NSChangeRedone = 5,
-        NSChangeCleared = 2,
-        NSChangeReadOtherContents = 3,
-        NSChangeAutosaved = 4,
-        NSChangeDiscardable = 256,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSDocumentChangeType {
+    NSChangeDone = 0,
+    NSChangeUndone = 1,
+    NSChangeRedone = 5,
+    NSChangeCleared = 2,
+    NSChangeReadOtherContents = 3,
+    NSChangeAutosaved = 4,
+    NSChangeDiscardable = 256,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSSaveOperationType {
-        NSSaveOperation = 0,
-        NSSaveAsOperation = 1,
-        NSSaveToOperation = 2,
-        NSAutosaveInPlaceOperation = 4,
-        NSAutosaveElsewhereOperation = 3,
-        NSAutosaveAsOperation = 5,
-        #[deprecated = "Use NSAutosaveElsewhereOperation instead"]
-        NSAutosaveOperation = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSSaveOperationType {
+    NSSaveOperation = 0,
+    NSSaveAsOperation = 1,
+    NSSaveToOperation = 2,
+    NSAutosaveInPlaceOperation = 4,
+    NSAutosaveElsewhereOperation = 3,
+    NSAutosaveAsOperation = 5,
+    #[deprecated = "Use NSAutosaveElsewhereOperation instead"]
+    NSAutosaveOperation = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSDocument")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSDocument")]
-    pub struct NSDocument;
-
-    #[cfg(feature = "AppKit_NSDocument")]
-    unsafe impl ClassType for NSDocument {
-        type Super = NSObject;
-    }
-);
+    pub type NSDocument;
+}
 
 #[cfg(feature = "AppKit_NSDocument")]
 unsafe impl NSEditorRegistration for NSDocument {}
@@ -58,928 +56,935 @@ unsafe impl NSObjectProtocol for NSDocument {}
 #[cfg(feature = "AppKit_NSDocument")]
 unsafe impl NSUserInterfaceValidations for NSDocument {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSDocument")]
-    unsafe impl NSDocument {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithType:error:_)]
-        pub unsafe fn initWithType_error(
-            this: Option<Allocated<Self>>,
-            type_name: &NSString,
-        ) -> Result<Id<Self>, Id<NSError>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(canConcurrentlyReadDocumentsOfType:)]
-        pub unsafe fn canConcurrentlyReadDocumentsOfType(type_name: &NSString) -> bool;
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:ofType:error:_)]
-        pub unsafe fn initWithContentsOfURL_ofType_error(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            type_name: &NSString,
-        ) -> Result<Id<Self>, Id<NSError>>;
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Init initForURL:withContentsOfURL:ofType:error:_)]
-        pub unsafe fn initForURL_withContentsOfURL_ofType_error(
-            this: Option<Allocated<Self>>,
-            url_or_nil: Option<&NSURL>,
-            contents_url: &NSURL,
-            type_name: &NSString,
-        ) -> Result<Id<Self>, Id<NSError>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fileType)]
-        pub unsafe fn fileType(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setFileType:)]
-        pub unsafe fn setFileType(&self, file_type: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other fileURL)]
-        pub unsafe fn fileURL(&self) -> Option<Id<NSURL>>;
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setFileURL:)]
-        pub unsafe fn setFileURL(&self, file_url: Option<&NSURL>);
-
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other fileModificationDate)]
-        pub unsafe fn fileModificationDate(&self) -> Option<Id<NSDate>>;
-
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method(setFileModificationDate:)]
-        pub unsafe fn setFileModificationDate(&self, file_modification_date: Option<&NSDate>);
-
-        #[method(isDraft)]
-        pub unsafe fn isDraft(&self) -> bool;
-
-        #[method(setDraft:)]
-        pub unsafe fn setDraft(&self, draft: bool);
-
-        #[method(performActivityWithSynchronousWaiting:usingBlock:)]
-        pub unsafe fn performActivityWithSynchronousWaiting_usingBlock(
-            &self,
-            wait_synchronously: bool,
-            block: &Block<(NonNull<Block<(), ()>>,), ()>,
-        );
-
-        #[method(continueActivityUsingBlock:)]
-        pub unsafe fn continueActivityUsingBlock(&self, block: &Block<(), ()>);
-
-        #[method(continueAsynchronousWorkOnMainThreadUsingBlock:)]
-        pub unsafe fn continueAsynchronousWorkOnMainThreadUsingBlock(&self, block: &Block<(), ()>);
-
-        #[method(performSynchronousFileAccessUsingBlock:)]
-        pub unsafe fn performSynchronousFileAccessUsingBlock(&self, block: &Block<(), ()>);
-
-        #[method(performAsynchronousFileAccessUsingBlock:)]
-        pub unsafe fn performAsynchronousFileAccessUsingBlock(
-            &self,
-            block: &Block<(NonNull<Block<(), ()>>,), ()>,
-        );
-
-        #[method(revertDocumentToSaved:)]
-        pub unsafe fn revertDocumentToSaved(&self, sender: Option<&Object>);
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(revertToContentsOfURL:ofType:error:_)]
-        pub unsafe fn revertToContentsOfURL_ofType_error(
-            &self,
-            url: &NSURL,
-            type_name: &NSString,
-        ) -> Result<(), Id<NSError>>;
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(readFromURL:ofType:error:_)]
-        pub unsafe fn readFromURL_ofType_error(
-            &self,
-            url: &NSURL,
-            type_name: &NSString,
-        ) -> Result<(), Id<NSError>>;
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSFileWrapper",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(readFromFileWrapper:ofType:error:_)]
-        pub unsafe fn readFromFileWrapper_ofType_error(
-            &self,
-            file_wrapper: &NSFileWrapper,
-            type_name: &NSString,
-        ) -> Result<(), Id<NSError>>;
-
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(readFromData:ofType:error:_)]
-        pub unsafe fn readFromData_ofType_error(
-            &self,
-            data: &NSData,
-            type_name: &NSString,
-        ) -> Result<(), Id<NSError>>;
-
-        #[method(isEntireFileLoaded)]
-        pub unsafe fn isEntireFileLoaded(&self) -> bool;
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(writeToURL:ofType:error:_)]
-        pub unsafe fn writeToURL_ofType_error(
-            &self,
-            url: &NSURL,
-            type_name: &NSString,
-        ) -> Result<(), Id<NSError>>;
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSFileWrapper",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other fileWrapperOfType:error:_)]
-        pub unsafe fn fileWrapperOfType_error(
-            &self,
-            type_name: &NSString,
-        ) -> Result<Id<NSFileWrapper>, Id<NSError>>;
-
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other dataOfType:error:_)]
-        pub unsafe fn dataOfType_error(
-            &self,
-            type_name: &NSString,
-        ) -> Result<Id<NSData>, Id<NSError>>;
-
-        #[method(unblockUserInteraction)]
-        pub unsafe fn unblockUserInteraction(&self);
-
-        #[method(autosavingIsImplicitlyCancellable)]
-        pub unsafe fn autosavingIsImplicitlyCancellable(&self) -> bool;
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(writeSafelyToURL:ofType:forSaveOperation:error:_)]
-        pub unsafe fn writeSafelyToURL_ofType_forSaveOperation_error(
-            &self,
-            url: &NSURL,
-            type_name: &NSString,
-            save_operation: NSSaveOperationType,
-        ) -> Result<(), Id<NSError>>;
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(writeToURL:ofType:forSaveOperation:originalContentsURL:error:_)]
-        pub unsafe fn writeToURL_ofType_forSaveOperation_originalContentsURL_error(
-            &self,
-            url: &NSURL,
-            type_name: &NSString,
-            save_operation: NSSaveOperationType,
-            absolute_original_contents_url: Option<&NSURL>,
-        ) -> Result<(), Id<NSError>>;
-
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method_id(@__retain_semantics Other fileAttributesToWriteToURL:ofType:forSaveOperation:originalContentsURL:error:_)]
-        pub unsafe fn fileAttributesToWriteToURL_ofType_forSaveOperation_originalContentsURL_error(
-            &self,
-            url: &NSURL,
-            type_name: &NSString,
-            save_operation: NSSaveOperationType,
-            absolute_original_contents_url: Option<&NSURL>,
-        ) -> Result<Id<NSDictionary<NSString, Object>>, Id<NSError>>;
-
-        #[method(keepBackupFile)]
-        pub unsafe fn keepBackupFile(&self) -> bool;
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other backupFileURL)]
-        pub unsafe fn backupFileURL(&self) -> Option<Id<NSURL>>;
-
-        #[method(saveDocument:)]
-        pub unsafe fn saveDocument(&self, sender: Option<&Object>);
-
-        #[method(saveDocumentAs:)]
-        pub unsafe fn saveDocumentAs(&self, sender: Option<&Object>);
-
-        #[method(saveDocumentTo:)]
-        pub unsafe fn saveDocumentTo(&self, sender: Option<&Object>);
-
-        #[method(saveDocumentWithDelegate:didSaveSelector:contextInfo:)]
-        pub unsafe fn saveDocumentWithDelegate_didSaveSelector_contextInfo(
-            &self,
-            delegate: Option<&Object>,
-            did_save_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
-
-        #[method(runModalSavePanelForSaveOperation:delegate:didSaveSelector:contextInfo:)]
-        pub unsafe fn runModalSavePanelForSaveOperation_delegate_didSaveSelector_contextInfo(
-            &self,
-            save_operation: NSSaveOperationType,
-            delegate: Option<&Object>,
-            did_save_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
-
-        #[method(shouldRunSavePanelWithAccessoryView)]
-        pub unsafe fn shouldRunSavePanelWithAccessoryView(&self) -> bool;
-
-        #[cfg(feature = "AppKit_NSSavePanel")]
-        #[method(prepareSavePanel:)]
-        pub unsafe fn prepareSavePanel(&self, save_panel: &NSSavePanel) -> bool;
-
-        #[method(fileNameExtensionWasHiddenInLastRunSavePanel)]
-        pub unsafe fn fileNameExtensionWasHiddenInLastRunSavePanel(&self) -> bool;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fileTypeFromLastRunSavePanel)]
-        pub unsafe fn fileTypeFromLastRunSavePanel(&self) -> Option<Id<NSString>>;
-
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
-        #[method(saveToURL:ofType:forSaveOperation:delegate:didSaveSelector:contextInfo:)]
-        pub unsafe fn saveToURL_ofType_forSaveOperation_delegate_didSaveSelector_contextInfo(
-            &self,
-            url: &NSURL,
-            type_name: &NSString,
-            save_operation: NSSaveOperationType,
-            delegate: Option<&Object>,
-            did_save_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
-
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[method(saveToURL:ofType:forSaveOperation:completionHandler:)]
-        pub unsafe fn saveToURL_ofType_forSaveOperation_completionHandler(
-            &self,
-            url: &NSURL,
-            type_name: &NSString,
-            save_operation: NSSaveOperationType,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
-
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
-        #[method(canAsynchronouslyWriteToURL:ofType:forSaveOperation:)]
-        pub unsafe fn canAsynchronouslyWriteToURL_ofType_forSaveOperation(
-            &self,
-            url: &NSURL,
-            type_name: &NSString,
-            save_operation: NSSaveOperationType,
-        ) -> bool;
-
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(checkAutosavingSafetyAndReturnError:_)]
-        pub unsafe fn checkAutosavingSafetyAndReturnError(&self) -> Result<(), Id<NSError>>;
-
-        #[method(scheduleAutosaving)]
-        pub unsafe fn scheduleAutosaving(&self);
-
-        #[method(hasUnautosavedChanges)]
-        pub unsafe fn hasUnautosavedChanges(&self) -> bool;
-
-        #[method(autosaveDocumentWithDelegate:didAutosaveSelector:contextInfo:)]
-        pub unsafe fn autosaveDocumentWithDelegate_didAutosaveSelector_contextInfo(
-            &self,
-            delegate: Option<&Object>,
-            did_autosave_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
-
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(autosaveWithImplicitCancellability:completionHandler:)]
-        pub unsafe fn autosaveWithImplicitCancellability_completionHandler(
-            &self,
-            autosaving_is_implicitly_cancellable: bool,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
-
-        #[method(autosavesInPlace)]
-        pub unsafe fn autosavesInPlace() -> bool;
-
-        #[method(preservesVersions)]
-        pub unsafe fn preservesVersions() -> bool;
-
-        #[method(browseDocumentVersions:)]
-        pub unsafe fn browseDocumentVersions(&self, sender: Option<&Object>);
-
-        #[method(isBrowsingVersions)]
-        pub unsafe fn isBrowsingVersions(&self) -> bool;
-
-        #[method(stopBrowsingVersionsWithCompletionHandler:)]
-        pub unsafe fn stopBrowsingVersionsWithCompletionHandler(
-            &self,
-            completion_handler: Option<&Block<(), ()>>,
-        );
-
-        #[method(autosavesDrafts)]
-        pub unsafe fn autosavesDrafts() -> bool;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other autosavingFileType)]
-        pub unsafe fn autosavingFileType(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other autosavedContentsFileURL)]
-        pub unsafe fn autosavedContentsFileURL(&self) -> Option<Id<NSURL>>;
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(setAutosavedContentsFileURL:)]
-        pub unsafe fn setAutosavedContentsFileURL(
-            &self,
-            autosaved_contents_file_url: Option<&NSURL>,
-        );
-
-        #[method(canCloseDocumentWithDelegate:shouldCloseSelector:contextInfo:)]
-        pub unsafe fn canCloseDocumentWithDelegate_shouldCloseSelector_contextInfo(
-            &self,
-            delegate: &Object,
-            should_close_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
-
-        #[method(close)]
-        pub unsafe fn close(&self);
-
-        #[method(duplicateDocument:)]
-        pub unsafe fn duplicateDocument(&self, sender: Option<&Object>);
-
-        #[method(duplicateDocumentWithDelegate:didDuplicateSelector:contextInfo:)]
-        pub unsafe fn duplicateDocumentWithDelegate_didDuplicateSelector_contextInfo(
-            &self,
-            delegate: Option<&Object>,
-            did_duplicate_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
-
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other duplicateAndReturnError:_)]
-        pub unsafe fn duplicateAndReturnError(&self) -> Result<Id<NSDocument>, Id<NSError>>;
-
-        #[method(renameDocument:)]
-        pub unsafe fn renameDocument(&self, sender: Option<&Object>);
-
-        #[method(moveDocumentToUbiquityContainer:)]
-        pub unsafe fn moveDocumentToUbiquityContainer(&self, sender: Option<&Object>);
-
-        #[method(moveDocument:)]
-        pub unsafe fn moveDocument(&self, sender: Option<&Object>);
-
-        #[method(moveDocumentWithCompletionHandler:)]
-        pub unsafe fn moveDocumentWithCompletionHandler(
-            &self,
-            completion_handler: Option<&Block<(Bool,), ()>>,
-        );
-
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method(moveToURL:completionHandler:)]
-        pub unsafe fn moveToURL_completionHandler(
-            &self,
-            url: &NSURL,
-            completion_handler: Option<&Block<(*mut NSError,), ()>>,
-        );
-
-        #[method(lockDocument:)]
-        pub unsafe fn lockDocument(&self, sender: Option<&Object>);
-
-        #[method(unlockDocument:)]
-        pub unsafe fn unlockDocument(&self, sender: Option<&Object>);
-
-        #[method(lockDocumentWithCompletionHandler:)]
-        pub unsafe fn lockDocumentWithCompletionHandler(
-            &self,
-            completion_handler: Option<&Block<(Bool,), ()>>,
-        );
-
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(lockWithCompletionHandler:)]
-        pub unsafe fn lockWithCompletionHandler(
-            &self,
-            completion_handler: Option<&Block<(*mut NSError,), ()>>,
-        );
-
-        #[method(unlockDocumentWithCompletionHandler:)]
-        pub unsafe fn unlockDocumentWithCompletionHandler(
-            &self,
-            completion_handler: Option<&Block<(Bool,), ()>>,
-        );
-
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(unlockWithCompletionHandler:)]
-        pub unsafe fn unlockWithCompletionHandler(
-            &self,
-            completion_handler: Option<&Block<(*mut NSError,), ()>>,
-        );
-
-        #[method(isLocked)]
-        pub unsafe fn isLocked(&self) -> bool;
-
-        #[method(runPageLayout:)]
-        pub unsafe fn runPageLayout(&self, sender: Option<&Object>);
-
-        #[cfg(feature = "AppKit_NSPrintInfo")]
-        #[method(runModalPageLayoutWithPrintInfo:delegate:didRunSelector:contextInfo:)]
-        pub unsafe fn runModalPageLayoutWithPrintInfo_delegate_didRunSelector_contextInfo(
-            &self,
-            print_info: &NSPrintInfo,
-            delegate: Option<&Object>,
-            did_run_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
-
-        #[cfg(feature = "AppKit_NSPageLayout")]
-        #[method(preparePageLayout:)]
-        pub unsafe fn preparePageLayout(&self, page_layout: &NSPageLayout) -> bool;
-
-        #[cfg(feature = "AppKit_NSPrintInfo")]
-        #[method(shouldChangePrintInfo:)]
-        pub unsafe fn shouldChangePrintInfo(&self, new_print_info: &NSPrintInfo) -> bool;
-
-        #[cfg(feature = "AppKit_NSPrintInfo")]
-        #[method_id(@__retain_semantics Other printInfo)]
-        pub unsafe fn printInfo(&self) -> Id<NSPrintInfo>;
-
-        #[cfg(feature = "AppKit_NSPrintInfo")]
-        #[method(setPrintInfo:)]
-        pub unsafe fn setPrintInfo(&self, print_info: &NSPrintInfo);
-
-        #[method(printDocument:)]
-        pub unsafe fn printDocument(&self, sender: Option<&Object>);
-
-        #[cfg(feature = "Foundation_NSDictionary")]
-        #[method(printDocumentWithSettings:showPrintPanel:delegate:didPrintSelector:contextInfo:)]
-        pub unsafe fn printDocumentWithSettings_showPrintPanel_delegate_didPrintSelector_contextInfo(
-            &self,
-            print_settings: &NSDictionary<NSPrintInfoAttributeKey, Object>,
-            show_print_panel: bool,
-            delegate: Option<&Object>,
-            did_print_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
-
-        #[cfg(all(
-            feature = "AppKit_NSPrintOperation",
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSError"
-        ))]
-        #[method_id(@__retain_semantics Other printOperationWithSettings:error:_)]
-        pub unsafe fn printOperationWithSettings_error(
-            &self,
-            print_settings: &NSDictionary<NSPrintInfoAttributeKey, Object>,
-        ) -> Result<Id<NSPrintOperation>, Id<NSError>>;
-
-        #[cfg(feature = "AppKit_NSPrintOperation")]
-        #[method(runModalPrintOperation:delegate:didRunSelector:contextInfo:)]
-        pub unsafe fn runModalPrintOperation_delegate_didRunSelector_contextInfo(
-            &self,
-            print_operation: &NSPrintOperation,
-            delegate: Option<&Object>,
-            did_run_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
-
-        #[method(saveDocumentToPDF:)]
-        pub unsafe fn saveDocumentToPDF(&self, sender: Option<&Object>);
-
-        #[cfg(feature = "AppKit_NSPrintOperation")]
-        #[method_id(@__retain_semantics Other PDFPrintOperation)]
-        pub unsafe fn PDFPrintOperation(&self) -> Id<NSPrintOperation>;
-
-        #[method(allowsDocumentSharing)]
-        pub unsafe fn allowsDocumentSharing(&self) -> bool;
-
-        #[cfg(feature = "AppKit_NSSharingService")]
-        #[method(shareDocumentWithSharingService:completionHandler:)]
-        pub unsafe fn shareDocumentWithSharingService_completionHandler(
-            &self,
-            sharing_service: &NSSharingService,
-            completion_handler: Option<&Block<(Bool,), ()>>,
-        );
-
-        #[cfg(feature = "AppKit_NSSharingServicePicker")]
-        #[method(prepareSharingServicePicker:)]
-        pub unsafe fn prepareSharingServicePicker(
-            &self,
-            sharing_service_picker: &NSSharingServicePicker,
-        );
-
-        #[method(isDocumentEdited)]
-        pub unsafe fn isDocumentEdited(&self) -> bool;
-
-        #[method(isInViewingMode)]
-        pub unsafe fn isInViewingMode(&self) -> bool;
-
-        #[method(updateChangeCount:)]
-        pub unsafe fn updateChangeCount(&self, change: NSDocumentChangeType);
-
-        #[method_id(@__retain_semantics Other changeCountTokenForSaveOperation:)]
-        pub unsafe fn changeCountTokenForSaveOperation(
-            &self,
-            save_operation: NSSaveOperationType,
-        ) -> Id<Object>;
-
-        #[method(updateChangeCountWithToken:forSaveOperation:)]
-        pub unsafe fn updateChangeCountWithToken_forSaveOperation(
-            &self,
-            change_count_token: &Object,
-            save_operation: NSSaveOperationType,
-        );
-
-        #[cfg(feature = "Foundation_NSUndoManager")]
-        #[method_id(@__retain_semantics Other undoManager)]
-        pub unsafe fn undoManager(&self) -> Option<Id<NSUndoManager>>;
-
-        #[cfg(feature = "Foundation_NSUndoManager")]
-        #[method(setUndoManager:)]
-        pub unsafe fn setUndoManager(&self, undo_manager: Option<&NSUndoManager>);
-
-        #[method(hasUndoManager)]
-        pub unsafe fn hasUndoManager(&self) -> bool;
-
-        #[method(setHasUndoManager:)]
-        pub unsafe fn setHasUndoManager(&self, has_undo_manager: bool);
-
-        #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSError"))]
-        #[method(presentError:modalForWindow:delegate:didPresentSelector:contextInfo:)]
-        pub unsafe fn presentError_modalForWindow_delegate_didPresentSelector_contextInfo(
-            &self,
-            error: &NSError,
-            window: &NSWindow,
-            delegate: Option<&Object>,
-            did_present_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
-
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(presentError:)]
-        pub unsafe fn presentError(&self, error: &NSError) -> bool;
-
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other willPresentError:)]
-        pub unsafe fn willPresentError(&self, error: &NSError) -> Id<NSError>;
-
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(willNotPresentError:)]
-        pub unsafe fn willNotPresentError(&self, error: &NSError);
-
-        #[method(makeWindowControllers)]
-        pub unsafe fn makeWindowControllers(&self);
-
-        #[method_id(@__retain_semantics Other windowNibName)]
-        pub unsafe fn windowNibName(&self) -> Option<Id<NSNibName>>;
-
-        #[cfg(feature = "AppKit_NSWindowController")]
-        #[method(windowControllerWillLoadNib:)]
-        pub unsafe fn windowControllerWillLoadNib(&self, window_controller: &NSWindowController);
-
-        #[cfg(feature = "AppKit_NSWindowController")]
-        #[method(windowControllerDidLoadNib:)]
-        pub unsafe fn windowControllerDidLoadNib(&self, window_controller: &NSWindowController);
-
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(setWindow:)]
-        pub unsafe fn setWindow(&self, window: Option<&NSWindow>);
-
-        #[cfg(feature = "AppKit_NSWindowController")]
-        #[method(addWindowController:)]
-        pub unsafe fn addWindowController(&self, window_controller: &NSWindowController);
-
-        #[cfg(feature = "AppKit_NSWindowController")]
-        #[method(removeWindowController:)]
-        pub unsafe fn removeWindowController(&self, window_controller: &NSWindowController);
-
-        #[method(showWindows)]
-        pub unsafe fn showWindows(&self);
-
-        #[cfg(all(feature = "AppKit_NSWindowController", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other windowControllers)]
-        pub unsafe fn windowControllers(&self) -> Id<NSArray<NSWindowController>>;
-
-        #[cfg(feature = "AppKit_NSWindowController")]
-        #[method(shouldCloseWindowController:delegate:shouldCloseSelector:contextInfo:)]
-        pub unsafe fn shouldCloseWindowController_delegate_shouldCloseSelector_contextInfo(
-            &self,
-            window_controller: &NSWindowController,
-            delegate: Option<&Object>,
-            should_close_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other displayName)]
-        pub unsafe fn displayName(&self) -> Id<NSString>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other defaultDraftName)]
-        pub unsafe fn defaultDraftName(&self) -> Id<NSString>;
-
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method_id(@__retain_semantics Other windowForSheet)]
-        pub unsafe fn windowForSheet(&self) -> Option<Id<NSWindow>>;
-
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other readableTypes)]
-        pub unsafe fn readableTypes() -> Id<NSArray<NSString>>;
-
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other writableTypes)]
-        pub unsafe fn writableTypes() -> Id<NSArray<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(isNativeType:)]
-        pub unsafe fn isNativeType(r#type: &NSString) -> bool;
-
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other writableTypesForSaveOperation:)]
-        pub unsafe fn writableTypesForSaveOperation(
-            &self,
-            save_operation: NSSaveOperationType,
-        ) -> Id<NSArray<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fileNameExtensionForType:saveOperation:)]
-        pub unsafe fn fileNameExtensionForType_saveOperation(
-            &self,
-            type_name: &NSString,
-            save_operation: NSSaveOperationType,
-        ) -> Option<Id<NSString>>;
-
-        #[method(validateUserInterfaceItem:)]
-        pub unsafe fn validateUserInterfaceItem(
-            &self,
-            item: &ProtocolObject<dyn NSValidatedUserInterfaceItem>,
-        ) -> bool;
-
-        #[method(usesUbiquitousStorage)]
-        pub unsafe fn usesUbiquitousStorage() -> bool;
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other presentedItemURL)]
-        pub unsafe fn presentedItemURL(&self) -> Option<Id<NSURL>>;
-
-        #[cfg(feature = "Foundation_NSSet")]
-        #[method_id(@__retain_semantics Other observedPresentedItemUbiquityAttributes)]
-        pub unsafe fn observedPresentedItemUbiquityAttributes(&self)
-            -> Id<NSSet<NSURLResourceKey>>;
-
-        #[method(relinquishPresentedItemToReader:)]
-        pub unsafe fn relinquishPresentedItemToReader(
-            &self,
-            reader: &Block<(*mut Block<(), ()>,), ()>,
-        );
-
-        #[method(relinquishPresentedItemToWriter:)]
-        pub unsafe fn relinquishPresentedItemToWriter(
-            &self,
-            writer: &Block<(*mut Block<(), ()>,), ()>,
-        );
-
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(savePresentedItemChangesWithCompletionHandler:)]
-        pub unsafe fn savePresentedItemChangesWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
-
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(accommodatePresentedItemDeletionWithCompletionHandler:)]
-        pub unsafe fn accommodatePresentedItemDeletionWithCompletionHandler(
-            &self,
-            completion_handler: &Block<(*mut NSError,), ()>,
-        );
-
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method(presentedItemDidMoveToURL:)]
-        pub unsafe fn presentedItemDidMoveToURL(&self, new_url: &NSURL);
-
-        #[method(presentedItemDidChange)]
-        pub unsafe fn presentedItemDidChange(&self);
-
-        #[cfg(feature = "Foundation_NSSet")]
-        #[method(presentedItemDidChangeUbiquityAttributes:)]
-        pub unsafe fn presentedItemDidChangeUbiquityAttributes(
-            &self,
-            attributes: &NSSet<NSURLResourceKey>,
-        );
-
-        #[cfg(feature = "Foundation_NSFileVersion")]
-        #[method(presentedItemDidGainVersion:)]
-        pub unsafe fn presentedItemDidGainVersion(&self, version: &NSFileVersion);
-
-        #[cfg(feature = "Foundation_NSFileVersion")]
-        #[method(presentedItemDidLoseVersion:)]
-        pub unsafe fn presentedItemDidLoseVersion(&self, version: &NSFileVersion);
-
-        #[cfg(feature = "Foundation_NSFileVersion")]
-        #[method(presentedItemDidResolveConflictVersion:)]
-        pub unsafe fn presentedItemDidResolveConflictVersion(&self, version: &NSFileVersion);
-    }
-);
-
-extern_methods!(
-    /// NSDeprecated
+    pub type NSDocument;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithType:error:", managed = "Init", throws)]
+    pub unsafe fn initWithType_error(
+        this: Option<Allocated<Self>>,
+        type_name: &NSString,
+    ) -> Result<Id<Self>, Id<NSError>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "canConcurrentlyReadDocumentsOfType:")]
+    pub unsafe fn canConcurrentlyReadDocumentsOfType(type_name: &NSString) -> bool;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "initWithContentsOfURL:ofType:error:", managed = "Init", throws)]
+    pub unsafe fn initWithContentsOfURL_ofType_error(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        type_name: &NSString,
+    ) -> Result<Id<Self>, Id<NSError>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "initForURL:withContentsOfURL:ofType:error:",
+        managed = "Init",
+        throws
+    )]
+    pub unsafe fn initForURL_withContentsOfURL_ofType_error(
+        this: Option<Allocated<Self>>,
+        url_or_nil: Option<&NSURL>,
+        contents_url: &NSURL,
+        type_name: &NSString,
+    ) -> Result<Id<Self>, Id<NSError>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fileType", managed = "Other")]
+    pub unsafe fn fileType(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setFileType:")]
+    pub unsafe fn setFileType(&self, file_type: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "fileURL", managed = "Other")]
+    pub unsafe fn fileURL(&self) -> Option<Id<NSURL>>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setFileURL:")]
+    pub unsafe fn setFileURL(&self, file_url: Option<&NSURL>);
+
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "fileModificationDate", managed = "Other")]
+    pub unsafe fn fileModificationDate(&self) -> Option<Id<NSDate>>;
+
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "setFileModificationDate:")]
+    pub unsafe fn setFileModificationDate(&self, file_modification_date: Option<&NSDate>);
+
+    #[objc2::method(sel = "isDraft")]
+    pub unsafe fn isDraft(&self) -> bool;
+
+    #[objc2::method(sel = "setDraft:")]
+    pub unsafe fn setDraft(&self, draft: bool);
+
+    #[objc2::method(sel = "performActivityWithSynchronousWaiting:usingBlock:")]
+    pub unsafe fn performActivityWithSynchronousWaiting_usingBlock(
+        &self,
+        wait_synchronously: bool,
+        block: &Block<(NonNull<Block<(), ()>>,), ()>,
+    );
+
+    #[objc2::method(sel = "continueActivityUsingBlock:")]
+    pub unsafe fn continueActivityUsingBlock(&self, block: &Block<(), ()>);
+
+    #[objc2::method(sel = "continueAsynchronousWorkOnMainThreadUsingBlock:")]
+    pub unsafe fn continueAsynchronousWorkOnMainThreadUsingBlock(&self, block: &Block<(), ()>);
+
+    #[objc2::method(sel = "performSynchronousFileAccessUsingBlock:")]
+    pub unsafe fn performSynchronousFileAccessUsingBlock(&self, block: &Block<(), ()>);
+
+    #[objc2::method(sel = "performAsynchronousFileAccessUsingBlock:")]
+    pub unsafe fn performAsynchronousFileAccessUsingBlock(
+        &self,
+        block: &Block<(NonNull<Block<(), ()>>,), ()>,
+    );
+
+    #[objc2::method(sel = "revertDocumentToSaved:")]
+    pub unsafe fn revertDocumentToSaved(&self, sender: Option<&Object>);
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "revertToContentsOfURL:ofType:error:", throws)]
+    pub unsafe fn revertToContentsOfURL_ofType_error(
+        &self,
+        url: &NSURL,
+        type_name: &NSString,
+    ) -> Result<(), Id<NSError>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "readFromURL:ofType:error:", throws)]
+    pub unsafe fn readFromURL_ofType_error(
+        &self,
+        url: &NSURL,
+        type_name: &NSString,
+    ) -> Result<(), Id<NSError>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSFileWrapper",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "readFromFileWrapper:ofType:error:", throws)]
+    pub unsafe fn readFromFileWrapper_ofType_error(
+        &self,
+        file_wrapper: &NSFileWrapper,
+        type_name: &NSString,
+    ) -> Result<(), Id<NSError>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "readFromData:ofType:error:", throws)]
+    pub unsafe fn readFromData_ofType_error(
+        &self,
+        data: &NSData,
+        type_name: &NSString,
+    ) -> Result<(), Id<NSError>>;
+
+    #[objc2::method(sel = "isEntireFileLoaded")]
+    pub unsafe fn isEntireFileLoaded(&self) -> bool;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "writeToURL:ofType:error:", throws)]
+    pub unsafe fn writeToURL_ofType_error(
+        &self,
+        url: &NSURL,
+        type_name: &NSString,
+    ) -> Result<(), Id<NSError>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSFileWrapper",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "fileWrapperOfType:error:", managed = "Other", throws)]
+    pub unsafe fn fileWrapperOfType_error(
+        &self,
+        type_name: &NSString,
+    ) -> Result<Id<NSFileWrapper>, Id<NSError>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "dataOfType:error:", managed = "Other", throws)]
+    pub unsafe fn dataOfType_error(&self, type_name: &NSString) -> Result<Id<NSData>, Id<NSError>>;
+
+    #[objc2::method(sel = "unblockUserInteraction")]
+    pub unsafe fn unblockUserInteraction(&self);
+
+    #[objc2::method(sel = "autosavingIsImplicitlyCancellable")]
+    pub unsafe fn autosavingIsImplicitlyCancellable(&self) -> bool;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "writeSafelyToURL:ofType:forSaveOperation:error:", throws)]
+    pub unsafe fn writeSafelyToURL_ofType_forSaveOperation_error(
+        &self,
+        url: &NSURL,
+        type_name: &NSString,
+        save_operation: NSSaveOperationType,
+    ) -> Result<(), Id<NSError>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "writeToURL:ofType:forSaveOperation:originalContentsURL:error:",
+        throws
+    )]
+    pub unsafe fn writeToURL_ofType_forSaveOperation_originalContentsURL_error(
+        &self,
+        url: &NSURL,
+        type_name: &NSString,
+        save_operation: NSSaveOperationType,
+        absolute_original_contents_url: Option<&NSURL>,
+    ) -> Result<(), Id<NSError>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(
+        sel = "fileAttributesToWriteToURL:ofType:forSaveOperation:originalContentsURL:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn fileAttributesToWriteToURL_ofType_forSaveOperation_originalContentsURL_error(
+        &self,
+        url: &NSURL,
+        type_name: &NSString,
+        save_operation: NSSaveOperationType,
+        absolute_original_contents_url: Option<&NSURL>,
+    ) -> Result<Id<NSDictionary<NSString, Object>>, Id<NSError>>;
+
+    #[objc2::method(sel = "keepBackupFile")]
+    pub unsafe fn keepBackupFile(&self) -> bool;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "backupFileURL", managed = "Other")]
+    pub unsafe fn backupFileURL(&self) -> Option<Id<NSURL>>;
+
+    #[objc2::method(sel = "saveDocument:")]
+    pub unsafe fn saveDocument(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "saveDocumentAs:")]
+    pub unsafe fn saveDocumentAs(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "saveDocumentTo:")]
+    pub unsafe fn saveDocumentTo(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "saveDocumentWithDelegate:didSaveSelector:contextInfo:")]
+    pub unsafe fn saveDocumentWithDelegate_didSaveSelector_contextInfo(
+        &self,
+        delegate: Option<&Object>,
+        did_save_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
+
+    #[objc2::method(
+        sel = "runModalSavePanelForSaveOperation:delegate:didSaveSelector:contextInfo:"
+    )]
+    pub unsafe fn runModalSavePanelForSaveOperation_delegate_didSaveSelector_contextInfo(
+        &self,
+        save_operation: NSSaveOperationType,
+        delegate: Option<&Object>,
+        did_save_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
+
+    #[objc2::method(sel = "shouldRunSavePanelWithAccessoryView")]
+    pub unsafe fn shouldRunSavePanelWithAccessoryView(&self) -> bool;
+
+    #[cfg(feature = "AppKit_NSSavePanel")]
+    #[objc2::method(sel = "prepareSavePanel:")]
+    pub unsafe fn prepareSavePanel(&self, save_panel: &NSSavePanel) -> bool;
+
+    #[objc2::method(sel = "fileNameExtensionWasHiddenInLastRunSavePanel")]
+    pub unsafe fn fileNameExtensionWasHiddenInLastRunSavePanel(&self) -> bool;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fileTypeFromLastRunSavePanel", managed = "Other")]
+    pub unsafe fn fileTypeFromLastRunSavePanel(&self) -> Option<Id<NSString>>;
+
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
+    #[objc2::method(
+        sel = "saveToURL:ofType:forSaveOperation:delegate:didSaveSelector:contextInfo:"
+    )]
+    pub unsafe fn saveToURL_ofType_forSaveOperation_delegate_didSaveSelector_contextInfo(
+        &self,
+        url: &NSURL,
+        type_name: &NSString,
+        save_operation: NSSaveOperationType,
+        delegate: Option<&Object>,
+        did_save_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[objc2::method(sel = "saveToURL:ofType:forSaveOperation:completionHandler:")]
+    pub unsafe fn saveToURL_ofType_forSaveOperation_completionHandler(
+        &self,
+        url: &NSURL,
+        type_name: &NSString,
+        save_operation: NSSaveOperationType,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
+
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "canAsynchronouslyWriteToURL:ofType:forSaveOperation:")]
+    pub unsafe fn canAsynchronouslyWriteToURL_ofType_forSaveOperation(
+        &self,
+        url: &NSURL,
+        type_name: &NSString,
+        save_operation: NSSaveOperationType,
+    ) -> bool;
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "checkAutosavingSafetyAndReturnError:", throws)]
+    pub unsafe fn checkAutosavingSafetyAndReturnError(&self) -> Result<(), Id<NSError>>;
+
+    #[objc2::method(sel = "scheduleAutosaving")]
+    pub unsafe fn scheduleAutosaving(&self);
+
+    #[objc2::method(sel = "hasUnautosavedChanges")]
+    pub unsafe fn hasUnautosavedChanges(&self) -> bool;
+
+    #[objc2::method(sel = "autosaveDocumentWithDelegate:didAutosaveSelector:contextInfo:")]
+    pub unsafe fn autosaveDocumentWithDelegate_didAutosaveSelector_contextInfo(
+        &self,
+        delegate: Option<&Object>,
+        did_autosave_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "autosaveWithImplicitCancellability:completionHandler:")]
+    pub unsafe fn autosaveWithImplicitCancellability_completionHandler(
+        &self,
+        autosaving_is_implicitly_cancellable: bool,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
+
+    #[objc2::method(sel = "autosavesInPlace")]
+    pub unsafe fn autosavesInPlace() -> bool;
+
+    #[objc2::method(sel = "preservesVersions")]
+    pub unsafe fn preservesVersions() -> bool;
+
+    #[objc2::method(sel = "browseDocumentVersions:")]
+    pub unsafe fn browseDocumentVersions(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "isBrowsingVersions")]
+    pub unsafe fn isBrowsingVersions(&self) -> bool;
+
+    #[objc2::method(sel = "stopBrowsingVersionsWithCompletionHandler:")]
+    pub unsafe fn stopBrowsingVersionsWithCompletionHandler(
+        &self,
+        completion_handler: Option<&Block<(), ()>>,
+    );
+
+    #[objc2::method(sel = "autosavesDrafts")]
+    pub unsafe fn autosavesDrafts() -> bool;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "autosavingFileType", managed = "Other")]
+    pub unsafe fn autosavingFileType(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "autosavedContentsFileURL", managed = "Other")]
+    pub unsafe fn autosavedContentsFileURL(&self) -> Option<Id<NSURL>>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "setAutosavedContentsFileURL:")]
+    pub unsafe fn setAutosavedContentsFileURL(&self, autosaved_contents_file_url: Option<&NSURL>);
+
+    #[objc2::method(sel = "canCloseDocumentWithDelegate:shouldCloseSelector:contextInfo:")]
+    pub unsafe fn canCloseDocumentWithDelegate_shouldCloseSelector_contextInfo(
+        &self,
+        delegate: &Object,
+        should_close_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
+
+    #[objc2::method(sel = "close")]
+    pub unsafe fn close(&self);
+
+    #[objc2::method(sel = "duplicateDocument:")]
+    pub unsafe fn duplicateDocument(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "duplicateDocumentWithDelegate:didDuplicateSelector:contextInfo:")]
+    pub unsafe fn duplicateDocumentWithDelegate_didDuplicateSelector_contextInfo(
+        &self,
+        delegate: Option<&Object>,
+        did_duplicate_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "duplicateAndReturnError:", managed = "Other", throws)]
+    pub unsafe fn duplicateAndReturnError(&self) -> Result<Id<NSDocument>, Id<NSError>>;
+
+    #[objc2::method(sel = "renameDocument:")]
+    pub unsafe fn renameDocument(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "moveDocumentToUbiquityContainer:")]
+    pub unsafe fn moveDocumentToUbiquityContainer(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "moveDocument:")]
+    pub unsafe fn moveDocument(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "moveDocumentWithCompletionHandler:")]
+    pub unsafe fn moveDocumentWithCompletionHandler(
+        &self,
+        completion_handler: Option<&Block<(Bool,), ()>>,
+    );
+
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "moveToURL:completionHandler:")]
+    pub unsafe fn moveToURL_completionHandler(
+        &self,
+        url: &NSURL,
+        completion_handler: Option<&Block<(*mut NSError,), ()>>,
+    );
+
+    #[objc2::method(sel = "lockDocument:")]
+    pub unsafe fn lockDocument(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "unlockDocument:")]
+    pub unsafe fn unlockDocument(&self, sender: Option<&Object>);
+
+    #[objc2::method(sel = "lockDocumentWithCompletionHandler:")]
+    pub unsafe fn lockDocumentWithCompletionHandler(
+        &self,
+        completion_handler: Option<&Block<(Bool,), ()>>,
+    );
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "lockWithCompletionHandler:")]
+    pub unsafe fn lockWithCompletionHandler(
+        &self,
+        completion_handler: Option<&Block<(*mut NSError,), ()>>,
+    );
+
+    #[objc2::method(sel = "unlockDocumentWithCompletionHandler:")]
+    pub unsafe fn unlockDocumentWithCompletionHandler(
+        &self,
+        completion_handler: Option<&Block<(Bool,), ()>>,
+    );
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "unlockWithCompletionHandler:")]
+    pub unsafe fn unlockWithCompletionHandler(
+        &self,
+        completion_handler: Option<&Block<(*mut NSError,), ()>>,
+    );
+
+    #[objc2::method(sel = "isLocked")]
+    pub unsafe fn isLocked(&self) -> bool;
+
+    #[objc2::method(sel = "runPageLayout:")]
+    pub unsafe fn runPageLayout(&self, sender: Option<&Object>);
+
+    #[cfg(feature = "AppKit_NSPrintInfo")]
+    #[objc2::method(sel = "runModalPageLayoutWithPrintInfo:delegate:didRunSelector:contextInfo:")]
+    pub unsafe fn runModalPageLayoutWithPrintInfo_delegate_didRunSelector_contextInfo(
+        &self,
+        print_info: &NSPrintInfo,
+        delegate: Option<&Object>,
+        did_run_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
+
+    #[cfg(feature = "AppKit_NSPageLayout")]
+    #[objc2::method(sel = "preparePageLayout:")]
+    pub unsafe fn preparePageLayout(&self, page_layout: &NSPageLayout) -> bool;
+
+    #[cfg(feature = "AppKit_NSPrintInfo")]
+    #[objc2::method(sel = "shouldChangePrintInfo:")]
+    pub unsafe fn shouldChangePrintInfo(&self, new_print_info: &NSPrintInfo) -> bool;
+
+    #[cfg(feature = "AppKit_NSPrintInfo")]
+    #[objc2::method(sel = "printInfo", managed = "Other")]
+    pub unsafe fn printInfo(&self) -> Id<NSPrintInfo>;
+
+    #[cfg(feature = "AppKit_NSPrintInfo")]
+    #[objc2::method(sel = "setPrintInfo:")]
+    pub unsafe fn setPrintInfo(&self, print_info: &NSPrintInfo);
+
+    #[objc2::method(sel = "printDocument:")]
+    pub unsafe fn printDocument(&self, sender: Option<&Object>);
+
+    #[cfg(feature = "Foundation_NSDictionary")]
+    #[objc2::method(
+        sel = "printDocumentWithSettings:showPrintPanel:delegate:didPrintSelector:contextInfo:"
+    )]
+    pub unsafe fn printDocumentWithSettings_showPrintPanel_delegate_didPrintSelector_contextInfo(
+        &self,
+        print_settings: &NSDictionary<NSPrintInfoAttributeKey, Object>,
+        show_print_panel: bool,
+        delegate: Option<&Object>,
+        did_print_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
+
+    #[cfg(all(
+        feature = "AppKit_NSPrintOperation",
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "printOperationWithSettings:error:", managed = "Other", throws)]
+    pub unsafe fn printOperationWithSettings_error(
+        &self,
+        print_settings: &NSDictionary<NSPrintInfoAttributeKey, Object>,
+    ) -> Result<Id<NSPrintOperation>, Id<NSError>>;
+
+    #[cfg(feature = "AppKit_NSPrintOperation")]
+    #[objc2::method(sel = "runModalPrintOperation:delegate:didRunSelector:contextInfo:")]
+    pub unsafe fn runModalPrintOperation_delegate_didRunSelector_contextInfo(
+        &self,
+        print_operation: &NSPrintOperation,
+        delegate: Option<&Object>,
+        did_run_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
+
+    #[objc2::method(sel = "saveDocumentToPDF:")]
+    pub unsafe fn saveDocumentToPDF(&self, sender: Option<&Object>);
+
+    #[cfg(feature = "AppKit_NSPrintOperation")]
+    #[objc2::method(sel = "PDFPrintOperation", managed = "Other")]
+    pub unsafe fn PDFPrintOperation(&self) -> Id<NSPrintOperation>;
+
+    #[objc2::method(sel = "allowsDocumentSharing")]
+    pub unsafe fn allowsDocumentSharing(&self) -> bool;
+
+    #[cfg(feature = "AppKit_NSSharingService")]
+    #[objc2::method(sel = "shareDocumentWithSharingService:completionHandler:")]
+    pub unsafe fn shareDocumentWithSharingService_completionHandler(
+        &self,
+        sharing_service: &NSSharingService,
+        completion_handler: Option<&Block<(Bool,), ()>>,
+    );
+
+    #[cfg(feature = "AppKit_NSSharingServicePicker")]
+    #[objc2::method(sel = "prepareSharingServicePicker:")]
+    pub unsafe fn prepareSharingServicePicker(
+        &self,
+        sharing_service_picker: &NSSharingServicePicker,
+    );
+
+    #[objc2::method(sel = "isDocumentEdited")]
+    pub unsafe fn isDocumentEdited(&self) -> bool;
+
+    #[objc2::method(sel = "isInViewingMode")]
+    pub unsafe fn isInViewingMode(&self) -> bool;
+
+    #[objc2::method(sel = "updateChangeCount:")]
+    pub unsafe fn updateChangeCount(&self, change: NSDocumentChangeType);
+
+    #[objc2::method(sel = "changeCountTokenForSaveOperation:", managed = "Other")]
+    pub unsafe fn changeCountTokenForSaveOperation(
+        &self,
+        save_operation: NSSaveOperationType,
+    ) -> Id<Object>;
+
+    #[objc2::method(sel = "updateChangeCountWithToken:forSaveOperation:")]
+    pub unsafe fn updateChangeCountWithToken_forSaveOperation(
+        &self,
+        change_count_token: &Object,
+        save_operation: NSSaveOperationType,
+    );
+
+    #[cfg(feature = "Foundation_NSUndoManager")]
+    #[objc2::method(sel = "undoManager", managed = "Other")]
+    pub unsafe fn undoManager(&self) -> Option<Id<NSUndoManager>>;
+
+    #[cfg(feature = "Foundation_NSUndoManager")]
+    #[objc2::method(sel = "setUndoManager:")]
+    pub unsafe fn setUndoManager(&self, undo_manager: Option<&NSUndoManager>);
+
+    #[objc2::method(sel = "hasUndoManager")]
+    pub unsafe fn hasUndoManager(&self) -> bool;
+
+    #[objc2::method(sel = "setHasUndoManager:")]
+    pub unsafe fn setHasUndoManager(&self, has_undo_manager: bool);
+
+    #[cfg(all(feature = "AppKit_NSWindow", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "presentError:modalForWindow:delegate:didPresentSelector:contextInfo:")]
+    pub unsafe fn presentError_modalForWindow_delegate_didPresentSelector_contextInfo(
+        &self,
+        error: &NSError,
+        window: &NSWindow,
+        delegate: Option<&Object>,
+        did_present_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "presentError:")]
+    pub unsafe fn presentError(&self, error: &NSError) -> bool;
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "willPresentError:", managed = "Other")]
+    pub unsafe fn willPresentError(&self, error: &NSError) -> Id<NSError>;
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "willNotPresentError:")]
+    pub unsafe fn willNotPresentError(&self, error: &NSError);
+
+    #[objc2::method(sel = "makeWindowControllers")]
+    pub unsafe fn makeWindowControllers(&self);
+
+    #[objc2::method(sel = "windowNibName", managed = "Other")]
+    pub unsafe fn windowNibName(&self) -> Option<Id<NSNibName>>;
+
+    #[cfg(feature = "AppKit_NSWindowController")]
+    #[objc2::method(sel = "windowControllerWillLoadNib:")]
+    pub unsafe fn windowControllerWillLoadNib(&self, window_controller: &NSWindowController);
+
+    #[cfg(feature = "AppKit_NSWindowController")]
+    #[objc2::method(sel = "windowControllerDidLoadNib:")]
+    pub unsafe fn windowControllerDidLoadNib(&self, window_controller: &NSWindowController);
+
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "setWindow:")]
+    pub unsafe fn setWindow(&self, window: Option<&NSWindow>);
+
+    #[cfg(feature = "AppKit_NSWindowController")]
+    #[objc2::method(sel = "addWindowController:")]
+    pub unsafe fn addWindowController(&self, window_controller: &NSWindowController);
+
+    #[cfg(feature = "AppKit_NSWindowController")]
+    #[objc2::method(sel = "removeWindowController:")]
+    pub unsafe fn removeWindowController(&self, window_controller: &NSWindowController);
+
+    #[objc2::method(sel = "showWindows")]
+    pub unsafe fn showWindows(&self);
+
+    #[cfg(all(feature = "AppKit_NSWindowController", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "windowControllers", managed = "Other")]
+    pub unsafe fn windowControllers(&self) -> Id<NSArray<NSWindowController>>;
+
+    #[cfg(feature = "AppKit_NSWindowController")]
+    #[objc2::method(sel = "shouldCloseWindowController:delegate:shouldCloseSelector:contextInfo:")]
+    pub unsafe fn shouldCloseWindowController_delegate_shouldCloseSelector_contextInfo(
+        &self,
+        window_controller: &NSWindowController,
+        delegate: Option<&Object>,
+        should_close_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "displayName", managed = "Other")]
+    pub unsafe fn displayName(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "defaultDraftName", managed = "Other")]
+    pub unsafe fn defaultDraftName(&self) -> Id<NSString>;
+
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "windowForSheet", managed = "Other")]
+    pub unsafe fn windowForSheet(&self) -> Option<Id<NSWindow>>;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "readableTypes", managed = "Other")]
+    pub unsafe fn readableTypes() -> Id<NSArray<NSString>>;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "writableTypes", managed = "Other")]
+    pub unsafe fn writableTypes() -> Id<NSArray<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "isNativeType:")]
+    pub unsafe fn isNativeType(r#type: &NSString) -> bool;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "writableTypesForSaveOperation:", managed = "Other")]
+    pub unsafe fn writableTypesForSaveOperation(
+        &self,
+        save_operation: NSSaveOperationType,
+    ) -> Id<NSArray<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fileNameExtensionForType:saveOperation:", managed = "Other")]
+    pub unsafe fn fileNameExtensionForType_saveOperation(
+        &self,
+        type_name: &NSString,
+        save_operation: NSSaveOperationType,
+    ) -> Option<Id<NSString>>;
+
+    #[objc2::method(sel = "validateUserInterfaceItem:")]
+    pub unsafe fn validateUserInterfaceItem(
+        &self,
+        item: &ProtocolObject<dyn NSValidatedUserInterfaceItem>,
+    ) -> bool;
+
+    #[objc2::method(sel = "usesUbiquitousStorage")]
+    pub unsafe fn usesUbiquitousStorage() -> bool;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "presentedItemURL", managed = "Other")]
+    pub unsafe fn presentedItemURL(&self) -> Option<Id<NSURL>>;
+
+    #[cfg(feature = "Foundation_NSSet")]
+    #[objc2::method(sel = "observedPresentedItemUbiquityAttributes", managed = "Other")]
+    pub unsafe fn observedPresentedItemUbiquityAttributes(&self) -> Id<NSSet<NSURLResourceKey>>;
+
+    #[objc2::method(sel = "relinquishPresentedItemToReader:")]
+    pub unsafe fn relinquishPresentedItemToReader(&self, reader: &Block<(*mut Block<(), ()>,), ()>);
+
+    #[objc2::method(sel = "relinquishPresentedItemToWriter:")]
+    pub unsafe fn relinquishPresentedItemToWriter(&self, writer: &Block<(*mut Block<(), ()>,), ()>);
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "savePresentedItemChangesWithCompletionHandler:")]
+    pub unsafe fn savePresentedItemChangesWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "accommodatePresentedItemDeletionWithCompletionHandler:")]
+    pub unsafe fn accommodatePresentedItemDeletionWithCompletionHandler(
+        &self,
+        completion_handler: &Block<(*mut NSError,), ()>,
+    );
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "presentedItemDidMoveToURL:")]
+    pub unsafe fn presentedItemDidMoveToURL(&self, new_url: &NSURL);
+
+    #[objc2::method(sel = "presentedItemDidChange")]
+    pub unsafe fn presentedItemDidChange(&self);
+
+    #[cfg(feature = "Foundation_NSSet")]
+    #[objc2::method(sel = "presentedItemDidChangeUbiquityAttributes:")]
+    pub unsafe fn presentedItemDidChangeUbiquityAttributes(
+        &self,
+        attributes: &NSSet<NSURLResourceKey>,
+    );
+
+    #[cfg(feature = "Foundation_NSFileVersion")]
+    #[objc2::method(sel = "presentedItemDidGainVersion:")]
+    pub unsafe fn presentedItemDidGainVersion(&self, version: &NSFileVersion);
+
+    #[cfg(feature = "Foundation_NSFileVersion")]
+    #[objc2::method(sel = "presentedItemDidLoseVersion:")]
+    pub unsafe fn presentedItemDidLoseVersion(&self, version: &NSFileVersion);
+
+    #[cfg(feature = "Foundation_NSFileVersion")]
+    #[objc2::method(sel = "presentedItemDidResolveConflictVersion:")]
+    pub unsafe fn presentedItemDidResolveConflictVersion(&self, version: &NSFileVersion);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSDocument")]
-    unsafe impl NSDocument {
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "Foundation_NSURL"
-        ))]
-        #[deprecated = "Use -saveToURL:ofType:forSaveOperation:completionHandler: instead"]
-        #[method(saveToURL:ofType:forSaveOperation:error:_)]
-        pub unsafe fn saveToURL_ofType_forSaveOperation_error(
-            &self,
-            url: &NSURL,
-            type_name: &NSString,
-            save_operation: NSSaveOperationType,
-        ) -> Result<(), Id<NSError>>;
+    pub type NSDocument;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other dataRepresentationOfType:)]
-        pub unsafe fn dataRepresentationOfType(&self, r#type: &NSString) -> Option<Id<NSData>>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "Foundation_NSURL"
+    ))]
+    #[deprecated = "Use -saveToURL:ofType:forSaveOperation:completionHandler: instead"]
+    #[objc2::method(sel = "saveToURL:ofType:forSaveOperation:error:", throws)]
+    pub unsafe fn saveToURL_ofType_forSaveOperation_error(
+        &self,
+        url: &NSURL,
+        type_name: &NSString,
+        save_operation: NSSaveOperationType,
+    ) -> Result<(), Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other fileAttributesToWriteToFile:ofType:saveOperation:)]
-        pub unsafe fn fileAttributesToWriteToFile_ofType_saveOperation(
-            &self,
-            full_document_path: &NSString,
-            document_type_name: &NSString,
-            save_operation_type: NSSaveOperationType,
-        ) -> Option<Id<NSDictionary>>;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
+    #[deprecated]
+    #[objc2::method(sel = "dataRepresentationOfType:", managed = "Other")]
+    pub unsafe fn dataRepresentationOfType(&self, r#type: &NSString) -> Option<Id<NSData>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other fileName)]
-        pub unsafe fn fileName(&self) -> Option<Id<NSString>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[deprecated]
+    #[objc2::method(
+        sel = "fileAttributesToWriteToFile:ofType:saveOperation:",
+        managed = "Other"
+    )]
+    pub unsafe fn fileAttributesToWriteToFile_ofType_saveOperation(
+        &self,
+        full_document_path: &NSString,
+        document_type_name: &NSString,
+        save_operation_type: NSSaveOperationType,
+    ) -> Option<Id<NSDictionary>>;
 
-        #[cfg(all(feature = "Foundation_NSFileWrapper", feature = "Foundation_NSString"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other fileWrapperRepresentationOfType:)]
-        pub unsafe fn fileWrapperRepresentationOfType(
-            &self,
-            r#type: &NSString,
-        ) -> Option<Id<NSFileWrapper>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "fileName", managed = "Other")]
+    pub unsafe fn fileName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithContentsOfFile:ofType:)]
-        pub unsafe fn initWithContentsOfFile_ofType(
-            this: Option<Allocated<Self>>,
-            absolute_path: &NSString,
-            type_name: &NSString,
-        ) -> Option<Id<Self>>;
+    #[cfg(all(feature = "Foundation_NSFileWrapper", feature = "Foundation_NSString"))]
+    #[deprecated]
+    #[objc2::method(sel = "fileWrapperRepresentationOfType:", managed = "Other")]
+    pub unsafe fn fileWrapperRepresentationOfType(
+        &self,
+        r#type: &NSString,
+    ) -> Option<Id<NSFileWrapper>>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithContentsOfURL:ofType:)]
-        pub unsafe fn initWithContentsOfURL_ofType(
-            this: Option<Allocated<Self>>,
-            url: &NSURL,
-            type_name: &NSString,
-        ) -> Option<Id<Self>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "initWithContentsOfFile:ofType:", managed = "Init")]
+    pub unsafe fn initWithContentsOfFile_ofType(
+        this: Option<Allocated<Self>>,
+        absolute_path: &NSString,
+        type_name: &NSString,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
-        #[deprecated]
-        #[method(loadDataRepresentation:ofType:)]
-        pub unsafe fn loadDataRepresentation_ofType(
-            &self,
-            data: &NSData,
-            r#type: &NSString,
-        ) -> bool;
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
+    #[deprecated]
+    #[objc2::method(sel = "initWithContentsOfURL:ofType:", managed = "Init")]
+    pub unsafe fn initWithContentsOfURL_ofType(
+        this: Option<Allocated<Self>>,
+        url: &NSURL,
+        type_name: &NSString,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(all(feature = "Foundation_NSFileWrapper", feature = "Foundation_NSString"))]
-        #[deprecated]
-        #[method(loadFileWrapperRepresentation:ofType:)]
-        pub unsafe fn loadFileWrapperRepresentation_ofType(
-            &self,
-            wrapper: &NSFileWrapper,
-            r#type: &NSString,
-        ) -> bool;
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSString"))]
+    #[deprecated]
+    #[objc2::method(sel = "loadDataRepresentation:ofType:")]
+    pub unsafe fn loadDataRepresentation_ofType(&self, data: &NSData, r#type: &NSString) -> bool;
 
-        #[deprecated]
-        #[method(printShowingPrintPanel:)]
-        pub unsafe fn printShowingPrintPanel(&self, flag: bool);
+    #[cfg(all(feature = "Foundation_NSFileWrapper", feature = "Foundation_NSString"))]
+    #[deprecated]
+    #[objc2::method(sel = "loadFileWrapperRepresentation:ofType:")]
+    pub unsafe fn loadFileWrapperRepresentation_ofType(
+        &self,
+        wrapper: &NSFileWrapper,
+        r#type: &NSString,
+    ) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(readFromFile:ofType:)]
-        pub unsafe fn readFromFile_ofType(&self, file_name: &NSString, r#type: &NSString) -> bool;
+    #[deprecated]
+    #[objc2::method(sel = "printShowingPrintPanel:")]
+    pub unsafe fn printShowingPrintPanel(&self, flag: bool);
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
-        #[deprecated]
-        #[method(readFromURL:ofType:)]
-        pub unsafe fn readFromURL_ofType(&self, url: &NSURL, r#type: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "readFromFile:ofType:")]
+    pub unsafe fn readFromFile_ofType(&self, file_name: &NSString, r#type: &NSString) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(revertToSavedFromFile:ofType:)]
-        pub unsafe fn revertToSavedFromFile_ofType(
-            &self,
-            file_name: &NSString,
-            r#type: &NSString,
-        ) -> bool;
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
+    #[deprecated]
+    #[objc2::method(sel = "readFromURL:ofType:")]
+    pub unsafe fn readFromURL_ofType(&self, url: &NSURL, r#type: &NSString) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
-        #[deprecated]
-        #[method(revertToSavedFromURL:ofType:)]
-        pub unsafe fn revertToSavedFromURL_ofType(&self, url: &NSURL, r#type: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "revertToSavedFromFile:ofType:")]
+    pub unsafe fn revertToSavedFromFile_ofType(
+        &self,
+        file_name: &NSString,
+        r#type: &NSString,
+    ) -> bool;
 
-        #[cfg(feature = "AppKit_NSPrintInfo")]
-        #[deprecated]
-        #[method(runModalPageLayoutWithPrintInfo:)]
-        pub unsafe fn runModalPageLayoutWithPrintInfo(&self, print_info: &NSPrintInfo)
-            -> NSInteger;
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
+    #[deprecated]
+    #[objc2::method(sel = "revertToSavedFromURL:ofType:")]
+    pub unsafe fn revertToSavedFromURL_ofType(&self, url: &NSURL, r#type: &NSString) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(saveToFile:saveOperation:delegate:didSaveSelector:contextInfo:)]
-        pub unsafe fn saveToFile_saveOperation_delegate_didSaveSelector_contextInfo(
-            &self,
-            file_name: &NSString,
-            save_operation: NSSaveOperationType,
-            delegate: Option<&Object>,
-            did_save_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
+    #[cfg(feature = "AppKit_NSPrintInfo")]
+    #[deprecated]
+    #[objc2::method(sel = "runModalPageLayoutWithPrintInfo:")]
+    pub unsafe fn runModalPageLayoutWithPrintInfo(&self, print_info: &NSPrintInfo) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(setFileName:)]
-        pub unsafe fn setFileName(&self, file_name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "saveToFile:saveOperation:delegate:didSaveSelector:contextInfo:")]
+    pub unsafe fn saveToFile_saveOperation_delegate_didSaveSelector_contextInfo(
+        &self,
+        file_name: &NSString,
+        save_operation: NSSaveOperationType,
+        delegate: Option<&Object>,
+        did_save_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(writeToFile:ofType:)]
-        pub unsafe fn writeToFile_ofType(&self, file_name: &NSString, r#type: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "setFileName:")]
+    pub unsafe fn setFileName(&self, file_name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(writeToFile:ofType:originalFile:saveOperation:)]
-        pub unsafe fn writeToFile_ofType_originalFile_saveOperation(
-            &self,
-            full_document_path: &NSString,
-            document_type_name: &NSString,
-            full_original_document_path: Option<&NSString>,
-            save_operation_type: NSSaveOperationType,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "writeToFile:ofType:")]
+    pub unsafe fn writeToFile_ofType(&self, file_name: &NSString, r#type: &NSString) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
-        #[deprecated]
-        #[method(writeToURL:ofType:)]
-        pub unsafe fn writeToURL_ofType(&self, url: &NSURL, r#type: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "writeToFile:ofType:originalFile:saveOperation:")]
+    pub unsafe fn writeToFile_ofType_originalFile_saveOperation(
+        &self,
+        full_document_path: &NSString,
+        document_type_name: &NSString,
+        full_original_document_path: Option<&NSString>,
+        save_operation_type: NSSaveOperationType,
+    ) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(writeWithBackupToFile:ofType:saveOperation:)]
-        pub unsafe fn writeWithBackupToFile_ofType_saveOperation(
-            &self,
-            full_document_path: &NSString,
-            document_type_name: &NSString,
-            save_operation_type: NSSaveOperationType,
-        ) -> bool;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURL"))]
+    #[deprecated]
+    #[objc2::method(sel = "writeToURL:ofType:")]
+    pub unsafe fn writeToURL_ofType(&self, url: &NSURL, r#type: &NSString) -> bool;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "writeWithBackupToFile:ofType:saveOperation:")]
+    pub unsafe fn writeWithBackupToFile_ofType_saveOperation(
+        &self,
+        full_document_path: &NSString,
+        document_type_name: &NSString,
+        save_operation_type: NSSaveOperationType,
+    ) -> bool;
+}

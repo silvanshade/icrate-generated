@@ -4,105 +4,98 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Speech::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum SFSpeechRecognitionTaskState {
-        SFSpeechRecognitionTaskStateStarting = 0,
-        SFSpeechRecognitionTaskStateRunning = 1,
-        SFSpeechRecognitionTaskStateFinishing = 2,
-        SFSpeechRecognitionTaskStateCanceling = 3,
-        SFSpeechRecognitionTaskStateCompleted = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum SFSpeechRecognitionTaskState {
+    SFSpeechRecognitionTaskStateStarting = 0,
+    SFSpeechRecognitionTaskStateRunning = 1,
+    SFSpeechRecognitionTaskStateFinishing = 2,
+    SFSpeechRecognitionTaskStateCanceling = 3,
+    SFSpeechRecognitionTaskStateCompleted = 4,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Speech_SFSpeechRecognitionTask")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Speech_SFSpeechRecognitionTask")]
-    pub struct SFSpeechRecognitionTask;
-
-    #[cfg(feature = "Speech_SFSpeechRecognitionTask")]
-    unsafe impl ClassType for SFSpeechRecognitionTask {
-        type Super = NSObject;
-    }
-);
+    pub type SFSpeechRecognitionTask;
+}
 
 #[cfg(feature = "Speech_SFSpeechRecognitionTask")]
 unsafe impl NSObjectProtocol for SFSpeechRecognitionTask {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Speech_SFSpeechRecognitionTask")]
-    unsafe impl SFSpeechRecognitionTask {
-        #[method(state)]
-        pub unsafe fn state(&self) -> SFSpeechRecognitionTaskState;
+    pub type SFSpeechRecognitionTask;
 
-        #[method(isFinishing)]
-        pub unsafe fn isFinishing(&self) -> bool;
+    #[objc2::method(sel = "state")]
+    pub unsafe fn state(&self) -> SFSpeechRecognitionTaskState;
 
-        #[method(finish)]
-        pub unsafe fn finish(&self);
+    #[objc2::method(sel = "isFinishing")]
+    pub unsafe fn isFinishing(&self) -> bool;
 
-        #[method(isCancelled)]
-        pub unsafe fn isCancelled(&self) -> bool;
+    #[objc2::method(sel = "finish")]
+    pub unsafe fn finish(&self);
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
+    #[objc2::method(sel = "isCancelled")]
+    pub unsafe fn isCancelled(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other error)]
-        pub unsafe fn error(&self) -> Option<Id<NSError>>;
-    }
-);
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
 
-extern_protocol!(
-    pub unsafe trait SFSpeechRecognitionTaskDelegate: NSObjectProtocol {
-        #[cfg(feature = "Speech_SFSpeechRecognitionTask")]
-        #[optional]
-        #[method(speechRecognitionDidDetectSpeech:)]
-        unsafe fn speechRecognitionDidDetectSpeech(&self, task: &SFSpeechRecognitionTask);
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "error", managed = "Other")]
+    pub unsafe fn error(&self) -> Option<Id<NSError>>;
+}
 
-        #[cfg(all(
-            feature = "Speech_SFSpeechRecognitionTask",
-            feature = "Speech_SFTranscription"
-        ))]
-        #[optional]
-        #[method(speechRecognitionTask:didHypothesizeTranscription:)]
-        unsafe fn speechRecognitionTask_didHypothesizeTranscription(
-            &self,
-            task: &SFSpeechRecognitionTask,
-            transcription: &SFTranscription,
-        );
+#[objc2::protocol]
+pub unsafe trait SFSpeechRecognitionTaskDelegate: NSObjectProtocol {
+    #[cfg(feature = "Speech_SFSpeechRecognitionTask")]
+    #[objc2::method(optional, sel = "speechRecognitionDidDetectSpeech:")]
+    unsafe fn speechRecognitionDidDetectSpeech(&self, task: &SFSpeechRecognitionTask);
 
-        #[cfg(all(
-            feature = "Speech_SFSpeechRecognitionResult",
-            feature = "Speech_SFSpeechRecognitionTask"
-        ))]
-        #[optional]
-        #[method(speechRecognitionTask:didFinishRecognition:)]
-        unsafe fn speechRecognitionTask_didFinishRecognition(
-            &self,
-            task: &SFSpeechRecognitionTask,
-            recognition_result: &SFSpeechRecognitionResult,
-        );
+    #[cfg(all(
+        feature = "Speech_SFSpeechRecognitionTask",
+        feature = "Speech_SFTranscription"
+    ))]
+    #[objc2::method(optional, sel = "speechRecognitionTask:didHypothesizeTranscription:")]
+    unsafe fn speechRecognitionTask_didHypothesizeTranscription(
+        &self,
+        task: &SFSpeechRecognitionTask,
+        transcription: &SFTranscription,
+    );
 
-        #[cfg(feature = "Speech_SFSpeechRecognitionTask")]
-        #[optional]
-        #[method(speechRecognitionTaskFinishedReadingAudio:)]
-        unsafe fn speechRecognitionTaskFinishedReadingAudio(&self, task: &SFSpeechRecognitionTask);
+    #[cfg(all(
+        feature = "Speech_SFSpeechRecognitionResult",
+        feature = "Speech_SFSpeechRecognitionTask"
+    ))]
+    #[objc2::method(optional, sel = "speechRecognitionTask:didFinishRecognition:")]
+    unsafe fn speechRecognitionTask_didFinishRecognition(
+        &self,
+        task: &SFSpeechRecognitionTask,
+        recognition_result: &SFSpeechRecognitionResult,
+    );
 
-        #[cfg(feature = "Speech_SFSpeechRecognitionTask")]
-        #[optional]
-        #[method(speechRecognitionTaskWasCancelled:)]
-        unsafe fn speechRecognitionTaskWasCancelled(&self, task: &SFSpeechRecognitionTask);
+    #[cfg(feature = "Speech_SFSpeechRecognitionTask")]
+    #[objc2::method(optional, sel = "speechRecognitionTaskFinishedReadingAudio:")]
+    unsafe fn speechRecognitionTaskFinishedReadingAudio(&self, task: &SFSpeechRecognitionTask);
 
-        #[cfg(feature = "Speech_SFSpeechRecognitionTask")]
-        #[optional]
-        #[method(speechRecognitionTask:didFinishSuccessfully:)]
-        unsafe fn speechRecognitionTask_didFinishSuccessfully(
-            &self,
-            task: &SFSpeechRecognitionTask,
-            successfully: bool,
-        );
-    }
+    #[cfg(feature = "Speech_SFSpeechRecognitionTask")]
+    #[objc2::method(optional, sel = "speechRecognitionTaskWasCancelled:")]
+    unsafe fn speechRecognitionTaskWasCancelled(&self, task: &SFSpeechRecognitionTask);
 
-    unsafe impl ProtocolType for dyn SFSpeechRecognitionTaskDelegate {}
-);
+    #[cfg(feature = "Speech_SFSpeechRecognitionTask")]
+    #[objc2::method(optional, sel = "speechRecognitionTask:didFinishSuccessfully:")]
+    unsafe fn speechRecognitionTask_didFinishSuccessfully(
+        &self,
+        task: &SFSpeechRecognitionTask,
+        successfully: bool,
+    );
+}

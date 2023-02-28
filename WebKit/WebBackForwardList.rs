@@ -5,88 +5,94 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WebBackForwardList")]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct WebBackForwardList;
-
     #[cfg(feature = "WebKit_WebBackForwardList")]
-    unsafe impl ClassType for WebBackForwardList {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type WebBackForwardList;
+}
 
 #[cfg(feature = "WebKit_WebBackForwardList")]
 unsafe impl NSObjectProtocol for WebBackForwardList {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WebBackForwardList")]
-    unsafe impl WebBackForwardList {
-        #[cfg(feature = "WebKit_WebHistoryItem")]
-        #[method(addItem:)]
-        pub unsafe fn addItem(&self, item: Option<&WebHistoryItem>);
+    #[deprecated]
+    pub type WebBackForwardList;
 
-        #[method(goBack)]
-        pub unsafe fn goBack(&self);
+    #[cfg(feature = "WebKit_WebHistoryItem")]
+    #[objc2::method(sel = "addItem:")]
+    pub unsafe fn addItem(&self, item: Option<&WebHistoryItem>);
 
-        #[method(goForward)]
-        pub unsafe fn goForward(&self);
+    #[objc2::method(sel = "goBack")]
+    pub unsafe fn goBack(&self);
 
-        #[cfg(feature = "WebKit_WebHistoryItem")]
-        #[method(goToItem:)]
-        pub unsafe fn goToItem(&self, item: Option<&WebHistoryItem>);
+    #[objc2::method(sel = "goForward")]
+    pub unsafe fn goForward(&self);
 
-        #[cfg(feature = "WebKit_WebHistoryItem")]
-        #[method_id(@__retain_semantics Other backItem)]
-        pub unsafe fn backItem(&self) -> Option<Id<WebHistoryItem>>;
+    #[cfg(feature = "WebKit_WebHistoryItem")]
+    #[objc2::method(sel = "goToItem:")]
+    pub unsafe fn goToItem(&self, item: Option<&WebHistoryItem>);
 
-        #[cfg(feature = "WebKit_WebHistoryItem")]
-        #[method_id(@__retain_semantics Other currentItem)]
-        pub unsafe fn currentItem(&self) -> Option<Id<WebHistoryItem>>;
+    #[cfg(feature = "WebKit_WebHistoryItem")]
+    #[objc2::method(sel = "backItem", managed = "Other")]
+    pub unsafe fn backItem(&self) -> Option<Id<WebHistoryItem>>;
 
-        #[cfg(feature = "WebKit_WebHistoryItem")]
-        #[method_id(@__retain_semantics Other forwardItem)]
-        pub unsafe fn forwardItem(&self) -> Option<Id<WebHistoryItem>>;
+    #[cfg(feature = "WebKit_WebHistoryItem")]
+    #[objc2::method(sel = "currentItem", managed = "Other")]
+    pub unsafe fn currentItem(&self) -> Option<Id<WebHistoryItem>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other backListWithLimit:)]
-        pub unsafe fn backListWithLimit(&self, limit: c_int) -> Option<Id<NSArray>>;
+    #[cfg(feature = "WebKit_WebHistoryItem")]
+    #[objc2::method(sel = "forwardItem", managed = "Other")]
+    pub unsafe fn forwardItem(&self) -> Option<Id<WebHistoryItem>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other forwardListWithLimit:)]
-        pub unsafe fn forwardListWithLimit(&self, limit: c_int) -> Option<Id<NSArray>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "backListWithLimit:", managed = "Other")]
+    pub unsafe fn backListWithLimit(&self, limit: c_int) -> Option<Id<NSArray>>;
 
-        #[method(capacity)]
-        pub unsafe fn capacity(&self) -> c_int;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "forwardListWithLimit:", managed = "Other")]
+    pub unsafe fn forwardListWithLimit(&self, limit: c_int) -> Option<Id<NSArray>>;
 
-        #[method(setCapacity:)]
-        pub unsafe fn setCapacity(&self, capacity: c_int);
+    #[objc2::method(sel = "capacity")]
+    pub unsafe fn capacity(&self) -> c_int;
 
-        #[method(backListCount)]
-        pub unsafe fn backListCount(&self) -> c_int;
+    #[objc2::method(sel = "setCapacity:")]
+    pub unsafe fn setCapacity(&self, capacity: c_int);
 
-        #[method(forwardListCount)]
-        pub unsafe fn forwardListCount(&self) -> c_int;
+    #[objc2::method(sel = "backListCount")]
+    pub unsafe fn backListCount(&self) -> c_int;
 
-        #[cfg(feature = "WebKit_WebHistoryItem")]
-        #[method(containsItem:)]
-        pub unsafe fn containsItem(&self, item: Option<&WebHistoryItem>) -> bool;
+    #[objc2::method(sel = "forwardListCount")]
+    pub unsafe fn forwardListCount(&self) -> c_int;
 
-        #[cfg(feature = "WebKit_WebHistoryItem")]
-        #[method_id(@__retain_semantics Other itemAtIndex:)]
-        pub unsafe fn itemAtIndex(&self, index: c_int) -> Option<Id<WebHistoryItem>>;
-    }
-);
+    #[cfg(feature = "WebKit_WebHistoryItem")]
+    #[objc2::method(sel = "containsItem:")]
+    pub unsafe fn containsItem(&self, item: Option<&WebHistoryItem>) -> bool;
 
-extern_methods!(
-    /// WebBackForwardListDeprecated
+    #[cfg(feature = "WebKit_WebHistoryItem")]
+    #[objc2::method(sel = "itemAtIndex:", managed = "Other")]
+    pub unsafe fn itemAtIndex(&self, index: c_int) -> Option<Id<WebHistoryItem>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WebBackForwardList")]
-    unsafe impl WebBackForwardList {
-        #[method(setPageCacheSize:)]
-        pub unsafe fn setPageCacheSize(&self, size: NSUInteger);
+    pub type WebBackForwardList;
 
-        #[method(pageCacheSize)]
-        pub unsafe fn pageCacheSize(&self) -> NSUInteger;
-    }
-);
+    #[objc2::method(sel = "setPageCacheSize:")]
+    pub unsafe fn setPageCacheSize(&self, size: NSUInteger);
+
+    #[objc2::method(sel = "pageCacheSize")]
+    pub unsafe fn pageCacheSize(&self) -> NSUInteger;
+}

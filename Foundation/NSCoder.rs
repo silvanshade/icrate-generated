@@ -3,330 +3,338 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSDecodingFailurePolicy {
-        NSDecodingFailurePolicyRaiseException = 0,
-        NSDecodingFailurePolicySetErrorAndReturn = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSDecodingFailurePolicy {
+    NSDecodingFailurePolicyRaiseException = 0,
+    NSDecodingFailurePolicySetErrorAndReturn = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSCoder")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSCoder")]
-    pub struct NSCoder;
-
-    #[cfg(feature = "Foundation_NSCoder")]
-    unsafe impl ClassType for NSCoder {
-        type Super = NSObject;
-    }
-);
+    pub type NSCoder;
+}
 
 #[cfg(feature = "Foundation_NSCoder")]
 unsafe impl NSObjectProtocol for NSCoder {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCoder")]
-    unsafe impl NSCoder {
-        #[method(encodeValueOfObjCType:at:)]
-        pub unsafe fn encodeValueOfObjCType_at(
-            &self,
-            r#type: NonNull<c_char>,
-            addr: NonNull<c_void>,
-        );
+    pub type NSCoder;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method(encodeDataObject:)]
-        pub unsafe fn encodeDataObject(&self, data: &NSData);
+    #[objc2::method(sel = "encodeValueOfObjCType:at:")]
+    pub unsafe fn encodeValueOfObjCType_at(&self, r#type: NonNull<c_char>, addr: NonNull<c_void>);
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other decodeDataObject)]
-        pub unsafe fn decodeDataObject(&self) -> Option<Id<NSData>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "encodeDataObject:")]
+    pub unsafe fn encodeDataObject(&self, data: &NSData);
 
-        #[method(decodeValueOfObjCType:at:size:)]
-        pub unsafe fn decodeValueOfObjCType_at_size(
-            &self,
-            r#type: NonNull<c_char>,
-            data: NonNull<c_void>,
-            size: NSUInteger,
-        );
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "decodeDataObject", managed = "Other")]
+    pub unsafe fn decodeDataObject(&self) -> Option<Id<NSData>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(versionForClassName:)]
-        pub unsafe fn versionForClassName(&self, class_name: &NSString) -> NSInteger;
-    }
-);
+    #[objc2::method(sel = "decodeValueOfObjCType:at:size:")]
+    pub unsafe fn decodeValueOfObjCType_at_size(
+        &self,
+        r#type: NonNull<c_char>,
+        data: NonNull<c_void>,
+        size: NSUInteger,
+    );
 
-extern_methods!(
-    /// NSExtendedCoder
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "versionForClassName:")]
+    pub unsafe fn versionForClassName(&self, class_name: &NSString) -> NSInteger;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCoder")]
-    unsafe impl NSCoder {
-        #[method(encodeObject:)]
-        pub unsafe fn encodeObject(&self, object: Option<&Object>);
+    pub type NSCoder;
 
-        #[method(encodeRootObject:)]
-        pub unsafe fn encodeRootObject(&self, root_object: &Object);
+    #[objc2::method(sel = "encodeObject:")]
+    pub unsafe fn encodeObject(&self, object: Option<&Object>);
 
-        #[method(encodeBycopyObject:)]
-        pub unsafe fn encodeBycopyObject(&self, an_object: Option<&Object>);
+    #[objc2::method(sel = "encodeRootObject:")]
+    pub unsafe fn encodeRootObject(&self, root_object: &Object);
 
-        #[method(encodeByrefObject:)]
-        pub unsafe fn encodeByrefObject(&self, an_object: Option<&Object>);
+    #[objc2::method(sel = "encodeBycopyObject:")]
+    pub unsafe fn encodeBycopyObject(&self, an_object: Option<&Object>);
 
-        #[method(encodeConditionalObject:)]
-        pub unsafe fn encodeConditionalObject(&self, object: Option<&Object>);
+    #[objc2::method(sel = "encodeByrefObject:")]
+    pub unsafe fn encodeByrefObject(&self, an_object: Option<&Object>);
 
-        #[method(encodeArrayOfObjCType:count:at:)]
-        pub unsafe fn encodeArrayOfObjCType_count_at(
-            &self,
-            r#type: NonNull<c_char>,
-            count: NSUInteger,
-            array: NonNull<c_void>,
-        );
+    #[objc2::method(sel = "encodeConditionalObject:")]
+    pub unsafe fn encodeConditionalObject(&self, object: Option<&Object>);
 
-        #[method(encodeBytes:length:)]
-        pub unsafe fn encodeBytes_length(&self, byteaddr: *mut c_void, length: NSUInteger);
+    #[objc2::method(sel = "encodeArrayOfObjCType:count:at:")]
+    pub unsafe fn encodeArrayOfObjCType_count_at(
+        &self,
+        r#type: NonNull<c_char>,
+        count: NSUInteger,
+        array: NonNull<c_void>,
+    );
 
-        #[method_id(@__retain_semantics Other decodeObject)]
-        pub unsafe fn decodeObject(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "encodeBytes:length:")]
+    pub unsafe fn encodeBytes_length(&self, byteaddr: *mut c_void, length: NSUInteger);
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other decodeTopLevelObjectAndReturnError:_)]
-        pub unsafe fn decodeTopLevelObjectAndReturnError(&self) -> Result<Id<Object>, Id<NSError>>;
+    #[objc2::method(sel = "decodeObject", managed = "Other")]
+    pub unsafe fn decodeObject(&self) -> Option<Id<Object>>;
 
-        #[method(decodeArrayOfObjCType:count:at:)]
-        pub unsafe fn decodeArrayOfObjCType_count_at(
-            &self,
-            item_type: NonNull<c_char>,
-            count: NSUInteger,
-            array: NonNull<c_void>,
-        );
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "decodeTopLevelObjectAndReturnError:", managed = "Other", throws)]
+    pub unsafe fn decodeTopLevelObjectAndReturnError(&self) -> Result<Id<Object>, Id<NSError>>;
 
-        #[method(decodeBytesWithReturnedLength:)]
-        pub unsafe fn decodeBytesWithReturnedLength(
-            &self,
-            lengthp: NonNull<NSUInteger>,
-        ) -> *mut c_void;
+    #[objc2::method(sel = "decodeArrayOfObjCType:count:at:")]
+    pub unsafe fn decodeArrayOfObjCType_count_at(
+        &self,
+        item_type: NonNull<c_char>,
+        count: NSUInteger,
+        array: NonNull<c_void>,
+    );
 
-        #[method(encodePropertyList:)]
-        pub unsafe fn encodePropertyList(&self, a_property_list: &Object);
+    #[objc2::method(sel = "decodeBytesWithReturnedLength:")]
+    pub unsafe fn decodeBytesWithReturnedLength(&self, lengthp: NonNull<NSUInteger>)
+        -> *mut c_void;
 
-        #[method_id(@__retain_semantics Other decodePropertyList)]
-        pub unsafe fn decodePropertyList(&self) -> Option<Id<Object>>;
+    #[objc2::method(sel = "encodePropertyList:")]
+    pub unsafe fn encodePropertyList(&self, a_property_list: &Object);
 
-        #[method(setObjectZone:)]
-        pub unsafe fn setObjectZone(&self, zone: *mut NSZone);
+    #[objc2::method(sel = "decodePropertyList", managed = "Other")]
+    pub unsafe fn decodePropertyList(&self) -> Option<Id<Object>>;
 
-        #[method(objectZone)]
-        pub unsafe fn objectZone(&self) -> *mut NSZone;
+    #[objc2::method(sel = "setObjectZone:")]
+    pub unsafe fn setObjectZone(&self, zone: *mut NSZone);
 
-        #[method(systemVersion)]
-        pub unsafe fn systemVersion(&self) -> c_uint;
+    #[objc2::method(sel = "objectZone")]
+    pub unsafe fn objectZone(&self) -> *mut NSZone;
 
-        #[method(allowsKeyedCoding)]
-        pub unsafe fn allowsKeyedCoding(&self) -> bool;
+    #[objc2::method(sel = "systemVersion")]
+    pub unsafe fn systemVersion(&self) -> c_uint;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(encodeObject:forKey:)]
-        pub unsafe fn encodeObject_forKey(&self, object: Option<&Object>, key: &NSString);
+    #[objc2::method(sel = "allowsKeyedCoding")]
+    pub unsafe fn allowsKeyedCoding(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(encodeConditionalObject:forKey:)]
-        pub unsafe fn encodeConditionalObject_forKey(
-            &self,
-            object: Option<&Object>,
-            key: &NSString,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "encodeObject:forKey:")]
+    pub unsafe fn encodeObject_forKey(&self, object: Option<&Object>, key: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(encodeBool:forKey:)]
-        pub unsafe fn encodeBool_forKey(&self, value: bool, key: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "encodeConditionalObject:forKey:")]
+    pub unsafe fn encodeConditionalObject_forKey(&self, object: Option<&Object>, key: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(encodeInt:forKey:)]
-        pub unsafe fn encodeInt_forKey(&self, value: c_int, key: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "encodeBool:forKey:")]
+    pub unsafe fn encodeBool_forKey(&self, value: bool, key: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(encodeInt32:forKey:)]
-        pub unsafe fn encodeInt32_forKey(&self, value: i32, key: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "encodeInt:forKey:")]
+    pub unsafe fn encodeInt_forKey(&self, value: c_int, key: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(encodeInt64:forKey:)]
-        pub unsafe fn encodeInt64_forKey(&self, value: i64, key: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "encodeInt32:forKey:")]
+    pub unsafe fn encodeInt32_forKey(&self, value: i32, key: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(encodeFloat:forKey:)]
-        pub unsafe fn encodeFloat_forKey(&self, value: c_float, key: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "encodeInt64:forKey:")]
+    pub unsafe fn encodeInt64_forKey(&self, value: i64, key: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(encodeDouble:forKey:)]
-        pub unsafe fn encodeDouble_forKey(&self, value: c_double, key: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "encodeFloat:forKey:")]
+    pub unsafe fn encodeFloat_forKey(&self, value: c_float, key: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(encodeBytes:length:forKey:)]
-        pub unsafe fn encodeBytes_length_forKey(
-            &self,
-            bytes: *mut u8,
-            length: NSUInteger,
-            key: &NSString,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "encodeDouble:forKey:")]
+    pub unsafe fn encodeDouble_forKey(&self, value: c_double, key: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(containsValueForKey:)]
-        pub unsafe fn containsValueForKey(&self, key: &NSString) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "encodeBytes:length:forKey:")]
+    pub unsafe fn encodeBytes_length_forKey(
+        &self,
+        bytes: *mut u8,
+        length: NSUInteger,
+        key: &NSString,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other decodeObjectForKey:)]
-        pub unsafe fn decodeObjectForKey(&self, key: &NSString) -> Option<Id<Object>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "containsValueForKey:")]
+    pub unsafe fn containsValueForKey(&self, key: &NSString) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other decodeTopLevelObjectForKey:error:_)]
-        pub unsafe fn decodeTopLevelObjectForKey_error(
-            &self,
-            key: &NSString,
-        ) -> Result<Id<Object>, Id<NSError>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "decodeObjectForKey:", managed = "Other")]
+    pub unsafe fn decodeObjectForKey(&self, key: &NSString) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(decodeBoolForKey:)]
-        pub unsafe fn decodeBoolForKey(&self, key: &NSString) -> bool;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "decodeTopLevelObjectForKey:error:", managed = "Other", throws)]
+    pub unsafe fn decodeTopLevelObjectForKey_error(
+        &self,
+        key: &NSString,
+    ) -> Result<Id<Object>, Id<NSError>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(decodeIntForKey:)]
-        pub unsafe fn decodeIntForKey(&self, key: &NSString) -> c_int;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "decodeBoolForKey:")]
+    pub unsafe fn decodeBoolForKey(&self, key: &NSString) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(decodeInt32ForKey:)]
-        pub unsafe fn decodeInt32ForKey(&self, key: &NSString) -> i32;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "decodeIntForKey:")]
+    pub unsafe fn decodeIntForKey(&self, key: &NSString) -> c_int;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(decodeInt64ForKey:)]
-        pub unsafe fn decodeInt64ForKey(&self, key: &NSString) -> i64;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "decodeInt32ForKey:")]
+    pub unsafe fn decodeInt32ForKey(&self, key: &NSString) -> i32;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(decodeFloatForKey:)]
-        pub unsafe fn decodeFloatForKey(&self, key: &NSString) -> c_float;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "decodeInt64ForKey:")]
+    pub unsafe fn decodeInt64ForKey(&self, key: &NSString) -> i64;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(decodeDoubleForKey:)]
-        pub unsafe fn decodeDoubleForKey(&self, key: &NSString) -> c_double;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "decodeFloatForKey:")]
+    pub unsafe fn decodeFloatForKey(&self, key: &NSString) -> c_float;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(decodeBytesForKey:returnedLength:)]
-        pub unsafe fn decodeBytesForKey_returnedLength(
-            &self,
-            key: &NSString,
-            lengthp: *mut NSUInteger,
-        ) -> *mut u8;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "decodeDoubleForKey:")]
+    pub unsafe fn decodeDoubleForKey(&self, key: &NSString) -> c_double;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(encodeInteger:forKey:)]
-        pub unsafe fn encodeInteger_forKey(&self, value: NSInteger, key: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "decodeBytesForKey:returnedLength:")]
+    pub unsafe fn decodeBytesForKey_returnedLength(
+        &self,
+        key: &NSString,
+        lengthp: *mut NSUInteger,
+    ) -> *mut u8;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(decodeIntegerForKey:)]
-        pub unsafe fn decodeIntegerForKey(&self, key: &NSString) -> NSInteger;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "encodeInteger:forKey:")]
+    pub unsafe fn encodeInteger_forKey(&self, value: NSInteger, key: &NSString);
 
-        #[method(requiresSecureCoding)]
-        pub unsafe fn requiresSecureCoding(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "decodeIntegerForKey:")]
+    pub unsafe fn decodeIntegerForKey(&self, key: &NSString) -> NSInteger;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other decodeObjectOfClass:forKey:)]
-        pub unsafe fn decodeObjectOfClass_forKey(
-            &self,
-            a_class: &Class,
-            key: &NSString,
-        ) -> Option<Id<Object>>;
+    #[objc2::method(sel = "requiresSecureCoding")]
+    pub unsafe fn requiresSecureCoding(&self) -> bool;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other decodeTopLevelObjectOfClass:forKey:error:_)]
-        pub unsafe fn decodeTopLevelObjectOfClass_forKey_error(
-            &self,
-            a_class: &Class,
-            key: &NSString,
-        ) -> Result<Id<Object>, Id<NSError>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "decodeObjectOfClass:forKey:", managed = "Other")]
+    pub unsafe fn decodeObjectOfClass_forKey(
+        &self,
+        a_class: &Class,
+        key: &NSString,
+    ) -> Option<Id<Object>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other decodeArrayOfObjectsOfClass:forKey:)]
-        pub unsafe fn decodeArrayOfObjectsOfClass_forKey(
-            &self,
-            cls: &Class,
-            key: &NSString,
-        ) -> Option<Id<NSArray>>;
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "decodeTopLevelObjectOfClass:forKey:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn decodeTopLevelObjectOfClass_forKey_error(
+        &self,
+        a_class: &Class,
+        key: &NSString,
+    ) -> Result<Id<Object>, Id<NSError>>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other decodeDictionaryWithKeysOfClass:objectsOfClass:forKey:)]
-        pub unsafe fn decodeDictionaryWithKeysOfClass_objectsOfClass_forKey(
-            &self,
-            key_cls: &Class,
-            object_cls: &Class,
-            key: &NSString,
-        ) -> Option<Id<NSDictionary>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "decodeArrayOfObjectsOfClass:forKey:", managed = "Other")]
+    pub unsafe fn decodeArrayOfObjectsOfClass_forKey(
+        &self,
+        cls: &Class,
+        key: &NSString,
+    ) -> Option<Id<NSArray>>;
 
-        #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other decodeObjectOfClasses:forKey:)]
-        pub unsafe fn decodeObjectOfClasses_forKey(
-            &self,
-            classes: Option<&NSSet<TodoClass>>,
-            key: &NSString,
-        ) -> Option<Id<Object>>;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "decodeDictionaryWithKeysOfClass:objectsOfClass:forKey:",
+        managed = "Other"
+    )]
+    pub unsafe fn decodeDictionaryWithKeysOfClass_objectsOfClass_forKey(
+        &self,
+        key_cls: &Class,
+        object_cls: &Class,
+        key: &NSString,
+    ) -> Option<Id<NSDictionary>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSSet",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other decodeTopLevelObjectOfClasses:forKey:error:_)]
-        pub unsafe fn decodeTopLevelObjectOfClasses_forKey_error(
-            &self,
-            classes: Option<&NSSet<TodoClass>>,
-            key: &NSString,
-        ) -> Result<Id<Object>, Id<NSError>>;
+    #[cfg(all(feature = "Foundation_NSSet", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "decodeObjectOfClasses:forKey:", managed = "Other")]
+    pub unsafe fn decodeObjectOfClasses_forKey(
+        &self,
+        classes: Option<&NSSet<TodoClass>>,
+        key: &NSString,
+    ) -> Option<Id<Object>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSSet",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other decodeArrayOfObjectsOfClasses:forKey:)]
-        pub unsafe fn decodeArrayOfObjectsOfClasses_forKey(
-            &self,
-            classes: &NSSet<TodoClass>,
-            key: &NSString,
-        ) -> Option<Id<NSArray>>;
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSSet",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "decodeTopLevelObjectOfClasses:forKey:error:",
+        managed = "Other",
+        throws
+    )]
+    pub unsafe fn decodeTopLevelObjectOfClasses_forKey_error(
+        &self,
+        classes: Option<&NSSet<TodoClass>>,
+        key: &NSString,
+    ) -> Result<Id<Object>, Id<NSError>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSDictionary",
-            feature = "Foundation_NSSet",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other decodeDictionaryWithKeysOfClasses:objectsOfClasses:forKey:)]
-        pub unsafe fn decodeDictionaryWithKeysOfClasses_objectsOfClasses_forKey(
-            &self,
-            key_classes: &NSSet<TodoClass>,
-            object_classes: &NSSet<TodoClass>,
-            key: &NSString,
-        ) -> Option<Id<NSDictionary>>;
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSSet",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "decodeArrayOfObjectsOfClasses:forKey:", managed = "Other")]
+    pub unsafe fn decodeArrayOfObjectsOfClasses_forKey(
+        &self,
+        classes: &NSSet<TodoClass>,
+        key: &NSString,
+    ) -> Option<Id<NSArray>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other decodePropertyListForKey:)]
-        pub unsafe fn decodePropertyListForKey(&self, key: &NSString) -> Option<Id<Object>>;
+    #[cfg(all(
+        feature = "Foundation_NSDictionary",
+        feature = "Foundation_NSSet",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "decodeDictionaryWithKeysOfClasses:objectsOfClasses:forKey:",
+        managed = "Other"
+    )]
+    pub unsafe fn decodeDictionaryWithKeysOfClasses_objectsOfClasses_forKey(
+        &self,
+        key_classes: &NSSet<TodoClass>,
+        object_classes: &NSSet<TodoClass>,
+        key: &NSString,
+    ) -> Option<Id<NSDictionary>>;
 
-        #[cfg(feature = "Foundation_NSSet")]
-        #[method_id(@__retain_semantics Other allowedClasses)]
-        pub unsafe fn allowedClasses(&self) -> Option<Id<NSSet<TodoClass>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "decodePropertyListForKey:", managed = "Other")]
+    pub unsafe fn decodePropertyListForKey(&self, key: &NSString) -> Option<Id<Object>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(failWithError:)]
-        pub unsafe fn failWithError(&self, error: &NSError);
+    #[cfg(feature = "Foundation_NSSet")]
+    #[objc2::method(sel = "allowedClasses", managed = "Other")]
+    pub unsafe fn allowedClasses(&self) -> Option<Id<NSSet<TodoClass>>>;
 
-        #[method(decodingFailurePolicy)]
-        pub unsafe fn decodingFailurePolicy(&self) -> NSDecodingFailurePolicy;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "failWithError:")]
+    pub unsafe fn failWithError(&self, error: &NSError);
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method_id(@__retain_semantics Other error)]
-        pub unsafe fn error(&self) -> Option<Id<NSError>>;
-    }
-);
+    #[objc2::method(sel = "decodingFailurePolicy")]
+    pub unsafe fn decodingFailurePolicy(&self) -> NSDecodingFailurePolicy;
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "error", managed = "Other")]
+    pub unsafe fn error(&self) -> Option<Id<NSError>>;
+}
 
 extern_fn!(
     #[cfg(feature = "Foundation_NSCoder")]
@@ -334,30 +342,30 @@ extern_fn!(
     pub unsafe fn NXReadNSObjectFromCoder(decoder: &NSCoder) -> *mut NSObject;
 );
 
-extern_methods!(
-    /// NSTypedstreamCompatibility
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCoder")]
-    unsafe impl NSCoder {
-        #[deprecated = "Not supported"]
-        #[method(encodeNXObject:)]
-        pub unsafe fn encodeNXObject(&self, object: &Object);
+    pub type NSCoder;
 
-        #[deprecated = "Not supported"]
-        #[method_id(@__retain_semantics Other decodeNXObject)]
-        pub unsafe fn decodeNXObject(&self) -> Option<Id<Object>>;
-    }
-);
+    #[deprecated = "Not supported"]
+    #[objc2::method(sel = "encodeNXObject:")]
+    pub unsafe fn encodeNXObject(&self, object: &Object);
 
-extern_methods!(
-    /// NSDeprecated
+    #[deprecated = "Not supported"]
+    #[objc2::method(sel = "decodeNXObject", managed = "Other")]
+    pub unsafe fn decodeNXObject(&self) -> Option<Id<Object>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSCoder")]
-    unsafe impl NSCoder {
-        #[deprecated]
-        #[method(decodeValueOfObjCType:at:)]
-        pub unsafe fn decodeValueOfObjCType_at(
-            &self,
-            r#type: NonNull<c_char>,
-            data: NonNull<c_void>,
-        );
-    }
-);
+    pub type NSCoder;
+
+    #[deprecated]
+    #[objc2::method(sel = "decodeValueOfObjCType:at:")]
+    pub unsafe fn decodeValueOfObjCType_at(&self, r#type: NonNull<c_char>, data: NonNull<c_void>);
+}

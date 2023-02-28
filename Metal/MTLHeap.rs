@@ -4,177 +4,179 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MTLHeapType {
-        MTLHeapTypeAutomatic = 0,
-        MTLHeapTypePlacement = 1,
-        MTLHeapTypeSparse = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MTLHeapType {
+    MTLHeapTypeAutomatic = 0,
+    MTLHeapTypePlacement = 1,
+    MTLHeapTypeSparse = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLHeapDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLHeapDescriptor")]
-    pub struct MTLHeapDescriptor;
-
-    #[cfg(feature = "Metal_MTLHeapDescriptor")]
-    unsafe impl ClassType for MTLHeapDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLHeapDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLHeapDescriptor")]
 unsafe impl NSObjectProtocol for MTLHeapDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLHeapDescriptor")]
-    unsafe impl MTLHeapDescriptor {
-        #[method(size)]
-        pub fn size(&self) -> NSUInteger;
+    pub type MTLHeapDescriptor;
 
-        #[method(setSize:)]
-        pub fn setSize(&self, size: NSUInteger);
+    #[objc2::method(sel = "size")]
+    pub fn size(&self) -> NSUInteger;
 
-        #[method(storageMode)]
-        pub fn storageMode(&self) -> MTLStorageMode;
+    #[objc2::method(sel = "setSize:")]
+    pub fn setSize(&self, size: NSUInteger);
 
-        #[method(setStorageMode:)]
-        pub fn setStorageMode(&self, storage_mode: MTLStorageMode);
+    #[objc2::method(sel = "storageMode")]
+    pub fn storageMode(&self) -> MTLStorageMode;
 
-        #[method(cpuCacheMode)]
-        pub fn cpuCacheMode(&self) -> MTLCPUCacheMode;
+    #[objc2::method(sel = "setStorageMode:")]
+    pub fn setStorageMode(&self, storage_mode: MTLStorageMode);
 
-        #[method(setCpuCacheMode:)]
-        pub fn setCpuCacheMode(&self, cpu_cache_mode: MTLCPUCacheMode);
+    #[objc2::method(sel = "cpuCacheMode")]
+    pub fn cpuCacheMode(&self) -> MTLCPUCacheMode;
 
-        #[method(sparsePageSize)]
-        pub unsafe fn sparsePageSize(&self) -> MTLSparsePageSize;
+    #[objc2::method(sel = "setCpuCacheMode:")]
+    pub fn setCpuCacheMode(&self, cpu_cache_mode: MTLCPUCacheMode);
 
-        #[method(setSparsePageSize:)]
-        pub unsafe fn setSparsePageSize(&self, sparse_page_size: MTLSparsePageSize);
+    #[objc2::method(sel = "sparsePageSize")]
+    pub unsafe fn sparsePageSize(&self) -> MTLSparsePageSize;
 
-        #[method(hazardTrackingMode)]
-        pub fn hazardTrackingMode(&self) -> MTLHazardTrackingMode;
+    #[objc2::method(sel = "setSparsePageSize:")]
+    pub unsafe fn setSparsePageSize(&self, sparse_page_size: MTLSparsePageSize);
 
-        #[method(setHazardTrackingMode:)]
-        pub fn setHazardTrackingMode(&self, hazard_tracking_mode: MTLHazardTrackingMode);
+    #[objc2::method(sel = "hazardTrackingMode")]
+    pub fn hazardTrackingMode(&self) -> MTLHazardTrackingMode;
 
-        #[method(resourceOptions)]
-        pub fn resourceOptions(&self) -> MTLResourceOptions;
+    #[objc2::method(sel = "setHazardTrackingMode:")]
+    pub fn setHazardTrackingMode(&self, hazard_tracking_mode: MTLHazardTrackingMode);
 
-        #[method(setResourceOptions:)]
-        pub fn setResourceOptions(&self, resource_options: MTLResourceOptions);
+    #[objc2::method(sel = "resourceOptions")]
+    pub fn resourceOptions(&self) -> MTLResourceOptions;
 
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> MTLHeapType;
+    #[objc2::method(sel = "setResourceOptions:")]
+    pub fn setResourceOptions(&self, resource_options: MTLResourceOptions);
 
-        #[method(setType:)]
-        pub fn setType(&self, r#type: MTLHeapType);
-    }
-);
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> MTLHeapType;
 
-extern_protocol!(
-    pub unsafe trait MTLHeap: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        fn label(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setType:")]
+    pub fn setType(&self, r#type: MTLHeapType);
+}
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        fn setLabel(&self, label: Option<&NSString>);
+#[objc2::protocol]
+pub unsafe trait MTLHeap: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    fn label(&self) -> Option<Id<NSString>>;
 
-        #[method_id(@__retain_semantics Other device)]
-        fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    fn setLabel(&self, label: Option<&NSString>);
 
-        #[method(storageMode)]
-        fn storageMode(&self) -> MTLStorageMode;
+    #[objc2::method(sel = "device", managed = "Other")]
+    fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
 
-        #[method(cpuCacheMode)]
-        fn cpuCacheMode(&self) -> MTLCPUCacheMode;
+    #[objc2::method(sel = "storageMode")]
+    fn storageMode(&self) -> MTLStorageMode;
 
-        #[method(hazardTrackingMode)]
-        fn hazardTrackingMode(&self) -> MTLHazardTrackingMode;
+    #[objc2::method(sel = "cpuCacheMode")]
+    fn cpuCacheMode(&self) -> MTLCPUCacheMode;
 
-        #[method(resourceOptions)]
-        fn resourceOptions(&self) -> MTLResourceOptions;
+    #[objc2::method(sel = "hazardTrackingMode")]
+    fn hazardTrackingMode(&self) -> MTLHazardTrackingMode;
 
-        #[method(size)]
-        fn size(&self) -> NSUInteger;
+    #[objc2::method(sel = "resourceOptions")]
+    fn resourceOptions(&self) -> MTLResourceOptions;
 
-        #[method(usedSize)]
-        fn usedSize(&self) -> NSUInteger;
+    #[objc2::method(sel = "size")]
+    fn size(&self) -> NSUInteger;
 
-        #[method(currentAllocatedSize)]
-        fn currentAllocatedSize(&self) -> NSUInteger;
+    #[objc2::method(sel = "usedSize")]
+    fn usedSize(&self) -> NSUInteger;
 
-        #[method(maxAvailableSizeWithAlignment:)]
-        fn maxAvailableSizeWithAlignment(&self, alignment: NSUInteger) -> NSUInteger;
+    #[objc2::method(sel = "currentAllocatedSize")]
+    fn currentAllocatedSize(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics New newBufferWithLength:options:)]
-        fn newBufferWithLength_options(
-            &self,
-            length: NSUInteger,
-            options: MTLResourceOptions,
-        ) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+    #[objc2::method(sel = "maxAvailableSizeWithAlignment:")]
+    fn maxAvailableSizeWithAlignment(&self, alignment: NSUInteger) -> NSUInteger;
 
-        #[cfg(feature = "Metal_MTLTextureDescriptor")]
-        #[method_id(@__retain_semantics New newTextureWithDescriptor:)]
-        fn newTextureWithDescriptor(
-            &self,
-            desc: &MTLTextureDescriptor,
-        ) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
+    #[objc2::method(sel = "newBufferWithLength:options:", managed = "New")]
+    fn newBufferWithLength_options(
+        &self,
+        length: NSUInteger,
+        options: MTLResourceOptions,
+    ) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
 
-        #[method(setPurgeableState:)]
-        fn setPurgeableState(&self, state: MTLPurgeableState) -> MTLPurgeableState;
+    #[cfg(feature = "Metal_MTLTextureDescriptor")]
+    #[objc2::method(sel = "newTextureWithDescriptor:", managed = "New")]
+    fn newTextureWithDescriptor(
+        &self,
+        desc: &MTLTextureDescriptor,
+    ) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
 
-        #[method(type)]
-        unsafe fn r#type(&self) -> MTLHeapType;
+    #[objc2::method(sel = "setPurgeableState:")]
+    fn setPurgeableState(&self, state: MTLPurgeableState) -> MTLPurgeableState;
 
-        #[method_id(@__retain_semantics New newBufferWithLength:options:offset:)]
-        unsafe fn newBufferWithLength_options_offset(
-            &self,
-            length: NSUInteger,
-            options: MTLResourceOptions,
-            offset: NSUInteger,
-        ) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
+    #[objc2::method(sel = "type")]
+    unsafe fn r#type(&self) -> MTLHeapType;
 
-        #[cfg(feature = "Metal_MTLTextureDescriptor")]
-        #[method_id(@__retain_semantics New newTextureWithDescriptor:offset:)]
-        unsafe fn newTextureWithDescriptor_offset(
-            &self,
-            descriptor: &MTLTextureDescriptor,
-            offset: NSUInteger,
-        ) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
+    #[objc2::method(sel = "newBufferWithLength:options:offset:", managed = "New")]
+    unsafe fn newBufferWithLength_options_offset(
+        &self,
+        length: NSUInteger,
+        options: MTLResourceOptions,
+        offset: NSUInteger,
+    ) -> Option<Id<ProtocolObject<dyn MTLBuffer>>>;
 
-        #[method_id(@__retain_semantics New newAccelerationStructureWithSize:)]
-        unsafe fn newAccelerationStructureWithSize(
-            &self,
-            size: NSUInteger,
-        ) -> Option<Id<ProtocolObject<dyn MTLAccelerationStructure>>>;
+    #[cfg(feature = "Metal_MTLTextureDescriptor")]
+    #[objc2::method(sel = "newTextureWithDescriptor:offset:", managed = "New")]
+    unsafe fn newTextureWithDescriptor_offset(
+        &self,
+        descriptor: &MTLTextureDescriptor,
+        offset: NSUInteger,
+    ) -> Option<Id<ProtocolObject<dyn MTLTexture>>>;
 
-        #[cfg(feature = "Metal_MTLAccelerationStructureDescriptor")]
-        #[method_id(@__retain_semantics New newAccelerationStructureWithDescriptor:)]
-        unsafe fn newAccelerationStructureWithDescriptor(
-            &self,
-            descriptor: &MTLAccelerationStructureDescriptor,
-        ) -> Option<Id<ProtocolObject<dyn MTLAccelerationStructure>>>;
+    #[objc2::method(sel = "newAccelerationStructureWithSize:", managed = "New")]
+    unsafe fn newAccelerationStructureWithSize(
+        &self,
+        size: NSUInteger,
+    ) -> Option<Id<ProtocolObject<dyn MTLAccelerationStructure>>>;
 
-        #[method_id(@__retain_semantics New newAccelerationStructureWithSize:offset:)]
-        unsafe fn newAccelerationStructureWithSize_offset(
-            &self,
-            size: NSUInteger,
-            offset: NSUInteger,
-        ) -> Option<Id<ProtocolObject<dyn MTLAccelerationStructure>>>;
+    #[cfg(feature = "Metal_MTLAccelerationStructureDescriptor")]
+    #[objc2::method(sel = "newAccelerationStructureWithDescriptor:", managed = "New")]
+    unsafe fn newAccelerationStructureWithDescriptor(
+        &self,
+        descriptor: &MTLAccelerationStructureDescriptor,
+    ) -> Option<Id<ProtocolObject<dyn MTLAccelerationStructure>>>;
 
-        #[cfg(feature = "Metal_MTLAccelerationStructureDescriptor")]
-        #[method_id(@__retain_semantics New newAccelerationStructureWithDescriptor:offset:)]
-        unsafe fn newAccelerationStructureWithDescriptor_offset(
-            &self,
-            descriptor: &MTLAccelerationStructureDescriptor,
-            offset: NSUInteger,
-        ) -> Option<Id<ProtocolObject<dyn MTLAccelerationStructure>>>;
-    }
+    #[objc2::method(sel = "newAccelerationStructureWithSize:offset:", managed = "New")]
+    unsafe fn newAccelerationStructureWithSize_offset(
+        &self,
+        size: NSUInteger,
+        offset: NSUInteger,
+    ) -> Option<Id<ProtocolObject<dyn MTLAccelerationStructure>>>;
 
-    unsafe impl ProtocolType for dyn MTLHeap {}
-);
+    #[cfg(feature = "Metal_MTLAccelerationStructureDescriptor")]
+    #[objc2::method(
+        sel = "newAccelerationStructureWithDescriptor:offset:",
+        managed = "New"
+    )]
+    unsafe fn newAccelerationStructureWithDescriptor_offset(
+        &self,
+        descriptor: &MTLAccelerationStructureDescriptor,
+        offset: NSUInteger,
+    ) -> Option<Id<ProtocolObject<dyn MTLAccelerationStructure>>>;
+}

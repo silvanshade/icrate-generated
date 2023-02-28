@@ -3,54 +3,57 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSClassDescription")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSClassDescription")]
-    pub struct NSClassDescription;
-
-    #[cfg(feature = "Foundation_NSClassDescription")]
-    unsafe impl ClassType for NSClassDescription {
-        type Super = NSObject;
-    }
-);
+    pub type NSClassDescription;
+}
 
 #[cfg(feature = "Foundation_NSClassDescription")]
 unsafe impl NSObjectProtocol for NSClassDescription {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSClassDescription")]
-    unsafe impl NSClassDescription {
-        #[method(registerClassDescription:forClass:)]
-        pub unsafe fn registerClassDescription_forClass(
-            description: &NSClassDescription,
-            a_class: &Class,
-        );
+    pub type NSClassDescription;
 
-        #[method(invalidateClassDescriptionCache)]
-        pub unsafe fn invalidateClassDescriptionCache();
+    #[objc2::method(sel = "registerClassDescription:forClass:")]
+    pub unsafe fn registerClassDescription_forClass(
+        description: &NSClassDescription,
+        a_class: &Class,
+    );
 
-        #[method_id(@__retain_semantics Other classDescriptionForClass:)]
-        pub unsafe fn classDescriptionForClass(a_class: &Class) -> Option<Id<NSClassDescription>>;
+    #[objc2::method(sel = "invalidateClassDescriptionCache")]
+    pub unsafe fn invalidateClassDescriptionCache();
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other attributeKeys)]
-        pub unsafe fn attributeKeys(&self) -> Id<NSArray<NSString>>;
+    #[objc2::method(sel = "classDescriptionForClass:", managed = "Other")]
+    pub unsafe fn classDescriptionForClass(a_class: &Class) -> Option<Id<NSClassDescription>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other toOneRelationshipKeys)]
-        pub unsafe fn toOneRelationshipKeys(&self) -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "attributeKeys", managed = "Other")]
+    pub unsafe fn attributeKeys(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other toManyRelationshipKeys)]
-        pub unsafe fn toManyRelationshipKeys(&self) -> Id<NSArray<NSString>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "toOneRelationshipKeys", managed = "Other")]
+    pub unsafe fn toOneRelationshipKeys(&self) -> Id<NSArray<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other inverseForRelationshipKey:)]
-        pub unsafe fn inverseForRelationshipKey(
-            &self,
-            relationship_key: &NSString,
-        ) -> Option<Id<NSString>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "toManyRelationshipKeys", managed = "Other")]
+    pub unsafe fn toManyRelationshipKeys(&self) -> Id<NSArray<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "inverseForRelationshipKey:", managed = "Other")]
+    pub unsafe fn inverseForRelationshipKey(
+        &self,
+        relationship_key: &NSString,
+    ) -> Option<Id<NSString>>;
+}
 
 extern_static!(NSClassDescriptionNeededForClassNotification: &'static NSNotificationName);

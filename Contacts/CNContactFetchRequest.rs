@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::Contacts::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CNFetchRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Contacts_CNContactFetchRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Contacts_CNContactFetchRequest")]
-    pub struct CNContactFetchRequest;
-
-    #[cfg(feature = "Contacts_CNContactFetchRequest")]
-    unsafe impl ClassType for CNContactFetchRequest {
-        #[inherits(NSObject)]
-        type Super = CNFetchRequest;
-    }
-);
+    pub type CNContactFetchRequest;
+}
 
 #[cfg(feature = "Contacts_CNContactFetchRequest")]
 unsafe impl NSCoding for CNContactFetchRequest {}
@@ -25,57 +25,60 @@ unsafe impl NSObjectProtocol for CNContactFetchRequest {}
 #[cfg(feature = "Contacts_CNContactFetchRequest")]
 unsafe impl NSSecureCoding for CNContactFetchRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Contacts_CNContactFetchRequest")]
-    unsafe impl CNContactFetchRequest {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CNContactFetchRequest;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Init initWithKeysToFetch:)]
-        pub unsafe fn initWithKeysToFetch(
-            this: Option<Allocated<Self>>,
-            keys_to_fetch: &NSArray<ProtocolObject<dyn CNKeyDescriptor>>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicate)]
-        pub unsafe fn predicate(&self) -> Option<Id<NSPredicate>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "initWithKeysToFetch:", managed = "Init")]
+    pub unsafe fn initWithKeysToFetch(
+        this: Option<Allocated<Self>>,
+        keys_to_fetch: &NSArray<ProtocolObject<dyn CNKeyDescriptor>>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method(setPredicate:)]
-        pub unsafe fn setPredicate(&self, predicate: Option<&NSPredicate>);
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "predicate", managed = "Other")]
+    pub unsafe fn predicate(&self) -> Option<Id<NSPredicate>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other keysToFetch)]
-        pub unsafe fn keysToFetch(&self) -> Id<NSArray<ProtocolObject<dyn CNKeyDescriptor>>>;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "setPredicate:")]
+    pub unsafe fn setPredicate(&self, predicate: Option<&NSPredicate>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setKeysToFetch:)]
-        pub unsafe fn setKeysToFetch(
-            &self,
-            keys_to_fetch: &NSArray<ProtocolObject<dyn CNKeyDescriptor>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "keysToFetch", managed = "Other")]
+    pub unsafe fn keysToFetch(&self) -> Id<NSArray<ProtocolObject<dyn CNKeyDescriptor>>>;
 
-        #[method(mutableObjects)]
-        pub unsafe fn mutableObjects(&self) -> bool;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setKeysToFetch:")]
+    pub unsafe fn setKeysToFetch(
+        &self,
+        keys_to_fetch: &NSArray<ProtocolObject<dyn CNKeyDescriptor>>,
+    );
 
-        #[method(setMutableObjects:)]
-        pub unsafe fn setMutableObjects(&self, mutable_objects: bool);
+    #[objc2::method(sel = "mutableObjects")]
+    pub unsafe fn mutableObjects(&self) -> bool;
 
-        #[method(unifyResults)]
-        pub unsafe fn unifyResults(&self) -> bool;
+    #[objc2::method(sel = "setMutableObjects:")]
+    pub unsafe fn setMutableObjects(&self, mutable_objects: bool);
 
-        #[method(setUnifyResults:)]
-        pub unsafe fn setUnifyResults(&self, unify_results: bool);
+    #[objc2::method(sel = "unifyResults")]
+    pub unsafe fn unifyResults(&self) -> bool;
 
-        #[method(sortOrder)]
-        pub unsafe fn sortOrder(&self) -> CNContactSortOrder;
+    #[objc2::method(sel = "setUnifyResults:")]
+    pub unsafe fn setUnifyResults(&self, unify_results: bool);
 
-        #[method(setSortOrder:)]
-        pub unsafe fn setSortOrder(&self, sort_order: CNContactSortOrder);
-    }
-);
+    #[objc2::method(sel = "sortOrder")]
+    pub unsafe fn sortOrder(&self) -> CNContactSortOrder;
+
+    #[objc2::method(sel = "setSortOrder:")]
+    pub unsafe fn setSortOrder(&self, sort_order: CNContactSortOrder);
+}

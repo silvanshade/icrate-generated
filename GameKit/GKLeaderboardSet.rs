@@ -5,16 +5,16 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "GameKit_GKLeaderboardSet")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "GameKit_GKLeaderboardSet")]
-    pub struct GKLeaderboardSet;
-
-    #[cfg(feature = "GameKit_GKLeaderboardSet")]
-    unsafe impl ClassType for GKLeaderboardSet {
-        type Super = NSObject;
-    }
-);
+    pub type GKLeaderboardSet;
+}
 
 #[cfg(feature = "GameKit_GKLeaderboardSet")]
 unsafe impl NSCoding for GKLeaderboardSet {}
@@ -25,71 +25,78 @@ unsafe impl NSObjectProtocol for GKLeaderboardSet {}
 #[cfg(feature = "GameKit_GKLeaderboardSet")]
 unsafe impl NSSecureCoding for GKLeaderboardSet {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKLeaderboardSet")]
-    unsafe impl GKLeaderboardSet {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    pub type GKLeaderboardSet;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other groupIdentifier)]
-        pub unsafe fn groupIdentifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "groupIdentifier", managed = "Other")]
+    pub unsafe fn groupIdentifier(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setIdentifier:)]
-        pub unsafe fn setIdentifier(&self, identifier: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Option<Id<NSString>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
-        #[method(loadLeaderboardSetsWithCompletionHandler:)]
-        pub unsafe fn loadLeaderboardSetsWithCompletionHandler(
-            completion_handler: Option<&Block<(*mut NSArray<GKLeaderboardSet>, *mut NSError), ()>>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setIdentifier:")]
+    pub unsafe fn setIdentifier(&self, identifier: Option<&NSString>);
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "GameKit_GKLeaderboard"
-        ))]
-        #[method(loadLeaderboardsWithHandler:)]
-        pub unsafe fn loadLeaderboardsWithHandler(
-            &self,
-            handler: &Block<(*mut NSArray<GKLeaderboard>, *mut NSError), ()>,
-        );
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "loadLeaderboardSetsWithCompletionHandler:")]
+    pub unsafe fn loadLeaderboardSetsWithCompletionHandler(
+        completion_handler: Option<&Block<(*mut NSArray<GKLeaderboardSet>, *mut NSError), ()>>,
+    );
 
-extern_methods!(
-    /// Deprecated
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "GameKit_GKLeaderboard"
+    ))]
+    #[objc2::method(sel = "loadLeaderboardsWithHandler:")]
+    pub unsafe fn loadLeaderboardsWithHandler(
+        &self,
+        handler: &Block<(*mut NSArray<GKLeaderboard>, *mut NSError), ()>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKLeaderboardSet")]
-    unsafe impl GKLeaderboardSet {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSError",
-            feature = "GameKit_GKLeaderboard"
-        ))]
-        #[deprecated = "Use loadLeaderboardsWithHandler: instead."]
-        #[method(loadLeaderboardsWithCompletionHandler:)]
-        pub unsafe fn loadLeaderboardsWithCompletionHandler(
-            &self,
-            completion_handler: Option<&Block<(*mut NSArray<GKLeaderboard>, *mut NSError), ()>>,
-        );
-    }
-);
+    pub type GKLeaderboardSet;
 
-extern_methods!(
-    /// UI
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSError",
+        feature = "GameKit_GKLeaderboard"
+    ))]
+    #[deprecated = "Use loadLeaderboardsWithHandler: instead."]
+    #[objc2::method(sel = "loadLeaderboardsWithCompletionHandler:")]
+    pub unsafe fn loadLeaderboardsWithCompletionHandler(
+        &self,
+        completion_handler: Option<&Block<(*mut NSArray<GKLeaderboard>, *mut NSError), ()>>,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "GameKit_GKLeaderboardSet")]
-    unsafe impl GKLeaderboardSet {
-        #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSError"))]
-        #[method(loadImageWithCompletionHandler:)]
-        pub unsafe fn loadImageWithCompletionHandler(
-            &self,
-            completion_handler: Option<&Block<(*mut NSImage, *mut NSError), ()>>,
-        );
-    }
-);
+    pub type GKLeaderboardSet;
+
+    #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "loadImageWithCompletionHandler:")]
+    pub unsafe fn loadImageWithCompletionHandler(
+        &self,
+        completion_handler: Option<&Block<(*mut NSImage, *mut NSError), ()>>,
+    );
+}

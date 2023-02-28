@@ -6,21 +6,24 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHChangeRequest")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHChangeRequest")]
-    pub struct PHChangeRequest;
-
-    #[cfg(feature = "PhotoKit_PHChangeRequest")]
-    unsafe impl ClassType for PHChangeRequest {
-        type Super = NSObject;
-    }
-);
+    pub type PHChangeRequest;
+}
 
 #[cfg(feature = "PhotoKit_PHChangeRequest")]
 unsafe impl NSObjectProtocol for PHChangeRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHChangeRequest")]
-    unsafe impl PHChangeRequest {}
-);
+    pub type PHChangeRequest;
+}

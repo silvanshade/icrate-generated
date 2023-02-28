@@ -4,8 +4,5 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait ASAuthorizationCredential: NSObjectProtocol + NSSecureCoding {}
-
-    unsafe impl ProtocolType for dyn ASAuthorizationCredential {}
-);
+#[objc2::protocol]
+pub unsafe trait ASAuthorizationCredential: NSObjectProtocol + NSSecureCoding {}

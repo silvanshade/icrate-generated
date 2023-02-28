@@ -5,18 +5,22 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMHTMLFrameSetElement")]
+#[objc2::interface(
+    unsafe super = DOMHTMLElement,
+    unsafe inherits = [
+        DOMElement,
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMHTMLFrameSetElement;
-
     #[cfg(feature = "WebKit_DOMHTMLFrameSetElement")]
-    unsafe impl ClassType for DOMHTMLFrameSetElement {
-        #[inherits(DOMElement, DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMHTMLElement;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMHTMLFrameSetElement;
+}
 
 #[cfg(feature = "WebKit_DOMHTMLFrameSetElement")]
 unsafe impl DOMEventTarget for DOMHTMLFrameSetElement {}
@@ -24,23 +28,27 @@ unsafe impl DOMEventTarget for DOMHTMLFrameSetElement {}
 #[cfg(feature = "WebKit_DOMHTMLFrameSetElement")]
 unsafe impl NSObjectProtocol for DOMHTMLFrameSetElement {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMHTMLFrameSetElement")]
-    unsafe impl DOMHTMLFrameSetElement {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other cols)]
-        pub unsafe fn cols(&self) -> Id<NSString>;
+    #[deprecated]
+    pub type DOMHTMLFrameSetElement;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCols:)]
-        pub unsafe fn setCols(&self, cols: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "cols", managed = "Other")]
+    pub unsafe fn cols(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other rows)]
-        pub unsafe fn rows(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCols:")]
+    pub unsafe fn setCols(&self, cols: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setRows:)]
-        pub unsafe fn setRows(&self, rows: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "rows", managed = "Other")]
+    pub unsafe fn rows(&self) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setRows:")]
+    pub unsafe fn setRows(&self, rows: Option<&NSString>);
+}

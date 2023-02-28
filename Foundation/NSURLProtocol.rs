@@ -3,198 +3,197 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSURLProtocolClient: NSObjectProtocol {
-        #[cfg(all(
-            feature = "Foundation_NSURLProtocol",
-            feature = "Foundation_NSURLRequest",
-            feature = "Foundation_NSURLResponse"
-        ))]
-        #[method(URLProtocol:wasRedirectedToRequest:redirectResponse:)]
-        unsafe fn URLProtocol_wasRedirectedToRequest_redirectResponse(
-            &self,
-            protocol: &NSURLProtocol,
-            request: &NSURLRequest,
-            redirect_response: &NSURLResponse,
-        );
+#[objc2::protocol]
+pub unsafe trait NSURLProtocolClient: NSObjectProtocol {
+    #[cfg(all(
+        feature = "Foundation_NSURLProtocol",
+        feature = "Foundation_NSURLRequest",
+        feature = "Foundation_NSURLResponse"
+    ))]
+    #[objc2::method(sel = "URLProtocol:wasRedirectedToRequest:redirectResponse:")]
+    unsafe fn URLProtocol_wasRedirectedToRequest_redirectResponse(
+        &self,
+        protocol: &NSURLProtocol,
+        request: &NSURLRequest,
+        redirect_response: &NSURLResponse,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSCachedURLResponse",
-            feature = "Foundation_NSURLProtocol"
-        ))]
-        #[method(URLProtocol:cachedResponseIsValid:)]
-        unsafe fn URLProtocol_cachedResponseIsValid(
-            &self,
-            protocol: &NSURLProtocol,
-            cached_response: &NSCachedURLResponse,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSCachedURLResponse",
+        feature = "Foundation_NSURLProtocol"
+    ))]
+    #[objc2::method(sel = "URLProtocol:cachedResponseIsValid:")]
+    unsafe fn URLProtocol_cachedResponseIsValid(
+        &self,
+        protocol: &NSURLProtocol,
+        cached_response: &NSCachedURLResponse,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSURLProtocol",
-            feature = "Foundation_NSURLResponse"
-        ))]
-        #[method(URLProtocol:didReceiveResponse:cacheStoragePolicy:)]
-        unsafe fn URLProtocol_didReceiveResponse_cacheStoragePolicy(
-            &self,
-            protocol: &NSURLProtocol,
-            response: &NSURLResponse,
-            policy: NSURLCacheStoragePolicy,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSURLProtocol",
+        feature = "Foundation_NSURLResponse"
+    ))]
+    #[objc2::method(sel = "URLProtocol:didReceiveResponse:cacheStoragePolicy:")]
+    unsafe fn URLProtocol_didReceiveResponse_cacheStoragePolicy(
+        &self,
+        protocol: &NSURLProtocol,
+        response: &NSURLResponse,
+        policy: NSURLCacheStoragePolicy,
+    );
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSURLProtocol"))]
-        #[method(URLProtocol:didLoadData:)]
-        unsafe fn URLProtocol_didLoadData(&self, protocol: &NSURLProtocol, data: &NSData);
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSURLProtocol"))]
+    #[objc2::method(sel = "URLProtocol:didLoadData:")]
+    unsafe fn URLProtocol_didLoadData(&self, protocol: &NSURLProtocol, data: &NSData);
 
-        #[cfg(feature = "Foundation_NSURLProtocol")]
-        #[method(URLProtocolDidFinishLoading:)]
-        unsafe fn URLProtocolDidFinishLoading(&self, protocol: &NSURLProtocol);
+    #[cfg(feature = "Foundation_NSURLProtocol")]
+    #[objc2::method(sel = "URLProtocolDidFinishLoading:")]
+    unsafe fn URLProtocolDidFinishLoading(&self, protocol: &NSURLProtocol);
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURLProtocol"))]
-        #[method(URLProtocol:didFailWithError:)]
-        unsafe fn URLProtocol_didFailWithError(&self, protocol: &NSURLProtocol, error: &NSError);
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURLProtocol"))]
+    #[objc2::method(sel = "URLProtocol:didFailWithError:")]
+    unsafe fn URLProtocol_didFailWithError(&self, protocol: &NSURLProtocol, error: &NSError);
 
-        #[cfg(all(
-            feature = "Foundation_NSURLAuthenticationChallenge",
-            feature = "Foundation_NSURLProtocol"
-        ))]
-        #[method(URLProtocol:didReceiveAuthenticationChallenge:)]
-        unsafe fn URLProtocol_didReceiveAuthenticationChallenge(
-            &self,
-            protocol: &NSURLProtocol,
-            challenge: &NSURLAuthenticationChallenge,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSURLAuthenticationChallenge",
+        feature = "Foundation_NSURLProtocol"
+    ))]
+    #[objc2::method(sel = "URLProtocol:didReceiveAuthenticationChallenge:")]
+    unsafe fn URLProtocol_didReceiveAuthenticationChallenge(
+        &self,
+        protocol: &NSURLProtocol,
+        challenge: &NSURLAuthenticationChallenge,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSURLAuthenticationChallenge",
-            feature = "Foundation_NSURLProtocol"
-        ))]
-        #[method(URLProtocol:didCancelAuthenticationChallenge:)]
-        unsafe fn URLProtocol_didCancelAuthenticationChallenge(
-            &self,
-            protocol: &NSURLProtocol,
-            challenge: &NSURLAuthenticationChallenge,
-        );
-    }
+    #[cfg(all(
+        feature = "Foundation_NSURLAuthenticationChallenge",
+        feature = "Foundation_NSURLProtocol"
+    ))]
+    #[objc2::method(sel = "URLProtocol:didCancelAuthenticationChallenge:")]
+    unsafe fn URLProtocol_didCancelAuthenticationChallenge(
+        &self,
+        protocol: &NSURLProtocol,
+        challenge: &NSURLAuthenticationChallenge,
+    );
+}
 
-    unsafe impl ProtocolType for dyn NSURLProtocolClient {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSURLProtocol")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSURLProtocol")]
-    pub struct NSURLProtocol;
-
-    #[cfg(feature = "Foundation_NSURLProtocol")]
-    unsafe impl ClassType for NSURLProtocol {
-        type Super = NSObject;
-    }
-);
+    pub type NSURLProtocol;
+}
 
 #[cfg(feature = "Foundation_NSURLProtocol")]
 unsafe impl NSObjectProtocol for NSURLProtocol {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLProtocol")]
-    unsafe impl NSURLProtocol {
-        #[cfg(all(
-            feature = "Foundation_NSCachedURLResponse",
-            feature = "Foundation_NSURLRequest"
-        ))]
-        #[method_id(@__retain_semantics Init initWithRequest:cachedResponse:client:)]
-        pub unsafe fn initWithRequest_cachedResponse_client(
-            this: Option<Allocated<Self>>,
-            request: &NSURLRequest,
-            cached_response: Option<&NSCachedURLResponse>,
-            client: Option<&ProtocolObject<dyn NSURLProtocolClient>>,
-        ) -> Id<Self>;
+    pub type NSURLProtocol;
 
-        #[method_id(@__retain_semantics Other client)]
-        pub unsafe fn client(&self) -> Option<Id<ProtocolObject<dyn NSURLProtocolClient>>>;
+    #[cfg(all(
+        feature = "Foundation_NSCachedURLResponse",
+        feature = "Foundation_NSURLRequest"
+    ))]
+    #[objc2::method(sel = "initWithRequest:cachedResponse:client:", managed = "Init")]
+    pub unsafe fn initWithRequest_cachedResponse_client(
+        this: Option<Allocated<Self>>,
+        request: &NSURLRequest,
+        cached_response: Option<&NSCachedURLResponse>,
+        client: Option<&ProtocolObject<dyn NSURLProtocolClient>>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[method_id(@__retain_semantics Other request)]
-        pub unsafe fn request(&self) -> Id<NSURLRequest>;
+    #[objc2::method(sel = "client", managed = "Other")]
+    pub unsafe fn client(&self) -> Option<Id<ProtocolObject<dyn NSURLProtocolClient>>>;
 
-        #[cfg(feature = "Foundation_NSCachedURLResponse")]
-        #[method_id(@__retain_semantics Other cachedResponse)]
-        pub unsafe fn cachedResponse(&self) -> Option<Id<NSCachedURLResponse>>;
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[objc2::method(sel = "request", managed = "Other")]
+    pub unsafe fn request(&self) -> Id<NSURLRequest>;
 
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[method(canInitWithRequest:)]
-        pub unsafe fn canInitWithRequest(request: &NSURLRequest) -> bool;
+    #[cfg(feature = "Foundation_NSCachedURLResponse")]
+    #[objc2::method(sel = "cachedResponse", managed = "Other")]
+    pub unsafe fn cachedResponse(&self) -> Option<Id<NSCachedURLResponse>>;
 
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[method_id(@__retain_semantics Other canonicalRequestForRequest:)]
-        pub unsafe fn canonicalRequestForRequest(request: &NSURLRequest) -> Id<NSURLRequest>;
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[objc2::method(sel = "canInitWithRequest:")]
+    pub unsafe fn canInitWithRequest(request: &NSURLRequest) -> bool;
 
-        #[cfg(feature = "Foundation_NSURLRequest")]
-        #[method(requestIsCacheEquivalent:toRequest:)]
-        pub unsafe fn requestIsCacheEquivalent_toRequest(
-            a: &NSURLRequest,
-            b: &NSURLRequest,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[objc2::method(sel = "canonicalRequestForRequest:", managed = "Other")]
+    pub unsafe fn canonicalRequestForRequest(request: &NSURLRequest) -> Id<NSURLRequest>;
 
-        #[method(startLoading)]
-        pub unsafe fn startLoading(&self);
+    #[cfg(feature = "Foundation_NSURLRequest")]
+    #[objc2::method(sel = "requestIsCacheEquivalent:toRequest:")]
+    pub unsafe fn requestIsCacheEquivalent_toRequest(a: &NSURLRequest, b: &NSURLRequest) -> bool;
 
-        #[method(stopLoading)]
-        pub unsafe fn stopLoading(&self);
+    #[objc2::method(sel = "startLoading")]
+    pub unsafe fn startLoading(&self);
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURLRequest"))]
-        #[method_id(@__retain_semantics Other propertyForKey:inRequest:)]
-        pub unsafe fn propertyForKey_inRequest(
-            key: &NSString,
-            request: &NSURLRequest,
-        ) -> Option<Id<Object>>;
+    #[objc2::method(sel = "stopLoading")]
+    pub unsafe fn stopLoading(&self);
 
-        #[cfg(all(
-            feature = "Foundation_NSMutableURLRequest",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(setProperty:forKey:inRequest:)]
-        pub unsafe fn setProperty_forKey_inRequest(
-            value: &Object,
-            key: &NSString,
-            request: &NSMutableURLRequest,
-        );
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSURLRequest"))]
+    #[objc2::method(sel = "propertyForKey:inRequest:", managed = "Other")]
+    pub unsafe fn propertyForKey_inRequest(
+        key: &NSString,
+        request: &NSURLRequest,
+    ) -> Option<Id<Object>>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMutableURLRequest",
-            feature = "Foundation_NSString"
-        ))]
-        #[method(removePropertyForKey:inRequest:)]
-        pub unsafe fn removePropertyForKey_inRequest(key: &NSString, request: &NSMutableURLRequest);
+    #[cfg(all(
+        feature = "Foundation_NSMutableURLRequest",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "setProperty:forKey:inRequest:")]
+    pub unsafe fn setProperty_forKey_inRequest(
+        value: &Object,
+        key: &NSString,
+        request: &NSMutableURLRequest,
+    );
 
-        #[method(registerClass:)]
-        pub unsafe fn registerClass(protocol_class: &Class) -> bool;
+    #[cfg(all(
+        feature = "Foundation_NSMutableURLRequest",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "removePropertyForKey:inRequest:")]
+    pub unsafe fn removePropertyForKey_inRequest(key: &NSString, request: &NSMutableURLRequest);
 
-        #[method(unregisterClass:)]
-        pub unsafe fn unregisterClass(protocol_class: &Class);
-    }
-);
+    #[objc2::method(sel = "registerClass:")]
+    pub unsafe fn registerClass(protocol_class: &Class) -> bool;
 
-extern_methods!(
-    /// NSURLSessionTaskAdditions
+    #[objc2::method(sel = "unregisterClass:")]
+    pub unsafe fn unregisterClass(protocol_class: &Class);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLProtocol")]
-    unsafe impl NSURLProtocol {
-        #[cfg(feature = "Foundation_NSURLSessionTask")]
-        #[method(canInitWithTask:)]
-        pub unsafe fn canInitWithTask(task: &NSURLSessionTask) -> bool;
+    pub type NSURLProtocol;
 
-        #[cfg(all(
-            feature = "Foundation_NSCachedURLResponse",
-            feature = "Foundation_NSURLSessionTask"
-        ))]
-        #[method_id(@__retain_semantics Init initWithTask:cachedResponse:client:)]
-        pub unsafe fn initWithTask_cachedResponse_client(
-            this: Option<Allocated<Self>>,
-            task: &NSURLSessionTask,
-            cached_response: Option<&NSCachedURLResponse>,
-            client: Option<&ProtocolObject<dyn NSURLProtocolClient>>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSURLSessionTask")]
+    #[objc2::method(sel = "canInitWithTask:")]
+    pub unsafe fn canInitWithTask(task: &NSURLSessionTask) -> bool;
 
-        #[cfg(feature = "Foundation_NSURLSessionTask")]
-        #[method_id(@__retain_semantics Other task)]
-        pub unsafe fn task(&self) -> Option<Id<NSURLSessionTask>>;
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSCachedURLResponse",
+        feature = "Foundation_NSURLSessionTask"
+    ))]
+    #[objc2::method(sel = "initWithTask:cachedResponse:client:", managed = "Init")]
+    pub unsafe fn initWithTask_cachedResponse_client(
+        this: Option<Allocated<Self>>,
+        task: &NSURLSessionTask,
+        cached_response: Option<&NSCachedURLResponse>,
+        client: Option<&ProtocolObject<dyn NSURLProtocolClient>>,
+    ) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSURLSessionTask")]
+    #[objc2::method(sel = "task", managed = "Other")]
+    pub unsafe fn task(&self) -> Option<Id<NSURLSessionTask>>;
+}

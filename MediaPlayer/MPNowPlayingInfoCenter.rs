@@ -5,70 +5,71 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MPNowPlayingInfoMediaType {
-        MPNowPlayingInfoMediaTypeNone = 0,
-        MPNowPlayingInfoMediaTypeAudio = 1,
-        MPNowPlayingInfoMediaTypeVideo = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MPNowPlayingInfoMediaType {
+    MPNowPlayingInfoMediaTypeNone = 0,
+    MPNowPlayingInfoMediaTypeAudio = 1,
+    MPNowPlayingInfoMediaTypeVideo = 2,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum MPNowPlayingPlaybackState {
-        MPNowPlayingPlaybackStateUnknown = 0,
-        MPNowPlayingPlaybackStatePlaying = 1,
-        MPNowPlayingPlaybackStatePaused = 2,
-        MPNowPlayingPlaybackStateStopped = 3,
-        MPNowPlayingPlaybackStateInterrupted = 4,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum MPNowPlayingPlaybackState {
+    MPNowPlayingPlaybackStateUnknown = 0,
+    MPNowPlayingPlaybackStatePlaying = 1,
+    MPNowPlayingPlaybackStatePaused = 2,
+    MPNowPlayingPlaybackStateStopped = 3,
+    MPNowPlayingPlaybackStateInterrupted = 4,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MediaPlayer_MPNowPlayingInfoCenter")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPNowPlayingInfoCenter")]
-    pub struct MPNowPlayingInfoCenter;
-
-    #[cfg(feature = "MediaPlayer_MPNowPlayingInfoCenter")]
-    unsafe impl ClassType for MPNowPlayingInfoCenter {
-        type Super = NSObject;
-    }
-);
+    pub type MPNowPlayingInfoCenter;
+}
 
 #[cfg(feature = "MediaPlayer_MPNowPlayingInfoCenter")]
 unsafe impl NSObjectProtocol for MPNowPlayingInfoCenter {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPNowPlayingInfoCenter")]
-    unsafe impl MPNowPlayingInfoCenter {
-        #[method_id(@__retain_semantics Other defaultCenter)]
-        pub unsafe fn defaultCenter() -> Id<MPNowPlayingInfoCenter>;
+    pub type MPNowPlayingInfoCenter;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "defaultCenter", managed = "Other")]
+    pub unsafe fn defaultCenter() -> Id<MPNowPlayingInfoCenter>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Other nowPlayingInfo)]
-        pub unsafe fn nowPlayingInfo(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
-        #[method(setNowPlayingInfo:)]
-        pub unsafe fn setNowPlayingInfo(
-            &self,
-            now_playing_info: Option<&NSDictionary<NSString, Object>>,
-        );
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "nowPlayingInfo", managed = "Other")]
+    pub unsafe fn nowPlayingInfo(&self) -> Option<Id<NSDictionary<NSString, Object>>>;
 
-        #[method(playbackState)]
-        pub unsafe fn playbackState(&self) -> MPNowPlayingPlaybackState;
+    #[cfg(all(feature = "Foundation_NSDictionary", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "setNowPlayingInfo:")]
+    pub unsafe fn setNowPlayingInfo(
+        &self,
+        now_playing_info: Option<&NSDictionary<NSString, Object>>,
+    );
 
-        #[method(setPlaybackState:)]
-        pub unsafe fn setPlaybackState(&self, playback_state: MPNowPlayingPlaybackState);
-    }
-);
+    #[objc2::method(sel = "playbackState")]
+    pub unsafe fn playbackState(&self) -> MPNowPlayingPlaybackState;
+
+    #[objc2::method(sel = "setPlaybackState:")]
+    pub unsafe fn setPlaybackState(&self, playback_state: MPNowPlayingPlaybackState);
+}
 
 extern_static!(MPNowPlayingInfoPropertyElapsedPlaybackTime: &'static NSString);
 

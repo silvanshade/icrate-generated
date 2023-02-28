@@ -5,36 +5,40 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_methods!(
-    /// NSOpenGLSurfaceResolution
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSView")]
-    unsafe impl NSView {
-        #[deprecated = "Use NSOpenGLView instead."]
-        #[method(wantsBestResolutionOpenGLSurface)]
-        pub unsafe fn wantsBestResolutionOpenGLSurface(&self) -> bool;
+    pub type NSView;
 
-        #[deprecated = "Use NSOpenGLView instead."]
-        #[method(setWantsBestResolutionOpenGLSurface:)]
-        pub unsafe fn setWantsBestResolutionOpenGLSurface(
-            &self,
-            wants_best_resolution_open_gl_surface: bool,
-        );
-    }
-);
+    #[deprecated = "Use NSOpenGLView instead."]
+    #[objc2::method(sel = "wantsBestResolutionOpenGLSurface")]
+    pub unsafe fn wantsBestResolutionOpenGLSurface(&self) -> bool;
 
-extern_methods!(
-    /// NSExtendedDynamicRange
+    #[deprecated = "Use NSOpenGLView instead."]
+    #[objc2::method(sel = "setWantsBestResolutionOpenGLSurface:")]
+    pub unsafe fn setWantsBestResolutionOpenGLSurface(
+        &self,
+        wants_best_resolution_open_gl_surface: bool,
+    );
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSView")]
-    unsafe impl NSView {
-        #[deprecated = "Use NSOpenGLView instead."]
-        #[method(wantsExtendedDynamicRangeOpenGLSurface)]
-        pub unsafe fn wantsExtendedDynamicRangeOpenGLSurface(&self) -> bool;
+    pub type NSView;
 
-        #[deprecated = "Use NSOpenGLView instead."]
-        #[method(setWantsExtendedDynamicRangeOpenGLSurface:)]
-        pub unsafe fn setWantsExtendedDynamicRangeOpenGLSurface(
-            &self,
-            wants_extended_dynamic_range_open_gl_surface: bool,
-        );
-    }
-);
+    #[deprecated = "Use NSOpenGLView instead."]
+    #[objc2::method(sel = "wantsExtendedDynamicRangeOpenGLSurface")]
+    pub unsafe fn wantsExtendedDynamicRangeOpenGLSurface(&self) -> bool;
+
+    #[deprecated = "Use NSOpenGLView instead."]
+    #[objc2::method(sel = "setWantsExtendedDynamicRangeOpenGLSurface:")]
+    pub unsafe fn setWantsExtendedDynamicRangeOpenGLSurface(
+        &self,
+        wants_extended_dynamic_range_open_gl_surface: bool,
+    );
+}

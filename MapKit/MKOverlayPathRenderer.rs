@@ -7,88 +7,97 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKOverlayRenderer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKOverlayPathRenderer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKOverlayPathRenderer")]
-    pub struct MKOverlayPathRenderer;
-
-    #[cfg(feature = "MapKit_MKOverlayPathRenderer")]
-    unsafe impl ClassType for MKOverlayPathRenderer {
-        #[inherits(NSObject)]
-        type Super = MKOverlayRenderer;
-    }
-);
+    pub type MKOverlayPathRenderer;
+}
 
 #[cfg(feature = "MapKit_MKOverlayPathRenderer")]
 unsafe impl NSObjectProtocol for MKOverlayPathRenderer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKOverlayPathRenderer")]
-    unsafe impl MKOverlayPathRenderer {
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other fillColor)]
-        pub unsafe fn fillColor(&self) -> Option<Id<NSColor>>;
+    pub type MKOverlayPathRenderer;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setFillColor:)]
-        pub unsafe fn setFillColor(&self, fill_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "fillColor", managed = "Other")]
+    pub unsafe fn fillColor(&self) -> Option<Id<NSColor>>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other strokeColor)]
-        pub unsafe fn strokeColor(&self) -> Option<Id<NSColor>>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setFillColor:")]
+    pub unsafe fn setFillColor(&self, fill_color: Option<&NSColor>);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setStrokeColor:)]
-        pub unsafe fn setStrokeColor(&self, stroke_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "strokeColor", managed = "Other")]
+    pub unsafe fn strokeColor(&self) -> Option<Id<NSColor>>;
 
-        #[method(lineWidth)]
-        pub unsafe fn lineWidth(&self) -> CGFloat;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setStrokeColor:")]
+    pub unsafe fn setStrokeColor(&self, stroke_color: Option<&NSColor>);
 
-        #[method(setLineWidth:)]
-        pub unsafe fn setLineWidth(&self, line_width: CGFloat);
+    #[objc2::method(sel = "lineWidth")]
+    pub unsafe fn lineWidth(&self) -> CGFloat;
 
-        #[method(miterLimit)]
-        pub unsafe fn miterLimit(&self) -> CGFloat;
+    #[objc2::method(sel = "setLineWidth:")]
+    pub unsafe fn setLineWidth(&self, line_width: CGFloat);
 
-        #[method(setMiterLimit:)]
-        pub unsafe fn setMiterLimit(&self, miter_limit: CGFloat);
+    #[objc2::method(sel = "miterLimit")]
+    pub unsafe fn miterLimit(&self) -> CGFloat;
 
-        #[method(lineDashPhase)]
-        pub unsafe fn lineDashPhase(&self) -> CGFloat;
+    #[objc2::method(sel = "setMiterLimit:")]
+    pub unsafe fn setMiterLimit(&self, miter_limit: CGFloat);
 
-        #[method(setLineDashPhase:)]
-        pub unsafe fn setLineDashPhase(&self, line_dash_phase: CGFloat);
+    #[objc2::method(sel = "lineDashPhase")]
+    pub unsafe fn lineDashPhase(&self) -> CGFloat;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other lineDashPattern)]
-        pub unsafe fn lineDashPattern(&self) -> Option<Id<NSArray<NSNumber>>>;
+    #[objc2::method(sel = "setLineDashPhase:")]
+    pub unsafe fn setLineDashPhase(&self, line_dash_phase: CGFloat);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method(setLineDashPattern:)]
-        pub unsafe fn setLineDashPattern(&self, line_dash_pattern: Option<&NSArray<NSNumber>>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "lineDashPattern", managed = "Other")]
+    pub unsafe fn lineDashPattern(&self) -> Option<Id<NSArray<NSNumber>>>;
 
-        #[method(shouldRasterize)]
-        pub unsafe fn shouldRasterize(&self) -> bool;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "setLineDashPattern:")]
+    pub unsafe fn setLineDashPattern(&self, line_dash_pattern: Option<&NSArray<NSNumber>>);
 
-        #[method(setShouldRasterize:)]
-        pub unsafe fn setShouldRasterize(&self, should_rasterize: bool);
+    #[objc2::method(sel = "shouldRasterize")]
+    pub unsafe fn shouldRasterize(&self) -> bool;
 
-        #[method(createPath)]
-        pub unsafe fn createPath(&self);
+    #[objc2::method(sel = "setShouldRasterize:")]
+    pub unsafe fn setShouldRasterize(&self, should_rasterize: bool);
 
-        #[method(invalidatePath)]
-        pub unsafe fn invalidatePath(&self);
-    }
-);
+    #[objc2::method(sel = "createPath")]
+    pub unsafe fn createPath(&self);
 
-extern_methods!(
-    /// Methods declared on superclass `MKOverlayRenderer`
+    #[objc2::method(sel = "invalidatePath")]
+    pub unsafe fn invalidatePath(&self);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `MKOverlayRenderer`
     #[cfg(feature = "MapKit_MKOverlayPathRenderer")]
-    unsafe impl MKOverlayPathRenderer {
-        #[method_id(@__retain_semantics Init initWithOverlay:)]
-        pub unsafe fn initWithOverlay(
-            this: Option<Allocated<Self>>,
-            overlay: &ProtocolObject<dyn MKOverlay>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKOverlayPathRenderer")]
+    pub type MKOverlayPathRenderer;
+
+    #[objc2::method(sel = "initWithOverlay:", managed = "Init")]
+    pub unsafe fn initWithOverlay(
+        this: Option<Allocated<Self>>,
+        overlay: &ProtocolObject<dyn MKOverlay>,
+    ) -> Id<Self>;
+}

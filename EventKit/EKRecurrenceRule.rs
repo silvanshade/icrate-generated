@@ -7,99 +7,105 @@ use crate::EventKit::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = EKObject,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "EventKit_EKRecurrenceRule")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "EventKit_EKRecurrenceRule")]
-    pub struct EKRecurrenceRule;
-
-    #[cfg(feature = "EventKit_EKRecurrenceRule")]
-    unsafe impl ClassType for EKRecurrenceRule {
-        #[inherits(NSObject)]
-        type Super = EKObject;
-    }
-);
+    pub type EKRecurrenceRule;
+}
 
 #[cfg(feature = "EventKit_EKRecurrenceRule")]
 unsafe impl NSObjectProtocol for EKRecurrenceRule {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "EventKit_EKRecurrenceRule")]
-    unsafe impl EKRecurrenceRule {
-        #[cfg(feature = "EventKit_EKRecurrenceEnd")]
-        #[method_id(@__retain_semantics Init initRecurrenceWithFrequency:interval:end:)]
-        pub unsafe fn initRecurrenceWithFrequency_interval_end(
-            this: Option<Allocated<Self>>,
-            r#type: EKRecurrenceFrequency,
-            interval: NSInteger,
-            end: Option<&EKRecurrenceEnd>,
-        ) -> Id<Self>;
+    pub type EKRecurrenceRule;
 
-        #[cfg(all(
-            feature = "EventKit_EKRecurrenceDayOfWeek",
-            feature = "EventKit_EKRecurrenceEnd",
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSNumber"
-        ))]
-        #[method_id(@__retain_semantics Init initRecurrenceWithFrequency:interval:daysOfTheWeek:daysOfTheMonth:monthsOfTheYear:weeksOfTheYear:daysOfTheYear:setPositions:end:)]
-        pub unsafe fn initRecurrenceWithFrequency_interval_daysOfTheWeek_daysOfTheMonth_monthsOfTheYear_weeksOfTheYear_daysOfTheYear_setPositions_end(
-            this: Option<Allocated<Self>>,
-            r#type: EKRecurrenceFrequency,
-            interval: NSInteger,
-            days: Option<&NSArray<EKRecurrenceDayOfWeek>>,
-            month_days: Option<&NSArray<NSNumber>>,
-            months: Option<&NSArray<NSNumber>>,
-            weeks_of_the_year: Option<&NSArray<NSNumber>>,
-            days_of_the_year: Option<&NSArray<NSNumber>>,
-            set_positions: Option<&NSArray<NSNumber>>,
-            end: Option<&EKRecurrenceEnd>,
-        ) -> Id<Self>;
+    #[cfg(feature = "EventKit_EKRecurrenceEnd")]
+    #[objc2::method(sel = "initRecurrenceWithFrequency:interval:end:", managed = "Init")]
+    pub unsafe fn initRecurrenceWithFrequency_interval_end(
+        this: Option<Allocated<Self>>,
+        r#type: EKRecurrenceFrequency,
+        interval: NSInteger,
+        end: Option<&EKRecurrenceEnd>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other calendarIdentifier)]
-        pub unsafe fn calendarIdentifier(&self) -> Id<NSString>;
+    #[cfg(all(
+        feature = "EventKit_EKRecurrenceDayOfWeek",
+        feature = "EventKit_EKRecurrenceEnd",
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSNumber"
+    ))]
+    #[objc2::method(
+        sel = "initRecurrenceWithFrequency:interval:daysOfTheWeek:daysOfTheMonth:monthsOfTheYear:weeksOfTheYear:daysOfTheYear:setPositions:end:",
+        managed = "Init"
+    )]
+    pub unsafe fn initRecurrenceWithFrequency_interval_daysOfTheWeek_daysOfTheMonth_monthsOfTheYear_weeksOfTheYear_daysOfTheYear_setPositions_end(
+        this: Option<Allocated<Self>>,
+        r#type: EKRecurrenceFrequency,
+        interval: NSInteger,
+        days: Option<&NSArray<EKRecurrenceDayOfWeek>>,
+        month_days: Option<&NSArray<NSNumber>>,
+        months: Option<&NSArray<NSNumber>>,
+        weeks_of_the_year: Option<&NSArray<NSNumber>>,
+        days_of_the_year: Option<&NSArray<NSNumber>>,
+        set_positions: Option<&NSArray<NSNumber>>,
+        end: Option<&EKRecurrenceEnd>,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "EventKit_EKRecurrenceEnd")]
-        #[method_id(@__retain_semantics Other recurrenceEnd)]
-        pub unsafe fn recurrenceEnd(&self) -> Option<Id<EKRecurrenceEnd>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "calendarIdentifier", managed = "Other")]
+    pub unsafe fn calendarIdentifier(&self) -> Id<NSString>;
 
-        #[cfg(feature = "EventKit_EKRecurrenceEnd")]
-        #[method(setRecurrenceEnd:)]
-        pub unsafe fn setRecurrenceEnd(&self, recurrence_end: Option<&EKRecurrenceEnd>);
+    #[cfg(feature = "EventKit_EKRecurrenceEnd")]
+    #[objc2::method(sel = "recurrenceEnd", managed = "Other")]
+    pub unsafe fn recurrenceEnd(&self) -> Option<Id<EKRecurrenceEnd>>;
 
-        #[method(frequency)]
-        pub unsafe fn frequency(&self) -> EKRecurrenceFrequency;
+    #[cfg(feature = "EventKit_EKRecurrenceEnd")]
+    #[objc2::method(sel = "setRecurrenceEnd:")]
+    pub unsafe fn setRecurrenceEnd(&self, recurrence_end: Option<&EKRecurrenceEnd>);
 
-        #[method(interval)]
-        pub unsafe fn interval(&self) -> NSInteger;
+    #[objc2::method(sel = "frequency")]
+    pub unsafe fn frequency(&self) -> EKRecurrenceFrequency;
 
-        #[method(firstDayOfTheWeek)]
-        pub unsafe fn firstDayOfTheWeek(&self) -> NSInteger;
+    #[objc2::method(sel = "interval")]
+    pub unsafe fn interval(&self) -> NSInteger;
 
-        #[cfg(all(
-            feature = "EventKit_EKRecurrenceDayOfWeek",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other daysOfTheWeek)]
-        pub unsafe fn daysOfTheWeek(&self) -> Option<Id<NSArray<EKRecurrenceDayOfWeek>>>;
+    #[objc2::method(sel = "firstDayOfTheWeek")]
+    pub unsafe fn firstDayOfTheWeek(&self) -> NSInteger;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other daysOfTheMonth)]
-        pub unsafe fn daysOfTheMonth(&self) -> Option<Id<NSArray<NSNumber>>>;
+    #[cfg(all(
+        feature = "EventKit_EKRecurrenceDayOfWeek",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "daysOfTheWeek", managed = "Other")]
+    pub unsafe fn daysOfTheWeek(&self) -> Option<Id<NSArray<EKRecurrenceDayOfWeek>>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other daysOfTheYear)]
-        pub unsafe fn daysOfTheYear(&self) -> Option<Id<NSArray<NSNumber>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "daysOfTheMonth", managed = "Other")]
+    pub unsafe fn daysOfTheMonth(&self) -> Option<Id<NSArray<NSNumber>>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other weeksOfTheYear)]
-        pub unsafe fn weeksOfTheYear(&self) -> Option<Id<NSArray<NSNumber>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "daysOfTheYear", managed = "Other")]
+    pub unsafe fn daysOfTheYear(&self) -> Option<Id<NSArray<NSNumber>>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other monthsOfTheYear)]
-        pub unsafe fn monthsOfTheYear(&self) -> Option<Id<NSArray<NSNumber>>>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "weeksOfTheYear", managed = "Other")]
+    pub unsafe fn weeksOfTheYear(&self) -> Option<Id<NSArray<NSNumber>>>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
-        #[method_id(@__retain_semantics Other setPositions)]
-        pub unsafe fn setPositions(&self) -> Option<Id<NSArray<NSNumber>>>;
-    }
-);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "monthsOfTheYear", managed = "Other")]
+    pub unsafe fn monthsOfTheYear(&self) -> Option<Id<NSArray<NSNumber>>>;
+
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSNumber"))]
+    #[objc2::method(sel = "setPositions", managed = "Other")]
+    pub unsafe fn setPositions(&self) -> Option<Id<NSArray<NSNumber>>>;
+}

@@ -4,13 +4,12 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MTLIOCompressionStatus {
-        MTLIOCompressionStatusComplete = 0,
-        MTLIOCompressionStatusError = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MTLIOCompressionStatus {
+    MTLIOCompressionStatusComplete = 0,
+    MTLIOCompressionStatusError = 1,
+}
 
 pub type MTLIOCompressionContext = *mut c_void;
 

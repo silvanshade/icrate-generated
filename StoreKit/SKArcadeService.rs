@@ -5,39 +5,42 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::StoreKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKArcadeService")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKArcadeService")]
-    pub struct SKArcadeService;
-
-    #[cfg(feature = "StoreKit_SKArcadeService")]
-    unsafe impl ClassType for SKArcadeService {
-        type Super = NSObject;
-    }
-);
+    pub type SKArcadeService;
+}
 
 #[cfg(feature = "StoreKit_SKArcadeService")]
 unsafe impl NSObjectProtocol for SKArcadeService {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKArcadeService")]
-    unsafe impl SKArcadeService {
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method(registerArcadeAppWithRandomFromLib:randomFromLibLength:resultHandler:)]
-        pub unsafe fn registerArcadeAppWithRandomFromLib_randomFromLibLength_resultHandler(
-            random_from_lib: &NSData,
-            random_from_lib_length: u32,
-            result_handler: &Block<(*mut NSData, u32, *mut NSData, u32, *mut NSError), ()>,
-        );
+    pub type SKArcadeService;
 
-        #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
-        #[method(arcadeSubscriptionStatusWithNonce:resultHandler:)]
-        pub unsafe fn arcadeSubscriptionStatusWithNonce_resultHandler(
-            nonce: u64,
-            result_handler: &Block<(*mut NSData, u32, *mut NSData, u32, *mut NSError), ()>,
-        );
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "registerArcadeAppWithRandomFromLib:randomFromLibLength:resultHandler:")]
+    pub unsafe fn registerArcadeAppWithRandomFromLib_randomFromLibLength_resultHandler(
+        random_from_lib: &NSData,
+        random_from_lib_length: u32,
+        result_handler: &Block<(*mut NSData, u32, *mut NSData, u32, *mut NSError), ()>,
+    );
 
-        #[method(repairArcadeApp)]
-        pub unsafe fn repairArcadeApp();
-    }
-);
+    #[cfg(all(feature = "Foundation_NSData", feature = "Foundation_NSError"))]
+    #[objc2::method(sel = "arcadeSubscriptionStatusWithNonce:resultHandler:")]
+    pub unsafe fn arcadeSubscriptionStatusWithNonce_resultHandler(
+        nonce: u64,
+        result_handler: &Block<(*mut NSData, u32, *mut NSData, u32, *mut NSError), ()>,
+    );
+
+    #[objc2::method(sel = "repairArcadeApp")]
+    pub unsafe fn repairArcadeApp();
+}

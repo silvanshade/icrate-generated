@@ -3,26 +3,25 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSURLCredentialPersistence {
-        NSURLCredentialPersistenceNone = 0,
-        NSURLCredentialPersistenceForSession = 1,
-        NSURLCredentialPersistencePermanent = 2,
-        NSURLCredentialPersistenceSynchronizable = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSURLCredentialPersistence {
+    NSURLCredentialPersistenceNone = 0,
+    NSURLCredentialPersistenceForSession = 1,
+    NSURLCredentialPersistencePermanent = 2,
+    NSURLCredentialPersistenceSynchronizable = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSURLCredential")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSURLCredential")]
-    pub struct NSURLCredential;
-
-    #[cfg(feature = "Foundation_NSURLCredential")]
-    unsafe impl ClassType for NSURLCredential {
-        type Super = NSObject;
-    }
-);
+    pub type NSURLCredential;
+}
 
 #[cfg(feature = "Foundation_NSURLCredential")]
 unsafe impl NSCoding for NSURLCredential {}
@@ -33,60 +32,69 @@ unsafe impl NSObjectProtocol for NSURLCredential {}
 #[cfg(feature = "Foundation_NSURLCredential")]
 unsafe impl NSSecureCoding for NSURLCredential {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLCredential")]
-    unsafe impl NSURLCredential {
-        #[method(persistence)]
-        pub unsafe fn persistence(&self) -> NSURLCredentialPersistence;
-    }
-);
+    pub type NSURLCredential;
 
-extern_methods!(
-    /// NSInternetPassword
+    #[objc2::method(sel = "persistence")]
+    pub unsafe fn persistence(&self) -> NSURLCredentialPersistence;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLCredential")]
-    unsafe impl NSURLCredential {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithUser:password:persistence:)]
-        pub unsafe fn initWithUser_password_persistence(
-            this: Option<Allocated<Self>>,
-            user: &NSString,
-            password: &NSString,
-            persistence: NSURLCredentialPersistence,
-        ) -> Id<Self>;
+    pub type NSURLCredential;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other credentialWithUser:password:persistence:)]
-        pub unsafe fn credentialWithUser_password_persistence(
-            user: &NSString,
-            password: &NSString,
-            persistence: NSURLCredentialPersistence,
-        ) -> Id<NSURLCredential>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithUser:password:persistence:", managed = "Init")]
+    pub unsafe fn initWithUser_password_persistence(
+        this: Option<Allocated<Self>>,
+        user: &NSString,
+        password: &NSString,
+        persistence: NSURLCredentialPersistence,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other user)]
-        pub unsafe fn user(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "credentialWithUser:password:persistence:", managed = "Other")]
+    pub unsafe fn credentialWithUser_password_persistence(
+        user: &NSString,
+        password: &NSString,
+        persistence: NSURLCredentialPersistence,
+    ) -> Id<NSURLCredential>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other password)]
-        pub unsafe fn password(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "user", managed = "Other")]
+    pub unsafe fn user(&self) -> Option<Id<NSString>>;
 
-        #[method(hasPassword)]
-        pub unsafe fn hasPassword(&self) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "password", managed = "Other")]
+    pub unsafe fn password(&self) -> Option<Id<NSString>>;
 
-extern_methods!(
-    /// NSClientCertificate
+    #[objc2::method(sel = "hasPassword")]
+    pub unsafe fn hasPassword(&self) -> bool;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLCredential")]
-    unsafe impl NSURLCredential {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other certificates)]
-        pub unsafe fn certificates(&self) -> Id<NSArray>;
-    }
-);
+    pub type NSURLCredential;
 
-extern_methods!(
-    /// NSServerTrust
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "certificates", managed = "Other")]
+    pub unsafe fn certificates(&self) -> Id<NSArray>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSURLCredential")]
-    unsafe impl NSURLCredential {}
-);
+    pub type NSURLCredential;
+}

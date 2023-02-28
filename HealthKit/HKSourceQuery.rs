@@ -6,40 +6,46 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKQuery,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKSourceQuery")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKSourceQuery")]
-    pub struct HKSourceQuery;
-
-    #[cfg(feature = "HealthKit_HKSourceQuery")]
-    unsafe impl ClassType for HKSourceQuery {
-        #[inherits(NSObject)]
-        type Super = HKQuery;
-    }
-);
+    pub type HKSourceQuery;
+}
 
 #[cfg(feature = "HealthKit_HKSourceQuery")]
 unsafe impl NSObjectProtocol for HKSourceQuery {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKSourceQuery")]
-    unsafe impl HKSourceQuery {
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSPredicate",
-            feature = "Foundation_NSSet",
-            feature = "HealthKit_HKSampleType",
-            feature = "HealthKit_HKSource"
-        ))]
-        #[method_id(@__retain_semantics Init initWithSampleType:samplePredicate:completionHandler:)]
-        pub unsafe fn initWithSampleType_samplePredicate_completionHandler(
-            this: Option<Allocated<Self>>,
-            sample_type: &HKSampleType,
-            object_predicate: Option<&NSPredicate>,
-            completion_handler: &Block<
-                (NonNull<HKSourceQuery>, *mut NSSet<HKSource>, *mut NSError),
-                (),
-            >,
-        ) -> Id<Self>;
-    }
-);
+    pub type HKSourceQuery;
+
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSPredicate",
+        feature = "Foundation_NSSet",
+        feature = "HealthKit_HKSampleType",
+        feature = "HealthKit_HKSource"
+    ))]
+    #[objc2::method(
+        sel = "initWithSampleType:samplePredicate:completionHandler:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithSampleType_samplePredicate_completionHandler(
+        this: Option<Allocated<Self>>,
+        sample_type: &HKSampleType,
+        object_predicate: Option<&NSPredicate>,
+        completion_handler: &Block<
+            (NonNull<HKSourceQuery>, *mut NSSet<HKSource>, *mut NSError),
+            (),
+        >,
+    ) -> Id<Self>;
+}

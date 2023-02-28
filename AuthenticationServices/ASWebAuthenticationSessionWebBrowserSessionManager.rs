@@ -4,40 +4,41 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSessionWebBrowserSessionManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSessionWebBrowserSessionManager")]
-    pub struct ASWebAuthenticationSessionWebBrowserSessionManager;
-
-    #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSessionWebBrowserSessionManager")]
-    unsafe impl ClassType for ASWebAuthenticationSessionWebBrowserSessionManager {
-        type Super = NSObject;
-    }
-);
+    pub type ASWebAuthenticationSessionWebBrowserSessionManager;
+}
 
 #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSessionWebBrowserSessionManager")]
 unsafe impl NSObjectProtocol for ASWebAuthenticationSessionWebBrowserSessionManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASWebAuthenticationSessionWebBrowserSessionManager")]
-    unsafe impl ASWebAuthenticationSessionWebBrowserSessionManager {
-        #[method_id(@__retain_semantics Other sharedManager)]
-        pub unsafe fn sharedManager() -> Id<ASWebAuthenticationSessionWebBrowserSessionManager>;
+    pub type ASWebAuthenticationSessionWebBrowserSessionManager;
 
-        #[method_id(@__retain_semantics Other sessionHandler)]
-        pub unsafe fn sessionHandler(
-            &self,
-        ) -> Id<ProtocolObject<dyn ASWebAuthenticationSessionWebBrowserSessionHandling>>;
+    #[objc2::method(sel = "sharedManager", managed = "Other")]
+    pub unsafe fn sharedManager() -> Id<ASWebAuthenticationSessionWebBrowserSessionManager>;
 
-        #[method(setSessionHandler:)]
-        pub unsafe fn setSessionHandler(
-            &self,
-            session_handler: &ProtocolObject<
-                dyn ASWebAuthenticationSessionWebBrowserSessionHandling,
-            >,
-        );
+    #[objc2::method(sel = "sessionHandler", managed = "Other")]
+    pub unsafe fn sessionHandler(
+        &self,
+    ) -> Id<ProtocolObject<dyn ASWebAuthenticationSessionWebBrowserSessionHandling>>;
 
-        #[method(wasLaunchedByAuthenticationServices)]
-        pub unsafe fn wasLaunchedByAuthenticationServices(&self) -> bool;
-    }
-);
+    #[objc2::method(sel = "setSessionHandler:")]
+    pub unsafe fn setSessionHandler(
+        &self,
+        session_handler: &ProtocolObject<dyn ASWebAuthenticationSessionWebBrowserSessionHandling>,
+    );
+
+    #[objc2::method(sel = "wasLaunchedByAuthenticationServices")]
+    pub unsafe fn wasLaunchedByAuthenticationServices(&self) -> bool;
+}

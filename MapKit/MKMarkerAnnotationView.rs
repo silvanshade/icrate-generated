@@ -7,17 +7,19 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = MKAnnotationView,
+    unsafe inherits = [
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKMarkerAnnotationView")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKMarkerAnnotationView")]
-    pub struct MKMarkerAnnotationView;
-
-    #[cfg(feature = "MapKit_MKMarkerAnnotationView")]
-    unsafe impl ClassType for MKMarkerAnnotationView {
-        #[inherits(NSView, NSResponder, NSObject)]
-        type Super = MKAnnotationView;
-    }
-);
+    pub type MKMarkerAnnotationView;
+}
 
 #[cfg(feature = "MapKit_MKMarkerAnnotationView")]
 unsafe impl NSAccessibility for MKMarkerAnnotationView {}
@@ -43,88 +45,103 @@ unsafe impl NSObjectProtocol for MKMarkerAnnotationView {}
 #[cfg(feature = "MapKit_MKMarkerAnnotationView")]
 unsafe impl NSUserInterfaceItemIdentification for MKMarkerAnnotationView {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMarkerAnnotationView")]
-    unsafe impl MKMarkerAnnotationView {
-        #[method(titleVisibility)]
-        pub unsafe fn titleVisibility(&self) -> MKFeatureVisibility;
+    pub type MKMarkerAnnotationView;
 
-        #[method(setTitleVisibility:)]
-        pub unsafe fn setTitleVisibility(&self, title_visibility: MKFeatureVisibility);
+    #[objc2::method(sel = "titleVisibility")]
+    pub unsafe fn titleVisibility(&self) -> MKFeatureVisibility;
 
-        #[method(subtitleVisibility)]
-        pub unsafe fn subtitleVisibility(&self) -> MKFeatureVisibility;
+    #[objc2::method(sel = "setTitleVisibility:")]
+    pub unsafe fn setTitleVisibility(&self, title_visibility: MKFeatureVisibility);
 
-        #[method(setSubtitleVisibility:)]
-        pub unsafe fn setSubtitleVisibility(&self, subtitle_visibility: MKFeatureVisibility);
+    #[objc2::method(sel = "subtitleVisibility")]
+    pub unsafe fn subtitleVisibility(&self) -> MKFeatureVisibility;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other markerTintColor)]
-        pub unsafe fn markerTintColor(&self) -> Option<Id<NSColor>>;
+    #[objc2::method(sel = "setSubtitleVisibility:")]
+    pub unsafe fn setSubtitleVisibility(&self, subtitle_visibility: MKFeatureVisibility);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setMarkerTintColor:)]
-        pub unsafe fn setMarkerTintColor(&self, marker_tint_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "markerTintColor", managed = "Other")]
+    pub unsafe fn markerTintColor(&self) -> Option<Id<NSColor>>;
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method_id(@__retain_semantics Other glyphTintColor)]
-        pub unsafe fn glyphTintColor(&self) -> Option<Id<NSColor>>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setMarkerTintColor:")]
+    pub unsafe fn setMarkerTintColor(&self, marker_tint_color: Option<&NSColor>);
 
-        #[cfg(feature = "AppKit_NSColor")]
-        #[method(setGlyphTintColor:)]
-        pub unsafe fn setGlyphTintColor(&self, glyph_tint_color: Option<&NSColor>);
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "glyphTintColor", managed = "Other")]
+    pub unsafe fn glyphTintColor(&self) -> Option<Id<NSColor>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other glyphText)]
-        pub unsafe fn glyphText(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "AppKit_NSColor")]
+    #[objc2::method(sel = "setGlyphTintColor:")]
+    pub unsafe fn setGlyphTintColor(&self, glyph_tint_color: Option<&NSColor>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setGlyphText:)]
-        pub unsafe fn setGlyphText(&self, glyph_text: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "glyphText", managed = "Other")]
+    pub unsafe fn glyphText(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other glyphImage)]
-        pub unsafe fn glyphImage(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setGlyphText:")]
+    pub unsafe fn setGlyphText(&self, glyph_text: Option<&NSString>);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setGlyphImage:)]
-        pub unsafe fn setGlyphImage(&self, glyph_image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "glyphImage", managed = "Other")]
+    pub unsafe fn glyphImage(&self) -> Option<Id<NSImage>>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other selectedGlyphImage)]
-        pub unsafe fn selectedGlyphImage(&self) -> Option<Id<NSImage>>;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setGlyphImage:")]
+    pub unsafe fn setGlyphImage(&self, glyph_image: Option<&NSImage>);
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method(setSelectedGlyphImage:)]
-        pub unsafe fn setSelectedGlyphImage(&self, selected_glyph_image: Option<&NSImage>);
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "selectedGlyphImage", managed = "Other")]
+    pub unsafe fn selectedGlyphImage(&self) -> Option<Id<NSImage>>;
 
-        #[method(animatesWhenAdded)]
-        pub unsafe fn animatesWhenAdded(&self) -> bool;
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "setSelectedGlyphImage:")]
+    pub unsafe fn setSelectedGlyphImage(&self, selected_glyph_image: Option<&NSImage>);
 
-        #[method(setAnimatesWhenAdded:)]
-        pub unsafe fn setAnimatesWhenAdded(&self, animates_when_added: bool);
-    }
-);
+    #[objc2::method(sel = "animatesWhenAdded")]
+    pub unsafe fn animatesWhenAdded(&self) -> bool;
 
-extern_methods!(
-    /// Methods declared on superclass `MKAnnotationView`
+    #[objc2::method(sel = "setAnimatesWhenAdded:")]
+    pub unsafe fn setAnimatesWhenAdded(&self, animates_when_added: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `MKAnnotationView`
     #[cfg(feature = "MapKit_MKMarkerAnnotationView")]
-    unsafe impl MKMarkerAnnotationView {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithAnnotation:reuseIdentifier:)]
-        pub unsafe fn initWithAnnotation_reuseIdentifier(
-            this: Option<Allocated<Self>>,
-            annotation: Option<&ProtocolObject<dyn MKAnnotation>>,
-            reuse_identifier: Option<&NSString>,
-        ) -> Id<Self>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSView`
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMarkerAnnotationView")]
-    unsafe impl MKMarkerAnnotationView {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+    pub type MKMarkerAnnotationView;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithAnnotation:reuseIdentifier:", managed = "Init")]
+    pub unsafe fn initWithAnnotation_reuseIdentifier(
+        this: Option<Allocated<Self>>,
+        annotation: Option<&ProtocolObject<dyn MKAnnotation>>,
+        reuse_identifier: Option<&NSString>,
+    ) -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSView`
+    #[cfg(feature = "MapKit_MKMarkerAnnotationView")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKMarkerAnnotationView")]
+    pub type MKMarkerAnnotationView;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

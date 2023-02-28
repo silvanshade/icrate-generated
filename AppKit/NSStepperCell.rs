@@ -5,17 +5,18 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSActionCell,
+    unsafe inherits = [
+        NSCell,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSStepperCell")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSStepperCell")]
-    pub struct NSStepperCell;
-
-    #[cfg(feature = "AppKit_NSStepperCell")]
-    unsafe impl ClassType for NSStepperCell {
-        #[inherits(NSCell, NSObject)]
-        type Super = NSActionCell;
-    }
-);
+    pub type NSStepperCell;
+}
 
 #[cfg(feature = "AppKit_NSStepperCell")]
 unsafe impl NSAccessibility for NSStepperCell {}
@@ -32,54 +33,61 @@ unsafe impl NSObjectProtocol for NSStepperCell {}
 #[cfg(feature = "AppKit_NSStepperCell")]
 unsafe impl NSUserInterfaceItemIdentification for NSStepperCell {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSStepperCell")]
-    unsafe impl NSStepperCell {
-        #[method(minValue)]
-        pub unsafe fn minValue(&self) -> c_double;
+    pub type NSStepperCell;
 
-        #[method(setMinValue:)]
-        pub unsafe fn setMinValue(&self, min_value: c_double);
+    #[objc2::method(sel = "minValue")]
+    pub unsafe fn minValue(&self) -> c_double;
 
-        #[method(maxValue)]
-        pub unsafe fn maxValue(&self) -> c_double;
+    #[objc2::method(sel = "setMinValue:")]
+    pub unsafe fn setMinValue(&self, min_value: c_double);
 
-        #[method(setMaxValue:)]
-        pub unsafe fn setMaxValue(&self, max_value: c_double);
+    #[objc2::method(sel = "maxValue")]
+    pub unsafe fn maxValue(&self) -> c_double;
 
-        #[method(increment)]
-        pub unsafe fn increment(&self) -> c_double;
+    #[objc2::method(sel = "setMaxValue:")]
+    pub unsafe fn setMaxValue(&self, max_value: c_double);
 
-        #[method(setIncrement:)]
-        pub unsafe fn setIncrement(&self, increment: c_double);
+    #[objc2::method(sel = "increment")]
+    pub unsafe fn increment(&self) -> c_double;
 
-        #[method(valueWraps)]
-        pub unsafe fn valueWraps(&self) -> bool;
+    #[objc2::method(sel = "setIncrement:")]
+    pub unsafe fn setIncrement(&self, increment: c_double);
 
-        #[method(setValueWraps:)]
-        pub unsafe fn setValueWraps(&self, value_wraps: bool);
+    #[objc2::method(sel = "valueWraps")]
+    pub unsafe fn valueWraps(&self) -> bool;
 
-        #[method(autorepeat)]
-        pub unsafe fn autorepeat(&self) -> bool;
+    #[objc2::method(sel = "setValueWraps:")]
+    pub unsafe fn setValueWraps(&self, value_wraps: bool);
 
-        #[method(setAutorepeat:)]
-        pub unsafe fn setAutorepeat(&self, autorepeat: bool);
-    }
-);
+    #[objc2::method(sel = "autorepeat")]
+    pub unsafe fn autorepeat(&self) -> bool;
 
-extern_methods!(
-    /// Methods declared on superclass `NSCell`
+    #[objc2::method(sel = "setAutorepeat:")]
+    pub unsafe fn setAutorepeat(&self, autorepeat: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSCell`
     #[cfg(feature = "AppKit_NSStepperCell")]
-    unsafe impl NSStepperCell {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initTextCell:)]
-        pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
-
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Init initImageCell:)]
-        pub unsafe fn initImageCell(
-            this: Option<Allocated<Self>>,
-            image: Option<&NSImage>,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSStepperCell")]
+    pub type NSStepperCell;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initTextCell:", managed = "Init")]
+    pub unsafe fn initTextCell(this: Option<Allocated<Self>>, string: &NSString) -> Id<Self>;
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "initImageCell:", managed = "Init")]
+    pub unsafe fn initImageCell(this: Option<Allocated<Self>>, image: Option<&NSImage>)
+        -> Id<Self>;
+}

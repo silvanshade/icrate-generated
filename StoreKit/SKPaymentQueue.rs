@@ -5,226 +5,216 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::StoreKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "StoreKit_SKPaymentQueue")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "StoreKit_SKPaymentQueue")]
-    pub struct SKPaymentQueue;
-
-    #[cfg(feature = "StoreKit_SKPaymentQueue")]
-    unsafe impl ClassType for SKPaymentQueue {
-        type Super = NSObject;
-    }
-);
+    pub type SKPaymentQueue;
+}
 
 #[cfg(feature = "StoreKit_SKPaymentQueue")]
 unsafe impl NSObjectProtocol for SKPaymentQueue {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "StoreKit_SKPaymentQueue")]
-    unsafe impl SKPaymentQueue {
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn SKPaymentQueueDelegate>>>;
+    pub type SKPaymentQueue;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn SKPaymentQueueDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn SKPaymentQueueDelegate>>>;
 
-        #[cfg(feature = "StoreKit_SKStorefront")]
-        #[method_id(@__retain_semantics Other storefront)]
-        pub unsafe fn storefront(&self) -> Option<Id<SKStorefront>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(&self, delegate: Option<&ProtocolObject<dyn SKPaymentQueueDelegate>>);
 
-        #[method_id(@__retain_semantics Other defaultQueue)]
-        pub unsafe fn defaultQueue() -> Id<Self>;
+    #[cfg(feature = "StoreKit_SKStorefront")]
+    #[objc2::method(sel = "storefront", managed = "Other")]
+    pub unsafe fn storefront(&self) -> Option<Id<SKStorefront>>;
 
-        #[method(canMakePayments)]
-        pub unsafe fn canMakePayments() -> bool;
+    #[objc2::method(sel = "defaultQueue", managed = "Other")]
+    pub unsafe fn defaultQueue() -> Id<Self>;
 
-        #[cfg(feature = "StoreKit_SKPayment")]
-        #[method(addPayment:)]
-        pub unsafe fn addPayment(&self, payment: &SKPayment);
+    #[objc2::method(sel = "canMakePayments")]
+    pub unsafe fn canMakePayments() -> bool;
 
-        #[method(restoreCompletedTransactions)]
-        pub unsafe fn restoreCompletedTransactions(&self);
+    #[cfg(feature = "StoreKit_SKPayment")]
+    #[objc2::method(sel = "addPayment:")]
+    pub unsafe fn addPayment(&self, payment: &SKPayment);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(restoreCompletedTransactionsWithApplicationUsername:)]
-        pub unsafe fn restoreCompletedTransactionsWithApplicationUsername(
-            &self,
-            username: Option<&NSString>,
-        );
+    #[objc2::method(sel = "restoreCompletedTransactions")]
+    pub unsafe fn restoreCompletedTransactions(&self);
 
-        #[cfg(feature = "StoreKit_SKPaymentTransaction")]
-        #[method(finishTransaction:)]
-        pub unsafe fn finishTransaction(&self, transaction: &SKPaymentTransaction);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "restoreCompletedTransactionsWithApplicationUsername:")]
+    pub unsafe fn restoreCompletedTransactionsWithApplicationUsername(
+        &self,
+        username: Option<&NSString>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "StoreKit_SKDownload"))]
-        #[deprecated = "Hosted content is no longer supported"]
-        #[method(startDownloads:)]
-        pub unsafe fn startDownloads(&self, downloads: &NSArray<SKDownload>);
+    #[cfg(feature = "StoreKit_SKPaymentTransaction")]
+    #[objc2::method(sel = "finishTransaction:")]
+    pub unsafe fn finishTransaction(&self, transaction: &SKPaymentTransaction);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "StoreKit_SKDownload"))]
-        #[deprecated = "Hosted content is no longer supported"]
-        #[method(pauseDownloads:)]
-        pub unsafe fn pauseDownloads(&self, downloads: &NSArray<SKDownload>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "StoreKit_SKDownload"))]
+    #[deprecated = "Hosted content is no longer supported"]
+    #[objc2::method(sel = "startDownloads:")]
+    pub unsafe fn startDownloads(&self, downloads: &NSArray<SKDownload>);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "StoreKit_SKDownload"))]
-        #[deprecated = "Hosted content is no longer supported"]
-        #[method(resumeDownloads:)]
-        pub unsafe fn resumeDownloads(&self, downloads: &NSArray<SKDownload>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "StoreKit_SKDownload"))]
+    #[deprecated = "Hosted content is no longer supported"]
+    #[objc2::method(sel = "pauseDownloads:")]
+    pub unsafe fn pauseDownloads(&self, downloads: &NSArray<SKDownload>);
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "StoreKit_SKDownload"))]
-        #[deprecated = "Hosted content is no longer supported"]
-        #[method(cancelDownloads:)]
-        pub unsafe fn cancelDownloads(&self, downloads: &NSArray<SKDownload>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "StoreKit_SKDownload"))]
+    #[deprecated = "Hosted content is no longer supported"]
+    #[objc2::method(sel = "resumeDownloads:")]
+    pub unsafe fn resumeDownloads(&self, downloads: &NSArray<SKDownload>);
 
-        #[method(addTransactionObserver:)]
-        pub unsafe fn addTransactionObserver(
-            &self,
-            observer: &ProtocolObject<dyn SKPaymentTransactionObserver>,
-        );
+    #[cfg(all(feature = "Foundation_NSArray", feature = "StoreKit_SKDownload"))]
+    #[deprecated = "Hosted content is no longer supported"]
+    #[objc2::method(sel = "cancelDownloads:")]
+    pub unsafe fn cancelDownloads(&self, downloads: &NSArray<SKDownload>);
 
-        #[method(removeTransactionObserver:)]
-        pub unsafe fn removeTransactionObserver(
-            &self,
-            observer: &ProtocolObject<dyn SKPaymentTransactionObserver>,
-        );
+    #[objc2::method(sel = "addTransactionObserver:")]
+    pub unsafe fn addTransactionObserver(
+        &self,
+        observer: &ProtocolObject<dyn SKPaymentTransactionObserver>,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other transactionObservers)]
-        pub unsafe fn transactionObservers(
-            &self,
-        ) -> Id<NSArray<ProtocolObject<dyn SKPaymentTransactionObserver>>>;
+    #[objc2::method(sel = "removeTransactionObserver:")]
+    pub unsafe fn removeTransactionObserver(
+        &self,
+        observer: &ProtocolObject<dyn SKPaymentTransactionObserver>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "StoreKit_SKPaymentTransaction"
-        ))]
-        #[method_id(@__retain_semantics Other transactions)]
-        pub unsafe fn transactions(&self) -> Id<NSArray<SKPaymentTransaction>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "transactionObservers", managed = "Other")]
+    pub unsafe fn transactionObservers(
+        &self,
+    ) -> Id<NSArray<ProtocolObject<dyn SKPaymentTransactionObserver>>>;
 
-        #[method(showPriceConsentIfNeeded)]
-        pub unsafe fn showPriceConsentIfNeeded(&self);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "StoreKit_SKPaymentTransaction"
+    ))]
+    #[objc2::method(sel = "transactions", managed = "Other")]
+    pub unsafe fn transactions(&self) -> Id<NSArray<SKPaymentTransaction>>;
 
-        #[method(presentCodeRedemptionSheet)]
-        pub unsafe fn presentCodeRedemptionSheet(&self);
-    }
-);
+    #[objc2::method(sel = "showPriceConsentIfNeeded")]
+    pub unsafe fn showPriceConsentIfNeeded(&self);
 
-extern_protocol!(
-    pub unsafe trait SKPaymentQueueDelegate: NSObjectProtocol {
-        #[cfg(all(
-            feature = "StoreKit_SKPaymentQueue",
-            feature = "StoreKit_SKPaymentTransaction",
-            feature = "StoreKit_SKStorefront"
-        ))]
-        #[optional]
-        #[method(paymentQueue:shouldContinueTransaction:inStorefront:)]
-        unsafe fn paymentQueue_shouldContinueTransaction_inStorefront(
-            &self,
-            payment_queue: &SKPaymentQueue,
-            transaction: &SKPaymentTransaction,
-            new_storefront: &SKStorefront,
-        ) -> bool;
+    #[objc2::method(sel = "presentCodeRedemptionSheet")]
+    pub unsafe fn presentCodeRedemptionSheet(&self);
+}
 
-        #[cfg(feature = "StoreKit_SKPaymentQueue")]
-        #[optional]
-        #[method(paymentQueueShouldShowPriceConsent:)]
-        unsafe fn paymentQueueShouldShowPriceConsent(&self, payment_queue: &SKPaymentQueue)
-            -> bool;
-    }
+#[objc2::protocol]
+pub unsafe trait SKPaymentQueueDelegate: NSObjectProtocol {
+    #[cfg(all(
+        feature = "StoreKit_SKPaymentQueue",
+        feature = "StoreKit_SKPaymentTransaction",
+        feature = "StoreKit_SKStorefront"
+    ))]
+    #[objc2::method(optional, sel = "paymentQueue:shouldContinueTransaction:inStorefront:")]
+    unsafe fn paymentQueue_shouldContinueTransaction_inStorefront(
+        &self,
+        payment_queue: &SKPaymentQueue,
+        transaction: &SKPaymentTransaction,
+        new_storefront: &SKStorefront,
+    ) -> bool;
 
-    unsafe impl ProtocolType for dyn SKPaymentQueueDelegate {}
-);
+    #[cfg(feature = "StoreKit_SKPaymentQueue")]
+    #[objc2::method(optional, sel = "paymentQueueShouldShowPriceConsent:")]
+    unsafe fn paymentQueueShouldShowPriceConsent(&self, payment_queue: &SKPaymentQueue) -> bool;
+}
 
-extern_protocol!(
-    pub unsafe trait SKPaymentTransactionObserver: NSObjectProtocol {
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "StoreKit_SKPaymentQueue",
-            feature = "StoreKit_SKPaymentTransaction"
-        ))]
-        #[method(paymentQueue:updatedTransactions:)]
-        unsafe fn paymentQueue_updatedTransactions(
-            &self,
-            queue: &SKPaymentQueue,
-            transactions: &NSArray<SKPaymentTransaction>,
-        );
+#[objc2::protocol]
+pub unsafe trait SKPaymentTransactionObserver: NSObjectProtocol {
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "StoreKit_SKPaymentQueue",
+        feature = "StoreKit_SKPaymentTransaction"
+    ))]
+    #[objc2::method(sel = "paymentQueue:updatedTransactions:")]
+    unsafe fn paymentQueue_updatedTransactions(
+        &self,
+        queue: &SKPaymentQueue,
+        transactions: &NSArray<SKPaymentTransaction>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "StoreKit_SKPaymentQueue",
-            feature = "StoreKit_SKPaymentTransaction"
-        ))]
-        #[optional]
-        #[method(paymentQueue:removedTransactions:)]
-        unsafe fn paymentQueue_removedTransactions(
-            &self,
-            queue: &SKPaymentQueue,
-            transactions: &NSArray<SKPaymentTransaction>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "StoreKit_SKPaymentQueue",
+        feature = "StoreKit_SKPaymentTransaction"
+    ))]
+    #[objc2::method(optional, sel = "paymentQueue:removedTransactions:")]
+    unsafe fn paymentQueue_removedTransactions(
+        &self,
+        queue: &SKPaymentQueue,
+        transactions: &NSArray<SKPaymentTransaction>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "StoreKit_SKPaymentQueue"))]
-        #[optional]
-        #[method(paymentQueue:restoreCompletedTransactionsFailedWithError:)]
-        unsafe fn paymentQueue_restoreCompletedTransactionsFailedWithError(
-            &self,
-            queue: &SKPaymentQueue,
-            error: &NSError,
-        );
+    #[cfg(all(feature = "Foundation_NSError", feature = "StoreKit_SKPaymentQueue"))]
+    #[objc2::method(
+        optional,
+        sel = "paymentQueue:restoreCompletedTransactionsFailedWithError:"
+    )]
+    unsafe fn paymentQueue_restoreCompletedTransactionsFailedWithError(
+        &self,
+        queue: &SKPaymentQueue,
+        error: &NSError,
+    );
 
-        #[cfg(feature = "StoreKit_SKPaymentQueue")]
-        #[optional]
-        #[method(paymentQueueRestoreCompletedTransactionsFinished:)]
-        unsafe fn paymentQueueRestoreCompletedTransactionsFinished(&self, queue: &SKPaymentQueue);
+    #[cfg(feature = "StoreKit_SKPaymentQueue")]
+    #[objc2::method(optional, sel = "paymentQueueRestoreCompletedTransactionsFinished:")]
+    unsafe fn paymentQueueRestoreCompletedTransactionsFinished(&self, queue: &SKPaymentQueue);
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "StoreKit_SKDownload",
-            feature = "StoreKit_SKPaymentQueue"
-        ))]
-        #[deprecated = "Hosted content is no longer supported"]
-        #[optional]
-        #[method(paymentQueue:updatedDownloads:)]
-        unsafe fn paymentQueue_updatedDownloads(
-            &self,
-            queue: &SKPaymentQueue,
-            downloads: &NSArray<SKDownload>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "StoreKit_SKDownload",
+        feature = "StoreKit_SKPaymentQueue"
+    ))]
+    #[deprecated = "Hosted content is no longer supported"]
+    #[objc2::method(optional, sel = "paymentQueue:updatedDownloads:")]
+    unsafe fn paymentQueue_updatedDownloads(
+        &self,
+        queue: &SKPaymentQueue,
+        downloads: &NSArray<SKDownload>,
+    );
 
-        #[cfg(all(
-            feature = "StoreKit_SKPayment",
-            feature = "StoreKit_SKPaymentQueue",
-            feature = "StoreKit_SKProduct"
-        ))]
-        #[optional]
-        #[method(paymentQueue:shouldAddStorePayment:forProduct:)]
-        unsafe fn paymentQueue_shouldAddStorePayment_forProduct(
-            &self,
-            queue: &SKPaymentQueue,
-            payment: &SKPayment,
-            product: &SKProduct,
-        ) -> bool;
+    #[cfg(all(
+        feature = "StoreKit_SKPayment",
+        feature = "StoreKit_SKPaymentQueue",
+        feature = "StoreKit_SKProduct"
+    ))]
+    #[objc2::method(optional, sel = "paymentQueue:shouldAddStorePayment:forProduct:")]
+    unsafe fn paymentQueue_shouldAddStorePayment_forProduct(
+        &self,
+        queue: &SKPaymentQueue,
+        payment: &SKPayment,
+        product: &SKProduct,
+    ) -> bool;
 
-        #[cfg(feature = "StoreKit_SKPaymentQueue")]
-        #[optional]
-        #[method(paymentQueueDidChangeStorefront:)]
-        unsafe fn paymentQueueDidChangeStorefront(&self, queue: &SKPaymentQueue);
+    #[cfg(feature = "StoreKit_SKPaymentQueue")]
+    #[objc2::method(optional, sel = "paymentQueueDidChangeStorefront:")]
+    unsafe fn paymentQueueDidChangeStorefront(&self, queue: &SKPaymentQueue);
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSString",
-            feature = "StoreKit_SKPaymentQueue"
-        ))]
-        #[optional]
-        #[method(paymentQueue:didRevokeEntitlementsForProductIdentifiers:)]
-        unsafe fn paymentQueue_didRevokeEntitlementsForProductIdentifiers(
-            &self,
-            queue: &SKPaymentQueue,
-            product_identifiers: &NSArray<NSString>,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn SKPaymentTransactionObserver {}
-);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSString",
+        feature = "StoreKit_SKPaymentQueue"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "paymentQueue:didRevokeEntitlementsForProductIdentifiers:"
+    )]
+    unsafe fn paymentQueue_didRevokeEntitlementsForProductIdentifiers(
+        &self,
+        queue: &SKPaymentQueue,
+        product_identifiers: &NSArray<NSString>,
+    );
+}

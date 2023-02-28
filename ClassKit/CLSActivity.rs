@@ -4,17 +4,17 @@ use crate::common::*;
 use crate::ClassKit::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CLSObject,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "ClassKit_CLSActivity")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "ClassKit_CLSActivity")]
-    pub struct CLSActivity;
-
-    #[cfg(feature = "ClassKit_CLSActivity")]
-    unsafe impl ClassType for CLSActivity {
-        #[inherits(NSObject)]
-        type Super = CLSObject;
-    }
-);
+    pub type CLSActivity;
+}
 
 #[cfg(feature = "ClassKit_CLSActivity")]
 unsafe impl NSCoding for CLSActivity {}
@@ -25,70 +25,74 @@ unsafe impl NSObjectProtocol for CLSActivity {}
 #[cfg(feature = "ClassKit_CLSActivity")]
 unsafe impl NSSecureCoding for CLSActivity {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ClassKit_CLSActivity")]
-    unsafe impl CLSActivity {
-        #[method(progress)]
-        pub unsafe fn progress(&self) -> c_double;
+    pub type CLSActivity;
 
-        #[method(setProgress:)]
-        pub unsafe fn setProgress(&self, progress: c_double);
+    #[objc2::method(sel = "progress")]
+    pub unsafe fn progress(&self) -> c_double;
 
-        #[method(duration)]
-        pub unsafe fn duration(&self) -> NSTimeInterval;
+    #[objc2::method(sel = "setProgress:")]
+    pub unsafe fn setProgress(&self, progress: c_double);
 
-        #[cfg(feature = "ClassKit_CLSActivityItem")]
-        #[method_id(@__retain_semantics Other primaryActivityItem)]
-        pub unsafe fn primaryActivityItem(&self) -> Option<Id<CLSActivityItem>>;
+    #[objc2::method(sel = "duration")]
+    pub unsafe fn duration(&self) -> NSTimeInterval;
 
-        #[cfg(feature = "ClassKit_CLSActivityItem")]
-        #[method(setPrimaryActivityItem:)]
-        pub unsafe fn setPrimaryActivityItem(
-            &self,
-            primary_activity_item: Option<&CLSActivityItem>,
-        );
+    #[cfg(feature = "ClassKit_CLSActivityItem")]
+    #[objc2::method(sel = "primaryActivityItem", managed = "Other")]
+    pub unsafe fn primaryActivityItem(&self) -> Option<Id<CLSActivityItem>>;
 
-        #[method(addProgressRangeFromStart:toEnd:)]
-        pub unsafe fn addProgressRangeFromStart_toEnd(&self, start: c_double, end: c_double);
+    #[cfg(feature = "ClassKit_CLSActivityItem")]
+    #[objc2::method(sel = "setPrimaryActivityItem:")]
+    pub unsafe fn setPrimaryActivityItem(&self, primary_activity_item: Option<&CLSActivityItem>);
 
-        #[cfg(feature = "ClassKit_CLSActivityItem")]
-        #[method(addAdditionalActivityItem:)]
-        pub unsafe fn addAdditionalActivityItem(&self, activity_item: &CLSActivityItem);
+    #[objc2::method(sel = "addProgressRangeFromStart:toEnd:")]
+    pub unsafe fn addProgressRangeFromStart_toEnd(&self, start: c_double, end: c_double);
 
-        #[cfg(all(feature = "ClassKit_CLSActivityItem", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other additionalActivityItems)]
-        pub unsafe fn additionalActivityItems(&self) -> Id<NSArray<CLSActivityItem>>;
-    }
-);
+    #[cfg(feature = "ClassKit_CLSActivityItem")]
+    #[objc2::method(sel = "addAdditionalActivityItem:")]
+    pub unsafe fn addAdditionalActivityItem(&self, activity_item: &CLSActivityItem);
 
-extern_methods!(
-    /// Activation
+    #[cfg(all(feature = "ClassKit_CLSActivityItem", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "additionalActivityItems", managed = "Other")]
+    pub unsafe fn additionalActivityItems(&self) -> Id<NSArray<CLSActivityItem>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ClassKit_CLSActivity")]
-    unsafe impl CLSActivity {
-        #[method(isStarted)]
-        pub unsafe fn isStarted(&self) -> bool;
+    pub type CLSActivity;
 
-        #[method(start)]
-        pub unsafe fn start(&self);
+    #[objc2::method(sel = "isStarted")]
+    pub unsafe fn isStarted(&self) -> bool;
 
-        #[method(stop)]
-        pub unsafe fn stop(&self);
+    #[objc2::method(sel = "start")]
+    pub unsafe fn start(&self);
 
-        #[method(removeAllActivityItems)]
-        pub unsafe fn removeAllActivityItems(&self);
-    }
-);
+    #[objc2::method(sel = "stop")]
+    pub unsafe fn stop(&self);
 
-extern_methods!(
-    /// Activity
+    #[objc2::method(sel = "removeAllActivityItems")]
+    pub unsafe fn removeAllActivityItems(&self);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "ClassKit_CLSContext")]
-    unsafe impl CLSContext {
-        #[cfg(feature = "ClassKit_CLSActivity")]
-        #[method_id(@__retain_semantics Other currentActivity)]
-        pub unsafe fn currentActivity(&self) -> Option<Id<CLSActivity>>;
+    pub type CLSContext;
 
-        #[cfg(feature = "ClassKit_CLSActivity")]
-        #[method_id(@__retain_semantics Other createNewActivity)]
-        pub unsafe fn createNewActivity(&self) -> Id<CLSActivity>;
-    }
-);
+    #[cfg(feature = "ClassKit_CLSActivity")]
+    #[objc2::method(sel = "currentActivity", managed = "Other")]
+    pub unsafe fn currentActivity(&self) -> Option<Id<CLSActivity>>;
+
+    #[cfg(feature = "ClassKit_CLSActivity")]
+    #[objc2::method(sel = "createNewActivity", managed = "Other")]
+    pub unsafe fn createNewActivity(&self) -> Id<CLSActivity>;
+}

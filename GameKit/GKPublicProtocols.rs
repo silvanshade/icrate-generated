@@ -5,137 +5,125 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameKit::*;
 
-extern_protocol!(
-    #[deprecated = "Use MCSession in association with MCSessionDelegate from the MultipeerConnectivity framework instead"]
-    pub unsafe trait GKSessionDelegate: NSObjectProtocol {
-        #[cfg(all(feature = "Foundation_NSString", feature = "GameKit_GKSession"))]
-        #[optional]
-        #[method(session:peer:didChangeState:)]
-        unsafe fn session_peer_didChangeState(
-            &self,
-            session: &GKSession,
-            peer_id: &NSString,
-            state: GKPeerConnectionState,
-        );
+#[objc2::protocol]
+#[deprecated = "Use MCSession in association with MCSessionDelegate from the MultipeerConnectivity framework instead"]
+pub unsafe trait GKSessionDelegate: NSObjectProtocol {
+    #[cfg(all(feature = "Foundation_NSString", feature = "GameKit_GKSession"))]
+    #[objc2::method(optional, sel = "session:peer:didChangeState:")]
+    unsafe fn session_peer_didChangeState(
+        &self,
+        session: &GKSession,
+        peer_id: &NSString,
+        state: GKPeerConnectionState,
+    );
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "GameKit_GKSession"))]
-        #[optional]
-        #[method(session:didReceiveConnectionRequestFromPeer:)]
-        unsafe fn session_didReceiveConnectionRequestFromPeer(
-            &self,
-            session: &GKSession,
-            peer_id: &NSString,
-        );
+    #[cfg(all(feature = "Foundation_NSString", feature = "GameKit_GKSession"))]
+    #[objc2::method(optional, sel = "session:didReceiveConnectionRequestFromPeer:")]
+    unsafe fn session_didReceiveConnectionRequestFromPeer(
+        &self,
+        session: &GKSession,
+        peer_id: &NSString,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "GameKit_GKSession"
-        ))]
-        #[optional]
-        #[method(session:connectionWithPeerFailed:withError:)]
-        unsafe fn session_connectionWithPeerFailed_withError(
-            &self,
-            session: &GKSession,
-            peer_id: &NSString,
-            error: &NSError,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "GameKit_GKSession"
+    ))]
+    #[objc2::method(optional, sel = "session:connectionWithPeerFailed:withError:")]
+    unsafe fn session_connectionWithPeerFailed_withError(
+        &self,
+        session: &GKSession,
+        peer_id: &NSString,
+        error: &NSError,
+    );
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "GameKit_GKSession"))]
-        #[optional]
-        #[method(session:didFailWithError:)]
-        unsafe fn session_didFailWithError(&self, session: &GKSession, error: &NSError);
-    }
+    #[cfg(all(feature = "Foundation_NSError", feature = "GameKit_GKSession"))]
+    #[objc2::method(optional, sel = "session:didFailWithError:")]
+    unsafe fn session_didFailWithError(&self, session: &GKSession, error: &NSError);
+}
 
-    unsafe impl ProtocolType for dyn GKSessionDelegate {}
-);
+#[objc2::protocol]
+pub unsafe trait GKVoiceChatClient: NSObjectProtocol {
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSString",
+        feature = "GameKit_GKVoiceChatService"
+    ))]
+    #[objc2::method(sel = "voiceChatService:sendData:toParticipantID:")]
+    unsafe fn voiceChatService_sendData_toParticipantID(
+        &self,
+        voice_chat_service: &GKVoiceChatService,
+        data: &NSData,
+        participant_id: &NSString,
+    );
 
-extern_protocol!(
-    pub unsafe trait GKVoiceChatClient: NSObjectProtocol {
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSString",
-            feature = "GameKit_GKVoiceChatService"
-        ))]
-        #[method(voiceChatService:sendData:toParticipantID:)]
-        unsafe fn voiceChatService_sendData_toParticipantID(
-            &self,
-            voice_chat_service: &GKVoiceChatService,
-            data: &NSData,
-            participant_id: &NSString,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "participantID", managed = "Other")]
+    unsafe fn participantID(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other participantID)]
-        unsafe fn participantID(&self) -> Id<NSString>;
+    #[cfg(all(
+        feature = "Foundation_NSData",
+        feature = "Foundation_NSString",
+        feature = "GameKit_GKVoiceChatService"
+    ))]
+    #[objc2::method(optional, sel = "voiceChatService:sendRealTimeData:toParticipantID:")]
+    unsafe fn voiceChatService_sendRealTimeData_toParticipantID(
+        &self,
+        voice_chat_service: &GKVoiceChatService,
+        data: &NSData,
+        participant_id: &NSString,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSData",
-            feature = "Foundation_NSString",
-            feature = "GameKit_GKVoiceChatService"
-        ))]
-        #[optional]
-        #[method(voiceChatService:sendRealTimeData:toParticipantID:)]
-        unsafe fn voiceChatService_sendRealTimeData_toParticipantID(
-            &self,
-            voice_chat_service: &GKVoiceChatService,
-            data: &NSData,
-            participant_id: &NSString,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "GameKit_GKVoiceChatService"
+    ))]
+    #[objc2::method(optional, sel = "voiceChatService:didStartWithParticipantID:")]
+    unsafe fn voiceChatService_didStartWithParticipantID(
+        &self,
+        voice_chat_service: &GKVoiceChatService,
+        participant_id: &NSString,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "GameKit_GKVoiceChatService"
-        ))]
-        #[optional]
-        #[method(voiceChatService:didStartWithParticipantID:)]
-        unsafe fn voiceChatService_didStartWithParticipantID(
-            &self,
-            voice_chat_service: &GKVoiceChatService,
-            participant_id: &NSString,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "GameKit_GKVoiceChatService"
+    ))]
+    #[objc2::method(optional, sel = "voiceChatService:didNotStartWithParticipantID:error:")]
+    unsafe fn voiceChatService_didNotStartWithParticipantID_error(
+        &self,
+        voice_chat_service: &GKVoiceChatService,
+        participant_id: &NSString,
+        error: Option<&NSError>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "GameKit_GKVoiceChatService"
-        ))]
-        #[optional]
-        #[method(voiceChatService:didNotStartWithParticipantID:error:)]
-        unsafe fn voiceChatService_didNotStartWithParticipantID_error(
-            &self,
-            voice_chat_service: &GKVoiceChatService,
-            participant_id: &NSString,
-            error: Option<&NSError>,
-        );
+    #[cfg(all(
+        feature = "Foundation_NSError",
+        feature = "Foundation_NSString",
+        feature = "GameKit_GKVoiceChatService"
+    ))]
+    #[objc2::method(optional, sel = "voiceChatService:didStopWithParticipantID:error:")]
+    unsafe fn voiceChatService_didStopWithParticipantID_error(
+        &self,
+        voice_chat_service: &GKVoiceChatService,
+        participant_id: &NSString,
+        error: Option<&NSError>,
+    );
 
-        #[cfg(all(
-            feature = "Foundation_NSError",
-            feature = "Foundation_NSString",
-            feature = "GameKit_GKVoiceChatService"
-        ))]
-        #[optional]
-        #[method(voiceChatService:didStopWithParticipantID:error:)]
-        unsafe fn voiceChatService_didStopWithParticipantID_error(
-            &self,
-            voice_chat_service: &GKVoiceChatService,
-            participant_id: &NSString,
-            error: Option<&NSError>,
-        );
-
-        #[cfg(all(
-            feature = "Foundation_NSString",
-            feature = "GameKit_GKVoiceChatService"
-        ))]
-        #[optional]
-        #[method(voiceChatService:didReceiveInvitationFromParticipantID:callID:)]
-        unsafe fn voiceChatService_didReceiveInvitationFromParticipantID_callID(
-            &self,
-            voice_chat_service: &GKVoiceChatService,
-            participant_id: &NSString,
-            call_id: NSInteger,
-        );
-    }
-
-    unsafe impl ProtocolType for dyn GKVoiceChatClient {}
-);
+    #[cfg(all(
+        feature = "Foundation_NSString",
+        feature = "GameKit_GKVoiceChatService"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "voiceChatService:didReceiveInvitationFromParticipantID:callID:"
+    )]
+    unsafe fn voiceChatService_didReceiveInvitationFromParticipantID_callID(
+        &self,
+        voice_chat_service: &GKVoiceChatService,
+        participant_id: &NSString,
+        call_id: NSInteger,
+    );
+}

@@ -12,48 +12,50 @@ typed_extensible_enum!(
     pub type FPUIActionIdentifier = NSString;
 );
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum FPUIExtensionErrorCode {
-        FPUIExtensionErrorCodeUserCancelled = 0,
-        FPUIExtensionErrorCodeFailed = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum FPUIExtensionErrorCode {
+    FPUIExtensionErrorCodeUserCancelled = 0,
+    FPUIExtensionErrorCodeFailed = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSExtensionContext,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "FileProviderUI_FPUIActionExtensionContext")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "FileProviderUI_FPUIActionExtensionContext")]
-    pub struct FPUIActionExtensionContext;
-
-    #[cfg(feature = "FileProviderUI_FPUIActionExtensionContext")]
-    unsafe impl ClassType for FPUIActionExtensionContext {
-        #[inherits(NSObject)]
-        type Super = NSExtensionContext;
-    }
-);
+    pub type FPUIActionExtensionContext;
+}
 
 #[cfg(feature = "FileProviderUI_FPUIActionExtensionContext")]
 unsafe impl NSObjectProtocol for FPUIActionExtensionContext {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "FileProviderUI_FPUIActionExtensionContext")]
-    unsafe impl FPUIActionExtensionContext {
-        #[method_id(@__retain_semantics Other domainIdentifier)]
-        pub unsafe fn domainIdentifier(&self) -> Option<Id<NSFileProviderDomainIdentifier>>;
+    pub type FPUIActionExtensionContext;
 
-        #[method(completeRequest)]
-        pub unsafe fn completeRequest(&self);
+    #[objc2::method(sel = "domainIdentifier", managed = "Other")]
+    pub unsafe fn domainIdentifier(&self) -> Option<Id<NSFileProviderDomainIdentifier>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(completeRequestReturningItems:completionHandler:)]
-        pub unsafe fn completeRequestReturningItems_completionHandler(
-            &self,
-            items: Option<&NSArray>,
-            completion_handler: Option<&Block<(Bool,), ()>>,
-        );
+    #[objc2::method(sel = "completeRequest")]
+    pub unsafe fn completeRequest(&self);
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(cancelRequestWithError:)]
-        pub unsafe fn cancelRequestWithError(&self, error: &NSError);
-    }
-);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "completeRequestReturningItems:completionHandler:")]
+    pub unsafe fn completeRequestReturningItems_completionHandler(
+        &self,
+        items: Option<&NSArray>,
+        completion_handler: Option<&Block<(Bool,), ()>>,
+    );
+
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "cancelRequestWithError:")]
+    pub unsafe fn cancelRequestWithError(&self, error: &NSError);
+}

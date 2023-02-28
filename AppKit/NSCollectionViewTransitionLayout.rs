@@ -7,17 +7,17 @@ use crate::Foundation::*;
 
 pub type NSCollectionViewTransitionLayoutAnimatedKey = NSString;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSCollectionViewLayout,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSCollectionViewTransitionLayout")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSCollectionViewTransitionLayout")]
-    pub struct NSCollectionViewTransitionLayout;
-
-    #[cfg(feature = "AppKit_NSCollectionViewTransitionLayout")]
-    unsafe impl ClassType for NSCollectionViewTransitionLayout {
-        #[inherits(NSObject)]
-        type Super = NSCollectionViewLayout;
-    }
-);
+    pub type NSCollectionViewTransitionLayout;
+}
 
 #[cfg(feature = "AppKit_NSCollectionViewTransitionLayout")]
 unsafe impl NSCoding for NSCollectionViewTransitionLayout {}
@@ -25,39 +25,42 @@ unsafe impl NSCoding for NSCollectionViewTransitionLayout {}
 #[cfg(feature = "AppKit_NSCollectionViewTransitionLayout")]
 unsafe impl NSObjectProtocol for NSCollectionViewTransitionLayout {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSCollectionViewTransitionLayout")]
-    unsafe impl NSCollectionViewTransitionLayout {
-        #[method(transitionProgress)]
-        pub unsafe fn transitionProgress(&self) -> CGFloat;
+    pub type NSCollectionViewTransitionLayout;
 
-        #[method(setTransitionProgress:)]
-        pub unsafe fn setTransitionProgress(&self, transition_progress: CGFloat);
+    #[objc2::method(sel = "transitionProgress")]
+    pub unsafe fn transitionProgress(&self) -> CGFloat;
 
-        #[method_id(@__retain_semantics Other currentLayout)]
-        pub unsafe fn currentLayout(&self) -> Id<NSCollectionViewLayout>;
+    #[objc2::method(sel = "setTransitionProgress:")]
+    pub unsafe fn setTransitionProgress(&self, transition_progress: CGFloat);
 
-        #[method_id(@__retain_semantics Other nextLayout)]
-        pub unsafe fn nextLayout(&self) -> Id<NSCollectionViewLayout>;
+    #[objc2::method(sel = "currentLayout", managed = "Other")]
+    pub unsafe fn currentLayout(&self) -> Id<NSCollectionViewLayout>;
 
-        #[method_id(@__retain_semantics Init initWithCurrentLayout:nextLayout:)]
-        pub unsafe fn initWithCurrentLayout_nextLayout(
-            this: Option<Allocated<Self>>,
-            current_layout: &NSCollectionViewLayout,
-            new_layout: &NSCollectionViewLayout,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "nextLayout", managed = "Other")]
+    pub unsafe fn nextLayout(&self) -> Id<NSCollectionViewLayout>;
 
-        #[method(updateValue:forAnimatedKey:)]
-        pub unsafe fn updateValue_forAnimatedKey(
-            &self,
-            value: CGFloat,
-            key: &NSCollectionViewTransitionLayoutAnimatedKey,
-        );
+    #[objc2::method(sel = "initWithCurrentLayout:nextLayout:", managed = "Init")]
+    pub unsafe fn initWithCurrentLayout_nextLayout(
+        this: Option<Allocated<Self>>,
+        current_layout: &NSCollectionViewLayout,
+        new_layout: &NSCollectionViewLayout,
+    ) -> Id<Self>;
 
-        #[method(valueForAnimatedKey:)]
-        pub unsafe fn valueForAnimatedKey(
-            &self,
-            key: &NSCollectionViewTransitionLayoutAnimatedKey,
-        ) -> CGFloat;
-    }
-);
+    #[objc2::method(sel = "updateValue:forAnimatedKey:")]
+    pub unsafe fn updateValue_forAnimatedKey(
+        &self,
+        value: CGFloat,
+        key: &NSCollectionViewTransitionLayoutAnimatedKey,
+    );
+
+    #[objc2::method(sel = "valueForAnimatedKey:")]
+    pub unsafe fn valueForAnimatedKey(
+        &self,
+        key: &NSCollectionViewTransitionLayoutAnimatedKey,
+    ) -> CGFloat;
+}

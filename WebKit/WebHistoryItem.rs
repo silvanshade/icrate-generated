@@ -7,58 +7,65 @@ use crate::WebKit::*;
 
 extern_static!(WebHistoryItemChangedNotification: Option<&'static NSString>);
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_WebHistoryItem")]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct WebHistoryItem;
-
     #[cfg(feature = "WebKit_WebHistoryItem")]
-    unsafe impl ClassType for WebHistoryItem {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type WebHistoryItem;
+}
 
 #[cfg(feature = "WebKit_WebHistoryItem")]
 unsafe impl NSObjectProtocol for WebHistoryItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_WebHistoryItem")]
-    unsafe impl WebHistoryItem {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithURLString:title:lastVisitedTimeInterval:)]
-        pub unsafe fn initWithURLString_title_lastVisitedTimeInterval(
-            this: Option<Allocated<Self>>,
-            url_string: Option<&NSString>,
-            title: Option<&NSString>,
-            time: NSTimeInterval,
-        ) -> Option<Id<Self>>;
+    #[deprecated]
+    pub type WebHistoryItem;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other originalURLString)]
-        pub unsafe fn originalURLString(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "initWithURLString:title:lastVisitedTimeInterval:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithURLString_title_lastVisitedTimeInterval(
+        this: Option<Allocated<Self>>,
+        url_string: Option<&NSString>,
+        title: Option<&NSString>,
+        time: NSTimeInterval,
+    ) -> Option<Id<Self>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other URLString)]
-        pub unsafe fn URLString(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "originalURLString", managed = "Other")]
+    pub unsafe fn originalURLString(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "URLString", managed = "Other")]
+    pub unsafe fn URLString(&self) -> Id<NSString>;
 
-        #[method(lastVisitedTimeInterval)]
-        pub unsafe fn lastVisitedTimeInterval(&self) -> NSTimeInterval;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other alternateTitle)]
-        pub unsafe fn alternateTitle(&self) -> Id<NSString>;
+    #[objc2::method(sel = "lastVisitedTimeInterval")]
+    pub unsafe fn lastVisitedTimeInterval(&self) -> NSTimeInterval;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAlternateTitle:)]
-        pub unsafe fn setAlternateTitle(&self, alternate_title: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "alternateTitle", managed = "Other")]
+    pub unsafe fn alternateTitle(&self) -> Id<NSString>;
 
-        #[cfg(feature = "AppKit_NSImage")]
-        #[method_id(@__retain_semantics Other icon)]
-        pub unsafe fn icon(&self) -> Option<Id<NSImage>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAlternateTitle:")]
+    pub unsafe fn setAlternateTitle(&self, alternate_title: Option<&NSString>);
+
+    #[cfg(feature = "AppKit_NSImage")]
+    #[objc2::method(sel = "icon", managed = "Other")]
+    pub unsafe fn icon(&self) -> Option<Id<NSImage>>;
+}

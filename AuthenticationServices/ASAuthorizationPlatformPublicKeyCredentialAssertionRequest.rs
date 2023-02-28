@@ -4,21 +4,19 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = ASAuthorizationRequest,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(
+        feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialAssertionRequest"
+    )]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(
-        feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialAssertionRequest"
-    )]
-    pub struct ASAuthorizationPlatformPublicKeyCredentialAssertionRequest;
-
-    #[cfg(
-        feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialAssertionRequest"
-    )]
-    unsafe impl ClassType for ASAuthorizationPlatformPublicKeyCredentialAssertionRequest {
-        #[inherits(NSObject)]
-        type Super = ASAuthorizationRequest;
-    }
-);
+    pub type ASAuthorizationPlatformPublicKeyCredentialAssertionRequest;
+}
 
 #[cfg(
     feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialAssertionRequest"
@@ -43,34 +41,37 @@ unsafe impl NSObjectProtocol for ASAuthorizationPlatformPublicKeyCredentialAsser
 )]
 unsafe impl NSSecureCoding for ASAuthorizationPlatformPublicKeyCredentialAssertionRequest {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(
         feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialAssertionRequest"
     )]
-    unsafe impl ASAuthorizationPlatformPublicKeyCredentialAssertionRequest {
-        #[cfg(all(
-            feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialDescriptor",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other allowedCredentials)]
-        pub unsafe fn allowedCredentials(
-            &self,
-        ) -> Id<NSArray<ASAuthorizationPlatformPublicKeyCredentialDescriptor>>;
+    pub type ASAuthorizationPlatformPublicKeyCredentialAssertionRequest;
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialDescriptor",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method(setAllowedCredentials:)]
-        pub unsafe fn setAllowedCredentials(
-            &self,
-            allowed_credentials: &NSArray<ASAuthorizationPlatformPublicKeyCredentialDescriptor>,
-        );
+    #[cfg(all(
+        feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialDescriptor",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "allowedCredentials", managed = "Other")]
+    pub unsafe fn allowedCredentials(
+        &self,
+    ) -> Id<NSArray<ASAuthorizationPlatformPublicKeyCredentialDescriptor>>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[cfg(all(
+        feature = "AuthenticationServices_ASAuthorizationPlatformPublicKeyCredentialDescriptor",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "setAllowedCredentials:")]
+    pub unsafe fn setAllowedCredentials(
+        &self,
+        allowed_credentials: &NSArray<ASAuthorizationPlatformPublicKeyCredentialDescriptor>,
+    );
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

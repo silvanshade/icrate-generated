@@ -5,262 +5,277 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSPrintingPageOrder {
-        NSDescendingPageOrder = -1,
-        NSSpecialPageOrder = 0,
-        NSAscendingPageOrder = 1,
-        NSUnknownPageOrder = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSPrintingPageOrder {
+    NSDescendingPageOrder = -1,
+    NSSpecialPageOrder = 0,
+    NSAscendingPageOrder = 1,
+    NSUnknownPageOrder = 2,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSPrintRenderingQuality {
-        NSPrintRenderingQualityBest = 0,
-        NSPrintRenderingQualityResponsive = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSPrintRenderingQuality {
+    NSPrintRenderingQualityBest = 0,
+    NSPrintRenderingQualityResponsive = 1,
+}
 
 extern_static!(NSPrintOperationExistsException: &'static NSExceptionName);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPrintOperation")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPrintOperation")]
-    pub struct NSPrintOperation;
-
-    #[cfg(feature = "AppKit_NSPrintOperation")]
-    unsafe impl ClassType for NSPrintOperation {
-        type Super = NSObject;
-    }
-);
+    pub type NSPrintOperation;
+}
 
 #[cfg(feature = "AppKit_NSPrintOperation")]
 unsafe impl NSObjectProtocol for NSPrintOperation {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPrintOperation")]
-    unsafe impl NSPrintOperation {
-        #[cfg(all(feature = "AppKit_NSPrintInfo", feature = "AppKit_NSView"))]
-        #[method_id(@__retain_semantics Other printOperationWithView:printInfo:)]
-        pub unsafe fn printOperationWithView_printInfo(
-            view: &NSView,
-            print_info: &NSPrintInfo,
-        ) -> Id<NSPrintOperation>;
+    pub type NSPrintOperation;
 
-        #[cfg(all(
-            feature = "AppKit_NSPrintInfo",
-            feature = "AppKit_NSView",
-            feature = "Foundation_NSMutableData"
-        ))]
-        #[method_id(@__retain_semantics Other PDFOperationWithView:insideRect:toData:printInfo:)]
-        pub unsafe fn PDFOperationWithView_insideRect_toData_printInfo(
-            view: &NSView,
-            rect: NSRect,
-            data: &NSMutableData,
-            print_info: &NSPrintInfo,
-        ) -> Id<NSPrintOperation>;
+    #[cfg(all(feature = "AppKit_NSPrintInfo", feature = "AppKit_NSView"))]
+    #[objc2::method(sel = "printOperationWithView:printInfo:", managed = "Other")]
+    pub unsafe fn printOperationWithView_printInfo(
+        view: &NSView,
+        print_info: &NSPrintInfo,
+    ) -> Id<NSPrintOperation>;
 
-        #[cfg(all(
-            feature = "AppKit_NSPrintInfo",
-            feature = "AppKit_NSView",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other PDFOperationWithView:insideRect:toPath:printInfo:)]
-        pub unsafe fn PDFOperationWithView_insideRect_toPath_printInfo(
-            view: &NSView,
-            rect: NSRect,
-            path: &NSString,
-            print_info: &NSPrintInfo,
-        ) -> Id<NSPrintOperation>;
+    #[cfg(all(
+        feature = "AppKit_NSPrintInfo",
+        feature = "AppKit_NSView",
+        feature = "Foundation_NSMutableData"
+    ))]
+    #[objc2::method(
+        sel = "PDFOperationWithView:insideRect:toData:printInfo:",
+        managed = "Other"
+    )]
+    pub unsafe fn PDFOperationWithView_insideRect_toData_printInfo(
+        view: &NSView,
+        rect: NSRect,
+        data: &NSMutableData,
+        print_info: &NSPrintInfo,
+    ) -> Id<NSPrintOperation>;
 
-        #[cfg(all(
-            feature = "AppKit_NSPrintInfo",
-            feature = "AppKit_NSView",
-            feature = "Foundation_NSMutableData"
-        ))]
-        #[method_id(@__retain_semantics Other EPSOperationWithView:insideRect:toData:printInfo:)]
-        pub unsafe fn EPSOperationWithView_insideRect_toData_printInfo(
-            view: &NSView,
-            rect: NSRect,
-            data: &NSMutableData,
-            print_info: &NSPrintInfo,
-        ) -> Id<NSPrintOperation>;
+    #[cfg(all(
+        feature = "AppKit_NSPrintInfo",
+        feature = "AppKit_NSView",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "PDFOperationWithView:insideRect:toPath:printInfo:",
+        managed = "Other"
+    )]
+    pub unsafe fn PDFOperationWithView_insideRect_toPath_printInfo(
+        view: &NSView,
+        rect: NSRect,
+        path: &NSString,
+        print_info: &NSPrintInfo,
+    ) -> Id<NSPrintOperation>;
 
-        #[cfg(all(
-            feature = "AppKit_NSPrintInfo",
-            feature = "AppKit_NSView",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other EPSOperationWithView:insideRect:toPath:printInfo:)]
-        pub unsafe fn EPSOperationWithView_insideRect_toPath_printInfo(
-            view: &NSView,
-            rect: NSRect,
-            path: &NSString,
-            print_info: &NSPrintInfo,
-        ) -> Id<NSPrintOperation>;
+    #[cfg(all(
+        feature = "AppKit_NSPrintInfo",
+        feature = "AppKit_NSView",
+        feature = "Foundation_NSMutableData"
+    ))]
+    #[objc2::method(
+        sel = "EPSOperationWithView:insideRect:toData:printInfo:",
+        managed = "Other"
+    )]
+    pub unsafe fn EPSOperationWithView_insideRect_toData_printInfo(
+        view: &NSView,
+        rect: NSRect,
+        data: &NSMutableData,
+        print_info: &NSPrintInfo,
+    ) -> Id<NSPrintOperation>;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other printOperationWithView:)]
-        pub unsafe fn printOperationWithView(view: &NSView) -> Id<NSPrintOperation>;
+    #[cfg(all(
+        feature = "AppKit_NSPrintInfo",
+        feature = "AppKit_NSView",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "EPSOperationWithView:insideRect:toPath:printInfo:",
+        managed = "Other"
+    )]
+    pub unsafe fn EPSOperationWithView_insideRect_toPath_printInfo(
+        view: &NSView,
+        rect: NSRect,
+        path: &NSString,
+        print_info: &NSPrintInfo,
+    ) -> Id<NSPrintOperation>;
 
-        #[cfg(all(feature = "AppKit_NSView", feature = "Foundation_NSMutableData"))]
-        #[method_id(@__retain_semantics Other PDFOperationWithView:insideRect:toData:)]
-        pub unsafe fn PDFOperationWithView_insideRect_toData(
-            view: &NSView,
-            rect: NSRect,
-            data: &NSMutableData,
-        ) -> Id<NSPrintOperation>;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "printOperationWithView:", managed = "Other")]
+    pub unsafe fn printOperationWithView(view: &NSView) -> Id<NSPrintOperation>;
 
-        #[cfg(all(feature = "AppKit_NSView", feature = "Foundation_NSMutableData"))]
-        #[method_id(@__retain_semantics Other EPSOperationWithView:insideRect:toData:)]
-        pub unsafe fn EPSOperationWithView_insideRect_toData(
-            view: &NSView,
-            rect: NSRect,
-            data: Option<&NSMutableData>,
-        ) -> Id<NSPrintOperation>;
+    #[cfg(all(feature = "AppKit_NSView", feature = "Foundation_NSMutableData"))]
+    #[objc2::method(sel = "PDFOperationWithView:insideRect:toData:", managed = "Other")]
+    pub unsafe fn PDFOperationWithView_insideRect_toData(
+        view: &NSView,
+        rect: NSRect,
+        data: &NSMutableData,
+    ) -> Id<NSPrintOperation>;
 
-        #[method_id(@__retain_semantics Other currentOperation)]
-        pub unsafe fn currentOperation() -> Option<Id<NSPrintOperation>>;
+    #[cfg(all(feature = "AppKit_NSView", feature = "Foundation_NSMutableData"))]
+    #[objc2::method(sel = "EPSOperationWithView:insideRect:toData:", managed = "Other")]
+    pub unsafe fn EPSOperationWithView_insideRect_toData(
+        view: &NSView,
+        rect: NSRect,
+        data: Option<&NSMutableData>,
+    ) -> Id<NSPrintOperation>;
 
-        #[method(setCurrentOperation:)]
-        pub unsafe fn setCurrentOperation(current_operation: Option<&NSPrintOperation>);
+    #[objc2::method(sel = "currentOperation", managed = "Other")]
+    pub unsafe fn currentOperation() -> Option<Id<NSPrintOperation>>;
 
-        #[method(isCopyingOperation)]
-        pub unsafe fn isCopyingOperation(&self) -> bool;
+    #[objc2::method(sel = "setCurrentOperation:")]
+    pub unsafe fn setCurrentOperation(current_operation: Option<&NSPrintOperation>);
 
-        #[method(preferredRenderingQuality)]
-        pub unsafe fn preferredRenderingQuality(&self) -> NSPrintRenderingQuality;
+    #[objc2::method(sel = "isCopyingOperation")]
+    pub unsafe fn isCopyingOperation(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other jobTitle)]
-        pub unsafe fn jobTitle(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "preferredRenderingQuality")]
+    pub unsafe fn preferredRenderingQuality(&self) -> NSPrintRenderingQuality;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setJobTitle:)]
-        pub unsafe fn setJobTitle(&self, job_title: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "jobTitle", managed = "Other")]
+    pub unsafe fn jobTitle(&self) -> Option<Id<NSString>>;
 
-        #[method(showsPrintPanel)]
-        pub unsafe fn showsPrintPanel(&self) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setJobTitle:")]
+    pub unsafe fn setJobTitle(&self, job_title: Option<&NSString>);
 
-        #[method(setShowsPrintPanel:)]
-        pub unsafe fn setShowsPrintPanel(&self, shows_print_panel: bool);
+    #[objc2::method(sel = "showsPrintPanel")]
+    pub unsafe fn showsPrintPanel(&self) -> bool;
 
-        #[method(showsProgressPanel)]
-        pub unsafe fn showsProgressPanel(&self) -> bool;
+    #[objc2::method(sel = "setShowsPrintPanel:")]
+    pub unsafe fn setShowsPrintPanel(&self, shows_print_panel: bool);
 
-        #[method(setShowsProgressPanel:)]
-        pub unsafe fn setShowsProgressPanel(&self, shows_progress_panel: bool);
+    #[objc2::method(sel = "showsProgressPanel")]
+    pub unsafe fn showsProgressPanel(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSPrintPanel")]
-        #[method_id(@__retain_semantics Other printPanel)]
-        pub unsafe fn printPanel(&self) -> Id<NSPrintPanel>;
+    #[objc2::method(sel = "setShowsProgressPanel:")]
+    pub unsafe fn setShowsProgressPanel(&self, shows_progress_panel: bool);
 
-        #[cfg(feature = "AppKit_NSPrintPanel")]
-        #[method(setPrintPanel:)]
-        pub unsafe fn setPrintPanel(&self, print_panel: &NSPrintPanel);
+    #[cfg(feature = "AppKit_NSPrintPanel")]
+    #[objc2::method(sel = "printPanel", managed = "Other")]
+    pub unsafe fn printPanel(&self) -> Id<NSPrintPanel>;
 
-        #[cfg(feature = "AppKit_NSPDFPanel")]
-        #[method_id(@__retain_semantics Other PDFPanel)]
-        pub unsafe fn PDFPanel(&self) -> Id<NSPDFPanel>;
+    #[cfg(feature = "AppKit_NSPrintPanel")]
+    #[objc2::method(sel = "setPrintPanel:")]
+    pub unsafe fn setPrintPanel(&self, print_panel: &NSPrintPanel);
 
-        #[cfg(feature = "AppKit_NSPDFPanel")]
-        #[method(setPDFPanel:)]
-        pub unsafe fn setPDFPanel(&self, pdf_panel: &NSPDFPanel);
+    #[cfg(feature = "AppKit_NSPDFPanel")]
+    #[objc2::method(sel = "PDFPanel", managed = "Other")]
+    pub unsafe fn PDFPanel(&self) -> Id<NSPDFPanel>;
 
-        #[method(canSpawnSeparateThread)]
-        pub unsafe fn canSpawnSeparateThread(&self) -> bool;
+    #[cfg(feature = "AppKit_NSPDFPanel")]
+    #[objc2::method(sel = "setPDFPanel:")]
+    pub unsafe fn setPDFPanel(&self, pdf_panel: &NSPDFPanel);
 
-        #[method(setCanSpawnSeparateThread:)]
-        pub unsafe fn setCanSpawnSeparateThread(&self, can_spawn_separate_thread: bool);
+    #[objc2::method(sel = "canSpawnSeparateThread")]
+    pub unsafe fn canSpawnSeparateThread(&self) -> bool;
 
-        #[method(pageOrder)]
-        pub unsafe fn pageOrder(&self) -> NSPrintingPageOrder;
+    #[objc2::method(sel = "setCanSpawnSeparateThread:")]
+    pub unsafe fn setCanSpawnSeparateThread(&self, can_spawn_separate_thread: bool);
 
-        #[method(setPageOrder:)]
-        pub unsafe fn setPageOrder(&self, page_order: NSPrintingPageOrder);
+    #[objc2::method(sel = "pageOrder")]
+    pub unsafe fn pageOrder(&self) -> NSPrintingPageOrder;
 
-        #[cfg(feature = "AppKit_NSWindow")]
-        #[method(runOperationModalForWindow:delegate:didRunSelector:contextInfo:)]
-        pub unsafe fn runOperationModalForWindow_delegate_didRunSelector_contextInfo(
-            &self,
-            doc_window: &NSWindow,
-            delegate: Option<&Object>,
-            did_run_selector: Option<Sel>,
-            context_info: *mut c_void,
-        );
+    #[objc2::method(sel = "setPageOrder:")]
+    pub unsafe fn setPageOrder(&self, page_order: NSPrintingPageOrder);
 
-        #[method(runOperation)]
-        pub unsafe fn runOperation(&self) -> bool;
+    #[cfg(feature = "AppKit_NSWindow")]
+    #[objc2::method(sel = "runOperationModalForWindow:delegate:didRunSelector:contextInfo:")]
+    pub unsafe fn runOperationModalForWindow_delegate_didRunSelector_contextInfo(
+        &self,
+        doc_window: &NSWindow,
+        delegate: Option<&Object>,
+        did_run_selector: Option<Sel>,
+        context_info: *mut c_void,
+    );
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[method_id(@__retain_semantics Other view)]
-        pub unsafe fn view(&self) -> Option<Id<NSView>>;
+    #[objc2::method(sel = "runOperation")]
+    pub unsafe fn runOperation(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSPrintInfo")]
-        #[method_id(@__retain_semantics Other printInfo)]
-        pub unsafe fn printInfo(&self) -> Id<NSPrintInfo>;
+    #[cfg(feature = "AppKit_NSView")]
+    #[objc2::method(sel = "view", managed = "Other")]
+    pub unsafe fn view(&self) -> Option<Id<NSView>>;
 
-        #[cfg(feature = "AppKit_NSPrintInfo")]
-        #[method(setPrintInfo:)]
-        pub unsafe fn setPrintInfo(&self, print_info: &NSPrintInfo);
+    #[cfg(feature = "AppKit_NSPrintInfo")]
+    #[objc2::method(sel = "printInfo", managed = "Other")]
+    pub unsafe fn printInfo(&self) -> Id<NSPrintInfo>;
 
-        #[cfg(feature = "AppKit_NSGraphicsContext")]
-        #[method_id(@__retain_semantics Other context)]
-        pub unsafe fn context(&self) -> Option<Id<NSGraphicsContext>>;
+    #[cfg(feature = "AppKit_NSPrintInfo")]
+    #[objc2::method(sel = "setPrintInfo:")]
+    pub unsafe fn setPrintInfo(&self, print_info: &NSPrintInfo);
 
-        #[method(pageRange)]
-        pub unsafe fn pageRange(&self) -> NSRange;
+    #[cfg(feature = "AppKit_NSGraphicsContext")]
+    #[objc2::method(sel = "context", managed = "Other")]
+    pub unsafe fn context(&self) -> Option<Id<NSGraphicsContext>>;
 
-        #[method(currentPage)]
-        pub unsafe fn currentPage(&self) -> NSInteger;
+    #[objc2::method(sel = "pageRange")]
+    pub unsafe fn pageRange(&self) -> NSRange;
 
-        #[cfg(feature = "AppKit_NSGraphicsContext")]
-        #[method_id(@__retain_semantics Other createContext)]
-        pub unsafe fn createContext(&self) -> Option<Id<NSGraphicsContext>>;
+    #[objc2::method(sel = "currentPage")]
+    pub unsafe fn currentPage(&self) -> NSInteger;
 
-        #[method(destroyContext)]
-        pub unsafe fn destroyContext(&self);
+    #[cfg(feature = "AppKit_NSGraphicsContext")]
+    #[objc2::method(sel = "createContext", managed = "Other")]
+    pub unsafe fn createContext(&self) -> Option<Id<NSGraphicsContext>>;
 
-        #[method(deliverResult)]
-        pub unsafe fn deliverResult(&self) -> bool;
+    #[objc2::method(sel = "destroyContext")]
+    pub unsafe fn destroyContext(&self);
 
-        #[method(cleanUpOperation)]
-        pub unsafe fn cleanUpOperation(&self);
-    }
-);
+    #[objc2::method(sel = "deliverResult")]
+    pub unsafe fn deliverResult(&self) -> bool;
 
-extern_methods!(
-    /// NSDeprecated
+    #[objc2::method(sel = "cleanUpOperation")]
+    pub unsafe fn cleanUpOperation(&self);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPrintOperation")]
-    unsafe impl NSPrintOperation {
-        #[cfg(feature = "AppKit_NSView")]
-        #[deprecated = "Use -[NSPrintPanel addAccessoryController:] and -[NSPrintPanel removeAccessoryController:] instead"]
-        #[method(setAccessoryView:)]
-        pub unsafe fn setAccessoryView(&self, view: Option<&NSView>);
+    pub type NSPrintOperation;
 
-        #[cfg(feature = "AppKit_NSView")]
-        #[deprecated = "Use -[NSPrintPanel accessoryControllers] instead"]
-        #[method_id(@__retain_semantics Other accessoryView)]
-        pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
+    #[cfg(feature = "AppKit_NSView")]
+    #[deprecated = "Use -[NSPrintPanel addAccessoryController:] and -[NSPrintPanel removeAccessoryController:] instead"]
+    #[objc2::method(sel = "setAccessoryView:")]
+    pub unsafe fn setAccessoryView(&self, view: Option<&NSView>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(setJobStyleHint:)]
-        pub unsafe fn setJobStyleHint(&self, hint: Option<&NSString>);
+    #[cfg(feature = "AppKit_NSView")]
+    #[deprecated = "Use -[NSPrintPanel accessoryControllers] instead"]
+    #[objc2::method(sel = "accessoryView", managed = "Other")]
+    pub unsafe fn accessoryView(&self) -> Option<Id<NSView>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other jobStyleHint)]
-        pub unsafe fn jobStyleHint(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "setJobStyleHint:")]
+    pub unsafe fn setJobStyleHint(&self, hint: Option<&NSString>);
 
-        #[deprecated = "Use -setShowsPrintPanel: and -setShowsProgressPanel: instead"]
-        #[method(setShowPanels:)]
-        pub unsafe fn setShowPanels(&self, flag: bool);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "jobStyleHint", managed = "Other")]
+    pub unsafe fn jobStyleHint(&self) -> Option<Id<NSString>>;
 
-        #[deprecated = "Use -showsPrintPanel and -showsProgressPanel instead"]
-        #[method(showPanels)]
-        pub unsafe fn showPanels(&self) -> bool;
-    }
-);
+    #[deprecated = "Use -setShowsPrintPanel: and -setShowsProgressPanel: instead"]
+    #[objc2::method(sel = "setShowPanels:")]
+    pub unsafe fn setShowPanels(&self, flag: bool);
+
+    #[deprecated = "Use -showsPrintPanel and -showsProgressPanel instead"]
+    #[objc2::method(sel = "showPanels")]
+    pub unsafe fn showPanels(&self) -> bool;
+}

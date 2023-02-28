@@ -4,110 +4,114 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPersistentContainer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSPersistentContainer")]
-    pub struct NSPersistentContainer;
-
-    #[cfg(feature = "CoreData_NSPersistentContainer")]
-    unsafe impl ClassType for NSPersistentContainer {
-        type Super = NSObject;
-    }
-);
+    pub type NSPersistentContainer;
+}
 
 #[cfg(feature = "CoreData_NSPersistentContainer")]
 unsafe impl NSObjectProtocol for NSPersistentContainer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPersistentContainer")]
-    unsafe impl NSPersistentContainer {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other persistentContainerWithName:)]
-        pub unsafe fn persistentContainerWithName(name: &NSString) -> Id<Self>;
+    pub type NSPersistentContainer;
 
-        #[cfg(all(
-            feature = "CoreData_NSManagedObjectModel",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other persistentContainerWithName:managedObjectModel:)]
-        pub unsafe fn persistentContainerWithName_managedObjectModel(
-            name: &NSString,
-            model: &NSManagedObjectModel,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "persistentContainerWithName:", managed = "Other")]
+    pub unsafe fn persistentContainerWithName(name: &NSString) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other defaultDirectoryURL)]
-        pub unsafe fn defaultDirectoryURL() -> Id<NSURL>;
+    #[cfg(all(
+        feature = "CoreData_NSManagedObjectModel",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(
+        sel = "persistentContainerWithName:managedObjectModel:",
+        managed = "Other"
+    )]
+    pub unsafe fn persistentContainerWithName_managedObjectModel(
+        name: &NSString,
+        model: &NSManagedObjectModel,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        pub unsafe fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "defaultDirectoryURL", managed = "Other")]
+    pub unsafe fn defaultDirectoryURL() -> Id<NSURL>;
 
-        #[cfg(feature = "CoreData_NSManagedObjectContext")]
-        #[method_id(@__retain_semantics Other viewContext)]
-        pub unsafe fn viewContext(&self) -> Id<NSManagedObjectContext>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    pub unsafe fn name(&self) -> Id<NSString>;
 
-        #[cfg(feature = "CoreData_NSManagedObjectModel")]
-        #[method_id(@__retain_semantics Other managedObjectModel)]
-        pub unsafe fn managedObjectModel(&self) -> Id<NSManagedObjectModel>;
+    #[cfg(feature = "CoreData_NSManagedObjectContext")]
+    #[objc2::method(sel = "viewContext", managed = "Other")]
+    pub unsafe fn viewContext(&self) -> Id<NSManagedObjectContext>;
 
-        #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
-        #[method_id(@__retain_semantics Other persistentStoreCoordinator)]
-        pub unsafe fn persistentStoreCoordinator(&self) -> Id<NSPersistentStoreCoordinator>;
+    #[cfg(feature = "CoreData_NSManagedObjectModel")]
+    #[objc2::method(sel = "managedObjectModel", managed = "Other")]
+    pub unsafe fn managedObjectModel(&self) -> Id<NSManagedObjectModel>;
 
-        #[cfg(all(
-            feature = "CoreData_NSPersistentStoreDescription",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other persistentStoreDescriptions)]
-        pub unsafe fn persistentStoreDescriptions(
-            &self,
-        ) -> Id<NSArray<NSPersistentStoreDescription>>;
+    #[cfg(feature = "CoreData_NSPersistentStoreCoordinator")]
+    #[objc2::method(sel = "persistentStoreCoordinator", managed = "Other")]
+    pub unsafe fn persistentStoreCoordinator(&self) -> Id<NSPersistentStoreCoordinator>;
 
-        #[cfg(all(
-            feature = "CoreData_NSPersistentStoreDescription",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method(setPersistentStoreDescriptions:)]
-        pub unsafe fn setPersistentStoreDescriptions(
-            &self,
-            persistent_store_descriptions: &NSArray<NSPersistentStoreDescription>,
-        );
+    #[cfg(all(
+        feature = "CoreData_NSPersistentStoreDescription",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "persistentStoreDescriptions", managed = "Other")]
+    pub unsafe fn persistentStoreDescriptions(&self) -> Id<NSArray<NSPersistentStoreDescription>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithName:)]
-        pub unsafe fn initWithName(this: Option<Allocated<Self>>, name: &NSString) -> Id<Self>;
+    #[cfg(all(
+        feature = "CoreData_NSPersistentStoreDescription",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "setPersistentStoreDescriptions:")]
+    pub unsafe fn setPersistentStoreDescriptions(
+        &self,
+        persistent_store_descriptions: &NSArray<NSPersistentStoreDescription>,
+    );
 
-        #[cfg(all(
-            feature = "CoreData_NSManagedObjectModel",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Init initWithName:managedObjectModel:)]
-        pub unsafe fn initWithName_managedObjectModel(
-            this: Option<Allocated<Self>>,
-            name: &NSString,
-            model: &NSManagedObjectModel,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "initWithName:", managed = "Init")]
+    pub unsafe fn initWithName(this: Option<Allocated<Self>>, name: &NSString) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "CoreData_NSPersistentStoreDescription",
-            feature = "Foundation_NSError"
-        ))]
-        #[method(loadPersistentStoresWithCompletionHandler:)]
-        pub unsafe fn loadPersistentStoresWithCompletionHandler(
-            &self,
-            block: &Block<(NonNull<NSPersistentStoreDescription>, *mut NSError), ()>,
-        );
+    #[cfg(all(
+        feature = "CoreData_NSManagedObjectModel",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "initWithName:managedObjectModel:", managed = "Init")]
+    pub unsafe fn initWithName_managedObjectModel(
+        this: Option<Allocated<Self>>,
+        name: &NSString,
+        model: &NSManagedObjectModel,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "CoreData_NSManagedObjectContext")]
-        #[method_id(@__retain_semantics New newBackgroundContext)]
-        pub unsafe fn newBackgroundContext(&self) -> Id<NSManagedObjectContext>;
+    #[cfg(all(
+        feature = "CoreData_NSPersistentStoreDescription",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(sel = "loadPersistentStoresWithCompletionHandler:")]
+    pub unsafe fn loadPersistentStoresWithCompletionHandler(
+        &self,
+        block: &Block<(NonNull<NSPersistentStoreDescription>, *mut NSError), ()>,
+    );
 
-        #[cfg(feature = "CoreData_NSManagedObjectContext")]
-        #[method(performBackgroundTask:)]
-        pub unsafe fn performBackgroundTask(
-            &self,
-            block: &Block<(NonNull<NSManagedObjectContext>,), ()>,
-        );
-    }
-);
+    #[cfg(feature = "CoreData_NSManagedObjectContext")]
+    #[objc2::method(sel = "newBackgroundContext", managed = "New")]
+    pub unsafe fn newBackgroundContext(&self) -> Id<NSManagedObjectContext>;
+
+    #[cfg(feature = "CoreData_NSManagedObjectContext")]
+    #[objc2::method(sel = "performBackgroundTask:")]
+    pub unsafe fn performBackgroundTask(
+        &self,
+        block: &Block<(NonNull<NSManagedObjectContext>,), ()>,
+    );
+}

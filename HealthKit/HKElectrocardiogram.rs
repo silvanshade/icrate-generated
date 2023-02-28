@@ -6,47 +6,45 @@ use crate::Foundation::*;
 use crate::HealthKit::*;
 use crate::UniformTypeIdentifiers::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKElectrocardiogramLead {
-        HKElectrocardiogramLeadAppleWatchSimilarToLeadI = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKElectrocardiogramLead {
+    HKElectrocardiogramLeadAppleWatchSimilarToLeadI = 1,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKElectrocardiogramClassification {
-        HKElectrocardiogramClassificationNotSet = 0,
-        HKElectrocardiogramClassificationSinusRhythm = 1,
-        HKElectrocardiogramClassificationAtrialFibrillation = 2,
-        HKElectrocardiogramClassificationInconclusiveLowHeartRate = 3,
-        HKElectrocardiogramClassificationInconclusiveHighHeartRate = 4,
-        HKElectrocardiogramClassificationInconclusivePoorReading = 5,
-        HKElectrocardiogramClassificationInconclusiveOther = 6,
-        HKElectrocardiogramClassificationUnrecognized = 100,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKElectrocardiogramClassification {
+    HKElectrocardiogramClassificationNotSet = 0,
+    HKElectrocardiogramClassificationSinusRhythm = 1,
+    HKElectrocardiogramClassificationAtrialFibrillation = 2,
+    HKElectrocardiogramClassificationInconclusiveLowHeartRate = 3,
+    HKElectrocardiogramClassificationInconclusiveHighHeartRate = 4,
+    HKElectrocardiogramClassificationInconclusivePoorReading = 5,
+    HKElectrocardiogramClassificationInconclusiveOther = 6,
+    HKElectrocardiogramClassificationUnrecognized = 100,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum HKElectrocardiogramSymptomsStatus {
-        HKElectrocardiogramSymptomsStatusNotSet = 0,
-        HKElectrocardiogramSymptomsStatusNone = 1,
-        HKElectrocardiogramSymptomsStatusPresent = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum HKElectrocardiogramSymptomsStatus {
+    HKElectrocardiogramSymptomsStatusNotSet = 0,
+    HKElectrocardiogramSymptomsStatusNone = 1,
+    HKElectrocardiogramSymptomsStatusPresent = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = HKSample,
+    unsafe inherits = [
+        HKObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "HealthKit_HKElectrocardiogram")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "HealthKit_HKElectrocardiogram")]
-    pub struct HKElectrocardiogram;
-
-    #[cfg(feature = "HealthKit_HKElectrocardiogram")]
-    unsafe impl ClassType for HKElectrocardiogram {
-        #[inherits(HKObject, NSObject)]
-        type Super = HKSample;
-    }
-);
+    pub type HKElectrocardiogram;
+}
 
 #[cfg(feature = "HealthKit_HKElectrocardiogram")]
 unsafe impl NSCoding for HKElectrocardiogram {}
@@ -57,27 +55,30 @@ unsafe impl NSObjectProtocol for HKElectrocardiogram {}
 #[cfg(feature = "HealthKit_HKElectrocardiogram")]
 unsafe impl NSSecureCoding for HKElectrocardiogram {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "HealthKit_HKElectrocardiogram")]
-    unsafe impl HKElectrocardiogram {
-        #[method(numberOfVoltageMeasurements)]
-        pub unsafe fn numberOfVoltageMeasurements(&self) -> NSInteger;
+    pub type HKElectrocardiogram;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other samplingFrequency)]
-        pub unsafe fn samplingFrequency(&self) -> Option<Id<HKQuantity>>;
+    #[objc2::method(sel = "numberOfVoltageMeasurements")]
+    pub unsafe fn numberOfVoltageMeasurements(&self) -> NSInteger;
 
-        #[method(classification)]
-        pub unsafe fn classification(&self) -> HKElectrocardiogramClassification;
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "samplingFrequency", managed = "Other")]
+    pub unsafe fn samplingFrequency(&self) -> Option<Id<HKQuantity>>;
 
-        #[cfg(feature = "HealthKit_HKQuantity")]
-        #[method_id(@__retain_semantics Other averageHeartRate)]
-        pub unsafe fn averageHeartRate(&self) -> Option<Id<HKQuantity>>;
+    #[objc2::method(sel = "classification")]
+    pub unsafe fn classification(&self) -> HKElectrocardiogramClassification;
 
-        #[method(symptomsStatus)]
-        pub unsafe fn symptomsStatus(&self) -> HKElectrocardiogramSymptomsStatus;
-    }
-);
+    #[cfg(feature = "HealthKit_HKQuantity")]
+    #[objc2::method(sel = "averageHeartRate", managed = "Other")]
+    pub unsafe fn averageHeartRate(&self) -> Option<Id<HKQuantity>>;
+
+    #[objc2::method(sel = "symptomsStatus")]
+    pub unsafe fn symptomsStatus(&self) -> HKElectrocardiogramSymptomsStatus;
+}
 
 extern_static!(HKPredicateKeyPathAverageHeartRate: &'static NSString);
 

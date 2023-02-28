@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::BackgroundAssets::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "BackgroundAssets_BADownload")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "BackgroundAssets_BADownload")]
-    pub struct BADownload;
-
-    #[cfg(feature = "BackgroundAssets_BADownload")]
-    unsafe impl ClassType for BADownload {
-        type Super = NSObject;
-    }
-);
+    pub type BADownload;
+}
 
 #[cfg(feature = "BackgroundAssets_BADownload")]
 unsafe impl NSCoding for BADownload {}
@@ -24,27 +24,30 @@ unsafe impl NSObjectProtocol for BADownload {}
 #[cfg(feature = "BackgroundAssets_BADownload")]
 unsafe impl NSSecureCoding for BADownload {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "BackgroundAssets_BADownload")]
-    unsafe impl BADownload {
-        #[method(state)]
-        pub unsafe fn state(&self) -> BADownloadState;
+    pub type BADownload;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other identifier)]
-        pub unsafe fn identifier(&self) -> Id<NSString>;
+    #[objc2::method(sel = "state")]
+    pub unsafe fn state(&self) -> BADownloadState;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other uniqueIdentifier)]
-        pub unsafe fn uniqueIdentifier(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "identifier", managed = "Other")]
+    pub unsafe fn identifier(&self) -> Id<NSString>;
 
-        #[method(priority)]
-        pub unsafe fn priority(&self) -> BADownloaderPriority;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "uniqueIdentifier", managed = "Other")]
+    pub unsafe fn uniqueIdentifier(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "priority")]
+    pub unsafe fn priority(&self) -> BADownloaderPriority;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

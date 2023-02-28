@@ -5,17 +5,17 @@ use crate::Contacts::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CLRegion,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreLocation_CLBeaconRegion")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreLocation_CLBeaconRegion")]
-    pub struct CLBeaconRegion;
-
-    #[cfg(feature = "CoreLocation_CLBeaconRegion")]
-    unsafe impl ClassType for CLBeaconRegion {
-        #[inherits(NSObject)]
-        type Super = CLRegion;
-    }
-);
+    pub type CLBeaconRegion;
+}
 
 #[cfg(feature = "CoreLocation_CLBeaconRegion")]
 unsafe impl NSCoding for CLBeaconRegion {}
@@ -26,127 +26,133 @@ unsafe impl NSObjectProtocol for CLBeaconRegion {}
 #[cfg(feature = "CoreLocation_CLBeaconRegion")]
 unsafe impl NSSecureCoding for CLBeaconRegion {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreLocation_CLBeaconRegion")]
-    unsafe impl CLBeaconRegion {
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSUUID"))]
-        #[method_id(@__retain_semantics Init initWithUUID:identifier:)]
-        pub unsafe fn initWithUUID_identifier(
-            this: Option<Allocated<Self>>,
-            uuid: &NSUUID,
-            identifier: &NSString,
-        ) -> Id<Self>;
+    pub type CLBeaconRegion;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSUUID"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithProximityUUID:identifier:)]
-        pub unsafe fn initWithProximityUUID_identifier(
-            this: Option<Allocated<Self>>,
-            proximity_uuid: &NSUUID,
-            identifier: &NSString,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSUUID"))]
+    #[objc2::method(sel = "initWithUUID:identifier:", managed = "Init")]
+    pub unsafe fn initWithUUID_identifier(
+        this: Option<Allocated<Self>>,
+        uuid: &NSUUID,
+        identifier: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSUUID"))]
-        #[method_id(@__retain_semantics Init initWithUUID:major:identifier:)]
-        pub unsafe fn initWithUUID_major_identifier(
-            this: Option<Allocated<Self>>,
-            uuid: &NSUUID,
-            major: CLBeaconMajorValue,
-            identifier: &NSString,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSUUID"))]
+    #[deprecated]
+    #[objc2::method(sel = "initWithProximityUUID:identifier:", managed = "Init")]
+    pub unsafe fn initWithProximityUUID_identifier(
+        this: Option<Allocated<Self>>,
+        proximity_uuid: &NSUUID,
+        identifier: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSUUID"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithProximityUUID:major:identifier:)]
-        pub unsafe fn initWithProximityUUID_major_identifier(
-            this: Option<Allocated<Self>>,
-            proximity_uuid: &NSUUID,
-            major: CLBeaconMajorValue,
-            identifier: &NSString,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSUUID"))]
+    #[objc2::method(sel = "initWithUUID:major:identifier:", managed = "Init")]
+    pub unsafe fn initWithUUID_major_identifier(
+        this: Option<Allocated<Self>>,
+        uuid: &NSUUID,
+        major: CLBeaconMajorValue,
+        identifier: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSUUID"))]
-        #[method_id(@__retain_semantics Init initWithUUID:major:minor:identifier:)]
-        pub unsafe fn initWithUUID_major_minor_identifier(
-            this: Option<Allocated<Self>>,
-            uuid: &NSUUID,
-            major: CLBeaconMajorValue,
-            minor: CLBeaconMinorValue,
-            identifier: &NSString,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSUUID"))]
+    #[deprecated]
+    #[objc2::method(sel = "initWithProximityUUID:major:identifier:", managed = "Init")]
+    pub unsafe fn initWithProximityUUID_major_identifier(
+        this: Option<Allocated<Self>>,
+        proximity_uuid: &NSUUID,
+        major: CLBeaconMajorValue,
+        identifier: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSUUID"))]
-        #[deprecated]
-        #[method_id(@__retain_semantics Init initWithProximityUUID:major:minor:identifier:)]
-        pub unsafe fn initWithProximityUUID_major_minor_identifier(
-            this: Option<Allocated<Self>>,
-            proximity_uuid: &NSUUID,
-            major: CLBeaconMajorValue,
-            minor: CLBeaconMinorValue,
-            identifier: &NSString,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSUUID"))]
+    #[objc2::method(sel = "initWithUUID:major:minor:identifier:", managed = "Init")]
+    pub unsafe fn initWithUUID_major_minor_identifier(
+        this: Option<Allocated<Self>>,
+        uuid: &NSUUID,
+        major: CLBeaconMajorValue,
+        minor: CLBeaconMinorValue,
+        identifier: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "CoreLocation_CLBeaconIdentityConstraint",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Init initWithBeaconIdentityConstraint:identifier:)]
-        pub unsafe fn initWithBeaconIdentityConstraint_identifier(
-            this: Option<Allocated<Self>>,
-            beacon_identity_constraint: &CLBeaconIdentityConstraint,
-            identifier: &NSString,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSString", feature = "Foundation_NSUUID"))]
+    #[deprecated]
+    #[objc2::method(
+        sel = "initWithProximityUUID:major:minor:identifier:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithProximityUUID_major_minor_identifier(
+        this: Option<Allocated<Self>>,
+        proximity_uuid: &NSUUID,
+        major: CLBeaconMajorValue,
+        minor: CLBeaconMinorValue,
+        identifier: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(all(
-            feature = "Foundation_NSMutableDictionary",
-            feature = "Foundation_NSNumber",
-            feature = "Foundation_NSString"
-        ))]
-        #[method_id(@__retain_semantics Other peripheralDataWithMeasuredPower:)]
-        pub unsafe fn peripheralDataWithMeasuredPower(
-            &self,
-            measured_power: Option<&NSNumber>,
-        ) -> Id<NSMutableDictionary<NSString, Object>, Owned>;
+    #[cfg(all(
+        feature = "CoreLocation_CLBeaconIdentityConstraint",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "initWithBeaconIdentityConstraint:identifier:", managed = "Init")]
+    pub unsafe fn initWithBeaconIdentityConstraint_identifier(
+        this: Option<Allocated<Self>>,
+        beacon_identity_constraint: &CLBeaconIdentityConstraint,
+        identifier: &NSString,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "CoreLocation_CLBeaconIdentityConstraint")]
-        #[method_id(@__retain_semantics Other beaconIdentityConstraint)]
-        pub unsafe fn beaconIdentityConstraint(&self) -> Id<CLBeaconIdentityConstraint>;
+    #[cfg(all(
+        feature = "Foundation_NSMutableDictionary",
+        feature = "Foundation_NSNumber",
+        feature = "Foundation_NSString"
+    ))]
+    #[objc2::method(sel = "peripheralDataWithMeasuredPower:", managed = "Other")]
+    pub unsafe fn peripheralDataWithMeasuredPower(
+        &self,
+        measured_power: Option<&NSNumber>,
+    ) -> Id<NSMutableDictionary<NSString, Object>, Owned>;
 
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Other UUID)]
-        pub unsafe fn UUID(&self) -> Id<NSUUID>;
+    #[cfg(feature = "CoreLocation_CLBeaconIdentityConstraint")]
+    #[objc2::method(sel = "beaconIdentityConstraint", managed = "Other")]
+    pub unsafe fn beaconIdentityConstraint(&self) -> Id<CLBeaconIdentityConstraint>;
 
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other proximityUUID)]
-        pub unsafe fn proximityUUID(&self) -> Id<NSUUID>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "UUID", managed = "Other")]
+    pub unsafe fn UUID(&self) -> Id<NSUUID>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other major)]
-        pub unsafe fn major(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[deprecated]
+    #[objc2::method(sel = "proximityUUID", managed = "Other")]
+    pub unsafe fn proximityUUID(&self) -> Id<NSUUID>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other minor)]
-        pub unsafe fn minor(&self) -> Option<Id<NSNumber>>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "major", managed = "Other")]
+    pub unsafe fn major(&self) -> Option<Id<NSNumber>>;
 
-        #[method(notifyEntryStateOnDisplay)]
-        pub unsafe fn notifyEntryStateOnDisplay(&self) -> bool;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "minor", managed = "Other")]
+    pub unsafe fn minor(&self) -> Option<Id<NSNumber>>;
 
-        #[method(setNotifyEntryStateOnDisplay:)]
-        pub unsafe fn setNotifyEntryStateOnDisplay(&self, notify_entry_state_on_display: bool);
-    }
-);
+    #[objc2::method(sel = "notifyEntryStateOnDisplay")]
+    pub unsafe fn notifyEntryStateOnDisplay(&self) -> bool;
 
-extern_class!(
+    #[objc2::method(sel = "setNotifyEntryStateOnDisplay:")]
+    pub unsafe fn setNotifyEntryStateOnDisplay(&self, notify_entry_state_on_display: bool);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreLocation_CLBeacon")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreLocation_CLBeacon")]
-    pub struct CLBeacon;
-
-    #[cfg(feature = "CoreLocation_CLBeacon")]
-    unsafe impl ClassType for CLBeacon {
-        type Super = NSObject;
-    }
-);
+    pub type CLBeacon;
+}
 
 #[cfg(feature = "CoreLocation_CLBeacon")]
 unsafe impl NSCoding for CLBeacon {}
@@ -157,53 +163,65 @@ unsafe impl NSObjectProtocol for CLBeacon {}
 #[cfg(feature = "CoreLocation_CLBeacon")]
 unsafe impl NSSecureCoding for CLBeacon {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreLocation_CLBeacon")]
-    unsafe impl CLBeacon {
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other timestamp)]
-        pub unsafe fn timestamp(&self) -> Id<NSDate>;
+    pub type CLBeacon;
 
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[method_id(@__retain_semantics Other UUID)]
-        pub unsafe fn UUID(&self) -> Id<NSUUID>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "timestamp", managed = "Other")]
+    pub unsafe fn timestamp(&self) -> Id<NSDate>;
 
-        #[cfg(feature = "Foundation_NSUUID")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other proximityUUID)]
-        pub unsafe fn proximityUUID(&self) -> Id<NSUUID>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[objc2::method(sel = "UUID", managed = "Other")]
+    pub unsafe fn UUID(&self) -> Id<NSUUID>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other major)]
-        pub unsafe fn major(&self) -> Id<NSNumber>;
+    #[cfg(feature = "Foundation_NSUUID")]
+    #[deprecated]
+    #[objc2::method(sel = "proximityUUID", managed = "Other")]
+    pub unsafe fn proximityUUID(&self) -> Id<NSUUID>;
 
-        #[cfg(feature = "Foundation_NSNumber")]
-        #[method_id(@__retain_semantics Other minor)]
-        pub unsafe fn minor(&self) -> Id<NSNumber>;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "major", managed = "Other")]
+    pub unsafe fn major(&self) -> Id<NSNumber>;
 
-        #[method(proximity)]
-        pub unsafe fn proximity(&self) -> CLProximity;
+    #[cfg(feature = "Foundation_NSNumber")]
+    #[objc2::method(sel = "minor", managed = "Other")]
+    pub unsafe fn minor(&self) -> Id<NSNumber>;
 
-        #[method(accuracy)]
-        pub unsafe fn accuracy(&self) -> CLLocationAccuracy;
+    #[objc2::method(sel = "proximity")]
+    pub unsafe fn proximity(&self) -> CLProximity;
 
-        #[method(rssi)]
-        pub unsafe fn rssi(&self) -> NSInteger;
-    }
-);
+    #[objc2::method(sel = "accuracy")]
+    pub unsafe fn accuracy(&self) -> CLLocationAccuracy;
 
-extern_methods!(
-    /// Methods declared on superclass `CLRegion`
+    #[objc2::method(sel = "rssi")]
+    pub unsafe fn rssi(&self) -> NSInteger;
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CLRegion`
     #[cfg(feature = "CoreLocation_CLBeaconRegion")]
-    unsafe impl CLBeaconRegion {
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated = "Please see CLCircularRegion"]
-        #[method_id(@__retain_semantics Init initCircularRegionWithCenter:radius:identifier:)]
-        pub unsafe fn initCircularRegionWithCenter_radius_identifier(
-            this: Option<Allocated<Self>>,
-            center: CLLocationCoordinate2D,
-            radius: CLLocationDistance,
-            identifier: &NSString,
-        ) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreLocation_CLBeaconRegion")]
+    pub type CLBeaconRegion;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated = "Please see CLCircularRegion"]
+    #[objc2::method(
+        sel = "initCircularRegionWithCenter:radius:identifier:",
+        managed = "Init"
+    )]
+    pub unsafe fn initCircularRegionWithCenter_radius_identifier(
+        this: Option<Allocated<Self>>,
+        center: CLLocationCoordinate2D,
+        radius: CLLocationDistance,
+        identifier: &NSString,
+    ) -> Id<Self>;
+}

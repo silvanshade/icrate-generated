@@ -5,984 +5,986 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_methods!(
-    /// DOMCSS2Properties
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCSSStyleDeclaration")]
-    unsafe impl DOMCSSStyleDeclaration {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other azimuth)]
-        pub unsafe fn azimuth(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAzimuth:)]
-        pub unsafe fn setAzimuth(&self, azimuth: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other background)]
-        pub unsafe fn background(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBackground:)]
-        pub unsafe fn setBackground(&self, background: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other backgroundAttachment)]
-        pub unsafe fn backgroundAttachment(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBackgroundAttachment:)]
-        pub unsafe fn setBackgroundAttachment(&self, background_attachment: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other backgroundColor)]
-        pub unsafe fn backgroundColor(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBackgroundColor:)]
-        pub unsafe fn setBackgroundColor(&self, background_color: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other backgroundImage)]
-        pub unsafe fn backgroundImage(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBackgroundImage:)]
-        pub unsafe fn setBackgroundImage(&self, background_image: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other backgroundPosition)]
-        pub unsafe fn backgroundPosition(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBackgroundPosition:)]
-        pub unsafe fn setBackgroundPosition(&self, background_position: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other backgroundRepeat)]
-        pub unsafe fn backgroundRepeat(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBackgroundRepeat:)]
-        pub unsafe fn setBackgroundRepeat(&self, background_repeat: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other border)]
-        pub unsafe fn border(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorder:)]
-        pub unsafe fn setBorder(&self, border: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderCollapse)]
-        pub unsafe fn borderCollapse(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderCollapse:)]
-        pub unsafe fn setBorderCollapse(&self, border_collapse: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderColor)]
-        pub unsafe fn borderColor(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderColor:)]
-        pub unsafe fn setBorderColor(&self, border_color: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderSpacing)]
-        pub unsafe fn borderSpacing(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderSpacing:)]
-        pub unsafe fn setBorderSpacing(&self, border_spacing: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderStyle)]
-        pub unsafe fn borderStyle(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderStyle:)]
-        pub unsafe fn setBorderStyle(&self, border_style: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderTop)]
-        pub unsafe fn borderTop(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderTop:)]
-        pub unsafe fn setBorderTop(&self, border_top: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderRight)]
-        pub unsafe fn borderRight(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderRight:)]
-        pub unsafe fn setBorderRight(&self, border_right: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderBottom)]
-        pub unsafe fn borderBottom(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderBottom:)]
-        pub unsafe fn setBorderBottom(&self, border_bottom: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderLeft)]
-        pub unsafe fn borderLeft(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderLeft:)]
-        pub unsafe fn setBorderLeft(&self, border_left: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderTopColor)]
-        pub unsafe fn borderTopColor(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderTopColor:)]
-        pub unsafe fn setBorderTopColor(&self, border_top_color: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderRightColor)]
-        pub unsafe fn borderRightColor(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderRightColor:)]
-        pub unsafe fn setBorderRightColor(&self, border_right_color: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderBottomColor)]
-        pub unsafe fn borderBottomColor(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderBottomColor:)]
-        pub unsafe fn setBorderBottomColor(&self, border_bottom_color: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderLeftColor)]
-        pub unsafe fn borderLeftColor(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderLeftColor:)]
-        pub unsafe fn setBorderLeftColor(&self, border_left_color: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderTopStyle)]
-        pub unsafe fn borderTopStyle(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderTopStyle:)]
-        pub unsafe fn setBorderTopStyle(&self, border_top_style: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderRightStyle)]
-        pub unsafe fn borderRightStyle(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderRightStyle:)]
-        pub unsafe fn setBorderRightStyle(&self, border_right_style: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderBottomStyle)]
-        pub unsafe fn borderBottomStyle(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderBottomStyle:)]
-        pub unsafe fn setBorderBottomStyle(&self, border_bottom_style: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderLeftStyle)]
-        pub unsafe fn borderLeftStyle(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderLeftStyle:)]
-        pub unsafe fn setBorderLeftStyle(&self, border_left_style: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderTopWidth)]
-        pub unsafe fn borderTopWidth(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderTopWidth:)]
-        pub unsafe fn setBorderTopWidth(&self, border_top_width: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderRightWidth)]
-        pub unsafe fn borderRightWidth(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderRightWidth:)]
-        pub unsafe fn setBorderRightWidth(&self, border_right_width: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderBottomWidth)]
-        pub unsafe fn borderBottomWidth(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderBottomWidth:)]
-        pub unsafe fn setBorderBottomWidth(&self, border_bottom_width: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderLeftWidth)]
-        pub unsafe fn borderLeftWidth(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderLeftWidth:)]
-        pub unsafe fn setBorderLeftWidth(&self, border_left_width: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other borderWidth)]
-        pub unsafe fn borderWidth(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBorderWidth:)]
-        pub unsafe fn setBorderWidth(&self, border_width: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other bottom)]
-        pub unsafe fn bottom(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setBottom:)]
-        pub unsafe fn setBottom(&self, bottom: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other captionSide)]
-        pub unsafe fn captionSide(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCaptionSide:)]
-        pub unsafe fn setCaptionSide(&self, caption_side: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other clear)]
-        pub unsafe fn clear(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setClear:)]
-        pub unsafe fn setClear(&self, clear: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other clip)]
-        pub unsafe fn clip(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setClip:)]
-        pub unsafe fn setClip(&self, clip: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other color)]
-        pub unsafe fn color(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setColor:)]
-        pub unsafe fn setColor(&self, color: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other content)]
-        pub unsafe fn content(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setContent:)]
-        pub unsafe fn setContent(&self, content: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other counterIncrement)]
-        pub unsafe fn counterIncrement(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCounterIncrement:)]
-        pub unsafe fn setCounterIncrement(&self, counter_increment: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other counterReset)]
-        pub unsafe fn counterReset(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCounterReset:)]
-        pub unsafe fn setCounterReset(&self, counter_reset: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other cue)]
-        pub unsafe fn cue(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCue:)]
-        pub unsafe fn setCue(&self, cue: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other cueAfter)]
-        pub unsafe fn cueAfter(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCueAfter:)]
-        pub unsafe fn setCueAfter(&self, cue_after: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other cueBefore)]
-        pub unsafe fn cueBefore(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCueBefore:)]
-        pub unsafe fn setCueBefore(&self, cue_before: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other cursor)]
-        pub unsafe fn cursor(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCursor:)]
-        pub unsafe fn setCursor(&self, cursor: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other direction)]
-        pub unsafe fn direction(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setDirection:)]
-        pub unsafe fn setDirection(&self, direction: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other display)]
-        pub unsafe fn display(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setDisplay:)]
-        pub unsafe fn setDisplay(&self, display: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other elevation)]
-        pub unsafe fn elevation(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setElevation:)]
-        pub unsafe fn setElevation(&self, elevation: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other emptyCells)]
-        pub unsafe fn emptyCells(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setEmptyCells:)]
-        pub unsafe fn setEmptyCells(&self, empty_cells: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other cssFloat)]
-        pub unsafe fn cssFloat(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCssFloat:)]
-        pub unsafe fn setCssFloat(&self, css_float: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other font)]
-        pub unsafe fn font(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setFont:)]
-        pub unsafe fn setFont(&self, font: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fontFamily)]
-        pub unsafe fn fontFamily(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setFontFamily:)]
-        pub unsafe fn setFontFamily(&self, font_family: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fontSize)]
-        pub unsafe fn fontSize(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setFontSize:)]
-        pub unsafe fn setFontSize(&self, font_size: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fontSizeAdjust)]
-        pub unsafe fn fontSizeAdjust(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setFontSizeAdjust:)]
-        pub unsafe fn setFontSizeAdjust(&self, font_size_adjust: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fontStretch)]
-        pub unsafe fn fontStretch(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setFontStretch:)]
-        pub unsafe fn setFontStretch(&self, font_stretch: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fontStyle)]
-        pub unsafe fn fontStyle(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setFontStyle:)]
-        pub unsafe fn setFontStyle(&self, font_style: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fontVariant)]
-        pub unsafe fn fontVariant(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setFontVariant:)]
-        pub unsafe fn setFontVariant(&self, font_variant: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other fontWeight)]
-        pub unsafe fn fontWeight(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setFontWeight:)]
-        pub unsafe fn setFontWeight(&self, font_weight: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other height)]
-        pub unsafe fn height(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setHeight:)]
-        pub unsafe fn setHeight(&self, height: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other left)]
-        pub unsafe fn left(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLeft:)]
-        pub unsafe fn setLeft(&self, left: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other letterSpacing)]
-        pub unsafe fn letterSpacing(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLetterSpacing:)]
-        pub unsafe fn setLetterSpacing(&self, letter_spacing: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other lineHeight)]
-        pub unsafe fn lineHeight(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLineHeight:)]
-        pub unsafe fn setLineHeight(&self, line_height: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other listStyle)]
-        pub unsafe fn listStyle(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setListStyle:)]
-        pub unsafe fn setListStyle(&self, list_style: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other listStyleImage)]
-        pub unsafe fn listStyleImage(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setListStyleImage:)]
-        pub unsafe fn setListStyleImage(&self, list_style_image: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other listStylePosition)]
-        pub unsafe fn listStylePosition(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setListStylePosition:)]
-        pub unsafe fn setListStylePosition(&self, list_style_position: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other listStyleType)]
-        pub unsafe fn listStyleType(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setListStyleType:)]
-        pub unsafe fn setListStyleType(&self, list_style_type: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other margin)]
-        pub unsafe fn margin(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMargin:)]
-        pub unsafe fn setMargin(&self, margin: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other marginTop)]
-        pub unsafe fn marginTop(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMarginTop:)]
-        pub unsafe fn setMarginTop(&self, margin_top: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other marginRight)]
-        pub unsafe fn marginRight(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMarginRight:)]
-        pub unsafe fn setMarginRight(&self, margin_right: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other marginBottom)]
-        pub unsafe fn marginBottom(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMarginBottom:)]
-        pub unsafe fn setMarginBottom(&self, margin_bottom: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other marginLeft)]
-        pub unsafe fn marginLeft(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMarginLeft:)]
-        pub unsafe fn setMarginLeft(&self, margin_left: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other markerOffset)]
-        pub unsafe fn markerOffset(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMarkerOffset:)]
-        pub unsafe fn setMarkerOffset(&self, marker_offset: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other marks)]
-        pub unsafe fn marks(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMarks:)]
-        pub unsafe fn setMarks(&self, marks: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other maxHeight)]
-        pub unsafe fn maxHeight(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMaxHeight:)]
-        pub unsafe fn setMaxHeight(&self, max_height: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other maxWidth)]
-        pub unsafe fn maxWidth(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMaxWidth:)]
-        pub unsafe fn setMaxWidth(&self, max_width: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other minHeight)]
-        pub unsafe fn minHeight(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMinHeight:)]
-        pub unsafe fn setMinHeight(&self, min_height: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other minWidth)]
-        pub unsafe fn minWidth(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setMinWidth:)]
-        pub unsafe fn setMinWidth(&self, min_width: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other orphans)]
-        pub unsafe fn orphans(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setOrphans:)]
-        pub unsafe fn setOrphans(&self, orphans: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other outline)]
-        pub unsafe fn outline(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setOutline:)]
-        pub unsafe fn setOutline(&self, outline: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other outlineColor)]
-        pub unsafe fn outlineColor(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setOutlineColor:)]
-        pub unsafe fn setOutlineColor(&self, outline_color: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other outlineStyle)]
-        pub unsafe fn outlineStyle(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setOutlineStyle:)]
-        pub unsafe fn setOutlineStyle(&self, outline_style: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other outlineWidth)]
-        pub unsafe fn outlineWidth(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setOutlineWidth:)]
-        pub unsafe fn setOutlineWidth(&self, outline_width: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other overflow)]
-        pub unsafe fn overflow(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setOverflow:)]
-        pub unsafe fn setOverflow(&self, overflow: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other padding)]
-        pub unsafe fn padding(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPadding:)]
-        pub unsafe fn setPadding(&self, padding: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other paddingTop)]
-        pub unsafe fn paddingTop(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPaddingTop:)]
-        pub unsafe fn setPaddingTop(&self, padding_top: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other paddingRight)]
-        pub unsafe fn paddingRight(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPaddingRight:)]
-        pub unsafe fn setPaddingRight(&self, padding_right: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other paddingBottom)]
-        pub unsafe fn paddingBottom(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPaddingBottom:)]
-        pub unsafe fn setPaddingBottom(&self, padding_bottom: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other paddingLeft)]
-        pub unsafe fn paddingLeft(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPaddingLeft:)]
-        pub unsafe fn setPaddingLeft(&self, padding_left: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other page)]
-        pub unsafe fn page(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPage:)]
-        pub unsafe fn setPage(&self, page: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other pageBreakAfter)]
-        pub unsafe fn pageBreakAfter(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPageBreakAfter:)]
-        pub unsafe fn setPageBreakAfter(&self, page_break_after: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other pageBreakBefore)]
-        pub unsafe fn pageBreakBefore(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPageBreakBefore:)]
-        pub unsafe fn setPageBreakBefore(&self, page_break_before: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other pageBreakInside)]
-        pub unsafe fn pageBreakInside(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPageBreakInside:)]
-        pub unsafe fn setPageBreakInside(&self, page_break_inside: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other pause)]
-        pub unsafe fn pause(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPause:)]
-        pub unsafe fn setPause(&self, pause: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other pauseAfter)]
-        pub unsafe fn pauseAfter(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPauseAfter:)]
-        pub unsafe fn setPauseAfter(&self, pause_after: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other pauseBefore)]
-        pub unsafe fn pauseBefore(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPauseBefore:)]
-        pub unsafe fn setPauseBefore(&self, pause_before: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other pitch)]
-        pub unsafe fn pitch(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPitch:)]
-        pub unsafe fn setPitch(&self, pitch: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other pitchRange)]
-        pub unsafe fn pitchRange(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPitchRange:)]
-        pub unsafe fn setPitchRange(&self, pitch_range: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other playDuring)]
-        pub unsafe fn playDuring(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPlayDuring:)]
-        pub unsafe fn setPlayDuring(&self, play_during: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other position)]
-        pub unsafe fn position(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setPosition:)]
-        pub unsafe fn setPosition(&self, position: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other quotes)]
-        pub unsafe fn quotes(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setQuotes:)]
-        pub unsafe fn setQuotes(&self, quotes: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other richness)]
-        pub unsafe fn richness(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setRichness:)]
-        pub unsafe fn setRichness(&self, richness: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other right)]
-        pub unsafe fn right(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setRight:)]
-        pub unsafe fn setRight(&self, right: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other size)]
-        pub unsafe fn size(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSize:)]
-        pub unsafe fn setSize(&self, size: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other speak)]
-        pub unsafe fn speak(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSpeak:)]
-        pub unsafe fn setSpeak(&self, speak: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other speakHeader)]
-        pub unsafe fn speakHeader(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSpeakHeader:)]
-        pub unsafe fn setSpeakHeader(&self, speak_header: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other speakNumeral)]
-        pub unsafe fn speakNumeral(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSpeakNumeral:)]
-        pub unsafe fn setSpeakNumeral(&self, speak_numeral: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other speakPunctuation)]
-        pub unsafe fn speakPunctuation(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSpeakPunctuation:)]
-        pub unsafe fn setSpeakPunctuation(&self, speak_punctuation: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other speechRate)]
-        pub unsafe fn speechRate(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSpeechRate:)]
-        pub unsafe fn setSpeechRate(&self, speech_rate: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other stress)]
-        pub unsafe fn stress(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setStress:)]
-        pub unsafe fn setStress(&self, stress: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other tableLayout)]
-        pub unsafe fn tableLayout(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTableLayout:)]
-        pub unsafe fn setTableLayout(&self, table_layout: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other textAlign)]
-        pub unsafe fn textAlign(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTextAlign:)]
-        pub unsafe fn setTextAlign(&self, text_align: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other textDecoration)]
-        pub unsafe fn textDecoration(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTextDecoration:)]
-        pub unsafe fn setTextDecoration(&self, text_decoration: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other textIndent)]
-        pub unsafe fn textIndent(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTextIndent:)]
-        pub unsafe fn setTextIndent(&self, text_indent: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other textShadow)]
-        pub unsafe fn textShadow(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTextShadow:)]
-        pub unsafe fn setTextShadow(&self, text_shadow: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other textTransform)]
-        pub unsafe fn textTransform(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTextTransform:)]
-        pub unsafe fn setTextTransform(&self, text_transform: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other top)]
-        pub unsafe fn top(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTop:)]
-        pub unsafe fn setTop(&self, top: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other unicodeBidi)]
-        pub unsafe fn unicodeBidi(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setUnicodeBidi:)]
-        pub unsafe fn setUnicodeBidi(&self, unicode_bidi: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other verticalAlign)]
-        pub unsafe fn verticalAlign(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setVerticalAlign:)]
-        pub unsafe fn setVerticalAlign(&self, vertical_align: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other visibility)]
-        pub unsafe fn visibility(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setVisibility:)]
-        pub unsafe fn setVisibility(&self, visibility: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other voiceFamily)]
-        pub unsafe fn voiceFamily(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setVoiceFamily:)]
-        pub unsafe fn setVoiceFamily(&self, voice_family: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other volume)]
-        pub unsafe fn volume(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setVolume:)]
-        pub unsafe fn setVolume(&self, volume: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other whiteSpace)]
-        pub unsafe fn whiteSpace(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setWhiteSpace:)]
-        pub unsafe fn setWhiteSpace(&self, white_space: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other widows)]
-        pub unsafe fn widows(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setWidows:)]
-        pub unsafe fn setWidows(&self, widows: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other width)]
-        pub unsafe fn width(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setWidth:)]
-        pub unsafe fn setWidth(&self, width: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other wordSpacing)]
-        pub unsafe fn wordSpacing(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setWordSpacing:)]
-        pub unsafe fn setWordSpacing(&self, word_spacing: Option<&NSString>);
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other zIndex)]
-        pub unsafe fn zIndex(&self) -> Option<Id<NSString>>;
-
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setZIndex:)]
-        pub unsafe fn setZIndex(&self, z_index: Option<&NSString>);
-    }
-);
+    pub type DOMCSSStyleDeclaration;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "azimuth", managed = "Other")]
+    pub unsafe fn azimuth(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAzimuth:")]
+    pub unsafe fn setAzimuth(&self, azimuth: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "background", managed = "Other")]
+    pub unsafe fn background(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBackground:")]
+    pub unsafe fn setBackground(&self, background: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "backgroundAttachment", managed = "Other")]
+    pub unsafe fn backgroundAttachment(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBackgroundAttachment:")]
+    pub unsafe fn setBackgroundAttachment(&self, background_attachment: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "backgroundColor", managed = "Other")]
+    pub unsafe fn backgroundColor(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBackgroundColor:")]
+    pub unsafe fn setBackgroundColor(&self, background_color: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "backgroundImage", managed = "Other")]
+    pub unsafe fn backgroundImage(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBackgroundImage:")]
+    pub unsafe fn setBackgroundImage(&self, background_image: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "backgroundPosition", managed = "Other")]
+    pub unsafe fn backgroundPosition(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBackgroundPosition:")]
+    pub unsafe fn setBackgroundPosition(&self, background_position: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "backgroundRepeat", managed = "Other")]
+    pub unsafe fn backgroundRepeat(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBackgroundRepeat:")]
+    pub unsafe fn setBackgroundRepeat(&self, background_repeat: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "border", managed = "Other")]
+    pub unsafe fn border(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorder:")]
+    pub unsafe fn setBorder(&self, border: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderCollapse", managed = "Other")]
+    pub unsafe fn borderCollapse(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderCollapse:")]
+    pub unsafe fn setBorderCollapse(&self, border_collapse: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderColor", managed = "Other")]
+    pub unsafe fn borderColor(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderColor:")]
+    pub unsafe fn setBorderColor(&self, border_color: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderSpacing", managed = "Other")]
+    pub unsafe fn borderSpacing(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderSpacing:")]
+    pub unsafe fn setBorderSpacing(&self, border_spacing: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderStyle", managed = "Other")]
+    pub unsafe fn borderStyle(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderStyle:")]
+    pub unsafe fn setBorderStyle(&self, border_style: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderTop", managed = "Other")]
+    pub unsafe fn borderTop(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderTop:")]
+    pub unsafe fn setBorderTop(&self, border_top: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderRight", managed = "Other")]
+    pub unsafe fn borderRight(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderRight:")]
+    pub unsafe fn setBorderRight(&self, border_right: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderBottom", managed = "Other")]
+    pub unsafe fn borderBottom(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderBottom:")]
+    pub unsafe fn setBorderBottom(&self, border_bottom: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderLeft", managed = "Other")]
+    pub unsafe fn borderLeft(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderLeft:")]
+    pub unsafe fn setBorderLeft(&self, border_left: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderTopColor", managed = "Other")]
+    pub unsafe fn borderTopColor(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderTopColor:")]
+    pub unsafe fn setBorderTopColor(&self, border_top_color: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderRightColor", managed = "Other")]
+    pub unsafe fn borderRightColor(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderRightColor:")]
+    pub unsafe fn setBorderRightColor(&self, border_right_color: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderBottomColor", managed = "Other")]
+    pub unsafe fn borderBottomColor(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderBottomColor:")]
+    pub unsafe fn setBorderBottomColor(&self, border_bottom_color: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderLeftColor", managed = "Other")]
+    pub unsafe fn borderLeftColor(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderLeftColor:")]
+    pub unsafe fn setBorderLeftColor(&self, border_left_color: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderTopStyle", managed = "Other")]
+    pub unsafe fn borderTopStyle(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderTopStyle:")]
+    pub unsafe fn setBorderTopStyle(&self, border_top_style: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderRightStyle", managed = "Other")]
+    pub unsafe fn borderRightStyle(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderRightStyle:")]
+    pub unsafe fn setBorderRightStyle(&self, border_right_style: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderBottomStyle", managed = "Other")]
+    pub unsafe fn borderBottomStyle(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderBottomStyle:")]
+    pub unsafe fn setBorderBottomStyle(&self, border_bottom_style: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderLeftStyle", managed = "Other")]
+    pub unsafe fn borderLeftStyle(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderLeftStyle:")]
+    pub unsafe fn setBorderLeftStyle(&self, border_left_style: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderTopWidth", managed = "Other")]
+    pub unsafe fn borderTopWidth(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderTopWidth:")]
+    pub unsafe fn setBorderTopWidth(&self, border_top_width: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderRightWidth", managed = "Other")]
+    pub unsafe fn borderRightWidth(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderRightWidth:")]
+    pub unsafe fn setBorderRightWidth(&self, border_right_width: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderBottomWidth", managed = "Other")]
+    pub unsafe fn borderBottomWidth(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderBottomWidth:")]
+    pub unsafe fn setBorderBottomWidth(&self, border_bottom_width: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderLeftWidth", managed = "Other")]
+    pub unsafe fn borderLeftWidth(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderLeftWidth:")]
+    pub unsafe fn setBorderLeftWidth(&self, border_left_width: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "borderWidth", managed = "Other")]
+    pub unsafe fn borderWidth(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBorderWidth:")]
+    pub unsafe fn setBorderWidth(&self, border_width: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "bottom", managed = "Other")]
+    pub unsafe fn bottom(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setBottom:")]
+    pub unsafe fn setBottom(&self, bottom: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "captionSide", managed = "Other")]
+    pub unsafe fn captionSide(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCaptionSide:")]
+    pub unsafe fn setCaptionSide(&self, caption_side: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "clear", managed = "Other")]
+    pub unsafe fn clear(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setClear:")]
+    pub unsafe fn setClear(&self, clear: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "clip", managed = "Other")]
+    pub unsafe fn clip(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setClip:")]
+    pub unsafe fn setClip(&self, clip: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "color", managed = "Other")]
+    pub unsafe fn color(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setColor:")]
+    pub unsafe fn setColor(&self, color: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "content", managed = "Other")]
+    pub unsafe fn content(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setContent:")]
+    pub unsafe fn setContent(&self, content: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "counterIncrement", managed = "Other")]
+    pub unsafe fn counterIncrement(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCounterIncrement:")]
+    pub unsafe fn setCounterIncrement(&self, counter_increment: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "counterReset", managed = "Other")]
+    pub unsafe fn counterReset(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCounterReset:")]
+    pub unsafe fn setCounterReset(&self, counter_reset: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "cue", managed = "Other")]
+    pub unsafe fn cue(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCue:")]
+    pub unsafe fn setCue(&self, cue: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "cueAfter", managed = "Other")]
+    pub unsafe fn cueAfter(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCueAfter:")]
+    pub unsafe fn setCueAfter(&self, cue_after: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "cueBefore", managed = "Other")]
+    pub unsafe fn cueBefore(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCueBefore:")]
+    pub unsafe fn setCueBefore(&self, cue_before: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "cursor", managed = "Other")]
+    pub unsafe fn cursor(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCursor:")]
+    pub unsafe fn setCursor(&self, cursor: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "direction", managed = "Other")]
+    pub unsafe fn direction(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setDirection:")]
+    pub unsafe fn setDirection(&self, direction: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "display", managed = "Other")]
+    pub unsafe fn display(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setDisplay:")]
+    pub unsafe fn setDisplay(&self, display: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "elevation", managed = "Other")]
+    pub unsafe fn elevation(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setElevation:")]
+    pub unsafe fn setElevation(&self, elevation: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "emptyCells", managed = "Other")]
+    pub unsafe fn emptyCells(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setEmptyCells:")]
+    pub unsafe fn setEmptyCells(&self, empty_cells: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "cssFloat", managed = "Other")]
+    pub unsafe fn cssFloat(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCssFloat:")]
+    pub unsafe fn setCssFloat(&self, css_float: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "font", managed = "Other")]
+    pub unsafe fn font(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setFont:")]
+    pub unsafe fn setFont(&self, font: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fontFamily", managed = "Other")]
+    pub unsafe fn fontFamily(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setFontFamily:")]
+    pub unsafe fn setFontFamily(&self, font_family: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fontSize", managed = "Other")]
+    pub unsafe fn fontSize(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setFontSize:")]
+    pub unsafe fn setFontSize(&self, font_size: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fontSizeAdjust", managed = "Other")]
+    pub unsafe fn fontSizeAdjust(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setFontSizeAdjust:")]
+    pub unsafe fn setFontSizeAdjust(&self, font_size_adjust: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fontStretch", managed = "Other")]
+    pub unsafe fn fontStretch(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setFontStretch:")]
+    pub unsafe fn setFontStretch(&self, font_stretch: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fontStyle", managed = "Other")]
+    pub unsafe fn fontStyle(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setFontStyle:")]
+    pub unsafe fn setFontStyle(&self, font_style: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fontVariant", managed = "Other")]
+    pub unsafe fn fontVariant(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setFontVariant:")]
+    pub unsafe fn setFontVariant(&self, font_variant: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "fontWeight", managed = "Other")]
+    pub unsafe fn fontWeight(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setFontWeight:")]
+    pub unsafe fn setFontWeight(&self, font_weight: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "height", managed = "Other")]
+    pub unsafe fn height(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setHeight:")]
+    pub unsafe fn setHeight(&self, height: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "left", managed = "Other")]
+    pub unsafe fn left(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLeft:")]
+    pub unsafe fn setLeft(&self, left: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "letterSpacing", managed = "Other")]
+    pub unsafe fn letterSpacing(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLetterSpacing:")]
+    pub unsafe fn setLetterSpacing(&self, letter_spacing: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "lineHeight", managed = "Other")]
+    pub unsafe fn lineHeight(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLineHeight:")]
+    pub unsafe fn setLineHeight(&self, line_height: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "listStyle", managed = "Other")]
+    pub unsafe fn listStyle(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setListStyle:")]
+    pub unsafe fn setListStyle(&self, list_style: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "listStyleImage", managed = "Other")]
+    pub unsafe fn listStyleImage(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setListStyleImage:")]
+    pub unsafe fn setListStyleImage(&self, list_style_image: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "listStylePosition", managed = "Other")]
+    pub unsafe fn listStylePosition(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setListStylePosition:")]
+    pub unsafe fn setListStylePosition(&self, list_style_position: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "listStyleType", managed = "Other")]
+    pub unsafe fn listStyleType(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setListStyleType:")]
+    pub unsafe fn setListStyleType(&self, list_style_type: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "margin", managed = "Other")]
+    pub unsafe fn margin(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMargin:")]
+    pub unsafe fn setMargin(&self, margin: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "marginTop", managed = "Other")]
+    pub unsafe fn marginTop(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMarginTop:")]
+    pub unsafe fn setMarginTop(&self, margin_top: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "marginRight", managed = "Other")]
+    pub unsafe fn marginRight(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMarginRight:")]
+    pub unsafe fn setMarginRight(&self, margin_right: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "marginBottom", managed = "Other")]
+    pub unsafe fn marginBottom(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMarginBottom:")]
+    pub unsafe fn setMarginBottom(&self, margin_bottom: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "marginLeft", managed = "Other")]
+    pub unsafe fn marginLeft(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMarginLeft:")]
+    pub unsafe fn setMarginLeft(&self, margin_left: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "markerOffset", managed = "Other")]
+    pub unsafe fn markerOffset(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMarkerOffset:")]
+    pub unsafe fn setMarkerOffset(&self, marker_offset: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "marks", managed = "Other")]
+    pub unsafe fn marks(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMarks:")]
+    pub unsafe fn setMarks(&self, marks: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "maxHeight", managed = "Other")]
+    pub unsafe fn maxHeight(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMaxHeight:")]
+    pub unsafe fn setMaxHeight(&self, max_height: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "maxWidth", managed = "Other")]
+    pub unsafe fn maxWidth(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMaxWidth:")]
+    pub unsafe fn setMaxWidth(&self, max_width: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "minHeight", managed = "Other")]
+    pub unsafe fn minHeight(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMinHeight:")]
+    pub unsafe fn setMinHeight(&self, min_height: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "minWidth", managed = "Other")]
+    pub unsafe fn minWidth(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setMinWidth:")]
+    pub unsafe fn setMinWidth(&self, min_width: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "orphans", managed = "Other")]
+    pub unsafe fn orphans(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setOrphans:")]
+    pub unsafe fn setOrphans(&self, orphans: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "outline", managed = "Other")]
+    pub unsafe fn outline(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setOutline:")]
+    pub unsafe fn setOutline(&self, outline: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "outlineColor", managed = "Other")]
+    pub unsafe fn outlineColor(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setOutlineColor:")]
+    pub unsafe fn setOutlineColor(&self, outline_color: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "outlineStyle", managed = "Other")]
+    pub unsafe fn outlineStyle(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setOutlineStyle:")]
+    pub unsafe fn setOutlineStyle(&self, outline_style: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "outlineWidth", managed = "Other")]
+    pub unsafe fn outlineWidth(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setOutlineWidth:")]
+    pub unsafe fn setOutlineWidth(&self, outline_width: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "overflow", managed = "Other")]
+    pub unsafe fn overflow(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setOverflow:")]
+    pub unsafe fn setOverflow(&self, overflow: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "padding", managed = "Other")]
+    pub unsafe fn padding(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPadding:")]
+    pub unsafe fn setPadding(&self, padding: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "paddingTop", managed = "Other")]
+    pub unsafe fn paddingTop(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPaddingTop:")]
+    pub unsafe fn setPaddingTop(&self, padding_top: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "paddingRight", managed = "Other")]
+    pub unsafe fn paddingRight(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPaddingRight:")]
+    pub unsafe fn setPaddingRight(&self, padding_right: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "paddingBottom", managed = "Other")]
+    pub unsafe fn paddingBottom(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPaddingBottom:")]
+    pub unsafe fn setPaddingBottom(&self, padding_bottom: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "paddingLeft", managed = "Other")]
+    pub unsafe fn paddingLeft(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPaddingLeft:")]
+    pub unsafe fn setPaddingLeft(&self, padding_left: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "page", managed = "Other")]
+    pub unsafe fn page(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPage:")]
+    pub unsafe fn setPage(&self, page: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "pageBreakAfter", managed = "Other")]
+    pub unsafe fn pageBreakAfter(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPageBreakAfter:")]
+    pub unsafe fn setPageBreakAfter(&self, page_break_after: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "pageBreakBefore", managed = "Other")]
+    pub unsafe fn pageBreakBefore(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPageBreakBefore:")]
+    pub unsafe fn setPageBreakBefore(&self, page_break_before: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "pageBreakInside", managed = "Other")]
+    pub unsafe fn pageBreakInside(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPageBreakInside:")]
+    pub unsafe fn setPageBreakInside(&self, page_break_inside: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "pause", managed = "Other")]
+    pub unsafe fn pause(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPause:")]
+    pub unsafe fn setPause(&self, pause: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "pauseAfter", managed = "Other")]
+    pub unsafe fn pauseAfter(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPauseAfter:")]
+    pub unsafe fn setPauseAfter(&self, pause_after: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "pauseBefore", managed = "Other")]
+    pub unsafe fn pauseBefore(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPauseBefore:")]
+    pub unsafe fn setPauseBefore(&self, pause_before: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "pitch", managed = "Other")]
+    pub unsafe fn pitch(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPitch:")]
+    pub unsafe fn setPitch(&self, pitch: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "pitchRange", managed = "Other")]
+    pub unsafe fn pitchRange(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPitchRange:")]
+    pub unsafe fn setPitchRange(&self, pitch_range: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "playDuring", managed = "Other")]
+    pub unsafe fn playDuring(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPlayDuring:")]
+    pub unsafe fn setPlayDuring(&self, play_during: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "position", managed = "Other")]
+    pub unsafe fn position(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setPosition:")]
+    pub unsafe fn setPosition(&self, position: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "quotes", managed = "Other")]
+    pub unsafe fn quotes(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setQuotes:")]
+    pub unsafe fn setQuotes(&self, quotes: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "richness", managed = "Other")]
+    pub unsafe fn richness(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setRichness:")]
+    pub unsafe fn setRichness(&self, richness: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "right", managed = "Other")]
+    pub unsafe fn right(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setRight:")]
+    pub unsafe fn setRight(&self, right: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "size", managed = "Other")]
+    pub unsafe fn size(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSize:")]
+    pub unsafe fn setSize(&self, size: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "speak", managed = "Other")]
+    pub unsafe fn speak(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSpeak:")]
+    pub unsafe fn setSpeak(&self, speak: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "speakHeader", managed = "Other")]
+    pub unsafe fn speakHeader(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSpeakHeader:")]
+    pub unsafe fn setSpeakHeader(&self, speak_header: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "speakNumeral", managed = "Other")]
+    pub unsafe fn speakNumeral(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSpeakNumeral:")]
+    pub unsafe fn setSpeakNumeral(&self, speak_numeral: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "speakPunctuation", managed = "Other")]
+    pub unsafe fn speakPunctuation(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSpeakPunctuation:")]
+    pub unsafe fn setSpeakPunctuation(&self, speak_punctuation: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "speechRate", managed = "Other")]
+    pub unsafe fn speechRate(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSpeechRate:")]
+    pub unsafe fn setSpeechRate(&self, speech_rate: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "stress", managed = "Other")]
+    pub unsafe fn stress(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setStress:")]
+    pub unsafe fn setStress(&self, stress: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "tableLayout", managed = "Other")]
+    pub unsafe fn tableLayout(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTableLayout:")]
+    pub unsafe fn setTableLayout(&self, table_layout: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "textAlign", managed = "Other")]
+    pub unsafe fn textAlign(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTextAlign:")]
+    pub unsafe fn setTextAlign(&self, text_align: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "textDecoration", managed = "Other")]
+    pub unsafe fn textDecoration(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTextDecoration:")]
+    pub unsafe fn setTextDecoration(&self, text_decoration: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "textIndent", managed = "Other")]
+    pub unsafe fn textIndent(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTextIndent:")]
+    pub unsafe fn setTextIndent(&self, text_indent: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "textShadow", managed = "Other")]
+    pub unsafe fn textShadow(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTextShadow:")]
+    pub unsafe fn setTextShadow(&self, text_shadow: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "textTransform", managed = "Other")]
+    pub unsafe fn textTransform(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTextTransform:")]
+    pub unsafe fn setTextTransform(&self, text_transform: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "top", managed = "Other")]
+    pub unsafe fn top(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTop:")]
+    pub unsafe fn setTop(&self, top: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "unicodeBidi", managed = "Other")]
+    pub unsafe fn unicodeBidi(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setUnicodeBidi:")]
+    pub unsafe fn setUnicodeBidi(&self, unicode_bidi: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "verticalAlign", managed = "Other")]
+    pub unsafe fn verticalAlign(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setVerticalAlign:")]
+    pub unsafe fn setVerticalAlign(&self, vertical_align: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "visibility", managed = "Other")]
+    pub unsafe fn visibility(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setVisibility:")]
+    pub unsafe fn setVisibility(&self, visibility: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "voiceFamily", managed = "Other")]
+    pub unsafe fn voiceFamily(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setVoiceFamily:")]
+    pub unsafe fn setVoiceFamily(&self, voice_family: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "volume", managed = "Other")]
+    pub unsafe fn volume(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setVolume:")]
+    pub unsafe fn setVolume(&self, volume: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "whiteSpace", managed = "Other")]
+    pub unsafe fn whiteSpace(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setWhiteSpace:")]
+    pub unsafe fn setWhiteSpace(&self, white_space: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "widows", managed = "Other")]
+    pub unsafe fn widows(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setWidows:")]
+    pub unsafe fn setWidows(&self, widows: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "width", managed = "Other")]
+    pub unsafe fn width(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setWidth:")]
+    pub unsafe fn setWidth(&self, width: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "wordSpacing", managed = "Other")]
+    pub unsafe fn wordSpacing(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setWordSpacing:")]
+    pub unsafe fn setWordSpacing(&self, word_spacing: Option<&NSString>);
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "zIndex", managed = "Other")]
+    pub unsafe fn zIndex(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setZIndex:")]
+    pub unsafe fn setZIndex(&self, z_index: Option<&NSString>);
+}

@@ -5,37 +5,35 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSTextLayoutFragmentEnumerationOptions {
-        NSTextLayoutFragmentEnumerationOptionsNone = 0,
-        NSTextLayoutFragmentEnumerationOptionsReverse = 1 << 0,
-        NSTextLayoutFragmentEnumerationOptionsEstimatesSize = 1 << 1,
-        NSTextLayoutFragmentEnumerationOptionsEnsuresLayout = 1 << 2,
-        NSTextLayoutFragmentEnumerationOptionsEnsuresExtraLineFragment = 1 << 3,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSTextLayoutFragmentEnumerationOptions {
+    NSTextLayoutFragmentEnumerationOptionsNone = 0,
+    NSTextLayoutFragmentEnumerationOptionsReverse = 1 << 0,
+    NSTextLayoutFragmentEnumerationOptionsEstimatesSize = 1 << 1,
+    NSTextLayoutFragmentEnumerationOptionsEnsuresLayout = 1 << 2,
+    NSTextLayoutFragmentEnumerationOptionsEnsuresExtraLineFragment = 1 << 3,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSTextLayoutFragmentState {
-        NSTextLayoutFragmentStateNone = 0,
-        NSTextLayoutFragmentStateEstimatedUsageBounds = 1,
-        NSTextLayoutFragmentStateCalculatedUsageBounds = 2,
-        NSTextLayoutFragmentStateLayoutAvailable = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSTextLayoutFragmentState {
+    NSTextLayoutFragmentStateNone = 0,
+    NSTextLayoutFragmentStateEstimatedUsageBounds = 1,
+    NSTextLayoutFragmentStateCalculatedUsageBounds = 2,
+    NSTextLayoutFragmentStateLayoutAvailable = 3,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextLayoutFragment")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextLayoutFragment")]
-    pub struct NSTextLayoutFragment;
-
-    #[cfg(feature = "AppKit_NSTextLayoutFragment")]
-    unsafe impl ClassType for NSTextLayoutFragment {
-        type Super = NSObject;
-    }
-);
+    pub type NSTextLayoutFragment;
+}
 
 #[cfg(feature = "AppKit_NSTextLayoutFragment")]
 unsafe impl NSCoding for NSTextLayoutFragment {}
@@ -46,88 +44,87 @@ unsafe impl NSObjectProtocol for NSTextLayoutFragment {}
 #[cfg(feature = "AppKit_NSTextLayoutFragment")]
 unsafe impl NSSecureCoding for NSTextLayoutFragment {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextLayoutFragment")]
-    unsafe impl NSTextLayoutFragment {
-        #[cfg(all(feature = "AppKit_NSTextElement", feature = "AppKit_NSTextRange"))]
-        #[method_id(@__retain_semantics Init initWithTextElement:range:)]
-        pub unsafe fn initWithTextElement_range(
-            this: Option<Allocated<Self>>,
-            text_element: &NSTextElement,
-            range_in_element: Option<&NSTextRange>,
-        ) -> Id<Self>;
+    pub type NSTextLayoutFragment;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[cfg(all(feature = "AppKit_NSTextElement", feature = "AppKit_NSTextRange"))]
+    #[objc2::method(sel = "initWithTextElement:range:", managed = "Init")]
+    pub unsafe fn initWithTextElement_range(
+        this: Option<Allocated<Self>>,
+        text_element: &NSTextElement,
+        range_in_element: Option<&NSTextRange>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[cfg(feature = "AppKit_NSTextLayoutManager")]
-        #[method_id(@__retain_semantics Other textLayoutManager)]
-        pub unsafe fn textLayoutManager(&self) -> Option<Id<NSTextLayoutManager>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "AppKit_NSTextElement")]
-        #[method_id(@__retain_semantics Other textElement)]
-        pub unsafe fn textElement(&self) -> Option<Id<NSTextElement>>;
+    #[cfg(feature = "AppKit_NSTextLayoutManager")]
+    #[objc2::method(sel = "textLayoutManager", managed = "Other")]
+    pub unsafe fn textLayoutManager(&self) -> Option<Id<NSTextLayoutManager>>;
 
-        #[cfg(feature = "AppKit_NSTextRange")]
-        #[method_id(@__retain_semantics Other rangeInElement)]
-        pub unsafe fn rangeInElement(&self) -> Id<NSTextRange>;
+    #[cfg(feature = "AppKit_NSTextElement")]
+    #[objc2::method(sel = "textElement", managed = "Other")]
+    pub unsafe fn textElement(&self) -> Option<Id<NSTextElement>>;
 
-        #[cfg(all(feature = "AppKit_NSTextLineFragment", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other textLineFragments)]
-        pub unsafe fn textLineFragments(&self) -> Id<NSArray<NSTextLineFragment>>;
+    #[cfg(feature = "AppKit_NSTextRange")]
+    #[objc2::method(sel = "rangeInElement", managed = "Other")]
+    pub unsafe fn rangeInElement(&self) -> Id<NSTextRange>;
 
-        #[cfg(feature = "Foundation_NSOperationQueue")]
-        #[method_id(@__retain_semantics Other layoutQueue)]
-        pub unsafe fn layoutQueue(&self) -> Option<Id<NSOperationQueue>>;
+    #[cfg(all(feature = "AppKit_NSTextLineFragment", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "textLineFragments", managed = "Other")]
+    pub unsafe fn textLineFragments(&self) -> Id<NSArray<NSTextLineFragment>>;
 
-        #[cfg(feature = "Foundation_NSOperationQueue")]
-        #[method(setLayoutQueue:)]
-        pub unsafe fn setLayoutQueue(&self, layout_queue: Option<&NSOperationQueue>);
+    #[cfg(feature = "Foundation_NSOperationQueue")]
+    #[objc2::method(sel = "layoutQueue", managed = "Other")]
+    pub unsafe fn layoutQueue(&self) -> Option<Id<NSOperationQueue>>;
 
-        #[method(state)]
-        pub unsafe fn state(&self) -> NSTextLayoutFragmentState;
+    #[cfg(feature = "Foundation_NSOperationQueue")]
+    #[objc2::method(sel = "setLayoutQueue:")]
+    pub unsafe fn setLayoutQueue(&self, layout_queue: Option<&NSOperationQueue>);
 
-        #[method(invalidateLayout)]
-        pub unsafe fn invalidateLayout(&self);
+    #[objc2::method(sel = "state")]
+    pub unsafe fn state(&self) -> NSTextLayoutFragmentState;
 
-        #[method(layoutFragmentFrame)]
-        pub unsafe fn layoutFragmentFrame(&self) -> CGRect;
+    #[objc2::method(sel = "invalidateLayout")]
+    pub unsafe fn invalidateLayout(&self);
 
-        #[method(renderingSurfaceBounds)]
-        pub unsafe fn renderingSurfaceBounds(&self) -> CGRect;
+    #[objc2::method(sel = "layoutFragmentFrame")]
+    pub unsafe fn layoutFragmentFrame(&self) -> CGRect;
 
-        #[method(leadingPadding)]
-        pub unsafe fn leadingPadding(&self) -> CGFloat;
+    #[objc2::method(sel = "renderingSurfaceBounds")]
+    pub unsafe fn renderingSurfaceBounds(&self) -> CGRect;
 
-        #[method(trailingPadding)]
-        pub unsafe fn trailingPadding(&self) -> CGFloat;
+    #[objc2::method(sel = "leadingPadding")]
+    pub unsafe fn leadingPadding(&self) -> CGFloat;
 
-        #[method(topMargin)]
-        pub unsafe fn topMargin(&self) -> CGFloat;
+    #[objc2::method(sel = "trailingPadding")]
+    pub unsafe fn trailingPadding(&self) -> CGFloat;
 
-        #[method(bottomMargin)]
-        pub unsafe fn bottomMargin(&self) -> CGFloat;
+    #[objc2::method(sel = "topMargin")]
+    pub unsafe fn topMargin(&self) -> CGFloat;
 
-        #[cfg(all(
-            feature = "AppKit_NSTextAttachmentViewProvider",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other textAttachmentViewProviders)]
-        pub unsafe fn textAttachmentViewProviders(
-            &self,
-        ) -> Id<NSArray<NSTextAttachmentViewProvider>>;
+    #[objc2::method(sel = "bottomMargin")]
+    pub unsafe fn bottomMargin(&self) -> CGFloat;
 
-        #[method(frameForTextAttachmentAtLocation:)]
-        pub unsafe fn frameForTextAttachmentAtLocation(
-            &self,
-            location: &ProtocolObject<dyn NSTextLocation>,
-        ) -> CGRect;
-    }
-);
+    #[cfg(all(
+        feature = "AppKit_NSTextAttachmentViewProvider",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "textAttachmentViewProviders", managed = "Other")]
+    pub unsafe fn textAttachmentViewProviders(&self) -> Id<NSArray<NSTextAttachmentViewProvider>>;
+
+    #[objc2::method(sel = "frameForTextAttachmentAtLocation:")]
+    pub unsafe fn frameForTextAttachmentAtLocation(
+        &self,
+        location: &ProtocolObject<dyn NSTextLocation>,
+    ) -> CGRect;
+}

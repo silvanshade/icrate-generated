@@ -5,59 +5,57 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSUsableScrollerParts {
-        NSNoScrollerParts = 0,
-        #[deprecated = "Scroller arrows are not used anymore."]
-        NSOnlyScrollerArrows = 1,
-        NSAllScrollerParts = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSUsableScrollerParts {
+    NSNoScrollerParts = 0,
+    #[deprecated = "Scroller arrows are not used anymore."]
+    NSOnlyScrollerArrows = 1,
+    NSAllScrollerParts = 2,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    pub enum NSScrollerPart {
-        NSScrollerNoPart = 0,
-        NSScrollerDecrementPage = 1,
-        NSScrollerKnob = 2,
-        NSScrollerIncrementPage = 3,
-        #[deprecated = "Scroller arrows are not used anymore."]
-        NSScrollerDecrementLine = 4,
-        #[deprecated = "Scroller arrows are not used anymore."]
-        NSScrollerIncrementLine = 5,
-        NSScrollerKnobSlot = 6,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+pub enum NSScrollerPart {
+    NSScrollerNoPart = 0,
+    NSScrollerDecrementPage = 1,
+    NSScrollerKnob = 2,
+    NSScrollerIncrementPage = 3,
+    #[deprecated = "Scroller arrows are not used anymore."]
+    NSScrollerDecrementLine = 4,
+    #[deprecated = "Scroller arrows are not used anymore."]
+    NSScrollerIncrementLine = 5,
+    NSScrollerKnobSlot = 6,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSScrollerStyle {
-        NSScrollerStyleLegacy = 0,
-        NSScrollerStyleOverlay = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSScrollerStyle {
+    NSScrollerStyleLegacy = 0,
+    NSScrollerStyleOverlay = 1,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum NSScrollerKnobStyle {
-        NSScrollerKnobStyleDefault = 0,
-        NSScrollerKnobStyleDark = 1,
-        NSScrollerKnobStyleLight = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum NSScrollerKnobStyle {
+    NSScrollerKnobStyleDefault = 0,
+    NSScrollerKnobStyleDark = 1,
+    NSScrollerKnobStyleLight = 2,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSControl,
+    unsafe inherits = [
+        NSView,
+        NSResponder,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSScroller")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSScroller")]
-    pub struct NSScroller;
-
-    #[cfg(feature = "AppKit_NSScroller")]
-    unsafe impl ClassType for NSScroller {
-        #[inherits(NSView, NSResponder, NSObject)]
-        type Super = NSControl;
-    }
-);
+    pub type NSScroller;
+}
 
 #[cfg(feature = "AppKit_NSScroller")]
 unsafe impl NSAccessibility for NSScroller {}
@@ -83,150 +81,159 @@ unsafe impl NSObjectProtocol for NSScroller {}
 #[cfg(feature = "AppKit_NSScroller")]
 unsafe impl NSUserInterfaceItemIdentification for NSScroller {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSScroller")]
-    unsafe impl NSScroller {
-        #[method(isCompatibleWithOverlayScrollers)]
-        pub unsafe fn isCompatibleWithOverlayScrollers() -> bool;
+    pub type NSScroller;
 
-        #[method(scrollerWidthForControlSize:scrollerStyle:)]
-        pub unsafe fn scrollerWidthForControlSize_scrollerStyle(
-            control_size: NSControlSize,
-            scroller_style: NSScrollerStyle,
-        ) -> CGFloat;
+    #[objc2::method(sel = "isCompatibleWithOverlayScrollers")]
+    pub unsafe fn isCompatibleWithOverlayScrollers() -> bool;
 
-        #[method(preferredScrollerStyle)]
-        pub unsafe fn preferredScrollerStyle() -> NSScrollerStyle;
+    #[objc2::method(sel = "scrollerWidthForControlSize:scrollerStyle:")]
+    pub unsafe fn scrollerWidthForControlSize_scrollerStyle(
+        control_size: NSControlSize,
+        scroller_style: NSScrollerStyle,
+    ) -> CGFloat;
 
-        #[method(scrollerStyle)]
-        pub unsafe fn scrollerStyle(&self) -> NSScrollerStyle;
+    #[objc2::method(sel = "preferredScrollerStyle")]
+    pub unsafe fn preferredScrollerStyle() -> NSScrollerStyle;
 
-        #[method(setScrollerStyle:)]
-        pub unsafe fn setScrollerStyle(&self, scroller_style: NSScrollerStyle);
+    #[objc2::method(sel = "scrollerStyle")]
+    pub unsafe fn scrollerStyle(&self) -> NSScrollerStyle;
 
-        #[method(knobStyle)]
-        pub unsafe fn knobStyle(&self) -> NSScrollerKnobStyle;
+    #[objc2::method(sel = "setScrollerStyle:")]
+    pub unsafe fn setScrollerStyle(&self, scroller_style: NSScrollerStyle);
 
-        #[method(setKnobStyle:)]
-        pub unsafe fn setKnobStyle(&self, knob_style: NSScrollerKnobStyle);
+    #[objc2::method(sel = "knobStyle")]
+    pub unsafe fn knobStyle(&self) -> NSScrollerKnobStyle;
 
-        #[method(rectForPart:)]
-        pub unsafe fn rectForPart(&self, part_code: NSScrollerPart) -> NSRect;
+    #[objc2::method(sel = "setKnobStyle:")]
+    pub unsafe fn setKnobStyle(&self, knob_style: NSScrollerKnobStyle);
 
-        #[method(checkSpaceForParts)]
-        pub unsafe fn checkSpaceForParts(&self);
+    #[objc2::method(sel = "rectForPart:")]
+    pub unsafe fn rectForPart(&self, part_code: NSScrollerPart) -> NSRect;
 
-        #[method(usableParts)]
-        pub unsafe fn usableParts(&self) -> NSUsableScrollerParts;
+    #[objc2::method(sel = "checkSpaceForParts")]
+    pub unsafe fn checkSpaceForParts(&self);
 
-        #[method(controlSize)]
-        pub unsafe fn controlSize(&self) -> NSControlSize;
+    #[objc2::method(sel = "usableParts")]
+    pub unsafe fn usableParts(&self) -> NSUsableScrollerParts;
 
-        #[method(setControlSize:)]
-        pub unsafe fn setControlSize(&self, control_size: NSControlSize);
+    #[objc2::method(sel = "controlSize")]
+    pub unsafe fn controlSize(&self) -> NSControlSize;
 
-        #[method(drawKnob)]
-        pub unsafe fn drawKnob(&self);
+    #[objc2::method(sel = "setControlSize:")]
+    pub unsafe fn setControlSize(&self, control_size: NSControlSize);
 
-        #[method(drawKnobSlotInRect:highlight:)]
-        pub unsafe fn drawKnobSlotInRect_highlight(&self, slot_rect: NSRect, flag: bool);
+    #[objc2::method(sel = "drawKnob")]
+    pub unsafe fn drawKnob(&self);
 
-        #[method(testPart:)]
-        pub unsafe fn testPart(&self, point: NSPoint) -> NSScrollerPart;
+    #[objc2::method(sel = "drawKnobSlotInRect:highlight:")]
+    pub unsafe fn drawKnobSlotInRect_highlight(&self, slot_rect: NSRect, flag: bool);
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[method(trackKnob:)]
-        pub unsafe fn trackKnob(&self, event: &NSEvent);
+    #[objc2::method(sel = "testPart:")]
+    pub unsafe fn testPart(&self, point: NSPoint) -> NSScrollerPart;
 
-        #[method(hitPart)]
-        pub unsafe fn hitPart(&self) -> NSScrollerPart;
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[objc2::method(sel = "trackKnob:")]
+    pub unsafe fn trackKnob(&self, event: &NSEvent);
 
-        #[method(knobProportion)]
-        pub unsafe fn knobProportion(&self) -> CGFloat;
+    #[objc2::method(sel = "hitPart")]
+    pub unsafe fn hitPart(&self) -> NSScrollerPart;
 
-        #[method(setKnobProportion:)]
-        pub unsafe fn setKnobProportion(&self, knob_proportion: CGFloat);
-    }
-);
+    #[objc2::method(sel = "knobProportion")]
+    pub unsafe fn knobProportion(&self) -> CGFloat;
+
+    #[objc2::method(sel = "setKnobProportion:")]
+    pub unsafe fn setKnobProportion(&self, knob_proportion: CGFloat);
+}
 
 extern_static!(NSPreferredScrollerStyleDidChangeNotification: &'static NSNotificationName);
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    #[deprecated = "Scroller arrows are not used anymore."]
-    pub enum NSScrollArrowPosition {
-        NSScrollerArrowsMaxEnd = 0,
-        NSScrollerArrowsMinEnd = 1,
-        NSScrollerArrowsDefaultSetting = 0,
-        NSScrollerArrowsNone = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+#[deprecated = "Scroller arrows are not used anymore."]
+pub enum NSScrollArrowPosition {
+    NSScrollerArrowsMaxEnd = 0,
+    NSScrollerArrowsMinEnd = 1,
+    NSScrollerArrowsDefaultSetting = 0,
+    NSScrollerArrowsNone = 2,
+}
 
-ns_enum!(
-    #[underlying(NSUInteger)]
-    #[deprecated = "Scroller arrows are not used anymore."]
-    pub enum NSScrollerArrow {
-        NSScrollerIncrementArrow = 0,
-        NSScrollerDecrementArrow = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSUInteger)]
+#[deprecated = "Scroller arrows are not used anymore."]
+pub enum NSScrollerArrow {
+    NSScrollerIncrementArrow = 0,
+    NSScrollerDecrementArrow = 1,
+}
 
-extern_methods!(
-    /// NSDeprecated
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSScroller")]
-    unsafe impl NSScroller {
-        #[deprecated = "Use +scrollerWidthForControlSize:scrollerStyle: instead"]
-        #[method(scrollerWidthForControlSize:)]
-        pub unsafe fn scrollerWidthForControlSize(control_size: NSControlSize) -> CGFloat;
+    pub type NSScroller;
 
-        #[deprecated = "Use +scrollerWidthForControlSize:scrollerStyle: instead"]
-        #[method(scrollerWidth)]
-        pub unsafe fn scrollerWidth() -> CGFloat;
+    #[deprecated = "Use +scrollerWidthForControlSize:scrollerStyle: instead"]
+    #[objc2::method(sel = "scrollerWidthForControlSize:")]
+    pub unsafe fn scrollerWidthForControlSize(control_size: NSControlSize) -> CGFloat;
 
-        #[deprecated]
-        #[method(setFloatValue:knobProportion:)]
-        pub unsafe fn setFloatValue_knobProportion(&self, value: c_float, proportion: CGFloat);
+    #[deprecated = "Use +scrollerWidthForControlSize:scrollerStyle: instead"]
+    #[objc2::method(sel = "scrollerWidth")]
+    pub unsafe fn scrollerWidth() -> CGFloat;
 
-        #[deprecated = "Has had no effect since 10.7"]
-        #[method(arrowsPosition)]
-        pub unsafe fn arrowsPosition(&self) -> NSScrollArrowPosition;
+    #[deprecated]
+    #[objc2::method(sel = "setFloatValue:knobProportion:")]
+    pub unsafe fn setFloatValue_knobProportion(&self, value: c_float, proportion: CGFloat);
 
-        #[deprecated = "Has had no effect since 10.7"]
-        #[method(setArrowsPosition:)]
-        pub unsafe fn setArrowsPosition(&self, arrows_position: NSScrollArrowPosition);
+    #[deprecated = "Has had no effect since 10.7"]
+    #[objc2::method(sel = "arrowsPosition")]
+    pub unsafe fn arrowsPosition(&self) -> NSScrollArrowPosition;
 
-        #[deprecated = "Has had no effect since 10.7"]
-        #[method(controlTint)]
-        pub unsafe fn controlTint(&self) -> NSControlTint;
+    #[deprecated = "Has had no effect since 10.7"]
+    #[objc2::method(sel = "setArrowsPosition:")]
+    pub unsafe fn setArrowsPosition(&self, arrows_position: NSScrollArrowPosition);
 
-        #[deprecated = "Has had no effect since 10.7"]
-        #[method(setControlTint:)]
-        pub unsafe fn setControlTint(&self, control_tint: NSControlTint);
+    #[deprecated = "Has had no effect since 10.7"]
+    #[objc2::method(sel = "controlTint")]
+    pub unsafe fn controlTint(&self) -> NSControlTint;
 
-        #[deprecated = "Has had no effect since 10.7"]
-        #[method(highlight:)]
-        pub unsafe fn highlight(&self, flag: bool);
+    #[deprecated = "Has had no effect since 10.7"]
+    #[objc2::method(sel = "setControlTint:")]
+    pub unsafe fn setControlTint(&self, control_tint: NSControlTint);
 
-        #[cfg(feature = "AppKit_NSEvent")]
-        #[deprecated = "Not invoked since 10.7"]
-        #[method(trackScrollButtons:)]
-        pub unsafe fn trackScrollButtons(&self, event: &NSEvent);
+    #[deprecated = "Has had no effect since 10.7"]
+    #[objc2::method(sel = "highlight:")]
+    pub unsafe fn highlight(&self, flag: bool);
 
-        #[deprecated = "Not invoked on any macOS version"]
-        #[method(drawParts)]
-        pub unsafe fn drawParts(&self);
+    #[cfg(feature = "AppKit_NSEvent")]
+    #[deprecated = "Not invoked since 10.7"]
+    #[objc2::method(sel = "trackScrollButtons:")]
+    pub unsafe fn trackScrollButtons(&self, event: &NSEvent);
 
-        #[deprecated = "Scrollers don't have arrows as of 10.7"]
-        #[method(drawArrow:highlight:)]
-        pub unsafe fn drawArrow_highlight(&self, which_arrow: NSScrollerArrow, flag: bool);
-    }
-);
+    #[deprecated = "Not invoked on any macOS version"]
+    #[objc2::method(sel = "drawParts")]
+    pub unsafe fn drawParts(&self);
 
-extern_methods!(
-    /// Methods declared on superclass `NSControl`
+    #[deprecated = "Scrollers don't have arrows as of 10.7"]
+    #[objc2::method(sel = "drawArrow:highlight:")]
+    pub unsafe fn drawArrow_highlight(&self, which_arrow: NSScrollerArrow, flag: bool);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSControl`
     #[cfg(feature = "AppKit_NSScroller")]
-    unsafe impl NSScroller {
-        #[method_id(@__retain_semantics Init initWithFrame:)]
-        pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSScroller")]
+    pub type NSScroller;
+
+    #[objc2::method(sel = "initWithFrame:", managed = "Init")]
+    pub unsafe fn initWithFrame(this: Option<Allocated<Self>>, frame_rect: NSRect) -> Id<Self>;
+}

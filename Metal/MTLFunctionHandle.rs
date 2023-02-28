@@ -4,18 +4,15 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-extern_protocol!(
-    pub unsafe trait MTLFunctionHandle: NSObjectProtocol {
-        #[method(functionType)]
-        fn functionType(&self) -> MTLFunctionType;
+#[objc2::protocol]
+pub unsafe trait MTLFunctionHandle: NSObjectProtocol {
+    #[objc2::method(sel = "functionType")]
+    fn functionType(&self) -> MTLFunctionType;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other name)]
-        fn name(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "name", managed = "Other")]
+    fn name(&self) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Other device)]
-        fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
-    }
-
-    unsafe impl ProtocolType for dyn MTLFunctionHandle {}
-);
+    #[objc2::method(sel = "device", managed = "Other")]
+    fn device(&self) -> Id<ProtocolObject<dyn MTLDevice>>;
+}

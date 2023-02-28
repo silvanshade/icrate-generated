@@ -4,16 +4,16 @@ use crate::common::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreData_NSPersistentHistoryToken")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreData_NSPersistentHistoryToken")]
-    pub struct NSPersistentHistoryToken;
-
-    #[cfg(feature = "CoreData_NSPersistentHistoryToken")]
-    unsafe impl ClassType for NSPersistentHistoryToken {
-        type Super = NSObject;
-    }
-);
+    pub type NSPersistentHistoryToken;
+}
 
 #[cfg(feature = "CoreData_NSPersistentHistoryToken")]
 unsafe impl NSCoding for NSPersistentHistoryToken {}
@@ -24,7 +24,10 @@ unsafe impl NSObjectProtocol for NSPersistentHistoryToken {}
 #[cfg(feature = "CoreData_NSPersistentHistoryToken")]
 unsafe impl NSSecureCoding for NSPersistentHistoryToken {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreData_NSPersistentHistoryToken")]
-    unsafe impl NSPersistentHistoryToken {}
-);
+    pub type NSPersistentHistoryToken;
+}

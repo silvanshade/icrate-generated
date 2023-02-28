@@ -6,13 +6,12 @@ use crate::SoundAnalysis::*;
 
 extern_static!(SNErrorDomain: Option<&'static NSString>);
 
-ns_error_enum!(
-    #[underlying(NSInteger)]
-    pub enum SNErrorCode {
-        SNErrorCodeUnknownError = 1,
-        SNErrorCodeOperationFailed = 2,
-        SNErrorCodeInvalidFormat = 3,
-        SNErrorCodeInvalidModel = 4,
-        SNErrorCodeInvalidFile = 5,
-    }
-);
+#[ns_error_enum]
+#[underlying(NSInteger)]
+pub enum SNErrorCode {
+    SNErrorCodeUnknownError = 1,
+    SNErrorCodeOperationFailed = 2,
+    SNErrorCodeInvalidFormat = 3,
+    SNErrorCodeInvalidModel = 4,
+    SNErrorCodeInvalidFile = 5,
+}

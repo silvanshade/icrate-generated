@@ -5,16 +5,16 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::UserNotifications::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "UserNotifications_UNNotification")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "UserNotifications_UNNotification")]
-    pub struct UNNotification;
-
-    #[cfg(feature = "UserNotifications_UNNotification")]
-    unsafe impl ClassType for UNNotification {
-        type Super = NSObject;
-    }
-);
+    pub type UNNotification;
+}
 
 #[cfg(feature = "UserNotifications_UNNotification")]
 unsafe impl NSCoding for UNNotification {}
@@ -25,18 +25,21 @@ unsafe impl NSObjectProtocol for UNNotification {}
 #[cfg(feature = "UserNotifications_UNNotification")]
 unsafe impl NSSecureCoding for UNNotification {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "UserNotifications_UNNotification")]
-    unsafe impl UNNotification {
-        #[cfg(feature = "Foundation_NSDate")]
-        #[method_id(@__retain_semantics Other date)]
-        pub unsafe fn date(&self) -> Id<NSDate>;
+    pub type UNNotification;
 
-        #[cfg(feature = "UserNotifications_UNNotificationRequest")]
-        #[method_id(@__retain_semantics Other request)]
-        pub unsafe fn request(&self) -> Id<UNNotificationRequest>;
+    #[cfg(feature = "Foundation_NSDate")]
+    #[objc2::method(sel = "date", managed = "Other")]
+    pub unsafe fn date(&self) -> Id<NSDate>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[cfg(feature = "UserNotifications_UNNotificationRequest")]
+    #[objc2::method(sel = "request", managed = "Other")]
+    pub unsafe fn request(&self) -> Id<UNNotificationRequest>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

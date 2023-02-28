@@ -4,156 +4,154 @@ use crate::common::*;
 use crate::AuthenticationServices::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait ASAuthorizationControllerDelegate: NSObjectProtocol {
-        #[cfg(all(
-            feature = "AuthenticationServices_ASAuthorization",
-            feature = "AuthenticationServices_ASAuthorizationController"
-        ))]
-        #[optional]
-        #[method(authorizationController:didCompleteWithAuthorization:)]
-        unsafe fn authorizationController_didCompleteWithAuthorization(
-            &self,
-            controller: &ASAuthorizationController,
-            authorization: &ASAuthorization,
-        );
+#[objc2::protocol]
+pub unsafe trait ASAuthorizationControllerDelegate: NSObjectProtocol {
+    #[cfg(all(
+        feature = "AuthenticationServices_ASAuthorization",
+        feature = "AuthenticationServices_ASAuthorizationController"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "authorizationController:didCompleteWithAuthorization:"
+    )]
+    unsafe fn authorizationController_didCompleteWithAuthorization(
+        &self,
+        controller: &ASAuthorizationController,
+        authorization: &ASAuthorization,
+    );
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASAuthorizationController",
-            feature = "Foundation_NSError"
-        ))]
-        #[optional]
-        #[method(authorizationController:didCompleteWithError:)]
-        unsafe fn authorizationController_didCompleteWithError(
-            &self,
-            controller: &ASAuthorizationController,
-            error: &NSError,
-        );
+    #[cfg(all(
+        feature = "AuthenticationServices_ASAuthorizationController",
+        feature = "Foundation_NSError"
+    ))]
+    #[objc2::method(optional, sel = "authorizationController:didCompleteWithError:")]
+    unsafe fn authorizationController_didCompleteWithError(
+        &self,
+        controller: &ASAuthorizationController,
+        error: &NSError,
+    );
 
-        #[cfg(feature = "AuthenticationServices_ASAuthorizationController")]
-        #[optional]
-        #[method(authorizationController:didCompleteWithCustomMethod:)]
-        unsafe fn authorizationController_didCompleteWithCustomMethod(
-            &self,
-            controller: &ASAuthorizationController,
-            method: &ASAuthorizationCustomMethod,
-        );
-    }
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationController")]
+    #[objc2::method(optional, sel = "authorizationController:didCompleteWithCustomMethod:")]
+    unsafe fn authorizationController_didCompleteWithCustomMethod(
+        &self,
+        controller: &ASAuthorizationController,
+        method: &ASAuthorizationCustomMethod,
+    );
+}
 
-    unsafe impl ProtocolType for dyn ASAuthorizationControllerDelegate {}
-);
+#[objc2::protocol]
+pub unsafe trait ASAuthorizationControllerPresentationContextProviding:
+    NSObjectProtocol
+{
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationController")]
+    #[objc2::method(
+        sel = "presentationAnchorForAuthorizationController:",
+        managed = "Other"
+    )]
+    unsafe fn presentationAnchorForAuthorizationController(
+        &self,
+        controller: &ASAuthorizationController,
+    ) -> Id<ASPresentationAnchor>;
+}
 
-extern_protocol!(
-    pub unsafe trait ASAuthorizationControllerPresentationContextProviding:
-        NSObjectProtocol
-    {
-        #[cfg(feature = "AuthenticationServices_ASAuthorizationController")]
-        #[method_id(@__retain_semantics Other presentationAnchorForAuthorizationController:)]
-        unsafe fn presentationAnchorForAuthorizationController(
-            &self,
-            controller: &ASAuthorizationController,
-        ) -> Id<ASPresentationAnchor>;
-    }
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum ASAuthorizationControllerRequestOptions {
+    ASAuthorizationControllerRequestOptionPreferImmediatelyAvailableCredentials = 1 << 0,
+}
 
-    unsafe impl ProtocolType for dyn ASAuthorizationControllerPresentationContextProviding {}
-);
-
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum ASAuthorizationControllerRequestOptions {
-        ASAuthorizationControllerRequestOptionPreferImmediatelyAvailableCredentials = 1 << 0,
-    }
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AuthenticationServices_ASAuthorizationController")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationController")]
-    pub struct ASAuthorizationController;
-
-    #[cfg(feature = "AuthenticationServices_ASAuthorizationController")]
-    unsafe impl ClassType for ASAuthorizationController {
-        type Super = NSObject;
-    }
-);
+    pub type ASAuthorizationController;
+}
 
 #[cfg(feature = "AuthenticationServices_ASAuthorizationController")]
 unsafe impl NSObjectProtocol for ASAuthorizationController {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AuthenticationServices_ASAuthorizationController")]
-    unsafe impl ASAuthorizationController {
-        #[cfg(all(
-            feature = "AuthenticationServices_ASAuthorizationRequest",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other authorizationRequests)]
-        pub unsafe fn authorizationRequests(&self) -> Id<NSArray<ASAuthorizationRequest>>;
+    pub type ASAuthorizationController;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn ASAuthorizationControllerDelegate>>>;
+    #[cfg(all(
+        feature = "AuthenticationServices_ASAuthorizationRequest",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "authorizationRequests", managed = "Other")]
+    pub unsafe fn authorizationRequests(&self) -> Id<NSArray<ASAuthorizationRequest>>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn ASAuthorizationControllerDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn ASAuthorizationControllerDelegate>>>;
 
-        #[method_id(@__retain_semantics Other presentationContextProvider)]
-        pub unsafe fn presentationContextProvider(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn ASAuthorizationControllerPresentationContextProviding>>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn ASAuthorizationControllerDelegate>>,
+    );
 
-        #[method(setPresentationContextProvider:)]
-        pub unsafe fn setPresentationContextProvider(
-            &self,
-            presentation_context_provider: Option<
-                &ProtocolObject<dyn ASAuthorizationControllerPresentationContextProviding>,
-            >,
-        );
+    #[objc2::method(sel = "presentationContextProvider", managed = "Other")]
+    pub unsafe fn presentationContextProvider(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn ASAuthorizationControllerPresentationContextProviding>>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other customAuthorizationMethods)]
-        pub unsafe fn customAuthorizationMethods(&self)
-            -> Id<NSArray<ASAuthorizationCustomMethod>>;
+    #[objc2::method(sel = "setPresentationContextProvider:")]
+    pub unsafe fn setPresentationContextProvider(
+        &self,
+        presentation_context_provider: Option<
+            &ProtocolObject<dyn ASAuthorizationControllerPresentationContextProviding>,
+        >,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setCustomAuthorizationMethods:)]
-        pub unsafe fn setCustomAuthorizationMethods(
-            &self,
-            custom_authorization_methods: &NSArray<ASAuthorizationCustomMethod>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "customAuthorizationMethods", managed = "Other")]
+    pub unsafe fn customAuthorizationMethods(&self) -> Id<NSArray<ASAuthorizationCustomMethod>>;
 
-        #[cfg(all(
-            feature = "AuthenticationServices_ASAuthorizationRequest",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Init initWithAuthorizationRequests:)]
-        pub unsafe fn initWithAuthorizationRequests(
-            this: Option<Allocated<Self>>,
-            authorization_requests: &NSArray<ASAuthorizationRequest>,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setCustomAuthorizationMethods:")]
+    pub unsafe fn setCustomAuthorizationMethods(
+        &self,
+        custom_authorization_methods: &NSArray<ASAuthorizationCustomMethod>,
+    );
 
-        #[method(performRequests)]
-        pub unsafe fn performRequests(&self);
+    #[cfg(all(
+        feature = "AuthenticationServices_ASAuthorizationRequest",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "initWithAuthorizationRequests:", managed = "Init")]
+    pub unsafe fn initWithAuthorizationRequests(
+        this: Option<Allocated<Self>>,
+        authorization_requests: &NSArray<ASAuthorizationRequest>,
+    ) -> Id<Self>;
 
-        #[method(performAutoFillAssistedRequests)]
-        pub unsafe fn performAutoFillAssistedRequests(&self);
+    #[objc2::method(sel = "performRequests")]
+    pub unsafe fn performRequests(&self);
 
-        #[method(performRequestsWithOptions:)]
-        pub unsafe fn performRequestsWithOptions(
-            &self,
-            options: ASAuthorizationControllerRequestOptions,
-        );
+    #[objc2::method(sel = "performAutoFillAssistedRequests")]
+    pub unsafe fn performAutoFillAssistedRequests(&self);
 
-        #[method(cancel)]
-        pub unsafe fn cancel(&self);
+    #[objc2::method(sel = "performRequestsWithOptions:")]
+    pub unsafe fn performRequestsWithOptions(
+        &self,
+        options: ASAuthorizationControllerRequestOptions,
+    );
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "cancel")]
+    pub unsafe fn cancel(&self);
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+}

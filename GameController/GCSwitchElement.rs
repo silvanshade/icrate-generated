@@ -5,11 +5,8 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::GameController::*;
 
-extern_protocol!(
-    pub unsafe trait GCSwitchElement: GCPhysicalInputElement {
-        #[method_id(@__retain_semantics Other positionInput)]
-        unsafe fn positionInput(&self) -> Id<ProtocolObject<dyn GCSwitchPositionInput>>;
-    }
-
-    unsafe impl ProtocolType for dyn GCSwitchElement {}
-);
+#[objc2::protocol]
+pub unsafe trait GCSwitchElement: GCPhysicalInputElement {
+    #[objc2::method(sel = "positionInput", managed = "Other")]
+    unsafe fn positionInput(&self) -> Id<ProtocolObject<dyn GCSwitchPositionInput>>;
+}

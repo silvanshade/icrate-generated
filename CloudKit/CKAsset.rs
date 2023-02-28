@@ -5,35 +5,38 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKAsset")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKAsset")]
-    pub struct CKAsset;
-
-    #[cfg(feature = "CloudKit_CKAsset")]
-    unsafe impl ClassType for CKAsset {
-        type Super = NSObject;
-    }
-);
+    pub type CKAsset;
+}
 
 #[cfg(feature = "CloudKit_CKAsset")]
 unsafe impl NSObjectProtocol for CKAsset {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKAsset")]
-    unsafe impl CKAsset {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKAsset;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Init initWithFileURL:)]
-        pub unsafe fn initWithFileURL(this: Option<Allocated<Self>>, file_url: &NSURL) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other fileURL)]
-        pub unsafe fn fileURL(&self) -> Option<Id<NSURL>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "initWithFileURL:", managed = "Init")]
+    pub unsafe fn initWithFileURL(this: Option<Allocated<Self>>, file_url: &NSURL) -> Id<Self>;
+
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "fileURL", managed = "Other")]
+    pub unsafe fn fileURL(&self) -> Option<Id<NSURL>>;
+}

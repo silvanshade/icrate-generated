@@ -5,69 +5,71 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::MediaPlayer::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MediaPlayer_MPPlayableContentManager")]
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
     #[deprecated = "Use CarPlay framework"]
-    pub struct MPPlayableContentManager;
-
     #[cfg(feature = "MediaPlayer_MPPlayableContentManager")]
-    unsafe impl ClassType for MPPlayableContentManager {
-        type Super = NSObject;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type MPPlayableContentManager;
+}
 
 #[cfg(feature = "MediaPlayer_MPPlayableContentManager")]
 unsafe impl NSObjectProtocol for MPPlayableContentManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MediaPlayer_MPPlayableContentManager")]
-    unsafe impl MPPlayableContentManager {
-        #[method_id(@__retain_semantics Other dataSource)]
-        pub unsafe fn dataSource(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn MPPlayableContentDataSource>>>;
+    #[deprecated = "Use CarPlay framework"]
+    pub type MPPlayableContentManager;
 
-        #[method(setDataSource:)]
-        pub unsafe fn setDataSource(
-            &self,
-            data_source: Option<&ProtocolObject<dyn MPPlayableContentDataSource>>,
-        );
+    #[objc2::method(sel = "dataSource", managed = "Other")]
+    pub unsafe fn dataSource(&self) -> Option<Id<ProtocolObject<dyn MPPlayableContentDataSource>>>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn MPPlayableContentDelegate>>>;
+    #[objc2::method(sel = "setDataSource:")]
+    pub unsafe fn setDataSource(
+        &self,
+        data_source: Option<&ProtocolObject<dyn MPPlayableContentDataSource>>,
+    );
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn MPPlayableContentDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn MPPlayableContentDelegate>>>;
 
-        #[cfg(feature = "MediaPlayer_MPPlayableContentManagerContext")]
-        #[deprecated = "Use CarPlay framework"]
-        #[method_id(@__retain_semantics Other context)]
-        pub unsafe fn context(&self) -> Id<MPPlayableContentManagerContext>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn MPPlayableContentDelegate>>,
+    );
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[deprecated = "Use CarPlay framework"]
-        #[method_id(@__retain_semantics Other nowPlayingIdentifiers)]
-        pub unsafe fn nowPlayingIdentifiers(&self) -> Id<NSArray<NSString>>;
+    #[cfg(feature = "MediaPlayer_MPPlayableContentManagerContext")]
+    #[deprecated = "Use CarPlay framework"]
+    #[objc2::method(sel = "context", managed = "Other")]
+    pub unsafe fn context(&self) -> Id<MPPlayableContentManagerContext>;
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
-        #[deprecated = "Use CarPlay framework"]
-        #[method(setNowPlayingIdentifiers:)]
-        pub unsafe fn setNowPlayingIdentifiers(&self, now_playing_identifiers: &NSArray<NSString>);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[deprecated = "Use CarPlay framework"]
+    #[objc2::method(sel = "nowPlayingIdentifiers", managed = "Other")]
+    pub unsafe fn nowPlayingIdentifiers(&self) -> Id<NSArray<NSString>>;
 
-        #[method_id(@__retain_semantics Other sharedContentManager)]
-        pub unsafe fn sharedContentManager() -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSString"))]
+    #[deprecated = "Use CarPlay framework"]
+    #[objc2::method(sel = "setNowPlayingIdentifiers:")]
+    pub unsafe fn setNowPlayingIdentifiers(&self, now_playing_identifiers: &NSArray<NSString>);
 
-        #[method(reloadData)]
-        pub unsafe fn reloadData(&self);
+    #[objc2::method(sel = "sharedContentManager", managed = "Other")]
+    pub unsafe fn sharedContentManager() -> Id<Self>;
 
-        #[method(beginUpdates)]
-        pub unsafe fn beginUpdates(&self);
+    #[objc2::method(sel = "reloadData")]
+    pub unsafe fn reloadData(&self);
 
-        #[method(endUpdates)]
-        pub unsafe fn endUpdates(&self);
-    }
-);
+    #[objc2::method(sel = "beginUpdates")]
+    pub unsafe fn beginUpdates(&self);
+
+    #[objc2::method(sel = "endUpdates")]
+    pub unsafe fn endUpdates(&self);
+}

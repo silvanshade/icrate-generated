@@ -5,16 +5,16 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKQuery")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKQuery")]
-    pub struct CKQuery;
-
-    #[cfg(feature = "CloudKit_CKQuery")]
-    unsafe impl ClassType for CKQuery {
-        type Super = NSObject;
-    }
-);
+    pub type CKQuery;
+}
 
 #[cfg(feature = "CloudKit_CKQuery")]
 unsafe impl NSCoding for CKQuery {}
@@ -25,50 +25,49 @@ unsafe impl NSObjectProtocol for CKQuery {}
 #[cfg(feature = "CloudKit_CKQuery")]
 unsafe impl NSSecureCoding for CKQuery {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKQuery")]
-    unsafe impl CKQuery {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKQuery;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, a_decoder: &NSCoder)
-            -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Init initWithRecordType:predicate:)]
-        pub unsafe fn initWithRecordType_predicate(
-            this: Option<Allocated<Self>>,
-            record_type: &CKRecordType,
-            predicate: &NSPredicate,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, a_decoder: &NSCoder) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other recordType)]
-        pub unsafe fn recordType(&self) -> Id<CKRecordType>;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "initWithRecordType:predicate:", managed = "Init")]
+    pub unsafe fn initWithRecordType_predicate(
+        this: Option<Allocated<Self>>,
+        record_type: &CKRecordType,
+        predicate: &NSPredicate,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicate)]
-        pub unsafe fn predicate(&self) -> Id<NSPredicate>;
+    #[objc2::method(sel = "recordType", managed = "Other")]
+    pub unsafe fn recordType(&self) -> Id<CKRecordType>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSSortDescriptor"
-        ))]
-        #[method_id(@__retain_semantics Other sortDescriptors)]
-        pub unsafe fn sortDescriptors(&self) -> Option<Id<NSArray<NSSortDescriptor>>>;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "predicate", managed = "Other")]
+    pub unsafe fn predicate(&self) -> Id<NSPredicate>;
 
-        #[cfg(all(
-            feature = "Foundation_NSArray",
-            feature = "Foundation_NSSortDescriptor"
-        ))]
-        #[method(setSortDescriptors:)]
-        pub unsafe fn setSortDescriptors(
-            &self,
-            sort_descriptors: Option<&NSArray<NSSortDescriptor>>,
-        );
-    }
-);
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSSortDescriptor"
+    ))]
+    #[objc2::method(sel = "sortDescriptors", managed = "Other")]
+    pub unsafe fn sortDescriptors(&self) -> Option<Id<NSArray<NSSortDescriptor>>>;
+
+    #[cfg(all(
+        feature = "Foundation_NSArray",
+        feature = "Foundation_NSSortDescriptor"
+    ))]
+    #[objc2::method(sel = "setSortDescriptors:")]
+    pub unsafe fn setSortDescriptors(&self, sort_descriptors: Option<&NSArray<NSSortDescriptor>>);
+}

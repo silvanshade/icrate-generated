@@ -4,143 +4,131 @@ use crate::common::*;
 use crate::Foundation::*;
 use crate::Metal::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MTLIOPriority {
-        MTLIOPriorityHigh = 0,
-        MTLIOPriorityNormal = 1,
-        MTLIOPriorityLow = 2,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MTLIOPriority {
+    MTLIOPriorityHigh = 0,
+    MTLIOPriorityNormal = 1,
+    MTLIOPriorityLow = 2,
+}
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MTLIOCommandQueueType {
-        MTLIOCommandQueueTypeConcurrent = 0,
-        MTLIOCommandQueueTypeSerial = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MTLIOCommandQueueType {
+    MTLIOCommandQueueTypeConcurrent = 0,
+    MTLIOCommandQueueTypeSerial = 1,
+}
 
 extern_static!(MTLIOErrorDomain: &'static NSErrorDomain);
 
-ns_error_enum!(
-    #[underlying(NSInteger)]
-    pub enum MTLIOError {
-        MTLIOErrorURLInvalid = 1,
-        MTLIOErrorInternal = 2,
-    }
-);
+#[ns_error_enum]
+#[underlying(NSInteger)]
+pub enum MTLIOError {
+    MTLIOErrorURLInvalid = 1,
+    MTLIOErrorInternal = 2,
+}
 
-extern_protocol!(
-    pub unsafe trait MTLIOCommandQueue: NSObjectProtocol {
-        #[method(enqueueBarrier)]
-        unsafe fn enqueueBarrier(&self);
+#[objc2::protocol]
+pub unsafe trait MTLIOCommandQueue: NSObjectProtocol {
+    #[objc2::method(sel = "enqueueBarrier")]
+    unsafe fn enqueueBarrier(&self);
 
-        #[method_id(@__retain_semantics Other commandBuffer)]
-        unsafe fn commandBuffer(&self) -> Id<ProtocolObject<dyn MTLIOCommandBuffer>>;
+    #[objc2::method(sel = "commandBuffer", managed = "Other")]
+    unsafe fn commandBuffer(&self) -> Id<ProtocolObject<dyn MTLIOCommandBuffer>>;
 
-        #[method_id(@__retain_semantics Other commandBufferWithUnretainedReferences)]
-        unsafe fn commandBufferWithUnretainedReferences(
-            &self,
-        ) -> Id<ProtocolObject<dyn MTLIOCommandBuffer>>;
+    #[objc2::method(sel = "commandBufferWithUnretainedReferences", managed = "Other")]
+    unsafe fn commandBufferWithUnretainedReferences(
+        &self,
+    ) -> Id<ProtocolObject<dyn MTLIOCommandBuffer>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        unsafe fn label(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    unsafe fn label(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        unsafe fn setLabel(&self, label: Option<&NSString>);
-    }
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    unsafe fn setLabel(&self, label: Option<&NSString>);
+}
 
-    unsafe impl ProtocolType for dyn MTLIOCommandQueue {}
-);
+#[objc2::protocol]
+pub unsafe trait MTLIOScratchBuffer: NSObjectProtocol {
+    #[objc2::method(sel = "buffer", managed = "Other")]
+    unsafe fn buffer(&self) -> Id<ProtocolObject<dyn MTLBuffer>>;
+}
 
-extern_protocol!(
-    pub unsafe trait MTLIOScratchBuffer: NSObjectProtocol {
-        #[method_id(@__retain_semantics Other buffer)]
-        unsafe fn buffer(&self) -> Id<ProtocolObject<dyn MTLBuffer>>;
-    }
+#[objc2::protocol]
+pub unsafe trait MTLIOScratchBufferAllocator: NSObjectProtocol {
+    #[objc2::method(sel = "newScratchBufferWithMinimumSize:", managed = "New")]
+    unsafe fn newScratchBufferWithMinimumSize(
+        &self,
+        minimum_size: NSUInteger,
+    ) -> Option<Id<ProtocolObject<dyn MTLIOScratchBuffer>>>;
+}
 
-    unsafe impl ProtocolType for dyn MTLIOScratchBuffer {}
-);
-
-extern_protocol!(
-    pub unsafe trait MTLIOScratchBufferAllocator: NSObjectProtocol {
-        #[method_id(@__retain_semantics New newScratchBufferWithMinimumSize:)]
-        unsafe fn newScratchBufferWithMinimumSize(
-            &self,
-            minimum_size: NSUInteger,
-        ) -> Option<Id<ProtocolObject<dyn MTLIOScratchBuffer>>>;
-    }
-
-    unsafe impl ProtocolType for dyn MTLIOScratchBufferAllocator {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Metal_MTLIOCommandQueueDescriptor")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Metal_MTLIOCommandQueueDescriptor")]
-    pub struct MTLIOCommandQueueDescriptor;
-
-    #[cfg(feature = "Metal_MTLIOCommandQueueDescriptor")]
-    unsafe impl ClassType for MTLIOCommandQueueDescriptor {
-        type Super = NSObject;
-    }
-);
+    pub type MTLIOCommandQueueDescriptor;
+}
 
 #[cfg(feature = "Metal_MTLIOCommandQueueDescriptor")]
 unsafe impl NSObjectProtocol for MTLIOCommandQueueDescriptor {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Metal_MTLIOCommandQueueDescriptor")]
-    unsafe impl MTLIOCommandQueueDescriptor {
-        #[method(maxCommandBufferCount)]
-        pub unsafe fn maxCommandBufferCount(&self) -> NSUInteger;
+    pub type MTLIOCommandQueueDescriptor;
 
-        #[method(setMaxCommandBufferCount:)]
-        pub unsafe fn setMaxCommandBufferCount(&self, max_command_buffer_count: NSUInteger);
+    #[objc2::method(sel = "maxCommandBufferCount")]
+    pub unsafe fn maxCommandBufferCount(&self) -> NSUInteger;
 
-        #[method(priority)]
-        pub unsafe fn priority(&self) -> MTLIOPriority;
+    #[objc2::method(sel = "setMaxCommandBufferCount:")]
+    pub unsafe fn setMaxCommandBufferCount(&self, max_command_buffer_count: NSUInteger);
 
-        #[method(setPriority:)]
-        pub unsafe fn setPriority(&self, priority: MTLIOPriority);
+    #[objc2::method(sel = "priority")]
+    pub unsafe fn priority(&self) -> MTLIOPriority;
 
-        #[method(type)]
-        pub unsafe fn r#type(&self) -> MTLIOCommandQueueType;
+    #[objc2::method(sel = "setPriority:")]
+    pub unsafe fn setPriority(&self, priority: MTLIOPriority);
 
-        #[method(setType:)]
-        pub unsafe fn setType(&self, r#type: MTLIOCommandQueueType);
+    #[objc2::method(sel = "type")]
+    pub unsafe fn r#type(&self) -> MTLIOCommandQueueType;
 
-        #[method(maxCommandsInFlight)]
-        pub unsafe fn maxCommandsInFlight(&self) -> NSUInteger;
+    #[objc2::method(sel = "setType:")]
+    pub unsafe fn setType(&self, r#type: MTLIOCommandQueueType);
 
-        #[method(setMaxCommandsInFlight:)]
-        pub unsafe fn setMaxCommandsInFlight(&self, max_commands_in_flight: NSUInteger);
+    #[objc2::method(sel = "maxCommandsInFlight")]
+    pub unsafe fn maxCommandsInFlight(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other scratchBufferAllocator)]
-        pub unsafe fn scratchBufferAllocator(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn MTLIOScratchBufferAllocator>>>;
+    #[objc2::method(sel = "setMaxCommandsInFlight:")]
+    pub unsafe fn setMaxCommandsInFlight(&self, max_commands_in_flight: NSUInteger);
 
-        #[method(setScratchBufferAllocator:)]
-        pub unsafe fn setScratchBufferAllocator(
-            &self,
-            scratch_buffer_allocator: Option<&ProtocolObject<dyn MTLIOScratchBufferAllocator>>,
-        );
-    }
-);
+    #[objc2::method(sel = "scratchBufferAllocator", managed = "Other")]
+    pub unsafe fn scratchBufferAllocator(
+        &self,
+    ) -> Option<Id<ProtocolObject<dyn MTLIOScratchBufferAllocator>>>;
 
-extern_protocol!(
-    pub unsafe trait MTLIOFileHandle: NSObjectProtocol {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other label)]
-        unsafe fn label(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setScratchBufferAllocator:")]
+    pub unsafe fn setScratchBufferAllocator(
+        &self,
+        scratch_buffer_allocator: Option<&ProtocolObject<dyn MTLIOScratchBufferAllocator>>,
+    );
+}
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setLabel:)]
-        unsafe fn setLabel(&self, label: Option<&NSString>);
-    }
+#[objc2::protocol]
+pub unsafe trait MTLIOFileHandle: NSObjectProtocol {
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "label", managed = "Other")]
+    unsafe fn label(&self) -> Option<Id<NSString>>;
 
-    unsafe impl ProtocolType for dyn MTLIOFileHandle {}
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setLabel:")]
+    unsafe fn setLabel(&self, label: Option<&NSString>);
+}

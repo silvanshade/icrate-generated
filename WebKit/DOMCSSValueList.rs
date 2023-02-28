@@ -5,29 +5,35 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMCSSValueList")]
+#[objc2::interface(
+    unsafe super = DOMCSSValue,
+    unsafe inherits = [
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMCSSValueList;
-
     #[cfg(feature = "WebKit_DOMCSSValueList")]
-    unsafe impl ClassType for DOMCSSValueList {
-        #[inherits(DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMCSSValue;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMCSSValueList;
+}
 
 #[cfg(feature = "WebKit_DOMCSSValueList")]
 unsafe impl NSObjectProtocol for DOMCSSValueList {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMCSSValueList")]
-    unsafe impl DOMCSSValueList {
-        #[method(length)]
-        pub unsafe fn length(&self) -> c_uint;
+    #[deprecated]
+    pub type DOMCSSValueList;
 
-        #[method_id(@__retain_semantics Other item:)]
-        pub unsafe fn item(&self, index: c_uint) -> Option<Id<DOMCSSValue>>;
-    }
-);
+    #[objc2::method(sel = "length")]
+    pub unsafe fn length(&self) -> c_uint;
+
+    #[objc2::method(sel = "item:", managed = "Other")]
+    pub unsafe fn item(&self, index: c_uint) -> Option<Id<DOMCSSValue>>;
+}

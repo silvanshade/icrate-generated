@@ -5,18 +5,21 @@ use crate::AppKit::*;
 use crate::Foundation::*;
 use crate::WebKit::*;
 
-extern_class!(
-    #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "WebKit_DOMComment")]
+#[objc2::interface(
+    unsafe super = DOMCharacterData,
+    unsafe inherits = [
+        DOMNode,
+        DOMObject,
+        WebScriptObject,
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
     #[deprecated]
-    pub struct DOMComment;
-
     #[cfg(feature = "WebKit_DOMComment")]
-    unsafe impl ClassType for DOMComment {
-        #[inherits(DOMNode, DOMObject, WebScriptObject, NSObject)]
-        type Super = DOMCharacterData;
-    }
-);
+    #[derive(Debug, PartialEq, Eq, Hash)]
+    pub type DOMComment;
+}
 
 #[cfg(feature = "WebKit_DOMComment")]
 unsafe impl DOMEventTarget for DOMComment {}
@@ -24,7 +27,11 @@ unsafe impl DOMEventTarget for DOMComment {}
 #[cfg(feature = "WebKit_DOMComment")]
 unsafe impl NSObjectProtocol for DOMComment {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "WebKit_DOMComment")]
-    unsafe impl DOMComment {}
-);
+    #[deprecated]
+    pub type DOMComment;
+}

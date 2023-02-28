@@ -7,146 +7,147 @@ extern_static!(NSUndoCloseGroupingRunLoopOrdering: NSUInteger = 350000);
 
 extern_static!(NSUndoManagerGroupIsDiscardableKey: &'static NSString);
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSUndoManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSUndoManager")]
-    pub struct NSUndoManager;
-
-    #[cfg(feature = "Foundation_NSUndoManager")]
-    unsafe impl ClassType for NSUndoManager {
-        type Super = NSObject;
-    }
-);
+    pub type NSUndoManager;
+}
 
 #[cfg(feature = "Foundation_NSUndoManager")]
 unsafe impl NSObjectProtocol for NSUndoManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSUndoManager")]
-    unsafe impl NSUndoManager {
-        #[method(beginUndoGrouping)]
-        pub unsafe fn beginUndoGrouping(&self);
+    pub type NSUndoManager;
 
-        #[method(endUndoGrouping)]
-        pub unsafe fn endUndoGrouping(&self);
+    #[objc2::method(sel = "beginUndoGrouping")]
+    pub unsafe fn beginUndoGrouping(&self);
 
-        #[method(groupingLevel)]
-        pub unsafe fn groupingLevel(&self) -> NSInteger;
+    #[objc2::method(sel = "endUndoGrouping")]
+    pub unsafe fn endUndoGrouping(&self);
 
-        #[method(disableUndoRegistration)]
-        pub unsafe fn disableUndoRegistration(&self);
+    #[objc2::method(sel = "groupingLevel")]
+    pub unsafe fn groupingLevel(&self) -> NSInteger;
 
-        #[method(enableUndoRegistration)]
-        pub unsafe fn enableUndoRegistration(&self);
+    #[objc2::method(sel = "disableUndoRegistration")]
+    pub unsafe fn disableUndoRegistration(&self);
 
-        #[method(isUndoRegistrationEnabled)]
-        pub unsafe fn isUndoRegistrationEnabled(&self) -> bool;
+    #[objc2::method(sel = "enableUndoRegistration")]
+    pub unsafe fn enableUndoRegistration(&self);
 
-        #[method(groupsByEvent)]
-        pub unsafe fn groupsByEvent(&self) -> bool;
+    #[objc2::method(sel = "isUndoRegistrationEnabled")]
+    pub unsafe fn isUndoRegistrationEnabled(&self) -> bool;
 
-        #[method(setGroupsByEvent:)]
-        pub unsafe fn setGroupsByEvent(&self, groups_by_event: bool);
+    #[objc2::method(sel = "groupsByEvent")]
+    pub unsafe fn groupsByEvent(&self) -> bool;
 
-        #[method(levelsOfUndo)]
-        pub unsafe fn levelsOfUndo(&self) -> NSUInteger;
+    #[objc2::method(sel = "setGroupsByEvent:")]
+    pub unsafe fn setGroupsByEvent(&self, groups_by_event: bool);
 
-        #[method(setLevelsOfUndo:)]
-        pub unsafe fn setLevelsOfUndo(&self, levels_of_undo: NSUInteger);
+    #[objc2::method(sel = "levelsOfUndo")]
+    pub unsafe fn levelsOfUndo(&self) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other runLoopModes)]
-        pub unsafe fn runLoopModes(&self) -> Id<NSArray<NSRunLoopMode>>;
+    #[objc2::method(sel = "setLevelsOfUndo:")]
+    pub unsafe fn setLevelsOfUndo(&self, levels_of_undo: NSUInteger);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setRunLoopModes:)]
-        pub unsafe fn setRunLoopModes(&self, run_loop_modes: &NSArray<NSRunLoopMode>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "runLoopModes", managed = "Other")]
+    pub unsafe fn runLoopModes(&self) -> Id<NSArray<NSRunLoopMode>>;
 
-        #[method(undo)]
-        pub unsafe fn undo(&self);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setRunLoopModes:")]
+    pub unsafe fn setRunLoopModes(&self, run_loop_modes: &NSArray<NSRunLoopMode>);
 
-        #[method(redo)]
-        pub unsafe fn redo(&self);
+    #[objc2::method(sel = "undo")]
+    pub unsafe fn undo(&self);
 
-        #[method(undoNestedGroup)]
-        pub unsafe fn undoNestedGroup(&self);
+    #[objc2::method(sel = "redo")]
+    pub unsafe fn redo(&self);
 
-        #[method(canUndo)]
-        pub unsafe fn canUndo(&self) -> bool;
+    #[objc2::method(sel = "undoNestedGroup")]
+    pub unsafe fn undoNestedGroup(&self);
 
-        #[method(canRedo)]
-        pub unsafe fn canRedo(&self) -> bool;
+    #[objc2::method(sel = "canUndo")]
+    pub unsafe fn canUndo(&self) -> bool;
 
-        #[method(isUndoing)]
-        pub unsafe fn isUndoing(&self) -> bool;
+    #[objc2::method(sel = "canRedo")]
+    pub unsafe fn canRedo(&self) -> bool;
 
-        #[method(isRedoing)]
-        pub unsafe fn isRedoing(&self) -> bool;
+    #[objc2::method(sel = "isUndoing")]
+    pub unsafe fn isUndoing(&self) -> bool;
 
-        #[method(removeAllActions)]
-        pub unsafe fn removeAllActions(&self);
+    #[objc2::method(sel = "isRedoing")]
+    pub unsafe fn isRedoing(&self) -> bool;
 
-        #[method(removeAllActionsWithTarget:)]
-        pub unsafe fn removeAllActionsWithTarget(&self, target: &Object);
+    #[objc2::method(sel = "removeAllActions")]
+    pub unsafe fn removeAllActions(&self);
 
-        #[method(registerUndoWithTarget:selector:object:)]
-        pub unsafe fn registerUndoWithTarget_selector_object(
-            &self,
-            target: &Object,
-            selector: Sel,
-            an_object: Option<&Object>,
-        );
+    #[objc2::method(sel = "removeAllActionsWithTarget:")]
+    pub unsafe fn removeAllActionsWithTarget(&self, target: &Object);
 
-        #[method_id(@__retain_semantics Other prepareWithInvocationTarget:)]
-        pub unsafe fn prepareWithInvocationTarget(&self, target: &Object) -> Id<Object>;
+    #[objc2::method(sel = "registerUndoWithTarget:selector:object:")]
+    pub unsafe fn registerUndoWithTarget_selector_object(
+        &self,
+        target: &Object,
+        selector: Sel,
+        an_object: Option<&Object>,
+    );
 
-        #[method(registerUndoWithTarget:handler:)]
-        pub unsafe fn registerUndoWithTarget_handler(
-            &self,
-            target: &Object,
-            undo_handler: &Block<(NonNull<Object>,), ()>,
-        );
+    #[objc2::method(sel = "prepareWithInvocationTarget:", managed = "Other")]
+    pub unsafe fn prepareWithInvocationTarget(&self, target: &Object) -> Id<Object>;
 
-        #[method(setActionIsDiscardable:)]
-        pub unsafe fn setActionIsDiscardable(&self, discardable: bool);
+    #[objc2::method(sel = "registerUndoWithTarget:handler:")]
+    pub unsafe fn registerUndoWithTarget_handler(
+        &self,
+        target: &Object,
+        undo_handler: &Block<(NonNull<Object>,), ()>,
+    );
 
-        #[method(undoActionIsDiscardable)]
-        pub unsafe fn undoActionIsDiscardable(&self) -> bool;
+    #[objc2::method(sel = "setActionIsDiscardable:")]
+    pub unsafe fn setActionIsDiscardable(&self, discardable: bool);
 
-        #[method(redoActionIsDiscardable)]
-        pub unsafe fn redoActionIsDiscardable(&self) -> bool;
+    #[objc2::method(sel = "undoActionIsDiscardable")]
+    pub unsafe fn undoActionIsDiscardable(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other undoActionName)]
-        pub unsafe fn undoActionName(&self) -> Id<NSString>;
+    #[objc2::method(sel = "redoActionIsDiscardable")]
+    pub unsafe fn redoActionIsDiscardable(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other redoActionName)]
-        pub unsafe fn redoActionName(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "undoActionName", managed = "Other")]
+    pub unsafe fn undoActionName(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setActionName:)]
-        pub unsafe fn setActionName(&self, action_name: &NSString);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "redoActionName", managed = "Other")]
+    pub unsafe fn redoActionName(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other undoMenuItemTitle)]
-        pub unsafe fn undoMenuItemTitle(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setActionName:")]
+    pub unsafe fn setActionName(&self, action_name: &NSString);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other redoMenuItemTitle)]
-        pub unsafe fn redoMenuItemTitle(&self) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "undoMenuItemTitle", managed = "Other")]
+    pub unsafe fn undoMenuItemTitle(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other undoMenuTitleForUndoActionName:)]
-        pub unsafe fn undoMenuTitleForUndoActionName(&self, action_name: &NSString)
-            -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "redoMenuItemTitle", managed = "Other")]
+    pub unsafe fn redoMenuItemTitle(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other redoMenuTitleForUndoActionName:)]
-        pub unsafe fn redoMenuTitleForUndoActionName(&self, action_name: &NSString)
-            -> Id<NSString>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "undoMenuTitleForUndoActionName:", managed = "Other")]
+    pub unsafe fn undoMenuTitleForUndoActionName(&self, action_name: &NSString) -> Id<NSString>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "redoMenuTitleForUndoActionName:", managed = "Other")]
+    pub unsafe fn redoMenuTitleForUndoActionName(&self, action_name: &NSString) -> Id<NSString>;
+}
 
 extern_static!(NSUndoManagerCheckpointNotification: &'static NSNotificationName);
 

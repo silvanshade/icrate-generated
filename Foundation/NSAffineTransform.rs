@@ -15,16 +15,16 @@ extern_struct!(
     }
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSAffineTransform")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSAffineTransform")]
-    pub struct NSAffineTransform;
-
-    #[cfg(feature = "Foundation_NSAffineTransform")]
-    unsafe impl ClassType for NSAffineTransform {
-        type Super = NSObject;
-    }
-);
+    pub type NSAffineTransform;
+}
 
 #[cfg(feature = "Foundation_NSAffineTransform")]
 unsafe impl NSCoding for NSAffineTransform {}
@@ -35,55 +35,58 @@ unsafe impl NSObjectProtocol for NSAffineTransform {}
 #[cfg(feature = "Foundation_NSAffineTransform")]
 unsafe impl NSSecureCoding for NSAffineTransform {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSAffineTransform")]
-    unsafe impl NSAffineTransform {
-        #[method_id(@__retain_semantics Other transform)]
-        pub unsafe fn transform() -> Id<NSAffineTransform>;
+    pub type NSAffineTransform;
 
-        #[method_id(@__retain_semantics Init initWithTransform:)]
-        pub unsafe fn initWithTransform(
-            this: Option<Allocated<Self>>,
-            transform: &NSAffineTransform,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "transform", managed = "Other")]
+    pub unsafe fn transform() -> Id<NSAffineTransform>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "initWithTransform:", managed = "Init")]
+    pub unsafe fn initWithTransform(
+        this: Option<Allocated<Self>>,
+        transform: &NSAffineTransform,
+    ) -> Id<Self>;
 
-        #[method(translateXBy:yBy:)]
-        pub unsafe fn translateXBy_yBy(&self, delta_x: CGFloat, delta_y: CGFloat);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(rotateByDegrees:)]
-        pub unsafe fn rotateByDegrees(&self, angle: CGFloat);
+    #[objc2::method(sel = "translateXBy:yBy:")]
+    pub unsafe fn translateXBy_yBy(&self, delta_x: CGFloat, delta_y: CGFloat);
 
-        #[method(rotateByRadians:)]
-        pub unsafe fn rotateByRadians(&self, angle: CGFloat);
+    #[objc2::method(sel = "rotateByDegrees:")]
+    pub unsafe fn rotateByDegrees(&self, angle: CGFloat);
 
-        #[method(scaleBy:)]
-        pub unsafe fn scaleBy(&self, scale: CGFloat);
+    #[objc2::method(sel = "rotateByRadians:")]
+    pub unsafe fn rotateByRadians(&self, angle: CGFloat);
 
-        #[method(scaleXBy:yBy:)]
-        pub unsafe fn scaleXBy_yBy(&self, scale_x: CGFloat, scale_y: CGFloat);
+    #[objc2::method(sel = "scaleBy:")]
+    pub unsafe fn scaleBy(&self, scale: CGFloat);
 
-        #[method(invert)]
-        pub unsafe fn invert(&self);
+    #[objc2::method(sel = "scaleXBy:yBy:")]
+    pub unsafe fn scaleXBy_yBy(&self, scale_x: CGFloat, scale_y: CGFloat);
 
-        #[method(appendTransform:)]
-        pub unsafe fn appendTransform(&self, transform: &NSAffineTransform);
+    #[objc2::method(sel = "invert")]
+    pub unsafe fn invert(&self);
 
-        #[method(prependTransform:)]
-        pub unsafe fn prependTransform(&self, transform: &NSAffineTransform);
+    #[objc2::method(sel = "appendTransform:")]
+    pub unsafe fn appendTransform(&self, transform: &NSAffineTransform);
 
-        #[method(transformPoint:)]
-        pub unsafe fn transformPoint(&self, a_point: NSPoint) -> NSPoint;
+    #[objc2::method(sel = "prependTransform:")]
+    pub unsafe fn prependTransform(&self, transform: &NSAffineTransform);
 
-        #[method(transformSize:)]
-        pub unsafe fn transformSize(&self, a_size: NSSize) -> NSSize;
+    #[objc2::method(sel = "transformPoint:")]
+    pub unsafe fn transformPoint(&self, a_point: NSPoint) -> NSPoint;
 
-        #[method(transformStruct)]
-        pub unsafe fn transformStruct(&self) -> NSAffineTransformStruct;
+    #[objc2::method(sel = "transformSize:")]
+    pub unsafe fn transformSize(&self, a_size: NSSize) -> NSSize;
 
-        #[method(setTransformStruct:)]
-        pub unsafe fn setTransformStruct(&self, transform_struct: NSAffineTransformStruct);
-    }
-);
+    #[objc2::method(sel = "transformStruct")]
+    pub unsafe fn transformStruct(&self) -> NSAffineTransformStruct;
+
+    #[objc2::method(sel = "setTransformStruct:")]
+    pub unsafe fn setTransformStruct(&self, transform_struct: NSAffineTransformStruct);
+}

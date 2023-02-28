@@ -7,24 +7,23 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::MapKit::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum MKMapElevationStyle {
-        MKMapElevationStyleFlat = 0,
-        MKMapElevationStyleRealistic = 1,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum MKMapElevationStyle {
+    MKMapElevationStyleFlat = 0,
+    MKMapElevationStyleRealistic = 1,
+}
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "MapKit_MKMapConfiguration")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "MapKit_MKMapConfiguration")]
-    pub struct MKMapConfiguration;
-
-    #[cfg(feature = "MapKit_MKMapConfiguration")]
-    unsafe impl ClassType for MKMapConfiguration {
-        type Super = NSObject;
-    }
-);
+    pub type MKMapConfiguration;
+}
 
 #[cfg(feature = "MapKit_MKMapConfiguration")]
 unsafe impl NSCoding for MKMapConfiguration {}
@@ -35,19 +34,22 @@ unsafe impl NSObjectProtocol for MKMapConfiguration {}
 #[cfg(feature = "MapKit_MKMapConfiguration")]
 unsafe impl NSSecureCoding for MKMapConfiguration {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "MapKit_MKMapConfiguration")]
-    unsafe impl MKMapConfiguration {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type MKMapConfiguration;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method(elevationStyle)]
-        pub unsafe fn elevationStyle(&self) -> MKMapElevationStyle;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[method(setElevationStyle:)]
-        pub unsafe fn setElevationStyle(&self, elevation_style: MKMapElevationStyle);
-    }
-);
+    #[objc2::method(sel = "elevationStyle")]
+    pub unsafe fn elevationStyle(&self) -> MKMapElevationStyle;
+
+    #[objc2::method(sel = "setElevationStyle:")]
+    pub unsafe fn setElevationStyle(&self, elevation_style: MKMapElevationStyle);
+}

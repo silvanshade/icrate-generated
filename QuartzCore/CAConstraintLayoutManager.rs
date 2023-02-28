@@ -4,48 +4,49 @@ use crate::common::*;
 use crate::CoreAnimation::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(c_int)]
-    pub enum CAConstraintAttribute {
-        kCAConstraintMinX = 0,
-        kCAConstraintMidX = 1,
-        kCAConstraintMaxX = 2,
-        kCAConstraintWidth = 3,
-        kCAConstraintMinY = 4,
-        kCAConstraintMidY = 5,
-        kCAConstraintMaxY = 6,
-        kCAConstraintHeight = 7,
-    }
-);
+#[ns_enum]
+#[underlying(c_int)]
+pub enum CAConstraintAttribute {
+    kCAConstraintMinX = 0,
+    kCAConstraintMidX = 1,
+    kCAConstraintMaxX = 2,
+    kCAConstraintWidth = 3,
+    kCAConstraintMinY = 4,
+    kCAConstraintMidY = 5,
+    kCAConstraintMaxY = 6,
+    kCAConstraintHeight = 7,
+}
 
-extern_methods!(
-    /// CAConstraintLayoutManager
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CALayer")]
-    unsafe impl CALayer {
-        #[cfg(all(feature = "CoreAnimation_CAConstraint", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other constraints)]
-        pub unsafe fn constraints(&self) -> Option<Id<NSArray<CAConstraint>>>;
+    pub type CALayer;
 
-        #[cfg(all(feature = "CoreAnimation_CAConstraint", feature = "Foundation_NSArray"))]
-        #[method(setConstraints:)]
-        pub unsafe fn setConstraints(&self, constraints: Option<&NSArray<CAConstraint>>);
+    #[cfg(all(feature = "CoreAnimation_CAConstraint", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "constraints", managed = "Other")]
+    pub unsafe fn constraints(&self) -> Option<Id<NSArray<CAConstraint>>>;
 
-        #[cfg(feature = "CoreAnimation_CAConstraint")]
-        #[method(addConstraint:)]
-        pub unsafe fn addConstraint(&self, c: &CAConstraint);
-    }
-);
+    #[cfg(all(feature = "CoreAnimation_CAConstraint", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "setConstraints:")]
+    pub unsafe fn setConstraints(&self, constraints: Option<&NSArray<CAConstraint>>);
 
-extern_class!(
+    #[cfg(feature = "CoreAnimation_CAConstraint")]
+    #[objc2::method(sel = "addConstraint:")]
+    pub unsafe fn addConstraint(&self, c: &CAConstraint);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAConstraintLayoutManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CAConstraintLayoutManager")]
-    pub struct CAConstraintLayoutManager;
-
-    #[cfg(feature = "CoreAnimation_CAConstraintLayoutManager")]
-    unsafe impl ClassType for CAConstraintLayoutManager {
-        type Super = NSObject;
-    }
-);
+    pub type CAConstraintLayoutManager;
+}
 
 #[cfg(feature = "CoreAnimation_CAConstraintLayoutManager")]
 unsafe impl CALayoutManager for CAConstraintLayoutManager {}
@@ -53,24 +54,27 @@ unsafe impl CALayoutManager for CAConstraintLayoutManager {}
 #[cfg(feature = "CoreAnimation_CAConstraintLayoutManager")]
 unsafe impl NSObjectProtocol for CAConstraintLayoutManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CAConstraintLayoutManager")]
-    unsafe impl CAConstraintLayoutManager {
-        #[method_id(@__retain_semantics Other layoutManager)]
-        pub unsafe fn layoutManager() -> Id<Self>;
-    }
-);
+    pub type CAConstraintLayoutManager;
 
-extern_class!(
+    #[objc2::method(sel = "layoutManager", managed = "Other")]
+    pub unsafe fn layoutManager() -> Id<Self>;
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAConstraint")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CAConstraint")]
-    pub struct CAConstraint;
-
-    #[cfg(feature = "CoreAnimation_CAConstraint")]
-    unsafe impl ClassType for CAConstraint {
-        type Super = NSObject;
-    }
-);
+    pub type CAConstraint;
+}
 
 #[cfg(feature = "CoreAnimation_CAConstraint")]
 unsafe impl NSCoding for CAConstraint {}
@@ -81,61 +85,76 @@ unsafe impl NSObjectProtocol for CAConstraint {}
 #[cfg(feature = "CoreAnimation_CAConstraint")]
 unsafe impl NSSecureCoding for CAConstraint {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CAConstraint")]
-    unsafe impl CAConstraint {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other constraintWithAttribute:relativeTo:attribute:scale:offset:)]
-        pub unsafe fn constraintWithAttribute_relativeTo_attribute_scale_offset(
-            attr: CAConstraintAttribute,
-            src_id: &NSString,
-            src_attr: CAConstraintAttribute,
-            m: CGFloat,
-            c: CGFloat,
-        ) -> Id<Self>;
+    pub type CAConstraint;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other constraintWithAttribute:relativeTo:attribute:offset:)]
-        pub unsafe fn constraintWithAttribute_relativeTo_attribute_offset(
-            attr: CAConstraintAttribute,
-            src_id: &NSString,
-            src_attr: CAConstraintAttribute,
-            c: CGFloat,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "constraintWithAttribute:relativeTo:attribute:scale:offset:",
+        managed = "Other"
+    )]
+    pub unsafe fn constraintWithAttribute_relativeTo_attribute_scale_offset(
+        attr: CAConstraintAttribute,
+        src_id: &NSString,
+        src_attr: CAConstraintAttribute,
+        m: CGFloat,
+        c: CGFloat,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other constraintWithAttribute:relativeTo:attribute:)]
-        pub unsafe fn constraintWithAttribute_relativeTo_attribute(
-            attr: CAConstraintAttribute,
-            src_id: &NSString,
-            src_attr: CAConstraintAttribute,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "constraintWithAttribute:relativeTo:attribute:offset:",
+        managed = "Other"
+    )]
+    pub unsafe fn constraintWithAttribute_relativeTo_attribute_offset(
+        attr: CAConstraintAttribute,
+        src_id: &NSString,
+        src_attr: CAConstraintAttribute,
+        c: CGFloat,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Init initWithAttribute:relativeTo:attribute:scale:offset:)]
-        pub unsafe fn initWithAttribute_relativeTo_attribute_scale_offset(
-            this: Option<Allocated<Self>>,
-            attr: CAConstraintAttribute,
-            src_id: &NSString,
-            src_attr: CAConstraintAttribute,
-            m: CGFloat,
-            c: CGFloat,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "constraintWithAttribute:relativeTo:attribute:",
+        managed = "Other"
+    )]
+    pub unsafe fn constraintWithAttribute_relativeTo_attribute(
+        attr: CAConstraintAttribute,
+        src_id: &NSString,
+        src_attr: CAConstraintAttribute,
+    ) -> Id<Self>;
 
-        #[method(attribute)]
-        pub unsafe fn attribute(&self) -> CAConstraintAttribute;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(
+        sel = "initWithAttribute:relativeTo:attribute:scale:offset:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithAttribute_relativeTo_attribute_scale_offset(
+        this: Option<Allocated<Self>>,
+        attr: CAConstraintAttribute,
+        src_id: &NSString,
+        src_attr: CAConstraintAttribute,
+        m: CGFloat,
+        c: CGFloat,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other sourceName)]
-        pub unsafe fn sourceName(&self) -> Id<NSString>;
+    #[objc2::method(sel = "attribute")]
+    pub unsafe fn attribute(&self) -> CAConstraintAttribute;
 
-        #[method(sourceAttribute)]
-        pub unsafe fn sourceAttribute(&self) -> CAConstraintAttribute;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "sourceName", managed = "Other")]
+    pub unsafe fn sourceName(&self) -> Id<NSString>;
 
-        #[method(scale)]
-        pub unsafe fn scale(&self) -> CGFloat;
+    #[objc2::method(sel = "sourceAttribute")]
+    pub unsafe fn sourceAttribute(&self) -> CAConstraintAttribute;
 
-        #[method(offset)]
-        pub unsafe fn offset(&self) -> CGFloat;
-    }
-);
+    #[objc2::method(sel = "scale")]
+    pub unsafe fn scale(&self) -> CGFloat;
+
+    #[objc2::method(sel = "offset")]
+    pub unsafe fn offset(&self) -> CGFloat;
+}

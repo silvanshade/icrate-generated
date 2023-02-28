@@ -5,40 +5,34 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-extern_protocol!(
-    pub unsafe trait NSPreviewRepresentableActivityItem: NSObjectProtocol {
-        #[method_id(@__retain_semantics Other item)]
-        unsafe fn item(&self) -> Id<Object>;
+#[objc2::protocol]
+pub unsafe trait NSPreviewRepresentableActivityItem: NSObjectProtocol {
+    #[objc2::method(sel = "item", managed = "Other")]
+    unsafe fn item(&self) -> Id<Object>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[optional]
-        #[method_id(@__retain_semantics Other title)]
-        unsafe fn title(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(optional, sel = "title", managed = "Other")]
+    unsafe fn title(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSItemProvider")]
-        #[optional]
-        #[method_id(@__retain_semantics Other imageProvider)]
-        unsafe fn imageProvider(&self) -> Option<Id<NSItemProvider>>;
+    #[cfg(feature = "Foundation_NSItemProvider")]
+    #[objc2::method(optional, sel = "imageProvider", managed = "Other")]
+    unsafe fn imageProvider(&self) -> Option<Id<NSItemProvider>>;
 
-        #[cfg(feature = "Foundation_NSItemProvider")]
-        #[optional]
-        #[method_id(@__retain_semantics Other iconProvider)]
-        unsafe fn iconProvider(&self) -> Option<Id<NSItemProvider>>;
-    }
+    #[cfg(feature = "Foundation_NSItemProvider")]
+    #[objc2::method(optional, sel = "iconProvider", managed = "Other")]
+    unsafe fn iconProvider(&self) -> Option<Id<NSItemProvider>>;
+}
 
-    unsafe impl ProtocolType for dyn NSPreviewRepresentableActivityItem {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSPreviewRepresentingActivityItem")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSPreviewRepresentingActivityItem")]
-    pub struct NSPreviewRepresentingActivityItem;
-
-    #[cfg(feature = "AppKit_NSPreviewRepresentingActivityItem")]
-    unsafe impl ClassType for NSPreviewRepresentingActivityItem {
-        type Super = NSObject;
-    }
-);
+    pub type NSPreviewRepresentingActivityItem;
+}
 
 #[cfg(feature = "AppKit_NSPreviewRepresentingActivityItem")]
 unsafe impl NSObjectProtocol for NSPreviewRepresentingActivityItem {}
@@ -46,33 +40,39 @@ unsafe impl NSObjectProtocol for NSPreviewRepresentingActivityItem {}
 #[cfg(feature = "AppKit_NSPreviewRepresentingActivityItem")]
 unsafe impl NSPreviewRepresentableActivityItem for NSPreviewRepresentingActivityItem {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSPreviewRepresentingActivityItem")]
-    unsafe impl NSPreviewRepresentingActivityItem {
-        #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithItem:title:image:icon:)]
-        pub unsafe fn initWithItem_title_image_icon(
-            this: Option<Allocated<Self>>,
-            item: &Object,
-            title: Option<&NSString>,
-            image: Option<&NSImage>,
-            icon: Option<&NSImage>,
-        ) -> Id<Self>;
+    pub type NSPreviewRepresentingActivityItem;
 
-        #[cfg(all(feature = "Foundation_NSItemProvider", feature = "Foundation_NSString"))]
-        #[method_id(@__retain_semantics Init initWithItem:title:imageProvider:iconProvider:)]
-        pub unsafe fn initWithItem_title_imageProvider_iconProvider(
-            this: Option<Allocated<Self>>,
-            item: &Object,
-            title: Option<&NSString>,
-            image_provider: Option<&NSItemProvider>,
-            icon_provider: Option<&NSItemProvider>,
-        ) -> Id<Self>;
+    #[cfg(all(feature = "AppKit_NSImage", feature = "Foundation_NSString"))]
+    #[objc2::method(sel = "initWithItem:title:image:icon:", managed = "Init")]
+    pub unsafe fn initWithItem_title_image_icon(
+        this: Option<Allocated<Self>>,
+        item: &Object,
+        title: Option<&NSString>,
+        image: Option<&NSImage>,
+        icon: Option<&NSImage>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[cfg(all(feature = "Foundation_NSItemProvider", feature = "Foundation_NSString"))]
+    #[objc2::method(
+        sel = "initWithItem:title:imageProvider:iconProvider:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithItem_title_imageProvider_iconProvider(
+        this: Option<Allocated<Self>>,
+        item: &Object,
+        title: Option<&NSString>,
+        image_provider: Option<&NSItemProvider>,
+        icon_provider: Option<&NSItemProvider>,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
+}

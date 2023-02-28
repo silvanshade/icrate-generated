@@ -5,87 +5,87 @@ use crate::AppKit::*;
 use crate::CoreData::*;
 use crate::Foundation::*;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSTextContentManagerEnumerationOptions {
-        NSTextContentManagerEnumerationOptionsNone = 0,
-        NSTextContentManagerEnumerationOptionsReverse = 1 << 0,
-    }
-);
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSTextContentManagerEnumerationOptions {
+    NSTextContentManagerEnumerationOptionsNone = 0,
+    NSTextContentManagerEnumerationOptionsReverse = 1 << 0,
+}
 
-extern_protocol!(
-    pub unsafe trait NSTextElementProvider: NSObjectProtocol {
-        #[cfg(feature = "AppKit_NSTextRange")]
-        #[method_id(@__retain_semantics Other documentRange)]
-        unsafe fn documentRange(&self) -> Id<NSTextRange>;
+#[objc2::protocol]
+pub unsafe trait NSTextElementProvider: NSObjectProtocol {
+    #[cfg(feature = "AppKit_NSTextRange")]
+    #[objc2::method(sel = "documentRange", managed = "Other")]
+    unsafe fn documentRange(&self) -> Id<NSTextRange>;
 
-        #[cfg(feature = "AppKit_NSTextElement")]
-        #[method_id(@__retain_semantics Other enumerateTextElementsFromLocation:options:usingBlock:)]
-        unsafe fn enumerateTextElementsFromLocation_options_usingBlock(
-            &self,
-            text_location: Option<&ProtocolObject<dyn NSTextLocation>>,
-            options: NSTextContentManagerEnumerationOptions,
-            block: &Block<(NonNull<NSTextElement>,), Bool>,
-        ) -> Option<Id<ProtocolObject<dyn NSTextLocation>>>;
+    #[cfg(feature = "AppKit_NSTextElement")]
+    #[objc2::method(
+        sel = "enumerateTextElementsFromLocation:options:usingBlock:",
+        managed = "Other"
+    )]
+    unsafe fn enumerateTextElementsFromLocation_options_usingBlock(
+        &self,
+        text_location: Option<&ProtocolObject<dyn NSTextLocation>>,
+        options: NSTextContentManagerEnumerationOptions,
+        block: &Block<(NonNull<NSTextElement>,), Bool>,
+    ) -> Option<Id<ProtocolObject<dyn NSTextLocation>>>;
 
-        #[cfg(all(
-            feature = "AppKit_NSTextElement",
-            feature = "AppKit_NSTextRange",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method(replaceContentsInRange:withTextElements:)]
-        unsafe fn replaceContentsInRange_withTextElements(
-            &self,
-            range: &NSTextRange,
-            text_elements: Option<&NSArray<NSTextElement>>,
-        );
+    #[cfg(all(
+        feature = "AppKit_NSTextElement",
+        feature = "AppKit_NSTextRange",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "replaceContentsInRange:withTextElements:")]
+    unsafe fn replaceContentsInRange_withTextElements(
+        &self,
+        range: &NSTextRange,
+        text_elements: Option<&NSArray<NSTextElement>>,
+    );
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(synchronizeToBackingStore:)]
-        unsafe fn synchronizeToBackingStore(
-            &self,
-            completion_handler: Option<&Block<(*mut NSError,), ()>>,
-        );
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "synchronizeToBackingStore:")]
+    unsafe fn synchronizeToBackingStore(
+        &self,
+        completion_handler: Option<&Block<(*mut NSError,), ()>>,
+    );
 
-        #[optional]
-        #[method_id(@__retain_semantics Other locationFromLocation:withOffset:)]
-        unsafe fn locationFromLocation_withOffset(
-            &self,
-            location: &ProtocolObject<dyn NSTextLocation>,
-            offset: NSInteger,
-        ) -> Option<Id<ProtocolObject<dyn NSTextLocation>>>;
+    #[objc2::method(optional, sel = "locationFromLocation:withOffset:", managed = "Other")]
+    unsafe fn locationFromLocation_withOffset(
+        &self,
+        location: &ProtocolObject<dyn NSTextLocation>,
+        offset: NSInteger,
+    ) -> Option<Id<ProtocolObject<dyn NSTextLocation>>>;
 
-        #[optional]
-        #[method(offsetFromLocation:toLocation:)]
-        unsafe fn offsetFromLocation_toLocation(
-            &self,
-            from: &ProtocolObject<dyn NSTextLocation>,
-            to: &ProtocolObject<dyn NSTextLocation>,
-        ) -> NSInteger;
+    #[objc2::method(optional, sel = "offsetFromLocation:toLocation:")]
+    unsafe fn offsetFromLocation_toLocation(
+        &self,
+        from: &ProtocolObject<dyn NSTextLocation>,
+        to: &ProtocolObject<dyn NSTextLocation>,
+    ) -> NSInteger;
 
-        #[cfg(feature = "AppKit_NSTextRange")]
-        #[optional]
-        #[method_id(@__retain_semantics Other adjustedRangeFromRange:forEditingTextSelection:)]
-        unsafe fn adjustedRangeFromRange_forEditingTextSelection(
-            &self,
-            text_range: &NSTextRange,
-            for_editing_text_selection: bool,
-        ) -> Option<Id<NSTextRange>>;
-    }
+    #[cfg(feature = "AppKit_NSTextRange")]
+    #[objc2::method(
+        optional,
+        sel = "adjustedRangeFromRange:forEditingTextSelection:",
+        managed = "Other"
+    )]
+    unsafe fn adjustedRangeFromRange_forEditingTextSelection(
+        &self,
+        text_range: &NSTextRange,
+        for_editing_text_selection: bool,
+    ) -> Option<Id<NSTextRange>>;
+}
 
-    unsafe impl ProtocolType for dyn NSTextElementProvider {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextContentManager")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextContentManager")]
-    pub struct NSTextContentManager;
-
-    #[cfg(feature = "AppKit_NSTextContentManager")]
-    unsafe impl ClassType for NSTextContentManager {
-        type Super = NSObject;
-    }
-);
+    pub type NSTextContentManager;
+}
 
 #[cfg(feature = "AppKit_NSTextContentManager")]
 unsafe impl NSCoding for NSTextContentManager {}
@@ -99,165 +99,163 @@ unsafe impl NSSecureCoding for NSTextContentManager {}
 #[cfg(feature = "AppKit_NSTextContentManager")]
 unsafe impl NSTextElementProvider for NSTextContentManager {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextContentManager")]
-    unsafe impl NSTextContentManager {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type NSTextContentManager;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn NSTextContentManagerDelegate>>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSTextContentManagerDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSTextContentManagerDelegate>>>;
 
-        #[cfg(all(feature = "AppKit_NSTextLayoutManager", feature = "Foundation_NSArray"))]
-        #[method_id(@__retain_semantics Other textLayoutManagers)]
-        pub unsafe fn textLayoutManagers(&self) -> Id<NSArray<NSTextLayoutManager>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn NSTextContentManagerDelegate>>,
+    );
 
-        #[cfg(feature = "AppKit_NSTextLayoutManager")]
-        #[method(addTextLayoutManager:)]
-        pub unsafe fn addTextLayoutManager(&self, text_layout_manager: &NSTextLayoutManager);
+    #[cfg(all(feature = "AppKit_NSTextLayoutManager", feature = "Foundation_NSArray"))]
+    #[objc2::method(sel = "textLayoutManagers", managed = "Other")]
+    pub unsafe fn textLayoutManagers(&self) -> Id<NSArray<NSTextLayoutManager>>;
 
-        #[cfg(feature = "AppKit_NSTextLayoutManager")]
-        #[method(removeTextLayoutManager:)]
-        pub unsafe fn removeTextLayoutManager(&self, text_layout_manager: &NSTextLayoutManager);
+    #[cfg(feature = "AppKit_NSTextLayoutManager")]
+    #[objc2::method(sel = "addTextLayoutManager:")]
+    pub unsafe fn addTextLayoutManager(&self, text_layout_manager: &NSTextLayoutManager);
 
-        #[cfg(feature = "AppKit_NSTextLayoutManager")]
-        #[method_id(@__retain_semantics Other primaryTextLayoutManager)]
-        pub unsafe fn primaryTextLayoutManager(&self) -> Option<Id<NSTextLayoutManager>>;
+    #[cfg(feature = "AppKit_NSTextLayoutManager")]
+    #[objc2::method(sel = "removeTextLayoutManager:")]
+    pub unsafe fn removeTextLayoutManager(&self, text_layout_manager: &NSTextLayoutManager);
 
-        #[cfg(feature = "AppKit_NSTextLayoutManager")]
-        #[method(setPrimaryTextLayoutManager:)]
-        pub unsafe fn setPrimaryTextLayoutManager(
-            &self,
-            primary_text_layout_manager: Option<&NSTextLayoutManager>,
-        );
+    #[cfg(feature = "AppKit_NSTextLayoutManager")]
+    #[objc2::method(sel = "primaryTextLayoutManager", managed = "Other")]
+    pub unsafe fn primaryTextLayoutManager(&self) -> Option<Id<NSTextLayoutManager>>;
 
-        #[cfg(feature = "Foundation_NSError")]
-        #[method(synchronizeTextLayoutManagers:)]
-        pub unsafe fn synchronizeTextLayoutManagers(
-            &self,
-            completion_handler: Option<&Block<(*mut NSError,), ()>>,
-        );
+    #[cfg(feature = "AppKit_NSTextLayoutManager")]
+    #[objc2::method(sel = "setPrimaryTextLayoutManager:")]
+    pub unsafe fn setPrimaryTextLayoutManager(
+        &self,
+        primary_text_layout_manager: Option<&NSTextLayoutManager>,
+    );
 
-        #[cfg(all(
-            feature = "AppKit_NSTextElement",
-            feature = "AppKit_NSTextRange",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other textElementsForRange:)]
-        pub unsafe fn textElementsForRange(
-            &self,
-            range: &NSTextRange,
-        ) -> Id<NSArray<NSTextElement>>;
+    #[cfg(feature = "Foundation_NSError")]
+    #[objc2::method(sel = "synchronizeTextLayoutManagers:")]
+    pub unsafe fn synchronizeTextLayoutManagers(
+        &self,
+        completion_handler: Option<&Block<(*mut NSError,), ()>>,
+    );
 
-        #[method(hasEditingTransaction)]
-        pub unsafe fn hasEditingTransaction(&self) -> bool;
+    #[cfg(all(
+        feature = "AppKit_NSTextElement",
+        feature = "AppKit_NSTextRange",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "textElementsForRange:", managed = "Other")]
+    pub unsafe fn textElementsForRange(&self, range: &NSTextRange) -> Id<NSArray<NSTextElement>>;
 
-        #[method(performEditingTransactionUsingBlock:)]
-        pub unsafe fn performEditingTransactionUsingBlock(&self, transaction: &Block<(), ()>);
+    #[objc2::method(sel = "hasEditingTransaction")]
+    pub unsafe fn hasEditingTransaction(&self) -> bool;
 
-        #[cfg(feature = "AppKit_NSTextRange")]
-        #[method(recordEditActionInRange:newTextRange:)]
-        pub unsafe fn recordEditActionInRange_newTextRange(
-            &self,
-            original_text_range: &NSTextRange,
-            new_text_range: &NSTextRange,
-        );
+    #[objc2::method(sel = "performEditingTransactionUsingBlock:")]
+    pub unsafe fn performEditingTransactionUsingBlock(&self, transaction: &Block<(), ()>);
 
-        #[method(automaticallySynchronizesTextLayoutManagers)]
-        pub unsafe fn automaticallySynchronizesTextLayoutManagers(&self) -> bool;
+    #[cfg(feature = "AppKit_NSTextRange")]
+    #[objc2::method(sel = "recordEditActionInRange:newTextRange:")]
+    pub unsafe fn recordEditActionInRange_newTextRange(
+        &self,
+        original_text_range: &NSTextRange,
+        new_text_range: &NSTextRange,
+    );
 
-        #[method(setAutomaticallySynchronizesTextLayoutManagers:)]
-        pub unsafe fn setAutomaticallySynchronizesTextLayoutManagers(
-            &self,
-            automatically_synchronizes_text_layout_managers: bool,
-        );
+    #[objc2::method(sel = "automaticallySynchronizesTextLayoutManagers")]
+    pub unsafe fn automaticallySynchronizesTextLayoutManagers(&self) -> bool;
 
-        #[method(automaticallySynchronizesToBackingStore)]
-        pub unsafe fn automaticallySynchronizesToBackingStore(&self) -> bool;
+    #[objc2::method(sel = "setAutomaticallySynchronizesTextLayoutManagers:")]
+    pub unsafe fn setAutomaticallySynchronizesTextLayoutManagers(
+        &self,
+        automatically_synchronizes_text_layout_managers: bool,
+    );
 
-        #[method(setAutomaticallySynchronizesToBackingStore:)]
-        pub unsafe fn setAutomaticallySynchronizesToBackingStore(
-            &self,
-            automatically_synchronizes_to_backing_store: bool,
-        );
-    }
-);
+    #[objc2::method(sel = "automaticallySynchronizesToBackingStore")]
+    pub unsafe fn automaticallySynchronizesToBackingStore(&self) -> bool;
 
-extern_protocol!(
-    pub unsafe trait NSTextContentManagerDelegate: NSObjectProtocol {
-        #[cfg(all(
-            feature = "AppKit_NSTextContentManager",
-            feature = "AppKit_NSTextElement"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other textContentManager:textElementAtLocation:)]
-        unsafe fn textContentManager_textElementAtLocation(
-            &self,
-            text_content_manager: &NSTextContentManager,
-            location: &ProtocolObject<dyn NSTextLocation>,
-        ) -> Option<Id<NSTextElement>>;
+    #[objc2::method(sel = "setAutomaticallySynchronizesToBackingStore:")]
+    pub unsafe fn setAutomaticallySynchronizesToBackingStore(
+        &self,
+        automatically_synchronizes_to_backing_store: bool,
+    );
+}
 
-        #[cfg(all(
-            feature = "AppKit_NSTextContentManager",
-            feature = "AppKit_NSTextElement"
-        ))]
-        #[optional]
-        #[method(textContentManager:shouldEnumerateTextElement:options:)]
-        unsafe fn textContentManager_shouldEnumerateTextElement_options(
-            &self,
-            text_content_manager: &NSTextContentManager,
-            text_element: &NSTextElement,
-            options: NSTextContentManagerEnumerationOptions,
-        ) -> bool;
-    }
+#[objc2::protocol]
+pub unsafe trait NSTextContentManagerDelegate: NSObjectProtocol {
+    #[cfg(all(
+        feature = "AppKit_NSTextContentManager",
+        feature = "AppKit_NSTextElement"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "textContentManager:textElementAtLocation:",
+        managed = "Other"
+    )]
+    unsafe fn textContentManager_textElementAtLocation(
+        &self,
+        text_content_manager: &NSTextContentManager,
+        location: &ProtocolObject<dyn NSTextLocation>,
+    ) -> Option<Id<NSTextElement>>;
 
-    unsafe impl ProtocolType for dyn NSTextContentManagerDelegate {}
-);
+    #[cfg(all(
+        feature = "AppKit_NSTextContentManager",
+        feature = "AppKit_NSTextElement"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "textContentManager:shouldEnumerateTextElement:options:"
+    )]
+    unsafe fn textContentManager_shouldEnumerateTextElement_options(
+        &self,
+        text_content_manager: &NSTextContentManager,
+        text_element: &NSTextElement,
+        options: NSTextContentManagerEnumerationOptions,
+    ) -> bool;
+}
 
-extern_protocol!(
-    pub unsafe trait NSTextContentStorageDelegate: NSTextContentManagerDelegate {
-        #[cfg(all(
-            feature = "AppKit_NSTextContentStorage",
-            feature = "AppKit_NSTextParagraph"
-        ))]
-        #[optional]
-        #[method_id(@__retain_semantics Other textContentStorage:textParagraphWithRange:)]
-        unsafe fn textContentStorage_textParagraphWithRange(
-            &self,
-            text_content_storage: &NSTextContentStorage,
-            range: NSRange,
-        ) -> Option<Id<NSTextParagraph>>;
-    }
+#[objc2::protocol]
+pub unsafe trait NSTextContentStorageDelegate: NSTextContentManagerDelegate {
+    #[cfg(all(
+        feature = "AppKit_NSTextContentStorage",
+        feature = "AppKit_NSTextParagraph"
+    ))]
+    #[objc2::method(
+        optional,
+        sel = "textContentStorage:textParagraphWithRange:",
+        managed = "Other"
+    )]
+    unsafe fn textContentStorage_textParagraphWithRange(
+        &self,
+        text_content_storage: &NSTextContentStorage,
+        range: NSRange,
+    ) -> Option<Id<NSTextParagraph>>;
+}
 
-    unsafe impl ProtocolType for dyn NSTextContentStorageDelegate {}
-);
-
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSTextContentManager,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "AppKit_NSTextContentStorage")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "AppKit_NSTextContentStorage")]
-    pub struct NSTextContentStorage;
-
-    #[cfg(feature = "AppKit_NSTextContentStorage")]
-    unsafe impl ClassType for NSTextContentStorage {
-        #[inherits(NSObject)]
-        type Super = NSTextContentManager;
-    }
-);
+    pub type NSTextContentStorage;
+}
 
 #[cfg(feature = "AppKit_NSTextContentStorage")]
 unsafe impl NSCoding for NSTextContentStorage {}
@@ -274,71 +272,75 @@ unsafe impl NSTextElementProvider for NSTextContentStorage {}
 #[cfg(feature = "AppKit_NSTextContentStorage")]
 unsafe impl NSTextStorageObserving for NSTextContentStorage {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "AppKit_NSTextContentStorage")]
-    unsafe impl NSTextContentStorage {
-        #[method_id(@__retain_semantics Other delegate)]
-        pub unsafe fn delegate(
-            &self,
-        ) -> Option<Id<ProtocolObject<dyn NSTextContentStorageDelegate>>>;
+    pub type NSTextContentStorage;
 
-        #[method(setDelegate:)]
-        pub unsafe fn setDelegate(
-            &self,
-            delegate: Option<&ProtocolObject<dyn NSTextContentStorageDelegate>>,
-        );
+    #[objc2::method(sel = "delegate", managed = "Other")]
+    pub unsafe fn delegate(&self) -> Option<Id<ProtocolObject<dyn NSTextContentStorageDelegate>>>;
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method_id(@__retain_semantics Other attributedString)]
-        pub unsafe fn attributedString(&self) -> Option<Id<NSAttributedString>>;
+    #[objc2::method(sel = "setDelegate:")]
+    pub unsafe fn setDelegate(
+        &self,
+        delegate: Option<&ProtocolObject<dyn NSTextContentStorageDelegate>>,
+    );
 
-        #[cfg(feature = "Foundation_NSAttributedString")]
-        #[method(setAttributedString:)]
-        pub unsafe fn setAttributedString(&self, attributed_string: Option<&NSAttributedString>);
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "attributedString", managed = "Other")]
+    pub unsafe fn attributedString(&self) -> Option<Id<NSAttributedString>>;
 
-        #[cfg(all(
-            feature = "AppKit_NSTextElement",
-            feature = "Foundation_NSAttributedString"
-        ))]
-        #[method_id(@__retain_semantics Other attributedStringForTextElement:)]
-        pub unsafe fn attributedStringForTextElement(
-            &self,
-            text_element: &NSTextElement,
-        ) -> Option<Id<NSAttributedString>>;
+    #[cfg(feature = "Foundation_NSAttributedString")]
+    #[objc2::method(sel = "setAttributedString:")]
+    pub unsafe fn setAttributedString(&self, attributed_string: Option<&NSAttributedString>);
 
-        #[cfg(all(
-            feature = "AppKit_NSTextElement",
-            feature = "Foundation_NSAttributedString"
-        ))]
-        #[method_id(@__retain_semantics Other textElementForAttributedString:)]
-        pub unsafe fn textElementForAttributedString(
-            &self,
-            attributed_string: &NSAttributedString,
-        ) -> Option<Id<NSTextElement>>;
+    #[cfg(all(
+        feature = "AppKit_NSTextElement",
+        feature = "Foundation_NSAttributedString"
+    ))]
+    #[objc2::method(sel = "attributedStringForTextElement:", managed = "Other")]
+    pub unsafe fn attributedStringForTextElement(
+        &self,
+        text_element: &NSTextElement,
+    ) -> Option<Id<NSAttributedString>>;
 
-        #[method_id(@__retain_semantics Other locationFromLocation:withOffset:)]
-        pub unsafe fn locationFromLocation_withOffset(
-            &self,
-            location: &ProtocolObject<dyn NSTextLocation>,
-            offset: NSInteger,
-        ) -> Option<Id<ProtocolObject<dyn NSTextLocation>>>;
+    #[cfg(all(
+        feature = "AppKit_NSTextElement",
+        feature = "Foundation_NSAttributedString"
+    ))]
+    #[objc2::method(sel = "textElementForAttributedString:", managed = "Other")]
+    pub unsafe fn textElementForAttributedString(
+        &self,
+        attributed_string: &NSAttributedString,
+    ) -> Option<Id<NSTextElement>>;
 
-        #[method(offsetFromLocation:toLocation:)]
-        pub unsafe fn offsetFromLocation_toLocation(
-            &self,
-            from: &ProtocolObject<dyn NSTextLocation>,
-            to: &ProtocolObject<dyn NSTextLocation>,
-        ) -> NSInteger;
+    #[objc2::method(sel = "locationFromLocation:withOffset:", managed = "Other")]
+    pub unsafe fn locationFromLocation_withOffset(
+        &self,
+        location: &ProtocolObject<dyn NSTextLocation>,
+        offset: NSInteger,
+    ) -> Option<Id<ProtocolObject<dyn NSTextLocation>>>;
 
-        #[cfg(feature = "AppKit_NSTextRange")]
-        #[method_id(@__retain_semantics Other adjustedRangeFromRange:forEditingTextSelection:)]
-        pub unsafe fn adjustedRangeFromRange_forEditingTextSelection(
-            &self,
-            text_range: &NSTextRange,
-            for_editing_text_selection: bool,
-        ) -> Option<Id<NSTextRange>>;
-    }
-);
+    #[objc2::method(sel = "offsetFromLocation:toLocation:")]
+    pub unsafe fn offsetFromLocation_toLocation(
+        &self,
+        from: &ProtocolObject<dyn NSTextLocation>,
+        to: &ProtocolObject<dyn NSTextLocation>,
+    ) -> NSInteger;
+
+    #[cfg(feature = "AppKit_NSTextRange")]
+    #[objc2::method(
+        sel = "adjustedRangeFromRange:forEditingTextSelection:",
+        managed = "Other"
+    )]
+    pub unsafe fn adjustedRangeFromRange_forEditingTextSelection(
+        &self,
+        text_range: &NSTextRange,
+        for_editing_text_selection: bool,
+    ) -> Option<Id<NSTextRange>>;
+}
 
 extern_static!(
     NSTextContentStorageUnsupportedAttributeAddedNotification: &'static NSNotificationName

@@ -6,34 +6,37 @@ use crate::CoreLocation::*;
 use crate::Foundation::*;
 use crate::PhotoKit::*;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "PhotoKit_PHPersistentChangeFetchResult")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "PhotoKit_PHPersistentChangeFetchResult")]
-    pub struct PHPersistentChangeFetchResult;
-
-    #[cfg(feature = "PhotoKit_PHPersistentChangeFetchResult")]
-    unsafe impl ClassType for PHPersistentChangeFetchResult {
-        type Super = NSObject;
-    }
-);
+    pub type PHPersistentChangeFetchResult;
+}
 
 #[cfg(feature = "PhotoKit_PHPersistentChangeFetchResult")]
 unsafe impl NSObjectProtocol for PHPersistentChangeFetchResult {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "PhotoKit_PHPersistentChangeFetchResult")]
-    unsafe impl PHPersistentChangeFetchResult {
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    pub type PHPersistentChangeFetchResult;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "PhotoKit_PHPersistentChange")]
-        #[method(enumerateChangesWithBlock:)]
-        pub unsafe fn enumerateChangesWithBlock(
-            &self,
-            block: &Block<(NonNull<PHPersistentChange>, NonNull<Bool>), ()>,
-        );
-    }
-);
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+
+    #[cfg(feature = "PhotoKit_PHPersistentChange")]
+    #[objc2::method(sel = "enumerateChangesWithBlock:")]
+    pub unsafe fn enumerateChangesWithBlock(
+        &self,
+        block: &Block<(NonNull<PHPersistentChange>, NonNull<Bool>), ()>,
+    );
+}

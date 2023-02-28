@@ -3,21 +3,16 @@
 use crate::common::*;
 use crate::Foundation::*;
 
-__inner_extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSArray")]
     #[derive(PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSArray")]
-    pub struct NSArray<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared> {
-        _inner0: PhantomData<*mut (ObjectType, ObjectTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "Foundation_NSArray")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> ClassType
-        for NSArray<ObjectType, ObjectTypeOwnership>
-    {
-        type Super = NSObject;
-    }
-);
+    pub type NSArray<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
+}
 
 #[cfg(feature = "Foundation_NSArray")]
 unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSCoding
@@ -43,420 +38,405 @@ unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSSecureCoding
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSArray")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSArray<ObjectType, ObjectTypeOwnership>
-    {
-        #[method(count)]
-        pub fn count(&self) -> NSUInteger;
+    pub type NSArray<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[method_id(@__retain_semantics Other objectAtIndex:)]
-        pub unsafe fn objectAtIndex(
-            &self,
-            index: NSUInteger,
-        ) -> Id<ObjectType, ObjectTypeOwnership>;
+    #[objc2::method(sel = "count")]
+    pub fn count(&self) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    #[objc2::method(sel = "objectAtIndex:", managed = "Other")]
+    pub unsafe fn objectAtIndex(&self, index: NSUInteger) -> Id<ObjectType, ObjectTypeOwnership>;
 
-        #[method_id(@__retain_semantics Init initWithObjects:count:)]
-        pub unsafe fn initWithObjects_count(
-            this: Option<Allocated<Self>>,
-            objects: *mut NonNull<ObjectType>,
-            cnt: NSUInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self>>;
-    }
-);
+    #[objc2::method(sel = "initWithObjects:count:", managed = "Init")]
+    pub unsafe fn initWithObjects_count(
+        this: Option<Allocated<Self>>,
+        objects: *mut NonNull<ObjectType>,
+        cnt: NSUInteger,
+    ) -> Id<Self>;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum NSBinarySearchingOptions {
-        NSBinarySearchingFirstEqual = 1 << 8,
-        NSBinarySearchingLastEqual = 1 << 9,
-        NSBinarySearchingInsertionIndex = 1 << 10,
-    }
-);
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, coder: &NSCoder)
+        -> Option<Id<Self>>;
+}
 
-extern_methods!(
-    /// NSExtendedArray
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum NSBinarySearchingOptions {
+    NSBinarySearchingFirstEqual = 1 << 8,
+    NSBinarySearchingLastEqual = 1 << 9,
+    NSBinarySearchingInsertionIndex = 1 << 10,
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSArray")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSArray<ObjectType, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Other arrayByAddingObject:)]
-        pub unsafe fn arrayByAddingObject(&self, an_object: &ObjectType)
-            -> Id<NSArray<ObjectType>>;
+    pub type NSArray<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[method_id(@__retain_semantics Other arrayByAddingObjectsFromArray:)]
-        pub unsafe fn arrayByAddingObjectsFromArray(
-            &self,
-            other_array: &NSArray<ObjectType>,
-        ) -> Id<NSArray<ObjectType>>;
+    #[objc2::method(sel = "arrayByAddingObject:", managed = "Other")]
+    pub unsafe fn arrayByAddingObject(&self, an_object: &ObjectType) -> Id<NSArray<ObjectType>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other componentsJoinedByString:)]
-        pub unsafe fn componentsJoinedByString(&self, separator: &NSString) -> Id<NSString>;
+    #[objc2::method(sel = "arrayByAddingObjectsFromArray:", managed = "Other")]
+    pub unsafe fn arrayByAddingObjectsFromArray(
+        &self,
+        other_array: &NSArray<ObjectType>,
+    ) -> Id<NSArray<ObjectType>>;
 
-        #[method(containsObject:)]
-        pub unsafe fn containsObject(&self, an_object: &ObjectType) -> bool;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "componentsJoinedByString:", managed = "Other")]
+    pub unsafe fn componentsJoinedByString(&self, separator: &NSString) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other description)]
-        pub unsafe fn description(&self) -> Id<NSString>;
+    #[objc2::method(sel = "containsObject:")]
+    pub unsafe fn containsObject(&self, an_object: &ObjectType) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other descriptionWithLocale:)]
-        pub unsafe fn descriptionWithLocale(&self, locale: Option<&Object>) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "description", managed = "Other")]
+    pub unsafe fn description(&self) -> Id<NSString>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other descriptionWithLocale:indent:)]
-        pub unsafe fn descriptionWithLocale_indent(
-            &self,
-            locale: Option<&Object>,
-            level: NSUInteger,
-        ) -> Id<NSString>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "descriptionWithLocale:", managed = "Other")]
+    pub unsafe fn descriptionWithLocale(&self, locale: Option<&Object>) -> Id<NSString>;
 
-        #[method_id(@__retain_semantics Other firstObjectCommonWithArray:)]
-        pub unsafe fn firstObjectCommonWithArray(
-            &self,
-            other_array: &NSArray<ObjectType>,
-        ) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "descriptionWithLocale:indent:", managed = "Other")]
+    pub unsafe fn descriptionWithLocale_indent(
+        &self,
+        locale: Option<&Object>,
+        level: NSUInteger,
+    ) -> Id<NSString>;
 
-        #[method(getObjects:range:)]
-        pub unsafe fn getObjects_range(
-            &self,
-            objects: NonNull<NonNull<ObjectType>>,
-            range: NSRange,
-        );
+    #[objc2::method(sel = "firstObjectCommonWithArray:", managed = "Other")]
+    pub unsafe fn firstObjectCommonWithArray(
+        &self,
+        other_array: &NSArray<ObjectType>,
+    ) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
 
-        #[method(indexOfObject:)]
-        pub unsafe fn indexOfObject(&self, an_object: &ObjectType) -> NSUInteger;
+    #[objc2::method(sel = "getObjects:range:")]
+    pub unsafe fn getObjects_range(&self, objects: NonNull<NonNull<ObjectType>>, range: NSRange);
 
-        #[method(indexOfObject:inRange:)]
-        pub unsafe fn indexOfObject_inRange(
-            &self,
-            an_object: &ObjectType,
-            range: NSRange,
-        ) -> NSUInteger;
+    #[objc2::method(sel = "indexOfObject:")]
+    pub unsafe fn indexOfObject(&self, an_object: &ObjectType) -> NSUInteger;
 
-        #[method(indexOfObjectIdenticalTo:)]
-        pub unsafe fn indexOfObjectIdenticalTo(&self, an_object: &ObjectType) -> NSUInteger;
+    #[objc2::method(sel = "indexOfObject:inRange:")]
+    pub unsafe fn indexOfObject_inRange(
+        &self,
+        an_object: &ObjectType,
+        range: NSRange,
+    ) -> NSUInteger;
 
-        #[method(indexOfObjectIdenticalTo:inRange:)]
-        pub unsafe fn indexOfObjectIdenticalTo_inRange(
-            &self,
-            an_object: &ObjectType,
-            range: NSRange,
-        ) -> NSUInteger;
+    #[objc2::method(sel = "indexOfObjectIdenticalTo:")]
+    pub unsafe fn indexOfObjectIdenticalTo(&self, an_object: &ObjectType) -> NSUInteger;
 
-        #[method(isEqualToArray:)]
-        pub unsafe fn isEqualToArray(&self, other_array: &NSArray<ObjectType>) -> bool;
+    #[objc2::method(sel = "indexOfObjectIdenticalTo:inRange:")]
+    pub unsafe fn indexOfObjectIdenticalTo_inRange(
+        &self,
+        an_object: &ObjectType,
+        range: NSRange,
+    ) -> NSUInteger;
 
-        #[method_id(@__retain_semantics Other firstObject)]
-        pub unsafe fn firstObject(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
+    #[objc2::method(sel = "isEqualToArray:")]
+    pub unsafe fn isEqualToArray(&self, other_array: &NSArray<ObjectType>) -> bool;
 
-        #[method_id(@__retain_semantics Other lastObject)]
-        pub unsafe fn lastObject(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
+    #[objc2::method(sel = "firstObject", managed = "Other")]
+    pub unsafe fn firstObject(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
 
-        #[cfg(feature = "Foundation_NSEnumerator")]
-        #[method_id(@__retain_semantics Other objectEnumerator)]
-        pub unsafe fn objectEnumerator(&self) -> Id<NSEnumerator<ObjectType>>;
+    #[objc2::method(sel = "lastObject", managed = "Other")]
+    pub unsafe fn lastObject(&self) -> Option<Id<ObjectType, ObjectTypeOwnership>>;
 
-        #[cfg(feature = "Foundation_NSEnumerator")]
-        #[method_id(@__retain_semantics Other reverseObjectEnumerator)]
-        pub unsafe fn reverseObjectEnumerator(&self) -> Id<NSEnumerator<ObjectType>>;
+    #[cfg(feature = "Foundation_NSEnumerator")]
+    #[objc2::method(sel = "objectEnumerator", managed = "Other")]
+    pub unsafe fn objectEnumerator(&self) -> Id<NSEnumerator<ObjectType>>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other sortedArrayHint)]
-        pub unsafe fn sortedArrayHint(&self) -> Id<NSData>;
+    #[cfg(feature = "Foundation_NSEnumerator")]
+    #[objc2::method(sel = "reverseObjectEnumerator", managed = "Other")]
+    pub unsafe fn reverseObjectEnumerator(&self) -> Id<NSEnumerator<ObjectType>>;
 
-        #[method_id(@__retain_semantics Other sortedArrayUsingFunction:context:)]
-        pub unsafe fn sortedArrayUsingFunction_context(
-            &self,
-            comparator: unsafe extern "C" fn(
-                NonNull<ObjectType>,
-                NonNull<ObjectType>,
-                *mut c_void,
-            ) -> NSInteger,
-            context: *mut c_void,
-        ) -> Id<NSArray<ObjectType>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "sortedArrayHint", managed = "Other")]
+    pub unsafe fn sortedArrayHint(&self) -> Id<NSData>;
 
-        #[cfg(feature = "Foundation_NSData")]
-        #[method_id(@__retain_semantics Other sortedArrayUsingFunction:context:hint:)]
-        pub unsafe fn sortedArrayUsingFunction_context_hint(
-            &self,
-            comparator: unsafe extern "C" fn(
-                NonNull<ObjectType>,
-                NonNull<ObjectType>,
-                *mut c_void,
-            ) -> NSInteger,
-            context: *mut c_void,
-            hint: Option<&NSData>,
-        ) -> Id<NSArray<ObjectType>>;
+    #[objc2::method(sel = "sortedArrayUsingFunction:context:", managed = "Other")]
+    pub unsafe fn sortedArrayUsingFunction_context(
+        &self,
+        comparator: unsafe extern "C" fn(
+            NonNull<ObjectType>,
+            NonNull<ObjectType>,
+            *mut c_void,
+        ) -> NSInteger,
+        context: *mut c_void,
+    ) -> Id<NSArray<ObjectType>>;
 
-        #[method_id(@__retain_semantics Other sortedArrayUsingSelector:)]
-        pub unsafe fn sortedArrayUsingSelector(&self, comparator: Sel) -> Id<NSArray<ObjectType>>;
+    #[cfg(feature = "Foundation_NSData")]
+    #[objc2::method(sel = "sortedArrayUsingFunction:context:hint:", managed = "Other")]
+    pub unsafe fn sortedArrayUsingFunction_context_hint(
+        &self,
+        comparator: unsafe extern "C" fn(
+            NonNull<ObjectType>,
+            NonNull<ObjectType>,
+            *mut c_void,
+        ) -> NSInteger,
+        context: *mut c_void,
+        hint: Option<&NSData>,
+    ) -> Id<NSArray<ObjectType>>;
 
-        #[method_id(@__retain_semantics Other subarrayWithRange:)]
-        pub unsafe fn subarrayWithRange(&self, range: NSRange) -> Id<NSArray<ObjectType>>;
+    #[objc2::method(sel = "sortedArrayUsingSelector:", managed = "Other")]
+    pub unsafe fn sortedArrayUsingSelector(&self, comparator: Sel) -> Id<NSArray<ObjectType>>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method(writeToURL:error:_)]
-        pub unsafe fn writeToURL_error(&self, url: &NSURL) -> Result<(), Id<NSError>>;
+    #[objc2::method(sel = "subarrayWithRange:", managed = "Other")]
+    pub unsafe fn subarrayWithRange(&self, range: NSRange) -> Id<NSArray<ObjectType>>;
 
-        #[method(makeObjectsPerformSelector:)]
-        pub unsafe fn makeObjectsPerformSelector(&self, a_selector: Sel);
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "writeToURL:error:", throws)]
+    pub unsafe fn writeToURL_error(&self, url: &NSURL) -> Result<(), Id<NSError>>;
 
-        #[method(makeObjectsPerformSelector:withObject:)]
-        pub unsafe fn makeObjectsPerformSelector_withObject(
-            &self,
-            a_selector: Sel,
-            argument: Option<&Object>,
-        );
+    #[objc2::method(sel = "makeObjectsPerformSelector:")]
+    pub unsafe fn makeObjectsPerformSelector(&self, a_selector: Sel);
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method_id(@__retain_semantics Other objectsAtIndexes:)]
-        pub unsafe fn objectsAtIndexes(&self, indexes: &NSIndexSet) -> Id<NSArray<ObjectType>>;
+    #[objc2::method(sel = "makeObjectsPerformSelector:withObject:")]
+    pub unsafe fn makeObjectsPerformSelector_withObject(
+        &self,
+        a_selector: Sel,
+        argument: Option<&Object>,
+    );
 
-        #[method_id(@__retain_semantics Other objectAtIndexedSubscript:)]
-        pub unsafe fn objectAtIndexedSubscript(
-            &self,
-            idx: NSUInteger,
-        ) -> Id<ObjectType, ObjectTypeOwnership>;
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "objectsAtIndexes:", managed = "Other")]
+    pub unsafe fn objectsAtIndexes(&self, indexes: &NSIndexSet) -> Id<NSArray<ObjectType>>;
 
-        #[method(enumerateObjectsUsingBlock:)]
-        pub unsafe fn enumerateObjectsUsingBlock(
-            &self,
-            block: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), ()>,
-        );
+    #[objc2::method(sel = "objectAtIndexedSubscript:", managed = "Other")]
+    pub unsafe fn objectAtIndexedSubscript(
+        &self,
+        idx: NSUInteger,
+    ) -> Id<ObjectType, ObjectTypeOwnership>;
 
-        #[method(enumerateObjectsWithOptions:usingBlock:)]
-        pub unsafe fn enumerateObjectsWithOptions_usingBlock(
-            &self,
-            opts: NSEnumerationOptions,
-            block: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), ()>,
-        );
+    #[objc2::method(sel = "enumerateObjectsUsingBlock:")]
+    pub unsafe fn enumerateObjectsUsingBlock(
+        &self,
+        block: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), ()>,
+    );
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(enumerateObjectsAtIndexes:options:usingBlock:)]
-        pub unsafe fn enumerateObjectsAtIndexes_options_usingBlock(
-            &self,
-            s: &NSIndexSet,
-            opts: NSEnumerationOptions,
-            block: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), ()>,
-        );
+    #[objc2::method(sel = "enumerateObjectsWithOptions:usingBlock:")]
+    pub unsafe fn enumerateObjectsWithOptions_usingBlock(
+        &self,
+        opts: NSEnumerationOptions,
+        block: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), ()>,
+    );
 
-        #[method(indexOfObjectPassingTest:)]
-        pub unsafe fn indexOfObjectPassingTest(
-            &self,
-            predicate: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), Bool>,
-        ) -> NSUInteger;
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "enumerateObjectsAtIndexes:options:usingBlock:")]
+    pub unsafe fn enumerateObjectsAtIndexes_options_usingBlock(
+        &self,
+        s: &NSIndexSet,
+        opts: NSEnumerationOptions,
+        block: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), ()>,
+    );
 
-        #[method(indexOfObjectWithOptions:passingTest:)]
-        pub unsafe fn indexOfObjectWithOptions_passingTest(
-            &self,
-            opts: NSEnumerationOptions,
-            predicate: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), Bool>,
-        ) -> NSUInteger;
+    #[objc2::method(sel = "indexOfObjectPassingTest:")]
+    pub unsafe fn indexOfObjectPassingTest(
+        &self,
+        predicate: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), Bool>,
+    ) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(indexOfObjectAtIndexes:options:passingTest:)]
-        pub unsafe fn indexOfObjectAtIndexes_options_passingTest(
-            &self,
-            s: &NSIndexSet,
-            opts: NSEnumerationOptions,
-            predicate: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), Bool>,
-        ) -> NSUInteger;
+    #[objc2::method(sel = "indexOfObjectWithOptions:passingTest:")]
+    pub unsafe fn indexOfObjectWithOptions_passingTest(
+        &self,
+        opts: NSEnumerationOptions,
+        predicate: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), Bool>,
+    ) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method_id(@__retain_semantics Other indexesOfObjectsPassingTest:)]
-        pub unsafe fn indexesOfObjectsPassingTest(
-            &self,
-            predicate: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), Bool>,
-        ) -> Id<NSIndexSet>;
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "indexOfObjectAtIndexes:options:passingTest:")]
+    pub unsafe fn indexOfObjectAtIndexes_options_passingTest(
+        &self,
+        s: &NSIndexSet,
+        opts: NSEnumerationOptions,
+        predicate: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), Bool>,
+    ) -> NSUInteger;
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method_id(@__retain_semantics Other indexesOfObjectsWithOptions:passingTest:)]
-        pub unsafe fn indexesOfObjectsWithOptions_passingTest(
-            &self,
-            opts: NSEnumerationOptions,
-            predicate: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), Bool>,
-        ) -> Id<NSIndexSet>;
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "indexesOfObjectsPassingTest:", managed = "Other")]
+    pub unsafe fn indexesOfObjectsPassingTest(
+        &self,
+        predicate: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), Bool>,
+    ) -> Id<NSIndexSet>;
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method_id(@__retain_semantics Other indexesOfObjectsAtIndexes:options:passingTest:)]
-        pub unsafe fn indexesOfObjectsAtIndexes_options_passingTest(
-            &self,
-            s: &NSIndexSet,
-            opts: NSEnumerationOptions,
-            predicate: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), Bool>,
-        ) -> Id<NSIndexSet>;
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "indexesOfObjectsWithOptions:passingTest:", managed = "Other")]
+    pub unsafe fn indexesOfObjectsWithOptions_passingTest(
+        &self,
+        opts: NSEnumerationOptions,
+        predicate: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), Bool>,
+    ) -> Id<NSIndexSet>;
 
-        #[method_id(@__retain_semantics Other sortedArrayUsingComparator:)]
-        pub unsafe fn sortedArrayUsingComparator(
-            &self,
-            cmptr: NSComparator,
-        ) -> Id<NSArray<ObjectType>>;
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(
+        sel = "indexesOfObjectsAtIndexes:options:passingTest:",
+        managed = "Other"
+    )]
+    pub unsafe fn indexesOfObjectsAtIndexes_options_passingTest(
+        &self,
+        s: &NSIndexSet,
+        opts: NSEnumerationOptions,
+        predicate: &Block<(NonNull<ObjectType>, NSUInteger, NonNull<Bool>), Bool>,
+    ) -> Id<NSIndexSet>;
 
-        #[method_id(@__retain_semantics Other sortedArrayWithOptions:usingComparator:)]
-        pub unsafe fn sortedArrayWithOptions_usingComparator(
-            &self,
-            opts: NSSortOptions,
-            cmptr: NSComparator,
-        ) -> Id<NSArray<ObjectType>>;
+    #[objc2::method(sel = "sortedArrayUsingComparator:", managed = "Other")]
+    pub unsafe fn sortedArrayUsingComparator(&self, cmptr: NSComparator)
+        -> Id<NSArray<ObjectType>>;
 
-        #[method(indexOfObject:inSortedRange:options:usingComparator:)]
-        pub unsafe fn indexOfObject_inSortedRange_options_usingComparator(
-            &self,
-            obj: &ObjectType,
-            r: NSRange,
-            opts: NSBinarySearchingOptions,
-            cmp: NSComparator,
-        ) -> NSUInteger;
-    }
-);
+    #[objc2::method(sel = "sortedArrayWithOptions:usingComparator:", managed = "Other")]
+    pub unsafe fn sortedArrayWithOptions_usingComparator(
+        &self,
+        opts: NSSortOptions,
+        cmptr: NSComparator,
+    ) -> Id<NSArray<ObjectType>>;
 
-extern_methods!(
-    /// NSArrayCreation
+    #[objc2::method(sel = "indexOfObject:inSortedRange:options:usingComparator:")]
+    pub unsafe fn indexOfObject_inSortedRange_options_usingComparator(
+        &self,
+        obj: &ObjectType,
+        r: NSRange,
+        opts: NSBinarySearchingOptions,
+        cmp: NSComparator,
+    ) -> NSUInteger;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSArray")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSArray<ObjectType, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Other array)]
-        pub unsafe fn array() -> Id<Self>;
+    pub type NSArray<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[method_id(@__retain_semantics Other arrayWithObject:)]
-        pub unsafe fn arrayWithObject(an_object: &ObjectType) -> Id<Self>;
+    #[objc2::method(sel = "array", managed = "Other")]
+    pub unsafe fn array() -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other arrayWithObjects:count:)]
-        pub unsafe fn arrayWithObjects_count(
-            objects: NonNull<NonNull<ObjectType>>,
-            cnt: NSUInteger,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "arrayWithObject:", managed = "Other")]
+    pub unsafe fn arrayWithObject(an_object: &ObjectType) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other arrayWithArray:)]
-        pub unsafe fn arrayWithArray(array: &NSArray<ObjectType>) -> Id<Self>;
+    #[objc2::method(sel = "arrayWithObjects:count:", managed = "Other")]
+    pub unsafe fn arrayWithObjects_count(
+        objects: NonNull<NonNull<ObjectType>>,
+        cnt: NSUInteger,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithArray:)]
-        pub unsafe fn initWithArray(
-            this: Option<Allocated<Self>>,
-            array: &NSArray<ObjectType>,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "arrayWithArray:", managed = "Other")]
+    pub unsafe fn arrayWithArray(array: &NSArray<ObjectType>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithArray:copyItems:)]
-        pub unsafe fn initWithArray_copyItems(
-            this: Option<Allocated<Self>>,
-            array: &NSArray<ObjectType>,
-            flag: bool,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "initWithArray:", managed = "Init")]
+    pub unsafe fn initWithArray(
+        this: Option<Allocated<Self>>,
+        array: &NSArray<ObjectType>,
+    ) -> Id<Self>;
 
-        #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
-        #[method_id(@__retain_semantics Other arrayWithContentsOfURL:error:_)]
-        pub unsafe fn arrayWithContentsOfURL_error(
-            url: &NSURL,
-        ) -> Result<Id<NSArray<ObjectType>>, Id<NSError>>;
-    }
-);
+    #[objc2::method(sel = "initWithArray:copyItems:", managed = "Init")]
+    pub unsafe fn initWithArray_copyItems(
+        this: Option<Allocated<Self>>,
+        array: &NSArray<ObjectType>,
+        flag: bool,
+    ) -> Id<Self>;
 
-extern_methods!(
-    /// NSArrayDiffing
+    #[cfg(all(feature = "Foundation_NSError", feature = "Foundation_NSURL"))]
+    #[objc2::method(sel = "arrayWithContentsOfURL:error:", managed = "Other", throws)]
+    pub unsafe fn arrayWithContentsOfURL_error(
+        url: &NSURL,
+    ) -> Result<Id<NSArray<ObjectType>>, Id<NSError>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSArray")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSArray<ObjectType, ObjectTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSOrderedCollectionDifference")]
-        #[method_id(@__retain_semantics Other differenceFromArray:withOptions:usingEquivalenceTest:)]
-        pub unsafe fn differenceFromArray_withOptions_usingEquivalenceTest(
-            &self,
-            other: &NSArray<ObjectType>,
-            options: NSOrderedCollectionDifferenceCalculationOptions,
-            block: &Block<(NonNull<ObjectType>, NonNull<ObjectType>), Bool>,
-        ) -> Id<NSOrderedCollectionDifference<ObjectType>>;
+    pub type NSArray<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[cfg(feature = "Foundation_NSOrderedCollectionDifference")]
-        #[method_id(@__retain_semantics Other differenceFromArray:withOptions:)]
-        pub unsafe fn differenceFromArray_withOptions(
-            &self,
-            other: &NSArray<ObjectType>,
-            options: NSOrderedCollectionDifferenceCalculationOptions,
-        ) -> Id<NSOrderedCollectionDifference<ObjectType>>;
+    #[cfg(feature = "Foundation_NSOrderedCollectionDifference")]
+    #[objc2::method(
+        sel = "differenceFromArray:withOptions:usingEquivalenceTest:",
+        managed = "Other"
+    )]
+    pub unsafe fn differenceFromArray_withOptions_usingEquivalenceTest(
+        &self,
+        other: &NSArray<ObjectType>,
+        options: NSOrderedCollectionDifferenceCalculationOptions,
+        block: &Block<(NonNull<ObjectType>, NonNull<ObjectType>), Bool>,
+    ) -> Id<NSOrderedCollectionDifference<ObjectType>>;
 
-        #[cfg(feature = "Foundation_NSOrderedCollectionDifference")]
-        #[method_id(@__retain_semantics Other differenceFromArray:)]
-        pub unsafe fn differenceFromArray(
-            &self,
-            other: &NSArray<ObjectType>,
-        ) -> Id<NSOrderedCollectionDifference<ObjectType>>;
+    #[cfg(feature = "Foundation_NSOrderedCollectionDifference")]
+    #[objc2::method(sel = "differenceFromArray:withOptions:", managed = "Other")]
+    pub unsafe fn differenceFromArray_withOptions(
+        &self,
+        other: &NSArray<ObjectType>,
+        options: NSOrderedCollectionDifferenceCalculationOptions,
+    ) -> Id<NSOrderedCollectionDifference<ObjectType>>;
 
-        #[cfg(feature = "Foundation_NSOrderedCollectionDifference")]
-        #[method_id(@__retain_semantics Other arrayByApplyingDifference:)]
-        pub unsafe fn arrayByApplyingDifference(
-            &self,
-            difference: &NSOrderedCollectionDifference<ObjectType>,
-        ) -> Option<Id<NSArray<ObjectType>>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSOrderedCollectionDifference")]
+    #[objc2::method(sel = "differenceFromArray:", managed = "Other")]
+    pub unsafe fn differenceFromArray(
+        &self,
+        other: &NSArray<ObjectType>,
+    ) -> Id<NSOrderedCollectionDifference<ObjectType>>;
 
-extern_methods!(
-    /// NSDeprecated
+    #[cfg(feature = "Foundation_NSOrderedCollectionDifference")]
+    #[objc2::method(sel = "arrayByApplyingDifference:", managed = "Other")]
+    pub unsafe fn arrayByApplyingDifference(
+        &self,
+        difference: &NSOrderedCollectionDifference<ObjectType>,
+    ) -> Option<Id<NSArray<ObjectType>>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSArray")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSArray<ObjectType, ObjectTypeOwnership>
-    {
-        #[deprecated = "Use -getObjects:range: instead"]
-        #[method(getObjects:)]
-        pub unsafe fn getObjects(&self, objects: NonNull<NonNull<ObjectType>>);
+    pub type NSArray<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other arrayWithContentsOfFile:)]
-        pub unsafe fn arrayWithContentsOfFile(path: &NSString) -> Option<Id<NSArray<ObjectType>>>;
+    #[deprecated = "Use -getObjects:range: instead"]
+    #[objc2::method(sel = "getObjects:")]
+    pub unsafe fn getObjects(&self, objects: NonNull<NonNull<ObjectType>>);
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[deprecated]
-        #[method_id(@__retain_semantics Other arrayWithContentsOfURL:)]
-        pub unsafe fn arrayWithContentsOfURL(url: &NSURL) -> Option<Id<NSArray<ObjectType>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "arrayWithContentsOfFile:", managed = "Other")]
+    pub unsafe fn arrayWithContentsOfFile(path: &NSString) -> Option<Id<NSArray<ObjectType>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[deprecated]
-        #[method(writeToFile:atomically:)]
-        pub unsafe fn writeToFile_atomically(
-            &self,
-            path: &NSString,
-            use_auxiliary_file: bool,
-        ) -> bool;
+    #[cfg(feature = "Foundation_NSURL")]
+    #[deprecated]
+    #[objc2::method(sel = "arrayWithContentsOfURL:", managed = "Other")]
+    pub unsafe fn arrayWithContentsOfURL(url: &NSURL) -> Option<Id<NSArray<ObjectType>>>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[deprecated]
-        #[method(writeToURL:atomically:)]
-        pub unsafe fn writeToURL_atomically(&self, url: &NSURL, atomically: bool) -> bool;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[deprecated]
+    #[objc2::method(sel = "writeToFile:atomically:")]
+    pub unsafe fn writeToFile_atomically(&self, path: &NSString, use_auxiliary_file: bool) -> bool;
 
-__inner_extern_class!(
+    #[cfg(feature = "Foundation_NSURL")]
+    #[deprecated]
+    #[objc2::method(sel = "writeToURL:atomically:")]
+    pub unsafe fn writeToURL_atomically(&self, url: &NSURL, atomically: bool) -> bool;
+}
+
+#[objc2::interface(
+    unsafe super = NSArray<ObjectType, ObjectTypeOwnership, >,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMutableArray")]
     #[derive(PartialEq, Eq, Hash)]
-    #[cfg(feature = "Foundation_NSMutableArray")]
-    pub struct NSMutableArray<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared> {
-        _inner0: PhantomData<*mut (ObjectType, ObjectTypeOwnership)>,
-        notunwindsafe: PhantomData<&'static mut ()>,
-    }
-
-    #[cfg(feature = "Foundation_NSMutableArray")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> ClassType
-        for NSMutableArray<ObjectType, ObjectTypeOwnership>
-    {
-        #[inherits(NSObject)]
-        type Super = NSArray<ObjectType, ObjectTypeOwnership>;
-    }
-);
+    pub type NSMutableArray<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
+}
 
 #[cfg(feature = "Foundation_NSMutableArray")]
 unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSCoding
@@ -482,256 +462,254 @@ unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership> NSSecureCoding
 {
 }
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableArray")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSMutableArray<ObjectType, ObjectTypeOwnership>
-    {
-        #[method(addObject:)]
-        pub unsafe fn addObject(&mut self, an_object: &ObjectType);
+    pub type NSMutableArray<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[method(insertObject:atIndex:)]
-        pub unsafe fn insertObject_atIndex(&mut self, an_object: &ObjectType, index: NSUInteger);
+    #[objc2::method(sel = "addObject:")]
+    pub unsafe fn addObject(&mut self, an_object: &ObjectType);
 
-        #[method(removeLastObject)]
-        pub unsafe fn removeLastObject(&mut self);
+    #[objc2::method(sel = "insertObject:atIndex:")]
+    pub unsafe fn insertObject_atIndex(&mut self, an_object: &ObjectType, index: NSUInteger);
 
-        #[method(removeObjectAtIndex:)]
-        pub unsafe fn removeObjectAtIndex(&mut self, index: NSUInteger);
+    #[objc2::method(sel = "removeLastObject")]
+    pub unsafe fn removeLastObject(&mut self);
 
-        #[method(replaceObjectAtIndex:withObject:)]
-        pub unsafe fn replaceObjectAtIndex_withObject(
-            &mut self,
-            index: NSUInteger,
-            an_object: &ObjectType,
-        );
+    #[objc2::method(sel = "removeObjectAtIndex:")]
+    pub unsafe fn removeObjectAtIndex(&mut self, index: NSUInteger);
 
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self, Owned>;
+    #[objc2::method(sel = "replaceObjectAtIndex:withObject:")]
+    pub unsafe fn replaceObjectAtIndex_withObject(
+        &mut self,
+        index: NSUInteger,
+        an_object: &ObjectType,
+    );
 
-        #[method_id(@__retain_semantics Init initWithCapacity:)]
-        pub unsafe fn initWithCapacity(
-            this: Option<Allocated<Self>>,
-            num_items: NSUInteger,
-        ) -> Id<Self, Owned>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self, Owned>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(
-            this: Option<Allocated<Self>>,
-            coder: &NSCoder,
-        ) -> Option<Id<Self, Owned>>;
-    }
-);
+    #[objc2::method(sel = "initWithCapacity:", managed = "Init")]
+    pub unsafe fn initWithCapacity(
+        this: Option<Allocated<Self>>,
+        num_items: NSUInteger,
+    ) -> Id<Self, Owned>;
 
-extern_methods!(
-    /// NSExtendedMutableArray
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(
+        this: Option<Allocated<Self>>,
+        coder: &NSCoder,
+    ) -> Option<Id<Self, Owned>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableArray")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSMutableArray<ObjectType, ObjectTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(addObjectsFromArray:)]
-        pub unsafe fn addObjectsFromArray(&self, other_array: &NSArray<ObjectType>);
+    pub type NSMutableArray<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[method(exchangeObjectAtIndex:withObjectAtIndex:)]
-        pub unsafe fn exchangeObjectAtIndex_withObjectAtIndex(
-            &self,
-            idx1: NSUInteger,
-            idx2: NSUInteger,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "addObjectsFromArray:")]
+    pub unsafe fn addObjectsFromArray(&self, other_array: &NSArray<ObjectType>);
 
-        #[method(removeAllObjects)]
-        pub fn removeAllObjects(&mut self);
+    #[objc2::method(sel = "exchangeObjectAtIndex:withObjectAtIndex:")]
+    pub unsafe fn exchangeObjectAtIndex_withObjectAtIndex(
+        &self,
+        idx1: NSUInteger,
+        idx2: NSUInteger,
+    );
 
-        #[method(removeObject:inRange:)]
-        pub unsafe fn removeObject_inRange(&self, an_object: &ObjectType, range: NSRange);
+    #[objc2::method(sel = "removeAllObjects")]
+    pub fn removeAllObjects(&mut self);
 
-        #[method(removeObject:)]
-        pub unsafe fn removeObject(&self, an_object: &ObjectType);
+    #[objc2::method(sel = "removeObject:inRange:")]
+    pub unsafe fn removeObject_inRange(&self, an_object: &ObjectType, range: NSRange);
 
-        #[method(removeObjectIdenticalTo:inRange:)]
-        pub unsafe fn removeObjectIdenticalTo_inRange(
-            &self,
-            an_object: &ObjectType,
-            range: NSRange,
-        );
+    #[objc2::method(sel = "removeObject:")]
+    pub unsafe fn removeObject(&self, an_object: &ObjectType);
 
-        #[method(removeObjectIdenticalTo:)]
-        pub unsafe fn removeObjectIdenticalTo(&self, an_object: &ObjectType);
+    #[objc2::method(sel = "removeObjectIdenticalTo:inRange:")]
+    pub unsafe fn removeObjectIdenticalTo_inRange(&self, an_object: &ObjectType, range: NSRange);
 
-        #[deprecated = "Not supported"]
-        #[method(removeObjectsFromIndices:numIndices:)]
-        pub unsafe fn removeObjectsFromIndices_numIndices(
-            &self,
-            indices: NonNull<NSUInteger>,
-            cnt: NSUInteger,
-        );
+    #[objc2::method(sel = "removeObjectIdenticalTo:")]
+    pub unsafe fn removeObjectIdenticalTo(&self, an_object: &ObjectType);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(removeObjectsInArray:)]
-        pub unsafe fn removeObjectsInArray(&self, other_array: &NSArray<ObjectType>);
+    #[deprecated = "Not supported"]
+    #[objc2::method(sel = "removeObjectsFromIndices:numIndices:")]
+    pub unsafe fn removeObjectsFromIndices_numIndices(
+        &self,
+        indices: NonNull<NSUInteger>,
+        cnt: NSUInteger,
+    );
 
-        #[method(removeObjectsInRange:)]
-        pub unsafe fn removeObjectsInRange(&self, range: NSRange);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "removeObjectsInArray:")]
+    pub unsafe fn removeObjectsInArray(&self, other_array: &NSArray<ObjectType>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(replaceObjectsInRange:withObjectsFromArray:range:)]
-        pub unsafe fn replaceObjectsInRange_withObjectsFromArray_range(
-            &self,
-            range: NSRange,
-            other_array: &NSArray<ObjectType>,
-            other_range: NSRange,
-        );
+    #[objc2::method(sel = "removeObjectsInRange:")]
+    pub unsafe fn removeObjectsInRange(&self, range: NSRange);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(replaceObjectsInRange:withObjectsFromArray:)]
-        pub unsafe fn replaceObjectsInRange_withObjectsFromArray(
-            &self,
-            range: NSRange,
-            other_array: &NSArray<ObjectType>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "replaceObjectsInRange:withObjectsFromArray:range:")]
+    pub unsafe fn replaceObjectsInRange_withObjectsFromArray_range(
+        &self,
+        range: NSRange,
+        other_array: &NSArray<ObjectType>,
+        other_range: NSRange,
+    );
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setArray:)]
-        pub unsafe fn setArray(&self, other_array: &NSArray<ObjectType>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "replaceObjectsInRange:withObjectsFromArray:")]
+    pub unsafe fn replaceObjectsInRange_withObjectsFromArray(
+        &self,
+        range: NSRange,
+        other_array: &NSArray<ObjectType>,
+    );
 
-        #[method(sortUsingFunction:context:)]
-        pub unsafe fn sortUsingFunction_context(
-            &mut self,
-            compare: unsafe extern "C" fn(
-                NonNull<ObjectType>,
-                NonNull<ObjectType>,
-                *mut c_void,
-            ) -> NSInteger,
-            context: *mut c_void,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setArray:")]
+    pub unsafe fn setArray(&self, other_array: &NSArray<ObjectType>);
 
-        #[method(sortUsingSelector:)]
-        pub unsafe fn sortUsingSelector(&self, comparator: Sel);
+    #[objc2::method(sel = "sortUsingFunction:context:")]
+    pub unsafe fn sortUsingFunction_context(
+        &mut self,
+        compare: unsafe extern "C" fn(
+            NonNull<ObjectType>,
+            NonNull<ObjectType>,
+            *mut c_void,
+        ) -> NSInteger,
+        context: *mut c_void,
+    );
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSIndexSet"))]
-        #[method(insertObjects:atIndexes:)]
-        pub unsafe fn insertObjects_atIndexes(
-            &self,
-            objects: &NSArray<ObjectType>,
-            indexes: &NSIndexSet,
-        );
+    #[objc2::method(sel = "sortUsingSelector:")]
+    pub unsafe fn sortUsingSelector(&self, comparator: Sel);
 
-        #[cfg(feature = "Foundation_NSIndexSet")]
-        #[method(removeObjectsAtIndexes:)]
-        pub unsafe fn removeObjectsAtIndexes(&self, indexes: &NSIndexSet);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSIndexSet"))]
+    #[objc2::method(sel = "insertObjects:atIndexes:")]
+    pub unsafe fn insertObjects_atIndexes(
+        &self,
+        objects: &NSArray<ObjectType>,
+        indexes: &NSIndexSet,
+    );
 
-        #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSIndexSet"))]
-        #[method(replaceObjectsAtIndexes:withObjects:)]
-        pub unsafe fn replaceObjectsAtIndexes_withObjects(
-            &self,
-            indexes: &NSIndexSet,
-            objects: &NSArray<ObjectType>,
-        );
+    #[cfg(feature = "Foundation_NSIndexSet")]
+    #[objc2::method(sel = "removeObjectsAtIndexes:")]
+    pub unsafe fn removeObjectsAtIndexes(&self, indexes: &NSIndexSet);
 
-        #[method(setObject:atIndexedSubscript:)]
-        pub unsafe fn setObject_atIndexedSubscript(&self, obj: &ObjectType, idx: NSUInteger);
+    #[cfg(all(feature = "Foundation_NSArray", feature = "Foundation_NSIndexSet"))]
+    #[objc2::method(sel = "replaceObjectsAtIndexes:withObjects:")]
+    pub unsafe fn replaceObjectsAtIndexes_withObjects(
+        &self,
+        indexes: &NSIndexSet,
+        objects: &NSArray<ObjectType>,
+    );
 
-        #[method(sortUsingComparator:)]
-        pub unsafe fn sortUsingComparator(&self, cmptr: NSComparator);
+    #[objc2::method(sel = "setObject:atIndexedSubscript:")]
+    pub unsafe fn setObject_atIndexedSubscript(&self, obj: &ObjectType, idx: NSUInteger);
 
-        #[method(sortWithOptions:usingComparator:)]
-        pub unsafe fn sortWithOptions_usingComparator(
-            &self,
-            opts: NSSortOptions,
-            cmptr: NSComparator,
-        );
-    }
-);
+    #[objc2::method(sel = "sortUsingComparator:")]
+    pub unsafe fn sortUsingComparator(&self, cmptr: NSComparator);
 
-extern_methods!(
-    /// NSMutableArrayCreation
+    #[objc2::method(sel = "sortWithOptions:usingComparator:")]
+    pub unsafe fn sortWithOptions_usingComparator(&self, opts: NSSortOptions, cmptr: NSComparator);
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableArray")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSMutableArray<ObjectType, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Other arrayWithCapacity:)]
-        pub unsafe fn arrayWithCapacity(num_items: NSUInteger) -> Id<Self, Owned>;
+    pub type NSMutableArray<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other arrayWithContentsOfFile:)]
-        pub unsafe fn arrayWithContentsOfFile(
-            path: &NSString,
-        ) -> Option<Id<NSMutableArray<ObjectType>, Owned>>;
+    #[objc2::method(sel = "arrayWithCapacity:", managed = "Other")]
+    pub unsafe fn arrayWithCapacity(num_items: NSUInteger) -> Id<Self, Owned>;
 
-        #[cfg(feature = "Foundation_NSURL")]
-        #[method_id(@__retain_semantics Other arrayWithContentsOfURL:)]
-        pub unsafe fn arrayWithContentsOfURL(
-            url: &NSURL,
-        ) -> Option<Id<NSMutableArray<ObjectType>, Owned>>;
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "arrayWithContentsOfFile:", managed = "Other")]
+    pub unsafe fn arrayWithContentsOfFile(
+        path: &NSString,
+    ) -> Option<Id<NSMutableArray<ObjectType>, Owned>>;
 
-extern_methods!(
-    /// NSMutableArrayDiffing
+    #[cfg(feature = "Foundation_NSURL")]
+    #[objc2::method(sel = "arrayWithContentsOfURL:", managed = "Other")]
+    pub unsafe fn arrayWithContentsOfURL(
+        url: &NSURL,
+    ) -> Option<Id<NSMutableArray<ObjectType>, Owned>>;
+}
+
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableArray")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSMutableArray<ObjectType, ObjectTypeOwnership>
-    {
-        #[cfg(feature = "Foundation_NSOrderedCollectionDifference")]
-        #[method(applyDifference:)]
-        pub unsafe fn applyDifference(
-            &self,
-            difference: &NSOrderedCollectionDifference<ObjectType>,
-        );
-    }
-);
+    pub type NSMutableArray<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-extern_methods!(
-    /// Methods declared on superclass `NSArray`
+    #[cfg(feature = "Foundation_NSOrderedCollectionDifference")]
+    #[objc2::method(sel = "applyDifference:")]
+    pub unsafe fn applyDifference(&self, difference: &NSOrderedCollectionDifference<ObjectType>);
+}
+
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSArray`
     #[cfg(feature = "Foundation_NSMutableArray")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSMutableArray<ObjectType, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Init initWithObjects:count:)]
-        pub unsafe fn initWithObjects_count(
-            this: Option<Allocated<Self>>,
-            objects: *mut NonNull<ObjectType>,
-            cnt: NSUInteger,
-        ) -> Id<Self, Owned>;
     }
-);
-
-extern_methods!(
-    /// Methods declared on superclass `NSArray`
-    ///
-    /// NSArrayCreation
+)]
+extern "Objective-C" {
     #[cfg(feature = "Foundation_NSMutableArray")]
-    unsafe impl<ObjectType: Message, ObjectTypeOwnership: Ownership>
-        NSMutableArray<ObjectType, ObjectTypeOwnership>
-    {
-        #[method_id(@__retain_semantics Other array)]
-        pub unsafe fn array() -> Id<Self, Owned>;
+    pub type NSMutableArray<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
 
-        #[method_id(@__retain_semantics Other arrayWithObject:)]
-        pub unsafe fn arrayWithObject(an_object: &ObjectType) -> Id<Self, Owned>;
+    #[objc2::method(sel = "initWithObjects:count:", managed = "Init")]
+    pub unsafe fn initWithObjects_count(
+        this: Option<Allocated<Self>>,
+        objects: *mut NonNull<ObjectType>,
+        cnt: NSUInteger,
+    ) -> Id<Self, Owned>;
+}
 
-        #[method_id(@__retain_semantics Other arrayWithObjects:count:)]
-        pub unsafe fn arrayWithObjects_count(
-            objects: NonNull<NonNull<ObjectType>>,
-            cnt: NSUInteger,
-        ) -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Other arrayWithArray:)]
-        pub unsafe fn arrayWithArray(array: &NSArray<ObjectType>) -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Init initWithArray:)]
-        pub unsafe fn initWithArray(
-            this: Option<Allocated<Self>>,
-            array: &NSArray<ObjectType>,
-        ) -> Id<Self, Owned>;
-
-        #[method_id(@__retain_semantics Init initWithArray:copyItems:)]
-        pub unsafe fn initWithArray_copyItems(
-            this: Option<Allocated<Self>>,
-            array: &NSArray<ObjectType>,
-            flag: bool,
-        ) -> Id<Self, Owned>;
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `NSArray`
+        ///
+        /// NSArrayCreation
+    #[cfg(feature = "Foundation_NSMutableArray")]
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "Foundation_NSMutableArray")]
+    pub type NSMutableArray<ObjectType: Message = Object, ObjectTypeOwnership: Ownership = Shared>;
+
+    #[objc2::method(sel = "array", managed = "Other")]
+    pub unsafe fn array() -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "arrayWithObject:", managed = "Other")]
+    pub unsafe fn arrayWithObject(an_object: &ObjectType) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "arrayWithObjects:count:", managed = "Other")]
+    pub unsafe fn arrayWithObjects_count(
+        objects: NonNull<NonNull<ObjectType>>,
+        cnt: NSUInteger,
+    ) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "arrayWithArray:", managed = "Other")]
+    pub unsafe fn arrayWithArray(array: &NSArray<ObjectType>) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "initWithArray:", managed = "Init")]
+    pub unsafe fn initWithArray(
+        this: Option<Allocated<Self>>,
+        array: &NSArray<ObjectType>,
+    ) -> Id<Self, Owned>;
+
+    #[objc2::method(sel = "initWithArray:copyItems:", managed = "Init")]
+    pub unsafe fn initWithArray_copyItems(
+        this: Option<Allocated<Self>>,
+        array: &NSArray<ObjectType>,
+        flag: bool,
+    ) -> Id<Self, Owned>;
+}

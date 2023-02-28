@@ -5,27 +5,26 @@ use crate::CloudKit::*;
 use crate::CoreLocation::*;
 use crate::Foundation::*;
 
-ns_enum!(
-    #[underlying(NSInteger)]
-    pub enum CKSubscriptionType {
-        CKSubscriptionTypeQuery = 1,
-        CKSubscriptionTypeRecordZone = 2,
-        CKSubscriptionTypeDatabase = 3,
-    }
-);
+#[ns_enum]
+#[underlying(NSInteger)]
+pub enum CKSubscriptionType {
+    CKSubscriptionTypeQuery = 1,
+    CKSubscriptionTypeRecordZone = 2,
+    CKSubscriptionTypeDatabase = 3,
+}
 
 pub type CKSubscriptionID = NSString;
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKSubscription")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKSubscription")]
-    pub struct CKSubscription;
-
-    #[cfg(feature = "CloudKit_CKSubscription")]
-    unsafe impl ClassType for CKSubscription {
-        type Super = NSObject;
-    }
-);
+    pub type CKSubscription;
+}
 
 #[cfg(feature = "CloudKit_CKSubscription")]
 unsafe impl NSCoding for CKSubscription {}
@@ -36,52 +35,54 @@ unsafe impl NSObjectProtocol for CKSubscription {}
 #[cfg(feature = "CloudKit_CKSubscription")]
 unsafe impl NSSecureCoding for CKSubscription {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKSubscription")]
-    unsafe impl CKSubscription {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKSubscription;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other subscriptionID)]
-        pub unsafe fn subscriptionID(&self) -> Id<CKSubscriptionID>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[method(subscriptionType)]
-        pub unsafe fn subscriptionType(&self) -> CKSubscriptionType;
+    #[objc2::method(sel = "subscriptionID", managed = "Other")]
+    pub unsafe fn subscriptionID(&self) -> Id<CKSubscriptionID>;
 
-        #[cfg(feature = "CloudKit_CKNotificationInfo")]
-        #[method_id(@__retain_semantics Other notificationInfo)]
-        pub unsafe fn notificationInfo(&self) -> Option<Id<CKNotificationInfo>>;
+    #[objc2::method(sel = "subscriptionType")]
+    pub unsafe fn subscriptionType(&self) -> CKSubscriptionType;
 
-        #[cfg(feature = "CloudKit_CKNotificationInfo")]
-        #[method(setNotificationInfo:)]
-        pub unsafe fn setNotificationInfo(&self, notification_info: Option<&CKNotificationInfo>);
-    }
-);
+    #[cfg(feature = "CloudKit_CKNotificationInfo")]
+    #[objc2::method(sel = "notificationInfo", managed = "Other")]
+    pub unsafe fn notificationInfo(&self) -> Option<Id<CKNotificationInfo>>;
 
-ns_options!(
-    #[underlying(NSUInteger)]
-    pub enum CKQuerySubscriptionOptions {
-        CKQuerySubscriptionOptionsFiresOnRecordCreation = 1 << 0,
-        CKQuerySubscriptionOptionsFiresOnRecordUpdate = 1 << 1,
-        CKQuerySubscriptionOptionsFiresOnRecordDeletion = 1 << 2,
-        CKQuerySubscriptionOptionsFiresOnce = 1 << 3,
-    }
-);
+    #[cfg(feature = "CloudKit_CKNotificationInfo")]
+    #[objc2::method(sel = "setNotificationInfo:")]
+    pub unsafe fn setNotificationInfo(&self, notification_info: Option<&CKNotificationInfo>);
+}
 
-extern_class!(
+#[ns_options]
+#[underlying(NSUInteger)]
+pub enum CKQuerySubscriptionOptions {
+    CKQuerySubscriptionOptionsFiresOnRecordCreation = 1 << 0,
+    CKQuerySubscriptionOptionsFiresOnRecordUpdate = 1 << 1,
+    CKQuerySubscriptionOptionsFiresOnRecordDeletion = 1 << 2,
+    CKQuerySubscriptionOptionsFiresOnce = 1 << 3,
+}
+
+#[objc2::interface(
+    unsafe super = CKSubscription,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKQuerySubscription")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKQuerySubscription")]
-    pub struct CKQuerySubscription;
-
-    #[cfg(feature = "CloudKit_CKQuerySubscription")]
-    unsafe impl ClassType for CKQuerySubscription {
-        #[inherits(NSObject)]
-        type Super = CKSubscription;
-    }
-);
+    pub type CKQuerySubscription;
+}
 
 #[cfg(feature = "CloudKit_CKQuerySubscription")]
 unsafe impl NSCoding for CKQuerySubscription {}
@@ -92,64 +93,69 @@ unsafe impl NSObjectProtocol for CKQuerySubscription {}
 #[cfg(feature = "CloudKit_CKQuerySubscription")]
 unsafe impl NSSecureCoding for CKQuerySubscription {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKQuerySubscription")]
-    unsafe impl CKQuerySubscription {
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Init initWithRecordType:predicate:options:)]
-        pub unsafe fn initWithRecordType_predicate_options(
-            this: Option<Allocated<Self>>,
-            record_type: &CKRecordType,
-            predicate: &NSPredicate,
-            query_subscription_options: CKQuerySubscriptionOptions,
-        ) -> Id<Self>;
+    pub type CKQuerySubscription;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Init initWithRecordType:predicate:subscriptionID:options:)]
-        pub unsafe fn initWithRecordType_predicate_subscriptionID_options(
-            this: Option<Allocated<Self>>,
-            record_type: &CKRecordType,
-            predicate: &NSPredicate,
-            subscription_id: &CKSubscriptionID,
-            query_subscription_options: CKQuerySubscriptionOptions,
-        ) -> Id<Self>;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "initWithRecordType:predicate:options:", managed = "Init")]
+    pub unsafe fn initWithRecordType_predicate_options(
+        this: Option<Allocated<Self>>,
+        record_type: &CKRecordType,
+        predicate: &NSPredicate,
+        query_subscription_options: CKQuerySubscriptionOptions,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, a_decoder: &NSCoder)
-            -> Id<Self>;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(
+        sel = "initWithRecordType:predicate:subscriptionID:options:",
+        managed = "Init"
+    )]
+    pub unsafe fn initWithRecordType_predicate_subscriptionID_options(
+        this: Option<Allocated<Self>>,
+        record_type: &CKRecordType,
+        predicate: &NSPredicate,
+        subscription_id: &CKSubscriptionID,
+        query_subscription_options: CKQuerySubscriptionOptions,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other recordType)]
-        pub unsafe fn recordType(&self) -> Id<CKRecordType>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, a_decoder: &NSCoder) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSPredicate")]
-        #[method_id(@__retain_semantics Other predicate)]
-        pub unsafe fn predicate(&self) -> Id<NSPredicate>;
+    #[objc2::method(sel = "recordType", managed = "Other")]
+    pub unsafe fn recordType(&self) -> Id<CKRecordType>;
 
-        #[cfg(feature = "CloudKit_CKRecordZoneID")]
-        #[method_id(@__retain_semantics Other zoneID)]
-        pub unsafe fn zoneID(&self) -> Option<Id<CKRecordZoneID>>;
+    #[cfg(feature = "Foundation_NSPredicate")]
+    #[objc2::method(sel = "predicate", managed = "Other")]
+    pub unsafe fn predicate(&self) -> Id<NSPredicate>;
 
-        #[cfg(feature = "CloudKit_CKRecordZoneID")]
-        #[method(setZoneID:)]
-        pub unsafe fn setZoneID(&self, zone_id: Option<&CKRecordZoneID>);
+    #[cfg(feature = "CloudKit_CKRecordZoneID")]
+    #[objc2::method(sel = "zoneID", managed = "Other")]
+    pub unsafe fn zoneID(&self) -> Option<Id<CKRecordZoneID>>;
 
-        #[method(querySubscriptionOptions)]
-        pub unsafe fn querySubscriptionOptions(&self) -> CKQuerySubscriptionOptions;
-    }
-);
+    #[cfg(feature = "CloudKit_CKRecordZoneID")]
+    #[objc2::method(sel = "setZoneID:")]
+    pub unsafe fn setZoneID(&self, zone_id: Option<&CKRecordZoneID>);
 
-extern_class!(
+    #[objc2::method(sel = "querySubscriptionOptions")]
+    pub unsafe fn querySubscriptionOptions(&self) -> CKQuerySubscriptionOptions;
+}
+
+#[objc2::interface(
+    unsafe super = CKSubscription,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKRecordZoneSubscription")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKRecordZoneSubscription")]
-    pub struct CKRecordZoneSubscription;
-
-    #[cfg(feature = "CloudKit_CKRecordZoneSubscription")]
-    unsafe impl ClassType for CKRecordZoneSubscription {
-        #[inherits(NSObject)]
-        type Super = CKSubscription;
-    }
-);
+    pub type CKRecordZoneSubscription;
+}
 
 #[cfg(feature = "CloudKit_CKRecordZoneSubscription")]
 unsafe impl NSCoding for CKRecordZoneSubscription {}
@@ -160,52 +166,54 @@ unsafe impl NSObjectProtocol for CKRecordZoneSubscription {}
 #[cfg(feature = "CloudKit_CKRecordZoneSubscription")]
 unsafe impl NSSecureCoding for CKRecordZoneSubscription {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKRecordZoneSubscription")]
-    unsafe impl CKRecordZoneSubscription {
-        #[cfg(feature = "CloudKit_CKRecordZoneID")]
-        #[method_id(@__retain_semantics Init initWithZoneID:)]
-        pub unsafe fn initWithZoneID(
-            this: Option<Allocated<Self>>,
-            zone_id: &CKRecordZoneID,
-        ) -> Id<Self>;
+    pub type CKRecordZoneSubscription;
 
-        #[cfg(feature = "CloudKit_CKRecordZoneID")]
-        #[method_id(@__retain_semantics Init initWithZoneID:subscriptionID:)]
-        pub unsafe fn initWithZoneID_subscriptionID(
-            this: Option<Allocated<Self>>,
-            zone_id: &CKRecordZoneID,
-            subscription_id: &CKSubscriptionID,
-        ) -> Id<Self>;
+    #[cfg(feature = "CloudKit_CKRecordZoneID")]
+    #[objc2::method(sel = "initWithZoneID:", managed = "Init")]
+    pub unsafe fn initWithZoneID(
+        this: Option<Allocated<Self>>,
+        zone_id: &CKRecordZoneID,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, a_decoder: &NSCoder)
-            -> Id<Self>;
+    #[cfg(feature = "CloudKit_CKRecordZoneID")]
+    #[objc2::method(sel = "initWithZoneID:subscriptionID:", managed = "Init")]
+    pub unsafe fn initWithZoneID_subscriptionID(
+        this: Option<Allocated<Self>>,
+        zone_id: &CKRecordZoneID,
+        subscription_id: &CKSubscriptionID,
+    ) -> Id<Self>;
 
-        #[cfg(feature = "CloudKit_CKRecordZoneID")]
-        #[method_id(@__retain_semantics Other zoneID)]
-        pub unsafe fn zoneID(&self) -> Id<CKRecordZoneID>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, a_decoder: &NSCoder) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other recordType)]
-        pub unsafe fn recordType(&self) -> Option<Id<CKRecordType>>;
+    #[cfg(feature = "CloudKit_CKRecordZoneID")]
+    #[objc2::method(sel = "zoneID", managed = "Other")]
+    pub unsafe fn zoneID(&self) -> Id<CKRecordZoneID>;
 
-        #[method(setRecordType:)]
-        pub unsafe fn setRecordType(&self, record_type: Option<&CKRecordType>);
-    }
-);
+    #[objc2::method(sel = "recordType", managed = "Other")]
+    pub unsafe fn recordType(&self) -> Option<Id<CKRecordType>>;
 
-extern_class!(
+    #[objc2::method(sel = "setRecordType:")]
+    pub unsafe fn setRecordType(&self, record_type: Option<&CKRecordType>);
+}
+
+#[objc2::interface(
+    unsafe super = CKSubscription,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKDatabaseSubscription")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKDatabaseSubscription")]
-    pub struct CKDatabaseSubscription;
-
-    #[cfg(feature = "CloudKit_CKDatabaseSubscription")]
-    unsafe impl ClassType for CKDatabaseSubscription {
-        #[inherits(NSObject)]
-        type Super = CKSubscription;
-    }
-);
+    pub type CKDatabaseSubscription;
+}
 
 #[cfg(feature = "CloudKit_CKDatabaseSubscription")]
 unsafe impl NSCoding for CKDatabaseSubscription {}
@@ -216,44 +224,46 @@ unsafe impl NSObjectProtocol for CKDatabaseSubscription {}
 #[cfg(feature = "CloudKit_CKDatabaseSubscription")]
 unsafe impl NSSecureCoding for CKDatabaseSubscription {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKDatabaseSubscription")]
-    unsafe impl CKDatabaseSubscription {
-        #[method_id(@__retain_semantics Init init)]
-        pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
+    pub type CKDatabaseSubscription;
 
-        #[method_id(@__retain_semantics New new)]
-        pub unsafe fn new() -> Id<Self>;
+    #[objc2::method(sel = "init", managed = "Init")]
+    pub unsafe fn init(this: Option<Allocated<Self>>) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Init initWithSubscriptionID:)]
-        pub unsafe fn initWithSubscriptionID(
-            this: Option<Allocated<Self>>,
-            subscription_id: &CKSubscriptionID,
-        ) -> Id<Self>;
+    #[objc2::method(sel = "new", managed = "New")]
+    pub unsafe fn new() -> Id<Self>;
 
-        #[cfg(feature = "Foundation_NSCoder")]
-        #[method_id(@__retain_semantics Init initWithCoder:)]
-        pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, a_decoder: &NSCoder)
-            -> Id<Self>;
+    #[objc2::method(sel = "initWithSubscriptionID:", managed = "Init")]
+    pub unsafe fn initWithSubscriptionID(
+        this: Option<Allocated<Self>>,
+        subscription_id: &CKSubscriptionID,
+    ) -> Id<Self>;
 
-        #[method_id(@__retain_semantics Other recordType)]
-        pub unsafe fn recordType(&self) -> Option<Id<CKRecordType>>;
+    #[cfg(feature = "Foundation_NSCoder")]
+    #[objc2::method(sel = "initWithCoder:", managed = "Init")]
+    pub unsafe fn initWithCoder(this: Option<Allocated<Self>>, a_decoder: &NSCoder) -> Id<Self>;
 
-        #[method(setRecordType:)]
-        pub unsafe fn setRecordType(&self, record_type: Option<&CKRecordType>);
-    }
-);
+    #[objc2::method(sel = "recordType", managed = "Other")]
+    pub unsafe fn recordType(&self) -> Option<Id<CKRecordType>>;
 
-extern_class!(
+    #[objc2::method(sel = "setRecordType:")]
+    pub unsafe fn setRecordType(&self, record_type: Option<&CKRecordType>);
+}
+
+#[objc2::interface(
+    unsafe super = NSObject,
+    unsafe inherits = [
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CloudKit_CKNotificationInfo")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CloudKit_CKNotificationInfo")]
-    pub struct CKNotificationInfo;
-
-    #[cfg(feature = "CloudKit_CKNotificationInfo")]
-    unsafe impl ClassType for CKNotificationInfo {
-        type Super = NSObject;
-    }
-);
+    pub type CKNotificationInfo;
+}
 
 #[cfg(feature = "CloudKit_CKNotificationInfo")]
 unsafe impl NSCoding for CKNotificationInfo {}
@@ -264,160 +274,160 @@ unsafe impl NSObjectProtocol for CKNotificationInfo {}
 #[cfg(feature = "CloudKit_CKNotificationInfo")]
 unsafe impl NSSecureCoding for CKNotificationInfo {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CloudKit_CKNotificationInfo")]
-    unsafe impl CKNotificationInfo {
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other alertBody)]
-        pub unsafe fn alertBody(&self) -> Option<Id<NSString>>;
+    pub type CKNotificationInfo;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAlertBody:)]
-        pub unsafe fn setAlertBody(&self, alert_body: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "alertBody", managed = "Other")]
+    pub unsafe fn alertBody(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other alertLocalizationKey)]
-        pub unsafe fn alertLocalizationKey(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAlertBody:")]
+    pub unsafe fn setAlertBody(&self, alert_body: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAlertLocalizationKey:)]
-        pub unsafe fn setAlertLocalizationKey(&self, alert_localization_key: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "alertLocalizationKey", managed = "Other")]
+    pub unsafe fn alertLocalizationKey(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other alertLocalizationArgs)]
-        pub unsafe fn alertLocalizationArgs(&self) -> Option<Id<NSArray<CKRecordFieldKey>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAlertLocalizationKey:")]
+    pub unsafe fn setAlertLocalizationKey(&self, alert_localization_key: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setAlertLocalizationArgs:)]
-        pub unsafe fn setAlertLocalizationArgs(
-            &self,
-            alert_localization_args: Option<&NSArray<CKRecordFieldKey>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "alertLocalizationArgs", managed = "Other")]
+    pub unsafe fn alertLocalizationArgs(&self) -> Option<Id<NSArray<CKRecordFieldKey>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other title)]
-        pub unsafe fn title(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setAlertLocalizationArgs:")]
+    pub unsafe fn setAlertLocalizationArgs(
+        &self,
+        alert_localization_args: Option<&NSArray<CKRecordFieldKey>>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitle:)]
-        pub unsafe fn setTitle(&self, title: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "title", managed = "Other")]
+    pub unsafe fn title(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other titleLocalizationKey)]
-        pub unsafe fn titleLocalizationKey(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitle:")]
+    pub unsafe fn setTitle(&self, title: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setTitleLocalizationKey:)]
-        pub unsafe fn setTitleLocalizationKey(&self, title_localization_key: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "titleLocalizationKey", managed = "Other")]
+    pub unsafe fn titleLocalizationKey(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other titleLocalizationArgs)]
-        pub unsafe fn titleLocalizationArgs(&self) -> Option<Id<NSArray<CKRecordFieldKey>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setTitleLocalizationKey:")]
+    pub unsafe fn setTitleLocalizationKey(&self, title_localization_key: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setTitleLocalizationArgs:)]
-        pub unsafe fn setTitleLocalizationArgs(
-            &self,
-            title_localization_args: Option<&NSArray<CKRecordFieldKey>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "titleLocalizationArgs", managed = "Other")]
+    pub unsafe fn titleLocalizationArgs(&self) -> Option<Id<NSArray<CKRecordFieldKey>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subtitle)]
-        pub unsafe fn subtitle(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setTitleLocalizationArgs:")]
+    pub unsafe fn setTitleLocalizationArgs(
+        &self,
+        title_localization_args: Option<&NSArray<CKRecordFieldKey>>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSubtitle:)]
-        pub unsafe fn setSubtitle(&self, subtitle: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subtitle", managed = "Other")]
+    pub unsafe fn subtitle(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other subtitleLocalizationKey)]
-        pub unsafe fn subtitleLocalizationKey(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSubtitle:")]
+    pub unsafe fn setSubtitle(&self, subtitle: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSubtitleLocalizationKey:)]
-        pub unsafe fn setSubtitleLocalizationKey(
-            &self,
-            subtitle_localization_key: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "subtitleLocalizationKey", managed = "Other")]
+    pub unsafe fn subtitleLocalizationKey(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other subtitleLocalizationArgs)]
-        pub unsafe fn subtitleLocalizationArgs(&self) -> Option<Id<NSArray<CKRecordFieldKey>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSubtitleLocalizationKey:")]
+    pub unsafe fn setSubtitleLocalizationKey(&self, subtitle_localization_key: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setSubtitleLocalizationArgs:)]
-        pub unsafe fn setSubtitleLocalizationArgs(
-            &self,
-            subtitle_localization_args: Option<&NSArray<CKRecordFieldKey>>,
-        );
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "subtitleLocalizationArgs", managed = "Other")]
+    pub unsafe fn subtitleLocalizationArgs(&self) -> Option<Id<NSArray<CKRecordFieldKey>>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other alertActionLocalizationKey)]
-        pub unsafe fn alertActionLocalizationKey(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setSubtitleLocalizationArgs:")]
+    pub unsafe fn setSubtitleLocalizationArgs(
+        &self,
+        subtitle_localization_args: Option<&NSArray<CKRecordFieldKey>>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAlertActionLocalizationKey:)]
-        pub unsafe fn setAlertActionLocalizationKey(
-            &self,
-            alert_action_localization_key: Option<&NSString>,
-        );
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "alertActionLocalizationKey", managed = "Other")]
+    pub unsafe fn alertActionLocalizationKey(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other alertLaunchImage)]
-        pub unsafe fn alertLaunchImage(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAlertActionLocalizationKey:")]
+    pub unsafe fn setAlertActionLocalizationKey(
+        &self,
+        alert_action_localization_key: Option<&NSString>,
+    );
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setAlertLaunchImage:)]
-        pub unsafe fn setAlertLaunchImage(&self, alert_launch_image: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "alertLaunchImage", managed = "Other")]
+    pub unsafe fn alertLaunchImage(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other soundName)]
-        pub unsafe fn soundName(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setAlertLaunchImage:")]
+    pub unsafe fn setAlertLaunchImage(&self, alert_launch_image: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setSoundName:)]
-        pub unsafe fn setSoundName(&self, sound_name: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "soundName", managed = "Other")]
+    pub unsafe fn soundName(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method_id(@__retain_semantics Other desiredKeys)]
-        pub unsafe fn desiredKeys(&self) -> Option<Id<NSArray<CKRecordFieldKey>>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setSoundName:")]
+    pub unsafe fn setSoundName(&self, sound_name: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSArray")]
-        #[method(setDesiredKeys:)]
-        pub unsafe fn setDesiredKeys(&self, desired_keys: Option<&NSArray<CKRecordFieldKey>>);
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "desiredKeys", managed = "Other")]
+    pub unsafe fn desiredKeys(&self) -> Option<Id<NSArray<CKRecordFieldKey>>>;
 
-        #[method(shouldBadge)]
-        pub unsafe fn shouldBadge(&self) -> bool;
+    #[cfg(feature = "Foundation_NSArray")]
+    #[objc2::method(sel = "setDesiredKeys:")]
+    pub unsafe fn setDesiredKeys(&self, desired_keys: Option<&NSArray<CKRecordFieldKey>>);
 
-        #[method(setShouldBadge:)]
-        pub unsafe fn setShouldBadge(&self, should_badge: bool);
+    #[objc2::method(sel = "shouldBadge")]
+    pub unsafe fn shouldBadge(&self) -> bool;
 
-        #[method(shouldSendContentAvailable)]
-        pub unsafe fn shouldSendContentAvailable(&self) -> bool;
+    #[objc2::method(sel = "setShouldBadge:")]
+    pub unsafe fn setShouldBadge(&self, should_badge: bool);
 
-        #[method(setShouldSendContentAvailable:)]
-        pub unsafe fn setShouldSendContentAvailable(&self, should_send_content_available: bool);
+    #[objc2::method(sel = "shouldSendContentAvailable")]
+    pub unsafe fn shouldSendContentAvailable(&self) -> bool;
 
-        #[method(shouldSendMutableContent)]
-        pub unsafe fn shouldSendMutableContent(&self) -> bool;
+    #[objc2::method(sel = "setShouldSendContentAvailable:")]
+    pub unsafe fn setShouldSendContentAvailable(&self, should_send_content_available: bool);
 
-        #[method(setShouldSendMutableContent:)]
-        pub unsafe fn setShouldSendMutableContent(&self, should_send_mutable_content: bool);
+    #[objc2::method(sel = "shouldSendMutableContent")]
+    pub unsafe fn shouldSendMutableContent(&self) -> bool;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other category)]
-        pub unsafe fn category(&self) -> Option<Id<NSString>>;
+    #[objc2::method(sel = "setShouldSendMutableContent:")]
+    pub unsafe fn setShouldSendMutableContent(&self, should_send_mutable_content: bool);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCategory:)]
-        pub unsafe fn setCategory(&self, category: Option<&NSString>);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "category", managed = "Other")]
+    pub unsafe fn category(&self) -> Option<Id<NSString>>;
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method_id(@__retain_semantics Other collapseIDKey)]
-        pub unsafe fn collapseIDKey(&self) -> Option<Id<NSString>>;
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCategory:")]
+    pub unsafe fn setCategory(&self, category: Option<&NSString>);
 
-        #[cfg(feature = "Foundation_NSString")]
-        #[method(setCollapseIDKey:)]
-        pub unsafe fn setCollapseIDKey(&self, collapse_id_key: Option<&NSString>);
-    }
-);
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "collapseIDKey", managed = "Other")]
+    pub unsafe fn collapseIDKey(&self) -> Option<Id<NSString>>;
+
+    #[cfg(feature = "Foundation_NSString")]
+    #[objc2::method(sel = "setCollapseIDKey:")]
+    pub unsafe fn setCollapseIDKey(&self, collapse_id_key: Option<&NSString>);
+}

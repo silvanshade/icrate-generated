@@ -16,17 +16,17 @@ typed_enum!(
     pub type CAEmitterLayerRenderMode = NSString;
 );
 
-extern_class!(
+#[objc2::interface(
+    unsafe super = CALayer,
+    unsafe inherits = [
+        NSObject,
+    ]
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAEmitterLayer")]
     #[derive(Debug, PartialEq, Eq, Hash)]
-    #[cfg(feature = "CoreAnimation_CAEmitterLayer")]
-    pub struct CAEmitterLayer;
-
-    #[cfg(feature = "CoreAnimation_CAEmitterLayer")]
-    unsafe impl ClassType for CAEmitterLayer {
-        #[inherits(NSObject)]
-        type Super = CALayer;
-    }
-);
+    pub type CAEmitterLayer;
+}
 
 #[cfg(feature = "CoreAnimation_CAEmitterLayer")]
 unsafe impl CAMediaTiming for CAEmitterLayer {}
@@ -40,108 +40,111 @@ unsafe impl NSObjectProtocol for CAEmitterLayer {}
 #[cfg(feature = "CoreAnimation_CAEmitterLayer")]
 unsafe impl NSSecureCoding for CAEmitterLayer {}
 
-extern_methods!(
+#[objc2::interface(
+    unsafe continue,
+)]
+extern "Objective-C" {
     #[cfg(feature = "CoreAnimation_CAEmitterLayer")]
-    unsafe impl CAEmitterLayer {
-        #[cfg(all(
-            feature = "CoreAnimation_CAEmitterCell",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method_id(@__retain_semantics Other emitterCells)]
-        pub unsafe fn emitterCells(&self) -> Option<Id<NSArray<CAEmitterCell>>>;
+    pub type CAEmitterLayer;
 
-        #[cfg(all(
-            feature = "CoreAnimation_CAEmitterCell",
-            feature = "Foundation_NSArray"
-        ))]
-        #[method(setEmitterCells:)]
-        pub unsafe fn setEmitterCells(&self, emitter_cells: Option<&NSArray<CAEmitterCell>>);
+    #[cfg(all(
+        feature = "CoreAnimation_CAEmitterCell",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "emitterCells", managed = "Other")]
+    pub unsafe fn emitterCells(&self) -> Option<Id<NSArray<CAEmitterCell>>>;
 
-        #[method(birthRate)]
-        pub unsafe fn birthRate(&self) -> c_float;
+    #[cfg(all(
+        feature = "CoreAnimation_CAEmitterCell",
+        feature = "Foundation_NSArray"
+    ))]
+    #[objc2::method(sel = "setEmitterCells:")]
+    pub unsafe fn setEmitterCells(&self, emitter_cells: Option<&NSArray<CAEmitterCell>>);
 
-        #[method(setBirthRate:)]
-        pub unsafe fn setBirthRate(&self, birth_rate: c_float);
+    #[objc2::method(sel = "birthRate")]
+    pub unsafe fn birthRate(&self) -> c_float;
 
-        #[method(lifetime)]
-        pub unsafe fn lifetime(&self) -> c_float;
+    #[objc2::method(sel = "setBirthRate:")]
+    pub unsafe fn setBirthRate(&self, birth_rate: c_float);
 
-        #[method(setLifetime:)]
-        pub unsafe fn setLifetime(&self, lifetime: c_float);
+    #[objc2::method(sel = "lifetime")]
+    pub unsafe fn lifetime(&self) -> c_float;
 
-        #[method(emitterPosition)]
-        pub unsafe fn emitterPosition(&self) -> CGPoint;
+    #[objc2::method(sel = "setLifetime:")]
+    pub unsafe fn setLifetime(&self, lifetime: c_float);
 
-        #[method(setEmitterPosition:)]
-        pub unsafe fn setEmitterPosition(&self, emitter_position: CGPoint);
+    #[objc2::method(sel = "emitterPosition")]
+    pub unsafe fn emitterPosition(&self) -> CGPoint;
 
-        #[method(emitterZPosition)]
-        pub unsafe fn emitterZPosition(&self) -> CGFloat;
+    #[objc2::method(sel = "setEmitterPosition:")]
+    pub unsafe fn setEmitterPosition(&self, emitter_position: CGPoint);
 
-        #[method(setEmitterZPosition:)]
-        pub unsafe fn setEmitterZPosition(&self, emitter_z_position: CGFloat);
+    #[objc2::method(sel = "emitterZPosition")]
+    pub unsafe fn emitterZPosition(&self) -> CGFloat;
 
-        #[method(emitterSize)]
-        pub unsafe fn emitterSize(&self) -> CGSize;
+    #[objc2::method(sel = "setEmitterZPosition:")]
+    pub unsafe fn setEmitterZPosition(&self, emitter_z_position: CGFloat);
 
-        #[method(setEmitterSize:)]
-        pub unsafe fn setEmitterSize(&self, emitter_size: CGSize);
+    #[objc2::method(sel = "emitterSize")]
+    pub unsafe fn emitterSize(&self) -> CGSize;
 
-        #[method(emitterDepth)]
-        pub unsafe fn emitterDepth(&self) -> CGFloat;
+    #[objc2::method(sel = "setEmitterSize:")]
+    pub unsafe fn setEmitterSize(&self, emitter_size: CGSize);
 
-        #[method(setEmitterDepth:)]
-        pub unsafe fn setEmitterDepth(&self, emitter_depth: CGFloat);
+    #[objc2::method(sel = "emitterDepth")]
+    pub unsafe fn emitterDepth(&self) -> CGFloat;
 
-        #[method_id(@__retain_semantics Other emitterShape)]
-        pub unsafe fn emitterShape(&self) -> Id<CAEmitterLayerEmitterShape>;
+    #[objc2::method(sel = "setEmitterDepth:")]
+    pub unsafe fn setEmitterDepth(&self, emitter_depth: CGFloat);
 
-        #[method(setEmitterShape:)]
-        pub unsafe fn setEmitterShape(&self, emitter_shape: &CAEmitterLayerEmitterShape);
+    #[objc2::method(sel = "emitterShape", managed = "Other")]
+    pub unsafe fn emitterShape(&self) -> Id<CAEmitterLayerEmitterShape>;
 
-        #[method_id(@__retain_semantics Other emitterMode)]
-        pub unsafe fn emitterMode(&self) -> Id<CAEmitterLayerEmitterMode>;
+    #[objc2::method(sel = "setEmitterShape:")]
+    pub unsafe fn setEmitterShape(&self, emitter_shape: &CAEmitterLayerEmitterShape);
 
-        #[method(setEmitterMode:)]
-        pub unsafe fn setEmitterMode(&self, emitter_mode: &CAEmitterLayerEmitterMode);
+    #[objc2::method(sel = "emitterMode", managed = "Other")]
+    pub unsafe fn emitterMode(&self) -> Id<CAEmitterLayerEmitterMode>;
 
-        #[method_id(@__retain_semantics Other renderMode)]
-        pub unsafe fn renderMode(&self) -> Id<CAEmitterLayerRenderMode>;
+    #[objc2::method(sel = "setEmitterMode:")]
+    pub unsafe fn setEmitterMode(&self, emitter_mode: &CAEmitterLayerEmitterMode);
 
-        #[method(setRenderMode:)]
-        pub unsafe fn setRenderMode(&self, render_mode: &CAEmitterLayerRenderMode);
+    #[objc2::method(sel = "renderMode", managed = "Other")]
+    pub unsafe fn renderMode(&self) -> Id<CAEmitterLayerRenderMode>;
 
-        #[method(preservesDepth)]
-        pub unsafe fn preservesDepth(&self) -> bool;
+    #[objc2::method(sel = "setRenderMode:")]
+    pub unsafe fn setRenderMode(&self, render_mode: &CAEmitterLayerRenderMode);
 
-        #[method(setPreservesDepth:)]
-        pub unsafe fn setPreservesDepth(&self, preserves_depth: bool);
+    #[objc2::method(sel = "preservesDepth")]
+    pub unsafe fn preservesDepth(&self) -> bool;
 
-        #[method(velocity)]
-        pub unsafe fn velocity(&self) -> c_float;
+    #[objc2::method(sel = "setPreservesDepth:")]
+    pub unsafe fn setPreservesDepth(&self, preserves_depth: bool);
 
-        #[method(setVelocity:)]
-        pub unsafe fn setVelocity(&self, velocity: c_float);
+    #[objc2::method(sel = "velocity")]
+    pub unsafe fn velocity(&self) -> c_float;
 
-        #[method(scale)]
-        pub unsafe fn scale(&self) -> c_float;
+    #[objc2::method(sel = "setVelocity:")]
+    pub unsafe fn setVelocity(&self, velocity: c_float);
 
-        #[method(setScale:)]
-        pub unsafe fn setScale(&self, scale: c_float);
+    #[objc2::method(sel = "scale")]
+    pub unsafe fn scale(&self) -> c_float;
 
-        #[method(spin)]
-        pub unsafe fn spin(&self) -> c_float;
+    #[objc2::method(sel = "setScale:")]
+    pub unsafe fn setScale(&self, scale: c_float);
 
-        #[method(setSpin:)]
-        pub unsafe fn setSpin(&self, spin: c_float);
+    #[objc2::method(sel = "spin")]
+    pub unsafe fn spin(&self) -> c_float;
 
-        #[method(seed)]
-        pub unsafe fn seed(&self) -> c_uint;
+    #[objc2::method(sel = "setSpin:")]
+    pub unsafe fn setSpin(&self, spin: c_float);
 
-        #[method(setSeed:)]
-        pub unsafe fn setSeed(&self, seed: c_uint);
-    }
-);
+    #[objc2::method(sel = "seed")]
+    pub unsafe fn seed(&self) -> c_uint;
+
+    #[objc2::method(sel = "setSeed:")]
+    pub unsafe fn setSeed(&self, seed: c_uint);
+}
 
 extern_static!(kCAEmitterLayerPoint: &'static CAEmitterLayerEmitterShape);
 
@@ -173,14 +176,20 @@ extern_static!(kCAEmitterLayerBackToFront: &'static CAEmitterLayerRenderMode);
 
 extern_static!(kCAEmitterLayerAdditive: &'static CAEmitterLayerRenderMode);
 
-extern_methods!(
-    /// Methods declared on superclass `CALayer`
+#[objc2::interface(
+    unsafe continue,
+    impl_attrs = {
+        /// Methods declared on superclass `CALayer`
     #[cfg(feature = "CoreAnimation_CAEmitterLayer")]
-    unsafe impl CAEmitterLayer {
-        #[method_id(@__retain_semantics Other layer)]
-        pub unsafe fn layer() -> Id<Self>;
-
-        #[method_id(@__retain_semantics Init initWithLayer:)]
-        pub unsafe fn initWithLayer(this: Option<Allocated<Self>>, layer: &Object) -> Id<Self>;
     }
-);
+)]
+extern "Objective-C" {
+    #[cfg(feature = "CoreAnimation_CAEmitterLayer")]
+    pub type CAEmitterLayer;
+
+    #[objc2::method(sel = "layer", managed = "Other")]
+    pub unsafe fn layer() -> Id<Self>;
+
+    #[objc2::method(sel = "initWithLayer:", managed = "Init")]
+    pub unsafe fn initWithLayer(this: Option<Allocated<Self>>, layer: &Object) -> Id<Self>;
+}
